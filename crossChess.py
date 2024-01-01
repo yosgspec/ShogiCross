@@ -70,32 +70,22 @@ class PalaceCrossPanel:
 	def __str__(self):
 		return "　※"
 
-class CrossChessField:
-	def __init__(self, games):
-		self.x_max = 9
-		self.y_max = 9
-		self.panels = [[Panel() for x in range(self.x_max)] for y in range(self.y_max)]
-		self.panels[4] = [RiverPanel() for x in range(self.x_max)]
-		for x, y in [[3, 1], [3, 7], [4, 0], [4, 2], [4, 6], [4, 8], [5, 1], [5, 7]]:
-			self.panels[y][x] = PalacePanel()
-		for x, y in [[3, 2], [3, 8], [5, 0], [5, 6]]:
-			self.panels[y][x] = PalaceRSlushPanel()
-		for x, y in [[3, 0], [3, 6], [5, 2], [5, 8]]:
-			self.panels[y][x] = PalaceLSlushPanel()
-		for x, y in [[4, 1], [4, 7]]:
-			self.panels[y][x] = PalaceCrossPanel()
-		
-
+class BaseField:
+	def __init__(self, xMax, yMax, games):
+		self.xMax = xMax
+		self.yMax = yMax
+		self.panels = [[Panel() for x in range(self.xMax)] for y in range(self.yMax)]
 		with open("crossChessPiece.json", "r") as f:
 			self.piece = json.loads(f.read())
 		with open("crossChessPosition.json", "r") as f:
 			self.position = json.loads(f.read())
 
-		self.pieces = [[None] * self.x_max for i in range(self.y_max)]
+		self.pieces = [[None] * self.xMax for i in range(self.yMax)]
 		for turnFirst, game in enumerate(games):
-			pos = self.position[game][turnFirst]
+			game, ptn = (game, "default") if type(game) is str else game
+			pos = self.position[game][ptn]
 			for i, row in enumerate(pos):
-				y = i + self.y_max - len(pos)
+				y = i + self.yMax - len(pos)
 				for x, symbol in enumerate(row):
 					self.pieces[y][x] = (
 						Piece(turnFirst, symbol, self.piece[symbol])
@@ -112,31 +102,44 @@ class CrossChessField:
 					p.rotate()
 
 	def displayLayer(self, layers):
-		display = [[None] * self.x_max for i in range(self.y_max)]
+		display = [[None] * self.xMax for i in range(self.yMax)]
 		for layer in layers:
 			for y, row in enumerate(layer):
 				for x, p in enumerate(row):
 					if p is not None: 
 						display[y][x] = str(p)
 
-		lineLen = self.x_max - 1
+		lineLen = self.xMax - 1
 		return (
-			"┏" + "┯".join(["━━"] * self.x_max) + "┓\n" +
-			("┠" + "┼".join(["──"] * self.x_max) + "┨\n").join([
+			"┏" + "┯".join(["━━"] * self.xMax) + "┓\n" +
+			("┠" + "┼".join(["──"] * self.xMax) + "┨\n").join([
 				"┃" +
 				"│".join([x for x in y]) +
 				"┃\n"
 			for y in display]) +
-			"┗" + "┷".join(["━━"] * self.x_max) + "┛"
+			"┗" + "┷".join(["━━"] * self.xMax) + "┛"
 		)
 
 	def __str__(self):
 		return self.displayLayer([self.panels, self.pieces])
 
+class CrossChessField(BaseField):
+	def __init__(self, games):
+		super().__init__(9, 9, games)
+		self.panels[4] = [RiverPanel() for x in range(self.xMax)]
+		for x, y in [[3, 1], [3, 7], [4, 0], [4, 2], [4, 6], [4, 8], [5, 1], [5, 7]]:
+			self.panels[y][x] = PalacePanel()
+		for x, y in [[3, 2], [3, 8], [5, 0], [5, 6]]:
+			self.panels[y][x] = PalaceRSlushPanel()
+		for x, y in [[3, 0], [3, 6], [5, 2], [5, 8]]:
+			self.panels[y][x] = PalaceLSlushPanel()
+		for x, y in [[4, 1], [4, 7]]:
+			self.panels[y][x] = PalaceCrossPanel()
+
+
 def main():
-	#field= CrossChessField(["将棋", "チェス"])
-	#print(str(field))
-	field= CrossChessField(["マークルック", "チャンギ"])
+	field= CrossChessField(["将棋", ["チャンギ", "left"]])
+	#field= CrossChessField(["マークルック", ["チャンギ", 3]])
 	print(str(field))
 
 if __name__ == "__main__":
