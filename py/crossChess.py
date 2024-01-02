@@ -13,13 +13,14 @@ class Piece:
 		self.symbol = symbol
 		self.baseSymbol = symbol if extend is None else extend.symbol
 		self.name = piece["name"] if "name" in piece else extend.name
+		self.display = piece["display"][0] if "display" in piece else extend.display
 		self.game = piece["game"] if "game" in piece else extend.game
 		self.group = piece["group"] if "group" in piece else "成"
 		self.attr = piece["attr"] if "attr" in piece else []
 		self.range = piece["range"]
-		self.promotion = {} if "promotion" not in piece else {
+		self.promo = {} if "promo" not in piece or piece["promo"] is None else {
 			k: Piece(turnFirst, k, v, self)
-			for k, v in piece["promotion"].items()
+			for k, v in piece["promo"].items()
 		}
 
 	def rotate(self):
@@ -75,15 +76,15 @@ class BaseField:
 		self.xMax = xMax
 		self.yMax = yMax
 		self.panels = [[Panel() for x in range(self.xMax)] for y in range(self.yMax)]
-		with open("crossChessPiece.json", "r") as f:
+		with open("crossChessPieces.json", "r") as f:
 			self.piece = json.loads(f.read())
-		with open("crossChessPosition.json", "r") as f:
+		with open("crossChessGames.json", "r") as f:
 			self.position = json.loads(f.read())
 
 		self.pieces = [[None] * self.xMax for i in range(self.yMax)]
 		for turnFirst, game in enumerate(games):
 			game, ptn = (game, "default") if type(game) is str else game
-			pos = self.position[game][ptn]
+			pos = self.position[game]["position"][ptn]
 			for i, row in enumerate(pos):
 				y = i + self.yMax - len(pos)
 				for x, symbol in enumerate(row):

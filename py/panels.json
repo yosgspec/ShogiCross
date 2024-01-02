@@ -1,0 +1,36 @@
+{
+	"将棋": {
+		attr: []
+	},
+	"チェス白": {
+		attr: []
+	},
+	"チェス黒": {},
+	"シャンチー: {
+		attr: []
+	},
+	"シャンチー河界": {
+		attr: ["river"]
+	},
+	"シャンチー河界右": {
+		attr: ["river"]
+	},
+	"シャンチー河界左": {
+		attr: ["river"]
+	},
+	"シャンチー九宮": {
+		attr: ["palace"]
+	},
+	"シャンチー九宮右": {
+		attr: ["palace", "palaceRight"]
+	},
+	"シャンチー九宮左": {
+		attr: ["palace", "palaceLeft"]
+	},
+	"シャンチー九宮中": {
+		attr: ["palace", "palaceRight", "palaceLeft"]
+	},
+	"マークルック": {
+		attr: []
+	}
+}
