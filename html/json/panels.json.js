@@ -1,62 +1,121 @@
 const panels = {
-	"将棋": {
+	"0": {
+		"name": "将棋",
 		"backgroundColor": "#EECC88",
 		"borderColor": "#333333",
+		"borderWidth": 5,
 		"attr": []
 	},
-	"将棋黒": {
-		"backgroundColor": "#996633",
-		"borderColor": "#333333",
+	"W": {
+		"name": "チェス白",
+		"backgroundColor": "#CCCCCC",
+		"borderColor": "#33333377",
+		"borderWidth": 5,
 		"attr": []
 	},
-	"チェス白": {
-		"backgroundColor": "#DDDDDD",
-		"borderColor": "#DDDDDD",
-		"attr": []
-	},
-	"チェス黒":  {
+	"B":  {
+		"name": "チェス黒",
 		"backgroundColor": "#333333",
-		"borderColor": "#333333",
+		"borderColor": "#CCCCCC77",
+		"borderWidth": 5,
 		"attr": []
 	},
-	"河界": {
+	"_": {
+		"name": "河界中上",
 		"backgroundColor": "#EECC88",
 		"borderColor": "#333333",
+		"borderWidth": 5,
 		"attr": ["river"]
 	},
-	"河界右": {
+	",": {
+		"name": "河界左上",
 		"backgroundColor": "#EECC88",
 		"borderColor": "#333333",
+		"borderWidth": 5,
 		"attr": ["river"]
 	},
-	"河界左": {
+	".": {
+		"name": "河界右上",
 		"backgroundColor": "#EECC88",
 		"borderColor": "#333333",
+		"borderWidth": 5,
 		"attr": ["river"]
 	},
-	"九宮": {
+	"~": {
+		"name": "河界中下",
+		"backgroundColor": "#EECC88",
+		"borderColor": "#333333",
+		"borderWidth": 5,
+		"attr": ["river"]
+	},
+	"'": {
+		"name": "河界左下",
+		"backgroundColor": "#EECC88",
+		"borderColor": "#333333",
+		"borderWidth": 5,
+		"attr": ["river"]
+	},
+	"`": {
+		"name": "河界右下",
+		"backgroundColor": "#EECC88",
+		"borderColor": "#333333",
+		"borderWidth": 5,
+		"attr": ["river"]
+	},
+	"=": {
+		"name": "河界中",
+		"backgroundColor": "#EECC88",
+		"borderColor": "#333333",
+		"borderWidth": 5,
+		"attr": ["river"]
+	},
+	"]": {
+		"name": "河界右",
+		"backgroundColor": "#EECC88",
+		"borderColor": "#333333",
+		"borderWidth": 5,
+		"attr": ["river"]
+	},
+	"[": {
+		"name": "河界左",
+		"backgroundColor": "#EECC88",
+		"borderColor": "#333333",
+		"borderWidth": 5,
+		"attr": ["river"]
+	},
+	"#": {
+		"name": "九宮",
 		"backgroundColor": "#CC9966",
 		"borderColor": "#333333",
+		"borderWidth": 5,
 		"attr": ["palace"]
 	},
-	"九宮右": {
+	">": {
+		"name": "九宮右",
 		"backgroundColor": "#CC9966",
 		"borderColor": "#333333",
+		"borderWidth": 5,
 		"attr": ["palace", "palaceRight"]
 	},
-	"九宮左": {
+	"<": {
+		"name": "九宮左",
 		"backgroundColor": "#CC9966",
 		"borderColor": "#333333",
+		"borderWidth": 5,
 		"attr": ["palace", "palaceLeft"]
 	},
-	"九宮中": {
+	"*": {
+		"name": "九宮中",
 		"backgroundColor": "#CC9966",
 		"borderColor": "#333333",
+		"borderWidth": 5,
 		"attr": ["palace", "palaceRight", "palaceLeft"]
 	},
-	"マークルック": {
+	"M": {
+		"name": "マークルック",
 		"backgroundColor": "#BB7744",
 		"borderColor": "#000000",
+		"borderWidth": 5,
 		"attr": []
 	}
 }
