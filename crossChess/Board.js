@@ -208,7 +208,7 @@ class Piece{
 		ctx.fillStyle = this.game.fontColor;
 		const text = this.display[displayNo];
 		const fontSize = 40*zoom;
-		ctx.font = `${fontSize}px "Noto Serif CJK JP Black","Noto Sans Symbols","Noto Sans Symbols 2","Noto Emoji"`;
+		ctx.font = `${fontSize}px "Noto Serif JP","Noto Serif TC","Noto Serif","Noto Emoji","Noto Sans Symbols","Noto Sans Symbols 2"`;
 
 		[...text].forEach((v,i)=>{
 			const width = ctx.measureText(v).width;

@@ -1,11 +1,12 @@
-(function(){
+(async function(){
+	await importFonts();
 	const canvas = document.getElementById("crossChess");
-	canvas.width = 1100;
-	canvas.height = 1300;
+	canvas.width = 990;
+	canvas.height = 1080;
 	const ctx = canvas.getContext("2d");
 	ctx.clearRect(0, 0, canvas.width, canvas.height);
-	// ctx.fillStyle = "#DDEEFF";
-	// ctx.fillRect(0, 0, canvas.width, canvas.height);
+	ctx.fillStyle = "#DDEEFF";
+	ctx.fillRect(0, 0, canvas.width, canvas.height);
 
 	function sample(){
 		const pieceMap = [
