@@ -1,7 +1,7 @@
 (function(){
 	const canvas = document.getElementById("crossChess");
-	canvas.width = 800;
-	canvas.height = 800;
+	canvas.width = 650;
+	canvas.height = 750;
 	const ctx = canvas.getContext("2d");
 	ctx.clearRect(0, 0, canvas.width, canvas.height);
 	ctx.fillStyle = "#DDEEFF";
@@ -46,8 +46,8 @@
 
 	function main(){
 		const size = 55;
-		const x0 = 80;
-		const y0 = 90;
+		const x0 = 50;
+		const y0 = 50;
 		const dx = 60;
 		const dy = 70;
 		Piece.init(ctx, size);

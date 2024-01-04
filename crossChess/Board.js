@@ -1,10 +1,8 @@
 /** マス目の管理クラス */
 class Panel{
-	constructor(ctx, panel, x0, y0, dx, dy){
+	constructor(ctx, panel, dx, dy){
 		Object.assign(this, panel)
 		this.ctx = ctx;
-		this.x0 = x0;
-		this.y0 = y0;
 		this.dx = dx;
 		this.dy = dy;
 		this.piece = null;
@@ -15,11 +13,9 @@ class Panel{
 		const ctx = this.ctx;
 		ctx.fillStyle = this.backgroundColor;
 		ctx.strokeStyle = this.borderColor;
-		ctx.lineWidth = this.borderWidth;
-		const xCenter = x-this.dx/2;
-		const yCenter = y-this.dy/2;
+		ctx.linedx = this.borderdx;
 		ctx.save();
-		ctx.translate(xCenter, yCenter);
+		ctx.translate(x-this.dx/2, y-this.dy/2);
 		ctx.strokeRect(0, 0, this.dx, this.dy);
 		ctx.fillRect(0, 0, this.dx, this.dy);
 		ctx.restore();
@@ -36,7 +32,7 @@ class Board{
 		this.dx = dx;
 		this.dy = dy;
 		this.field = this.field.map(row=>
-			[...row].map(v=>new Panel(ctx, panels[v], x0, y0, dx, dy)));
+			[...row].map(v=>new Panel(ctx, panels[v], dx, dy)));
 		this.xLen = this.field[0].length;
 		this.yLen = this.field.length;
 	}
@@ -73,12 +69,10 @@ class Board{
 		ctx.strokeStyle = this.borderColor;
 		ctx.lineWidth = this.borderWidth;
 
-		const boardX0 = this.x0-this.dx;
-		const boardY0 = this.y0-this.dy;
 		const boardWidth = this.dx*(this.xLen+1);
 		const boardHeight = this.dy*(this.yLen+1);
 		ctx.save();
-		ctx.translate(boardX0, boardY0);
+		ctx.translate(this.x0, this.y0);
 		ctx.strokeRect(0, 0, boardWidth, boardHeight);
 		ctx.fillRect(0, 0, boardWidth, boardHeight);
 		ctx.restore();
@@ -86,11 +80,11 @@ class Board{
 		/* マス目を描写 */
 		this.field.forEach((row, y)=>{
 			row.forEach((panel, x)=>{
-				const panelX0 = this.x0+this.dx*x;
-				const panelY0 = this.y0+this.dy*y;
-				panel.draw(panelX0, panelY0);
+				const xCenter = this.x0+this.dx*(x+1);
+				const yCenter = this.y0+this.dy*(y+1)
+				panel.draw(xCenter, yCenter);
 				if(panel.piece == null) return;
-				panel.piece.draw(panelX0, panelY0);
+				panel.piece.draw(xCenter, yCenter);
 			});
 		});
 	}
@@ -137,7 +131,6 @@ class Piece{
 	/* 駒を描写 */
 	draw(x, y, displayNo=0){
 		const ctx = this.ctx;
-
 		const zoom = this.zoom;
 		ctx.strokeStyle = "#777777";
 
