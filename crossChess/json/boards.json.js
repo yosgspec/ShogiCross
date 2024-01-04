@@ -30,23 +30,6 @@ const boards = {
 			"BWBWBWBW"
 		]
 	},
-	"チェス象": {
-		"backgroundColor": "#333333",
-		"borderColor": "#000000",
-		"borderWidth": 5,
-		"field": [
-			"WBWBWBWBW",
-			"BWBWBWBWB",
-			"WBWBWBWBW",
-			"BWBWBWBWB",
-			"WBWBWBWBW",
-			"BWBWBWBWB",
-			"WBWBWBWBW",
-			"BWBWBWBWB",
-			"WBWBWBWBW",
-			"BWBWBWBWB"
-		]
-	},
 	"シャンチー": {
 		"backgroundColor": "#EECC88",
 		"borderColor": "#333333",

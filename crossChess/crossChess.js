@@ -1,47 +1,61 @@
 (function(){
 	const canvas = document.getElementById("crossChess");
-	canvas.width = 650;
-	canvas.height = 750;
+	canvas.width = 1100;
+	canvas.height = 1300;
 	const ctx = canvas.getContext("2d");
 	ctx.clearRect(0, 0, canvas.width, canvas.height);
 	ctx.fillStyle = "#DDEEFF";
 	ctx.fillRect(0, 0, canvas.width, canvas.height);
 
 	function sample(){
+		boards["sample"] = {...boards["チェス"],...{
+			"field": [
+				"WBWBWBWBW",
+				"BWBWBWBWB",
+				"WBWBWBWBW",
+				"BWBWBWBWB",
+				"WBWBWBWBW",
+				"BWBWBWBWB",
+				"WBWBWBWBW",
+				"BWBWBWBWB",
+				"WBWBWBWBW",
+				"BWBWBWBWB"
+			]
+		}};
+
 		const pieceMap = [
 			"歩・桂銀角香飛金玉",
-			"と・圭全馬杏竜・・",
+			"と・圭全馬杏竜・皇",
 			"兵・騎聖・塔・后王",
-			"妃騏・僧・城・・・",
+			"妃騏・僧・城・・帝",
 			"卒・馮相・俥炮仕帥",
-			"率・・・・・・・・",
+			"率・・・・・・・將",
 			"卆・馭象・車包士楚",
-			"・・・・・・・・・",
+			"・・・・・・・・漢",
 			"貝・瑪根・船・種君",
-			"貴・・・・・・・・"
+			"貴・・・・・・・公"
 		];
+		games["sample"] = {};
+		games["sample"].position ={}
+		games["sample"].position[9] ={}
+		for(let i=0;i<2;i++){
+			games["sample"].position[9][i] = pieceMap.map(
+				(row, i) => i%2 == 0? row: "・".repeat(row.length)
+			);
+		}
 		const size = 100;
-		const x0 = 110;
-		const y0 = 120;
+		const x0 = 0;
+		const y0 = 0;
 		const dx = 110;
 		const dy = 120;
 		Piece.init(ctx, size);
 
-		const board = new Board(ctx, "チェス象", x0, y0, dx, dy);
+		const board = new Board(ctx, "sample", x0, y0, dx, dy);
+		board.putPieces("sample", "0");
+		board.roteteField();
+		board.putPieces("sample", "1");
+		board.roteteField();
 		board.draw();
-
-		pieceMap.forEach((row, y)=>{
-			[...row].forEach((pieceSymbol, x)=>{
-				const piece = pieces[pieceSymbol];
-				if(piece == null) return;
-				piece.deg = piece.group === "成"? 180: 0;
-				piece.draw(x0+dx*x, y0+dy*y);
-				if(piece.group == "王"){
-					piece.deg = 180;
-					piece.draw(x0+dx*x, y0+dy*(y+1), 1);
-				}
-			});
-		});
 	}
 
 	function main(){
@@ -64,7 +78,7 @@
 	/* メイン処理 */
 	(function(){
 
-		//sample();
-		main();
+		sample();
+		//main();
 	})();
 })();

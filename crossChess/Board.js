@@ -103,6 +103,17 @@ class Piece{
 				delete pieces[promoChar].promo;
 			}
 		}
+		for(const [baseChar, base] of Object.entries(pieces)){
+			if(base.alias == null) continue;
+			base.alias.forEach((aliasChar, i)=>{
+				const alias = {...base};
+				const display = [...alias.display];
+				[display[0], display[i+1]] = [display[i+1], display[0]];
+				alias.display = display;
+				alias.alias[i] = baseChar;
+				pieces[aliasChar] = alias;
+			});
+		}
 		for(const [key, piece] of Object.entries(pieces)){
 			pieces[key] = new Piece(ctx, piece, size);
 		}

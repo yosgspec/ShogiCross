@@ -20,6 +20,7 @@ const pieces = {
 			"と": {
 				"name": "と金",
 				"display": ["と", "个"],
+				"alias": ["个"],
 				"range": {
 					"default": [
 						".......",
@@ -55,6 +56,7 @@ const pieces = {
 			"杏": {
 				"name": "成香",
 				"display": ["仝", "杏"],
+				"alias": ["仝"],
 				"range": {
 					"default": [
 						".......",
@@ -89,7 +91,8 @@ const pieces = {
 		"promo": {
 			"圭": {
 				"name": "成桂",
-				"display": ["今", "圭"],
+				"display": ["今", "今", "圭"],
+				"alias": ["今"],
 				"range": {
 					"default": [
 						".......",
@@ -212,7 +215,8 @@ const pieces = {
 		"promo": {
 			"竜": {
 				"name": "龍王",
-				"display": ["龍王", "竜王"],
+				"display": ["龍王", "龍王", "竜王"],
+				"alias": ["龍"],
 				"range": {
 					"default": [
 						".......",
@@ -230,6 +234,7 @@ const pieces = {
 	"玉": {
 		"name": "玉将",
 		"display": ["玉將", "王將", "玉将", "王将"],
+		"alias": ["皇"],
 		"game": "将棋",
 		"group": "王",
 		"attr": ["capture"],
@@ -413,6 +418,7 @@ const pieces = {
 	"王": {
 		"name": "キング",
 		"display": ["♚王", "♔王"],
+		"alias": ["帝"],
 		"game": "チェス",
 		"group": "王",
 		"range": {
@@ -464,6 +470,7 @@ const pieces = {
 	"炮": {
 		"name": "炮",
 		"display": ["○炮", "○砲", "炮", "砲"],
+		"alias": ["砲"],
 		"game": "シャンチー",
 		"group": "車",
 		"range": {
@@ -489,7 +496,8 @@ const pieces = {
 	},
 	"馮": {
 		"name": "傌",
-		"display": ["○傌", "○馬", "傌", "馬"],
+		"display": ["○傌", "○傌", "○馬", "傌", "馬"],
+		"alias": ["傌"],
 		"game": "シャンチー",
 		"group": "馬",
 		"range": {
@@ -559,6 +567,7 @@ const pieces = {
 	"帥": {
 		"name": "帥",
 		"display": ["⊕帥", "⊕將", "帥", "將"],
+		"alias": ["將"],
 		"game": "シャンチー",
 		"group": "王",
 		"attr": ["palace"],
@@ -610,7 +619,8 @@ const pieces = {
 	},
 	"馭": {
 		"name": "馬",
-		"display": ["⬡马", "⬡馭", "⬡馬", "马", "馭", "馬"], 
+		"display": ["⬡马", "⬡马", "⬡馭", "⬡馬", "马", "馭", "馬"], 
+		"alias": ["马"],
 		"game": "チャンギ",
 		"group": "馬",
 		"range": {
@@ -716,6 +726,7 @@ const pieces = {
 	"楚": {
 		"name": "楚",
 		"display": ["⏣楚", "⏣漢", "楚", "漢"],
+		"alias": ["漢"],
 		"game": "チャンギ",
 		"group": "王",
 		"attr": ["palace"],
@@ -777,7 +788,8 @@ const pieces = {
 		"promo": {
 			"貴": {
 				"name": "ビアガーイ",
-				"display": ["⛂貴", "◉貴"],
+				"display": ["⛂貴", "⛂珠", "◉貴", "◉珠"],
+				"alias": ["珠"],
 				"range": {
 					"default": [
 						".......",
@@ -882,7 +894,8 @@ const pieces = {
 	"君": {
 		"name": "クン",
 		"game": "マークルック",
-		"display": ["△君", "▲君"],
+		"display": ["△君", "▲君", "△公", "▲公"],
+		"alias": ["公"],
 		"group": "王",
 		"range": {
 			"default": [
