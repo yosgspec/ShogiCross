@@ -1,4 +1,5 @@
 const canvasFont = {
+	"fontName": "Noto Canvas",
 	"fonts": [
 		["Noto Serif JP", 900],
 		["Noto Serif TC", 900],
