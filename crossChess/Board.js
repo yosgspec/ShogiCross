@@ -42,7 +42,7 @@ class Board{
 		pos.forEach((row, i)=>{
 			const y = i+this.yLen - pos.length;
 			[...row].forEach((v, x)=>{
-				if(pieces[v] == null) return;
+				if(!pieces[v]) return;
 				const piece = pieces[v].clone();
 				this.field[y][x].piece = piece;
 			});
@@ -52,12 +52,42 @@ class Board{
 	roteteField(){
 		this.field.forEach(row=>{
 			row.forEach(panel=>{
-				if(panel.piece == null) return;
+				if(!panel.piece) return;
 				panel.piece.deg += 180;
 			});
 			row.reverse()
 		});
 		this.field.reverse();
+	}
+
+	getString(){
+		return this.field.map(row=>
+			row.map(panel=>{
+				const piece = panel.piece;
+				if(!piece) return "｜・";
+				return (piece.deg === 0? "▲": "▽") + piece.char;
+			}).join("")
+		).join("\n");
+		/*
+				return this.field.map(row=>
+			"┃" +
+			row.map(panel=>{
+				const piece = panel.piece;
+				if(!piece) return "　　";
+				return (piece.deg === 0? "▲": "▽") + piece.char;
+			}).join("│") +
+			"┃\n"
+		).join("\n");
+		
+		return (
+			"┏" + "┯".join(["━━"] * self.xMax) + "┓\n" +
+			("┠" + "┼".join(["──"] * self.xMax) + "┨\n").join([
+				"┃" +
+				"│".join([x for x in y]) +
+				"┃\n"
+			for y in display]) +
+			"┗" + "┷".join(["━━"] * self.xMax) + "┛"
+		)*/
 	}
 
 	/* 盤を描写 */
@@ -83,7 +113,7 @@ class Board{
 				const xCenter = this.x0+this.dx*(x+1);
 				const yCenter = this.y0+this.dy*(y+1)
 				panel.draw(xCenter, yCenter);
-				if(panel.piece == null) return;
+				if(!panel.piece) return;
 				panel.piece.draw(xCenter, yCenter);
 			});
 		});
@@ -94,28 +124,28 @@ class Board{
 class Piece{
 	/* 成駒をデータに統合 */
 	static init(ctx, size){
-		for(const [baseChar, base] of Object.entries(pieces)){
-			base.base = baseChar;
-			if(base.promo == null) continue;
+		for(const base of Object.values(pieces)){
+			base.base = base;
+			if(!base.promo) continue;
 			for(const [promoChar, promo] of Object.entries(base.promo)){
 				pieces[promoChar] = {...base, ...promo};
 				pieces[promoChar].group = "成";
-				delete pieces[promoChar].promo;
 			}
 		}
+		for(const [key, piece] of Object.entries(pieces)){
+			piece.char = key;
+			pieces[key] = new Piece(ctx, piece, size);
+		}
 		for(const [baseChar, base] of Object.entries(pieces)){
-			if(base.alias == null) continue;
+			if(!base.alias) continue;
 			base.alias.forEach((aliasChar, i)=>{
-				const alias = {...base};
+				const alias = base.clone();
 				const display = [...alias.display];
 				[display[0], display[i+1]] = [display[i+1], display[0]];
 				alias.display = display;
 				alias.alias[i] = baseChar;
 				pieces[aliasChar] = alias;
 			});
-		}
-		for(const [key, piece] of Object.entries(pieces)){
-			pieces[key] = new Piece(ctx, piece, size);
 		}
 	}
 
@@ -126,6 +156,18 @@ class Piece{
 		this.size = size;
 		this.zoom = size/100;
 		this.deg = deg;
+	}
+
+	turnFront(){
+		Object.assign(this, this.base);
+	}
+
+	promotion(promo){
+		if(!this.promo) throw Error("Not plomote piece.");
+		if(!promo in this.promo) throw Error("plomote key is missing.");
+		if(this.group === "成") throw Error("Promoted piece.");
+		Object.assign(this, this.promo[promo]);
+		this.group = "成";
 	}
 
 	set deg(value){
