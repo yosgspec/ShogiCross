@@ -1,14 +1,15 @@
 (async function(){
 	await canvasFont.import();
-	const canvas = document.getElementById("crossChess");
-	canvas.width = 910;
-	canvas.height = 910;
-	const ctx = canvas.getContext("2d");
-	ctx.clearRect(0, 0, canvas.width, canvas.height);
-	ctx.fillStyle = "#DDEEFF";
-	ctx.fillRect(0, 0, canvas.width, canvas.height);
 
 	function sample(){
+		const canvas = document.getElementById("crossChess");
+		canvas.width = 910;
+		canvas.height = 910;
+		const ctx = canvas.getContext("2d");
+		ctx.clearRect(0, 0, canvas.width, canvas.height);
+		ctx.fillStyle = "#DDEEFF";
+		ctx.fillRect(0, 0, canvas.width, canvas.height);
+	
 		boards["sample"] = {...boards["チェス"]}
 		boards["sample"].field = [
 			"WBW<#>SS",
@@ -58,15 +59,23 @@
 		Piece.init(ctx, size);
 
 		const board = new Board(ctx, "sample", x0, y0, dx, dy);
-		board.putPieces("sample", "0");
+		board.putStartPieces("sample", "0");
 		board.rotateField90();
-		//board.putPieces("sample", "1");
+		//board.putStartPieces("sample", "1");
 		board.draw();
 
 		console.log(board.getString());
 	}
 
 	function main(){
+		const canvas = document.getElementById("crossChess");
+		canvas.width = 910;
+		canvas.height = 910;
+		const ctx = canvas.getContext("2d");
+		ctx.clearRect(0, 0, canvas.width, canvas.height);
+		ctx.fillStyle = "#DDEEFF";
+		ctx.fillRect(0, 0, canvas.width, canvas.height);
+	
 		const size = 55;
 		const x0 = 50;
 		const y0 = 50;
@@ -76,9 +85,9 @@
 		console.log(pieces);
 
 		const board = new Board(ctx, "チェス", x0, y0, dx, dy);
-		board.putPieces("将棋");
+		board.putStartPieces("将棋");
 		board.rotateField();
-		board.putPieces("チャンギ", "left");
+		board.putStartPieces("チャンギ", "left");
 		board.rotateField();
 		board.draw();
 
@@ -86,22 +95,30 @@
 	}
 
 	function player4(){
+		const canvas = document.getElementById("crossChess");
+		canvas.width = 910;
+		canvas.height = 910;
+		const ctx = canvas.getContext("2d");
+		ctx.clearRect(0, 0, canvas.width, canvas.height);
+		ctx.fillStyle = "#DDEEFF";
+		ctx.fillRect(0, 0, canvas.width, canvas.height);
+	
 		const size = 55;
 		const x0 = 0;
 		const y0 = 0;
 		const dx = 70;
 		const dy = 70;
 		Piece.init(ctx, size);
-		console.log(pieces);
+		console.log(Object.values(pieces).sort(v=>v.id));
 
 		const board = new Board(ctx, "4人用", x0, y0, dx, dy);
-		board.putPieces("将棋");
+		board.putStartPieces("将棋");
 		board.rotateField(90);
-		board.putPieces("シャンチー");
+		board.putStartPieces("シャンチー");
 		board.rotateField(90);
-		board.putPieces("チェス");
+		board.putStartPieces("チェス");
 		board.rotateField(90);
-		board.putPieces("マークルック");
+		board.putStartPieces("マークルック");
 		board.rotateField(90);
 		board.draw();
 

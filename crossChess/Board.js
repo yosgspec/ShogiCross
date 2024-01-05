@@ -75,9 +75,9 @@ class Board{
 		this.yLen = this.field.length;
 	}
 
-	putPieces(pieceSet, ptn="default"){
+	/* 駒の初期配置を行う */
+	putStartPieces(pieceSet, ptn="default"){
 		const pos = games[pieceSet].position[this.xLen][ptn];
-		console.log(games[pieceSet].position);
 		pos.forEach((row, i)=>{
 			const y = i+this.yLen - pos.length;
 			[...row].forEach((v, x)=>{
@@ -88,6 +88,7 @@ class Board{
 		});
 	}
 
+	/* 駒配置を回転する */
 	rotateField(deg=180){
 		if(![90, 180].includes(deg)) throw Error("deg is not 90 or 180.");
 		if(deg === 90){
@@ -99,7 +100,6 @@ class Board{
 		else if(deg === 180){
 			this.field.reverse();
 		}
-
 		this.field.forEach(row=>{
 			row.forEach(panel=>{
 				if(!panel.piece) return;
@@ -109,6 +109,7 @@ class Board{
 		});
 	}
 
+	/* 駒配置を文字列で取得 */
 	getString(){
 		return this.field.map(row=>
 			row.map(panel=>{
@@ -173,8 +174,9 @@ class Board{
 
 /* 駒の管理クラス */
 class Piece{
-	/* 成駒をデータに統合 */
+	/* 駒データを初期化 */
 	static init(ctx, size){
+		/* 成駒のデータを統合 */
 		for(const base of Object.values(pieces)){
 			base.base = base;
 			if(!base.promo) continue;
@@ -183,10 +185,13 @@ class Piece{
 				pieces[promoChar].group = "成";
 			}
 		}
-		for(const [key, piece] of Object.entries(pieces)){
+		/* 駒をクラスオブジェクトに変換 */
+		Object.entries(pieces).map(([key, piece], i)=>{
+			piece.id = i;
 			piece.char = key;
 			pieces[key] = new Piece(ctx, piece, size);
-		}
+		});
+		/* エイリアスのデータを統合 */
 		for(const [baseChar, base] of Object.entries(pieces)){
 			if(!base.alias) continue;
 			base.alias.forEach((aliasChar, i)=>{
@@ -200,6 +205,14 @@ class Piece{
 		}
 	}
 
+	/* 駒の角度(deg/rad) */
+	set deg(value){
+		this.rad = value%360*Math.PI/180;
+	}
+	get deg(){
+		return this.rad%360/(Math.PI/180);
+	}
+
 	constructor(ctx, piece, size=100, deg=0){
 		Object.assign(this, piece);
 		this.ctx = ctx;
@@ -209,10 +222,12 @@ class Piece{
 		this.deg = deg;
 	}
 
+	/* 駒を表返す */
 	turnOverFront(){
 		Object.assign(this, this.base);
 	}
 
+	/* 駒を成らす */
 	promotion(promo){
 		if(!this.promo) throw Error("Not plomote piece.");
 		if(!promo in this.promo) throw Error("Plomote key is missing.");
@@ -221,14 +236,7 @@ class Piece{
 		this.group = "成";
 	}
 
-	set deg(value){
-		this.rad = value%360*Math.PI/180;
-	}
-
-	get deg(){
-		return this.rad%360/(Math.PI/180);
-	}
-
+	/* 駒をクローン */
 	clone(){
 		return new Piece(this.ctx, this, this.size, this.deg);
 	}
