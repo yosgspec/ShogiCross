@@ -94,5 +94,24 @@ const boards = {
 			"SMS#*#SMS",
 			"MSM>#<MSM"
 		]
+	},
+	"4人用": {
+		"backgroundColor": "#333333",
+		"borderColor": "#000000",
+		"borderWidth": 5,
+		"field": [
+			"..SMSMSMSM..",
+			"..MSMSMSMS..",
+			"SMWBWBWBWBSM",
+			"MSBWBWBWBWMS",
+			"SMWBWBWBWBSM",
+			"MSBWBWBWBWMS",
+			"SMWBWBWBWBSM",
+			"MSBWBWBWBWMS",
+			"SMWBWBWBWBSM",
+			"MSBWBWBWBWMS",
+			"..SMSMSMSM..",
+			"..MSMSMSMS.."
+		]
 	}
 }

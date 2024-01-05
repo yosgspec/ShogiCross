@@ -83,5 +83,12 @@ const panels = {
 		"borderColor": "#000000",
 		"borderWidth": 5,
 		"attr": []
+	},
+	".":{
+		"name": "立入禁止",
+		"backgroundColor": "#00000000",
+		"borderColor": "#00000000",
+		"borderWidth": 5,
+		"attr": ["keepOut"]
 	}
 }

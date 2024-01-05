@@ -1,8 +1,8 @@
 (async function(){
 	await canvasFont.import();
 	const canvas = document.getElementById("crossChess");
-	canvas.width = 720;
-	canvas.height = 800;
+	canvas.width = 910;
+	canvas.height = 910;
 	const ctx = canvas.getContext("2d");
 	ctx.clearRect(0, 0, canvas.width, canvas.height);
 	ctx.fillStyle = "#DDEEFF";
@@ -59,9 +59,8 @@
 
 		const board = new Board(ctx, "sample", x0, y0, dx, dy);
 		board.putPieces("sample", "0");
-		board.roteteField();
-		board.putPieces("sample", "1");
-		board.roteteField();
+		board.rotateField90();
+		//board.putPieces("sample", "1");
 		board.draw();
 
 		console.log(board.getString());
@@ -78,16 +77,42 @@
 
 		const board = new Board(ctx, "チェス", x0, y0, dx, dy);
 		board.putPieces("将棋");
-		board.roteteField();
+		board.rotateField();
 		board.putPieces("チャンギ", "left");
-		board.roteteField();
+		board.rotateField();
 		board.draw();
+
+		console.log(board.getString());
+	}
+
+	function player4(){
+		const size = 55;
+		const x0 = 0;
+		const y0 = 0;
+		const dx = 70;
+		const dy = 70;
+		Piece.init(ctx, size);
+		console.log(pieces);
+
+		const board = new Board(ctx, "4人用", x0, y0, dx, dy);
+		board.putPieces("将棋");
+		board.rotateField(90);
+		board.putPieces("シャンチー");
+		board.rotateField(90);
+		board.putPieces("チェス");
+		board.rotateField(90);
+		board.putPieces("マークルック");
+		board.rotateField(90);
+		board.draw();
+
+		console.log(board.getString());
 	}
 
 	/* メイン処理 */
 	(function(){
-
-		sample();
+		//sample();
 		//main();
+		player4();
+
 	})();
 })();

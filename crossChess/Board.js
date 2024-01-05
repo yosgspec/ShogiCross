@@ -55,6 +55,13 @@ class Panel{
 
 /** 盤の管理クラス */
 class Board{
+	degSymbols = {
+		0: "▲",
+		90: "≫",
+		180: "▽",
+		270: "＜"
+	};
+
 	constructor(ctx, boardName, x0, y0, dx, dy){
 		Object.assign(this, boards[boardName]);
 		this.ctx = ctx;
@@ -70,6 +77,7 @@ class Board{
 
 	putPieces(pieceSet, ptn="default"){
 		const pos = games[pieceSet].position[this.xLen][ptn];
+		console.log(games[pieceSet].position);
 		pos.forEach((row, i)=>{
 			const y = i+this.yLen - pos.length;
 			[...row].forEach((v, x)=>{
@@ -80,15 +88,25 @@ class Board{
 		});
 	}
 
-	roteteField(){
+	rotateField(deg=180){
+		if(![90, 180].includes(deg)) throw Error("deg is not 90 or 180.");
+		if(deg === 90){
+			const transpose = a => a[0].map((_, c) => a.map(r => r[c]));
+			const len = this.xLen;
+			if(len !== this.yLen) throw Error("Not rows = cols.");
+			this.field = transpose(this.field);
+		}
+		else if(deg === 180){
+			this.field.reverse();
+		}
+
 		this.field.forEach(row=>{
 			row.forEach(panel=>{
 				if(!panel.piece) return;
-				panel.piece.deg += 180;
+				panel.piece.deg += deg;
 			});
 			row.reverse()
 		});
-		this.field.reverse();
 	}
 
 	getString(){
@@ -96,7 +114,7 @@ class Board{
 			row.map(panel=>{
 				const piece = panel.piece;
 				if(!piece) return "｜・";
-				return (piece.deg === 0? "▲": "▽") + piece.char;
+				return this.degSymbols[piece.deg] + piece.char;
 			}).join("")
 		).join("\n");
 		/*
