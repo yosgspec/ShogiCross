@@ -158,7 +158,7 @@ class Piece{
 		this.deg = deg;
 	}
 
-	turnFront(){
+	turnOverFront(){
 		Object.assign(this, this.base);
 	}
 
@@ -173,6 +173,7 @@ class Piece{
 	set deg(value){
 		this.rad = value%360*Math.PI/180;
 	}
+
 	get deg(){
 		return this.rad%360/(Math.PI/180);
 	}

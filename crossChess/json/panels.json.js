@@ -90,19 +90,19 @@ const panels = {
 		"borderWidth": 5,
 		"attr": ["palace"]
 	},
+	"<": {
+		"name": "九宮左",
+		"backgroundColor": "#CC9966",
+		"borderWidth": 5,
+		"borderColor": "#333333",
+		"attr": ["palace", "palaceLeft"]
+	},
 	">": {
 		"name": "九宮右",
 		"backgroundColor": "#CC9966",
 		"borderColor": "#333333",
 		"borderWidth": 5,
 		"attr": ["palace", "palaceRight"]
-	},
-	"<": {
-		"name": "九宮左",
-		"backgroundColor": "#CC9966",
-		"borderColor": "#333333",
-		"borderWidth": 5,
-		"attr": ["palace", "palaceLeft"]
 	},
 	"*": {
 		"name": "九宮中",
