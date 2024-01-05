@@ -13,7 +13,7 @@ Object.assign(canvasFont, {
 				if(!res.ok) return;
 				const css = await res.text();
 				const matchUrls = css.match(/url\(.+?\)/g);
-				if(!matchUrls) throw new Error("フォントが見つかりませんでした");
+				if(!matchUrls) throw new Error("Not found font.");
 
 				for (const url of matchUrls) {
 					const fontFace = new FontFace(fontName, url);
