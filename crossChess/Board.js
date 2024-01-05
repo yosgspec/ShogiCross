@@ -19,40 +19,37 @@ class Panel{
 		ctx.translate(x-this.dx/2, y-this.dy/2);
 		ctx.fillRect(0, 0, this.dx, this.dy);
 
-		/*
-		ctx.moveTo(0, 0);
-		ctx.lineTo(0, this.dy);
-		ctx.moveTo(0, this.dy);
-		//ctx.lineTo(this.dx, this.dy);
-		ctx.moveTo(this.dx, this.dy);
-		ctx.lineTo(this.dx, 0);
-		ctx.moveTo(this.dx, 0);
-		/tx.lineTo(0, 0);
-		*/
 		ctx.strokeRect(0, 0, this.dx, this.dy);
-
-		/*
-		ctx.moveTo(0, 0);
-		ctx.lineTo(this.dx, this.dy);
-		ctx.moveTo(this.dx, 0);
-		ctx.lineTo(0, this.dy);
+	
+		ctx.beginPath()
+		if(this.borderSlushLeft){
+			ctx.moveTo(0, 0);
+			ctx.lineTo(this.dx, this.dy);
+		}
+		if(this.borderSlushRight){
+			ctx.moveTo(this.dx, 0);
+			ctx.lineTo(0, this.dy);
+		}
+		ctx.closePath();
 		ctx.stroke()
 		ctx.restore();
 
-		ctx.save();
-		ctx.translate(x, y);
-		ctx.rotate(90*Math.PI/180);
-		ctx.fillStyle = this.borderColor;
-		const text = "河";
-		const fontSize = Math.min(this.dx, this.dy)*0.8;
-		ctx.font = `${fontSize}px ${canvasFont.fontName}`;
+		if(this.text){
+			ctx.save();
+			ctx.translate(x, y);
+			ctx.fillStyle = this.borderColor;
 
-		const width = ctx.measureText(text).width;
-		const height = fontSize/2
-		ctx.fillText(text, -width/2, height);
-		*/
+			const rad = this.textRotate? this.textRotate*Math.PI/180: 0;
+			ctx.rotate(rad);
 
-		ctx.restore();
+			const fontSize = Math.min(this.dx, this.dy)*0.6;
+			ctx.font = `${fontSize}px ${canvasFont.fontStr}`;
+
+			const width = ctx.measureText(this.text).width;
+			const height = fontSize/2*0.8;
+			ctx.fillText(this.text, -width/2, height);
+			ctx.restore();
+		}
 	}
 }
 
@@ -139,6 +136,8 @@ class Board{
 		ctx.translate(this.x0, this.y0);
 		ctx.strokeRect(0, 0, boardWidth, boardHeight);
 		ctx.fillRect(0, 0, boardWidth, boardHeight);
+		ctx.translate(this.dx/2, this.dy/2);
+		ctx.strokeRect(0, 0, boardWidth-this.dx, boardHeight-this.dy);
 		ctx.restore();
 
 		/* マス目を描写 */
@@ -198,7 +197,7 @@ class Piece{
 
 	promotion(promo){
 		if(!this.promo) throw Error("Not plomote piece.");
-		if(!promo in this.promo) throw Error("plomote key is missing.");
+		if(!promo in this.promo) throw Error("Plomote key is missing.");
 		if(this.group === "成") throw Error("Promoted piece.");
 		Object.assign(this, this.promo[promo]);
 		this.group = "成";
@@ -243,8 +242,7 @@ class Piece{
 		ctx.fillStyle = this.game.fontColor;
 		const text = [...this.display[displayNo]];
 		const fontSize = 40*zoom;
-		ctx.font = `${fontSize}px ${canvasFont.fonts.map(o=>`"${o[0]}"`).join(",")}`;
-		console.log(`${fontSize}px ${canvasFont.fonts.map(o=>`"${o[0]}"`).join(",")}`);
+		ctx.font = `${fontSize}px ${canvasFont.fontStr}`;
 		ctx.textAlign = "center";
 
 		text.forEach((v,i)=>{

@@ -654,7 +654,8 @@ const pieces = {
 	},
 	"車": {
 		"name": "車",
-		"display": ["⬡車", "車"],
+		"display": ["⬡车", "⬡车", "⬡車", "车", "車"],
+		"alias": ["车"],
 		"game": "チャンギ",
 		"group": "車",
 		"range": {

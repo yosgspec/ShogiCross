@@ -20,67 +20,29 @@ const panels = {
 		"borderWidth": 5,
 		"attr": []
 	},
-	"_": {
-		"name": "河界中上",
-		"backgroundColor": "#EECC88",
-		"borderColor": "#333333",
-		"borderWidth": 5,
-		"attr": ["river"]
-	},
-	",": {
-		"name": "河界左上",
-		"backgroundColor": "#EECC88",
-		"borderColor": "#333333",
-		"borderWidth": 5,
-		"attr": ["river"]
-	},
-	".": {
-		"name": "河界右上",
-		"backgroundColor": "#EECC88",
-		"borderColor": "#333333",
-		"borderWidth": 5,
-		"attr": ["river"]
-	},
-	"~": {
-		"name": "河界中下",
-		"backgroundColor": "#EECC88",
-		"borderColor": "#333333",
-		"borderWidth": 5,
-		"attr": ["river"]
-	},
-	"'": {
-		"name": "河界左下",
-		"backgroundColor": "#EECC88",
-		"borderColor": "#333333",
-		"borderWidth": 5,
-		"attr": ["river"]
-	},
-	"`": {
-		"name": "河界右下",
-		"backgroundColor": "#EECC88",
-		"borderColor": "#333333",
-		"borderWidth": 5,
-		"attr": ["river"]
-	},
 	"=": {
-		"name": "河界中",
+		"name": "河界",
 		"backgroundColor": "#EECC88",
-		"borderColor": "#333333",
-		"borderWidth": 5,
-		"attr": ["river"]
-	},
-	"]": {
-		"name": "河界右",
-		"backgroundColor": "#EECC88",
-		"borderColor": "#333333",
+		"borderColor": "#33221144",
 		"borderWidth": 5,
 		"attr": ["river"]
 	},
 	"[": {
-		"name": "河界左",
+		"name": "河界左字",
 		"backgroundColor": "#EECC88",
-		"borderColor": "#333333",
+		"borderColor": "#33221144",
 		"borderWidth": 5,
+		"text": "河",
+		"textRotate": -90,
+		"attr": ["river"]
+	},
+	"]": {
+		"name": "河界右字",
+		"backgroundColor": "#EECC88",
+		"borderColor": "#33221144",
+		"borderWidth": 5,
+		"text": "界",
+		"textRotate": 90,
 		"attr": ["river"]
 	},
 	"#": {
@@ -93,8 +55,9 @@ const panels = {
 	"<": {
 		"name": "九宮左",
 		"backgroundColor": "#CC9966",
-		"borderWidth": 5,
 		"borderColor": "#333333",
+		"borderWidth": 5,
+		"borderSlushLeft": true,
 		"attr": ["palace", "palaceLeft"]
 	},
 	">": {
@@ -102,6 +65,7 @@ const panels = {
 		"backgroundColor": "#CC9966",
 		"borderColor": "#333333",
 		"borderWidth": 5,
+		"borderSlushRight": true,
 		"attr": ["palace", "palaceRight"]
 	},
 	"*": {
@@ -109,6 +73,8 @@ const panels = {
 		"backgroundColor": "#CC9966",
 		"borderColor": "#333333",
 		"borderWidth": 5,
+		"borderSlushLeft": true,
+		"borderSlushRight": true,
 		"attr": ["palace", "palaceRight", "palaceLeft"]
 	},
 	"M": {

@@ -1,8 +1,8 @@
 (async function(){
-	await importFonts();
+	await canvasFont.import();
 	const canvas = document.getElementById("crossChess");
-	canvas.width = 990;
-	canvas.height = 1080;
+	canvas.width = 1150;
+	canvas.height = 1200;
 	const ctx = canvas.getContext("2d");
 	ctx.clearRect(0, 0, canvas.width, canvas.height);
 	ctx.fillStyle = "#DDEEFF";
@@ -35,7 +35,9 @@
 		];
 		games["sample"] = {};
 		games["sample"].position ={}
-		games["sample"].position[8] = {...pieceMap};
+		for(const i of [8, 9]){
+			games["sample"].position[i] = {...pieceMap}
+		}
 
 		const size = 100;
 		const x0 = 0;
@@ -44,7 +46,7 @@
 		const dy = 120;
 		Piece.init(ctx, size);
 
-		const board = new Board(ctx, "チェス", x0, y0, dx, dy);
+		const board = new Board(ctx, "クロス", x0, y0, dx, dy);
 		board.putPieces("sample", "0");
 		board.roteteField();
 		board.putPieces("sample", "1");
