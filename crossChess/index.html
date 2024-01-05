@@ -11,12 +11,21 @@
 				font-size: 50px;
 				color: #000099;
 				background-color: #3399FF;
-			};
+			}
+			textarea {
+				font-size: 24px;
+				color: #000099;
+				background-color: #EEFFFF;
+			}
 		</style>
 	</head>
 	<u>CrossChess</u><br>
 	<canvas id="crossChess"></canvas><br>
+	<i>Text Output</i><br>
+	<textarea id="crossChessTextMini" style="width:600px;height:300px;"></textarea><br>
+	<textarea id="crossChessText" style="width:920px;height:620px;"></textarea><br>
 	<a href="https://github.com/yosgspec/CrossChess">GitHub</a><br>
+	<br>
 	<i>一文字表記(CLI用JIS第2水準迄)</i><br>
 	<u>兵騏僧城馬象角車砲将玉王</u><br>
 	歩・・・桂銀角香飛金玉皇<br>
@@ -29,29 +38,7 @@
 	・・・・・・・・・・・・<br>
 	貝・・・瑪根・船・種君公<br>
 	貴・・・・・・・・・・・<br>
-	<br>
-	<i>CLI版表示</i>
-	<pre style=font-size:24px>
-┏━━┯━━┯━━┯━━┯━━┯━━┯━━┯━━┯━━┓
-┃▽車│▽馭│▽象│▽士│　・│▽士│▽馭│▽象│▽車┃
-┠──┼──┼──┼──┼──┼──┼──┼──┼──┨
-┃　　│▽包│　　│　・│▽楚│　・│　　│▽包│　　┃
-┠──┼──┼──┼──┼──┼──┼──┼──┼──┨
-┃▽卆│　　│▽卆│　／│▽卆│　＼│▽卆│　　│▽卆┃
-┠──┼──┼──┼──┼──┼──┼──┼──┼──┨
-┃　　│　　│　　│　　│　　│　　│　　│　　│　　┃
-┠──┼──┼──┼──┼──┼──┼──┼──┼──┨
-┃＝＝│＝＝│＝＝│＝＝│＝＝│＝＝│＝＝│＝＝│＝＝┃
-┠──┼──┼──┼──┼──┼──┼──┼──┼──┨
-┃　　│　　│　　│　　│　　│　　│　　│　　│　　┃
-┠──┼──┼──┼──┼──┼──┼──┼──┼──┨
-┃▲歩│▲歩│▲歩│▲歩│▲歩│▲歩│▲歩│▲歩│▲歩┃
-┠──┼──┼──┼──┼──┼──┼──┼──┼──┨
-┃　　│▲角│　　│　・│　※│　・│　　│▲飛│　　┃
-┠──┼──┼──┼──┼──┼──┼──┼──┼──┨
-┃▲香│▲桂│▲銀│▲金│▲玉│▲金│▲銀│▲桂│▲香┃
-┗━━┷━━┷━━┷━━┷━━┷━━┷━━┷━━┷━━┛
-	</pre>
+
 	<script src="./json/games.json.js"></script>
 	<script src="./json/pieces.json.js"></script>
 	<script src="./json/pieceCost.json.js"></script>

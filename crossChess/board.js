@@ -56,6 +56,7 @@ class Panel{
 
 /** 盤の管理クラス */
 class Board{
+	/* テキスト出力時のプレイヤー表示 */
 	degSymbols = {
 		0: "▲",
 		90: "≫",
@@ -63,21 +64,53 @@ class Board{
 		270: "＜"
 	};
 
-	constructor(ctx, boardName, x0, y0, dx, dy){
+	constructor(ctx, boardName, x0, y0, dx, dy, players = 2){
 		Object.assign(this, boards[boardName]);
 		this.ctx = ctx;
 		this.x0 = x0;
 		this.y0 = y0;
 		this.dx = dx;
 		this.dy = dy;
+		if(![2, 4].includes(players)) throw Error(`players=${players}, players need 2 or 4.`);
+		this.players = players;
 		this.field = this.field.map(row=>
 			[...row].map(v=>new Panel(ctx, panels[v], dx, dy)));
 		this.xLen = this.field[0].length;
 		this.yLen = this.field.length;
 	}
 
-	/* 駒の初期配置を行う */
-	putStartPieces(pieceSet, ptn="default"){
+	/* 駒の配置 */
+	putPiece(piece, x, y, deg){
+
+	}
+
+	/* 駒配置を回転 */
+	rotateField(deg=180){
+		deg = (deg+360)%360;
+		if(deg === 0) return;
+		if(![90, 180, 270].includes(deg)) throw Error(`deg=${deg}, deg need 90 or 180 or 270.`);
+		if([90, 270].includes(deg)){
+			// 2次配列を転置
+			const transpose = a => a[0].map((_, c) => a.map(r => r[c]));
+			const len = this.xLen;
+			if(len !== this.yLen) throw Error(`cols=${this.xLen} != rows=${this.yLen}, Not rows = cols.`);
+			this.field = transpose(this.field);
+		}
+		if([180, 270].includes(deg)){
+			this.field.reverse();
+		}
+		this.field.forEach(row=>{
+			row.forEach(panel=>{
+				if(!panel.piece) return;
+				panel.piece.deg += deg;
+			});
+			if([90, 180].includes(deg)) row.reverse()
+		});
+	}
+
+	/* 駒の初期配置 */
+	putStartPieces(playerId, pieceSet, ptn="default"){
+		this.rotateField(playerId*90);
 		const pos = games[pieceSet].position[this.xLen][ptn];
 		pos.forEach((row, i)=>{
 			const y = i+this.yLen - pos.length;
@@ -87,37 +120,27 @@ class Board{
 				this.field[y][x].piece = piece;
 			});
 		});
-	}
-
-	/* 駒配置を回転する */
-	rotateField(deg=180){
-		if(![90, 180].includes(deg)) throw Error("deg is not 90 or 180.");
-		if(deg === 90){
-			const transpose = a => a[0].map((_, c) => a.map(r => r[c]));
-			const len = this.xLen;
-			if(len !== this.yLen) throw Error("Not rows = cols.");
-			this.field = transpose(this.field);
-		}
-		else if(deg === 180){
-			this.field.reverse();
-		}
-		this.field.forEach(row=>{
-			row.forEach(panel=>{
-				if(!panel.piece) return;
-				panel.piece.deg += deg;
-			});
-			row.reverse()
-		});
+		this.rotateField(-playerId*90);
 	}
 
 	/* 駒配置をテキストで取得 */
-	getString(isMinimam=false){
-		const header = isMinimam? "": `┏${Array(this.xLen).fill("━━").join("┯")}┓\n`;
-		const footer = isMinimam? "": `\n┗${Array(this.xLen).fill("━━").join("┷")}┛`;
-		const panelOuter = isMinimam? "": "┃";
-		const panelSep = isMinimam? "": "│";
-		const rowSep = isMinimam? "\n": `\n┃${Array(this.xLen).fill("──").join("┼")}┨\n`
-		const panelText = isMinimam? ()=>"｜・": panel=>panel.text;
+	outputText(isMinimam=false){
+		let header = "";
+		let footer = "";
+		let panelOuter = "";
+		let panelSep = "";
+		let rowSep = "\n";
+		let panelText = panel => panel.attr.includes("keepOut")? "｜＃": "｜・";
+
+		if(!isMinimam){
+			header = `┏${Array(this.xLen).fill("━━").join("┯")}┓\n`;
+			footer = `\n┗${Array(this.xLen).fill("━━").join("┷")}┛`;
+			panelOuter = "┃";
+			panelSep = "│";
+			rowSep = `\n┃${Array(this.xLen).fill("──").join("┼")}┨\n`;
+			panelText = panel => panel.text;
+		}
+
 		return (
 			header+
 			this.field.map(row=>
@@ -222,9 +245,9 @@ class Piece{
 
 	/* 駒を成らす */
 	promotion(promo){
-		if(!this.promo) throw Error("Not plomote piece.");
-		if(!promo in this.promo) throw Error("Plomote key is missing.");
-		if(this.group === "成") throw Error("Promoted piece.");
+		if(!this.promo) throw Error(`promo=${promo}, Not plomote piece.`);
+		if(!promo in this.promo) throw Error(`promo=${promo}, Plomote key is missing.`);
+		if(this.group === "成") throw Error(`promo=${promo}, Promoted piece.`);
 		Object.assign(this, this.promo[promo]);
 		this.group = "成";
 	}

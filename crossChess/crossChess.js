@@ -1,10 +1,12 @@
 (async function(){
 	await canvasFont.import();
+	const canvas = document.getElementById("crossChess");
+	const textareaMini = document.getElementById("crossChessTextMini");
+	const textarea = document.getElementById("crossChessText");
 
 	function sample(){
-		const canvas = document.getElementById("crossChess");
-		canvas.width = 910;
-		canvas.height = 910;
+		canvas.width = 720;
+		canvas.height = 800;
 		const ctx = canvas.getContext("2d");
 		ctx.clearRect(0, 0, canvas.width, canvas.height);
 		ctx.fillStyle = "#DDEEFF";
@@ -33,17 +35,7 @@
 				"貴・率妃と僧騏城",
 				"・馬・・・・竜・",
 				"公漢將帝皇全圭杏"
-			]/*
-			[
-				"▽城▽圭▽全▽皇▽帝▽將▽漢▽公",
-				"｜・▽竜｜・｜・｜・｜・｜・▽馬",
-				"▽城▽騏▽僧▽と▽妃▽率｜・▽貴",
-				"｜・▲貝｜・▲君▲種▲根▲瑪▲船",
-				"▲包▲卆｜・▲楚▲士▲象▲馭▲車",
-				"▲炮▲卒｜・▲帥▲仕▲相▲馮▲俥",
-				"｜・▲兵｜・▲王▲后▲聖▲騎▲塔",
-				"▲飛▲歩▲角▲玉▲金▲銀▲桂▲香"
-			]*/
+			]
 		];
 		games["sample"] = {};
 		games["sample"].position ={}
@@ -59,17 +51,15 @@
 		Piece.init(ctx, size);
 
 		const board = new Board(ctx, "sample", x0, y0, dx, dy);
-		board.putStartPieces("sample", "0");
-		board.rotateField();
-		board.putStartPieces("sample", "1");
-		board.rotateField();
+		board.putStartPieces(0, "sample", "0");
+		board.putStartPieces(1, "sample", "1");
 		board.draw();
 
-		console.log(board.getString());
+		textareaMini.value = board.outputText(true);
+		textarea.value = board.outputText();
 	}
 
 	function main(){
-		const canvas = document.getElementById("crossChess");
 		canvas.width = 910;
 		canvas.height = 910;
 		const ctx = canvas.getContext("2d");
@@ -86,17 +76,15 @@
 		console.log(pieces);
 
 		const board = new Board(ctx, "チェス", x0, y0, dx, dy);
-		board.putStartPieces("将棋");
-		board.rotateField();
-		board.putStartPieces("チャンギ", "left");
-		board.rotateField();
+		board.putStartPieces(0,"将棋");
+		board.putStartPieces(1, "チャンギ", "left");
 		board.draw();
 
-		console.log(board.getString());
+		textareaMini.value = board.outputText(true);
+		textarea.value = board.outputText();
 	}
 
 	function player4(){
-		const canvas = document.getElementById("crossChess");
 		canvas.width = 910;
 		canvas.height = 910;
 		const ctx = canvas.getContext("2d");
@@ -112,26 +100,21 @@
 		Piece.init(ctx, size);
 		console.log(Object.values(pieces).sort(v=>v.id));
 
-		const board = new Board(ctx, "4人用", x0, y0, dx, dy);
-		board.putStartPieces("将棋");
-		board.rotateField(90);
-		board.putStartPieces("シャンチー");
-		board.rotateField(90);
-		board.putStartPieces("チェス");
-		board.rotateField(90);
-		board.putStartPieces("マークルック");
-		board.rotateField(90);
+		const board = new Board(ctx, "4人用", x0, y0, dx, dy, 4);
+		board.putStartPieces(0, "将棋");
+		board.putStartPieces(1, "シャンチー");
+		board.putStartPieces(2, "チェス");
+		board.putStartPieces(3, "マークルック");
 		board.draw();
-
-		console.log(board.getString(true));
-		console.log(board.getString());
+		textareaMini.value = board.outputText(true);
+		textarea.value = board.outputText();
 	}
 
 	/* メイン処理 */
 	(function(){
-		sample();
+		//sample();
 		//main();
-		//player4();
+		player4();
 
 	})();
 })();
