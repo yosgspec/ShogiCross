@@ -1,14 +1,25 @@
 (async function(){
 	await canvasFont.import();
 	const canvas = document.getElementById("crossChess");
-	canvas.width = 1150;
-	canvas.height = 1200;
+	canvas.width = 720;
+	canvas.height = 800;
 	const ctx = canvas.getContext("2d");
 	ctx.clearRect(0, 0, canvas.width, canvas.height);
 	ctx.fillStyle = "#DDEEFF";
 	ctx.fillRect(0, 0, canvas.width, canvas.height);
 
 	function sample(){
+		boards["sample"] = {...boards["チェス"]}
+		boards["sample"].field = [
+			"WBW<#>SS",
+			"BWB#*#SS",
+			"WBW>#<SS",
+			"MMMM==]=",
+			"=[==MMMM",
+			"SS<#>BWB",
+			"SS#*#WBW",
+			"SS>#<BWB"
+		];
 		const pieceMap = [
 			[
 				"・貝・君種根瑪船",
@@ -39,14 +50,14 @@
 			games["sample"].position[i] = {...pieceMap}
 		}
 
-		const size = 100;
+		const size = 70;
 		const x0 = 0;
 		const y0 = 0;
-		const dx = 110;
-		const dy = 120;
+		const dx = 80;
+		const dy = 90;
 		Piece.init(ctx, size);
 
-		const board = new Board(ctx, "クロス", x0, y0, dx, dy);
+		const board = new Board(ctx, "sample", x0, y0, dx, dy);
 		board.putPieces("sample", "0");
 		board.roteteField();
 		board.putPieces("sample", "1");

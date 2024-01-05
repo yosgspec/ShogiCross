@@ -1,5 +1,5 @@
 const panels = {
-	"0": {
+	"S": {
 		"name": "将棋",
 		"backgroundColor": "#EECC88",
 		"borderColor": "#333333",

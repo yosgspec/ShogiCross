@@ -4,15 +4,15 @@ const boards = {
 		"borderColor": "#333333",
 		"borderWidth": 5,
 		"field": [
-			"000000000",
-			"000000000",
-			"000000000",
-			"000000000",
-			"000000000",
-			"000000000",
-			"000000000",
-			"000000000",
-			"000000000"
+			"SSSSSSSSS",
+			"SSSSSSSSS",
+			"SSSSSSSSS",
+			"SSSSSSSSS",
+			"SSSSSSSSS",
+			"SSSSSSSSS",
+			"SSSSSSSSS",
+			"SSSSSSSSS",
+			"SSSSSSSSS"
 		]
 	},
 	"チェス": {
@@ -35,16 +35,16 @@ const boards = {
 		"borderColor": "#333333",
 		"borderWidth": 5,
 		"field": [
-			"000<#>000",
-			"000#*#000",
-			"000>#<000",
-			"000000000",
+			"SSS<#>SSS",
+			"SSS#*#SSS",
+			"SSS>#<SSS",
+			"SSSSSSSSS",
 			"=======]=",
 			"=[=======",
-			"000000000",
-			"000<#>000",
-			"000#*#000",
-			"000>#<000"
+			"SSSSSSSSS",
+			"SSS<#>SSS",
+			"SSS#*#SSS",
+			"SSS>#<SSS"
 		]
 	},
 	"チャンギ": {
@@ -52,16 +52,16 @@ const boards = {
 		"borderColor": "#333333",
 		"borderWidth": 5,
 		"field": [
-			"000<#>000",
-			"000#*#000",
-			"000>#<000",
-			"000000000",
-			"000000000",
-			"000000000",
-			"000000000",
-			"000<#>000",
-			"000#*#000",
-			"000>#<000"
+			"SSS<#>SSS",
+			"SSS#*#SSS",
+			"SSS>#<SSS",
+			"SSSSSSSSS",
+			"SSSSSSSSS",
+			"SSSSSSSSS",
+			"SSSSSSSSS",
+			"SSS<#>SSS",
+			"SSS#*#SSS",
+			"SSS>#<SSS"
 		]
 	},
 	"マークルック": {
@@ -84,15 +84,15 @@ const boards = {
 		"borderColor": "#333333",
 		"borderWidth": 5,
 		"field": [
-			"M0M<#>M0M",
-			"0M0#*#0M0",
-			"M0M>#<M0M",
-			"000000000",
+			"MSM<#>MSM",
+			"SMS#*#SMS",
+			"MSM>#<MSM",
+			"SSSSSSSSS",
 			"=[=====]=",
-			"000000000",
-			"M0M<#>M0M",
-			"0M0#*#0M0",
-			"M0M>#<M0M"
+			"SSSSSSSSS",
+			"MSM<#>MSM",
+			"SMS#*#SMS",
+			"MSM>#<MSM"
 		]
 	}
 }
