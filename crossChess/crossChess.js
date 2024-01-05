@@ -60,8 +60,9 @@
 
 		const board = new Board(ctx, "sample", x0, y0, dx, dy);
 		board.putStartPieces("sample", "0");
-		board.rotateField90();
-		//board.putStartPieces("sample", "1");
+		board.rotateField();
+		board.putStartPieces("sample", "1");
+		board.rotateField();
 		board.draw();
 
 		console.log(board.getString());
@@ -122,14 +123,15 @@
 		board.rotateField(90);
 		board.draw();
 
+		console.log(board.getString(true));
 		console.log(board.getString());
 	}
 
 	/* メイン処理 */
 	(function(){
-		//sample();
+		sample();
 		//main();
-		player4();
+		//player4();
 
 	})();
 })();

@@ -13,14 +13,14 @@ class Panel{
 		const ctx = this.ctx;
 		ctx.fillStyle = this.backgroundColor;
 		ctx.strokeStyle = this.borderColor;
-		ctx.linedx = this.borderdx;
 
+		/* マス目を描写 */
 		ctx.save();
 		ctx.translate(x-this.dx/2, y-this.dy/2);
 		ctx.fillRect(0, 0, this.dx, this.dy);
-
 		ctx.strokeRect(0, 0, this.dx, this.dy);
-	
+
+		/* 斜線を描写 */
 		ctx.beginPath()
 		if(this.borderSlushLeft){
 			ctx.moveTo(0, 0);
@@ -34,7 +34,8 @@ class Panel{
 		ctx.stroke()
 		ctx.restore();
 
-		if(this.text){
+		/* 文字を描写 */
+		if(this.textDisplay){
 			ctx.save();
 			ctx.translate(x, y);
 			ctx.fillStyle = this.borderColor;
@@ -45,9 +46,9 @@ class Panel{
 			const fontSize = Math.min(this.dx, this.dy)*0.6;
 			ctx.font = `${fontSize}px ${canvasFont.fontStr}`;
 
-			const width = ctx.measureText(this.text).width;
+			const width = ctx.measureText(this.textDisplay).width;
 			const height = fontSize/2*0.8;
-			ctx.fillText(this.text, -width/2, height);
+			ctx.fillText(this.textDisplay, -width/2, height);
 			ctx.restore();
 		}
 	}
@@ -109,35 +110,27 @@ class Board{
 		});
 	}
 
-	/* 駒配置を文字列で取得 */
-	getString(){
-		return this.field.map(row=>
-			row.map(panel=>{
-				const piece = panel.piece;
-				if(!piece) return "｜・";
-				return this.degSymbols[piece.deg] + piece.char;
-			}).join("")
-		).join("\n");
-		/*
-				return this.field.map(row=>
-			"┃" +
-			row.map(panel=>{
-				const piece = panel.piece;
-				if(!piece) return "　　";
-				return (piece.deg === 0? "▲": "▽") + piece.char;
-			}).join("│") +
-			"┃\n"
-		).join("\n");
-		
+	/* 駒配置をテキストで取得 */
+	getString(isMinimam=false){
+		const header = isMinimam? "": `┏${Array(this.xLen).fill("━━").join("┯")}┓\n`;
+		const footer = isMinimam? "": `\n┗${Array(this.xLen).fill("━━").join("┷")}┛`;
+		const panelOuter = isMinimam? "": "┃";
+		const panelSep = isMinimam? "": "│";
+		const rowSep = isMinimam? "\n": `\n┃${Array(this.xLen).fill("──").join("┼")}┨\n`
+		const panelText = isMinimam? ()=>"｜・": panel=>panel.text;
 		return (
-			"┏" + "┯".join(["━━"] * self.xMax) + "┓\n" +
-			("┠" + "┼".join(["──"] * self.xMax) + "┨\n").join([
-				"┃" +
-				"│".join([x for x in y]) +
-				"┃\n"
-			for y in display]) +
-			"┗" + "┷".join(["━━"] * self.xMax) + "┛"
-		)*/
+			header+
+			this.field.map(row=>
+				panelOuter+
+				row.map(panel=>{
+					const piece = panel.piece;
+					if(!piece) return panelText(panel);
+					return this.degSymbols[piece.deg] + piece.char;
+				}).join(panelSep)+
+				panelOuter
+			).join(rowSep)+
+			footer
+		);
 	}
 
 	/* 盤を描写 */
