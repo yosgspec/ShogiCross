@@ -60,16 +60,16 @@
 	}
 
 	function main(){
-		canvas.width = 910;
-		canvas.height = 910;
+		canvas.width = 540;
+		canvas.height = 620;
 		const ctx = canvas.getContext("2d");
 		ctx.clearRect(0, 0, canvas.width, canvas.height);
 		ctx.fillStyle = "#DDEEFF";
 		ctx.fillRect(0, 0, canvas.width, canvas.height);
 	
 		const size = 55;
-		const x0 = 50;
-		const y0 = 50;
+		const x0 = 0;
+		const y0 = 0;
 		const dx = 60;
 		const dy = 70;
 		Piece.init(ctx, size);

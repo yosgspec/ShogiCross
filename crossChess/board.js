@@ -110,7 +110,8 @@ class Board{
 
 	/* 駒の初期配置 */
 	putStartPieces(playerId, pieceSet, ptn="default"){
-		this.rotateField(playerId*90);
+		const deg = 0|playerId*360/this.players;
+		this.rotateField(deg);
 		const pos = games[pieceSet].position[this.xLen][ptn];
 		pos.forEach((row, i)=>{
 			const y = i+this.yLen - pos.length;
@@ -120,7 +121,7 @@ class Board{
 				this.field[y][x].piece = piece;
 			});
 		});
-		this.rotateField(-playerId*90);
+		this.rotateField(-deg);
 	}
 
 	/* 駒配置をテキストで取得 */
