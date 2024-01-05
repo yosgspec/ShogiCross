@@ -14,10 +14,44 @@ class Panel{
 		ctx.fillStyle = this.backgroundColor;
 		ctx.strokeStyle = this.borderColor;
 		ctx.linedx = this.borderdx;
+
 		ctx.save();
 		ctx.translate(x-this.dx/2, y-this.dy/2);
-		ctx.strokeRect(0, 0, this.dx, this.dy);
 		ctx.fillRect(0, 0, this.dx, this.dy);
+
+		/*
+		ctx.moveTo(0, 0);
+		ctx.lineTo(0, this.dy);
+		ctx.moveTo(0, this.dy);
+		//ctx.lineTo(this.dx, this.dy);
+		ctx.moveTo(this.dx, this.dy);
+		ctx.lineTo(this.dx, 0);
+		ctx.moveTo(this.dx, 0);
+		/tx.lineTo(0, 0);
+		*/
+		ctx.strokeRect(0, 0, this.dx, this.dy);
+
+		/*
+		ctx.moveTo(0, 0);
+		ctx.lineTo(this.dx, this.dy);
+		ctx.moveTo(this.dx, 0);
+		ctx.lineTo(0, this.dy);
+		ctx.stroke()
+		ctx.restore();
+
+		ctx.save();
+		ctx.translate(x, y);
+		ctx.rotate(90*Math.PI/180);
+		ctx.fillStyle = this.borderColor;
+		const text = "河";
+		const fontSize = Math.min(this.dx, this.dy)*0.8;
+		ctx.font = `${fontSize}px ${canvasFont.fontName}`;
+
+		const width = ctx.measureText(text).width;
+		const height = fontSize/2
+		ctx.fillText(text, -width/2, height);
+		*/
+
 		ctx.restore();
 	}
 }
@@ -207,14 +241,15 @@ class Piece{
 
 		/* 文字を描写 */
 		ctx.fillStyle = this.game.fontColor;
-		const text = this.display[displayNo];
+		const text = [...this.display[displayNo]];
 		const fontSize = 40*zoom;
-		ctx.font = `${fontSize}px ${canvasFont.fontName}`;
+		ctx.font = `${fontSize}px ${canvasFont.fonts.map(o=>`"${o[0]}"`).join(",")}`;
+		console.log(`${fontSize}px ${canvasFont.fonts.map(o=>`"${o[0]}"`).join(",")}`);
+		ctx.textAlign = "center";
 
-		[...text].forEach((v,i)=>{
-			const width = ctx.measureText(v).width;
+		text.forEach((v,i)=>{
 			const height = text.length === 1? fontSize/2: i*fontSize;
-			ctx.fillText(v, -width/2, height);
+			ctx.fillText(v, 0, height);
 		});
 
 		ctx.restore();
