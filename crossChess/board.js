@@ -79,13 +79,8 @@ class Board{
 		this.yLen = this.field.length;
 	}
 
-	/* 駒の配置 */
-	putPiece(piece, x, y, deg){
-
-	}
-
 	/* 駒配置を回転 */
-	rotateField(deg=180){
+	rotateField(deg){
 		deg = (deg+360)%360;
 		if(deg === 0) return;
 		if(![90, 180, 270].includes(deg)) throw Error(`deg=${deg}, deg need 90 or 180 or 270.`);
@@ -122,6 +117,12 @@ class Board{
 			});
 		});
 		this.rotateField(-deg);
+	}
+
+	/* 駒の配置 */
+	putPiece(piece, x, y, deg){
+		if(typeof piece === "string") piece = new Piece(this.ctx, pieces[piece], deg)
+		this.field[y][x].piece = piece;
 	}
 
 	/* 駒配置をテキストで取得 */
@@ -193,6 +194,7 @@ class Board{
 class Piece{
 	/* 駒データを初期化 */
 	static init(ctx, size){
+		Piece.size = size;
 		/* 成駒のデータを統合 */
 		for(const base of Object.values(pieces)){
 			base.base = base;
@@ -206,7 +208,7 @@ class Piece{
 		Object.entries(pieces).map(([key, piece], i)=>{
 			piece.id = i;
 			piece.char = key;
-			pieces[key] = new Piece(ctx, piece, size);
+			pieces[key] = new Piece(ctx, piece);
 		});
 		/* エイリアスのデータを統合 */
 		for(const [baseChar, base] of Object.entries(pieces)){
@@ -230,7 +232,7 @@ class Piece{
 		return this.rad%360/(Math.PI/180);
 	}
 
-	constructor(ctx, piece, size=100, deg=0){
+	constructor(ctx, piece, deg=0, size=Piece.size){
 		Object.assign(this, piece);
 		this.ctx = ctx;
 		if(typeof this.game === "string") this.game = games[this.game];
@@ -255,7 +257,7 @@ class Piece{
 
 	/* 駒をクローン */
 	clone(){
-		return new Piece(this.ctx, this, this.size, this.deg);
+		return new Piece(this.ctx, this, this.deg, this.size);
 	}
 
 	/* 駒を描写 */

@@ -38,7 +38,7 @@
 			]
 		];
 		games["sample"] = {};
-		games["sample"].position ={}
+		games["sample"].position ={};
 		for(const i of [8, 9]){
 			games["sample"].position[i] = {...pieceMap}
 		}
@@ -105,6 +105,20 @@
 		board.putStartPieces(1, "シャンチー");
 		board.putStartPieces(2, "チェス");
 		board.putStartPieces(3, "マークルック");
+		board.putPiece("士", 5, 5);
+		board.putPiece("車", 5, 4);
+		board.putPiece("卆", 6, 4);
+		board.putPiece("象", 6, 5, 90);
+		board.putPiece("包", 7, 5, 90);
+		board.putPiece("卆", 7, 6, 90);
+		board.putPiece("馭", 7, 7, 90);
+		board.putPiece("楚", 6, 6, 180);
+		board.putPiece("車", 6, 7, 180);
+		board.putPiece("卆", 5, 7, 180);
+		board.putPiece("象", 5, 6, 270);
+		board.putPiece("包", 4, 6, 270);
+		board.putPiece("卆", 4, 5, 270);
+		board.putPiece("馭", 4, 4, 270);
 		board.draw();
 		textareaMini.value = board.outputText(true);
 		textarea.value = board.outputText();
