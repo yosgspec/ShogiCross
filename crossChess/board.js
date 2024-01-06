@@ -87,10 +87,11 @@ class Board{
 	 * @param {string} piece - 駒の表現文字
 	 * @param {number} x - X方向配置位置(マス目基準)
 	 * @param {number} y - Y方向配置位置(マス目基準)
-	 * @param {number} deg - 駒の配置角
+	 * @param {number} playeaIdOrDeg - プレイヤー番号または駒の配置角
 	 * @param {number} displayPtn - 表示文字列を変更(1〜)
 	 */
-	putNewPiece(piece, x, y, deg, displayPtn=0){
+	putNewPiece(piece, x, y, playeaIdOrDeg, displayPtn=0, setDeg=false){
+		const deg = !setDeg? playeaIdOrDeg*90: playeaIdOrDeg;
 		if(typeof piece === "string") piece = new Piece(this.ctx, pieces[piece], displayPtn, deg)
 		this.field[y][x].piece = piece;
 	}
