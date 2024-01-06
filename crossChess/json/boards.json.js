@@ -100,18 +100,20 @@ const boards = {
 		"borderColor": "#000000",
 		"borderWidth": 5,
 		"field": [
-			"..SMSMSMSM..",
-			"..MSMSMSMS..",
-			"SMWBWBWBWBSM",
-			"MSBWBWBWBWMS",
-			"SMWBWBWBWBSM",
-			"MSBWBWBWBWMS",
-			"SMWBWBWBWBSM",
-			"MSBWBWBWBWMS",
-			"SMWBWBWBWBSM",
-			"MSBWBWBWBWMS",
-			"..SMSMSMSM..",
-			"..MSMSMSMS.."
+			"...MSM<#>MS...",
+			"...SMS#*#SM...",
+			"...MSM>#<MS...",
+			"MSMWBWBWBWBSMS",
+			"SMSBWBWBWBWMSM",
+			"<#>WBWBWBWBSMS",
+			"#*#BWBWBWBW<#>",
+			">#<WBWBWBWB#*#",
+			"SMSBWBWBWBW>#<",
+			"MSMWBWBWBWBSMS",
+			"SMSBWBWBWBWMSM",
+			"...SM<#>MSM...",
+			"...MS#*#SMS...",
+			"...SM>#<MSM..."
 		]
 	}
 }

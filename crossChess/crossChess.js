@@ -85,8 +85,8 @@
 	}
 
 	function player4(){
-		canvas.width = 910;
-		canvas.height = 910;
+		canvas.width = 1050;
+		canvas.height = 1050;
 		const ctx = canvas.getContext("2d");
 		ctx.clearRect(0, 0, canvas.width, canvas.height);
 		ctx.fillStyle = "#DDEEFF";
@@ -105,20 +105,20 @@
 		board.putStartPieces(1, "シャンチー");
 		board.putStartPieces(2, "チェス");
 		board.putStartPieces(3, "マークルック");
-		board.putPiece("士", 5, 5);
-		board.putPiece("車", 5, 4);
-		board.putPiece("卆", 6, 4);
-		board.putPiece("象", 6, 5, 90);
-		board.putPiece("包", 7, 5, 90);
-		board.putPiece("卆", 7, 6, 90);
-		board.putPiece("馭", 7, 7, 90);
-		board.putPiece("楚", 6, 6, 180);
-		board.putPiece("車", 6, 7, 180);
-		board.putPiece("卆", 5, 7, 180);
-		board.putPiece("象", 5, 6, 270);
-		board.putPiece("包", 4, 6, 270);
-		board.putPiece("卆", 4, 5, 270);
-		board.putPiece("馭", 4, 4, 270);
+		board.putPiece("士", 6, 6);
+		board.putPiece("車", 6, 5);
+		board.putPiece("卆", 7, 5);
+		board.putPiece("象", 7, 6, 90);
+		board.putPiece("包", 8, 6, 90);
+		board.putPiece("卆", 8, 7, 90);
+		board.putPiece("馭", 8, 8, 90);
+		board.putPiece("楚", 7, 7, 180);
+		board.putPiece("車", 7, 8, 180);
+		board.putPiece("卆", 6, 8, 180);
+		board.putPiece("象", 6, 7, 270);
+		board.putPiece("包", 5, 7, 270);
+		board.putPiece("卆", 5, 6, 270);
+		board.putPiece("馭", 5, 5, 270);
 		board.draw();
 		textareaMini.value = board.outputText(true);
 		textarea.value = board.outputText();
