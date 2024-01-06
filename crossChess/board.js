@@ -83,9 +83,10 @@ class Board{
 	 * @param {number} x - X方向配置位置(マス目基準)
 	 * @param {number} y - Y方向配置位置(マス目基準)
 	 * @param {number} deg - 駒の配置角
+	 * @param {number} displayPtn - 表示文字列を変更(1〜)
 	 */
-	putNewPiece(piece, x, y, deg){
-		if(typeof piece === "string") piece = new Piece(this.ctx, pieces[piece], deg)
+	putNewPiece(piece, x, y, deg, displayPtn=0){
+		if(typeof piece === "string") piece = new Piece(this.ctx, pieces[piece], displayPtn, deg)
 		this.field[y][x].piece = piece;
 	}
 

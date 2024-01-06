@@ -2,7 +2,7 @@ const pieces = {
 	"歩": {
 		"name": "歩兵",
 		"display": ["歩兵"],
-		"game": "将棋",
+		"gameName": "将棋",
 		"group": "兵",
 		"attr": ["capture"],
 		"range": {
@@ -38,7 +38,7 @@ const pieces = {
 	"香": {
 		"name": "香車",
 		"display": ["香車"],
-		"game": "将棋",
+		"gameName": "将棋",
 		"group": "車",
 		"attr": ["capture"],
 		"range": {
@@ -74,7 +74,7 @@ const pieces = {
 	"桂": {
 		"name": "桂馬",
 		"display": ["桂馬"],
-		"game": "将棋",
+		"gameName": "将棋",
 		"group": "馬",
 		"attr": ["capture"],
 		"range": {
@@ -110,7 +110,7 @@ const pieces = {
 	"銀": {
 		"name": "銀将",
 		"display": ["銀将", "銀將"],
-		"game": "将棋",
+		"gameName": "将棋",
 		"group": "象",
 		"attr": ["capture"],
 		"range": {
@@ -145,7 +145,7 @@ const pieces = {
 	"金": {
 		"name": "金将",
 		"display": ["金将", "金將"],
-		"game": "将棋",
+		"gameName": "将棋",
 		"group": "将",
 		"attr": ["capture"],
 		"range": {
@@ -163,7 +163,7 @@ const pieces = {
 	"角": {
 		"name": "角行",
 		"display": ["角行"],
-		"game": "将棋",
+		"gameName": "将棋",
 		"group": "象",
 		"attr": ["capture"],
 		"range": {
@@ -198,7 +198,7 @@ const pieces = {
 	"飛": {
 		"name": "飛車",
 		"display": ["飛車"],
-		"game": "将棋",
+		"gameName": "将棋",
 		"group": "車",
 		"attr": ["capture"],
 		"range": {
@@ -235,7 +235,7 @@ const pieces = {
 		"name": "玉将",
 		"display": ["玉將", "王將", "玉将", "王将"],
 		"alias": ["皇"],
-		"game": "将棋",
+		"gameName": "将棋",
 		"group": "王",
 		"attr": ["capture"],
 		"range": {
@@ -253,7 +253,7 @@ const pieces = {
 	"兵": {
 		"name": "ポーン",
 		"display": ["♟兵", "♙兵"],
-		"game": "チェス",
+		"gameName": "チェス",
 		"group": "兵",
 		"range": {
 			"default": [
@@ -350,7 +350,7 @@ const pieces = {
 	"騎": {
 		"name": "ナイト",
 		"display": ["♞騎", "♘騎"],
-		"game": "チェス",
+		"gameName": "チェス",
 		"group": "馬",
 		"range": {
 			"default": [
@@ -367,7 +367,7 @@ const pieces = {
 	"聖": {
 		"name": "ビショップ",
 		"display": ["♝聖", "♗聖"],
-		"game": "チェス",
+		"gameName": "チェス",
 		"group": "象",
 		"range": {
 			"default": [
@@ -384,7 +384,7 @@ const pieces = {
 	"塔": {
 		"name": "ルーク",
 		"display": ["♜塔", "♖塔"],
-		"game": "チェス",
+		"gameName": "チェス",
 		"group": "車",
 		"range": {
 			"default": [
@@ -401,7 +401,7 @@ const pieces = {
 	"后": {
 		"name": "クイーン",
 		"display": ["♛后", "♕后"],
-		"game": "チェス",
+		"gameName": "チェス",
 		"group": "将",
 		"range": {
 			"default": [
@@ -419,7 +419,7 @@ const pieces = {
 		"name": "キング",
 		"display": ["♚王", "♔王"],
 		"alias": ["帝"],
-		"game": "チェス",
+		"gameName": "チェス",
 		"group": "王",
 		"range": {
 			"default": [
@@ -436,7 +436,7 @@ const pieces = {
 	"卒": {
 		"name": "卒:象棋",
 		"display": ["○卒", "○兵", "卒", "兵"],
-		"game": "シャンチー",
+		"gameName": "シャンチー",
 		"group": "兵",
 		"range": {
 			"default": [
@@ -471,7 +471,7 @@ const pieces = {
 		"name": "炮",
 		"display": ["○炮", "○砲", "炮", "砲"],
 		"alias": ["砲"],
-		"game": "シャンチー",
+		"gameName": "シャンチー",
 		"group": "車",
 		"range": {
 			"default": [
@@ -498,7 +498,7 @@ const pieces = {
 		"name": "傌",
 		"display": ["○傌", "○傌", "○馬", "傌", "馬"],
 		"alias": ["傌"],
-		"game": "シャンチー",
+		"gameName": "シャンチー",
 		"group": "馬",
 		"range": {
 			"default": [
@@ -515,7 +515,7 @@ const pieces = {
 	"相": {
 		"name": "相",
 		"display": ["○相", "○象", "相", "象"],
-		"game": "シャンチー",
+		"gameName": "シャンチー",
 		"group": "象",
 		"range": {
 			"default": [
@@ -532,7 +532,7 @@ const pieces = {
 	"俥": {
 		"name": "俥",
 		"display": ["○俥", "○車", "俥", "車"],
-		"game": "シャンチー",
+		"gameName": "シャンチー",
 		"group": "車",
 		"range": {
 			"default": [
@@ -549,7 +549,7 @@ const pieces = {
 	"仕": {
 		"name": "仕",
 		"display": ["○仕", "○士", "仕", "士"],
-		"game": "シャンチー",
+		"gameName": "シャンチー",
 		"group": "将",
 		"attr": ["palace"],
 		"range": {
@@ -568,7 +568,7 @@ const pieces = {
 		"name": "帥",
 		"display": ["⊕帥", "⊕將", "帥", "將"],
 		"alias": ["將"],
-		"game": "シャンチー",
+		"gameName": "シャンチー",
 		"group": "王",
 		"attr": ["palace"],
 		"range": {
@@ -586,7 +586,7 @@ const pieces = {
 	"卆": {
 		"name": "卒:將棋",
 		"display": ["⬡卆", "⬡卒", "卆", "卒"],
-		"game": "チャンギ",
+		"gameName": "チャンギ",
 		"group": "兵",
 		"range": {
 			"default": [
@@ -603,7 +603,7 @@ const pieces = {
 	"包": {
 		"name": "包",
 		"display": ["⬡包", "包"],
-		"game": "チャンギ",
+		"gameName": "チャンギ",
 		"group": "車",
 		"range": {
 			"default": [
@@ -621,7 +621,7 @@ const pieces = {
 		"name": "馬",
 		"display": ["⬡马", "⬡马", "⬡馭", "⬡馬", "马", "馭", "馬"], 
 		"alias": ["马"],
-		"game": "チャンギ",
+		"gameName": "チャンギ",
 		"group": "馬",
 		"range": {
 			"default": [
@@ -638,7 +638,7 @@ const pieces = {
 	"象": {
 		"name": "象",
 		"display": ["⬡象", "象"],
-		"game": "チャンギ",
+		"gameName": "チャンギ",
 		"group": "象",
 		"range": {
 			"default": [
@@ -656,7 +656,7 @@ const pieces = {
 		"name": "車",
 		"display": ["⬡车", "⬡车", "⬡車", "车", "車"],
 		"alias": ["车"],
-		"game": "チャンギ",
+		"gameName": "チャンギ",
 		"group": "車",
 		"range": {
 			"default": [
@@ -691,7 +691,7 @@ const pieces = {
 	"士": {
 		"name": "士",
 		"display": ["⬡士", "士"],
-		"game": "チャンギ",
+		"gameName": "チャンギ",
 		"group": "将",
 		"attr": ["palace"],
 		"range": {
@@ -728,7 +728,7 @@ const pieces = {
 		"name": "楚",
 		"display": ["⏣楚", "⏣漢", "楚", "漢"],
 		"alias": ["漢"],
-		"game": "チャンギ",
+		"gameName": "チャンギ",
 		"group": "王",
 		"attr": ["palace"],
 		"range": {
@@ -764,7 +764,7 @@ const pieces = {
 	"貝": {
 		"name": "ビア",
 		"display": ["⛀貝", "◎貝"],
-		"game": "マークルック",
+		"gameName": "マークルック",
 		"group": "兵",
 		"range": {
 			"default": [
@@ -817,7 +817,7 @@ const pieces = {
 	"瑪": {
 		"name": "マー",
 		"display": ["🐴瑪"],
-		"game": "マークルック",
+		"gameName": "マークルック",
 		"group": "馬",
 		"range": {
 			"default": [
@@ -834,7 +834,7 @@ const pieces = {
 	"根": {
 		"name": "コーン",
 		"display": ["Δ根"],
-		"game": "マークルック",
+		"gameName": "マークルック",
 		"group": "象",
 		"range": {
 			"default": [
@@ -851,7 +851,7 @@ const pieces = {
 	"船": {
 		"name": "ルアー",
 		"display": ["⌓船"],
-		"game": "マークルック",
+		"gameName": "マークルック",
 		"group": "車",
 		"range": {
 			"default": [
@@ -868,7 +868,7 @@ const pieces = {
 	"種": {
 		"name": "メット",
 		"display": ["▵種"],
-		"game": "マークルック",
+		"gameName": "マークルック",
 		"group": "将",
 		"range": {
 			"default": [
@@ -894,7 +894,7 @@ const pieces = {
 	},
 	"君": {
 		"name": "クン",
-		"game": "マークルック",
+		"gameName": "マークルック",
 		"display": ["△君", "▲君", "△公", "▲公"],
 		"alias": ["公"],
 		"group": "王",

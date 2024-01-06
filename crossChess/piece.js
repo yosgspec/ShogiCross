@@ -35,6 +35,16 @@ class Piece{
 		}
 	}
 
+	/** 駒の一覧をリストで取得 */
+	static piecesToList(){
+		return Object.entries(pieces)
+			.sort(([_,{id:a}], [__,{id:b}])=>
+				Math.sign(a-b)
+			).map(([_, piece])=>
+				piece
+			);
+	}
+
 	/** 駒の角度(deg/rad) */
 	set deg(value){
 		this.rad = value%360*Math.PI/180;
@@ -46,15 +56,17 @@ class Piece{
 	/**
 	 * @param {any} ctx - Canvas描画コンテキスト
 	 * @param {{[s:string]:any}} piece - 駒
+	 * @param {number} displayPtn - 表示文字列を変更(1〜)
 	 * @param {number} deg - パネル角度
 	 * @param {number} size - パネルサイズ
 	 */
-	constructor(ctx, piece, deg=0, size=Piece.size){
+	constructor(ctx, piece, displayPtn=0, deg=0, size=Piece.size){
 		Object.assign(this, piece);
 		this.ctx = ctx;
-		if(typeof this.game === "string") this.game = games[this.game];
+		this.game = games[this.gameName];
+		this.displayPtn = displayPtn;
+		if(displayPtn!=0) throw Error();
 		this.size = size;
-		this.zoom = size/100;
 		this.deg = deg;
 	}
 
@@ -76,21 +88,20 @@ class Piece{
 
 	/** 駒をクローン */
 	clone(){
-		return new Piece(this.ctx, this, this.deg, this.size);
+		return new Piece(this.ctx, this, this.displayPtn, this.deg, this.size);
 	}
 
 	/**駒を描写
 	 * @param {number} x - 描写するX座標(中心原点)
 	 * @param {number} y - 描写するY座標(中心原点)
-	 * @param {number} displayNo - 表示文字列を変更(1〜)
 	 */
-	draw(x, y, displayNo=0){
+	draw(x, y, size=this.size){
 		const ctx = this.ctx;
-		const zoom = this.zoom;
+		const zoom = size/100;
 		ctx.strokeStyle = "#777777";
 
 		ctx.fillStyle   = this.game.backgroundColor;
-		ctx.lineWidth = 5;
+		ctx.lineWidth = 8*zoom;
 		ctx.save();
 		ctx.translate(x, y);
 		ctx.rotate(this.rad);
@@ -108,7 +119,8 @@ class Piece{
 
 		/* 文字を描写 */
 		ctx.fillStyle = this.game.fontColor;
-		const text = [...this.display[displayNo]];
+		console.log(this.displayPtn)
+		const text = [...this.display[this.displayPtn]];
 		const fontSize = 40*zoom;
 		ctx.font = `${fontSize}px ${canvasFont.fontStr}`;
 		ctx.textAlign = "center";
