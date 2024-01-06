@@ -1,3 +1,7 @@
+// import pieces from "./json/piece.json" assert { type: "json" };
+// import games from "./json/games.json" assert { type: "json" };
+// import canvasFont from "./json/canvasFont.json" assert { type: "json" };
+
 /** 駒の管理クラス */
 class Piece{
 	/** 駒データを初期化
@@ -62,7 +66,6 @@ class Piece{
 		this.ctx = ctx;
 		this.game = games[this.gameName];
 		this.displayPtn = displayPtn;
-		if(displayPtn!=0) throw Error();
 		this.size = size;
 		this.deg = deg;
 	}
@@ -116,7 +119,6 @@ class Piece{
 
 		/* 文字を描写 */
 		ctx.fillStyle = this.game.fontColor;
-		console.log(this.displayPtn)
 		const text = [...this.display[this.displayPtn]];
 		const fontSize = 40*zoom;
 		ctx.font = `${fontSize}px ${canvasFont.fontStr}`;

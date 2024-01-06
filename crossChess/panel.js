@@ -1,3 +1,5 @@
+// import canvasFont from "./json/canvasFont.json" assert { type: "json" };
+
 /** マス目の管理クラス */
 class Panel{
 	/**
@@ -7,7 +9,7 @@ class Panel{
 	 * @param {number} dy - パネル高さ
 	 */
 	constructor(ctx, panel, dx, dy){
-		Object.assign(this, panel)
+		Object.assign(this, panel);
 		this.ctx = ctx;
 		this.dx = dx;
 		this.dy = dy;
@@ -30,7 +32,7 @@ class Panel{
 		ctx.strokeRect(0, 0, this.dx, this.dy);
 
 		/* 斜線を描写 */
-		ctx.beginPath()
+		ctx.beginPath();
 		if(this.borderSlushLeft){
 			ctx.moveTo(0, 0);
 			ctx.lineTo(this.dx, this.dy);
@@ -40,7 +42,7 @@ class Panel{
 			ctx.lineTo(0, this.dy);
 		}
 		ctx.closePath();
-		ctx.stroke()
+		ctx.stroke();
 		ctx.restore();
 
 		/* 文字を描写 */

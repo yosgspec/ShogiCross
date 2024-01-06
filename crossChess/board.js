@@ -1,3 +1,8 @@
+// import boards from "./json/boards.json" assert { type: "json" };
+// import panels from "./json/panels.json" assert { type: "json" };
+// import pieces from "./json/pieces.json" assert { type: "json" };
+// import games from "./json/games.json" assert { type: "json" };
+
 /** 盤の管理クラス */
 class Board{
 	/** テキスト出力時のプレイヤー表示 */
