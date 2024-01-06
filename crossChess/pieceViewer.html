@@ -1,0 +1,89 @@
+<html>
+	<head>
+		<!-- Global site tag (gtag.js) - Google Analytics -->
+		<script async src="https://www.googletagmanager.com/gtag/js?id=UA-46760069-2"></script>
+		<script>
+			window.dataLayer = window.dataLayer || [];
+			function gtag(){dataLayer.push(arguments);}
+			gtag('js', new Date());
+			gtag('config', 'UA-46760069-2');
+		</script>
+
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<meta name="viewport" content="width=device-width" />
+		<title>Cross Chess Piece Viewer</title>
+		<link rel=icon href="../favicon.ico">
+		<link href="../gspec20.css" rel="stylesheet">
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=Kosugi&family=Noto+Serif+JP:wght@900&family=Noto+Serif:wght@900&display=swap" rel="stylesheet">
+		<style>
+			body {
+				font-family:"Noto Serif JP","Noto Serif",serif;
+				font-size: 50px;
+				color: #000099;
+				background-color: #3399FF;
+				line-height: 1.1em;
+				font-weight: 900;
+			}
+			input, select, textarea {
+				font-family:"Noto Serif JP","Noto Serif",serif;
+				font-size: 40px;
+				color: #000099;
+				background-color: #EEFFFF;
+			}
+			textarea {
+				font-family: "Kosugi",monospace;
+			}
+		</style>
+	</head>
+	<body>
+		<h2><u>Cross Chess Piece Viewer</u></h2>
+		Piece:<br>
+		<select id="pieceSelect" style="width: 600px;"></select><br>
+		Size:<br>
+		<input id="pieceSize" style="width: 100px;" value="300"> px<br>
+		Canvas View:<br>
+		<canvas id="pieceViewer"></canvas><br>
+		Range:<br>
+		<textarea id="pieceRange"readonly style="width:300px;height:8em;"></textarea>
+		<script src="./json/games.json.js"></script>
+		<script src="./json/pieces.json.js"></script>
+		<script src="./json/pieceCost.json.js"></script>
+		<script src="./json/panels.json.js"></script>
+		<script src="./json/boards.json.js"></script>
+		<script src="./json/canvasFont.json.js"></script>
+		<script src="./extendCanvasFonts.js"></script>
+		<script src="./board.js"></script>
+		<script src="./panel.js"></script>
+		<script src="./piece.js"></script>
+		<script>
+			const canvas = document.getElementById("pieceViewer");
+			const pieceSelect = document.getElementById("pieceSelect");
+			const pieceSize = document.getElementById("pieceSize");
+			const pieceRange = document.getElementById("pieceRange");
+			const ctx = canvas.getContext("2d");
+			Piece.init(ctx, 100);
+			Piece.piecesToList().forEach(([key, {name, gameName}])=>{
+				const opt = document.createElement("option");
+				opt.value = key;
+				opt.textContent = `${key}:${name} (${gameName})`;
+				pieceSelect.appendChild(opt);
+			});
+			canvasFont.import().then(pieceView);
+			pieceSelect.addEventListener("change", pieceView);
+			pieceSize.addEventListener("change", pieceView);
+
+			function pieceView(){
+				let size = +pieceSize.value;
+				if(isNaN(size) || !pieceSize.value) size = 300;
+				console.log(pieces);
+				canvas.width = size;
+				canvas.height = size;
+				ctx.clearRect(0, 0, size, size);
+				pieces[pieceSelect.value].draw(size/2, size/2, size*0.9);
+				pieceRange.value = pieces[pieceSelect.value].range.default.join("\n");
+			}
+		</script>
+	</body>
+</html>

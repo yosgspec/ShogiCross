@@ -27,7 +27,7 @@ class Piece{
 			base.alias.forEach((aliasChar, i)=>{
 				const alias = base.clone();
 				const display = [...alias.display];
-				[display[0], display[i+1]] = [display[i+1], display[0]];
+				alias.displayPtn = i+1;
 				alias.display = display;
 				alias.alias[i] = baseChar;
 				pieces[aliasChar] = alias;
@@ -39,10 +39,7 @@ class Piece{
 	static piecesToList(){
 		return Object.entries(pieces)
 			.sort(([_,{id:a}], [__,{id:b}])=>
-				Math.sign(a-b)
-			).map(([_, piece])=>
-				piece
-			);
+				Math.sign(a-b));
 	}
 
 	/** 駒の角度(deg/rad) */
