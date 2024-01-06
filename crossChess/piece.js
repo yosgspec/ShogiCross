@@ -1,6 +1,9 @@
-/* 駒の管理クラス */
+/** 駒の管理クラス */
 class Piece{
-	/* 駒データを初期化 */
+	/** 駒データを初期化
+	 * @param {any} ctx - Canvas描画コンテキスト
+	 * @param {number} size - 描写サイズ
+	 */
 	static init(ctx, size){
 		Piece.size = size;
 		/* 成駒のデータを統合 */
@@ -32,7 +35,7 @@ class Piece{
 		}
 	}
 
-	/* 駒の角度(deg/rad) */
+	/** 駒の角度(deg/rad) */
 	set deg(value){
 		this.rad = value%360*Math.PI/180;
 	}
@@ -40,6 +43,12 @@ class Piece{
 		return this.rad%360/(Math.PI/180);
 	}
 
+	/**
+	 * @param {any} ctx - Canvas描画コンテキスト
+	 * @param {{[s:string]:any}} piece - 駒
+	 * @param {number} deg - パネル角度
+	 * @param {number} size - パネルサイズ
+	 */
 	constructor(ctx, piece, deg=0, size=Piece.size){
 		Object.assign(this, piece);
 		this.ctx = ctx;
@@ -49,12 +58,14 @@ class Piece{
 		this.deg = deg;
 	}
 
-	/* 駒を表返す */
+	/** 駒を表返す */
 	turnOverFront(){
 		Object.assign(this, this.base);
 	}
 
-	/* 駒を成らす */
+	/** プロモーション
+	 * @param {string} promo - 成り先の文字
+	 */
 	promotion(promo){
 		if(!this.promo) throw Error(`promo=${promo}, Not plomote piece.`);
 		if(!promo in this.promo) throw Error(`promo=${promo}, Plomote key is missing.`);
@@ -63,12 +74,16 @@ class Piece{
 		this.group = "成";
 	}
 
-	/* 駒をクローン */
+	/** 駒をクローン */
 	clone(){
 		return new Piece(this.ctx, this, this.deg, this.size);
 	}
 
-	/* 駒を描写 */
+	/**駒を描写
+	 * @param {number} x - 描写するX座標(中心原点)
+	 * @param {number} y - 描写するY座標(中心原点)
+	 * @param {number} displayNo - 表示文字列を変更(1〜)
+	 */
 	draw(x, y, displayNo=0){
 		const ctx = this.ctx;
 		const zoom = this.zoom;

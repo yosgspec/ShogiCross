@@ -1,13 +1,22 @@
 /** 盤の管理クラス */
 class Board{
-	/* テキスト出力時のプレイヤー表示 */
-	degSymbols = {
+	/** テキスト出力時のプレイヤー表示 */
+	degChars = {
 		0: "▲",
 		90: "≫",
 		180: "▽",
 		270: "＜"
 	};
 
+	/**
+	 * @param {any} ctx - Canvas描画コンテキスト
+	 * @param {string} boardName - ボードタイプ
+	 * @param {number} x0 - 描写するX座標
+	 * @param {number} y0 - 描写するY座標
+	 * @param {number} dx - パネル幅
+	 * @param {number} dy - パネル高さ
+	 * @param {number} players - プレイヤー人数(2 or 4)
+	 */
 	constructor(ctx, boardName, x0, y0, dx, dy, players = 2){
 		Object.assign(this, boards[boardName]);
 		this.ctx = ctx;
@@ -23,11 +32,13 @@ class Board{
 		this.yLen = this.field.length;
 	}
 
-	/* 駒配置を回転 */
+	/** 駒配置を回転
+	 * @param {number} deg - 回転角 (90の倍数)
+	 */
 	rotateField(deg){
 		deg = (deg+360)%360;
 		if(deg === 0) return;
-		if(![90, 180, 270].includes(deg)) throw Error(`deg=${deg}, deg need 90 or 180 or 270.`);
+		if(![90, 180, 270].includes(deg)) throw Error(`deg=${deg}, deg need multiple of 90.`);
 		if([90, 270].includes(deg)){
 			// 2次配列を転置
 			const transpose = a => a[0].map((_, c) => a.map(r => r[c]));
@@ -47,7 +58,11 @@ class Board{
 		});
 	}
 
-	/* 駒の初期配置 */
+	/** 駒の初期配置
+	 * {number} playerId - プレイヤー番号
+	 * {string} pieceSet - 駒の配置セット
+	 * {string} ptn - 駒の配置パターン変更
+	 */
 	putStartPieces(playerId, pieceSet, ptn="default"){
 		const deg = 0|playerId*360/this.players;
 		this.rotateField(deg);
@@ -63,13 +78,20 @@ class Board{
 		this.rotateField(-deg);
 	}
 
-	/* 駒の配置 */
-	putPiece(piece, x, y, deg){
+	/** 駒の配置
+	 * @param {string} piece - 駒の表現文字
+	 * @param {number} x - X方向配置位置(マス目基準)
+	 * @param {number} y - Y方向配置位置(マス目基準)
+	 * @param {number} deg - 駒の配置角
+	 */
+	putNewPiece(piece, x, y, deg){
 		if(typeof piece === "string") piece = new Piece(this.ctx, pieces[piece], deg)
 		this.field[y][x].piece = piece;
 	}
 
-	/* 駒配置をテキストで取得 */
+	/** 駒配置をテキストで取得
+	 * {boolean} isMinimam - 縮小表示
+	 */
 	outputText(isMinimam=false){
 		let header = "";
 		let footer = "";
@@ -94,7 +116,7 @@ class Board{
 				row.map(panel=>{
 					const piece = panel.piece;
 					if(!piece) return panelText(panel);
-					return this.degSymbols[piece.deg] + piece.char;
+					return this.degChars[piece.deg] + piece.char;
 				}).join(panelSep)+
 				panelOuter
 			).join(rowSep)+
@@ -102,7 +124,7 @@ class Board{
 		);
 	}
 
-	/* 盤を描写 */
+	/** 盤を描写 */
 	draw(){
 		const ctx = this.ctx;
 

@@ -1,5 +1,11 @@
 /** マス目の管理クラス */
 class Panel{
+	/**
+	 * @param {any} ctx - Canvas描画コンテキスト
+	 * @param {{[s:string]:any}} panel - マス目
+	 * @param {number} dx - パネル幅
+	 * @param {number} dy - パネル高さ
+	 */
 	constructor(ctx, panel, dx, dy){
 		Object.assign(this, panel)
 		this.ctx = ctx;
@@ -8,7 +14,10 @@ class Panel{
 		this.piece = null;
 	}
 
-	/* マス目を描写 */
+	/** マス目を描写
+	 * @param {number} x - 描写するX座標(中心原点)
+	 * @param {number} y - 描写するY座標(中心原点)
+	 */
 	draw(x, y){
 		const ctx = this.ctx;
 		ctx.fillStyle = this.backgroundColor;
