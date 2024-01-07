@@ -31,8 +31,15 @@ class Board{
 		this.dy = dy;
 		if(![2, 4].includes(players)) throw Error(`players=${players}, players need 2 or 4.`);
 		this.players = players;
-		this.field = this.field.map(row=>
-			[...row].map(v=>new Panel(ctx, panels[v], dx, dy)));
+
+		// マス目データを構築
+		this.field = this.field.map((row, y)=>
+			[...row].map((char, x)=>{
+				const xc = x0+dx*(x+1);
+				const yc = y0+dy*(y+1)
+				return new Panel(ctx, panels[char], xc, yc, dx, dy);
+			})
+		);
 		this.xLen = this.field[0].length;
 		this.yLen = this.field.length;
 	}
@@ -77,7 +84,9 @@ class Board{
 			[...row].forEach((v, x)=>{
 				if(!pieces[v]) return;
 				const piece = pieces[v].clone();
-				this.field[y][x].piece = piece;
+				const panel = this.field[y][x];
+				piece.setCenterXY(panel.xc, panel.yc);
+				panel.piece = piece;
 			});
 		});
 		this.rotateField(-deg);
@@ -92,8 +101,12 @@ class Board{
 	 */
 	putNewPiece(piece, x, y, playeaIdOrDeg, displayPtn=0, setDeg=false){
 		const deg = !setDeg? playeaIdOrDeg*90: playeaIdOrDeg;
-		if(typeof piece === "string") piece = new Piece(this.ctx, pieces[piece], displayPtn, deg)
-		this.field[y][x].piece = piece;
+		if(typeof piece === "string"){
+			piece = new Piece(this.ctx, pieces[piece], displayPtn, deg);
+		}
+		const panel = this.field[y][x];
+		piece.setCenterXY(panel.xc, panel.yc);
+		panel.piece = piece;
 	}
 
 	/** 駒配置をテキストで取得
@@ -135,7 +148,7 @@ class Board{
 	draw(){
 		const ctx = this.ctx;
 
-		/* 外枠を描写 */
+		// 外枠を描写
 		ctx.fillStyle = this.backgroundColor;
 		ctx.strokeStyle = this.borderColor;
 		ctx.lineWidth = this.borderWidth;
@@ -150,14 +163,12 @@ class Board{
 		ctx.strokeRect(0, 0, boardWidth-this.dx, boardHeight-this.dy);
 		ctx.restore();
 
-		/* マス目を描写 */
-		this.field.forEach((row, y)=>{
-			row.forEach((panel, x)=>{
-				const xCenter = this.x0+this.dx*(x+1);
-				const yCenter = this.y0+this.dy*(y+1)
-				panel.draw(xCenter, yCenter);
+		// マス目を描写
+		this.field.forEach(row=>{
+			row.forEach(panel=>{
+				panel.draw();
 				if(!panel.piece) return;
-				panel.piece.draw(xCenter, yCenter);
+				panel.piece.draw();
 			});
 		});
 	}

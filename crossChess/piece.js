@@ -19,13 +19,13 @@ class Piece{
 				pieces[promoChar].group = "成";
 			}
 		}
-		/* 駒をクラスオブジェクトに変換 */
+		// 駒をクラスオブジェクトに変換
 		Object.entries(pieces).map(([key, piece], i)=>{
 			piece.id = i;
 			piece.char = key;
 			pieces[key] = new Piece(ctx, piece);
 		});
-		/* エイリアスのデータを統合 */
+		// エイリアスのデータを統合
 		for(const [baseChar, base] of Object.entries(pieces)){
 			if(!base.alias) continue;
 			base.alias.forEach((aliasChar, i)=>{
@@ -66,8 +66,19 @@ class Piece{
 		this.ctx = ctx;
 		this.game = games[this.gameName];
 		this.displayPtn = displayPtn;
+		this.xc = 0;
+		this.yc = 0;
 		this.size = size;
 		this.deg = deg;
+	}
+
+	/** 描写座標を設定
+	 * @param {number} xc - 描写するX座標(中心原点)
+	 * @param {number} yc - 描写するY座標(中心原点)
+	 */
+	setCenterXY(xc, yc){
+		this.xc = xc;
+		this.yc = yc;
 	}
 
 	/** 駒を表返す */
@@ -91,11 +102,10 @@ class Piece{
 		return new Piece(this.ctx, this, this.displayPtn, this.deg, this.size);
 	}
 
-	/**駒を描写
-	 * @param {number} x - 描写するX座標(中心原点)
-	 * @param {number} y - 描写するY座標(中心原点)
+	/** 駒を描写
+	 * @param {number} size - 描写するサイズ
 	 */
-	draw(x, y, size=this.size){
+	draw(size=this.size){
 		const ctx = this.ctx;
 		const zoom = size/100;
 		ctx.strokeStyle = "#777777";
@@ -103,7 +113,7 @@ class Piece{
 		ctx.fillStyle   = this.game.backgroundColor;
 		ctx.lineWidth = 8*zoom;
 		ctx.save();
-		ctx.translate(x, y);
+		ctx.translate(this.xc, this.yc);
 		ctx.rotate(this.rad);
 
 		/* 外枠を描写 */

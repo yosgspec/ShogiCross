@@ -5,33 +5,38 @@ class Panel{
 	/**
 	 * @param {any} ctx - Canvas描画コンテキスト
 	 * @param {{[s:string]:any}} panel - マス目
+	 * @param {number} xc - 描写するX座標(中心原点)
+	 * @param {number} yc - 描写するY座標(中心原点)
 	 * @param {number} dx - パネル幅
 	 * @param {number} dy - パネル高さ
 	 */
-	constructor(ctx, panel, dx, dy){
+	constructor(ctx, panel, xc, yc, dx, dy){
 		Object.assign(this, panel);
 		this.ctx = ctx;
+		this.xc = xc;
+		this.yc = yc;
 		this.dx = dx;
 		this.dy = dy;
 		this.piece = null;
+		this.isEffect = true;
 	}
 
 	/** マス目を描写
 	 * @param {number} x - 描写するX座標(中心原点)
 	 * @param {number} y - 描写するY座標(中心原点)
 	 */
-	draw(x, y){
+	draw(){
 		const ctx = this.ctx;
 		ctx.fillStyle = this.backgroundColor;
 		ctx.strokeStyle = this.borderColor;
 
-		/* マス目を描写 */
+		// マス目を描写
 		ctx.save();
-		ctx.translate(x-this.dx/2, y-this.dy/2);
+		ctx.translate(this.xc-this.dx/2, this.yc-this.dy/2);
 		ctx.fillRect(0, 0, this.dx, this.dy);
 		ctx.strokeRect(0, 0, this.dx, this.dy);
 
-		/* 斜線を描写 */
+		// 斜線を描写
 		ctx.beginPath();
 		if(this.borderSlushLeft){
 			ctx.moveTo(0, 0);
@@ -45,10 +50,10 @@ class Panel{
 		ctx.stroke();
 		ctx.restore();
 
-		/* 文字を描写 */
+		// 文字を描写
 		if(this.textDisplay){
 			ctx.save();
-			ctx.translate(x, y);
+			ctx.translate(this.cx, this.cy);
 			ctx.fillStyle = this.borderColor;
 
 			const rad = this.textRotate? this.textRotate*Math.PI/180: 0;
