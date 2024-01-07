@@ -104,15 +104,13 @@ class Piece{
 		return new Piece(this.ctx, this, this.displayPtn, this.deg, this.size);
 	}
 
-	/** 駒を描写
-	 * @param {number} size - 描写するサイズ
-	 */
-	draw(size=this.size){
+	/** 駒を描写 */
+	draw(){
 		const ctx = this.ctx;
-		const zoom = size/100;
+		const zoom = this.size/100;
 		ctx.strokeStyle = "#777777";
 
-		ctx.fillStyle   = this.game.backgroundColor;
+		ctx.fillStyle = this.game.backgroundColor;
 		ctx.lineWidth = 8*zoom;
 		ctx.save();
 		ctx.translate(this.center, this.middle);
@@ -140,6 +138,31 @@ class Piece{
 			const height = text.length === 1? fontSize/2: i*fontSize;
 			ctx.fillText(v, 0, height);
 		});
+
+		ctx.restore();
+	}
+
+	/** 駒にマスクを描写
+	 * @param {string} color - カラーエフェクトの色
+	 */
+	drawMask(color){
+		const ctx = this.ctx;
+		const zoom = this.size/100;
+
+		ctx.fillStyle = color;
+		ctx.save();
+		ctx.translate(this.center, this.middle);
+		ctx.rotate(this.rad);
+
+		/* 外枠を描写 */
+		ctx.beginPath();
+		ctx.moveTo(-30*zoom,-40*zoom);
+		ctx.lineTo(  0*zoom,-50*zoom);
+		ctx.lineTo( 30*zoom,-40*zoom);
+		ctx.lineTo( 40*zoom, 50*zoom);
+		ctx.lineTo(-40*zoom, 50*zoom);
+		ctx.closePath();
+		ctx.fill();
 
 		ctx.restore();
 	}

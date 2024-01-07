@@ -174,7 +174,7 @@ class Board{
 		const ctx = this.ctx;
 
 		// 描写を初期化
-		ctx.clearRect(0, 0, this.canvas.panelWidth, this.canvas.panelHeight);
+		ctx.clearRect(this.left, this.top, this.right, this.bottom);
 
 		// 外枠を描写
 		ctx.fillStyle = this.backgroundColor;
@@ -194,7 +194,7 @@ class Board{
 			row.forEach(panel=>{
 				panel.draw();
 				if(panel.piece) panel.piece.draw();
-				if(panel.isSelected) panel.drawMask("#FF000077");
+				if(panel.isSelected) panel.drawMask("#FF000055");
 			});
 		});
 	}

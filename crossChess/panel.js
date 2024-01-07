@@ -49,8 +49,8 @@ class Panel{
 		// マス目を描写
 		ctx.save();
 		ctx.translate(this.left, this.top);
-		ctx.fillRect(0, 0, this.width, this.height);
 		ctx.strokeRect(0, 0, this.width, this.height);
+		ctx.fillRect(0, 0, this.width, this.height);
 
 		// 斜線を描写
 		ctx.beginPath();
