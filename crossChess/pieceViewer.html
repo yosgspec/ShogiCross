@@ -21,16 +21,12 @@
 			body {
 				font-family:"Noto Serif JP","Noto Serif",serif;
 				font-size: 50px;
-				color: #000099;
-				background-color: #3399FF;
 				line-height: 1.1em;
 				font-weight: 900;
 			}
 			input, select, textarea {
 				font-family:"Noto Serif JP","Noto Serif",serif;
 				font-size: 40px;
-				color: #000099;
-				background-color: #EEFFFF;
 			}
 			textarea {
 				font-family: "Kosugi",monospace;
@@ -46,7 +42,7 @@
 		Canvas View:<br>
 		<canvas id="pieceViewer"></canvas><br>
 		Range:<br>
-		<textarea id="pieceRange"readonly style="width:300px;height:8em;"></textarea>
+		<textarea id="pieceRange"readonly style="width:200px;height:8em;"></textarea>
 		<script src="./json/games.json.js"></script>
 		<script src="./json/pieces.json.js"></script>
 		<script src="./json/pieceCost.json.js"></script>
@@ -81,7 +77,9 @@
 				canvas.width = size;
 				canvas.height = size;
 				ctx.clearRect(0, 0, size, size);
-				pieces[pieceSelect.value].draw(size/2, size/2, size*0.9);
+				const piece = pieces[pieceSelect.value];
+				piece.setCenterXY(size/2, size/2);
+				piece.draw(size*0.9);
 				pieceRange.value = pieces[pieceSelect.value].range.default.join("\n");
 			}
 		</script>
