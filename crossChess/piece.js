@@ -68,19 +68,19 @@ class Piece{
 		this.ctx = ctx;
 		this.game = games[this.gameName];
 		this.displayPtn = displayPtn;
-		this.xc = 0;
-		this.yc = 0;
+		this.center = 0;
+		this.middle = 0;
 		this.size = size;
 		this.deg = deg;
 	}
 
 	/** 描写座標を設定
-	 * @param {number} xc - 描写するX座標(中心原点)
-	 * @param {number} yc - 描写するY座標(中心原点)
+	 * @param {number} center - 描写するX座標(中心原点)
+	 * @param {number} middle - 描写するY座標(中心原点)
 	 */
-	setCenterXY(xc, yc){
-		this.xc = xc;
-		this.yc = yc;
+	setCenterXY(center, middle){
+		this.center = center;
+		this.middle = middle;
 	}
 
 	/** 駒を表返す */
@@ -115,7 +115,7 @@ class Piece{
 		ctx.fillStyle   = this.game.backgroundColor;
 		ctx.lineWidth = 8*zoom;
 		ctx.save();
-		ctx.translate(this.xc, this.yc);
+		ctx.translate(this.center, this.middle);
 		ctx.rotate(this.rad);
 
 		/* 外枠を描写 */

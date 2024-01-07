@@ -8,9 +8,9 @@
 		canvas.width = 720;
 		canvas.height = 800;
 		const ctx = canvas.getContext("2d");
-		ctx.clearRect(0, 0, canvas.width, canvas.height);
+		ctx.clearRect(0, 0, canvas.panelWidth, canvas.panelHeight);
 		ctx.fillStyle = "#DDEEFF";
-		ctx.fillRect(0, 0, canvas.width, canvas.height);
+		ctx.fillRect(0, 0, canvas.panelWidth, canvas.panelHeight);
 	
 		boards["sample"] = {...boards["チェス"]}
 		boards["sample"].field = [
@@ -43,14 +43,14 @@
 			games["sample"].position[i] = {...pieceMap}
 		}
 
-		const size = 70;
-		const x0 = 0;
-		const y0 = 0;
-		const dx = 80;
-		const dy = 90;
-		Piece.init(ctx, size);
+		const pieceSize = 70;
+		const boardLeft = 0;
+		const boardTop = 0;
+		const panelWidth = 80;
+		const panelHeight = 90;
+		Piece.init(ctx, pieceSize);
 
-		const board = new Board(canvas, ctx, "sample", x0, y0, dx, dy);
+		const board = new Board(canvas, ctx, "sample", boardLeft, boardTop, panelWidth, panelHeight);
 		board.putStartPieces(0, "sample", "0");
 		board.putStartPieces(1, "sample", "1");
 		board.draw();
@@ -63,21 +63,21 @@
 		canvas.width = 540;
 		canvas.height = 620;
 		const ctx = canvas.getContext("2d");
-		ctx.clearRect(0, 0, canvas.width, canvas.height);
+		ctx.clearRect(0, 0, canvas.panelWidth, canvas.panelHeight);
 		ctx.fillStyle = "#DDEEFF";
-		ctx.fillRect(0, 0, canvas.width, canvas.height);
+		ctx.fillRect(0, 0, canvas.panelWidth, canvas.panelHeight);
 	
-		const size = 55;
-		const x0 = 0;
-		const y0 = 0;
-		const dx = 60;
-		const dy = 70;
-		Piece.init(ctx, size);
+		const pieceSize = 55;
+		const boardLeft = 0;
+		const boardTop = 0;
+		const panelWidth = 60;
+		const panelHeight = 70;
+		Piece.init(ctx, pieceSize);
 		console.log(pieces);
 
-		const board = new Board(canvas, ctx, "チェス", x0, y0, dx, dy);
+		const board = new Board(canvas, ctx, "チェス", boardLeft, boardTop, panelWidth, panelHeight);
 		board.putStartPieces(0,"将棋");
-		board.putStartPieces(1, "チャンギ", "left");
+		board.putStartPieces(1, "チャンギ", "boardLeft");
 		board.draw();
 
 		textareaMini.value = board.outputText(true);
@@ -88,19 +88,19 @@
 		canvas.width = 1050;
 		canvas.height = 1050;
 		const ctx = canvas.getContext("2d");
-		ctx.clearRect(0, 0, canvas.width, canvas.height);
+		ctx.clearRect(0, 0, canvas.panelWidth, canvas.panelHeight);
 		ctx.fillStyle = "#DDEEFF";
-		ctx.fillRect(0, 0, canvas.width, canvas.height);
+		ctx.fillRect(0, 0, canvas.panelWidth, canvas.panelHeight);
 	
-		const size = 55;
-		const x0 = 0;
-		const y0 = 0;
-		const dx = 70;
-		const dy = 70;
-		Piece.init(ctx, size);
+		const pieceSize = 40;
+		const boardLeft = 0;
+		const boardTop = 0;
+		const panelWidth = 50;
+		const panelHeight = 50;
+		Piece.init(ctx, pieceSize);
 		console.log(Object.values(pieces).sort(v=>v.id));
 
-		const board = new Board(canvas, ctx, "4人用", x0, y0, dx, dy, 4);
+		const board = new Board(canvas, ctx, "4人用", boardLeft, boardTop, panelWidth, panelHeight, 4);
 		board.putStartPieces(0, "将棋");
 		board.putStartPieces(1, "シャンチー");
 		board.putStartPieces(2, "チェス");

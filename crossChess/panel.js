@@ -2,7 +2,7 @@
 
 /** マス目の管理クラス */
 class Panel{
-	#isMask;
+	#isSelected;
 
 	/**
 	 * @param {any} ctx - Canvas描画コンテキスト
@@ -24,17 +24,17 @@ class Panel{
 		this.right = this.center+this.width/2;
 		this.bottom = this.middle+this.height/2;
 		this.piece = null;
-		this.isMask = false;
+		this.isSelected = false;
 	}
 
-	/** マスクの有無
+	/** マス目の選択状態
 	 * @param {boolean} value
 	 */
-	set isMask(value){
-		this.#isMask = this.attr.includes("keepOut")? false: value;
+	set isSelected(value){
+		this.#isSelected = this.attr.includes("keepOut")? false: value;
 	}
-	get isMask(){
-		return this.#isMask;
+	get isSelected(){
+		return this.#isSelected;
 	}
 
 	/** マス目を描写
@@ -89,8 +89,6 @@ class Panel{
 	 * @param {string} color - カラーエフェクトの色
 	 */
 	drawMask(color){
-		if(!this.isMask) return;
-
 		const ctx = this.ctx;
 		ctx.fillStyle = color;
 
