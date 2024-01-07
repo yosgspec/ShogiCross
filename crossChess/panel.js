@@ -2,6 +2,8 @@
 
 /** マス目の管理クラス */
 class Panel{
+	#isMask;
+
 	/**
 	 * @param {any} ctx - Canvas描画コンテキスト
 	 * @param {{[s:string]:any}} panel - マス目
@@ -18,7 +20,17 @@ class Panel{
 		this.dx = dx;
 		this.dy = dy;
 		this.piece = null;
-		this.isEffect = true;
+		this.isMask = false;
+	}
+
+	/** マスクの有無
+	 * @param {boolean} value
+	 */
+	set isMask(value){
+		this.#isMask = this.attr.includes("keepOut")? false: value;
+	}
+	get isMask(){
+		return this.#isMask;
 	}
 
 	/** マス目を描写
@@ -67,5 +79,22 @@ class Panel{
 			ctx.fillText(this.textDisplay, -width/2, height);
 			ctx.restore();
 		}
+	}
+
+	/** マス目にマスクを描写
+	 * @param {string} color - カラーエフェクトの色
+	 */
+	drawMask(color){
+		if(!this.isMask) return;
+
+		const ctx = this.ctx;
+		ctx.fillStyle = color;
+
+		// マス目を描写
+		ctx.save();
+		ctx.translate(this.xc-this.dx/2, this.yc-this.dy/2);
+		ctx.fillRect(0, 0, this.dx, this.dy);
+
+		ctx.restore();
 	}
 }

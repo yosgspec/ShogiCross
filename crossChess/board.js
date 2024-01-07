@@ -167,8 +167,9 @@ class Board{
 		this.field.forEach(row=>{
 			row.forEach(panel=>{
 				panel.draw();
-				if(!panel.piece) return;
-				panel.piece.draw();
+				if(panel.piece) panel.piece.draw();
+				// panel.isMask = true;
+				panel.drawMask("#FF000077");
 			});
 		});
 	}

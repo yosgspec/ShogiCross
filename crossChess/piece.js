@@ -46,7 +46,9 @@ class Piece{
 				Math.sign(a-b));
 	}
 
-	/** 駒の角度(deg/rad) */
+	/** 駒の角度(deg/rad)
+	 * @param {number} value
+	 */
 	set deg(value){
 		this.rad = value%360*Math.PI/180;
 	}
