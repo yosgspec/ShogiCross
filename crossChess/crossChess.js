@@ -50,7 +50,7 @@
 		const dy = 90;
 		Piece.init(ctx, size);
 
-		const board = new Board(ctx, "sample", x0, y0, dx, dy);
+		const board = new Board(canvas, ctx, "sample", x0, y0, dx, dy);
 		board.putStartPieces(0, "sample", "0");
 		board.putStartPieces(1, "sample", "1");
 		board.draw();
@@ -75,7 +75,7 @@
 		Piece.init(ctx, size);
 		console.log(pieces);
 
-		const board = new Board(ctx, "チェス", x0, y0, dx, dy);
+		const board = new Board(canvas, ctx, "チェス", x0, y0, dx, dy);
 		board.putStartPieces(0,"将棋");
 		board.putStartPieces(1, "チャンギ", "left");
 		board.draw();
@@ -100,7 +100,7 @@
 		Piece.init(ctx, size);
 		console.log(Object.values(pieces).sort(v=>v.id));
 
-		const board = new Board(ctx, "4人用", x0, y0, dx, dy, 4);
+		const board = new Board(canvas, ctx, "4人用", x0, y0, dx, dy, 4);
 		board.putStartPieces(0, "将棋");
 		board.putStartPieces(1, "シャンチー");
 		board.putStartPieces(2, "チェス");
@@ -129,6 +129,5 @@
 		//sample();
 		//main();
 		player4();
-
 	})();
 })();

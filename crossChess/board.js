@@ -16,32 +16,50 @@ class Board{
 	/**
 	 * @param {any} ctx - Canvas描画コンテキスト
 	 * @param {string} boardName - ボードタイプ
-	 * @param {number} x0 - 描写するX座標
-	 * @param {number} y0 - 描写するY座標
-	 * @param {number} dx - パネル幅
-	 * @param {number} dy - パネル高さ
+	 * @param {number} left - 描写するX座標
+	 * @param {number} top - 描写するY座標
+	 * @param {number} width - パネル幅
+	 * @param {number} height - パネル高さ
 	 * @param {number} players - プレイヤー人数(2 or 4)
 	 */
-	constructor(ctx, boardName, x0, y0, dx, dy, players = 2){
+	constructor(canvas, ctx, boardName, left, top, width, height, players = 2) {
 		Object.assign(this, boards[boardName]);
+		this.canvas = canvas;
 		this.ctx = ctx;
-		this.x0 = x0;
-		this.y0 = y0;
-		this.dx = dx;
-		this.dy = dy;
+		this.left = left;
+		this.top = top;
+		this.width = width;
+		this.height = height;
 		if(![2, 4].includes(players)) throw Error(`players=${players}, players need 2 or 4.`);
 		this.players = players;
 
 		// マス目データを構築
 		this.field = this.field.map((row, y)=>
 			[...row].map((char, x)=>{
-				const xc = x0+dx*(x+1);
-				const yc = y0+dy*(y+1)
-				return new Panel(ctx, panels[char], xc, yc, dx, dy);
+				const center = left+width*(x+1);
+				const middle = top+height*(y+1)
+				return new Panel(ctx, panels[char], center, middle, width, height);
 			})
 		);
 		this.xLen = this.field[0].length;
 		this.yLen = this.field.length;
+
+		const board = this;
+		canvas.addEventListener("click", e=>{
+			const rect = e.target.getBoundingClientRect();
+			const x = e.clientX-rect.left;
+			const y = e.clientY-rect.top;
+
+			board.field.forEach(row=>{
+				row.forEach(panel=>{
+					const {top, right, left, bottom} = panel;
+					panel.isMask = 
+						left <= x && x <= right &&
+						top <= y && y <= bottom;
+				});
+			});
+			board.draw();
+		});
 	}
 
 	/** 駒配置を回転
@@ -85,7 +103,7 @@ class Board{
 				if(!pieces[v]) return;
 				const piece = pieces[v].clone();
 				const panel = this.field[y][x];
-				piece.setCenterXY(panel.xc, panel.yc);
+				piece.setCenterXY(panel.center, panel.middle);
 				panel.piece = piece;
 			});
 		});
@@ -105,7 +123,7 @@ class Board{
 			piece = new Piece(this.ctx, pieces[piece], displayPtn, deg);
 		}
 		const panel = this.field[y][x];
-		piece.setCenterXY(panel.xc, panel.yc);
+		piece.setCenterXY(panel.center, panel.middle);
 		panel.piece = piece;
 	}
 
@@ -148,19 +166,22 @@ class Board{
 	draw(){
 		const ctx = this.ctx;
 
+		// 描写を初期化
+		ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+
 		// 外枠を描写
 		ctx.fillStyle = this.backgroundColor;
 		ctx.strokeStyle = this.borderColor;
 		ctx.lineWidth = this.borderWidth;
 
-		const boardWidth = this.dx*(this.xLen+1);
-		const boardHeight = this.dy*(this.yLen+1);
+		const boardWidth = this.width*(this.xLen+1);
+		const boardHeight = this.height*(this.yLen+1);
 		ctx.save();
-		ctx.translate(this.x0, this.y0);
+		ctx.translate(this.left, this.top);
 		ctx.strokeRect(0, 0, boardWidth, boardHeight);
 		ctx.fillRect(0, 0, boardWidth, boardHeight);
-		ctx.translate(this.dx/2, this.dy/2);
-		ctx.strokeRect(0, 0, boardWidth-this.dx, boardHeight-this.dy);
+		ctx.translate(this.width/2, this.height/2);
+		ctx.strokeRect(0, 0, boardWidth-this.width, boardHeight-this.height);
 		ctx.restore();
 
 		// マス目を描写
