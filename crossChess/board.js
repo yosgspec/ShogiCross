@@ -54,6 +54,7 @@ class Board{
 				row.forEach(panel=>{
 					const {top, right, left, bottom} = panel;
 					panel.isMask = 
+						panel.piece &&
 						left <= x && x < right &&
 						top <= y && y < bottom;
 				});
