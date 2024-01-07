@@ -12,7 +12,7 @@ class Panel{
 	 * @param {number} width - パネル幅
 	 * @param {number} height - パネル高さ
 	 */
-	constructor(ctx, panel, center, middle, width, height){
+	constructor(ctx, panel, center, middle, width, height, borderWidth){
 		Object.assign(this, panel);
 		this.ctx = ctx;
 		this.center = center;
@@ -23,6 +23,7 @@ class Panel{
 		this.top = this.middle-this.height/2;
 		this.right = this.center+this.width/2;
 		this.bottom = this.middle+this.height/2;
+		this.borderWidth = borderWidth;
 		this.piece = null;
 		this.isSelected = false;
 	}
@@ -45,6 +46,7 @@ class Panel{
 		const ctx = this.ctx;
 		ctx.fillStyle = this.backgroundColor;
 		ctx.strokeStyle = this.borderColor;
+		ctx.lineWidth = this.borderWidth;
 
 		// マス目を描写
 		ctx.save();
@@ -53,6 +55,7 @@ class Panel{
 		ctx.fillRect(0, 0, this.width, this.height);
 
 		// 斜線を描写
+		ctx.lineWidth = this.borderWidth/2;
 		ctx.beginPath();
 		if(this.borderSlushLeft){
 			ctx.moveTo(0, 0);

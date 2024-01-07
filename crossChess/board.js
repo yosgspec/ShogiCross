@@ -39,7 +39,7 @@ class Board{
 			[...row].map((char, x)=>{
 				const center = left+panelWidth*(x+1);
 				const middle = top+panelHeight*(y+1)
-				return new Panel(ctx, panels[char], center, middle, panelWidth, panelHeight);
+				return new Panel(ctx, panels[char], center, middle, panelWidth, panelHeight, this.borderWidth);
 			})
 		);
 		this.xLen = this.field[0].length;
