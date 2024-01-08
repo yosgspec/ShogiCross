@@ -75,15 +75,6 @@ class Piece{
 		this.isSelected = false;
 	}
 
-	/** 描写座標を設定
-	 * @param {number} center - 描写するX座標(中心原点)
-	 * @param {number} middle - 描写するY座標(中心原点)
-	 */
-	setCenterXY(center, middle){
-		this.center = center;
-		this.middle = middle;
-	}
-
 	/** 駒を表返す */
 	turnOverFront(){
 		Object.assign(this, this.base);

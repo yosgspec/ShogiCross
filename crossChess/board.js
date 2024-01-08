@@ -130,7 +130,8 @@ class Board{
 				if(!pieces[v]) return;
 				const piece = pieces[v].clone();
 				const panel = this.field[y][x];
-				piece.setCenterXY(panel.center, panel.middle);
+				piece.center = panel.center;
+				piece.middle = panel.middle;
 				panel.piece = piece;
 			});
 		});
@@ -150,7 +151,8 @@ class Board{
 			piece = new Piece(this.ctx, pieces[piece], displayPtn, deg);
 		}
 		const panel = this.field[y][x];
-		piece.setCenterXY(panel.center, panel.middle);
+		piece.center = panel.center;
+		piece.middle = panel.middle;
 		panel.piece = piece;
 	}
 
