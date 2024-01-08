@@ -80,7 +80,8 @@
 				const piece = pieces[pieceSelect.value];
 				piece.center = size/2;
 				piece.middle = size/2;
-				piece.draw(size*0.9);
+				piece.size = size*0.9;
+				piece.draw();
 				pieceRange.value = pieces[pieceSelect.value].range.default.join("\n");
 			}
 		</script>

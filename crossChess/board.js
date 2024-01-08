@@ -47,6 +47,10 @@ class Board{
 		this.width = this.panelWidth*(this.xLen+1);
 		this.height = this.panelHeight*(this.yLen+1);
 
+		// マウスコントロール
+		let selectPanel;
+		let isClick = false;
+
 		// マス目に対する処理
 		const fieldProc = (e, fn)=>{
 			const rect = e.target.getBoundingClientRect();
@@ -55,42 +59,44 @@ class Board{
 			this.field.forEach(row=>
 				row.forEach(panel=>
 					fn(panel, x, y)));
-			this.draw();
-		}
-
-		let selectPanel;
-		let isClick = false;
+					this.draw();
+				};
+		
+		// ドラッグ開始
 		canvas.addEventListener("mousedown", e=>{
 			isClick = true;
 			fieldProc(e, (panel, x, y)=>{
 				if(panel.piece && panel.checkRangeMouse(x, y)){
 					panel.piece.isSelected = true;
+					selectPanel
 					selectPanel = panel;
 				}
 			});
 		});
 
+		// ドラッグ中
 		canvas.addEventListener("mousemove", e=>{
-			if(!isClick) return;
+			if(!isClick || !selectPanel) return;
 			fieldProc(e, (panel, x, y)=>{
 				panel.isSelected = panel.checkRangeMouse(x, y);
 			});
 		});
 
+		// ドラッグ終了
 		canvas.addEventListener("mouseup", e=>{
 			isClick = false;
 			fieldProc(e, (panel, x, y)=>{
 				if(panel.checkRangeMouse(x, y)){
-					if(!selectPanel) return;
+					if(!selectPanel || panel.piece === selectPanel.piece) return;
 					panel.piece = selectPanel.piece;
-					selectPanel.piece = null;
 					panel.piece.center = panel.center;
 					panel.piece.middle = panel.middle;
+					selectPanel.piece = null;
 					selectPanel = null;
 				}
-				if(panel.piece){
-					panel.piece.isSelected = false;
-				}
+			});
+			fieldProc(e, panel=>{
+				if(panel.piece) panel.piece.isSelected = false;
 				panel.isSelected = false;
 			});
 		});

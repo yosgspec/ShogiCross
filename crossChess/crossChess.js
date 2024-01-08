@@ -85,8 +85,8 @@
 	}
 
 	function player4(){
-		canvas.width = 1050;
-		canvas.height = 1050;
+		canvas.width = 750;
+		canvas.height = 750;
 		const ctx = canvas.getContext("2d");
 		ctx.clearRect(0, 0, canvas.panelWidth, canvas.panelHeight);
 		ctx.fillStyle = "#DDEEFF";
