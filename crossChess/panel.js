@@ -38,6 +38,10 @@ class Panel{
 		return this.#isSelected;
 	}
 
+	/** 座標がマス目に含まれるか判定
+	 * @param {number} x - X座標	 
+	 * @param {number} y - Y座標 
+	 */
 	checkRangeMouse(x, y){
 		return (
 			this.left <= x && x < this.right &&
@@ -45,10 +49,7 @@ class Panel{
 		);
 	}
 
-	/** マス目を描写
-	 * @param {number} x - 描写するX座標(中心原点)
-	 * @param {number} y - 描写するY座標(中心原点)
-	 */
+	/** マス目を描写 */
 	draw(){
 		const ctx = this.ctx;
 		ctx.fillStyle = this.backgroundColor;

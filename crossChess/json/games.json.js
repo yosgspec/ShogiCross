@@ -2,6 +2,7 @@ const games = {
 	"将棋": {
 		"fontColor": "#000000",
 		"backgroundColor": "#FFCC77",
+		"promoLine": -3,
 		"position": {
 			9: {
 				"default": [
@@ -29,6 +30,7 @@ const games = {
 	"チェス": {
 		"fontColor": "#FFFFFF",
 		"backgroundColor": "#000000",
+		"promoLine": -1,
 		"position": {
 			9: {
 				"default": [
@@ -61,6 +63,7 @@ const games = {
 	"シャンチー": {
 		"fontColor": "#CC1100",
 		"backgroundColor": "#FFDDAA",
+		"promoLine": -4,
 		"position": {
 			9: {
 				"default": [
@@ -145,6 +148,7 @@ const games = {
 	"マークルック": {
 		"fontColor": "#777777",
 		"backgroundColor": "#FFFFDD",
+		"promoLine": -3,
 		"position": {
 			9: {
 				"default": [

@@ -35,10 +35,10 @@ class Board{
 		this.players = players;
 
 		// マス目データを構築
-		this.field = this.field.map((row, y)=>
-			[...row].map((char, x)=>{
-				const center = left+panelWidth*(x+1);
-				const middle = top+panelHeight*(y+1)
+		this.field = this.field.map((row, yCnt)=>
+			[...row].map((char, xCnt)=>{
+				const center = left+panelWidth*(xCnt+1);
+				const middle = top+panelHeight*(yCnt+1)
 				return new Panel(ctx, panels[char], center, middle, panelWidth, panelHeight, this.borderWidth);
 			})
 		);
@@ -65,10 +65,9 @@ class Board{
 		// ドラッグ開始
 		canvas.addEventListener("mousedown", e=>{
 			isClick = true;
-			fieldProc(e, (panel, x, y)=>{
-				if(panel.piece && panel.checkRangeMouse(x, y)){
+			fieldProc(e, (panel, toPanel, yCnt)=>{
+				if(panel.piece && panel.checkRangeMouse(toPanel, yCnt)){
 					panel.piece.isSelected = true;
-					selectPanel
 					selectPanel = panel;
 				}
 			});
@@ -77,21 +76,17 @@ class Board{
 		// ドラッグ中
 		canvas.addEventListener("mousemove", e=>{
 			if(!isClick || !selectPanel) return;
-			fieldProc(e, (panel, x, y)=>{
-				panel.isSelected = panel.checkRangeMouse(x, y);
+			fieldProc(e, (panel, toPanel, yCnt)=>{
+				panel.isSelected = panel.checkRangeMouse(toPanel, yCnt);
 			});
 		});
 
 		// ドラッグ終了
 		canvas.addEventListener("mouseup", e=>{
 			isClick = false;
-			fieldProc(e, (panel, x, y)=>{
-				if(panel.checkRangeMouse(x, y)){
-					if(!selectPanel || panel.piece === selectPanel.piece) return;
-					panel.piece = selectPanel.piece;
-					panel.piece.center = panel.center;
-					panel.piece.middle = panel.middle;
-					selectPanel.piece = null;
+			fieldProc(e, (panel, xCnt, yCnt)=>{
+				if(panel.checkRangeMouse(xCnt, yCnt)){
+					this.movePiece(selectPanel, panel);
 					selectPanel = null;
 				}
 			});
@@ -116,7 +111,7 @@ class Board{
 			if(len !== this.yLen) throw Error(`cols=${this.xLen} != rows=${this.yLen}, Not rows = cols.`);
 			this.field = transpose(this.field);
 		}
-		if([180, 270].includes(deg)){
+		if([180, 270].includes(deg)){XPathEvaluator
 			this.field.reverse();
 		}
 		this.field.forEach(row=>{
@@ -138,11 +133,11 @@ class Board{
 		this.rotateField(deg);
 		const pos = games[pieceSet].position[this.xLen][ptn];
 		pos.forEach((row, i)=>{
-			const y = i+this.yLen - pos.length;
-			[...row].forEach((v, x)=>{
-				if(!pieces[v]) return;
-				const piece = pieces[v].clone();
-				const panel = this.field[y][x];
+			const yCnt = i+this.yLen - pos.length;
+			[...row].forEach((char, xCnt)=>{
+				if(!pieces[char]) return;
+				const piece = pieces[char].clone();
+				const panel = this.field[yCnt][xCnt];
 				piece.center = panel.center;
 				piece.middle = panel.middle;
 				panel.piece = piece;
@@ -153,25 +148,38 @@ class Board{
 
 	/** 駒の配置
 	 * @param {string} piece - 駒の表現文字
-	 * @param {number} x - X方向配置位置(マス目基準)
-	 * @param {number} y - Y方向配置位置(マス目基準)
+	 * @param {number} xCnt - X方向配置位置(マス目基準)
+	 * @param {number} yCnt - Y方向配置位置(マス目基準)
 	 * @param {number} playeaIdOrDeg - プレイヤー番号または駒の配置角
 	 * @param {number} displayPtn - 表示文字列を変更(1〜)
 	 */
-	putNewPiece(piece, x, y, playeaIdOrDeg, displayPtn=0, setDeg=false){
+	putNewPiece(piece, xCnt, yCnt, playeaIdOrDeg, displayPtn=0, setDeg=false){
 		const deg = !setDeg? playeaIdOrDeg*90: playeaIdOrDeg;
 		if(typeof piece === "string"){
 			piece = new Piece(this.ctx, pieces[piece], displayPtn, deg);
 		}
-		const panel = this.field[y][x];
+		const panel = this.field[yCnt][xCnt];
 		piece.center = panel.center;
 		piece.middle = panel.middle;
 		panel.piece = piece;
 	}
 
+	/** 駒を移動
+	 * @param {Panel} fromPanel - 移動元のパネル
+	 * @param {Panel} toPanel - 選択中のパネル
+	 */
+		movePiece(fromPanel, toPanel, row, col){
+			if(toPanel.attr.includes("keepOut") || !fromPanel || toPanel.piece === fromPanel.piece) return fromPanel;
+			toPanel.piece = fromPanel.piece;
+			toPanel.piece.center = toPanel.center;
+			toPanel.piece.middle = toPanel.middle;
+			fromPanel.piece = null;
+		}
+
 	/** 駒配置をテキストで取得
 	 * {boolean} isMinimam - 縮小表示
 	 */
+
 	outputText(isMinimam=false){
 		let header = "";
 		let footer = "";
