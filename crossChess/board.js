@@ -47,59 +47,47 @@ class Board{
 		this.width = this.panelWidth*(this.xLen+1);
 		this.height = this.panelHeight*(this.yLen+1);
 
-		// マウス座標を取得
-		const mouseXY = e=>{
+		// マス目に対する処理
+		const fieldProc = (e, fn)=>{
 			const rect = e.target.getBoundingClientRect();
-			return [
-				e.clientX-rect.left,
-				e.clientY-rect.top
-			];
-		};
+			const x = e.clientX-rect.left;
+			const y = e.clientY-rect.top;
+			this.field.forEach(row=>
+				row.forEach(panel=>
+					fn(panel, x, y)));
+			this.draw();
+		}
 
 		let selectPanel;
 		let isClick = false;
 		canvas.addEventListener("mousedown", e=>{
 			isClick = true;
-			const [x, y] = mouseXY(e);
-			console.log(this.selectPanel?.piece);
-
-			this.field.forEach(row=>{
-				row.forEach(panel=>{
-					if(panel.piece){
-						panel.piece.isSelected = panel.checkRangeMouse(x, y);
-						if(panel.piece.isSelected) selectPanel = panel;
-					}
-				});
+			fieldProc(e, (panel, x, y)=>{
+				if(panel.piece){
+					panel.piece.isSelected = panel.checkRangeMouse(x, y);
+					if(panel.piece.isSelected) selectPanel = panel;
+				}
 			});
-			this.draw();
 		});
 
 		canvas.addEventListener("mousemove", e=>{
 			if(!isClick) return;
-			const [x, y] = mouseXY(e);
+			fieldProc(e, (panel, x, y)=>{
 
-			this.field.forEach(row=>{
-				row.forEach(panel=>{
-					panel.isSelected = panel.checkRangeMouse(x, y);
-				});
+				panel.isSelected = panel.checkRangeMouse(x, y);
 			});
-			this.draw();
 		});
 
 		canvas.addEventListener("mouseup", e=>{
 			isClick = false;
-			const [x, y] = mouseXY(e);
+			fieldProc(e, (panel, x, y)=>{
 
-			this.field.forEach(row=>{
-				row.forEach(panel=>{
-					if(panel.piece){
-						panel.piece.isSelected = false;
-						selectPanel = null;
-					}
-					panel.isSelected = false;
-				});
+				if(panel.piece){
+					panel.piece.isSelected = false;
+					selectPanel = null;
+				}
+				panel.isSelected = false;
 			});
-			this.draw();
 		});
 	}
 
