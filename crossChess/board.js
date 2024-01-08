@@ -73,7 +73,6 @@ class Board{
 		canvas.addEventListener("mousemove", e=>{
 			if(!isClick) return;
 			fieldProc(e, (panel, x, y)=>{
-
 				panel.isSelected = panel.checkRangeMouse(x, y);
 			});
 		});
@@ -81,7 +80,6 @@ class Board{
 		canvas.addEventListener("mouseup", e=>{
 			isClick = false;
 			fieldProc(e, (panel, x, y)=>{
-
 				if(panel.piece){
 					panel.piece.isSelected = false;
 					selectPanel = null;
