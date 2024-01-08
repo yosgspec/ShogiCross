@@ -54,7 +54,6 @@ class Board{
 		// マス目に対する処理
 		const fieldProc = (e, fn)=>{
 			const rect = e.target.getBoundingClientRect();
-			console.log(e);
 			let x;
 			let y;
 			if(e.clientX){
