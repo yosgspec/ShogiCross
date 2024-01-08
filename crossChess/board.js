@@ -50,6 +50,7 @@ class Board{
 		// マウスコントロール
 		let selectPanel;
 		let isClick = false;
+		let lastXY = [];
 
 		// マス目に対する処理
 		const fieldProc = (e, fn)=>{
@@ -68,14 +69,14 @@ class Board{
 			}
 			else{
 				e.preventDefault();
-				x = e.changedTouches[0].pageX-rect.left;
-				y = e.changedTouches[0].pageY-rect.top;
+				[x, y] = lastXY;
 			}
 			this.field.forEach(row=>
 				row.forEach(panel=>
 					fn(panel, x, y)));
 					this.draw();
-				};
+			lastXY = [x, y];
+		};
 
 		// ドラッグ開始
 		const dragStart = e=>{
