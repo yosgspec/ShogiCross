@@ -56,18 +56,43 @@ class Board{
 			];
 		};
 
+		let selectPanel;
 		canvas.addEventListener("mousedown", e=>{
 			const [x, y] = mouseXY(e);
 			console.log(this.selectPanel?.piece);
 
-			this.selectPanel = null;
 			this.field.forEach(row=>{
 				row.forEach(panel=>{
 					if(panel.piece){
 						panel.piece.isSelected = panel.checkRangeMouse(x, y);
-						if(panel.piece.isSelected) this.selectPanel = panel;
+						if(panel.piece.isSelected) selectPanel = panel;
 					}
-				}, this);
+				});
+			});
+			this.draw();
+		});
+
+		canvas.addEventListener("mousemove", e=>{
+			const [x, y] = mouseXY(e);
+
+			this.field.forEach(row=>{
+				row.forEach(panel=>{
+					panel.isSelected = panel.checkRangeMouse(x, y);
+				});
+			});
+			this.draw();
+		});
+
+		canvas.addEventListener("mouseup", e=>{
+			const [x, y] = mouseXY(e);
+
+			this.field.forEach(row=>{
+				row.forEach(panel=>{
+					if(panel.piece){
+						panel.piece.isSelected = false;
+						selectPanel = null;
+					}
+				});
 			});
 			this.draw();
 		});
