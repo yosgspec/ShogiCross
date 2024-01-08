@@ -47,76 +47,7 @@ class Board{
 		this.width = this.panelWidth*(this.xLen+1);
 		this.height = this.panelHeight*(this.yLen+1);
 
-		// マウスコントロール
-		let selectPanel;
-		let isClick = false;
-		let lastXY = [];
-
-		// マス目に対する処理
-		const fieldProc = (e, fn)=>{
-			const rect = e.target.getBoundingClientRect();
-			let x;
-			let y;
-			if(e.clientX){
-				x = e.clientX-rect.left;
-				y = e.clientY-rect.top;
-			}
-			else if(0 < e.touches.length){
-				if(1 < e.touches.length) return;;
-				e.preventDefault();
-				x = e.touches[0].clientX-rect.left;
-				y = e.touches[0].clientY-rect.top;
-			}
-			else{
-				e.preventDefault();
-				[x, y] = lastXY;
-			}
-			this.field.forEach(row=>
-				row.forEach(panel=>
-					fn(panel, x, y)));
-					this.draw();
-			lastXY = [x, y];
-		};
-
-		// ドラッグ開始
-		const dragStart = e=>{
-			isClick = true;
-			fieldProc(e, (panel, toPanel, yCnt)=>{
-				if(panel.piece && panel.checkRangeMouse(toPanel, yCnt)){
-					panel.piece.isSelected = true;
-					selectPanel = panel;
-				}
-			});
-		};
-		// ドラッグ中
-		const dragMove = e=>{
-			if(!isClick || !selectPanel) return;
-			fieldProc(e, (panel, toPanel, yCnt)=>{
-				panel.isSelected = panel.checkRangeMouse(toPanel, yCnt);
-			});
-		};
-
-		// ドラッグ終了
-		const dragEnd = e=>{
-			isClick = false;
-			fieldProc(e, (panel, xCnt, yCnt)=>{
-				if(panel.checkRangeMouse(xCnt, yCnt)){
-					this.movePiece(selectPanel, panel);
-					selectPanel = null;
-				}
-			});
-			fieldProc(e, panel=>{
-				if(panel.piece) panel.piece.isSelected = false;
-				panel.isSelected = false;
-			});
-		};
-
-		canvas.addEventListener("mousedown", dragStart);
-		canvas.addEventListener("mousemove", dragMove);
-		canvas.addEventListener("mouseup", dragEnd);
-		canvas.addEventListener("touchstart", dragStart);
-		canvas.addEventListener("touchmove", dragMove);
-		canvas.addEventListener("touchend", dragEnd);
+		mouseControl(this);
 	}
 
 	/** 駒配置を回転
