@@ -57,7 +57,9 @@ class Board{
 		};
 
 		let selectPanel;
+		let isClick = false;
 		canvas.addEventListener("mousedown", e=>{
+			isClick = true;
 			const [x, y] = mouseXY(e);
 			console.log(this.selectPanel?.piece);
 
@@ -73,6 +75,7 @@ class Board{
 		});
 
 		canvas.addEventListener("mousemove", e=>{
+			if(!isClick) return;
 			const [x, y] = mouseXY(e);
 
 			this.field.forEach(row=>{
@@ -84,6 +87,7 @@ class Board{
 		});
 
 		canvas.addEventListener("mouseup", e=>{
+			isClick = false;
 			const [x, y] = mouseXY(e);
 
 			this.field.forEach(row=>{
@@ -92,6 +96,7 @@ class Board{
 						panel.piece.isSelected = false;
 						selectPanel = null;
 					}
+					panel.isSelected = false;
 				});
 			});
 			this.draw();
