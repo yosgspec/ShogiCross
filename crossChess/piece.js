@@ -72,6 +72,7 @@ class Piece{
 		this.middle = 0;
 		this.size = size;
 		this.deg = deg;
+		this.isSelected = false;
 	}
 
 	/** 描写座標を設定

@@ -47,22 +47,26 @@ class Board{
 		this.width = this.panelWidth*(this.xLen+1);
 		this.height = this.panelHeight*(this.yLen+1);
 
-		canvas.addEventListener("click", e=>{
+		// マウス座標を取得
+		const mouseXY = e=>{
 			const rect = e.target.getBoundingClientRect();
-			const x = e.clientX-rect.left;
-			const y = e.clientY-rect.top;
+			return [
+				e.clientX-rect.left,
+				e.clientY-rect.top
+			];
+		};
 
+		canvas.addEventListener("mousedown", e=>{
+			const [x, y] = mouseXY(e);
 			console.log(this.selectPanel?.piece);
 
 			this.selectPanel = null;
 			this.field.forEach(row=>{
 				row.forEach(panel=>{
-					const {top, right, left, bottom} = panel;
-					panel.isSelected = 
-						panel.piece &&
-						left <= x && x < right &&
-						top <= y && y < bottom;
-					if(panel.isSelected) this.selectPanel = panel;
+					if(panel.piece){
+						panel.piece.isSelected = panel.checkRangeMouse(x, y);
+						if(panel.piece.isSelected) this.selectPanel = panel;
+					}
 				}, this);
 			});
 			this.draw();
@@ -194,8 +198,10 @@ class Board{
 			row.forEach(panel=>{
 				panel.draw();
 				if(panel.isSelected) panel.drawMask("#0000FF55");
-				if(panel.piece) panel.piece.draw();
-				if(panel.isSelected) panel.piece.drawMask("#FF000055");
+				if(panel.piece){
+					panel.piece.draw();
+					if(panel.piece.isSelected) panel.piece.drawMask("#FF000055");
+				}
 			});
 		});
 	}

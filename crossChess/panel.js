@@ -38,6 +38,13 @@ class Panel{
 		return this.#isSelected;
 	}
 
+	checkRangeMouse(x, y){
+		return (
+			this.left <= x && x < this.right &&
+			this.top <= y && y < this.bottom
+		);
+	}
+
 	/** マス目を描写
 	 * @param {number} x - 描写するX座標(中心原点)
 	 * @param {number} y - 描写するY座標(中心原点)
