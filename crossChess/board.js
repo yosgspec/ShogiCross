@@ -63,9 +63,9 @@ class Board{
 		canvas.addEventListener("mousedown", e=>{
 			isClick = true;
 			fieldProc(e, (panel, x, y)=>{
-				if(panel.piece){
-					panel.piece.isSelected = panel.checkRangeMouse(x, y);
-					if(panel.piece.isSelected) selectPanel = panel;
+				if(panel.piece && panel.checkRangeMouse(x, y)){
+					panel.piece.isSelected = true;
+					selectPanel = panel;
 				}
 			});
 		});
@@ -80,9 +80,16 @@ class Board{
 		canvas.addEventListener("mouseup", e=>{
 			isClick = false;
 			fieldProc(e, (panel, x, y)=>{
+				if(panel.checkRangeMouse(x, y)){
+					if(!selectPanel) return;
+					panel.piece = selectPanel.piece;
+					selectPanel.piece = null;
+					panel.piece.center = panel.center;
+					panel.piece.middle = panel.middle;
+					selectPanel = null;
+				}
 				if(panel.piece){
 					panel.piece.isSelected = false;
-					selectPanel = null;
 				}
 				panel.isSelected = false;
 			});
@@ -215,7 +222,7 @@ class Board{
 		this.field.forEach(row=>{
 			row.forEach(panel=>{
 				panel.draw();
-				if(panel.isSelected) panel.drawMask("#0000FF55");
+				if(panel.isSelected) panel.drawMask("#FF000055");
 				if(panel.piece){
 					panel.piece.draw();
 					if(panel.piece.isSelected) panel.piece.drawMask("#FF000055");
