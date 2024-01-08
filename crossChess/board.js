@@ -52,9 +52,9 @@ class Board{
 			const x = e.clientX-rect.left;
 			const y = e.clientY-rect.top;
 
-			console.log(this.selectPiece);
+			console.log(this.selectPanel?.piece);
 
-			this.selectPiece = null;
+			this.selectPanel = null;
 			this.field.forEach(row=>{
 				row.forEach(panel=>{
 					const {top, right, left, bottom} = panel;
@@ -62,7 +62,7 @@ class Board{
 						panel.piece &&
 						left <= x && x < right &&
 						top <= y && y < bottom;
-					if(panel.isSelected) this.selectPiece = panel.piece;
+					if(panel.isSelected) this.selectPanel = panel;
 				}, this);
 			});
 			this.draw();
@@ -193,8 +193,9 @@ class Board{
 		this.field.forEach(row=>{
 			row.forEach(panel=>{
 				panel.draw();
+				if(panel.isSelected) panel.drawMask("#0000FF55");
 				if(panel.piece) panel.piece.draw();
-				if(panel.isSelected) panel.drawMask("#FF000055");
+				if(panel.isSelected) panel.piece.drawMask("#FF000055");
 			});
 		});
 	}
