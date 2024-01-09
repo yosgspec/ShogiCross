@@ -25,9 +25,9 @@ function mouseControl(board){
 			e.preventDefault();
 			[x, y] = lastXY;
 		}
-		board.field.forEach(row=>
-			row.forEach(panel=>
-				fn(panel, x, y)));
+		board.field.forEach((row, yCnt) =>
+			row.forEach((panel, xCnt) =>
+				fn(panel, x, y, xCnt, yCnt)));
 				board.draw();
 		lastXY = [x, y];
 	};
@@ -35,8 +35,8 @@ function mouseControl(board){
 	// ドラッグ開始
 	const dragStart = e=>{
 		isClick = true;
-		fieldProc(e, (panel, toPanel, yCnt)=>{
-			if(panel.piece && panel.checkRangeMouse(toPanel, yCnt)){
+		fieldProc(e, (panel, toPanel, y)=>{
+			if(panel.piece && panel.checkRangeMouse(toPanel, y)){
 				panel.piece.isSelected = true;
 				selectPanel = panel;
 			}
@@ -45,17 +45,17 @@ function mouseControl(board){
 	// ドラッグ中
 	const dragMove = e=>{
 		if(!isClick || !selectPanel) return;
-		fieldProc(e, (panel, toPanel, yCnt)=>{
-			panel.isSelected = panel.checkRangeMouse(toPanel, yCnt);
+		fieldProc(e, (panel, toPanel, y)=>{
+			panel.isSelected = panel.checkRangeMouse(toPanel, y);
 		});
 	};
 
 	// ドラッグ終了
 	const dragEnd = e=>{
 		isClick = false;
-		fieldProc(e, (panel, xCnt, yCnt)=>{
-			if(panel.checkRangeMouse(xCnt, yCnt)){
-				board.movePiece(selectPanel, panel);
+		fieldProc(e, (panel, x, y, xCnt, yCnt)=>{
+			if(panel.checkRangeMouse(x, y)){
+				board.movePiece(selectPanel, panel, xCnt, yCnt);
 				selectPanel = null;
 			}
 		});

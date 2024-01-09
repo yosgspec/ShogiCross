@@ -81,13 +81,15 @@ class Piece{
 	}
 
 	/** プロモーション
-	 * @param {string} promo - 成り先の文字
+	 * @param {string} char - 成り先の文字
 	 */
-	promotion(promo){
-		if(!this.promo) throw Error(`promo=${promo}, Not plomote piece.`);
-		if(!promo in this.promo) throw Error(`promo=${promo}, Plomote key is missing.`);
-		if(this.group === "成") throw Error(`promo=${promo}, Promoted piece.`);
-		Object.assign(this, this.promo[promo]);
+	promotion(char){
+		const {promo} = this;
+
+		if(!promo) throw Error(`promo=${char}, Not plomote piece.`);
+		if(!promo in promo) throw Error(`promo=${char}, Plomote key is missing.`);
+		if(this.group === "成") throw Error(`promo=${char}, Promoted piece.`);
+		Object.assign(this, promo[char]);
 		this.group = "成";
 	}
 
@@ -98,11 +100,12 @@ class Piece{
 
 	/** 駒を描写 */
 	draw(){
-		const ctx = this.ctx;
+		const {ctx, game} = this;
+
 		const zoom = this.size/100;
 		ctx.strokeStyle = "#777777";
 
-		ctx.fillStyle = this.game.backgroundColor;
+		ctx.fillStyle = game.backgroundColor;
 		ctx.lineWidth = 8*zoom;
 		ctx.save();
 		ctx.translate(this.center, this.middle);
@@ -120,7 +123,7 @@ class Piece{
 		ctx.fill();
 
 		/* 文字を描写 */
-		ctx.fillStyle = this.game.fontColor;
+		ctx.fillStyle = game.fontColor;
 		const text = [...this.display[this.displayPtn]];
 		const fontSize = 40*zoom;
 		ctx.font = `${fontSize}px ${canvasFont.fontStr}`;
@@ -138,7 +141,8 @@ class Piece{
 	 * @param {string} color - カラーエフェクトの色
 	 */
 	drawMask(color){
-		const ctx = this.ctx;
+		const {ctx} = this;
+
 		const zoom = this.size/100;
 
 		ctx.fillStyle = color;

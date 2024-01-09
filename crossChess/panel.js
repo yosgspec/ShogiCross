@@ -19,10 +19,10 @@ class Panel{
 		this.middle = middle;
 		this.width = width;
 		this.height = height;
-		this.left = this.center-this.width/2;
-		this.top = this.middle-this.height/2;
-		this.right = this.center+this.width/2;
-		this.bottom = this.middle+this.height/2;
+		this.left = center-width/2;
+		this.top = middle-height/2;
+		this.right = center+width/2;
+		this.bottom = middle+height/2;
 		this.borderWidth = borderWidth;
 		this.piece = null;
 		this.isSelected = false;
@@ -51,47 +51,48 @@ class Panel{
 
 	/** マス目を描写 */
 	draw(){
-		const ctx = this.ctx;
+		const {ctx, left, top, center, middle, width, height, textDisplay, textRotate} = this;
+
 		ctx.fillStyle = this.backgroundColor;
 		ctx.strokeStyle = this.borderColor;
 		ctx.lineWidth = this.borderWidth;
 
 		// マス目を描写
 		ctx.save();
-		ctx.translate(this.left, this.top);
-		ctx.strokeRect(0, 0, this.width, this.height);
-		ctx.fillRect(0, 0, this.width, this.height);
+		ctx.translate(left, top);
+		ctx.strokeRect(0, 0, width, height);
+		ctx.fillRect(0, 0, width, height);
 
 		// 斜線を描写
 		ctx.lineWidth = this.borderWidth/2;
 		ctx.beginPath();
 		if(this.borderSlushLeft){
 			ctx.moveTo(0, 0);
-			ctx.lineTo(this.width, this.height);
+			ctx.lineTo(width, height);
 		}
 		if(this.borderSlushRight){
-			ctx.moveTo(this.width, 0);
-			ctx.lineTo(0, this.height);
+			ctx.moveTo(width, 0);
+			ctx.lineTo(0, height);
 		}
 		ctx.closePath();
 		ctx.stroke();
 		ctx.restore();
 
 		// 文字を描写
-		if(this.textDisplay){
+		if(textDisplay){
 			ctx.save();
-			ctx.translate(this.center, this.middle);
+			ctx.translate(center, middle);
 			ctx.fillStyle = this.borderColor;
 
-			const rad = this.textRotate? this.textRotate*Math.PI/180: 0;
+			const rad = textRotate? textRotate*Math.PI/180: 0;
 			ctx.rotate(rad);
 
 			const fontSize = Math.min(this.width, this.height)*0.6;
 			ctx.font = `${fontSize}px ${canvasFont.fontStr}`;
 
-			const width = ctx.measureText(this.textDisplay).width;
+			const width = ctx.measureText(textDisplay).width;
 			const height = fontSize/2*0.8;
-			ctx.fillText(this.textDisplay, -width/2, height);
+			ctx.fillText(textDisplay, -width/2, height);
 			ctx.restore();
 		}
 	}
@@ -100,7 +101,8 @@ class Panel{
 	 * @param {string} color - カラーエフェクトの色
 	 */
 	drawMask(color){
-		const ctx = this.ctx;
+		const {ctx} = this;
+
 		ctx.fillStyle = color;
 
 		// マス目を描写

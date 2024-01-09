@@ -54,14 +54,16 @@ class Board{
 	 * @param {number} deg - 回転角 (90の倍数)
 	 */
 	rotateField(deg){
+		const {xLen, yLen} = this;
+
 		deg = (deg+360)%360;
 		if(deg === 0) return;
 		if(![90, 180, 270].includes(deg)) throw Error(`deg=${deg}, deg need multiple of 90.`);
 		if([90, 270].includes(deg)){
 			// 2次配列を転置
 			const transpose = a => a[0].map((_, c) => a.map(r => r[c]));
-			const len = this.xLen;
-			if(len !== this.yLen) throw Error(`cols=${this.xLen} != rows=${this.yLen}, Not rows = cols.`);
+			const len = xLen;
+			if(len !== yLen) throw Error(`cols=${xLen} != rows=${yLen}, Not rows = cols.`);
 			this.field = transpose(this.field);
 		}
 		if([180, 270].includes(deg)){XPathEvaluator
@@ -120,20 +122,25 @@ class Board{
 	/** 駒を移動
 	 * @param {Panel} fromPanel - 移動元のパネル
 	 * @param {Panel} toPanel - 選択中のパネル
+	 * @param {*} xCnt
+	 * @param {*} yCnt  
 	 */
-		movePiece(fromPanel, toPanel, row, col){
-			if(toPanel.attr.includes("keepOut") || !fromPanel || toPanel.piece === fromPanel.piece) return fromPanel;
-			toPanel.piece = fromPanel.piece;
-			toPanel.piece.center = toPanel.center;
-			toPanel.piece.middle = toPanel.middle;
-			fromPanel.piece = null;
-		}
+	movePiece(fromPanel, toPanel, xCnt, yCnt){
+		if(toPanel.attr.includes("keepOut") || !fromPanel || toPanel.piece === fromPanel.piece) return;
+		toPanel.piece = fromPanel.piece;
+		fromPanel.piece = null;
+
+		const {piece} = toPanel;
+		piece.center = toPanel.center;
+		piece.middle = toPanel.middle;
+	}
 
 	/** 駒配置をテキストで取得
 	 * {boolean} isMinimam - 縮小表示
 	 */
-
 	outputText(isMinimam=false){
+		const {xLen} = this;
+
 		let header = "";
 		let footer = "";
 		let panelOuter = "";
@@ -142,11 +149,11 @@ class Board{
 		let panelText = panel => panel.attr.includes("keepOut")? "｜＃": "｜・";
 
 		if(!isMinimam){
-			header = `┏${Array(this.xLen).fill("━━").join("┯")}┓\n`;
-			footer = `\n┗${Array(this.xLen).fill("━━").join("┷")}┛`;
+			header = `┏${Array(xLen).fill("━━").join("┯")}┓\n`;
+			footer = `\n┗${Array(xLen).fill("━━").join("┷")}┛`;
 			panelOuter = "┃";
 			panelSep = "│";
-			rowSep = `\n┃${Array(this.xLen).fill("──").join("┼")}┨\n`;
+			rowSep = `\n┃${Array(xLen).fill("──").join("┼")}┨\n`;
 			panelText = panel => panel.text;
 		}
 
@@ -167,10 +174,10 @@ class Board{
 
 	/** 盤を描写 */
 	draw(){
-		const ctx = this.ctx;
+		const {ctx, left, top, right, bottom, width, height, panelWidth, panelHeight} = this;
 
 		// 描写を初期化
-		ctx.clearRect(this.left, this.top, this.right, this.bottom);
+		ctx.clearRect(left, top, right, bottom);
 
 		// 外枠を描写
 		ctx.fillStyle = this.backgroundColor;
@@ -178,11 +185,11 @@ class Board{
 		ctx.lineWidth = this.borderWidth;
 
 		ctx.save();
-		ctx.translate(this.left, this.top);
-		ctx.strokeRect(0, 0, this.width, this.height);
-		ctx.fillRect(0, 0, this.width, this.height);
-		ctx.translate(this.panelWidth/2, this.panelHeight/2);
-		ctx.strokeRect(0, 0, this.width-this.panelWidth, this.height-this.panelHeight);
+		ctx.translate(left, top);
+		ctx.strokeRect(0, 0, width, height);
+		ctx.fillRect(0, 0, width, height);
+		ctx.translate(panelWidth/2, panelHeight/2);
+		ctx.strokeRect(0, 0, width-panelWidth, height-panelHeight);
 		ctx.restore();
 
 		// マス目を描写
