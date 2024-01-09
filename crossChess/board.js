@@ -39,7 +39,7 @@ class Board{
 			[...row].map((char, xCnt)=>{
 				const center = left+panelWidth*(xCnt+1);
 				const middle = top+panelHeight*(yCnt+1)
-				return new Panel(ctx, panels[char], center, middle, panelWidth, panelHeight, this.borderWidth);
+				return new Panel(ctx, panels[char], center, middle, panelWidth, panelHeight, this.borderWidth, xCnt, yCnt);
 			})
 		);
 		this.xLen = this.field[0].length;
@@ -119,6 +119,32 @@ class Board{
 		panel.piece = piece;
 	}
 
+	/** プロモーションエリア内であるか判別 */ 
+	checkCanPromo(panel){
+		const {xLen, yLen} = this;
+		const {piece, xCnt, yCnt} = panel;
+		const {deg} = piece;
+		const {promoLine} = piece.game;
+
+		if(deg === 0){
+			const promoOver = (yLen-promoLine)%yLen-1;
+			if(yCnt <= promoOver) return true;
+		}
+		if(deg === 90){
+			const promoOver = (xLen+promoLine)%xLen;
+			if(promoOver <= xCnt) return true;
+		}
+		if(deg === 180){
+			const promoOver = (yLen+promoLine)%yLen;
+			if(promoOver <= yCnt) return true;
+		}
+		if(deg === 270){
+			const promoOver = (xLen-promoLine)%xLen-1;
+			if(xCnt <= promoOver) return true;
+		}
+		return false;
+	}
+
 	/** 駒を移動
 	 * @param {Panel} fromPanel - 移動元のパネル
 	 * @param {Panel} toPanel - 選択中のパネル
@@ -127,12 +153,25 @@ class Board{
 	 */
 	movePiece(fromPanel, toPanel, xCnt, yCnt){
 		if(toPanel.attr.includes("keepOut") || !fromPanel || toPanel.piece === fromPanel.piece) return;
+		let canPromo = this.checkCanPromo(fromPanel);
 		toPanel.piece = fromPanel.piece;
 		fromPanel.piece = null;
 
 		const {piece} = toPanel;
 		piece.center = toPanel.center;
 		piece.middle = toPanel.middle;
+		canPromo ||= this.checkCanPromo(toPanel);
+
+		if(!piece.promo || piece.group === "成" || !canPromo) return;
+		for(const [char, {name}] of Object.entries(piece.promo)){
+			if(confirm(
+				`${piece.char}:${piece.name} ⇒ ${char}:${name}
+				成りますか?`
+			)){
+				piece.promotion(char);
+				break;
+			}
+		}
 	}
 
 	/** 駒配置をテキストで取得
