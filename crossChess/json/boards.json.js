@@ -99,6 +99,7 @@ const boards = {
 		"backgroundColor": "#333333",
 		"borderColor": "#000000",
 		"borderWidth": 5,
+		"promoLineOffset": 6,
 		"field": [
 			"...MSM<#>MS...",
 			"...SMS#*#SM...",

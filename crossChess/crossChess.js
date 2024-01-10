@@ -119,9 +119,11 @@
 		board.putNewPiece("包", 5, 7, 3);
 		board.putNewPiece("卆", 5, 6, 3);
 		board.putNewPiece("馭", 5, 5, 3);
+		board.onDrawed = ()=>{
+			textareaMini.value = board.outputText(true);
+			textarea.value = board.outputText();
+		}
 		board.draw();
-		textareaMini.value = board.outputText(true);
-		textarea.value = board.outputText();
 	}
 
 	/* メイン処理 */

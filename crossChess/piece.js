@@ -90,6 +90,7 @@ class Piece{
 		if(!promo in promo) throw Error(`promo=${char}, Plomote key is missing.`);
 		if(this.group === "成") throw Error(`promo=${char}, Promoted piece.`);
 		Object.assign(this, promo[char]);
+		this.char = char;
 		this.group = "成";
 	}
 

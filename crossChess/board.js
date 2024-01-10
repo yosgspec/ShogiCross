@@ -46,6 +46,7 @@ class Board{
 		this.yLen = this.field.length;
 		this.width = this.panelWidth*(this.xLen+1);
 		this.height = this.panelHeight*(this.yLen+1);
+		this.onDrawed = null;
 
 		mouseControl(this);
 	}
@@ -124,7 +125,7 @@ class Board{
 		const {xLen, yLen} = this;
 		const {piece, xCnt, yCnt} = panel;
 		const {deg} = piece;
-		const {promoLine} = piece.game;
+		const promoLine = piece.game.promoLine-(0|this.promoLineOffset);
 
 		if(deg === 0){
 			const promoOver = (yLen-promoLine)%yLen-1;
@@ -161,13 +162,14 @@ class Board{
 		piece.center = toPanel.center;
 		piece.middle = toPanel.middle;
 		canPromo ||= this.checkCanPromo(toPanel);
+		console.log(piece)
 
 		if(!piece.promo || piece.group === "成" || !canPromo) return;
 		for(const [char, {name}] of Object.entries(piece.promo)){
-			if(confirm(
-				`${piece.char}:${piece.name} ⇒ ${char}:${name}
-				成りますか?`
-			)){
+			if(confirm(`成りますか?
+${piece.char}:${piece.name}
+　↓
+${char}:${name}`)){
 				piece.promotion(char);
 				break;
 			}
@@ -242,5 +244,6 @@ class Board{
 				}
 			});
 		});
+		if(this.onDrawed) this.onDrawed();
 	}
 }
