@@ -61,7 +61,7 @@ const panels = {
 	},
 	"#": {
 		"name": "九宮",
-		"text": "　・",
+		"text": "　：",
 		"backgroundColor": "#CC9966",
 		"borderColor": "#333333",
 		"borderWidth": 5,

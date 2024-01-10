@@ -73,7 +73,6 @@
 		const panelWidth = 60;
 		const panelHeight = 70;
 		Piece.init(ctx, pieceSize);
-		console.log(pieces);
 
 		const board = new Board(canvas, ctx, "チェス", boardLeft, boardTop, panelWidth, panelHeight);
 		board.putStartPieces(0,"将棋");

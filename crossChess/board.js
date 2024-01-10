@@ -5,14 +5,6 @@
 
 /** 盤の管理クラス */
 class Board{
-	/** テキスト出力時のプレイヤー表示 */
-	degChars = {
-		0: "▲",
-		90: "≫",
-		180: "▽",
-		270: "＜"
-	};
-
 	/**
 	 * @param {any} ctx - Canvas描画コンテキスト
 	 * @param {string} boardName - ボードタイプ
@@ -73,7 +65,6 @@ class Board{
 		}
 		this.field.forEach(row=>{
 			row.forEach(panel=>{
-				console.log(panel);
 				if(!panel.piece) return;
 				panel.piece.deg += deg;
 			});
@@ -153,11 +144,15 @@ class Board{
 	 * @param {Piece} loserPiece - 捕縛される駒
 	 */
 	capturePiece(winnerPiece, loserPiece){
-		if(!loserPiece || !winnerPiece.attr?.includes("capture")) return;
-		console.log(loserPiece);
+		if(
+			!loserPiece ||
+			!winnerPiece.attr?.includes("capture") ||
+			loserPiece.group === "王"
+		) return;
+
 		loserPiece.deg = winnerPiece.deg;
 		this.stand.push(loserPiece);
-		this.stand.sort((a,b)=>Math.sign(a.id-b.id));
+		this.stand.sort((a,b)=>Math.sign(a.deg+a.id-b.deg+b.id));
 	}
 
 	/** 駒を移動
@@ -184,9 +179,6 @@ class Board{
 		piece.isMoved = true;
 		canPromo ||= this.checkCanPromo(toPanel);
 
-		console.log(piece);
-		console.log(this.stand);
-
 		// プロモーション処理
 		if(!piece.promo || piece.group === "成" || !canPromo) return;
 		for(const [char, {name}] of Object.entries(piece.promo)){
@@ -211,7 +203,8 @@ ${char}:${name}`)){
 		let panelOuter = "";
 		let panelSep = "";
 		let rowSep = "\n";
-		let panelText = panel => panel.attr?.includes("keepOut")? "｜＃": "｜・";
+		let standText = 0 < this.stand.length? "―".repeat(xLen*2)+"\n": "";
+		let standBody = this.stand.map(o=>""+o).join("");
 
 		if(!isMinimam){
 			header = `┏${Array(xLen).fill("━━").join("┯")}┓\n`;
@@ -219,21 +212,24 @@ ${char}:${name}`)){
 			panelOuter = "┃";
 			panelSep = "│";
 			rowSep = `\n┃${Array(xLen).fill("──").join("┼")}┨\n`;
-			panelText = panel => panel.text;
+			standText = "";
+			for(const char of Object.values(Piece.degChars)){
+				standBody = standBody.replace(char, "\n"+`${char}持ち駒:${char}`);
+			}
 		}
 
 		return (
 			header+
 			this.field.map(row=>
 				panelOuter+
-				row.map(panel=>{
-					const piece = panel.piece;
-					if(!piece) return panelText(panel);
-					return this.degChars[piece.deg] + piece.char;
-				}).join(panelSep)+
+				row.map(panel=>
+					""+(panel.piece || panel.toString(isMinimam))
+				).join(panelSep)+
 				panelOuter
 			).join(rowSep)+
-			footer
+			footer+
+			standText+
+			standBody
 		);
 	}
 

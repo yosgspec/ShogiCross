@@ -110,4 +110,11 @@ class Panel{
 		// マス目を描写
 		ctx.fillRect(this.left, this.top, this.width, this.height);
 	}
+
+	/** 文字列形式で取得 */
+	toString(isMinimam=false){
+		return !isMinimam?
+			this.text:
+			`｜${this.text.slice(-1).replace(/　/g, "・")}`;
+	}
 }

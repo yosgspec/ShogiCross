@@ -4,6 +4,14 @@
 
 /** 駒の管理クラス */
 class Piece{
+	/** テキスト出力時のプレイヤー表示 */
+	static degChars = {
+		0: "▲",
+		90: "≫",
+		180: "▽",
+		270: "＜"
+	};
+
 	/** 駒データを初期化
 	 * @param {any} ctx - Canvas描画コンテキスト
 	 * @param {number} size - 描写サイズ
@@ -163,5 +171,10 @@ class Piece{
 		ctx.fill();
 
 		ctx.restore();
+	}
+
+	/** 文字列形式で取得 */
+	toString(){
+		return Piece.degChars[this.deg] + this.char;
 	}
 }
