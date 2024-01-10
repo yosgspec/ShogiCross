@@ -95,7 +95,7 @@ const boards = {
 			"MSM>#<MSM"
 		]
 	},
-	"4人用": {
+	"4人用x8": {
 		"backgroundColor": "#333333",
 		"borderColor": "#000000",
 		"borderWidth": 5,
@@ -117,7 +117,7 @@ const boards = {
 			"...SM>#<MSM..."
 		]
 	},
-	"4人用9": {
+	"4人用x9": {
 		"backgroundColor": "#333333",
 		"borderColor": "#000000",
 		"borderWidth": 5,
@@ -128,11 +128,11 @@ const boards = {
 			"...MSM>#<MSM...",
 			"MSMBWBWBWBWBMSM",
 			"SMSWBWBWBWBWSMS",
-			"MSMBWB===BWBMSM",
-			"SMSWB====]WSMS",
-			"MSMBW=====BMSM",
-			"SMSWB[====BWSMS",
-			"MSMBWB===BWBMSM",
+			"MSMBWB==]BWBMSM",
+			"<#>WB=====BW<#>",
+			"#*#BW=====WB#*#",
+			">#<WB=====BW>#<",
+			"MSMBWB[==BWBMSM",
 			"SMSWBWBWBWBWSMS",
 			"MSMBWBWBWBWBMSM",
 			"...MSM<#>MSM...",

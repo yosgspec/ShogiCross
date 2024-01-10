@@ -73,6 +73,7 @@ class Board{
 		}
 		this.field.forEach(row=>{
 			row.forEach(panel=>{
+				console.log(panel);
 				if(!panel.piece) return;
 				panel.piece.deg += deg;
 			});
@@ -152,7 +153,7 @@ class Board{
 	 * @param {Piece} loserPiece - 捕縛される駒
 	 */
 	capturePiece(winnerPiece, loserPiece){
-		if(!loserPiece || !winnerPiece.attr.includes("capture")) return;
+		if(!loserPiece || !winnerPiece.attr?.includes("capture")) return;
 		console.log(loserPiece);
 		loserPiece.deg = winnerPiece.deg;
 		this.stand.push(loserPiece);
@@ -166,7 +167,7 @@ class Board{
 	movePiece(fromPanel, toPanel){
 		if(
 			!fromPanel ||
-			toPanel.attr.includes("keepOut") ||
+			toPanel.attr?.includes("keepOut") ||
 			toPanel.piece === fromPanel.piece ||
 			toPanel.piece?.deg === fromPanel.piece.deg
 		) return;
@@ -210,7 +211,7 @@ ${char}:${name}`)){
 		let panelOuter = "";
 		let panelSep = "";
 		let rowSep = "\n";
-		let panelText = panel => panel.attr.includes("keepOut")? "｜＃": "｜・";
+		let panelText = panel => panel.attr?.includes("keepOut")? "｜＃": "｜・";
 
 		if(!isMinimam){
 			header = `┏${Array(xLen).fill("━━").join("┯")}┓\n`;
@@ -261,10 +262,8 @@ ${char}:${name}`)){
 			row.forEach(panel=>{
 				panel.draw();
 				if(panel.isSelected) panel.drawMask("#FF000055");
-				if(panel.piece){
-					panel.piece.draw();
-					if(panel.piece.isSelected) panel.piece.drawMask("#FF000055");
-				}
+				panel.piece?.draw();
+				if(panel.piece?.isSelected) panel.piece.drawMask("#FF000055");
 			});
 		});
 		if(this.onDrawed) this.onDrawed();

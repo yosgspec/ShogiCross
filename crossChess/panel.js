@@ -34,7 +34,7 @@ class Panel{
 	 * @param {boolean} value
 	 */
 	set isSelected(value){
-		this.#isSelected = this.attr.includes("keepOut")? false: value;
+		this.#isSelected = this.attr?.includes("keepOut")? false: value;
 	}
 	get isSelected(){
 		return this.#isSelected;
