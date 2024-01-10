@@ -73,6 +73,7 @@ class Piece{
 		this.size = size;
 		this.deg = deg;
 		this.isSelected = false;
+		this.isMoved = false;
 	}
 
 	/** 駒を表返す */

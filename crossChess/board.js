@@ -42,6 +42,7 @@ class Board{
 				return new Panel(ctx, panels[char], center, middle, panelWidth, panelHeight, this.borderWidth, xCnt, yCnt);
 			})
 		);
+		this.stand = [];
 		this.xLen = this.field[0].length;
 		this.yLen = this.field.length;
 		this.width = this.panelWidth*(this.xLen+1);
@@ -146,24 +147,46 @@ class Board{
 		return false;
 	}
 
+	/** 駒を持ち駒にする
+	 * @param {Piece|null} winnerPiece - 移動する駒
+	 * @param {Piece} loserPiece - 捕縛される駒
+	 */
+	capturePiece(winnerPiece, loserPiece){
+		if(!loserPiece || !winnerPiece.attr.includes("capture")) return;
+		console.log(loserPiece);
+		loserPiece.deg = winnerPiece.deg;
+		this.stand.push(loserPiece);
+		this.stand.sort((a,b)=>Math.sign(a.id-b.id));
+	}
+
 	/** 駒を移動
 	 * @param {Panel} fromPanel - 移動元のパネル
 	 * @param {Panel} toPanel - 選択中のパネル
-	 * @param {*} xCnt
-	 * @param {*} yCnt  
 	 */
-	movePiece(fromPanel, toPanel, xCnt, yCnt){
-		if(toPanel.attr.includes("keepOut") || !fromPanel || toPanel.piece === fromPanel.piece) return;
+	movePiece(fromPanel, toPanel){
+		if(
+			!fromPanel ||
+			toPanel.attr.includes("keepOut") ||
+			toPanel.piece === fromPanel.piece ||
+			toPanel.piece?.deg === fromPanel.piece.deg
+		) return;
+
 		let canPromo = this.checkCanPromo(fromPanel);
+
+		this.capturePiece(fromPanel.piece, toPanel.piece);
 		toPanel.piece = fromPanel.piece;
 		fromPanel.piece = null;
 
 		const {piece} = toPanel;
 		piece.center = toPanel.center;
 		piece.middle = toPanel.middle;
+		piece.isMoved = true;
 		canPromo ||= this.checkCanPromo(toPanel);
-		console.log(piece)
 
+		console.log(piece);
+		console.log(this.stand);
+
+		// プロモーション処理
 		if(!piece.promo || piece.group === "成" || !canPromo) return;
 		for(const [char, {name}] of Object.entries(piece.promo)){
 			if(confirm(`成りますか?
