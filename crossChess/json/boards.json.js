@@ -116,5 +116,28 @@ const boards = {
 			"...MS#*#SMS...",
 			"...SM>#<MSM..."
 		]
+	},
+	"4人用9": {
+		"backgroundColor": "#333333",
+		"borderColor": "#000000",
+		"borderWidth": 5,
+		"promoLineOffset": 6,
+		"field": [
+			"...MSM<#>MSM...",
+			"...SMS#*#SMS...",
+			"...MSM>#<MSM...",
+			"MSMBWBWBWBWBMSM",
+			"SMSWBWBWBWBWSMS",
+			"MSMBWB===BWBMSM",
+			"SMSWB====]WSMS",
+			"MSMBW=====BMSM",
+			"SMSWB[====BWSMS",
+			"MSMBWB===BWBMSM",
+			"SMSWBWBWBWBWSMS",
+			"MSMBWBWBWBWBMSM",
+			"...MSM<#>MSM...",
+			"...SMS#*#SMS...",
+			"...MSM>#<MSM..."
+		]
 	}
 }

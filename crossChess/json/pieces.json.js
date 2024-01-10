@@ -255,6 +255,7 @@ const pieces = {
 		"display": ["♟兵", "♙兵"],
 		"gameName": "チェス",
 		"group": "兵",
+		"attr": ["enPassant"],
 		"range": {
 			"default": [
 				".......",
@@ -386,6 +387,7 @@ const pieces = {
 		"display": ["♜塔", "♖塔"],
 		"gameName": "チェス",
 		"group": "車",
+		"attr": ["castlingRook"],
 		"range": {
 			"default": [
 				".......",
@@ -421,6 +423,7 @@ const pieces = {
 		"alias": ["帝"],
 		"gameName": "チェス",
 		"group": "王",
+		"attr": ["castlingKing"],
 		"range": {
 			"default": [
 				".......",
@@ -551,7 +554,7 @@ const pieces = {
 		"display": ["○仕", "○士", "仕", "士"],
 		"gameName": "シャンチー",
 		"group": "将",
-		"attr": ["palace"],
+		"attr": ["inPalace"],
 		"range": {
 			"default": [
 				".......",
@@ -588,7 +591,7 @@ const pieces = {
 		"alias": ["將"],
 		"gameName": "シャンチー",
 		"group": "王",
-		"attr": ["palace"],
+		"attr": ["inPalace"],
 		"range": {
 			"default": [
 				".......",
@@ -711,7 +714,7 @@ const pieces = {
 		"display": ["⬡士", "士"],
 		"gameName": "チャンギ",
 		"group": "将",
-		"attr": ["palace"],
+		"attr": ["inPalace"],
 		"range": {
 			"default": [
 				".......",
@@ -748,7 +751,7 @@ const pieces = {
 		"alias": ["漢"],
 		"gameName": "チャンギ",
 		"group": "王",
-		"attr": ["palace"],
+		"attr": ["inPalace"],
 		"range": {
 			"default": [
 				".......",
@@ -888,6 +891,7 @@ const pieces = {
 		"display": ["▵種"],
 		"gameName": "マークルック",
 		"group": "将",
+		"attr": ["sutMet"],
 		"range": {
 			"default": [
 				".......",
@@ -901,7 +905,7 @@ const pieces = {
 			"start": [
 				".......",
 				"...A...",
-				"...a...",
+				".......",
 				"...0...",
 				".......",
 				".......",
