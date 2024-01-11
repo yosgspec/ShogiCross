@@ -79,6 +79,17 @@ const boards = {
 			"MMMMMMMM"
 		]
 	},
+	"どうぶつしょうぎ": {
+		"backgroundColor": "#FFFFDD",
+		"borderColor": "#FFDD99",
+		"borderWidth": 5,
+		"field": [
+			"DDD",
+			"$$$",
+			"$$$",
+			"ddd"
+		]
+	},
 	"クロス": {
 		"backgroundColor": "#EECC88",
 		"borderColor": "#333333",
@@ -95,7 +106,51 @@ const boards = {
 			"MSM>#<MSM"
 		]
 	},
-	"4人用x8": {
+	"4人チェス": {
+		"backgroundColor": "#333333",
+		"borderColor": "#000000",
+		"borderWidth": 5,
+		"promoLineOffset": 6,
+		"field": [
+			"...BWBWBWBW...",
+			"...WBWBWBWB...",
+			"...BWBWBWBW...",
+			"BWBWBWBWBWBWBW",
+			"WBWBWBWBWBWBWB",
+			"BWBWBWBWBWBWBW",
+			"WBWBWBWBWBWBWB",
+			"BWBWBWBWBWBWBW",
+			"WBWBWBWBWBWBWB",
+			"BWBWBWBWBWBWBW",
+			"WBWBWBWBWBWBWB",
+			"...WBWBWBWB...",
+			"...BWBWBWBW...",
+			"...WBWBWBWB..."
+		]
+	},
+	"四神将棋": {
+		"backgroundColor": "#EECC88",
+		"borderColor": "#333333",
+		"borderWidth": 5,
+		"field": [
+			"...SSSSSSSSS...",
+			"...SSSSSSSSS...",
+			"...SSSSSSSSS...",
+			"SSSSSSSSSSSSSSS",
+			"SSSSSSSSSSSSSSS",
+			"SSSSSSSSSSSSSSS",
+			"SSSSSSSSSSSSSSS",
+			"SSSSSSSSSSSSSSS",
+			"SSSSSSSSSSSSSSS",
+			"SSSSSSSSSSSSSSS",
+			"SSSSSSSSSSSSSSS",
+			"SSSSSSSSSSSSSSS",
+			"...SSSSSSSSS...",
+			"...SSSSSSSSS...",
+			"...SSSSSSSSS..."
+		]
+	},
+	"4人用クロスx8": {
 		"backgroundColor": "#333333",
 		"borderColor": "#000000",
 		"borderWidth": 5,
@@ -117,7 +172,7 @@ const boards = {
 			"...SM>#<MSM..."
 		]
 	},
-	"4人用x9": {
+	"4人用クロスx9": {
 		"backgroundColor": "#333333",
 		"borderColor": "#000000",
 		"borderWidth": 5,

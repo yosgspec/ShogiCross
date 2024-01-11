@@ -54,7 +54,121 @@
 		textarea.value = board.outputText();
 	}
 
-	function main(){
+	function shogi(){
+		const board = new Board(canvas, {
+			canvasWidth: 600,
+			canvasHeight: 700,
+			playBoard: "将棋",
+			boardLeft: 0,
+			boardTop: 0,
+			panelWidth: 60,
+			panelHeight: 70,
+			pieceSize: 55
+		});
+		board.putStartPieces(0, "将棋");
+		board.putStartPieces(1, "将棋");
+		board.draw();
+
+		textareaMini.value = board.outputText(true);
+		textarea.value = board.outputText();
+	}
+
+	function chess(){
+		const board = new Board(canvas, {
+			canvasWidth: 540,
+			canvasHeight: 620,
+			playBoard: "チェス",
+			boardLeft: 0,
+			boardTop: 0,
+			panelWidth: 60,
+			panelHeight: 70,
+			pieceSize: 55
+		});
+		board.putStartPieces(0, "チェス");
+		board.putStartPieces(1, "チェス", "black");
+		board.draw();
+
+		textareaMini.value = board.outputText(true);
+		textarea.value = board.outputText();
+	}
+
+	function xiangqi(){
+		const board = new Board(canvas, {
+			canvasWidth: 600,
+			canvasHeight: 770,
+			playBoard: "シャンチー",
+			boardLeft: 0,
+			boardTop: 0,
+			panelWidth: 60,
+			panelHeight: 70,
+			pieceSize: 55
+		});
+		board.putStartPieces(0, "シャンチー");
+		board.putStartPieces(1, "シャンチー");
+		board.draw();
+
+		textareaMini.value = board.outputText(true);
+		textarea.value = board.outputText();
+	}
+
+	function janggi(){
+		const board = new Board(canvas, {
+			canvasWidth: 600,
+			canvasHeight: 770,
+			playBoard: "チャンギ",
+			boardLeft: 0,
+			boardTop: 0,
+			panelWidth: 60,
+			panelHeight: 70,
+			pieceSize: 55
+		});
+		board.putStartPieces(0, "チャンギ");
+		board.putStartPieces(1, "チャンギ");
+		board.draw();
+
+		textareaMini.value = board.outputText(true);
+		textarea.value = board.outputText();
+	}
+
+	function makruk(){
+		const board = new Board(canvas, {
+			canvasWidth: 540,
+			canvasHeight: 620,
+			playBoard: "マークルック",
+			boardLeft: 0,
+			boardTop: 0,
+			panelWidth: 60,
+			panelHeight: 70,
+			pieceSize: 55
+		});
+		board.putStartPieces(0, "マークルック");
+		board.putStartPieces(1, "マークルック");
+		board.draw();
+
+		textareaMini.value = board.outputText(true);
+		textarea.value = board.outputText();
+	}
+
+	function dobutsuShogi(){
+		const board = new Board(canvas, {
+			canvasWidth: 640,
+			canvasHeight: 800,
+			playBoard: "どうぶつしょうぎ",
+			boardLeft: 0,
+			boardTop: 0,
+			panelWidth: 160,
+			panelHeight: 160,
+			pieceSize: 130
+		});
+		board.putStartPieces(0, "どうぶつしょうぎ");
+		board.putStartPieces(1, "どうぶつしょうぎ");
+		board.draw();
+
+		textareaMini.value = board.outputText(true);
+		textarea.value = board.outputText();
+	}
+
+	function cross(){
 		const board = new Board(canvas, {
 			canvasWidth: 540,
 			canvasHeight: 620,
@@ -73,13 +187,11 @@
 		textarea.value = board.outputText();
 	}
 
-	function player4(){
-
-
+	function player4x8(){
 		const board = new Board(canvas, {
 			canvasWidth: 750,
 			canvasHeight: 750,
-			playBoard: "4人用x8",
+			playBoard: "4人用クロスx8",
 			boardLeft: 0,
 			boardTop: 0,
 			panelWidth: 50,
@@ -115,7 +227,7 @@
 		const board = new Board(canvas, {
 			canvasWidth: 800,
 			canvasHeight: 800,
-			playBoard: "4人用x9",
+			playBoard: "4人用クロスx9",
 			boardLeft: 0,
 			boardTop: 0,
 			panelWidth: 50,
@@ -151,8 +263,14 @@
 	/* メイン処理 */
 	(function(){
 		//sample();
-		//main();
-		//player4();
-		player4x9();
+		//shogi();
+		//chess();
+		//xiangqi();
+		//janggi();
+		//makruk();
+		//dobutsuShogi();
+		cross();
+		//player4x8();
+		//player4x9();
 	})();
 })();

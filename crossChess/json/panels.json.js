@@ -31,6 +31,30 @@ const panels = {
 		"borderWidth": 5,
 		"attr": []
 	},
+	"D":  {
+		"name": "どうぶつしょうぎ空",
+		"text": "　　",
+		"backgroundColor": "#AADDFF",
+		"borderColor": "#FFDD99",
+		"borderWidth": 5,
+		"attr": []
+	},
+	"$":  {
+		"name": "どうぶつしょうぎ地",
+		"text": "　　",
+		"backgroundColor": "#FFFFDD",
+		"borderColor": "#FFDD99",
+		"borderWidth": 5,
+		"attr": []
+	},
+	"d":  {
+		"name": "どうぶつしょうぎ森",
+		"text": "　　",
+		"backgroundColor": "#DDFFAA",
+		"borderColor": "#FFDD99",
+		"borderWidth": 5,
+		"attr": []
+	},
 	"=": {
 		"name": "河界",
 		"text": "＝＝",
