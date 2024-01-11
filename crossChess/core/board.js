@@ -6,20 +6,29 @@
 /** 盤の管理クラス */
 class Board{
 	/**
-	 * @param {any} ctx - Canvas描画コンテキスト
-	 * @param {string} boardName - ボードタイプ
-	 * @param {number} left - 描写するX座標
-	 * @param {number} top - 描写するY座標
+	 * 
+	 * @param {any} canvas 
+	 * @param {number} canvasWidth - キャンバス幅
+	 * @param {number} canvasHeight - キャンバス高さ
+	 * @param {string} playBoard - ボードタイプ
+	 * @param {number} boardLeft - 描写するX座標
+	 * @param {number} boardTop - 描写するY座標
 	 * @param {number} panelWidth - パネル幅
 	 * @param {number} panelHeight - パネル高さ
 	 * @param {number} players - プレイヤー人数(2 or 4)
 	 */
-	constructor(canvas, ctx, boardName, left, top, panelWidth, panelHeight, players = 2) {
-		Object.assign(this, boards[boardName]);
+	constructor(canvas, {canvasWidth, canvasHeight, playBoard, boardLeft, boardTop, panelWidth, panelHeight, pieceSize}, players = 2){
+		canvas.width = canvasWidth;
+		canvas.height = canvasHeight;
+		const ctx = canvas.getContext("2d");
+		ctx.clearRect(0, 0, canvas.panelWidth, canvas.panelHeight);
+		this.pieces = Piece.getPieces(ctx, pieceSize);
+
+		Object.assign(this, boards[playBoard]);
 		this.canvas = canvas;
 		this.ctx = ctx;
-		this.left = left;
-		this.top = top;
+		this.left = boardLeft;
+		this.top = boardTop;
 		this.panelWidth = panelWidth;
 		this.panelHeight = panelHeight;
 
@@ -29,8 +38,8 @@ class Board{
 		// マス目データを構築
 		this.field = this.field.map((row, yCnt)=>
 			[...row].map((char, xCnt)=>{
-				const center = left+panelWidth*(xCnt+1);
-				const middle = top+panelHeight*(yCnt+1)
+				const center = boardLeft+panelWidth*(xCnt+1);
+				const middle = boardTop+panelHeight*(yCnt+1)
 				return new Panel(ctx, panels[char], center, middle, panelWidth, panelHeight, this.borderWidth, xCnt, yCnt);
 			})
 		);
@@ -78,6 +87,8 @@ class Board{
 	 * {string} ptn - 駒の配置パターン変更
 	 */
 	putStartPieces(playerId, pieceSet, ptn="default"){
+		const {pieces} = this;
+
 		const deg = 0|playerId*360/this.players;
 		this.rotateField(deg);
 		const pos = games[pieceSet].position[this.xLen][ptn];
@@ -103,6 +114,8 @@ class Board{
 	 * @param {number} displayPtn - 表示文字列を変更(1〜)
 	 */
 	putNewPiece(piece, xCnt, yCnt, playeaIdOrDeg, displayPtn=0, setDeg=false){
+		const {pieces} = this;
+
 		const deg = !setDeg? playeaIdOrDeg*90: playeaIdOrDeg;
 		if(typeof piece === "string"){
 			piece = new Piece(this.ctx, pieces[piece], displayPtn, deg);
@@ -235,10 +248,10 @@ ${char}:${name}`)){
 
 	/** 盤を描写 */
 	draw(){
-		const {ctx, left, top, right, bottom, width, height, panelWidth, panelHeight} = this;
+		const {ctx, canvasWidth, canvasHeight, left, top, right, bottom, width, height, panelWidth, panelHeight} = this;
 
 		// 描写を初期化
-		ctx.clearRect(left, top, right, bottom);
+		ctx.clearRect(0, 0, canvasWidth, canvasHeight);
 
 		// 外枠を描写
 		ctx.fillStyle = this.backgroundColor;
@@ -262,6 +275,6 @@ ${char}:${name}`)){
 				if(panel.piece?.isSelected) panel.piece.drawMask("#FF000055");
 			});
 		});
-		if(this.onDrawed) this.onDrawed();
+		if(this.onDrawed) this.onDrawed(this);
 	}
 }

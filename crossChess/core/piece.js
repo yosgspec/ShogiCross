@@ -16,25 +16,26 @@ class Piece{
 	 * @param {any} ctx - Canvas描画コンテキスト
 	 * @param {number} size - 描写サイズ
 	 */
-	static init(ctx, size){
+	static getPieces(ctx, size){
 		Piece.size = size;
+		const exPieces = {...pieces};
 		/* 成駒のデータを統合 */
-		for(const base of Object.values(pieces)){
+		for(const base of Object.values(exPieces)){
 			base.base = base;
 			if(!base.promo) continue;
 			for(const [promoChar, promo] of Object.entries(base.promo)){
-				pieces[promoChar] = {...base, ...promo};
-				pieces[promoChar].group = "成";
+				exPieces[promoChar] = {...base, ...promo};
+				exPieces[promoChar].group = "成";
 			}
 		}
 		// 駒をクラスオブジェクトに変換
-		Object.entries(pieces).map(([key, piece], i)=>{
+		Object.entries(exPieces).map(([key, piece], i)=>{
 			piece.id = i;
 			piece.char = key;
-			pieces[key] = new Piece(ctx, piece);
+			exPieces[key] = new Piece(ctx, piece);
 		});
 		// エイリアスのデータを統合
-		for(const [baseChar, base] of Object.entries(pieces)){
+		for(const [baseChar, base] of Object.entries(exPieces)){
 			if(!base.alias) continue;
 			base.alias.forEach((aliasChar, i)=>{
 				const alias = base.clone();
@@ -42,9 +43,10 @@ class Piece{
 				alias.displayPtn = i+1;
 				alias.display = display;
 				alias.alias[i] = baseChar;
-				pieces[aliasChar] = alias;
+				exPieces[aliasChar] = alias;
 			});
 		}
+		return exPieces;
 	}
 
 	/** 駒の一覧をリストで取得 */
