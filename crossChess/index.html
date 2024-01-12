@@ -46,7 +46,7 @@
 		<script src="./json/boards.json.js"></script>
 		<script src="./json/canvasFont.json.js"></script>
 		<script src="./core/extendCanvasFonts.js"></script>
-		<script src="./core/mouseControl.js"></script>
+		<script src="./core/uiControl.js"></script>
 		<script src="./core/board.js"></script>
 		<script src="./core/panel.js"></script>
 		<script src="./core/piece.js"></script>
@@ -61,8 +61,12 @@
 				selectGame.appendChild(opt);
 			});
 
+
 			// ゲームを実行
+			let playingGame;
 			const playGame = async function(){
+				if(playingGame?.close) playingGame.close();
+
 				await canvasFont.import();
 				const canvas = document.getElementById("crossChess");
 				const txt = document.getElementById("crossChessText");
@@ -77,9 +81,9 @@
 					const txtMiniSplit = txtMini.value.split(/\n/);
 					txtMini.style.width = fontSize*txtMiniSplit[0].length*1.15;
 					txtMini.style.height = fontSize*txtMiniSplit.length*1.1;
-					console.log(e.field);
+
 				};
-				PlayGame[selectGame.value].run(canvas, onDrawed);
+				playingGame = PlayGame[selectGame.value].run(canvas, onDrawed);
 			};
 			playGame();
 			document.addEventListener("change", playGame);

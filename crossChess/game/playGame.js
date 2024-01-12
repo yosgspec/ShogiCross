@@ -36,6 +36,7 @@ const PlayGame = {
 			board.putStartPieces(1, "sample", "1");
 			board.onDrawed = onDrawed;
 			board.draw();
+			return board;
 		}
 	},
 	shogi: {
@@ -55,6 +56,7 @@ const PlayGame = {
 			board.putStartPieces(1, "将棋");
 			board.onDrawed = onDrawed;
 			board.draw();
+			return board;
 		}
 	},
 	chess: {
@@ -74,6 +76,7 @@ const PlayGame = {
 			board.putStartPieces(1, "チェス", "black");
 			board.onDrawed = onDrawed;
 			board.draw();
+			return board;
 		}
 	},
 	xiangq: {
@@ -93,6 +96,7 @@ const PlayGame = {
 			board.putStartPieces(1, "シャンチー");
 			board.onDrawed = onDrawed;
 			board.draw();
+			return board;
 		}
 	},
 	janggi: {
@@ -112,6 +116,7 @@ const PlayGame = {
 			board.putStartPieces(1, "チャンギ");
 			board.onDrawed = onDrawed;
 			board.draw();
+			return board;
 		}
 	},
 	makruk: {
@@ -131,6 +136,7 @@ const PlayGame = {
 			board.putStartPieces(1, "マークルック");
 			board.onDrawed = onDrawed;
 			board.draw();
+			return board;
 		}
 	},
 	dobutsuShogi: {
@@ -150,6 +156,7 @@ const PlayGame = {
 			board.putStartPieces(1, "どうぶつしょうぎ");
 			board.onDrawed = onDrawed;
 			board.draw();
+			return board;
 		}
 	},
 	p4Shogi: {
@@ -165,12 +172,13 @@ const PlayGame = {
 				panelHeight: 70,
 				pieceSize: 55
 			}, 4);
-			board.putStartPieces(0, "将棋", p4);
-			board.putStartPieces(1, "将棋", p4);
-			board.putStartPieces(2, "将棋", p4);
-			board.putStartPieces(3, "将棋", p4);
+			board.putStartPieces(0, "将棋", "p4");
+			board.putStartPieces(1, "将棋", "p4");
+			board.putStartPieces(2, "将棋", "p4");
+			board.putStartPieces(3, "将棋", "p4");
 			board.onDrawed = onDrawed;
 			board.draw();
+			return board;
 		}
 	},
 	p4Chess: {
@@ -192,6 +200,7 @@ const PlayGame = {
 			board.putStartPieces(3, "チェス");
 			board.onDrawed = onDrawed;
 			board.draw();
+			return board;
 		}
 	},
 	g4Shpgi: {
@@ -213,6 +222,7 @@ const PlayGame = {
 			board.putStartPieces(3, "将棋");
 			board.onDrawed = onDrawed;
 			board.draw();
+			return board;
 		}
 	},
 	crossOver8: {
@@ -232,6 +242,7 @@ const PlayGame = {
 			board.putStartPieces(1, "マークルック");
 			board.onDrawed = onDrawed;
 			board.draw();
+			return board;
 		}
 	},
 	crossOver9: {
@@ -251,6 +262,7 @@ const PlayGame = {
 			board.putStartPieces(1, "チャンギ", "left");
 			board.onDrawed = onDrawed;
 			board.draw();
+			return board;
 		}
 	},
 	p4CrossOver8: {
@@ -286,6 +298,7 @@ const PlayGame = {
 			board.putNewPiece("馭", 5, 5, 3);
 			board.onDrawed = onDrawed;
 			board.draw();
+			return board;
 		}
 	},
 	p4CrossOver9: {
@@ -322,6 +335,8 @@ const PlayGame = {
 			board.putNewPiece("卆", 9, 7, 1);
 			board.onDrawed = onDrawed;
 			board.draw();
+			return board;return 
+board;
 		}
 	}
 };

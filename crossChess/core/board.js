@@ -49,7 +49,12 @@ class Board{
 		this.height = this.panelHeight*(this.yLen+1);
 		this.onDrawed = null;
 
-		mouseControl(this);
+		this.uiControl = uIControl(this);
+	}
+
+	/** ボードを閉じる */
+	close(){
+		this.uiControl.removeEvent();
 	}
 
 	/** 駒配置を回転
