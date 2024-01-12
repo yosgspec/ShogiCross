@@ -1,10 +1,22 @@
 (async function(){
 	await canvasFont.import();
 	const canvas = document.getElementById("crossChess");
-	const textareaMini = document.getElementById("crossChessTextMini");
-	const textarea = document.getElementById("crossChessText");
+	const txt = document.getElementById("crossChessText");
+	const txtMini = document.getElementById("crossChessTextMini");
 
-	function sample(){
+	function onDrowed(e){
+		txt.value = e.outputText();
+		const txtSplit = txt.value.split(/\n/);
+		const fontSize = parseFloat(window.getComputedStyle(txt, null).getPropertyValue('font-size'));
+		txt.style.width = fontSize*txtSplit[0].length*1.15;
+		txt.style.height = fontSize*txtSplit.length*1.1;
+		txtMini.value = e.outputText(true);
+		const txtMiniSplit = txtMini.value.split(/\n/);
+		txtMini.style.width = fontSize*txtMiniSplit[0].length*1.15;
+		txtMini.style.height = fontSize*txtMiniSplit.length*1.1;
+	}
+
+	function sample(onDrowed){
 		boards["sample"] = {...boards["チェス"]}
 		boards["sample"].field = [
 			"WBW<#>SS",
@@ -48,13 +60,11 @@
 		});
 		board.putStartPieces(0, "sample", "0");
 		board.putStartPieces(1, "sample", "1");
+		board.onDrawed = onDrowed;
 		board.draw();
-
-		textareaMini.value = board.outputText(true);
-		textarea.value = board.outputText();
 	}
 
-	function shogi(){
+	function shogi(onDrowed){
 		const board = new Board(canvas, {
 			canvasWidth: 600,
 			canvasHeight: 700,
@@ -67,13 +77,11 @@
 		});
 		board.putStartPieces(0, "将棋");
 		board.putStartPieces(1, "将棋");
+		board.onDrawed = onDrowed;
 		board.draw();
-
-		textareaMini.value = board.outputText(true);
-		textarea.value = board.outputText();
 	}
 
-	function chess(){
+	function chess(onDrowed){
 		const board = new Board(canvas, {
 			canvasWidth: 540,
 			canvasHeight: 620,
@@ -86,13 +94,11 @@
 		});
 		board.putStartPieces(0, "チェス");
 		board.putStartPieces(1, "チェス", "black");
+		board.onDrawed = onDrowed;
 		board.draw();
-
-		textareaMini.value = board.outputText(true);
-		textarea.value = board.outputText();
 	}
 
-	function xiangqi(){
+	function xiangqi(onDrowed){
 		const board = new Board(canvas, {
 			canvasWidth: 600,
 			canvasHeight: 770,
@@ -105,13 +111,11 @@
 		});
 		board.putStartPieces(0, "シャンチー");
 		board.putStartPieces(1, "シャンチー");
+		board.onDrawed = onDrowed;
 		board.draw();
-
-		textareaMini.value = board.outputText(true);
-		textarea.value = board.outputText();
 	}
 
-	function janggi(){
+	function janggi(onDrowed){
 		const board = new Board(canvas, {
 			canvasWidth: 600,
 			canvasHeight: 770,
@@ -124,13 +128,11 @@
 		});
 		board.putStartPieces(0, "チャンギ");
 		board.putStartPieces(1, "チャンギ");
+		board.onDrawed = onDrowed;
 		board.draw();
-
-		textareaMini.value = board.outputText(true);
-		textarea.value = board.outputText();
 	}
 
-	function makruk(){
+	function makruk(onDrowed){
 		const board = new Board(canvas, {
 			canvasWidth: 540,
 			canvasHeight: 620,
@@ -143,13 +145,11 @@
 		});
 		board.putStartPieces(0, "マークルック");
 		board.putStartPieces(1, "マークルック");
+		board.onDrawed = onDrowed;
 		board.draw();
-
-		textareaMini.value = board.outputText(true);
-		textarea.value = board.outputText();
 	}
 
-	function dobutsuShogi(){
+	function dobutsuShogi(onDrowed){
 		const board = new Board(canvas, {
 			canvasWidth: 640,
 			canvasHeight: 800,
@@ -162,13 +162,11 @@
 		});
 		board.putStartPieces(0, "どうぶつしょうぎ");
 		board.putStartPieces(1, "どうぶつしょうぎ");
+		board.onDrawed = onDrowed;
 		board.draw();
-
-		textareaMini.value = board.outputText(true);
-		textarea.value = board.outputText();
 	}
 
-	function cross(){
+	function cross(onDrowed){
 		const board = new Board(canvas, {
 			canvasWidth: 540,
 			canvasHeight: 620,
@@ -181,13 +179,11 @@
 		});
 		board.putStartPieces(0, "将棋");
 		board.putStartPieces(1, "チャンギ", "left");
+		board.onDrawed = onDrowed;
 		board.draw();
-
-		textareaMini.value = board.outputText(true);
-		textarea.value = board.outputText();
 	}
 
-	function player4x8(){
+	function player4x8(onDrowed){
 		const board = new Board(canvas, {
 			canvasWidth: 750,
 			canvasHeight: 750,
@@ -216,14 +212,11 @@
 		board.putNewPiece("包", 5, 7, 3);
 		board.putNewPiece("卆", 5, 6, 3);
 		board.putNewPiece("馭", 5, 5, 3);
-		board.onDrawed = e=>{
-			textareaMini.value = e.outputText(true);
-			textarea.value = e.outputText();
-		}
+		board.onDrawed = onDrowed;
 		board.draw();
 	}
 
-	function player4x9(){
+	function player4x9(onDrowed){
 		const board = new Board(canvas, {
 			canvasWidth: 800,
 			canvasHeight: 800,
@@ -253,24 +246,21 @@
 		board.putNewPiece("象", 8, 8, 1);
 		board.putNewPiece("包", 9, 6, 0);
 		board.putNewPiece("卆", 9, 7, 1);
-		board.onDrawed = e=>{
-			textareaMini.value = e.outputText(true);
-			textarea.value = e.outputText();
-		}
+		board.onDrawed = onDrowed;
 		board.draw();
 	}
 
 	/* メイン処理 */
 	(function(){
-		//sample();
-		//shogi();
-		//chess();
-		//xiangqi();
-		//janggi();
-		//makruk();
-		//dobutsuShogi();
-		cross();
-		//player4x8();
-		//player4x9();
+		//sample(onDrowed);
+		//shogi(onDrowed);
+		//chess(onDrowed);
+		//xiangqi(onDrowed);
+		//janggi(onDrowed);
+		//makruk(onDrowed);
+		//dobutsuShogi(onDrowed);
+		//cross(onDrowed);
+		//player4x8(onDrowed);
+		player4x9(onDrowed);
 	})();
 })();
