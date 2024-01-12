@@ -11,7 +11,7 @@
 
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 		<meta name="viewport" content="width=device-width" />
-		<title>Cross Chess</title>
+		<title>Cross Over Chess</title>
 		<link rel=icon href="../favicon.ico">
 		<link href="../gspec20.css" rel="stylesheet">
 		<link rel="preconnect" href="https://fonts.googleapis.com">
@@ -30,26 +30,15 @@
 		</style>
 	</head>
 	<body>
-		<h1>Cross Chess</h1>
-		<canvas id="crossChess"></canvas>
+		<h1>Cross Over Chess</h1>
+		<div>
+			<canvas id="crossChess"></canvas>
+			<select id="selectGame"></select>
+		<div>
 		<textarea id="crossChessText"></textarea>
 		<textarea id="crossChessTextMini"></textarea>
-		<button id="crossChessTextInput" onclick="alert('未実装につき')">Text Input</button><br>
-		<a href="https://github.com/yosgspec/CrossChess">GitHub</a><br>
-		<br>
-		<i>一文字表記(CLI用JIS第2水準迄)</i><br>
-		<u>兵騏僧城馬象角車砲将玉王</u><br>
-		歩・・・桂銀角香飛金玉皇<br>
-		と・・・圭全馬杏竜・・・<br>
-		兵兵兵兵騎聖・塔・后王帝<br>
-		妃騏僧城・・・・・・・・<br>
-		卒・・・馮相・俥炮仕帥将<br>
-		率・・・・・・・・・・・<br>
-		卆・・・馭象・車包士楚漢<br>
-		・・・・・・・・・・・・<br>
-		貝・・・瑪根・船・種君公<br>
-		貴・・・・・・・・・・・<br>
-
+		<div><button id="crossChessTextInput" onclick="alert('未実装につき')">Text Input</button></div>
+		<div><a href="https://github.com/yosgspec/CrossChess">GitHub</a></div>
 		<script src="./json/games.json.js"></script>
 		<script src="./json/pieces.json.js"></script>
 		<script src="./json/pieceCost.json.js"></script>
@@ -61,6 +50,39 @@
 		<script src="./core/board.js"></script>
 		<script src="./core/panel.js"></script>
 		<script src="./core/piece.js"></script>
-		<script src="./crossChess.js"></script>
+		<script src="./game/playGame.js"></script>
+		<script>
+			// リストボックスに追加
+			const selectGame = document.getElementById("selectGame");
+			Object.entries(PlayGame).forEach(([key, {name}])=>{
+				const opt = document.createElement("option");
+				opt.value = key;
+				opt.textContent = name;
+				selectGame.appendChild(opt);
+			});
+
+			// ゲームを実行
+			const playGame = async function(){
+				await canvasFont.import();
+				const canvas = document.getElementById("crossChess");
+				const txt = document.getElementById("crossChessText");
+				const txtMini = document.getElementById("crossChessTextMini");
+				const onDrawed = e=>{
+					txt.value = e.outputText();
+					const txtSplit = txt.value.split(/\n/);
+					const fontSize = parseFloat(window.getComputedStyle(txt, null).getPropertyValue('font-size'));
+					txt.style.width = fontSize*txtSplit[0].length*1.15;
+					txt.style.height = fontSize*txtSplit.length*1.1;
+					txtMini.value = e.outputText(true);
+					const txtMiniSplit = txtMini.value.split(/\n/);
+					txtMini.style.width = fontSize*txtMiniSplit[0].length*1.15;
+					txtMini.style.height = fontSize*txtMiniSplit.length*1.1;
+					console.log(e.field);
+				};
+				PlayGame[selectGame.value].run(canvas, onDrawed);
+			};
+			playGame();
+			document.addEventListener("change", playGame);
+		</script>
 	</body>
 </html>

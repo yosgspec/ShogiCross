@@ -194,6 +194,7 @@ class Board{
 		// プロモーション処理
 		if(!piece.promo || piece.group === "成" || !canPromo) return;
 		for(const [char, {name}] of Object.entries(piece.promo)){
+			console.log(piece)
 			if(confirm(`成りますか?
 ${piece.char}:${piece.name}
 　↓

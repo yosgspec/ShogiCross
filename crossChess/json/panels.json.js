@@ -61,7 +61,7 @@ const panels = {
 		"backgroundColor": "#EECC88",
 		"borderColor": "#33221144",
 		"borderWidth": 5,
-		"attr": ["river"]
+		"attr": []
 	},
 	"[": {
 		"name": "河界左字",
@@ -71,7 +71,7 @@ const panels = {
 		"borderWidth": 5,
 		"textDisplay": "河",
 		"textRotate": -90,
-		"attr": ["river"]
+		"attr": []
 	},
 	"]": {
 		"name": "河界右字",
@@ -81,7 +81,7 @@ const panels = {
 		"borderWidth": 5,
 		"textDisplay": "界",
 		"textRotate": 90,
-		"attr": ["river"]
+		"attr": []
 	},
 	"#": {
 		"name": "九宮",

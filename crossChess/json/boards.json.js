@@ -90,22 +90,6 @@ const boards = {
 			"ddd"
 		]
 	},
-	"クロス": {
-		"backgroundColor": "#EECC88",
-		"borderColor": "#333333",
-		"borderWidth": 5,
-		"field": [
-			"MSM<#>MSM",
-			"SMS#*#SMS",
-			"MSM>#<MSM",
-			"SSSSSSSSS",
-			"=[=====]=",
-			"SSSSSSSSS",
-			"MSM<#>MSM",
-			"SMS#*#SMS",
-			"MSM>#<MSM"
-		]
-	},
 	"4人チェス": {
 		"backgroundColor": "#333333",
 		"borderColor": "#000000",
@@ -150,8 +134,39 @@ const boards = {
 			"...SSSSSSSSS..."
 		]
 	},
-	"4人用クロスx8": {
-		"backgroundColor": "#333333",
+	"クロス8列": {
+		"backgroundColor": "#EECC88",
+		"borderColor": "#333333",
+		"borderWidth": 5,
+		"field": [
+			"WBW<#>SS",
+			"BWB#*#SS",
+			"WBW>#<SS",
+			"======]=",
+			"=[======",
+			"SS<#>BWB",
+			"SS#*#WBW",
+			"SS>#<BWB"
+		]
+	},
+	"クロス9列": {
+		"backgroundColor": "#EECC88",
+		"borderColor": "#333333",
+		"borderWidth": 5,
+		"field": [
+			"MSM<#>MSM",
+			"SMS#*#SMS",
+			"MSM>#<MSM",
+			"SSSSSSSSS",
+			"=[=====]=",
+			"SSSSSSSSS",
+			"MSM<#>MSM",
+			"SMS#*#SMS",
+			"MSM>#<MSM"
+		]
+	},
+	"4人用クロス8列": {
+			"backgroundColor": "#333333",
 		"borderColor": "#000000",
 		"borderWidth": 5,
 		"promoLineOffset": 6,
@@ -172,7 +187,7 @@ const boards = {
 			"...SM>#<MSM..."
 		]
 	},
-	"4人用クロスx9": {
+	"4人用クロス9列": {
 		"backgroundColor": "#333333",
 		"borderColor": "#000000",
 		"borderWidth": 5,
