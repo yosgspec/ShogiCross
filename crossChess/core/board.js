@@ -199,7 +199,7 @@ ${char}:${name}`)){
 	/** 駒配置をテキストで取得
 	 * {boolean} isMinimam - 縮小表示
 	 */
-	outputText(isMinimam=false){
+	toString(isMinimam=false){
 		const {xLen} = this;
 
 		let header = "";
