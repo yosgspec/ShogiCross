@@ -65,7 +65,7 @@
 			// ゲームを実行
 			let playingGame;
 			const playGame = async function(){
-				if(playingGame?.close) playingGame.close();
+				playingGame?.close();
 
 				await canvasFont.import();
 				const canvas = document.getElementById("crossChess");
