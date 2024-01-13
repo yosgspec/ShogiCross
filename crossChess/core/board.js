@@ -16,7 +16,7 @@ class Board{
 	 * @param {number} panelHeight - パネル高さ
 	 * @param {number} players - プレイヤー人数(2 or 4)
 	 */
-	constructor(canvas, {canvasWidth, canvasHeight, playBoard, boardLeft, boardTop, panelWidth, panelHeight, pieceSize}, players = 2){
+	constructor(canvas, {canvasWidth, canvasHeight, playBoard, boardLeft, boardTop, panelWidth, panelHeight, pieceSize, backgroundColor="#00000000"}, players = 2){
 		canvas.width = canvasWidth;
 		canvas.height = canvasHeight;
 		const ctx = canvas.getContext("2d");
@@ -30,6 +30,7 @@ class Board{
 		this.top = boardTop;
 		this.panelWidth = panelWidth;
 		this.panelHeight = panelHeight;
+		this.canvasBackgroundColor = backgroundColor;
 
 		if(![2, 4].includes(players)) throw Error(`players=${players}, players need 2 or 4.`);
 		this.players = players;
@@ -42,11 +43,11 @@ class Board{
 				return new Panel(ctx, panels[char], center, middle, panelWidth, panelHeight, this.borderWidth, xCnt, yCnt);
 			})
 		);
-		this.stand = [];
 		this.xLen = this.field[0].length;
 		this.yLen = this.field.length;
 		this.width = this.panelWidth*(this.xLen+1);
 		this.height = this.panelHeight*(this.yLen+1);
+		this.stand = new Stand(this, this.left+this.width*1.02, this.top, this.width/2, this.height);
 		this.onDrawed = null;
 
 		this.uiControl = uIControl(this);
@@ -158,22 +159,6 @@ class Board{
 		return false;
 	}
 
-	/** 駒を持ち駒にする
-	 * @param {Piece|null} winnerPiece - 移動する駒
-	 * @param {Piece} loserPiece - 捕縛される駒
-	 */
-	capturePiece(winnerPiece, loserPiece){
-		if(
-			!loserPiece ||
-			!winnerPiece.attr?.includes("capture") ||
-			loserPiece.group === "王"
-		) return;
-
-		loserPiece.deg = winnerPiece.deg;
-		this.stand.push(loserPiece);
-		this.stand.sort((a,b)=>Math.sign(a.deg+a.id-b.deg+b.id));
-	}
-
 	/** 駒を移動
 	 * @param {Panel} fromPanel - 移動元のパネル
 	 * @param {Panel} toPanel - 選択中のパネル
@@ -188,7 +173,7 @@ class Board{
 
 		let canPromo = this.checkCanPromo(fromPanel);
 
-		this.capturePiece(fromPanel.piece, toPanel.piece);
+		this.stand.capturePiece(fromPanel.piece, toPanel.piece);
 		toPanel.piece = fromPanel.piece;
 		fromPanel.piece = null;
 
@@ -201,7 +186,6 @@ class Board{
 		// プロモーション処理
 		if(!piece.promo || piece.group === "成" || !canPromo) return;
 		for(const [char, {name}] of Object.entries(piece.promo)){
-			console.log(piece)
 			if(confirm(`成りますか?
 ${piece.char}:${piece.name}
 　↓
@@ -223,8 +207,6 @@ ${char}:${name}`)){
 		let panelOuter = "";
 		let panelSep = "";
 		let rowSep = "\n";
-		let standText = 0 < this.stand.length? "―".repeat(xLen*2)+"\n": "";
-		let standBody = this.stand.map(o=>""+o).join("");
 
 		if(!isMinimam){
 			header = `┏${Array(xLen).fill("━━").join("┯")}┓\n`;
@@ -232,10 +214,6 @@ ${char}:${name}`)){
 			panelOuter = "┃";
 			panelSep = "│";
 			rowSep = `\n┠${Array(xLen).fill("──").join("┼")}┨\n`;
-			standText = "";
-			for(const char of Object.values(Piece.degChars)){
-				standBody = standBody.replace(char, "\n"+`${char}持ち駒:${char}`);
-			}
 		}
 
 		return (
@@ -248,22 +226,25 @@ ${char}:${name}`)){
 				panelOuter
 			).join(rowSep)+
 			footer+
-			standText+
-			standBody
+			this.stand.toString(isMinimam)
 		);
 	}
 
 	/** 盤を描写 */
 	draw(){
-		const {ctx, canvasWidth, canvasHeight, left, top, right, bottom, width, height, panelWidth, panelHeight} = this;
+		const {ctx, canvas, left, top, width, height, panelWidth, panelHeight} = this;
 
 		// 描写を初期化
-		ctx.clearRect(0, 0, canvasWidth, canvasHeight);
+		ctx.restore();
+		ctx.save();
+		ctx.clearRect(0, 0, canvas.width, canvas.height);
+		ctx.fillStyle = this.canvasBackgroundColor;
+		ctx.fillRect(0, 0, canvas.width, canvas.height);
 
 		// 外枠を描写
 		ctx.fillStyle = this.backgroundColor;
-		ctx.strokeStyle = this.borderColor;
 		ctx.lineWidth = this.borderWidth;
+		ctx.strokeStyle = this.borderColor;
 
 		ctx.save();
 		ctx.translate(left, top);
@@ -272,6 +253,7 @@ ${char}:${name}`)){
 		ctx.translate(panelWidth/2, panelHeight/2);
 		ctx.strokeRect(0, 0, width-panelWidth, height-panelHeight);
 		ctx.restore();
+		this.stand.draw();
 
 		// マス目を描写
 		this.field.forEach(row=>{

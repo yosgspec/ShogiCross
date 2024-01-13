@@ -36,7 +36,6 @@ class Piece{
 		});
 		// エイリアスのデータを統合
 		for(const [baseChar, base] of Object.entries(exPieces)){
-			if(!base.alias) continue;
 			base.alias.forEach((aliasChar, i)=>{
 				const alias = base.clone();
 				const display = [...alias.display];
@@ -87,7 +86,7 @@ class Piece{
 	}
 
 	/** 駒を表返す */
-	turnOverFront(){
+	turnFront(){
 		Object.assign(this, this.base);
 	}
 

@@ -4,6 +4,7 @@
 function uIControl(board){
 	let isClick = false;
 	let lastXY = [];
+	let selectPanel = null;
 	const {canvas} = board;
 
 	/** マス目に対する処理

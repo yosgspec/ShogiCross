@@ -111,7 +111,9 @@ class Panel{
 		ctx.fillRect(this.left, this.top, this.width, this.height);
 	}
 
-	/** 文字列形式で取得 */
+	/** 文字列形式で取得 
+	 * @param {string} - 簡易表示
+	 */
 	toString(isMinimam=false){
 		return !isMinimam?
 			this.text:
