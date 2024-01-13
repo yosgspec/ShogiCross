@@ -130,7 +130,9 @@ class Board{
 		panel.piece = piece;
 	}
 
-	/** プロモーションエリア内であるか判別 */ 
+	/** プロモーションエリア内であるか判別
+	 * @param {Panel} panel - パネル 
+	 */ 
 	checkCanPromo(panel){
 		const {xLen, yLen} = this;
 		const {piece, xCnt, yCnt} = panel;
