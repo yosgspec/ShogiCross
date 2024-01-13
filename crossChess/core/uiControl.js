@@ -48,6 +48,7 @@ function uIControl(board){
 		isClick = true;
 		fieldProc(e, (panel, x, y)=>{
 			if(panel.piece && panel.checkRangeMouse(x, y)){
+				e.preventDefault();
 				panel.piece.isSelected = true;
 				selectPanel = panel;
 			}
