@@ -137,19 +137,19 @@ class Board{
 		const {deg} = piece;
 		const promoLine = piece.game.promoLine-(0|this.promoLineOffset);
 
-		if(deg === 0){
+		if(deg === 0 || this.sidePromo && deg !== 180){
 			const promoOver = (yLen-promoLine)%yLen-1;
 			if(yCnt <= promoOver) return true;
 		}
-		if(deg === 90){
+		if(deg === 90 || this.sidePromo && deg !== 270){
 			const promoOver = (xLen+promoLine)%xLen;
 			if(promoOver <= xCnt) return true;
 		}
-		if(deg === 180){
+		if(deg === 180 || this.sidePromo && deg !== 0){
 			const promoOver = (yLen+promoLine)%yLen;
 			if(promoOver <= yCnt) return true;
 		}
-		if(deg === 270){
+		if(deg === 270 || this.sidePromo && deg !== 90){
 			const promoOver = (xLen-promoLine)%xLen-1;
 			if(xCnt <= promoOver) return true;
 		}

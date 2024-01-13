@@ -116,6 +116,7 @@ const boards = {
 		"backgroundColor": "#EECC88",
 		"borderColor": "#333333",
 		"borderWidth": 5,
+		"sidePromo": true,
 		"field": [
 			"...SSSSSSSSS...",
 			"...SSSSSSSSS...",
