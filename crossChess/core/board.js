@@ -47,7 +47,9 @@ class Board{
 		this.yLen = this.field.length;
 		this.width = this.panelWidth*(this.xLen+1);
 		this.height = this.panelHeight*(this.yLen+1);
-		this.stand = new Stand(this, this.left+this.width*1.02, this.top, this.width/2, this.height);
+		this.right = boardLeft+this.width;
+		this.bottom = boardTop+this.height;
+		this.stand = new Stand(this);
 		this.onDrawed = null;
 
 		this.uiControl = uIControl(this);
@@ -196,40 +198,6 @@ ${char}:${name}`)){
 		}
 	}
 
-	/** 駒配置をテキストで取得
-	 * {boolean} isMinimam - 縮小表示
-	 */
-	toString(isMinimam=false){
-		const {xLen} = this;
-
-		let header = "";
-		let footer = "";
-		let panelOuter = "";
-		let panelSep = "";
-		let rowSep = "\n";
-
-		if(!isMinimam){
-			header = `┏${Array(xLen).fill("━━").join("┯")}┓\n`;
-			footer = `\n┗${Array(xLen).fill("━━").join("┷")}┛`;
-			panelOuter = "┃";
-			panelSep = "│";
-			rowSep = `\n┠${Array(xLen).fill("──").join("┼")}┨\n`;
-		}
-
-		return (
-			header+
-			this.field.map(row=>
-				panelOuter+
-				row.map(panel=>
-					""+(panel.piece || panel.toString(isMinimam))
-				).join(panelSep)+
-				panelOuter
-			).join(rowSep)+
-			footer+
-			this.stand.toString(isMinimam)
-		);
-	}
-
 	/** 盤を描写 */
 	draw(){
 		const {ctx, canvas, left, top, width, height, panelWidth, panelHeight} = this;
@@ -262,5 +230,39 @@ ${char}:${name}`)){
 			});
 		});
 		if(this.onDrawed) this.onDrawed(this);
+	}
+
+	/** 駒配置をテキストで取得
+	 * {boolean} isMinimam - 縮小表示
+	 */
+	toString(isMinimam=false){
+		const {xLen} = this;
+
+		let header = "";
+		let footer = "";
+		let panelOuter = "";
+		let panelSep = "";
+		let rowSep = "\n";
+
+		if(!isMinimam){
+			header = `┏${Array(xLen).fill("━━").join("┯")}┓\n`;
+			footer = `\n┗${Array(xLen).fill("━━").join("┷")}┛`;
+			panelOuter = "┃";
+			panelSep = "│";
+			rowSep = `\n┠${Array(xLen).fill("──").join("┼")}┨\n`;
+		}
+
+		return (
+			header+
+			this.field.map(row=>
+				panelOuter+
+				row.map(panel=>
+					""+(panel.piece || panel.toString(isMinimam))
+				).join(panelSep)+
+				panelOuter
+			).join(rowSep)+
+			footer+
+			this.stand.toString(isMinimam)
+		);
 	}
 }

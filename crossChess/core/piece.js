@@ -18,7 +18,7 @@ class Piece{
 	 */
 	static getPieces(ctx, size){
 		Piece.size = size;
-		const exPieces = {...pieces};
+		const exPieces = JSON.parse(JSON.stringify(pieces));
 		/* 成駒のデータを統合 */
 		for(const base of Object.values(exPieces)){
 			base.base = base;

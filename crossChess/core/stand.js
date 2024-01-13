@@ -8,13 +8,19 @@ class Stand{
 	/**
 	 * @param {any} canvas 
 	 */
-	constructor(board, standLeft, standTop, standWidth, standHeight){
+	constructor(board){
 		this.stock = [];
 		this.board = board;
-		this.left = standLeft;
-		this.top = standTop;
-		this.width = standWidth;
-		this.height = standHeight;
+		const {left, top, width, height, panelWidth, panelHeight, xLen, yLen} = board;
+
+		this.left = left+width*1.02;
+		this.top = top;
+		this.width = width/2;
+		this.height = height;
+		this.pitchWidth = panelWidth/2;
+		this.pitchHeight = panelHeight;
+		this.xLen = xLen;
+		this.yLen = yLen;
 	}
 
 	/** 駒台に追加する
@@ -64,7 +70,7 @@ class Stand{
 	toString(isMinimam=false){
 		const {xLen} = this.board;
 
-		let head = 0 < this.stock.length? "―".repeat(xLen*2)+"\n": "";
+		let head = 0 < this.stock.length? "\n"+"―".repeat(xLen*2)+"\n": "";
 		let text = this.stock.map(o=>""+o).join("");
 		if(!isMinimam){
 			head = "";
