@@ -98,7 +98,7 @@ class Panel{
 			ctx.rotate(rad);
 
 			const fontSize = Math.min(this.width, this.height)*0.6;
-			ctx.font = `${fontSize}px ${canvasFont.fontStr}`;
+			ctx.font = `${fontSize}px ${canvasFont.names}`;
 
 			const width = ctx.measureText(textDisplay).width;
 			const height = fontSize/2*0.8;

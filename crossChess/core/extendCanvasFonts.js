@@ -1,9 +1,10 @@
 Object.assign(canvasFont, {
 	imported: false,
-	fontStr: canvasFont.fonts.map(o=>`"${o[0]}"`).join(","),
+	names: "",
 	async import(){
-		if(this.imported) return; 
-		canvasFont.fontStr = canvasFont.fonts.map(o=>`"${o[0]}"`).join(",");
+		if(this.imported) return;
+		const id = new Date().getTime().toString();
+		this.names = canvasFont.fonts.map(o=>`"${o[0]}${id}"`).join(",");
 
 		return Promise.all(
 			canvasFont.fonts.map(async ([fontName, fontWeight])=>{
@@ -18,7 +19,7 @@ Object.assign(canvasFont, {
 				if(!matchUrls) throw new Error("Not found font.");
 
 				for (const url of matchUrls) {
-					const fontFace = new FontFace(fontName, url);
+					const fontFace = new FontFace(`${fontName}${id}`, url);
 					await fontFace.load();
 					document.fonts.add(fontFace);
 				}

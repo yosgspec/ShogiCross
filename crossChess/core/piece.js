@@ -144,7 +144,7 @@ class Piece{
 		ctx.fillStyle = game.fontColor;
 		const text = [...this.display[this.displayPtn]];
 		const fontSize = 40*zoom;
-		ctx.font = `${fontSize}px ${canvasFont.fontStr}`;
+		ctx.font = `${fontSize}px ${canvasFont.names}`;
 		ctx.textAlign = "center";
 
 		text.forEach((v,i)=>{
