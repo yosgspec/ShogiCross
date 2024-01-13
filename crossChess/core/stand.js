@@ -5,14 +5,21 @@
 
 /** 盤の管理クラス */
 class Stand{
+	static degId = {
+		180: 0,
+		90: 1,
+		270: 2,
+		0: 3 
+	}
+
 	/**
 	 * @param {any} canvas 
 	 */
 	constructor(board){
-		this.stock = [];
 		this.board = board;
 		const {left, top, width, height, panelWidth, panelHeight, xLen, yLen} = board;
 
+		this.stocks = [...Array(4)].map(_=>[]);
 		this.left = left+width*1.02;
 		this.top = top;
 		this.width = width/2;
@@ -27,9 +34,9 @@ class Stand{
 	 * @param {Piece} piece - 追加する駒
 	 */
 	add(piece){
-		piece.turnFront();
-		this.stock.push(piece);
-		this.stock.sort((a,b)=>Math.sign((a.deg+a.id)-(b.deg+b.id)));
+		const stock = this.stocks[Stand.degId[piece.deg]];
+		stock.push(piece);
+		stock.sort((a,b)=>Math.sign(a.id-b.id));
 	}
 
 	/** 駒を持ち駒にする
@@ -49,8 +56,8 @@ class Stand{
 
 	/** 盤を描写 */
 	draw(){
-		const {board, left, top, width, height} = this;
-		const {ctx} = board;
+		const {board, left, top, width, height, pitchWidth, pitchHeight} = this;
+		const {ctx, xLen, yLen} = board;
 
 		// 外枠を描写
 		ctx.fillStyle = board.backgroundColor;
@@ -62,6 +69,21 @@ class Stand{
 		ctx.strokeRect(0, 0, width, height);
 		ctx.fillRect(0, 0, width, height);
 		ctx.restore();
+
+		this.stocks.forEach((stock, player)=>{
+			let i = 0;
+			for(let yCnt=0|yLen/4*player;yCnt<yLen/4*(player+1);yCnt++){
+				for(let xCnt=0;xCnt<xLen;xCnt++){
+					const center = left+pitchWidth*(xCnt+1);
+					const middle = top+pitchHeight*(yCnt+1);
+					const piece = stock[i++];
+					if(piece == null) break;
+					piece.center = center;
+					piece.middle = middle; 
+					piece.draw();
+				}
+			}
+		});
 	}
 
 	/** 文字列形式で取得
@@ -69,9 +91,10 @@ class Stand{
 	 */
 	toString(isMinimam=false){
 		const {xLen} = this.board;
+		const stock = this.stocks.flat().filter(v=>v);
 
-		let head = 0 < this.stock.length? "\n"+"―".repeat(xLen*2)+"\n": "";
-		let text = this.stock.map(o=>""+o).join("");
+		let head = 0 < stock.length? "\n"+"―".repeat(xLen*2)+"\n": "";
+		let text = stock.map(o=>""+o).join("");
 		if(!isMinimam){
 			head = "";
 			for(const char of Object.values(Piece.degChars)){
