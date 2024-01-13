@@ -229,7 +229,7 @@ ${char}:${name}`)){
 			footer = `\n┗${Array(xLen).fill("━━").join("┷")}┛`;
 			panelOuter = "┃";
 			panelSep = "│";
-			rowSep = `\n┃${Array(xLen).fill("──").join("┼")}┨\n`;
+			rowSep = `\n┠${Array(xLen).fill("──").join("┼")}┨\n`;
 			standText = "";
 			for(const char of Object.values(Piece.degChars)){
 				standBody = standBody.replace(char, "\n"+`${char}持ち駒:${char}`);
