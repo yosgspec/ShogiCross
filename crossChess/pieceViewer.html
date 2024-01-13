@@ -54,12 +54,13 @@
 		<script src="./core/panel.js"></script>
 		<script src="./core/piece.js"></script>
 		<script>
+		(function(){
 			const canvas = document.getElementById("pieceViewer");
 			const pieceSelect = document.getElementById("pieceSelect");
 			const pieceSize = document.getElementById("pieceSize");
 			const pieceRange = document.getElementById("pieceRange");
 			const ctx = canvas.getContext("2d");
-			Piece.init(ctx, 100);
+			const pieces = Piece.getPieces(ctx, 100);
 			Piece.piecesToList().forEach(([key, {name, gameName}])=>{
 				const opt = document.createElement("option");
 				opt.value = key;
@@ -84,6 +85,7 @@
 				piece.draw();
 				pieceRange.value = pieces[pieceSelect.value].range.default.join("\n");
 			}
+		})();
 		</script>
 	</body>
 </html>
