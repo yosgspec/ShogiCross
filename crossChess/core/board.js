@@ -259,9 +259,6 @@ ${char}:${name}`)){
 		this.field.forEach(row=>{
 			row.forEach(panel=>{
 				panel.draw();
-				if(panel.isSelected) panel.drawMask("#FF000055");
-				panel.piece?.draw();
-				if(panel.piece?.isSelected) panel.piece.drawMask("#FF000055");
 			});
 		});
 		if(this.onDrawed) this.onDrawed(this);

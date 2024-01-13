@@ -109,8 +109,15 @@ class Piece{
 		return new Piece(this.ctx, this, this.displayPtn, this.deg, this.size);
 	}
 
-	/** 駒を描写 */
+	/** 駒/マスクを描写 */
 	draw(){
+		this.drawPiece();
+		const selectColor = "#FF000055";
+		if(this.isSelected) this.drawMask(selectColor);
+	}
+
+	/** 駒を描写 */
+	drawPiece(){
 		const {ctx, game} = this;
 
 		const zoom = this.size/100;

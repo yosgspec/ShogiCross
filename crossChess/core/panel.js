@@ -51,8 +51,16 @@ class Panel{
 		);
 	}
 
-	/** マス目を描写 */
+	/** マス目/マスク/駒を描写 */
 	draw(){
+		this.drawPanel();
+		const selectColor = "#FF000055";
+		if(this.isSelected) this.drawMask(selectColor);
+		this.piece?.draw();
+	}
+
+	/** マス目を描写 */
+	drawPanel(){
 		const {ctx, left, top, center, middle, width, height, textDisplay, textRotate} = this;
 
 		ctx.fillStyle = this.backgroundColor;
