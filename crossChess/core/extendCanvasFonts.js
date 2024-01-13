@@ -1,6 +1,8 @@
 Object.assign(canvasFont, {
+	imported: false,
 	fontStr: canvasFont.fonts.map(o=>`"${o[0]}"`).join(","),
 	async import(){
+		if(this.imported) return; 
 		canvasFont.fontStr = canvasFont.fonts.map(o=>`"${o[0]}"`).join(",");
 
 		return Promise.all(
@@ -21,6 +23,6 @@ Object.assign(canvasFont, {
 					document.fonts.add(fontFace);
 				}
 			})
-		);
+		).then(_=>this.imported = true);
 	}
 });
