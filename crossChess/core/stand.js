@@ -30,11 +30,20 @@ class Stand{
 		this.yLen = yLen;
 	}
 
+	releasePiece(toPanel, {deg, i}){
+		const stock = this.stocks[deg];
+		toPanel.piece = stock[i];
+		stock[i].center = toPanel.center;
+		stock[i].middle = toPanel.middle;
+		stock.splice(i,1);
+	}
+
 	/** 駒台に追加する
 	 * @param {Piece} piece - 追加する駒
 	 */
 	add(piece){
 		const stock = this.stocks[Stand.degId[piece.deg]];
+		piece.turnFront();
 		stock.push(piece);
 		stock.sort((a,b)=>Math.sign(a.id-b.id));
 	}
@@ -70,11 +79,15 @@ class Stand{
 		ctx.fillRect(0, 0, width, height);
 		ctx.restore();
 
+		// すべての駒を表示範囲外へ移動
+		/*this.stocks.flat().forEach(piece=>{
+			piece.center = -1000;
+			piece.middle = -1000; 
+		});*/
 		this.stocks.forEach((stock, player)=>{
 			let i = 0;
-			// 溢れた場合は後方優先で表示する
+			// 溢れた場合は後方優先で表示
 			stock = stock.slice(-yLen/4*xLen);
-			console.log(stock);
 			for(let yCnt=0|yLen/4*player;yCnt<yLen/4*(player+1);yCnt++){
 				for(let xCnt=0;xCnt<xLen;xCnt++){
 					const center = left+pitchWidth*(xCnt+1);

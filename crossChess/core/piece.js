@@ -65,6 +65,23 @@ class Piece{
 		return this.rad%360/(Math.PI/180);
 	}
 
+	/** 左側の座標 */
+	get left(){
+		return this.center-this.size*0.8/2;
+	}
+	/** 上側の座標 */
+	get top(){
+		return this.middle-this.size/2;
+	}
+	/** 右側の座標 */
+	get right(){
+		return this.center+this.size*0.8/2;
+	}
+	/** 下側の座標 */
+	get bottom(){
+		return this.middle+this.size/2;
+	}
+
 	/**
 	 * @param {any} ctx - Canvas描画コンテキスト
 	 * @param {{[s:string]:any}} piece - 駒
@@ -107,6 +124,17 @@ class Piece{
 	/** 駒をクローン */
 	clone(){
 		return new Piece(this.ctx, this, this.displayPtn, this.deg, this.size);
+	}
+
+	/** 座標が駒に含まれるか判定
+	 * @param {number} x - X座標	 
+	 * @param {number} y - Y座標 
+	 */
+	checkRangeMouse(x, y){
+		return (
+			this.left <= x && x < this.right &&
+			this.top <= y && y < this.bottom
+		);
 	}
 
 	/** 駒/マスクを描写 */

@@ -5,19 +5,20 @@ function uIControl(board){
 	let isClick = false;
 	let lastXY = [];
 	let selectPanel = null;
+	let selectStand = null;
 	const {canvas} = board;
 
 	/** マス目に対する処理
 	 * @param {any} e - イベント引数
 	 * @param {(
-	 *     panel: Panel,
-	 *     x: number,
-	 *     y: number,
-	 *     xCnt: number,
-	 *     yCnt: number
-	 * )=>void} fn - コールバック関数
-	 **/
-	const fieldProc = (e, fn)=>{
+	*     panel: Panel,
+	*     x: number,
+	*     y: number,
+	*     xCnt: number,
+	*     yCnt: number
+	* )=>void} fn - コールバック関数
+	**/
+   const fieldProc = (e, fnField, fnStand)=>{
 		const rect = e.target.getBoundingClientRect();
 		let x;
 		let y;
@@ -36,33 +37,50 @@ function uIControl(board){
 		}
 		board.field.forEach((row, yCnt) =>
 			row.forEach((panel, xCnt) =>
-				fn(panel, x, y, xCnt, yCnt)));
-				board.draw();
+				fnField(panel, x, y, xCnt, yCnt)));
+		fnStand(x, y);
+		board.draw();
 		lastXY = [x, y];
-	};
+   };
 
 	/** ドラッグ開始
 	 * @param {any} e - イベント引数
      */
 	const dragStart = e=>{
 		isClick = true;
-		fieldProc(e, (panel, x, y)=>{
-			if(panel.piece && panel.checkRangeMouse(x, y)){
-				e.preventDefault();
-				panel.piece.isSelected = true;
-				selectPanel = panel;
+		fieldProc(e,
+			(panel, x, y)=>{
+				if(panel.piece && panel.checkRangeMouse(x, y)){
+					e.preventDefault();
+					panel.piece.isSelected = true;
+					selectPanel = panel;
+				}
+			},
+			(x, y)=>{
+				for(const [deg, stock] of Object.entries(board.stand.stocks)){
+					for(let i=stock.length-1;0<=i;i--){
+						if(!stock[i].checkRangeMouse(x, y)) continue;
+						e.preventDefault();
+						stock[i].isSelected = true;
+						selectStand = {deg:deg, i:i};
+						return;
+					}
+				}
 			}
-		});
+		);
 	};
 
 	/** ドラッグ中
 	* @param {any} e - イベント引数
 	*/
 	const dragMove = e=>{
-		if(!isClick || !selectPanel) return;
-		fieldProc(e, (panel, x, y)=>{
-			panel.isSelected = panel.checkRangeMouse(x, y);
-		});
+		if(!isClick || !(selectPanel || selectStand)) return;
+		fieldProc(e,
+			(panel, x, y)=>{
+				panel.isSelected = panel.checkRangeMouse(x, y);
+			},
+			()=>{}
+		);
 	}
 
 	/** ドラッグ終了
@@ -70,15 +88,31 @@ function uIControl(board){
 	*/
 	const dragEnd = e=>{
 		isClick = false;
-		fieldProc(e, (panel, x, y, xCnt, yCnt)=>{
-			if(panel.checkRangeMouse(x, y)){
-				board.movePiece(selectPanel, panel, xCnt, yCnt);
-				selectPanel = null;
-			}
-		});
+		fieldProc(e,
+			(panel, x, y, xCnt, yCnt)=>{
+				if(!panel.checkRangeMouse(x, y)) return;
+				if(selectPanel){
+					console.log([selectPanel, xCnt, yCnt])
+					board.movePiece(selectPanel, panel, xCnt, yCnt);
+					selectPanel = null;
+				}
+				else if(selectStand){
+					board.stand.releasePiece(panel, selectStand);
+					selectStand = null;
+				}
+			},
+			()=>{}
+		);
 		fieldProc(e, panel=>{
 			if(panel.piece) panel.piece.isSelected = false;
 			panel.isSelected = false;
+		},
+		()=>{
+			for(const [deg, stock] of Object.entries(board.stand.stocks)){
+				for(let i=stock.length-1;0<=i;i--){
+					stock[i].isSelected = false;
+				}
+			}
 		});
 	};
 

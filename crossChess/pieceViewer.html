@@ -11,7 +11,7 @@
 
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 		<meta name="viewport" content="width=device-width" />
-		<title>Cross Chess Piece Viewer</title>
+		<title>Cross ChessOverPieceViewer</title>
 		<link rel=icon href="../favicon.ico">
 		<link href="../gspec20.css" rel="stylesheet">
 		<link rel="preconnect" href="https://fonts.googleapis.com">
@@ -34,7 +34,7 @@
 		</style>
 	</head>
 	<body>
-		<h2><u>Cross Chess Piece Viewer</u></h2>
+		<h2><u>CrossOverChessPieceViewer</u></h2>
 		Piece:<br>
 		<select id="pieceSelect" style="width: 600px;"></select><br>
 		Size:<br>
@@ -43,6 +43,9 @@
 		<canvas id="pieceViewer"></canvas><br>
 		Range:<br>
 		<textarea id="pieceRange"readonly style="width:200px;height:8em;"></textarea>
+		<div><a href="./">Game</a></div>
+		<div><a href="https://github.com/yosgspec/CrossChess">GitHub</a></div>
+		<div><a href="/">トップメニュー</a></div>
 		<script src="./json/games.json.js"></script>
 		<script src="./json/pieces.json.js"></script>
 		<script src="./json/pieceCost.json.js"></script>
@@ -74,7 +77,6 @@
 			function pieceView(){
 				let size = +pieceSize.value;
 				if(isNaN(size) || !pieceSize.value) size = 300;
-				console.log(pieces);
 				canvas.width = size;
 				canvas.height = size;
 				ctx.clearRect(0, 0, size, size);
