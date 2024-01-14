@@ -189,8 +189,8 @@ const boards = {
 		]
 	},
 	"4人用クロス9列": {
-		"backgroundColor": "#333333",
-		"borderColor": "#000000",
+		"backgroundColor": "#EECC88",
+		"borderColor": "#333333",
 		"borderWidth": 5,
 		"promoLineOffset": 6,
 		"field": [

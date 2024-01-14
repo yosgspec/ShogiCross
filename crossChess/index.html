@@ -32,12 +32,16 @@
 	<body>
 		<h1>Cross Over Chess</h1>
 		<div>
-			<canvas id="crossChess"></canvas>
-			<select id="selectGame"></select>
-		<div>
-		<textarea id="crossChessText"></textarea>
-		<textarea id="crossChessTextMini"></textarea>
-		<div><button id="crossChessTextInput" onclick="alert('未実装につき')">Text Input</button></div>
+			<div style="float:left;">
+				<canvas id="crossChess"></canvas>
+			</div>
+			<div>
+				<div><select id="selectGame"></select></div>
+				<div><textarea id="crossChessText"></textarea></div>
+				<div><textarea id="crossChessTextMini"></textarea></div>
+				<div><button id="crossChessTextInput" onclick="alert('未実装につき')">Text Input</button></div>
+			</div>
+		</div>
 		<div><a href="https://github.com/yosgspec/CrossChess">GitHub</a></div>
 		<script src="./json/games.json.js"></script>
 		<script src="./json/pieces.json.js"></script>

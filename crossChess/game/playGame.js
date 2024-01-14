@@ -1,3 +1,73 @@
+const defaultTemplate = {
+	boardLeft: 5,
+	boardTop: 5,
+	panelWidth: 50,
+	panelHeight: 55,
+	pieceSize: 45,
+	backgroundColor: "#DDEEFF"
+}
+const laugeTemplate = {
+	...defaultTemplate,
+	panelWidth: 40,
+	panelHeight: 40,
+	pieceSize: 35
+}
+const boardTemplate = {
+	"8x8": {
+		...defaultTemplate,
+		canvasWidth: 460,
+		canvasHeight: 505
+	},
+	"8x8s": {
+		...defaultTemplate,
+		canvasWidth: 695,
+		canvasHeight: 505
+	},
+	"9x9": {
+		...defaultTemplate,
+		canvasWidth: 510,
+		canvasHeight: 560
+	},
+	"9x9s": {
+		...defaultTemplate,
+		canvasWidth: 770,
+		canvasHeight: 560
+	},
+	"9x10": {
+		...defaultTemplate,
+		canvasWidth: 510,
+		canvasHeight: 615
+	},
+	"3x4s": {
+		...defaultTemplate,
+		canvasWidth: 680,
+		canvasHeight: 560,
+		panelWidth: 110,
+		panelHeight: 110,
+		pieceSize: 90
+	},
+	"14x14": {
+		...laugeTemplate,
+		canvasWidth: 610,
+		canvasHeight: 610
+	},
+	"14x14s": {
+		...laugeTemplate,
+		canvasWidth: 920,
+		canvasHeight: 610
+	},
+	"15x15": {
+		...laugeTemplate,
+		canvasWidth: 650,
+		canvasHeight: 650
+	},
+	"15x15s": {
+		...laugeTemplate,
+		canvasWidth: 980,
+		canvasHeight: 650
+	}
+};
+
 const PlayGame = {
 	sample: {
 		name: "サンプル",
@@ -23,15 +93,8 @@ const PlayGame = {
 			}
 
 			const board = new Board(canvas, {
-				canvasWidth: 830,
-				canvasHeight: 640,
 				playBoard: "クロス8列",
-				boardLeft: 5,
-				boardTop: 5,
-				panelWidth: 60,
-				panelHeight: 70,
-				pieceSize: 55,
-				backgroundColor: "#DDEEFF"
+				...boardTemplate["8x8"]
 			});
 			board.putStartPieces(0, "sample", "0");
 			board.putStartPieces(1, "sample", "1");
@@ -44,14 +107,8 @@ const PlayGame = {
 		name: "将棋",
 		run(canvas, onDrawed){
 			const board = new Board(canvas, {
-				canvasWidth: 610,
-				canvasHeight: 710,
 				playBoard: "将棋",
-				boardLeft: 5,
-				boardTop: 5,
-				panelWidth: 60,
-				panelHeight: 70,
-				pieceSize: 55
+				...boardTemplate["9x9s"]
 			});
 			board.putStartPieces(0, "将棋");
 			board.putStartPieces(1, "将棋");
@@ -64,14 +121,8 @@ const PlayGame = {
 		name: "チェス",
 		run(canvas, onDrawed){
 			const board = new Board(canvas, {
-				canvasWidth: 550,
-				canvasHeight: 640,
 				playBoard: "チェス",
-				boardLeft: 5,
-				boardTop: 5,
-				panelWidth: 60,
-				panelHeight: 70,
-				pieceSize: 55
+				...boardTemplate["8x8"]
 			});
 			board.putStartPieces(0, "チェス");
 			board.putStartPieces(1, "チェス", "black");
@@ -84,14 +135,8 @@ const PlayGame = {
 		name: "シャンチー",
 		run(canvas, onDrawed){
 			const board = new Board(canvas, {
-				canvasWidth: 610,
-				canvasHeight: 780,
 				playBoard: "シャンチー",
-				boardLeft: 5,
-				boardTop: 5,
-				panelWidth: 60,
-				panelHeight: 70,
-				pieceSize: 55
+				...boardTemplate["9x10"]
 			});
 			board.putStartPieces(0, "シャンチー");
 			board.putStartPieces(1, "シャンチー");
@@ -104,14 +149,8 @@ const PlayGame = {
 		name: "チャンギ",
 		run(canvas, onDrawed){
 			const board = new Board(canvas, {
-				canvasWidth: 610,
-				canvasHeight: 780,
 				playBoard: "チャンギ",
-				boardLeft: 5,
-				boardTop: 5,
-				panelWidth: 60,
-				panelHeight: 70,
-				pieceSize: 55
+				...boardTemplate["9x10"]
 			});
 			board.putStartPieces(0, "チャンギ");
 			board.putStartPieces(1, "チャンギ");
@@ -124,14 +163,8 @@ const PlayGame = {
 		name: "マークルック",
 		run(canvas, onDrawed){
 			const board = new Board(canvas, {
-				canvasWidth: 550,
-				canvasHeight: 640,
 				playBoard: "マークルック",
-				boardLeft: 5,
-				boardTop: 5,
-				panelWidth: 60,
-				panelHeight: 70,
-				pieceSize: 55
+				...boardTemplate["8x8"]
 			});
 			board.putStartPieces(0, "マークルック");
 			board.putStartPieces(1, "マークルック");
@@ -144,14 +177,8 @@ const PlayGame = {
 		name: "どうぶつしょうぎ",
 		run(canvas, onDrawed){
 			const board = new Board(canvas, {
-				canvasWidth: 610,
-				canvasHeight: 760,
 				playBoard: "どうぶつしょうぎ",
-				boardLeft: 5,
-				boardTop: 5,
-				panelWidth: 150,
-				panelHeight: 150,
-				pieceSize: 130
+				...boardTemplate["3x4s"]
 			});
 			board.putStartPieces(0, "どうぶつしょうぎ");
 			board.putStartPieces(1, "どうぶつしょうぎ");
@@ -164,14 +191,8 @@ const PlayGame = {
 		name: "四人将棋",
 		run(canvas, onDrawed){
 			const board = new Board(canvas, {
-				canvasWidth: 610,
-				canvasHeight: 710,
 				playBoard: "将棋",
-				boardLeft: 5,
-				boardTop: 5,
-				panelWidth: 60,
-				panelHeight: 70,
-				pieceSize: 55
+				...boardTemplate["9x9s"]
 			}, 4);
 			board.putStartPieces(0, "将棋", "p4");
 			board.putStartPieces(1, "将棋", "p4");
@@ -186,14 +207,8 @@ const PlayGame = {
 		name: "4人チェス",
 		run(canvas, onDrawed){
 			const board = new Board(canvas, {
-				canvasWidth: 760,
-				canvasHeight: 760,
 				playBoard: "4人チェス",
-				boardLeft: 5,
-				boardTop: 5,
-				panelWidth: 50,
-				panelHeight: 50,
-				pieceSize: 40
+				...boardTemplate["14x14"]
 			}, 4);
 			board.putStartPieces(0, "チェス");
 			board.putStartPieces(1, "チェス");
@@ -208,14 +223,8 @@ const PlayGame = {
 		name: "四神将棋",
 		run(canvas, onDrawed){
 			const board = new Board(canvas, {
-				canvasWidth: 810,
-				canvasHeight: 810,
 				playBoard: "四神将棋",
-				boardLeft: 5,
-				boardTop: 5,
-				panelWidth: 50,
-				panelHeight: 50,
-				pieceSize: 40
+				...boardTemplate["15x15s"]
 			}, 4);
 			board.putStartPieces(0, "将棋");
 			board.putStartPieces(1, "将棋");
@@ -230,14 +239,8 @@ const PlayGame = {
 		name: "クロス8列",
 		run(canvas, onDrawed){
 			const board = new Board(canvas, {
-				canvasWidth: 550,
-				canvasHeight: 640,
 				playBoard: "クロス8列",
-				boardLeft: 5,
-				boardTop: 5,
-				panelWidth: 60,
-				panelHeight: 70,
-				pieceSize: 55
+				...boardTemplate["8x8s"]
 			});
 			board.putStartPieces(0, "チェス");
 			board.putStartPieces(1, "マークルック");
@@ -250,14 +253,8 @@ const PlayGame = {
 		name: "クロス9列",
 		run(canvas, onDrawed){
 			const board = new Board(canvas, {
-				canvasWidth: 610,
-				canvasHeight: 710,
 				playBoard: "クロス9列",
-				boardLeft: 5,
-				boardTop: 5,
-				panelWidth: 60,
-				panelHeight: 70,
-				pieceSize: 55
+				...boardTemplate["9x9s"]
 			});
 			board.putStartPieces(0, "将棋");
 			board.putStartPieces(1, "チャンギ", "left");
@@ -270,14 +267,8 @@ const PlayGame = {
 		name: "4人用クロス8列",
 		run(canvas, onDrawed){
 			const board = new Board(canvas, {
-				canvasWidth: 760,
-				canvasHeight: 760,
 				playBoard: "4人用クロス8列",
-				boardLeft: 5,
-				boardTop: 5,
-				panelWidth: 50,
-				panelHeight: 50,
-				pieceSize: 40
+				...boardTemplate["14x14s"]
 			}, 4);
 			board.putStartPieces(0, "将棋");
 			board.putStartPieces(1, "シャンチー");
@@ -306,14 +297,8 @@ const PlayGame = {
 		name: "4人用クロス9列",
 		run(canvas, onDrawed){
 			const board = new Board(canvas, {
-				canvasWidth: 810,
-				canvasHeight: 810,
 				playBoard: "4人用クロス9列",
-				boardLeft: 5,
-				boardTop: 5,
-				panelWidth: 50,
-				panelHeight: 50,
-				pieceSize: 40
+				...boardTemplate["15x15s"]
 			}, 4);
 			board.putStartPieces(0, "将棋");
 			board.putStartPieces(1, "シャンチー");
