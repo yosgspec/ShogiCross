@@ -72,6 +72,9 @@ class Stand{
 
 		this.stocks.forEach((stock, player)=>{
 			let i = 0;
+			// 溢れた場合は後方優先で表示する
+			stock = stock.slice(-yLen/4*xLen);
+			console.log(stock);
 			for(let yCnt=0|yLen/4*player;yCnt<yLen/4*(player+1);yCnt++){
 				for(let xCnt=0;xCnt<xLen;xCnt++){
 					const center = left+pitchWidth*(xCnt+1);

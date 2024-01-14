@@ -3,8 +3,8 @@ const defaultTemplate = {
 	boardTop: 5,
 	panelWidth: 50,
 	panelHeight: 55,
-	pieceSize: 45,
-	backgroundColor: "#DDEEFF"
+	pieceSize: 45
+	//backgroundColor: "#DDEEFF"
 }
 const laugeTemplate = {
 	...defaultTemplate,
@@ -94,7 +94,7 @@ const PlayGame = {
 
 			const board = new Board(canvas, {
 				playBoard: "クロス8列",
-				...boardTemplate["8x8"]
+				...boardTemplate["8x8s"]
 			});
 			board.putStartPieces(0, "sample", "0");
 			board.putStartPieces(1, "sample", "1");
