@@ -56,8 +56,8 @@ Canvas用のGoogleフォント情報
 #### pieceCost.json.js
 駒の価値情報
 
-### py/
+## py/
 CLIで色々やろうとしていた時の残骸
 
-### other/
+## other/
 その他のファイルとか
