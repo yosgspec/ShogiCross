@@ -47,6 +47,7 @@ function uIControl(board){
 	 * @param {any} e - イベント引数
      */
 	const dragStart = e=>{
+		console.log(selectStand);
 		isClick = true;
 		fieldProc(e,
 			(panel, x, y)=>{
@@ -96,24 +97,26 @@ function uIControl(board){
 					board.movePiece(selectPanel, panel, xCnt, yCnt);
 					selectPanel = null;
 				}
-				else if(selectStand){
+				if(selectStand && !panel.piece){
 					board.stand.releasePiece(panel, selectStand);
-					selectStand = null;
 				}
 			},
 			()=>{}
 		);
-		fieldProc(e, panel=>{
-			if(panel.piece) panel.piece.isSelected = false;
-			panel.isSelected = false;
-		},
-		()=>{
-			for(const [deg, stock] of Object.entries(board.stand.stocks)){
-				for(let i=stock.length-1;0<=i;i--){
-					stock[i].isSelected = false;
+		fieldProc(e,
+			panel=>{
+				if(panel.piece) panel.piece.isSelected = false;
+				panel.isSelected = false;
+			},
+			()=>{
+				for(const [deg, stock] of Object.entries(board.stand.stocks)){
+					for(let i=stock.length-1;0<=i;i--){
+						stock[i].isSelected = false;
+					}
 				}
+				selectStand = null;
 			}
-		});
+		);
 	};
 
 	// イベントリスナーを作成
