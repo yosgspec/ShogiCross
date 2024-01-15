@@ -111,7 +111,7 @@ const PlayGame = {
 				...boardTemplate["9x9s"]
 			});
 			board.putStartPieces(0, "将棋");
-			board.putStartPieces(1, "将棋");
+			board.putStartPieces(1, "将棋", "2p");
 			board.onDrawed = onDrawed;
 			board.draw();
 			return board;
@@ -125,7 +125,7 @@ const PlayGame = {
 				...boardTemplate["8x8"]
 			});
 			board.putStartPieces(0, "チェス");
-			board.putStartPieces(1, "チェス", "black");
+			board.putStartPieces(1, "チェス", "2p");
 			board.onDrawed = onDrawed;
 			board.draw();
 			return board;
@@ -139,7 +139,7 @@ const PlayGame = {
 				...boardTemplate["9x10"]
 			});
 			board.putStartPieces(0, "シャンチー");
-			board.putStartPieces(1, "シャンチー");
+			board.putStartPieces(1, "シャンチー", "2p");
 			board.onDrawed = onDrawed;
 			board.draw();
 			return board;
@@ -153,7 +153,7 @@ const PlayGame = {
 				...boardTemplate["9x10"]
 			});
 			board.putStartPieces(0, "チャンギ");
-			board.putStartPieces(1, "チャンギ");
+			board.putStartPieces(1, "チャンギ", "2p");
 			board.onDrawed = onDrawed;
 			board.draw();
 			return board;
@@ -167,7 +167,7 @@ const PlayGame = {
 				...boardTemplate["8x8"]
 			});
 			board.putStartPieces(0, "マークルック");
-			board.putStartPieces(1, "マークルック");
+			board.putStartPieces(1, "マークルック", "2p");
 			board.onDrawed = onDrawed;
 			board.draw();
 			return board;

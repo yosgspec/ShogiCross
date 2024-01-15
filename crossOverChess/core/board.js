@@ -99,7 +99,9 @@ class Board{
 		const deg = 0|playerId*360/this.players;
 		this.rotateField(deg);
 		const pos = games[pieceSet].position[this.xLen][ptn];
+		if(!pos) throw Error(`games["${pieceSet}"].position["${this.xLen}"]["${ptn}"]is null.`);
 		pos.forEach((row, i)=>{
+			if(row.length < this.xLen) throw Error(row.join(""));
 			const yCnt = i+this.yLen - pos.length;
 			[...row].forEach((char, xCnt)=>{
 				if(!pieces[char]) return;
