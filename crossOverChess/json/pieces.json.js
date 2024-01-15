@@ -539,7 +539,7 @@ const pieces = {
 	"相": {
 		"name": "相",
 		"display": ["○相", "○象", "相", "象"],
-		"alias": [],
+		"alias": ["unCrossRiver"],
 		"gameName": "シャンチー",
 		"group": "象",
 		"range": {
