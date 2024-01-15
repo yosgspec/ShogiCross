@@ -47,7 +47,6 @@ function uIControl(board){
 	 * @param {any} e - イベント引数
      */
 	const dragStart = e=>{
-		console.log(selectStand);
 		isClick = true;
 		fieldProc(e,
 			(panel, x, y)=>{
@@ -93,7 +92,6 @@ function uIControl(board){
 			(panel, x, y, xCnt, yCnt)=>{
 				if(!panel.checkRangeMouse(x, y)) return;
 				if(selectPanel){
-					console.log([selectPanel, xCnt, yCnt])
 					board.movePiece(selectPanel, panel, xCnt, yCnt);
 					selectPanel = null;
 				}

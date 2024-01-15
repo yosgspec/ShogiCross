@@ -34,6 +34,7 @@ const boards = {
 		"backgroundColor": "#EECC88",
 		"borderColor": "#333333",
 		"borderWidth": 5,
+		"promoLineOffset": 1,
 		"field": [
 			"SSS<#>SSS",
 			"SSS#*#SSS",
@@ -51,6 +52,7 @@ const boards = {
 		"backgroundColor": "#EECC88",
 		"borderColor": "#333333",
 		"borderWidth": 5,
+		"promoLineOffset": 1,
 		"field": [
 			"SSS<#>SSS",
 			"SSS#*#SSS",
@@ -167,7 +169,7 @@ const boards = {
 		]
 	},
 	"4人用クロス8列": {
-			"backgroundColor": "#333333",
+		"backgroundColor": "#333333",
 		"borderColor": "#000000",
 		"borderWidth": 5,
 		"promoLineOffset": 6,
