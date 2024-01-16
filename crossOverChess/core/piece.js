@@ -12,6 +12,9 @@ class Piece{
 		270: "＜"
 	};
 
+	/** プレイヤー表示から角度を取得 */
+	static charDegs = {};
+
 	/** 駒データを初期化
 	 * @param {any} ctx - Canvas描画コンテキスト
 	 * @param {number} size - 描写サイズ
@@ -46,6 +49,20 @@ class Piece{
 			});
 		}
 		return exPieces;
+	}
+
+	/** 文字列から駒を取得
+	 * @param {{[s:string]:Piece}} piece - 駒
+	 * @param {string} text - 駒文字列
+	 */
+	static stringToPiece(pieces, text){
+		if (!text) return null;
+		const [degChar, pieceChar] = [...text];
+		const deg = Piece.charDegs[degChar];
+		if(!deg) return null;
+		const piece = pieces[pieceChar].clone();
+		piece.deg = deg;
+		return piece;
 	}
 
 	/** 駒の一覧をリストで取得 */
@@ -102,6 +119,13 @@ class Piece{
 		this.isMoved = false;
 	}
 
+	/** 駒をクローン
+	 * @returns Piece
+	 */
+	clone(){
+		return new Piece(this.ctx, this, this.displayPtn, this.deg, this.size);
+	}
+
 	/** 駒を表返す */
 	turnFront(){
 		Object.assign(this, this.base);
@@ -119,11 +143,6 @@ class Piece{
 		Object.assign(this, promo[char]);
 		this.char = char;
 		this.group = "成";
-	}
-
-	/** 駒をクローン */
-	clone(){
-		return new Piece(this.ctx, this, this.displayPtn, this.deg, this.size);
 	}
 
 	/** 座標が駒に含まれるか判定
@@ -214,3 +233,9 @@ class Piece{
 		return Piece.degChars[this.deg] + this.char;
 	}
 }
+
+// プレイヤー表示から角度を取得
+Object.entries(Piece.degChars)
+	.forEach(([key, value])=>{
+		Piece.charDegs[value] = key;
+	});

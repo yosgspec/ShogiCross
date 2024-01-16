@@ -39,7 +39,6 @@
 				<div><select id="selectGame"></select></div>
 				<div><textarea id="crossChessText"></textarea></div>
 				<div><textarea id="crossChessTextMini"></textarea></div>
-				<div><button id="crossChessTextInput" onclick="alert('未実装につき')">Text Input</button></div>
 			</div>
 		</div>
 		<div>
@@ -72,7 +71,6 @@
 				selectGame.appendChild(opt);
 			});
 
-
 			// ゲームを実行
 			let playingGame;
 			const playGame = async function(){
@@ -82,6 +80,7 @@
 				const canvas = document.getElementById("crossChess");
 				const txt = document.getElementById("crossChessText");
 				const txtMini = document.getElementById("crossChessTextMini");
+				const textInput = document.getElementById("crossChessTextInput");
 				const onDrawed = e=>{
 					txt.value = ""+e;
 					const txtSplit = txt.value.split(/\n/);
@@ -94,9 +93,14 @@
 					txtMini.style.height = fontSize*txtMiniSplit.length*1.2;
 				};
 				playingGame = PlayGame[selectGame.value].run(canvas, onDrawed);
+				const onChange =e=>{
+					playingGame.inputPieces(e.target.value);
+				};
+				txt.onchange = onChange;
+				txtMini.onchange = onChange;
 			};
 			playGame();
-			document.addEventListener("change", playGame);
+			selectGame.addEventListener("change", playGame);
 		</script>
 	</body>
 </html>

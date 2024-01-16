@@ -89,7 +89,7 @@ const PlayGame = {
 			games["sample"] = {};
 			games["sample"].position ={};
 			for(const i of [8, 9]){
-				games["sample"].position[i] = {...pieceMap}
+				games["sample"].position[i] = {...pieceMap};
 			}
 
 			const board = new Board(canvas, {

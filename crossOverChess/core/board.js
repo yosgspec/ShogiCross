@@ -30,6 +30,7 @@ class Board{
 		this.top = boardTop;
 		this.panelWidth = panelWidth;
 		this.panelHeight = panelHeight;
+		this.pieceSize = pieceSize;
 		this.canvasBackgroundColor = backgroundColor;
 
 		if(![2, 4].includes(players)) throw Error(`players=${players}, players need 2 or 4.`);
@@ -135,9 +136,58 @@ class Board{
 		panel.piece = piece;
 	}
 
+	/** 文字列から駒を配置
+	 * {string} text - 駒配置を表す文字列
+	 */
+	inputPieces(text){
+		const {field, pieces, xLen, yLen} = this;
+		const noises = "┏━┯┓┗┷┛┃│┠─┼┨―";		
+		// 配列変換
+		const texts = [text].concat(
+				[...noises],
+				Object.values(Piece.degChars).map(c=>"\n"+c+"持ち駒:")
+			).reduce(
+				(text,char)=>
+					text.replace(new RegExp(char,"g"),"")
+			).replace(/\n\n/g,"\n")
+			.replace(/　/g,"・")
+			.trim()
+			.split(/\n/)
+			.map(
+				row=>row.match(/.{2}/g));
+
+		// ボードに駒を配置
+		for(let yCnt=0;yCnt<yLen;yCnt++){
+			for(let xCnt=0;xCnt<xLen;xCnt++){
+				try{
+					const text = texts[yCnt][xCnt];
+					const piece = Piece.stringToPiece(pieces, text);
+					piece.center = field[yCnt][xCnt].center;
+					piece.middle = field[yCnt][xCnt].middle;
+					field[yCnt][xCnt].piece = piece;
+				}
+				catch(ex){
+					field[yCnt][xCnt].piece = null;
+				}
+			}
+		}
+
+		// 持ち駒を配置
+		this.stand.clear();
+		const standTexts = texts[yLen];
+		if(standTexts){
+			standTexts.forEach(text=>{
+				const piece = Piece.stringToPiece(pieces, text);
+				if(!piece) return;
+				this.stand.add(piece);
+			});
+		}
+		this.draw();
+	}
+
 	/** プロモーションエリア内であるか判別
 	 * @param {Panel} panel - パネル 
-	 */ 
+	 */
 	checkCanPromo(panel){
 		const {xLen, yLen} = this;
 		const {piece, xCnt, yCnt} = panel;

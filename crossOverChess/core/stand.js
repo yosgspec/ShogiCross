@@ -19,7 +19,7 @@ class Stand{
 		this.board = board;
 		const {left, top, width, height, panelWidth, panelHeight, xLen, yLen} = board;
 
-		this.stocks = [...Array(4)].map(_=>[]);
+		this.clear();
 		this.left = left+width*1.02;
 		this.top = top;
 		this.width = width/2;
@@ -30,6 +30,16 @@ class Stand{
 		this.yLen = yLen;
 	}
 
+	/** 駒台を初期化にする */
+	clear(){
+		this.stocks = [...Array(4)].map(_=>[]);
+	}
+
+	/** 持ち駒からボード上に配置する
+	 * @param {Panal} toPanell - 配置先のパネル
+	 * @param {number} deg - 角度
+	 * @param {number} i - 配置する持ち駒のインデックス
+	 */
 	releasePiece(toPanel, {deg, i}){
 		const stock = this.stocks[deg];
 		toPanel.piece = stock[i];
