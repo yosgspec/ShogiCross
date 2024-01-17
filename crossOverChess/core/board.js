@@ -51,6 +51,7 @@ class Board{
 		this.right = boardLeft+this.width;
 		this.bottom = boardTop+this.height;
 		this.stand = new Stand(this);
+		this.record = "";
 		this.onDrawed = null;
 
 		this.uiControl = uIControl(this);
