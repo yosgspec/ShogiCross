@@ -15,7 +15,7 @@ class Piece:
 		self.name = piece["name"] if "name" in piece else extend.name
 		self.display = piece["display"][0] if "display" in piece else extend.display
 		self.game = piece["game"] if "game" in piece else extend.game
-		self.group = piece["group"] if "group" in piece else "成"
+		self.unit = piece["unit"] if "unit" in piece else "成"
 		self.attr = piece["attr"] if "attr" in piece else []
 		self.range = piece["range"]
 		self.promo = {} if "promo" not in piece or piece["promo"] is None else {

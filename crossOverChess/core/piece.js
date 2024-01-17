@@ -28,7 +28,7 @@ class Piece{
 			if(!base.promo) continue;
 			for(const [promoChar, promo] of Object.entries(base.promo)){
 				exPieces[promoChar] = {...base, ...promo};
-				exPieces[promoChar].group = "成";
+				exPieces[promoChar].unit = "成";
 			}
 		}
 		// 駒をクラスオブジェクトに変換
@@ -139,10 +139,10 @@ class Piece{
 
 		if(!promo) throw Error(`promo=${char}, Not plomote piece.`);
 		if(!promo in promo) throw Error(`promo=${char}, Plomote key is missing.`);
-		if(this.group === "成") throw Error(`promo=${char}, Promoted piece.`);
+		if(this.unit === "成") throw Error(`promo=${char}, Promoted piece.`);
 		Object.assign(this, promo[char]);
 		this.char = char;
-		this.group = "成";
+		this.unit = "成";
 	}
 
 	/** 座標が駒に含まれるか判定

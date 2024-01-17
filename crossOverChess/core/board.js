@@ -238,7 +238,7 @@ class Board{
 		canPromo ||= this.checkCanPromo(toPanel);
 
 		// プロモーション処理
-		if(!piece.promo || piece.group === "成" || !canPromo) return;
+		if(!piece.promo || piece.unit === "成" || !canPromo) return;
 		for(const [char, {name}] of Object.entries(piece.promo)){
 			if(confirm(`成りますか?
 ${piece.char}:${piece.name}

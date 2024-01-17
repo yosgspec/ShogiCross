@@ -66,7 +66,7 @@ class Stand{
 		if(
 			!loserPiece ||
 			!winnerPiece.attr?.includes("capture") ||
-			loserPiece.group === "王"
+			loserPiece.unit === "王"
 		) return;
 
 		loserPiece.deg = winnerPiece.deg;

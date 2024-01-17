@@ -1,5 +1,6 @@
 const games = {
 	"将棋": {
+		"english": "Shogi",
 		"fontColor": "#000000",
 		"backgroundColor": "#FFCC77",
 		"promoLine": -3,
@@ -50,6 +51,7 @@ const games = {
 		}
 	},
 	"チェス": {
+		"english": "Chess",
 		"fontColor": "#FFFFFF",
 		"backgroundColor": "#000000",
 		"promoLine": -1,
@@ -89,6 +91,7 @@ const games = {
 		}
 	},
 	"シャンチー": {
+		"english": "Xiangqi",
 		"fontColor": "#CC1100",
 		"backgroundColor": "#FFDDAA",
 		"promoLine": -4,
@@ -138,6 +141,7 @@ const games = {
 		}
 	},
 	"チャンギ": {
+		"english": "Janggi",
 		"fontColor": "#008800",
 		"backgroundColor": "#FFEEDD",
 		"position": {
@@ -258,6 +262,7 @@ const games = {
 		}
 	},
 	"マークルック": {
+		"english": "Makruk",
 		"fontColor": "#777777",
 		"backgroundColor": "#FFFFDD",
 		"promoLine": -3,
@@ -303,6 +308,7 @@ const games = {
 		}
 	},
 	"どうぶつしょうぎ": {
+		"english": "DobutsuShogi",
 		"fontColor": "#666666",
 		"backgroundColor": "#DDCCFF",
 		"promoLine": -1,
