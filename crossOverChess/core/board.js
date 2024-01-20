@@ -74,11 +74,10 @@ class Board{
 		if([90, 270].includes(deg)){
 			// 2次配列を転置
 			const transpose = a => a[0].map((_, c) => a.map(r => r[c]));
-			const len = xLen;
-			if(len !== yLen) throw Error(`cols=${xLen} != rows=${yLen}, Not rows = cols.`);
+			if(xLen !== yLen) throw Error(`cols=${xLen} != rows=${yLen}, Not rows = cols.`);
 			this.field = transpose(this.field);
 		}
-		if([180, 270].includes(deg)){XPathEvaluator
+		if([180, 270].includes(deg)){
 			this.field.reverse();
 		}
 		this.field.forEach(row=>{
@@ -86,7 +85,7 @@ class Board{
 				if(!panel.piece) return;
 				panel.piece.deg += deg;
 			});
-			if([90, 180].includes(deg)) row.reverse()
+			if([90, 180].includes(deg)) row.reverse();
 		});
 	}
 

@@ -11,14 +11,14 @@ function uIControl(board){
 	/** マス目に対する処理
 	 * @param {any} e - イベント引数
 	 * @param {(
-	*     panel: Panel,
-	*     x: number,
-	*     y: number,
-	*     xCnt: number,
-	*     yCnt: number
-	* )=>void} fn - コールバック関数
-	**/
-   const fieldProc = (e, fnField, fnStand)=>{
+	 *     panel: Panel,
+	 *     x: number,
+	 *     y: number,
+	 *     xCnt: number,
+	 *     yCnt: number
+	 * )=>void} fn - コールバック関数
+	 */
+	const fieldProc = (e, fnField, fnStand)=>{
 		const rect = e.target.getBoundingClientRect();
 		let x;
 		let y;
@@ -41,7 +41,7 @@ function uIControl(board){
 		fnStand(x, y);
 		board.draw();
 		lastXY = [x, y];
-   };
+	};
 
 	/** ドラッグ開始
 	 * @param {any} e - イベント引数
@@ -49,11 +49,12 @@ function uIControl(board){
 	const dragStart = e=>{
 		isClick = true;
 		fieldProc(e,
-			(panel, x, y)=>{
+			(panel, x, y, xCnt, yCnt)=>{
 				if(panel.piece && panel.checkRangeMouse(x, y)){
 					e.preventDefault();
 					panel.piece.isSelected = true;
 					selectPanel = panel;
+					checkTarget(board.field, panel.piece, xCnt, yCnt);
 				}
 			},
 			(x, y)=>{
@@ -105,6 +106,7 @@ function uIControl(board){
 			panel=>{
 				if(panel.piece) panel.piece.isSelected = false;
 				panel.isSelected = false;
+				panel.isTarget = false;
 			},
 			()=>{
 				for(const [deg, stock] of Object.entries(board.stand.stocks)){

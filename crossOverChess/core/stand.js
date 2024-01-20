@@ -70,6 +70,7 @@ class Stand{
 		) return;
 
 		loserPiece.deg = winnerPiece.deg;
+		loserPiece.isMoved = true;
 		this.add(loserPiece);
 	}
 

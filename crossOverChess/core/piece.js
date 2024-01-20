@@ -117,6 +117,9 @@ class Piece{
 		this.deg = deg;
 		this.isSelected = false;
 		this.isMoved = false;
+		Object.entries(this.range).forEach(([key, rng])=>
+			this.range[key] = rng.map(row=>[...row])
+		);
 	}
 
 	/** 駒をクローン
@@ -154,6 +157,28 @@ class Piece{
 			this.left <= x && x < this.right &&
 			this.top <= y && y < this.bottom
 		);
+	}
+
+	/** 移動範囲を回転して取得 */
+	getRange(){
+		const deg = 0|this.deg;
+		const range = JSON.parse(JSON.stringify(this.range));
+		Object.keys(range).forEach(key=>{
+			if(deg === 0) return;
+			if(![90, 180, 270].includes(deg)) throw Error(`deg=${deg}, deg need multiple of 90.`);
+			if([90, 270].includes(deg)){
+				// 2次配列を転置
+				const transpose = a => a[0].map((_, c) => a.map(r => r[c]));
+				range[key] = transpose(range[key]);
+			}
+			if([180, 270].includes(deg)){
+				range[key].reverse();
+			}
+			range[key].forEach(row=>{
+				if([90, 180].includes(deg)) row.reverse();
+			});
+		});
+		return range;
 	}
 
 	/** 駒/マスクを描写 */

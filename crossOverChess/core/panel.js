@@ -28,6 +28,7 @@ class Panel{
 		this.yCnt = yCnt;
 		this.piece = null;
 		this.isSelected = false;
+		this.isTarget = false;
 	}
 
 	/** マス目の選択状態
@@ -54,9 +55,11 @@ class Panel{
 	/** マス目/マスク/駒を描写 */
 	draw(){
 		this.drawPanel();
-		const selectColor = "#FF000055";
+		const selectColor = "#FF000066";
 		if(this.isSelected) this.drawMask(selectColor);
 		this.piece?.draw();
+		const targetColor = "#0000FF66";
+		if(this.isTarget) this.drawMask(targetColor);
 	}
 
 	/** マス目を描写 */
