@@ -67,7 +67,7 @@ const boards = {
 		]
 	},
 	"マークルック": {
-		"backgroundColor": "#BB7744",
+		"backgroundColor": "#664433",
 		"borderColor": "#000000",
 		"borderWidth": 5,
 		"field": [

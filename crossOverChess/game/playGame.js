@@ -323,5 +323,20 @@ const PlayGame = {
 			board.draw();
 			return board;
 		}
-	}
+	},
+	shogiVsChess: {
+		name: "将棋VSチェス",
+		run(canvas, onDrawed){
+			const board = new Board(canvas, {
+				playBoard: "将棋",
+				...boardTemplate["9x9s"]
+			});
+			board.putStartPieces(0, "将棋");
+			board.putStartPieces(1, "チェス");
+			board.onDrawed = onDrawed;
+			board.draw();
+			return board;
+		}
+	},
+
 };

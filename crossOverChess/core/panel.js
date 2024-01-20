@@ -57,9 +57,9 @@ class Panel{
 		this.drawPanel();
 		const selectColor = "#FF000066";
 		if(this.isSelected) this.drawMask(selectColor);
-		this.piece?.draw();
-		const targetColor = "#0000FF66";
+		const targetColor = "#FFFF0066";
 		if(this.isTarget) this.drawMask(targetColor);
+		this.piece?.draw();
 	}
 
 	/** マス目を描写 */

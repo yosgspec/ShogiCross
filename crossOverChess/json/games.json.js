@@ -143,7 +143,7 @@ const games = {
 	"チャンギ": {
 		"english": "Janggi",
 		"fontColor": "#008800",
-		"backgroundColor": "#FFEEDD",
+		"backgroundColor": "#FFFFFF",
 		"position": {
 			"9": {
 				"default": [
@@ -263,8 +263,8 @@ const games = {
 	},
 	"マークルック": {
 		"english": "Makruk",
-		"fontColor": "#777777",
-		"backgroundColor": "#FFFFDD",
+		"fontColor": "#FFFFFF",
+		"backgroundColor": "#CC2222",
 		"promoLine": -3,
 		"position": {
 			"9": {
