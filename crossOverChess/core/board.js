@@ -268,8 +268,8 @@ ${char}:${name}`)){
 
 		ctx.save();
 		ctx.translate(left, top);
-		ctx.strokeRect(0, 0, width, height);
 		ctx.fillRect(0, 0, width, height);
+		ctx.strokeRect(0, 0, width, height);
 		ctx.translate(panelWidth/2, panelHeight/2);
 		ctx.strokeRect(0, 0, width-panelWidth, height-panelHeight);
 		ctx.restore();

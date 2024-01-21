@@ -4,15 +4,23 @@ const panels = {
 		"text": "　　",
 		"backgroundColor": "#EECC88",
 		"borderColor": "#333333",
-		"borderWidth": 5,
+		"borderWidth": 2,
+		"attr": []
+	},
+	"C": {
+		"name": "クロス用黒",
+		"text": "　　",
+		"backgroundColor": "#BB7744",
+		"borderColor": "#333333",
+		"borderWidth": 2,
 		"attr": []
 	},
 	"M": {
 		"name": "マークルック",
 		"text": "　　",
-		"backgroundColor": "#664433",
+		"backgroundColor": "#775544",
 		"borderColor": "#999999",
-		"borderWidth": 5,
+		"borderWidth": 2,
 		"attr": []
 	},
 	"W": {
@@ -20,7 +28,7 @@ const panels = {
 		"text": "　　",
 		"backgroundColor": "#CCCCCC",
 		"borderColor": "#33333377",
-		"borderWidth": 5,
+		"borderWidth": 2,
 		"attr": []
 	},
 	"B":  {
@@ -28,7 +36,7 @@ const panels = {
 		"text": "　　",
 		"backgroundColor": "#333333",
 		"borderColor": "#CCCCCC77",
-		"borderWidth": 5,
+		"borderWidth": 2,
 		"attr": []
 	},
 	"D":  {
@@ -36,7 +44,7 @@ const panels = {
 		"text": "　　",
 		"backgroundColor": "#AADDFF",
 		"borderColor": "#FFDD99",
-		"borderWidth": 5,
+		"borderWidth": 2,
 		"attr": []
 	},
 	"$":  {
@@ -44,7 +52,7 @@ const panels = {
 		"text": "　　",
 		"backgroundColor": "#FFFFDD",
 		"borderColor": "#FFDD99",
-		"borderWidth": 5,
+		"borderWidth": 2,
 		"attr": []
 	},
 	"d":  {
@@ -52,7 +60,7 @@ const panels = {
 		"text": "　　",
 		"backgroundColor": "#DDFFAA",
 		"borderColor": "#FFDD99",
-		"borderWidth": 5,
+		"borderWidth": 2,
 		"attr": []
 	},
 	"=": {
@@ -60,7 +68,7 @@ const panels = {
 		"text": "＝＝",
 		"backgroundColor": "#EECC88",
 		"borderColor": "#33221144",
-		"borderWidth": 5,
+		"borderWidth": 2,
 		"attr": []
 	},
 	"[": {
@@ -68,7 +76,7 @@ const panels = {
 		"text": "＝＝",
 		"backgroundColor": "#EECC88",
 		"borderColor": "#33221144",
-		"borderWidth": 5,
+		"borderWidth": 2,
 		"textDisplay": "河",
 		"textRotate": -90,
 		"attr": []
@@ -78,7 +86,7 @@ const panels = {
 		"text": "＝＝",
 		"backgroundColor": "#EECC88",
 		"borderColor": "#33221144",
-		"borderWidth": 5,
+		"borderWidth": 2,
 		"textDisplay": "界",
 		"textRotate": 90,
 		"attr": []
@@ -88,7 +96,7 @@ const panels = {
 		"text": "　：",
 		"backgroundColor": "#CC9966",
 		"borderColor": "#333333",
-		"borderWidth": 5,
+		"borderWidth": 2,
 		"attr": ["palace"]
 	},
 	"<": {
@@ -96,7 +104,7 @@ const panels = {
 		"text": "　＼",
 		"backgroundColor": "#CC9966",
 		"borderColor": "#333333",
-		"borderWidth": 5,
+		"borderWidth": 2,
 		"borderSlushLeft": true,
 		"attr": ["palace", "palaceLeft"]
 	},
@@ -105,7 +113,7 @@ const panels = {
 		"text": "　／",
 		"backgroundColor": "#CC9966",
 		"borderColor": "#333333",
-		"borderWidth": 5,
+		"borderWidth": 2,
 		"borderSlushRight": true,
 		"attr": ["palace", "palaceRight"]
 	},
@@ -114,7 +122,7 @@ const panels = {
 		"text": "　※",
 		"backgroundColor": "#CC9966",
 		"borderColor": "#333333",
-		"borderWidth": 5,
+		"borderWidth": 2,
 		"borderSlushLeft": true,
 		"borderSlushRight": true,
 		"attr": ["palace", "palaceRight", "palaceLeft"]
@@ -124,7 +132,7 @@ const panels = {
 		"text": "＃＃",
 		"backgroundColor": "#00000000",
 		"borderColor": "#00000000",
-		"borderWidth": 5,
+		"borderWidth": 2,
 		"attr": ["keepOut"]
 	}
 }

@@ -73,8 +73,8 @@ class Panel{
 		// マス目を描写
 		ctx.save();
 		ctx.translate(left, top);
-		ctx.strokeRect(0, 0, width, height);
 		ctx.fillRect(0, 0, width, height);
+		ctx.strokeRect(0, 0, width, height);
 
 		// 斜線を描写
 		ctx.lineWidth = this.borderWidth/2;
