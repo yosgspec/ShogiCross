@@ -837,7 +837,7 @@ const pieces = {
 	},
 	"貝": {
 		"name": "ビア",
-		"display": ["⛀貝", "◎貝"],
+		"display": ["⛂貝", "◎貝"],
 		"alias": [],
 		"gameName": "マークルック",
 		"unit": "兵",
@@ -865,7 +865,7 @@ const pieces = {
 		"promo": {
 			"貴": {
 				"name": "ビアガーイ",
-				"display": ["⛂貴", "⛂珠", "◉貴", "◉珠"],
+				"display": ["⛀貴", "⛀珠", "◉貴", "◉珠"],
 				"alias": ["珠"],
 				"range": {
 					"default": [
@@ -901,7 +901,7 @@ const pieces = {
 	},
 	"根": {
 		"name": "コーン",
-		"display": ["Δ根"],
+		"display": ["⏏根"],
 		"alias": [],
 		"gameName": "マークルック",
 		"unit": "象",
@@ -919,7 +919,7 @@ const pieces = {
 	},
 	"船": {
 		"name": "ルアー",
-		"display": ["⌓船"],
+		"display": ["⯊船"],
 		"alias": [],
 		"gameName": "マークルック",
 		"unit": "車",
@@ -937,7 +937,7 @@ const pieces = {
 	},
 	"種": {
 		"name": "メット",
-		"display": ["▵種"],
+		"display": ["▴種"],
 		"alias": [],
 		"gameName": "マークルック",
 		"unit": "臣",
@@ -966,7 +966,7 @@ const pieces = {
 	"君": {
 		"name": "クン",
 		"gameName": "マークルック",
-		"display": ["△君", "▲君", "△公", "▲公"],
+		"display": ["▲君", "△君", "▲公", "△公"],
 		"alias": ["公"],
 		"unit": "王",
 		"range": {

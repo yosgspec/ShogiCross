@@ -11,7 +11,7 @@ const panels = {
 		"name": "マークルック",
 		"text": "　　",
 		"backgroundColor": "#664433",
-		"borderColor": "#000000",
+		"borderColor": "#999999",
 		"borderWidth": 5,
 		"attr": []
 	},
