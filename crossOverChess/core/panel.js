@@ -57,7 +57,7 @@ class Panel{
 		this.drawPanel();
 		const selectColor = "#FF000066";
 		if(this.isSelected) this.drawMask(selectColor);
-		const targetColor = "#FFFF0066";
+		const targetColor = "#00FF0066";
 		if(this.isTarget) this.drawMask(targetColor);
 		this.piece?.draw();
 	}

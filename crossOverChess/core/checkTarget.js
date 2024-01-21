@@ -85,9 +85,10 @@ function checkTarget(field, piece, pX, pY){
 		if(!range.attack) range.attack = range.default;
 		for(const [key, {isAttack}] of rangeKeys){
 			if(key == "start" && piece.isMoved) continue;
-
+			if(key.indexOf("palace") === 0) continue;
+			
 			const rng = range[key];
-			if(!rng) return;
+			if(!rng) continue;
 			const [oX, oY] = getRange0(rng);
 
 			// 通常移動
@@ -117,17 +118,26 @@ function checkTarget(field, piece, pX, pY){
 					}
 				}
 
-				/*for(let rX=oX-1;rX<=oX+1;rX++){
+				let jmpCnt = 0;
+				for(let rX=oX-1;rX<=oX+1;rX++){
 					if(rX === oX && rY === oY || rng[rY][rX] !== "+") continue;
 					const [incX, incY] = [rX-oX, rY-oY];
 					for(let x=pX,y=pY;;){
 						x+=incX;
 						y+=incY;
-						if(!canMove(true, x, y) && !canMove(isAttack, x, y)) break;
-						field[y][x].isTarget = true;
-						if(field[y][x].piece) break;
+						if(!canMove(false, x, y, false) && !canMove(isAttack, x, y, !!jmpCnt)) break;
+						if(0 < jmpCnt){
+							field[y][x].isTarget = true;
+						}
+						if(field[y][x].piece){
+							if(0 === jmpCnt){
+								jmpCnt++;
+								continue;
+							}
+							else break;
+						}
 					}
-				}*/
+				}
 			}
 		}
 	})();
