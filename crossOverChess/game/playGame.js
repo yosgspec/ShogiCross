@@ -69,20 +69,6 @@ const boardTemplate = {
 };
 
 const PlayGame = {
-	janggi: {
-		name: "チャンギ",
-		run(canvas, onDrawed){
-			const board = new Board(canvas, {
-				playBoard: "チャンギ",
-				...boardTemplate["9x10"]
-			});
-			board.putStartPieces(0, "チャンギ");
-			board.putStartPieces(1, "チャンギ", "2p");
-			board.onDrawed = onDrawed;
-			board.draw();
-			return board;
-		}
-	},
 	sample: {
 		name: "サンプル",
 		run(canvas, onDrawed){
@@ -154,6 +140,20 @@ const PlayGame = {
 			});
 			board.putStartPieces(0, "シャンチー");
 			board.putStartPieces(1, "シャンチー", "2p");
+			board.onDrawed = onDrawed;
+			board.draw();
+			return board;
+		}
+	},
+	janggi: {
+		name: "チャンギ",
+		run(canvas, onDrawed){
+			const board = new Board(canvas, {
+				playBoard: "チャンギ",
+				...boardTemplate["9x10"]
+			});
+			board.putStartPieces(0, "チャンギ");
+			board.putStartPieces(1, "チャンギ", "2p");
 			board.onDrawed = onDrawed;
 			board.draw();
 			return board;
