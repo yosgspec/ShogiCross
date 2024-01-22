@@ -86,8 +86,8 @@ class Stand{
 
 		ctx.save();
 		ctx.translate(left, top);
-		ctx.strokeRect(0, 0, width, height);
 		ctx.fillRect(0, 0, width, height);
+		ctx.strokeRect(0, 0, width, height);
 		ctx.restore();
 
 		// すべての駒を表示範囲外へ移動

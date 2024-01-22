@@ -111,6 +111,9 @@ function checkTarget(field, piece, pX, pY){
 				}
 			}
 
+			//// シャンチーの炮の動きがおかしいので直すこと
+			//// 炮の移動は駒を超えられない
+			//// 九宮を実装すること
 			// 直線移動
 			for(const [char, {jmps}] of linerChars){
 				for(let rY=oY-1;rY<=oY+1;rY++){

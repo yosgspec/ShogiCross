@@ -188,6 +188,23 @@ class Piece{
 		if(this.isSelected) this.drawMask(selectColor);
 	}
 
+	/** 将棋駒の外形パスを作成 */
+	makePath(zoom){
+		const {ctx} = this;
+
+		ctx.translate(this.center, this.middle);
+		ctx.rotate(this.rad);
+
+		/* 外枠を描写 */
+		ctx.beginPath();
+		ctx.moveTo(-30*zoom,-40*zoom);
+		ctx.lineTo(  0*zoom,-50*zoom);
+		ctx.lineTo( 30*zoom,-40*zoom);
+		ctx.lineTo( 45*zoom, 50*zoom);
+		ctx.lineTo(-45*zoom, 50*zoom);
+		ctx.closePath();
+	}
+
 	/** 駒を描写 */
 	drawPiece(){
 		const {ctx, game} = this;
@@ -198,17 +215,7 @@ class Piece{
 		ctx.fillStyle = game.backgroundColor;
 		ctx.lineWidth = 8*zoom;
 		ctx.save();
-		ctx.translate(this.center, this.middle);
-		ctx.rotate(this.rad);
-
-		/* 外枠を描写 */
-		ctx.beginPath();
-		ctx.moveTo(-30*zoom,-40*zoom);
-		ctx.lineTo(  0*zoom,-50*zoom);
-		ctx.lineTo( 30*zoom,-40*zoom);
-		ctx.lineTo( 40*zoom, 50*zoom);
-		ctx.lineTo(-40*zoom, 50*zoom);
-		ctx.closePath();
+		this.makePath(zoom);
 		ctx.stroke();
 		ctx.fill();
 
@@ -237,17 +244,7 @@ class Piece{
 
 		ctx.fillStyle = color;
 		ctx.save();
-		ctx.translate(this.center, this.middle);
-		ctx.rotate(this.rad);
-
-		/* 外枠を描写 */
-		ctx.beginPath();
-		ctx.moveTo(-30*zoom,-40*zoom);
-		ctx.lineTo(  0*zoom,-50*zoom);
-		ctx.lineTo( 30*zoom,-40*zoom);
-		ctx.lineTo( 40*zoom, 50*zoom);
-		ctx.lineTo(-40*zoom, 50*zoom);
-		ctx.closePath();
+		this.makePath(zoom);
 		ctx.fill();
 
 		ctx.restore();
