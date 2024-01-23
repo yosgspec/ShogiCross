@@ -151,7 +151,7 @@ const pieces = {
 	},
 	"金": {
 		"name": "金将",
-		"display": ["金将", "金將"],
+		"display": ["金將", "金将"],
 		"alias": [],
 		"gameName": "将棋",
 		"unit": "臣",
@@ -501,7 +501,7 @@ const pieces = {
 		"display": ["○炮", "○砲", "炮", "砲"],
 		"alias": ["砲"],
 		"gameName": "シャンチー",
-		"unit": "車",
+		"unit": "砲",
 		"attr": ["pao"],
 		"range": {
 			"default": [
@@ -621,7 +621,7 @@ const pieces = {
 		"alias": ["將"],
 		"gameName": "シャンチー",
 		"unit": "王",
-		"attr": ["inPalace", "notSeeKing"],
+		"attr": ["inPalace", "cantSeeKing"],
 		"range": {
 			"default": [
 				".......",
@@ -649,6 +649,24 @@ const pieces = {
 				".......",
 				".......",
 				"......."
+			],
+			"palaceRight": [
+				".......",
+				".......",
+				"....A..",
+				"...0...",
+				"..A....",
+				".......",
+				"......."
+			],
+			"palaceLeft": [
+				".......",
+				".......",
+				"..A....",
+				"...0...",
+				"....A..",
+				".......",
+				"......."
 			]
 		}
 	},
@@ -657,7 +675,7 @@ const pieces = {
 		"display": ["⬡包", "包"],
 		"alias": [],
 		"gameName": "チャンギ",
-		"unit": "車",
+		"unit": "砲",
 		"attr": ["po"],
 		"range": {
 			"default": [
@@ -804,7 +822,7 @@ const pieces = {
 		"alias": ["漢"],
 		"gameName": "チャンギ",
 		"unit": "王",
-		"attr": ["inPalace"],
+		"attr": ["inPalace", "bikjang", "usePass", "swapHorseElephant"],
 		"range": {
 			"default": [
 				".......",
@@ -883,7 +901,7 @@ const pieces = {
 	},
 	"瑪": {
 		"name": "マー",
-		"display": ["🐴瑪", "🦄瑪", "🦓瑪"],
+		"display": ["🐴瑪", "🦄瑪", "🦓瑪", "🐴午", "🦄午", "🦓午"],
 		"alias": [],
 		"gameName": "マークルック",
 		"unit": "馬",
@@ -969,6 +987,7 @@ const pieces = {
 		"display": ["▲君", "△君", "▲公", "△公"],
 		"alias": ["公"],
 		"unit": "王",
+		"attr": ["countingRules"],
 		"range": {
 			"default": [
 				".......",
@@ -1062,7 +1081,7 @@ const pieces = {
 		"alias": [],
 		"gameName": "どうぶつしょうぎ",
 		"unit": "王",
-		"attr": ["capture"],
+		"attr": ["capture", "ruleThrough"],
 		"range": {
 			"default": [
 				".......",

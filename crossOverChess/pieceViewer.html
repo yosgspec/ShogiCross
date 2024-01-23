@@ -85,7 +85,7 @@
 				piece.middle = size/2;
 				piece.size = size*0.9;
 				piece.draw();
-				pieceRange.value = pieces[pieceSelect.value].range.default.join("\n");
+				pieceRange.value = pieces[pieceSelect.value].range.default.map(v=>v.join("")).join("\n");
 			}
 		})();
 		</script>

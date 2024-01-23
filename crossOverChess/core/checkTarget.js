@@ -56,8 +56,11 @@ function checkTarget(field, piece, pX, pY){
 	 * @param {boolean} checkRivalDeg - 敵の駒のみを移動先とするか?
 	 * @returns boolean
 	 */
-	function canMove(isAttack, x, y, checkRivalDeg=true){
+	function canMove(isAttack, x, y, key="", checkRivalDeg=true){
 		if(!field[y] || !field[y][x] || field[y][x].attr.includes("keepOut")) return false;
+		console.log(key);
+		if(piece.attr?.includes("inPalace") && !field[y][x].attr.includes("palace")) return false;
+		//key.indexOf("palace") === 0 && 
 		if(!isAttack) return !field[y][x].piece;
 		if(!field[y][x].piece) return false;
 		if(checkRivalDeg) return piece.deg !== field[y][x].piece.deg;
@@ -77,7 +80,7 @@ function checkTarget(field, piece, pX, pY){
 			for(let rY=0;rY<rng.length;rY++){
 				for(let rX=0;rX<rng[rY].length;rX++){
 					const [x, y] = [rX+pX-oX, rY+pY-oY];
-					if(canMove(isAttack, x, y, false) || rng[rY][rX] !== char) continue;
+					if(canMove(isAttack, x, y, "", false) || rng[rY][rX] !== char) continue;
 					return true
 				}
 			}
@@ -91,7 +94,6 @@ function checkTarget(field, piece, pX, pY){
 		if(!range.attack) range.attack = range.default;
 		for(const [key, {isAttack}] of rangeKeys){
 			if(key == "start" && piece.isMoved) continue;
-			if(key.indexOf("palace") === 0) continue;
 			
 			const rng = range[key];
 			if(!rng) continue;
@@ -102,7 +104,7 @@ function checkTarget(field, piece, pX, pY){
 				for(let rY=0;rY<rng.length;rY++){
 					for(let rX=0;rX<rng[rY].length;rX++){
 						const [x, y] = [rX+pX-oX, rY+pY-oY];
-						if(!canMove(isAttack, x, y)) continue;
+						if(!canMove(isAttack, x, y, key)) continue;
 						if(rng[rY][rX] !== parent) continue;
 						if(existsChild(rng, child, false, oX, oY)) continue;
 
@@ -111,9 +113,7 @@ function checkTarget(field, piece, pX, pY){
 				}
 			}
 
-			//// シャンチーの炮の動きがおかしいので直すこと
-			//// 炮の移動は駒を超えられない
-			//// 九宮を実装すること
+			//// 九宮の斜め移動を実装すること
 			// 直線移動
 			for(const [char, {jmps}] of linerChars){
 				for(let rY=oY-1;rY<=oY+1;rY++){
@@ -125,8 +125,8 @@ function checkTarget(field, piece, pX, pY){
 							x+=incX;
 							y+=incY;
 							const isJumped = 0 === jmpCnt;
-							if(!canMove(false, x, y) && !canMove(isAttack, x, y, isJumped)) break;
-							if(isJumped) field[y][x].isTarget = true;
+							if(!canMove(false, x, y, key) && !canMove(isAttack, x, y, key, isJumped)) break;
+							if(isJumped && (!isAttack || isAttack && field[y][x].piece)) field[y][x].isTarget = true;
 							if(field[y][x].piece){
 								if(isJumped) break;
 								jmpCnt--;
