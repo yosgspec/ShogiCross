@@ -12,7 +12,9 @@ function checkTarget(field, piece, pX, pY){
 		["default", {isAttack: false}],
 		["start", {isAttack: false}],
 		["attack", {isAttack: true}],
+		["palaceRight", {isAttack: false}],
 		["palaceRight", {isAttack: true}],
+		["palaceLeft", {isAttack: false}],
 		["palaceLeft", {isAttack: true}]
 	];
 
@@ -66,11 +68,8 @@ function checkTarget(field, piece, pX, pY){
 	 * @returns boolean
 	 */
 	function canMove(isAttack, x, y, key="", checkRivalDeg=true){
-		//console.log(key);
-		if(
-			(key.indexOf("palace") === 0 || piece.attr?.includes("inPalace")) &&
-			!field[y][x].attr.includes("palace")
-		) return false;
+		if(piece.attr?.includes("inPalace") && !field[y][x].attr.includes("palace")) return false;
+		if(key.indexOf("palace") === 0 && !field[y][x].attr.includes(key)) return false;
 		if(!isAttack) return !field[y][x].piece;
 		if(!field[y][x].piece) return false;
 		if(checkRivalDeg) return piece.deg !== field[y][x].piece.deg;
@@ -113,6 +112,7 @@ function checkTarget(field, piece, pX, pY){
 			if(!rng) continue;
 			const [oX, oY] = getRange0(rng);
 
+			//if(key.indexOf("palace") !== 0) continue;
 			// 通常移動
 			for(const [parent, {child}] of targetChars){
 				for(let rY=0;rY<rng.length;rY++){
@@ -129,7 +129,6 @@ function checkTarget(field, piece, pX, pY){
 				}
 			}
 
-			//// 九宮の斜め移動を実装すること
 			// 直線移動
 			for(const [char, {jmps}] of linerChars){
 				for(let rY=oY-1;rY<=oY+1;rY++){
