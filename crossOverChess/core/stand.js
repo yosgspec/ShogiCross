@@ -9,11 +9,11 @@ class Stand{
 		180: 0,
 		90: 1,
 		270: 2,
-		0: 3 
+		0: 3
 	}
 
 	/**
-	 * @param {any} canvas 
+	 * @param {Board} ボード
 	 */
 	constructor(board){
 		this.board = board;

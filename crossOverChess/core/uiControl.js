@@ -1,5 +1,5 @@
 /** マウスコントロール
- * @param {Board} board - 盤 
+ * @param {Board} board - 盤
  */
 function uIControl(board){
 	let isClick = false;
@@ -9,7 +9,7 @@ function uIControl(board){
 	const {canvas} = board;
 
 	/** マス目に対する処理
-	 * @param {any} e - イベント引数
+	 * @param {Event} e - イベント引数
 	 * @param {(
 	 *     panel: Panel,
 	 *     x: number,
@@ -44,7 +44,7 @@ function uIControl(board){
 	};
 
 	/** ドラッグ開始
-	 * @param {any} e - イベント引数
+	 * @param {Event} e - イベント引数
      */
 	const dragStart = e=>{
 		isClick = true;
@@ -85,7 +85,7 @@ function uIControl(board){
 	}
 
 	/** ドラッグ終了
-	* @param {any} e - イベント引数
+	* @param {Event} e - イベント引数
 	*/
 	const dragEnd = e=>{
 		isClick = false;

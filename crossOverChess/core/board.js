@@ -6,7 +6,7 @@
 /** 盤の管理クラス */
 class Board{
 	/**
-	 * @param {any} canvas 
+	 * @param {HTMLCanvasElement} canvas - キャンバス要素
 	 * @param {number} canvasWidth - キャンバス幅
 	 * @param {number} canvasHeight - キャンバス高さ
 	 * @param {string} playBoard - ボードタイプ

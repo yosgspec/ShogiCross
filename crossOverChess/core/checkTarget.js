@@ -1,9 +1,9 @@
 /** 駒の移動判定
  * @param {Panel[][]} field - パネルを含んだ配列
- * @param {Piece} piece - 駒 
+ * @param {Piece} piece - 駒
  * @param {number} pX - パネルの列
- * @param {number} pY - パネルの行 
- * @returns 
+ * @param {number} pY - パネルの行
+ * @returns
  */
 function checkTarget(field, piece, pX, pY){
 
@@ -40,7 +40,7 @@ function checkTarget(field, piece, pX, pY){
 
 	/** rangeの原点座標を取得
 	 * @param {string[]} rng - 移動範囲情報
-	 */ 
+	 */
 	function getRange0(rng){
 		for(let rY=0;rY<rng.length;rY++){
 			const rX = rng[rY].indexOf("0");
@@ -49,6 +49,11 @@ function checkTarget(field, piece, pX, pY){
 		}
 	}
 
+	/** パネル座標がボード範囲内か判定
+	 * @param {number} x - 判定するパネルの列
+	 * @param {number} y - 判定するパネルの行
+	 * @returns {boolean}
+	 */
 	function inField(x, y){
 		return field[y] && field[y][x] && !field[y][x].attr.includes("keepOut");
 	}
@@ -73,7 +78,7 @@ function checkTarget(field, piece, pX, pY){
 	}
 
 	/** 子となる移動範囲に駒が存在するか
-	 * @param {string[]} rng - 移動範囲情報 
+	 * @param {string[]} rng - 移動範囲情報
 	 * @param {string[]} child - 子となる文字の一覧
 	 * @param {boolean} isAttack - 駒を取得対象に含むか?
 	 * @param {number} oX - 移動範囲情報の原点位置(行)
@@ -98,12 +103,12 @@ function checkTarget(field, piece, pX, pY){
 	}
 
 	// メイン処理
-	return (function(){
+	(function(){
 		const range = piece.getRange();
 		if(!range.attack) range.attack = range.default;
 		for(const [key, {isAttack}] of rangeKeys){
 			if(key === "start" && piece.isMoved) continue;
-			
+
 			const rng = range[key];
 			if(!rng) continue;
 			const [oX, oY] = getRange0(rng);

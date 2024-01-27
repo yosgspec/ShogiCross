@@ -149,8 +149,8 @@ class Piece{
 	}
 
 	/** 座標が駒に含まれるか判定
-	 * @param {number} x - X座標	 
-	 * @param {number} y - Y座標 
+	 * @param {number} x - X座標
+	 * @param {number} y - Y座標
 	 */
 	checkRangeMouse(x, y){
 		return (
