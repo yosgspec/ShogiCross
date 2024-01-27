@@ -49,6 +49,10 @@ function checkTarget(field, piece, pX, pY){
 		}
 	}
 
+	function inField(x, y){
+		return field[y] && field[y][x] && !field[y][x].attr.includes("keepOut");
+	}
+
 	/** 移動可能か判定
 	 * @param {boolean} isAttack - 駒を取得対象に含むか?
 	 * @param {number} x - 判定するパネルの列
@@ -57,10 +61,12 @@ function checkTarget(field, piece, pX, pY){
 	 * @returns boolean
 	 */
 	function canMove(isAttack, x, y, key="", checkRivalDeg=true){
-		if(!field[y] || !field[y][x] || field[y][x].attr.includes("keepOut")) return false;
-		console.log(key);
-		if(piece.attr?.includes("inPalace") && !field[y][x].attr.includes("palace")) return false;
-		//key.indexOf("palace") === 0 && 
+		if(!inField(x, y)) return false;
+		//console.log(key);
+		if(
+			(key.indexOf("palace") === 0 || piece.attr?.includes("inPalace")) &&
+			!field[y][x].attr.includes("palace")
+		) return false;
 		if(!isAttack) return !field[y][x].piece;
 		if(!field[y][x].piece) return false;
 		if(checkRivalDeg) return piece.deg !== field[y][x].piece.deg;
@@ -93,7 +99,7 @@ function checkTarget(field, piece, pX, pY){
 		const range = piece.getRange();
 		if(!range.attack) range.attack = range.default;
 		for(const [key, {isAttack}] of rangeKeys){
-			if(key == "start" && piece.isMoved) continue;
+			if(key === "start" && piece.isMoved) continue;
 			
 			const rng = range[key];
 			if(!rng) continue;
@@ -113,6 +119,8 @@ function checkTarget(field, piece, pX, pY){
 				}
 			}
 
+			//if(key !== "default") continue;
+			//if(key !== "attack") continue;
 			//// 九宮の斜め移動を実装すること
 			// 直線移動
 			for(const [char, {jmps}] of linerChars){
@@ -128,9 +136,8 @@ function checkTarget(field, piece, pX, pY){
 							if(!canMove(false, x, y, key) && !canMove(isAttack, x, y, key, isJumped)) break;
 							if(isJumped && (!isAttack || isAttack && field[y][x].piece)) field[y][x].isTarget = true;
 							if(field[y][x].piece){
-								if(isJumped) break;
 								jmpCnt--;
-								continue;
+								if(isJumped) break;
 							}
 						}
 					}
