@@ -2,7 +2,7 @@ const games = {
 	"将棋": {
 		"english": "Shogi",
 		"fontColor": "#000000",
-		"backgroundColor": "#FFCC77",
+		"backgroundColor": "#FFDDAA",
 		"promoLine": -3,
 		"position": {
 			"9": {
@@ -92,8 +92,8 @@ const games = {
 	},
 	"シャンチー": {
 		"english": "Xiangqi",
-		"fontColor": "#CC1100",
-		"backgroundColor": "#FFDDAA",
+		"fontColor": "#BB1100",
+		"backgroundColor": "#FFDD77",
 		"promoLine": -4,
 		"position": {
 			"9": {
