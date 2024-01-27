@@ -1,4 +1,4 @@
-const games = {
+{
 	"将棋": {
 		"english": "Shogi",
 		"fontColor": "#000000",

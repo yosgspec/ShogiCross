@@ -1,4 +1,4 @@
-const boards = {
+{
 	"将棋": {
 		"backgroundColor": "#EECC88",
 		"borderColor": "#333333",

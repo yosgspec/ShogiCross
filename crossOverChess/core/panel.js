@@ -1,19 +1,20 @@
-// import canvasFont from "./json/canvasFont.json" assert { type: "json" };
+import {canvasFont} from "./extendCanvasFont.js";
+import panels from "../json/panels.json" assert { type: "json" };
 
 /** マス目の管理クラス */
-class Panel{
+export class Panel{
 	#isSelected;
 
 	/**
 	 * @param {any} ctx - Canvas描画コンテキスト
-	 * @param {{[s:string]:any}} panel - マス目
+	 * @param {[s:string]:any}} panel - マス目
 	 * @param {number} center - 描写するX座標(中心原点)
 	 * @param {number} middle - 描写するY座標(中心原点)
 	 * @param {number} width - パネル幅
 	 * @param {number} height - パネル高さ
 	 */
-	constructor(ctx, panel, center, middle, width, height, borderWidth, xCnt, yCnt){
-		Object.assign(this, panel);
+	constructor(ctx, char, center, middle, width, height, borderWidth, xCnt, yCnt){
+		Object.assign(this, panels[char]);
 		this.ctx = ctx;
 		this.center = center;
 		this.middle = middle;

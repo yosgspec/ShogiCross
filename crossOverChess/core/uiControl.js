@@ -1,7 +1,11 @@
+import {Board} from "./board.js"
+import {Panel} from "./panel.js"
+import {checkTarget} from "./checkTarget.js"
+
 /** マウスコントロール
  * @param {Board} board - 盤
  */
-function uIControl(board){
+export function uIControl(board){
 	let isClick = false;
 	let lastXY = [];
 	let selectPanel = null;

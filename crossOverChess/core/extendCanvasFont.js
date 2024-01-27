@@ -1,3 +1,6 @@
+import canvasFont from "../json/canvasFont.json" assert { type: "json" };
+export {canvasFont};
+
 Object.assign(canvasFont, {
 	imported: false,
 	names: "",

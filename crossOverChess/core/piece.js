@@ -1,9 +1,9 @@
-// import pieces from "./json/piece.json" assert { type: "json" };
-// import games from "./json/games.json" assert { type: "json" };
-// import canvasFont from "./json/canvasFont.json" assert { type: "json" };
+import {canvasFont} from "./extendCanvasFont.js";
+import pieces from "../json/pieces.json" assert { type: "json" };
+import games from "../json/games.json" assert { type: "json" };
 
 /** 駒の管理クラス */
-class Piece{
+export class Piece{
 	/** テキスト出力時のプレイヤー表示 */
 	static degChars = {
 		0: "▲",

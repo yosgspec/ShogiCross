@@ -1,4 +1,4 @@
-const canvasFont = {
+{
 	"fonts": [
 		["Noto Serif JP", 900],
 		["Noto Emoji", 400],

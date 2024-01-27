@@ -1,3 +1,6 @@
+import {Panel} from "./panel.js";
+import {Piece} from "./piece.js";
+
 /** 駒の移動判定
  * @param {Panel[][]} field - パネルを含んだ配列
  * @param {Piece} piece - 駒
@@ -5,7 +8,7 @@
  * @param {number} pY - パネルの行
  * @returns
  */
-function checkTarget(field, piece, pX, pY){
+export function checkTarget(field, piece, pX, pY){
 
 	// 移動範囲オプション
 	const rangeKeys = [

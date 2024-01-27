@@ -1,4 +1,4 @@
-const pieceEn = {
+{
 	"歩": "sP",
 	"と": "sGP",
 	"香": "sL",

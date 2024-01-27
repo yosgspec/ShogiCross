@@ -1,4 +1,4 @@
-const panels = {
+{
 	"S": {
 		"name": "将棋",
 		"text": "　　",

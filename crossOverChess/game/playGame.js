@@ -1,3 +1,6 @@
+import {Board} from "../core/board.js";
+import games from "../json/games.json" assert { type: "json" };
+
 const defaultTemplate = {
 	boardLeft: 5,
 	boardTop: 5,
@@ -68,7 +71,7 @@ const boardTemplate = {
 	}
 };
 
-const PlayGame = {
+export const PlayGame = {
 	sample: {
 		name: "サンプル",
 		run(canvas, onDrawed){

@@ -1,4 +1,4 @@
-const pieces = {
+{
 	"歩": {
 		"name": "歩兵",
 		"display": ["歩兵"],

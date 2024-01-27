@@ -1,10 +1,12 @@
-// import boards from "./json/boards.json" assert { type: "json" };
-// import panels from "./json/panels.json" assert { type: "json" };
-// import pieces from "./json/pieces.json" assert { type: "json" };
-// import games from "./json/games.json" assert { type: "json" };
+import {Piece} from "./piece.js";
+import {Panel} from "./panel.js";
+import {Stand} from "./stand.js";
+import {uIControl} from "./uiControl.js";
+import boards from "../json/boards.json" assert { type: "json" };
+import games from "../json/games.json" assert { type: "json" };
 
 /** 盤の管理クラス */
-class Board{
+export class Board{
 	/**
 	 * @param {HTMLCanvasElement} canvas - キャンバス要素
 	 * @param {number} canvasWidth - キャンバス幅
@@ -41,7 +43,7 @@ class Board{
 			[...row].map((char, xCnt)=>{
 				const center = boardLeft+panelWidth*(xCnt+1);
 				const middle = boardTop+panelHeight*(yCnt+1)
-				return new Panel(ctx, panels[char], center, middle, panelWidth, panelHeight, this.borderWidth, xCnt, yCnt);
+				return new Panel(ctx, char, center, middle, panelWidth, panelHeight, this.borderWidth, xCnt, yCnt);
 			})
 		);
 		this.xLen = this.field[0].length;
@@ -141,7 +143,7 @@ class Board{
 	 */
 	inputPieces(text){
 		const {field, pieces, xLen, yLen} = this;
-		const noises = "┏━┯┓┗┷┛┃│┠─┼┨―";		
+		const noises = "┏━┯┓┗┷┛┃│┠─┼┨―";
 		// 配列変換
 		const texts = [text].concat(
 				[...noises],
@@ -186,7 +188,7 @@ class Board{
 	}
 
 	/** プロモーションエリア内であるか判別
-	 * @param {Panel} panel - パネル 
+	 * @param {Panel} panel - パネル
 	 */
 	checkCanPromo(panel){
 		const {xLen, yLen} = this;
