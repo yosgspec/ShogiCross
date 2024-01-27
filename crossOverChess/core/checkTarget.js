@@ -61,7 +61,6 @@ function checkTarget(field, piece, pX, pY){
 	 * @returns boolean
 	 */
 	function canMove(isAttack, x, y, key="", checkRivalDeg=true){
-		if(!inField(x, y)) return false;
 		//console.log(key);
 		if(
 			(key.indexOf("palace") === 0 || piece.attr?.includes("inPalace")) &&
@@ -86,7 +85,11 @@ function checkTarget(field, piece, pX, pY){
 			for(let rY=0;rY<rng.length;rY++){
 				for(let rX=0;rX<rng[rY].length;rX++){
 					const [x, y] = [rX+pX-oX, rY+pY-oY];
-					if(canMove(isAttack, x, y, "", false) || rng[rY][rX] !== char) continue;
+					if(
+						!inField(x, y) ||
+						canMove(isAttack, x, y, "", false) ||
+						rng[rY][rX] !== char
+					) continue;
 					return true
 				}
 			}
@@ -110,17 +113,17 @@ function checkTarget(field, piece, pX, pY){
 				for(let rY=0;rY<rng.length;rY++){
 					for(let rX=0;rX<rng[rY].length;rX++){
 						const [x, y] = [rX+pX-oX, rY+pY-oY];
-						if(!canMove(isAttack, x, y, key)) continue;
-						if(rng[rY][rX] !== parent) continue;
-						if(existsChild(rng, child, false, oX, oY)) continue;
-
+						if(
+							!inField(x, y) ||
+							!canMove(isAttack, x, y, key) ||
+							rng[rY][rX] !== parent ||
+							existsChild(rng, child, false, oX, oY)
+						) continue;
 						field[y][x].isTarget = true;
 					}
 				}
 			}
 
-			//if(key !== "default") continue;
-			//if(key !== "attack") continue;
 			//// 九宮の斜め移動を実装すること
 			// 直線移動
 			for(const [char, {jmps}] of linerChars){
@@ -132,9 +135,9 @@ function checkTarget(field, piece, pX, pY){
 						for(let x=pX,y=pY;;){
 							x+=incX;
 							y+=incY;
+							if(!inField(x, y)) break;
 							const isJumped = 0 === jmpCnt;
-							if(!canMove(false, x, y, key) && !canMove(isAttack, x, y, key, isJumped)) break;
-							if(isJumped && (!isAttack || isAttack && field[y][x].piece)) field[y][x].isTarget = true;
+							if(isJumped && canMove(isAttack, x, y, key, isJumped)) field[y][x].isTarget = true;
 							if(field[y][x].piece){
 								jmpCnt--;
 								if(isJumped) break;
