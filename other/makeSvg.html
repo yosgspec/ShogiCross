@@ -12,29 +12,29 @@
 	<body>
 		<h1>Svg Text</h1>
 		<script>
-			const svg = document.createElementNS("http://www.w3.org/2000/svg","svg");
+			const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
 			document.body.appendChild(svg);
 			svg.setAttribute("width","110");
 			svg.setAttribute("height","110");
 			svg.setAttribute("viewbox","0 0 110 110");
 
-			const g = document.createElementNS("http://www.w3.org/2000/svg","g");
+			const g = document.createElementNS("http://www.w3.org/2000/svg", "g");
 			svg.appendChild(g);
 			g.setAttribute("transform", "translate(55,55)");
 
-			const path = document.createElementNS("http://www.w3.org/2000/svg","path");
+			const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
 			g.appendChild(path);
-			path.setAttribute("stroke", "#000099"); 
-			path.setAttribute("fill", "#DDEEFF"); 
-			path.setAttribute("stroke-width", "5"); 
+			path.setAttribute("stroke", "#000099");
+			path.setAttribute("fill", "#DDEEFF");
+			path.setAttribute("stroke-width", "5");
 			path.setAttribute("d", `
 				M -30,-40
 				L   0,-50
 				L  30,-40
-				L  40, 50
-				L -40, 50
+				L  45, 50
+				L -45, 50
 				Z
-			`); 
+			`);
 		</script>
 	</body>
 </html>

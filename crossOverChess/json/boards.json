@@ -212,5 +212,30 @@
 			"...SCS#*#SCS...",
 			"...CSC>#<CSC..."
 		]
+	},
+	"4人用クロス9列4行": {
+		"backgroundColor": "#EECC88",
+		"borderColor": "#333333",
+		"borderWidth": 2,
+		"promoLineOffset": 6,
+		"field": [
+			"....CSC<#>CSC....",
+			"....SCS#*#SCS....",
+			"....CSC>#<CSC....",
+			"....SCSCSCSCS....",
+			"CSCSBWBWBWBWBSCSC",
+			"SCSCWBWBWBWBWCSCS",
+			"CSCSBWB==]BWBSCSC",
+			"<#>CWB=====BWC<#>",
+			"#*#SBW=====WBS#*#",
+			">#<CWB=====BWC>#<",
+			"CSCSBWB[==BWBSCSC",
+			"SCSCWBWBWBWBWCSCS",
+			"CSCSBWBWBWBWBSCSC",
+			"....SCSCSCSCS....",
+			"....CSC<#>CSC....",
+			"....SCS#*#SCS....",
+			"....CSC>#<CSC...."
+		]
 	}
 }

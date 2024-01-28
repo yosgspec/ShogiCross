@@ -187,32 +187,51 @@ export class Board{
 		this.draw();
 	}
 
+	/** 角度基準のパネルの行を取得する
+	 * @param {Panel} panel - パネル
+	 * @param {number} deg - 角度
+	 * @param {number} offsetDeg - 補正角度
+	 * @returns {number}
+	 */
+	getRow(panel, deg, offsetDeg=0){
+		const {xLen, yLen} = this;
+		const {xCnt, yCnt} = panel;
+		deg += offsetDeg;
+		do{deg=(deg+360)%360}while(deg<0);
+		console.log(deg)
+		return (
+			deg === 0? yLen-1-yCnt:
+			deg === 90? xCnt:
+			deg === 180? yCnt:
+			deg === 270? xLen-1-xCnt:
+			-1
+		);
+	}
+
 	/** プロモーションエリア内であるか判別
 	 * @param {Panel} panel - パネル
 	 */
 	checkCanPromo(panel){
-		const {xLen, yLen} = this;
-		const {piece, xCnt, yCnt} = panel;
+		const {yLen} = this;
+		const {piece} = panel;
 		const {deg} = piece;
-		const promoLine = piece.game.promoLine-(0|this.promoLineOffset);
+		const promoLine = yLen+piece.game.promoLine-(0|this.promoLineOffset);
 
-		if(deg === 0 || this.sidePromo && deg !== 180){
-			const promoOver = (yLen-promoLine)%yLen-1;
-			if(yCnt <= promoOver) return true;
+		let row;
+		if(!this.sidePromo){
+			row = this.getRow(panel, deg);
 		}
-		if(deg === 90 || this.sidePromo && deg !== 270){
-			const promoOver = (xLen+promoLine)%xLen;
-			if(promoOver <= xCnt) return true;
+		else{
+			row = Math.max(
+				...Object.keys(Piece.degChars)
+				.map(d=>0|d)
+				.filter(d=>d!==deg)
+				.map(
+					d=>this.getRow(panel, d, 180)
+				)
+			);
 		}
-		if(deg === 180 || this.sidePromo && deg !== 0){
-			const promoOver = (yLen+promoLine)%yLen;
-			if(promoOver <= yCnt) return true;
-		}
-		if(deg === 270 || this.sidePromo && deg !== 90){
-			const promoOver = (xLen-promoLine)%xLen-1;
-			if(xCnt <= promoOver) return true;
-		}
-		return false;
+		return promoLine <= row;
 	}
 
 	/** 駒を移動

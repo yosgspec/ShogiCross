@@ -2,12 +2,12 @@ import {Board} from "../core/board.js";
 import games from "../json/games.json" assert { type: "json" };
 
 const defaultTemplate = {
+	backgroundColor: "#DDEEFF",
 	boardLeft: 5,
 	boardTop: 5,
 	panelWidth: 50,
 	panelHeight: 55,
-	pieceSize: 45
-	//backgroundColor: "#DDEEFF"
+	pieceSize: 45,
 }
 const laugeTemplate = {
 	...defaultTemplate,
@@ -222,7 +222,7 @@ export const PlayGame = {
 			return board;
 		}
 	},
-	g4Shpgi: {
+	g4Shogi: {
 		name: "四神将棋",
 		run(canvas, onDrawed){
 			const board = new Board(canvas, {
