@@ -34,30 +34,62 @@ Canvas用のGoogleフォントローダー
 #### uiControl.js
 マウスなどゲームの操作を構成
 
-### json/
-json形式でゲームに必要なデータを記載  
-ローカルでの読み込みが面倒なためjsonとは名ばかりでjsとして読み込ませている
+#### checkTarget.js
+駒の移動範囲を取得
 
-#### canvasFont.json.js
+### json/
+json形式でゲームに必要なデータを記載
+
+#### canvasFont.json
 Canvas用のGoogleフォント情報
 
-#### boards.json.js
+#### boards.json
 ボードの構成情報
 
-#### panels.json.js
+#### panels.json
 ボード中のマス情報
 
-#### games.json.js
+#### games.json
 ゲームの種類に共通する駒情報や駒配置情報
 
-#### pieces.json.js
+#### pieces.json
 駒情報
 
-#### pieceCost.json.js
-駒の価値情報
+#### pieceCost.json
+駒の価値情報(未使用データ)
+
+#### pieceEn,js
+駒の英語簡易表記
 
 ## py/
 CLIで色々やろうとしていた時の残骸
 
 ## other/
 その他のファイルとか
+
+### 超棋.pdf
+過去に作った同様のコンセプトで作成した将棋のペーパークラフト
+
+### CrossChess.ods
+データ整理などに使用しているワークブック
+
+### getFontFilter.py
+ソース中に含まれる文字を抽出するスクリプト
+
+### makeSvg.html
+SVGで将棋駒を描写しようとしたなにか
+
+## README.md
+これ
+
+## LICENSE
+Unlicence、つまりパブリックドメイン(CC0)
+
+## gff.sh
+getFontFilter.pyを簡易的なコマンド呼べるようにするだけのシェルスクリプト
+
+## favion.ico
+ファビコン。htmlで使うやつ
+
+## gspec20.css
+CSS。htmlで使うやつ
