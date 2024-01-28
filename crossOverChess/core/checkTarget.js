@@ -2,13 +2,14 @@ import {Panel} from "./panel.js";
 import {Piece} from "./piece.js";
 
 /** 駒の移動判定
- * @param {Panel[][]} field - パネルを含んだ配列
+ * @param {Board} board - ボード
  * @param {Piece} piece - 駒
  * @param {number} pX - パネルの列
  * @param {number} pY - パネルの行
  * @returns
  */
-export function checkTarget(field, piece, pX, pY){
+export function checkTarget(board, piece, pX, pY){
+	const {field, yLen} = board;
 
 	// 移動範囲オプション
 	const rangeKeys = [
@@ -71,8 +72,10 @@ export function checkTarget(field, piece, pX, pY){
 	 * @returns boolean
 	 */
 	function canMove(isAttack, x, y, key="", checkRivalDeg=true){
-		if(piece.attr?.includes("inPalace") && !field[y][x].attr.includes("palace")) return false;
-		if(key.indexOf("palace") === 0 && !field[y][x].attr.includes(key)) return false;
+		const {attr} = field[y][x];
+		if(piece.attr?.includes("inPalace") && !attr.includes("palace")) return false;
+		if(key.indexOf("palace") === 0 && !attr.includes(key)) return false;
+		if(piece.attr?.includes("unCrossCenter") && yLen-(0|yLen/2) <= board.getRow(x, y, piece.deg)) return false;
 		if(!isAttack) return !field[y][x].piece;
 		if(!field[y][x].piece) return false;
 		if(checkRivalDeg) return piece.deg !== field[y][x].piece.deg;

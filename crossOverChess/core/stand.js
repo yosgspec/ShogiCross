@@ -90,20 +90,20 @@ export class Stand{
 		// すべての駒を表示範囲外へ移動
 		/*this.stocks.flat().forEach(piece=>{
 			piece.center = -1000;
-			piece.middle = -1000; 
+			piece.middle = -1000;
 		});*/
 		this.stocks.forEach((stock, player)=>{
 			let i = 0;
 			// 溢れた場合は後方優先で表示
 			stock = stock.slice(-yLen/4*xLen);
-			for(let yCnt=0|yLen/4*player;yCnt<yLen/4*(player+1);yCnt++){
-				for(let xCnt=0;xCnt<xLen;xCnt++){
-					const center = left+pitchWidth*(xCnt+1);
-					const middle = top+pitchHeight*(yCnt+1);
+			for(let pY=0|yLen/4*player;pY<yLen/4*(player+1);pY++){
+				for(let pX=0;pX<xLen;pX++){
+					const center = left+pitchWidth*(pX+1);
+					const middle = top+pitchHeight*(pY+1);
 					const piece = stock[i++];
 					if(piece == null) break;
 					piece.center = center;
-					piece.middle = middle; 
+					piece.middle = middle;
 					piece.draw();
 				}
 			}

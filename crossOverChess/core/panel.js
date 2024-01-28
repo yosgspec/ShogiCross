@@ -13,7 +13,7 @@ export class Panel{
 	 * @param {number} width - パネル幅
 	 * @param {number} height - パネル高さ
 	 */
-	constructor(ctx, char, center, middle, width, height, borderWidth, xCnt, yCnt){
+	constructor(ctx, char, center, middle, width, height, borderWidth, pX, pY){
 		Object.assign(this, panels[char]);
 		this.ctx = ctx;
 		this.center = center;
@@ -25,8 +25,8 @@ export class Panel{
 		this.right = center+width/2;
 		this.bottom = middle+height/2;
 		this.borderWidth = borderWidth;
-		this.xCnt = xCnt;
-		this.yCnt = yCnt;
+		this.pX = pX;
+		this.pY = pY;
 		this.piece = null;
 		this.isSelected = false;
 		this.isTarget = false;

@@ -39,11 +39,11 @@ export class Board{
 		this.players = players;
 
 		// マス目データを構築
-		this.field = this.field.map((row, yCnt)=>
-			[...row].map((char, xCnt)=>{
-				const center = boardLeft+panelWidth*(xCnt+1);
-				const middle = boardTop+panelHeight*(yCnt+1)
-				return new Panel(ctx, char, center, middle, panelWidth, panelHeight, this.borderWidth, xCnt, yCnt);
+		this.field = this.field.map((row, pY)=>
+			[...row].map((char, pX)=>{
+				const center = boardLeft+panelWidth*(pX+1);
+				const middle = boardTop+panelHeight*(pY+1)
+				return new Panel(ctx, char, center, middle, panelWidth, panelHeight, this.borderWidth, pX, pY);
 			})
 		);
 		this.xLen = this.field[0].length;
@@ -70,7 +70,7 @@ export class Board{
 	rotateField(deg){
 		const {xLen, yLen} = this;
 
-		deg = (deg+360)%360;
+		do{deg = (deg+360)%360} while(deg<0);
 		if(deg === 0) return;
 		if(![90, 180, 270].includes(deg)) throw Error(`deg=${deg}, deg need multiple of 90.`);
 		if([90, 270].includes(deg)){
@@ -105,11 +105,11 @@ export class Board{
 		if(!pos) throw Error(`games["${pieceSet}"].position["${this.xLen}"]["${ptn}"]is null.`);
 		pos.forEach((row, i)=>{
 			if(row.length < this.xLen) throw Error(row.join(""));
-			const yCnt = i+this.yLen - pos.length;
-			[...row].forEach((char, xCnt)=>{
+			const pY = i+this.yLen - pos.length;
+			[...row].forEach((char, pX)=>{
 				if(!pieces[char]) return;
 				const piece = pieces[char].clone();
-				const panel = this.field[yCnt][xCnt];
+				const panel = this.field[pY][pX];
 				piece.center = panel.center;
 				piece.middle = panel.middle;
 				panel.piece = piece;
@@ -120,19 +120,19 @@ export class Board{
 
 	/** 駒の配置
 	 * @param {string} piece - 駒の表現文字
-	 * @param {number} xCnt - X方向配置位置(マス目基準)
-	 * @param {number} yCnt - Y方向配置位置(マス目基準)
+	 * @param {number} pX - X方向配置位置(マス目基準)
+	 * @param {number} pY - Y方向配置位置(マス目基準)
 	 * @param {number} playeaIdOrDeg - プレイヤー番号または駒の配置角
 	 * @param {number} displayPtn - 表示文字列を変更(1〜)
 	 */
-	putNewPiece(piece, xCnt, yCnt, playeaIdOrDeg, displayPtn=0, setDeg=false){
+	putNewPiece(piece, pX, pY, playeaIdOrDeg, displayPtn=0, setDeg=false){
 		const {pieces} = this;
 
 		const deg = !setDeg? playeaIdOrDeg*90: playeaIdOrDeg;
 		if(typeof piece === "string"){
 			piece = new Piece(this.ctx, pieces[piece], displayPtn, deg);
 		}
-		const panel = this.field[yCnt][xCnt];
+		const panel = this.field[pY][pX];
 		piece.center = panel.center;
 		piece.middle = panel.middle;
 		panel.piece = piece;
@@ -159,17 +159,17 @@ export class Board{
 				row=>row.match(/.{2}/g));
 
 		// ボードに駒を配置
-		for(let yCnt=0;yCnt<yLen;yCnt++){
-			for(let xCnt=0;xCnt<xLen;xCnt++){
+		for(let pY=0;pY<yLen;pY++){
+			for(let pX=0;pX<xLen;pX++){
 				try{
-					const text = texts[yCnt][xCnt];
+					const text = texts[pY][pX];
 					const piece = Piece.stringToPiece(pieces, text);
-					piece.center = field[yCnt][xCnt].center;
-					piece.middle = field[yCnt][xCnt].middle;
-					field[yCnt][xCnt].piece = piece;
+					piece.center = field[pY][pX].center;
+					piece.middle = field[pY][pX].middle;
+					field[pY][pX].piece = piece;
 				}
 				catch(ex){
-					field[yCnt][xCnt].piece = null;
+					field[pY][pX].piece = null;
 				}
 			}
 		}
@@ -193,17 +193,15 @@ export class Board{
 	 * @param {number} offsetDeg - 補正角度
 	 * @returns {number}
 	 */
-	getRow(panel, deg, offsetDeg=0){
+	getRow(pX, pY, deg, offsetDeg=0){
 		const {xLen, yLen} = this;
-		const {xCnt, yCnt} = panel;
 		deg += offsetDeg;
-		do{deg=(deg+360)%360}while(deg<0);
-		console.log(deg)
+		do{deg = (deg+360)%360} while(deg<0);
 		return (
-			deg === 0? yLen-1-yCnt:
-			deg === 90? xCnt:
-			deg === 180? yCnt:
-			deg === 270? xLen-1-xCnt:
+			deg === 0? yLen-1-pY:
+			deg === 90? pX:
+			deg === 180? pY:
+			deg === 270? xLen-1-pX:
 			-1
 		);
 	}
@@ -213,13 +211,13 @@ export class Board{
 	 */
 	checkCanPromo(panel){
 		const {yLen} = this;
-		const {piece} = panel;
+		const {piece, pX, pY} = panel;
 		const {deg} = piece;
 		const promoLine = yLen+piece.game.promoLine-(0|this.promoLineOffset);
 
 		let row;
 		if(!this.sidePromo){
-			row = this.getRow(panel, deg);
+			row = this.getRow(pX, pY, deg);
 		}
 		else{
 			row = Math.max(
@@ -227,7 +225,7 @@ export class Board{
 				.map(d=>0|d)
 				.filter(d=>d!==deg)
 				.map(
-					d=>this.getRow(panel, d, 180)
+					d=>this.getRow(pX, pY, d, 180)
 				)
 			);
 		}

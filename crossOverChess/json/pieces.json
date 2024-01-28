@@ -545,9 +545,10 @@
 	"相": {
 		"name": "相",
 		"display": ["○相", "○象", "相", "象"],
-		"alias": ["unCrossCenter"],
+		"alias": [],
 		"gameName": "シャンチー",
 		"unit": "象",
+		"attr": ["unCrossCenter"],
 		"range": {
 			"default": [
 				".......",
