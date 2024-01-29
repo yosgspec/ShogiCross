@@ -103,8 +103,8 @@ export function checkTarget(board, piece, pX, pY){
 					return true
 				}
 			}
-			return false;
 		}
+		return false;
 	}
 
 	// メイン処理
@@ -118,7 +118,6 @@ export function checkTarget(board, piece, pX, pY){
 			if(!rng) continue;
 			const [oX, oY] = getRange0(rng);
 
-			//if(key.indexOf("palace") !== 0) continue;
 			// 通常移動
 			for(const [parent, {child}] of targetChars){
 				for(let rY=0;rY<rng.length;rY++){
