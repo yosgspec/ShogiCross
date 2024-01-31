@@ -176,6 +176,20 @@ export const PlayGame = {
 			return board;
 		}
 	},
+	chaturanga: {
+		name: "チャトランガ",
+		run(canvas, onDrawed){
+			const board = new Board(canvas, {
+				playBoard: "チェス",
+				...boardTemplate["8x8"]
+			});
+			board.putStartPieces(0, "チャトランガ");
+			board.putStartPieces(1, "チャトランガ");
+			board.onDrawed = onDrawed;
+			board.draw();
+			return board;
+		}
+	},
 	dobutsuShogi: {
 		name: "どうぶつしょうぎ",
 		run(canvas, onDrawed){
@@ -233,6 +247,22 @@ export const PlayGame = {
 			board.putStartPieces(1, "将棋");
 			board.putStartPieces(2, "将棋");
 			board.putStartPieces(3, "将棋");
+			board.onDrawed = onDrawed;
+			board.draw();
+			return board;
+		}
+	},
+	chaturaji: {
+		name: "チャトラジ",
+		run(canvas, onDrawed){
+			const board = new Board(canvas, {
+				playBoard: "チェス",
+				...boardTemplate["8x8"]
+			}, 4);
+			board.putStartPieces(0, "チャトランガ", "p4");
+			board.putStartPieces(1, "チャトランガ", "p4");
+			board.putStartPieces(2, "チャトランガ", "p4");
+			board.putStartPieces(3, "チャトランガ", "p4");
 			board.onDrawed = onDrawed;
 			board.draw();
 			return board;
