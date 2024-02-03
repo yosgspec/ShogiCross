@@ -7,31 +7,22 @@ export const PlayGame = {
 		name: "サンプル",
 		run(canvas, onDrawed){
 			const pieceMap = [
-				[
-					"・貝・君種根瑪船",
-					"包卆・楚士象馭車",
-					"炮卒・帥仕相馮俥",
-					"・兵・王后聖騎塔",
-					"飛歩角玉金銀桂香"
-				],
-				[
-					"貴に率妃と僧騏城",
-					"・馬ぞラひき竜・",
-					"公漢將帝皇全圭杏"
-				]
-			];
-			games["sample"] = {};
-			games["sample"].position ={};
-			for(const i of [8, 9]){
-				games["sample"].position[i] = {...pieceMap};
-			}
+				"▽戰▽杵▽橡▽巨▽將▽漢▽舶▽柱▽豪",
+				"▽城▽騏▽僧▽妃▽帝▽皇▽駁▽公▽駈",
+				"▽杏▽圭▽全▽う▽太▽と▽馬▽幾▽竜",
+				"▽に▽貴▽率▲人▲主▲像▲臣▲午▲戦",
+				"▲き▲ぞ▲ひ▲貝▲君▲種▲根▲瑪▲船",
+				"▲包▲豕▲舟▲卆▲楚▲士▲象▲馭▲車",
+				"▲炮▲醉▲卒▲ラ▲帥▲仕▲相▲馮▲俥",
+				"▲駆▲銅▲駮▲兵▲王▲后▲聖▲騎▲塔",
+				"▲飛▲京▲角▲歩▲玉▲金▲銀▲桂▲香"
+			].join("\n");
 
 			const board = new Board(canvas, {
-				playBoard: "クロス8x8",
-				...boardTemplate(8, 8)
+				playBoard: "クロス9x9",
+				...boardTemplate(9, 9, true)
 			});
-			board.putStartPieces(0, "sample", "0");
-			board.putStartPieces(1, "sample", "1");
+			board.inputPieces(pieceMap);
 			board.onDrawed = onDrawed;
 			board.draw();
 			return board;

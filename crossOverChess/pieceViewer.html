@@ -58,7 +58,7 @@
 			const pieceRange = document.getElementById("pieceRange");
 			const ctx = canvas.getContext("2d");
 			const pieces = Piece.getPieces(ctx, 100);
-			Piece.piecesToList().forEach(([key, {name, gameName}])=>{
+			Piece.piecesToList(pieces).forEach(([key, {name, gameName}])=>{
 				const opt = document.createElement("option");
 				opt.value = key;
 				opt.textContent = `${key}:${name} (${gameName})`;

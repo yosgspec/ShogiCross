@@ -86,7 +86,7 @@ export class Piece{
 	}
 
 	/** 駒の一覧をリストで取得 */
-	static piecesToList(){
+	static piecesToList(pieces){
 		return Object.entries(pieces)
 			.sort(([_,{id:a}], [__,{id:b}])=>
 				Math.sign(a-b));
