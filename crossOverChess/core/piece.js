@@ -1,5 +1,8 @@
 import {canvasFont} from "./extendCanvasFont.js";
 import pieces from "../json/pieces.json" assert { type: "json" };
+import pieceRange from "../json/pieceRange.json" assert { type: "json" };
+import pieceCost from "../json/pieceCost.json" assert { type: "json" };
+import pieceEn from "../json/pieceEn.json" assert { type: "json" };
 import games from "../json/games.json" assert { type: "json" };
 
 /** 駒の管理クラス */
@@ -21,34 +24,51 @@ export class Piece{
 	 */
 	static getPieces(ctx, size){
 		Piece.size = size;
-		const exPieces = JSON.parse(JSON.stringify(pieces));
+		const exPieces = new Map(Object.entries(JSON.parse(JSON.stringify(pieces))));
+
+		/* 移動範囲データを補完 */
+		for(const [key, piece] of exPieces){
+			if(!piece.alias) piece.alias = "";
+			piece.alias = [...piece.alias];
+			if(!piece.attr) piece.attr = [];
+			if(piece.unit) piece.base = piece;
+			if(piece.cost) piece.cost = pieceCost[key];
+			piece.en = pieceEn[key];
+			Object.entries(piece.range).forEach(([rangeKey, rangeValue])=>{
+				piece.range[rangeKey] = pieceRange[rangeValue];
+			})
+		}
 		/* 成駒のデータを統合 */
-		for(const base of Object.values(exPieces)){
-			base.base = base;
-			if(!base.promo) continue;
-			for(const [promoChar, promo] of Object.entries(base.promo)){
-				exPieces[promoChar] = {...base, ...promo};
-				exPieces[promoChar].unit = "成";
-			}
+		for(const [_, piece] of exPieces){
+			if(!piece.promo || typeof(piece.promo) !== "string") continue;
+			const promoKeys = [...piece.promo];
+			piece.promo = {};
+			for(const key of promoKeys){
+				const promo = exPieces.get(key);
+				promo.attr.push("promoted");
+				promo.unit = "成";
+				piece.promo[key] = promo;
+				exPieces.set(key,{...piece, ...promo});
+			};
 		}
 		// 駒をクラスオブジェクトに変換
-		Object.entries(exPieces).map(([key, piece], i)=>{
+		[...exPieces].forEach(([key, piece], i)=>{
 			piece.id = i;
 			piece.char = key;
-			exPieces[key] = new Piece(ctx, piece);
+			exPieces.set(key, new Piece(ctx, piece));
 		});
 		// エイリアスのデータを統合
-		for(const [baseChar, base] of Object.entries(exPieces)){
-			base.alias.forEach((aliasChar, i)=>{
-				const alias = base.clone();
+		for(const [key, piece] of exPieces){
+			piece.alias.forEach((aliasKey, i)=>{
+				const alias = piece.clone();
 				const display = [...alias.display];
 				alias.displayPtn = i+1;
 				alias.display = display;
-				alias.alias[i] = baseChar;
-				exPieces[aliasChar] = alias;
+				alias.alias[i] = key;
+				exPieces.set(aliasKey, alias);
 			});
 		}
-		return exPieces;
+		return Object.fromEntries(exPieces);
 	}
 
 	/** 文字列から駒を取得

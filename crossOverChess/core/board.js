@@ -55,7 +55,6 @@ export class Board{
 		this.stand = new Stand(this);
 		this.record = "";
 		this.onDrawed = null;
-
 		this.uiControl = uIControl(this);
 	}
 
@@ -257,7 +256,7 @@ export class Board{
 		canPromo ||= this.checkCanPromo(toPanel);
 
 		// プロモーション処理
-		if(!piece.promo || piece.unit === "成" || !canPromo) return;
+		if(!piece.promo || piece.attr.includes("promoted") || !canPromo) return;
 		for(const [char, {name}] of Object.entries(piece.promo)){
 			if(confirm(`成りますか?
 ${piece.char}:${piece.name}

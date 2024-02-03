@@ -63,7 +63,8 @@ export class Stand{
 		if(
 			!loserPiece ||
 			!winnerPiece.attr?.includes("capture") ||
-			loserPiece.unit === "王"
+			loserPiece.attr.includes("king") ||
+			loserPiece.attr.includes("cantCapture")
 		) return;
 
 		loserPiece.deg = winnerPiece.deg;

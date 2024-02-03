@@ -1,75 +1,6 @@
 import {Board} from "../core/board.js";
 import games from "../json/games.json" assert { type: "json" };
-
-const defaultTemplate = {
-	backgroundColor: "#DDEEFF",
-	boardLeft: 5,
-	boardTop: 5,
-	panelWidth: 50,
-	panelHeight: 55,
-	pieceSize: 45,
-}
-const laugeTemplate = {
-	...defaultTemplate,
-	panelWidth: 40,
-	panelHeight: 40,
-	pieceSize: 35
-}
-const boardTemplate = {
-	"8x8": {
-		...defaultTemplate,
-		canvasWidth: 460,
-		canvasHeight: 505
-	},
-	"8x8s": {
-		...defaultTemplate,
-		canvasWidth: 695,
-		canvasHeight: 505
-	},
-	"9x9": {
-		...defaultTemplate,
-		canvasWidth: 510,
-		canvasHeight: 560
-	},
-	"9x9s": {
-		...defaultTemplate,
-		canvasWidth: 770,
-		canvasHeight: 560
-	},
-	"9x10": {
-		...defaultTemplate,
-		canvasWidth: 510,
-		canvasHeight: 615
-	},
-	"3x4s": {
-		...defaultTemplate,
-		canvasWidth: 680,
-		canvasHeight: 560,
-		panelWidth: 110,
-		panelHeight: 110,
-		pieceSize: 90
-	},
-	"14x14": {
-		...laugeTemplate,
-		canvasWidth: 610,
-		canvasHeight: 610
-	},
-	"14x14s": {
-		...laugeTemplate,
-		canvasWidth: 920,
-		canvasHeight: 610
-	},
-	"15x15": {
-		...laugeTemplate,
-		canvasWidth: 650,
-		canvasHeight: 650
-	},
-	"15x15s": {
-		...laugeTemplate,
-		canvasWidth: 980,
-		canvasHeight: 650
-	}
-};
+import { boardTemplate} from "./boardTemplate.js"
 
 export const PlayGame = {
 	sample: {
@@ -96,8 +27,8 @@ export const PlayGame = {
 			}
 
 			const board = new Board(canvas, {
-				playBoard: "クロス8列",
-				...boardTemplate["8x8s"]
+				playBoard: "クロス8x8",
+				...boardTemplate(8, 8)
 			});
 			board.putStartPieces(0, "sample", "0");
 			board.putStartPieces(1, "sample", "1");
@@ -111,7 +42,7 @@ export const PlayGame = {
 		run(canvas, onDrawed){
 			const board = new Board(canvas, {
 				playBoard: "将棋",
-				...boardTemplate["9x9s"]
+				...boardTemplate(9, 9, true)
 			});
 			board.putStartPieces(0, "将棋");
 			board.putStartPieces(1, "将棋", "2p");
@@ -125,7 +56,7 @@ export const PlayGame = {
 		run(canvas, onDrawed){
 			const board = new Board(canvas, {
 				playBoard: "チェス",
-				...boardTemplate["8x8"]
+				...boardTemplate(8, 8)
 			});
 			board.putStartPieces(0, "チェス");
 			board.putStartPieces(1, "チェス", "2p");
@@ -139,7 +70,7 @@ export const PlayGame = {
 		run(canvas, onDrawed){
 			const board = new Board(canvas, {
 				playBoard: "シャンチー",
-				...boardTemplate["9x10"]
+				...boardTemplate(9, 10)
 			});
 			board.putStartPieces(0, "シャンチー");
 			board.putStartPieces(1, "シャンチー", "2p");
@@ -153,7 +84,7 @@ export const PlayGame = {
 		run(canvas, onDrawed){
 			const board = new Board(canvas, {
 				playBoard: "チャンギ",
-				...boardTemplate["9x10"]
+				...boardTemplate(9, 10)
 			});
 			board.putStartPieces(0, "チャンギ");
 			board.putStartPieces(1, "チャンギ", "2p");
@@ -167,7 +98,7 @@ export const PlayGame = {
 		run(canvas, onDrawed){
 			const board = new Board(canvas, {
 				playBoard: "マークルック",
-				...boardTemplate["8x8"]
+				...boardTemplate(8, 8)
 			});
 			board.putStartPieces(0, "マークルック");
 			board.putStartPieces(1, "マークルック", "2p");
@@ -181,7 +112,7 @@ export const PlayGame = {
 		run(canvas, onDrawed){
 			const board = new Board(canvas, {
 				playBoard: "チェス",
-				...boardTemplate["8x8"]
+				...boardTemplate(8, 8)
 			});
 			board.putStartPieces(0, "チャトランガ");
 			board.putStartPieces(1, "チャトランガ");
@@ -195,10 +126,94 @@ export const PlayGame = {
 		run(canvas, onDrawed){
 			const board = new Board(canvas, {
 				playBoard: "どうぶつしょうぎ",
-				...boardTemplate["3x4s"]
+				...boardTemplate(3, 4, true)
 			});
 			board.putStartPieces(0, "どうぶつしょうぎ");
 			board.putStartPieces(1, "どうぶつしょうぎ");
+			board.onDrawed = onDrawed;
+			board.draw();
+			return board;
+		}
+	},
+	asakuraShogi: {
+		name: "朝倉象棋",
+		run(canvas, onDrawed){
+			const board = new Board(canvas, {
+				playBoard: "将棋",
+				...boardTemplate(9, 9, true)
+			});
+			board.putStartPieces(0, "将棋", "asakura");
+			board.putStartPieces(1, "将棋", "asakura2p");
+			board.onDrawed = onDrawed;
+			board.draw();
+			return board;
+		}
+	},
+	kyoShogi: {
+		name: "京将棋",
+		run(canvas, onDrawed){
+			const board = new Board(canvas, {
+				playBoard: "将棋10x10",
+				...boardTemplate(10, 10, true)
+			});
+			board.putStartPieces(0, "将棋");
+			board.putStartPieces(1, "将棋", "2p");
+			board.onDrawed = onDrawed;
+			board.draw();
+			return board;
+		}
+	},
+	e5Shogi: {
+		name: "5五将棋",
+		run(canvas, onDrawed){
+			const board = new Board(canvas, {
+				playBoard: "将棋5x5",
+				...boardTemplate(5, 5, true)
+			});
+			board.putStartPieces(0, "将棋");
+			board.putStartPieces(1, "将棋", "2p");
+			board.onDrawed = onDrawed;
+			board.draw();
+			return board;
+		}
+	},
+	capablancaChess: {
+		name: "カパブランカチェス",
+		run(canvas, onDrawed){
+			const board = new Board(canvas, {
+				playBoard: "チェス10x8",
+				...boardTemplate(10, 8)
+			});
+			board.putStartPieces(0, "チェス");
+			board.putStartPieces(1, "チェス", "2p");
+			board.onDrawed = onDrawed;
+			board.draw();
+			return board;
+		}
+	},
+	grandChess: {
+		name: "グランドチェス",
+		run(canvas, onDrawed){
+			const board = new Board(canvas, {
+				playBoard: "チェス10x10",
+				...boardTemplate(10, 10)
+			});
+			board.putStartPieces(0, "チェス", "grand");
+			board.putStartPieces(1, "チェス", "grand2p");
+			board.onDrawed = onDrawed;
+			board.draw();
+			return board;
+		}
+	},
+	losAlamosChess: {
+		name: "ロスアラモスチェス",
+		run(canvas, onDrawed){
+			const board = new Board(canvas, {
+				playBoard: "チェス6x6",
+				...boardTemplate(6, 6)
+			});
+			board.putStartPieces(0, "チェス");
+			board.putStartPieces(1, "チェス", "2p");
 			board.onDrawed = onDrawed;
 			board.draw();
 			return board;
@@ -209,7 +224,7 @@ export const PlayGame = {
 		run(canvas, onDrawed){
 			const board = new Board(canvas, {
 				playBoard: "将棋",
-				...boardTemplate["9x9s"]
+				...boardTemplate(9, 9, true)
 			}, 4);
 			board.putStartPieces(0, "将棋", "p4");
 			board.putStartPieces(1, "将棋", "p4");
@@ -225,7 +240,7 @@ export const PlayGame = {
 		run(canvas, onDrawed){
 			const board = new Board(canvas, {
 				playBoard: "4人チェス",
-				...boardTemplate["14x14"]
+				...boardTemplate(14, 14)
 			}, 4);
 			board.putStartPieces(0, "チェス");
 			board.putStartPieces(1, "チェス");
@@ -241,7 +256,7 @@ export const PlayGame = {
 		run(canvas, onDrawed){
 			const board = new Board(canvas, {
 				playBoard: "四神将棋",
-				...boardTemplate["15x15s"]
+				...boardTemplate(15, 15, true)
 			}, 4);
 			board.putStartPieces(0, "将棋");
 			board.putStartPieces(1, "将棋");
@@ -257,7 +272,7 @@ export const PlayGame = {
 		run(canvas, onDrawed){
 			const board = new Board(canvas, {
 				playBoard: "チェス",
-				...boardTemplate["8x8"]
+				...boardTemplate(8, 8)
 			}, 4);
 			board.putStartPieces(0, "チャトランガ", "p4");
 			board.putStartPieces(1, "チャトランガ", "p4");
@@ -269,11 +284,11 @@ export const PlayGame = {
 		}
 	},
 	crossOver8: {
-		name: "クロス8列",
+		name: "クロス8x8",
 		run(canvas, onDrawed){
 			const board = new Board(canvas, {
-				playBoard: "クロス8列",
-				...boardTemplate["8x8s"]
+				playBoard: "クロス8x8",
+				...boardTemplate(8, 8, true)
 			});
 			board.putStartPieces(0, "チェス");
 			board.putStartPieces(1, "マークルック");
@@ -283,11 +298,11 @@ export const PlayGame = {
 		}
 	},
 	crossOver9: {
-		name: "クロス9列",
+		name: "クロス9x9",
 		run(canvas, onDrawed){
 			const board = new Board(canvas, {
-				playBoard: "クロス9列",
-				...boardTemplate["9x9s"]
+				playBoard: "クロス9x9",
+				...boardTemplate(9, 9, true)
 			});
 			board.putStartPieces(0, "将棋");
 			board.putStartPieces(1, "チャンギ", "left");
@@ -301,7 +316,7 @@ export const PlayGame = {
 		run(canvas, onDrawed){
 			const board = new Board(canvas, {
 				playBoard: "4人用クロス8列",
-				...boardTemplate["14x14s"]
+				...boardTemplate(14, 14, true)
 			}, 4);
 			board.putStartPieces(0, "将棋");
 			board.putStartPieces(1, "シャンチー");
@@ -331,7 +346,7 @@ export const PlayGame = {
 		run(canvas, onDrawed){
 			const board = new Board(canvas, {
 				playBoard: "4人用クロス9列",
-				...boardTemplate["15x15s"]
+				...boardTemplate(15, 15, true)
 			}, 4);
 			board.putStartPieces(0, "将棋");
 			board.putStartPieces(1, "シャンチー");
@@ -362,7 +377,7 @@ export const PlayGame = {
 		run(canvas, onDrawed){
 			const board = new Board(canvas, {
 				playBoard: "将棋",
-				...boardTemplate["9x9s"]
+				...boardTemplate(9, 9, true)
 			});
 			board.putStartPieces(0, "将棋");
 			board.putStartPieces(1, "チェス");
@@ -371,5 +386,4 @@ export const PlayGame = {
 			return board;
 		}
 	},
-
 };

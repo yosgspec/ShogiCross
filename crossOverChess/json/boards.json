@@ -92,6 +92,82 @@
 			"ddd"
 		]
 	},
+	"将棋5x5": {
+		"backgroundColor": "#EECC88",
+		"borderColor": "#333333",
+		"borderWidth": 2,
+		"promoLineOffset": -2,
+		"field": [
+			"SSSSS",
+			"SSSSS",
+			"SSSSS",
+			"SSSSS",
+			"SSSSS"
+		]
+	},
+	"将棋10x10": {
+		"backgroundColor": "#EECC88",
+		"borderColor": "#333333",
+		"borderWidth": 2,
+		"field": [
+			"SSSSSSSSSS",
+			"SSSSSSSSSS",
+			"SSSSSSSSSS",
+			"SSSSSSSSSS",
+			"SSSSSSSSSS",
+			"SSSSSSSSSS",
+			"SSSSSSSSSS",
+			"SSSSSSSSSS",
+			"SSSSSSSSSS",
+			"SSSSSSSSSS"
+		]
+	},
+	"チェス6x6": {
+		"backgroundColor": "#333333",
+		"borderColor": "#000000",
+		"borderWidth": 2,
+		"field": [
+			"WBWBWB",
+			"BWBWBW",
+			"WBWBWB",
+			"BWBWBW",
+			"WBWBWB",
+			"BWBWBW"
+		]
+	},
+	"チェス10x8": {
+		"backgroundColor": "#333333",
+		"borderColor": "#000000",
+		"borderWidth": 2,
+		"field": [
+			"WBWBWBWBWB",
+			"BWBWBWBWBW",
+			"WBWBWBWBWB",
+			"BWBWBWBWBW",
+			"WBWBWBWBWB",
+			"BWBWBWBWBW",
+			"WBWBWBWBWB",
+			"BWBWBWBWBW"
+		]
+	},
+	"チェス10x10": {
+		"backgroundColor": "#333333",
+		"borderColor": "#000000",
+		"borderWidth": 2,
+		"promoLineOffset": 2,
+		"field": [
+			"WBWBWBWBWB",
+			"BWBWBWBWBW",
+			"WBWBWBWBWB",
+			"BWBWBWBWBW",
+			"WBWBWBWBWB",
+			"BWBWBWBWBW",
+			"WBWBWBWBWB",
+			"BWBWBWBWBW",
+			"WBWBWBWBWB",
+			"BWBWBWBWBW"
+		]
+	},
 	"4人チェス": {
 		"backgroundColor": "#333333",
 		"borderColor": "#000000",
@@ -137,7 +213,7 @@
 			"...SSSSSSSSS..."
 		]
 	},
-	"クロス8列": {
+	"クロス8x8": {
 		"backgroundColor": "#EECC88",
 		"borderColor": "#333333",
 		"borderWidth": 2,
@@ -152,7 +228,7 @@
 			"SS>#<BWB"
 		]
 	},
-	"クロス9列": {
+	"クロス9x9": {
 		"backgroundColor": "#EECC88",
 		"borderColor": "#333333",
 		"borderWidth": 2,
