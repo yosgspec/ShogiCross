@@ -57,6 +57,7 @@ export class Piece{
 			piece.char = key;
 			exPieces.set(key, new Piece(ctx, piece));
 		});
+		const exPiecesObj = Object.fromEntries(exPieces);
 		// エイリアスのデータを統合
 		for(const [key, piece] of exPieces){
 			piece.alias.forEach((aliasKey, i)=>{
@@ -65,10 +66,10 @@ export class Piece{
 				alias.displayPtn = i+1;
 				alias.display = display;
 				alias.alias[i] = key;
-				exPieces.set(aliasKey, alias);
+				exPiecesObj[aliasKey] = alias;
 			});
 		}
-		return Object.fromEntries(exPieces);
+		return exPiecesObj;
 	}
 
 	/** 文字列から駒を取得
@@ -146,7 +147,7 @@ export class Piece{
 	 * @returns Piece
 	 */
 	clone(){
-		return new Piece(this.ctx, this, this.displayPtn, this.deg, this.size);
+		return new Piece(this.ctx, {...this}, this.displayPtn, this.deg, this.size);
 	}
 
 	/** 駒を表返す */
