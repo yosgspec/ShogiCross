@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html>
 	<head>
 		<!-- Global site tag (gtag.js) - Google Analytics -->
@@ -20,67 +21,125 @@
 		<style>
 			body {
 				font-family:"Noto Serif JP","Noto Serif TC","Noto Serif",serif;
-				font-size: 50px;
-				line-height: 1.1em;
 				font-weight: 900;
+				line-height: 1.3em;
 			}
-			input, select, textarea {
+			input, select, option, textarea {
 				font-family:"Noto Serif JP","Noto Serif TC","Noto Serif",serif;
-				font-size: 40px;
+				line-height: 1em;
 			}
 			textarea {
 				font-family: "Kosugi",monospace;
 			}
+			.flex-col{
+				display: flex;
+				flex-direction: column;
+				align-items: flex-start;
+			}
+			.flex-row{
+				display: flex;
+				flex-wrap: wrap;
+			}
+			.range{
+				width: 4em;
+				height: 8em;
+			}
 		</style>
 	</head>
 	<body>
-		<h2><u>ShogiCrossPieceViewer</u></h2>
-		Piece:<br>
-		<select id="pieceSelect" style="width: 600px;"></select><br>
-		Size:<br>
-		<input id="pieceSize" style="width: 100px;" value="300"> px<br>
-		Canvas View:<br>
-		<canvas id="pieceViewer"></canvas><br>
-		Range:<br>
-		<textarea id="pieceRange"readonly style="width:200px;height:8em;"></textarea>
-		<div><a href="./">Game</a></div>
-		<div><a href="https://github.com/yosgspec/CrossChess">GitHub</a></div>
-		<div><a href="/">トップメニュー</a></div>
-
+		<h1>ShogiCrossPieceViewer</h1>
+		<div class="flex-col">
+			Piece:
+			<select id="pieceSelect"></select>
+			Size:
+			<div class="flex-row">
+				<input id="pieceSize" style="width: 4em;" value="300">px
+			</div>
+			View:
+			<canvas id="pieceViewer"></canvas>
+			Range:
+			<div class="flex-row">
+				<div class="flex-col">
+					Default<textarea id="pieceRangeDefault" class="range" readonly></textarea>
+				</div>
+				<div class="flex-col">
+					Attack<textarea id="pieceRangeAttack" class="range" readonly></textarea>
+				</div>
+				<div class="flex-col">
+					Start
+					<textarea id="pieceRangeStart" class="range" readonly></textarea>
+				</div>
+				<div class="flex-col">
+					PalaceL
+					<textarea id="pieceRangePalaceLeft" class="range" readonly></textarea>
+				</div>
+				<div class="flex-col">
+					PalaceR
+					<textarea id="pieceRangePalaceRight" class="range" readonly></textarea>
+				</div>
+			</div>
+			Unit:
+			<input id="pieceUnit" style="width: 4em;" readonly>
+			Cost:
+			<input id="pieceCost" style="width: 4em;" readonly>
+			<a href="./">Game</a>
+			<a href="https://github.com/yosgspec/CrossChess">GitHub</a>
+			<a href="/">TOP</a>
+		</div>
 		<script type="module">
 		import {Piece} from "./core/piece.js";
 		import {canvasFont} from "./core/extendCanvasFont.js";
 
+		const canvas = document.getElementById("pieceViewer");
+		const pieceSelect = document.getElementById("pieceSelect");
+		const pieceSize = document.getElementById("pieceSize");
+		const pieceRange = new Map([
+			["default", document.getElementById("pieceRangeDefault")],
+			["attack", document.getElementById("pieceRangeAttack")],
+			["start", document.getElementById("pieceRangeStart")],
+			["palaceLeft", document.getElementById("pieceRangePalaceLeft")],
+			["palaceRight", document.getElementById("pieceRangePalaceRight")]
+		]);
+		const pieceValue = new Map([
+			["unit", document.getElementById("pieceUnit")],
+			["cost", document.getElementById("pieceCost")]
+		]);
+
+		const ctx = canvas.getContext("2d");
+		const pieces = Piece.getPieces(ctx, 100);
+		Piece.piecesToList(pieces).forEach(([key, {name, gameName}])=>{
+			const opt = document.createElement("option");
+			opt.value = key;
+			opt.textContent = `${key}:${name} (${gameName})`;
+			pieceSelect.appendChild(opt);
+		});
+
+		function pieceView(){
+			let size = +pieceSize.value;
+			if(isNaN(size) || !pieceSize.value) size = 300;
+			canvas.width = size;
+			canvas.height = size;
+			ctx.clearRect(0, 0, size, size);
+			const piece = pieces[pieceSelect.value];
+			piece.center = size/2;
+			piece.middle = size/2;
+			piece.size = size*0.9;
+			piece.draw();
+			for(const [key, ele] of pieceRange){
+				const range = pieces[pieceSelect.value].range[key];
+				ele.value = range?
+					range.map(v=>v.join("")).join("\n"):
+					"";
+			}
+			for(const [key, ele] of pieceValue){
+				const value = pieces[pieceSelect.value][key];
+				ele.value = value;
+			}
+		}
 		(function(){
-			const canvas = document.getElementById("pieceViewer");
-			const pieceSelect = document.getElementById("pieceSelect");
-			const pieceSize = document.getElementById("pieceSize");
-			const pieceRange = document.getElementById("pieceRange");
-			const ctx = canvas.getContext("2d");
-			const pieces = Piece.getPieces(ctx, 100);
-			Piece.piecesToList(pieces).forEach(([key, {name, gameName}])=>{
-				const opt = document.createElement("option");
-				opt.value = key;
-				opt.textContent = `${key}:${name} (${gameName})`;
-				pieceSelect.appendChild(opt);
-			});
 			canvasFont.import().then(pieceView);
 			pieceSelect.addEventListener("change", pieceView);
 			pieceSize.addEventListener("change", pieceView);
-
-			function pieceView(){
-				let size = +pieceSize.value;
-				if(isNaN(size) || !pieceSize.value) size = 300;
-				canvas.width = size;
-				canvas.height = size;
-				ctx.clearRect(0, 0, size, size);
-				const piece = pieces[pieceSelect.value];
-				piece.center = size/2;
-				piece.middle = size/2;
-				piece.size = size*0.9;
-				piece.draw();
-				pieceRange.value = pieces[pieceSelect.value].range.default.map(v=>v.join("")).join("\n");
-			}
 		})();
 		</script>
 	</body>

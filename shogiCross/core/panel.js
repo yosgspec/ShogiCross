@@ -30,16 +30,25 @@ export class Panel{
 		this.piece = null;
 		this.isSelected = false;
 		this.isTarget = false;
+		if(!this.attr) this.attr = [];
 	}
 
 	/** マス目の選択状態
 	 * @param {boolean} value
 	 */
 	set isSelected(value){
-		this.#isSelected = this.attr?.includes("keepOut")? false: value;
+		this.#isSelected = this.hasAttr("keepOut")? false: value;
 	}
 	get isSelected(){
 		return this.#isSelected;
+	}
+
+	/** 属性の存在を確認
+	 * @param {string} attr - 属性
+	 * @returns boolean
+	 */
+	hasAttr(attr){
+		this.attr.includes(attr);
 	}
 
 	/** 座標がマス目に含まれるか判定

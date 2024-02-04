@@ -32,7 +32,7 @@ export class Piece{
 			piece.alias = [...piece.alias];
 			if(!piece.attr) piece.attr = [];
 			if(piece.unit) piece.base = piece;
-			if(piece.cost) piece.cost = pieceCost[key];
+			if(pieceCost[key]) piece.cost = pieceCost[key];
 			piece.en = pieceEn[key];
 			Object.entries(piece.range).forEach(([rangeKey, rangeValue])=>{
 				piece.range[rangeKey] = pieceRange[rangeValue];
@@ -138,6 +138,7 @@ export class Piece{
 		this.deg = deg;
 		this.isSelected = false;
 		this.isMoved = false;
+		if(!this.attr) this.attr = [];
 		Object.entries(this.range).forEach(([key, rng])=>
 			this.range[key] = rng.map(row=>[...row])
 		);
@@ -168,6 +169,15 @@ export class Piece{
 		this.char = char;
 		this.unit = "成";
 	}
+
+	/** 属性の存在を確認
+	 * @param {string} attr - 属性
+	 * @returns boolean
+	 */
+	hasAttr(attr){
+		this.attr.includes(attr);
+	}
+
 
 	/** 座標が駒に含まれるか判定
 	 * @param {number} x - X座標

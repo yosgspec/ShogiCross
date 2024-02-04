@@ -1,5 +1,5 @@
 import {Board} from "../core/board.js";
-import { boardTemplate} from "./boardTemplate.js"
+import {boardTemplate} from "./boardTemplate.js"
 
 export const PlayGame = {
 	default: {

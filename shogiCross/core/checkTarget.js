@@ -61,7 +61,7 @@ export function checkTarget(board, piece, pX, pY){
 	 * @returns {boolean}
 	 */
 	function inField(x, y){
-		return field[y] && field[y][x] && !field[y][x].attr.includes("keepOut");
+		return field[y] && field[y][x] && !field[y][x].hasAttr("keepOut");
 	}
 
 	/** 移動可能か判定
@@ -73,9 +73,9 @@ export function checkTarget(board, piece, pX, pY){
 	 */
 	function canMove(isAttack, x, y, key="", checkRivalDeg=true){
 		const {attr} = field[y][x];
-		if(piece.attr?.includes("inPalace") && !attr.includes("palace")) return false;
-		if(key.indexOf("palace") === 0 && !attr.includes(key)) return false;
-		if(piece.attr?.includes("unCrossCenter") && yLen-(0|yLen/2) <= board.getRow(x, y, piece.deg)) return false;
+		if(piece.hasAttr("inPalace") && !hasAttr("palace")) return false;
+		if(key.indexOf("palace") === 0 && !hasAttr(key)) return false;
+		if(piece.hasAttr("unCrossCenter") && yLen-(0|yLen/2) <= board.getRow(x, y, piece.deg)) return false;
 		if(!isAttack) return !field[y][x].piece;
 		if(!field[y][x].piece) return false;
 		if(checkRivalDeg) return piece.deg !== field[y][x].piece.deg;

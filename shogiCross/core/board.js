@@ -238,7 +238,7 @@ export class Board{
 	movePiece(fromPanel, toPanel){
 		if(
 			!fromPanel ||
-			toPanel.attr?.includes("keepOut") ||
+			toPanel.hasAttr("keepOut") ||
 			toPanel.piece === fromPanel.piece ||
 			toPanel.piece?.deg === fromPanel.piece.deg
 		) return;
@@ -256,7 +256,7 @@ export class Board{
 		canPromo ||= this.checkCanPromo(toPanel);
 
 		// プロモーション処理
-		if(!piece.promo || piece.attr.includes("promoted") || !canPromo) return;
+		if(!piece.promo || piece.hasAttr("promoted") || !canPromo) return;
 		for(const [char, {name}] of Object.entries(piece.promo)){
 			if(confirm(`成りますか?
 ${piece.char}:${piece.name}
