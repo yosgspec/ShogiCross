@@ -1,5 +1,6 @@
 # ShogiCross
-html/canvasで将棋類の駒を使ってわちゃわちゃできるものを作る
+html/canvasで将棋類の駒を使ってわちゃわちゃできるものを作る  
+[ゲームページ](http://tool.yosgspec.com/shogiCross/)
 
 ## shogiCross/
 そのままWeb公開を行うファイル類

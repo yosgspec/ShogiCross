@@ -1,10 +1,9 @@
 import {Board} from "../core/board.js";
-import games from "../json/games.json" assert { type: "json" };
 import { boardTemplate} from "./boardTemplate.js"
 
 export const PlayGame = {
-	sample: {
-		name: "サンプル",
+	default: {
+		name: "--ゲームを選択--",
 		run(canvas, onDrawed){
 			const pieceMap = [
 				"▽戰▽杵▽橡▽巨▽將▽漢▽舶▽柱▽豪",
