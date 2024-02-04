@@ -1,7 +1,7 @@
-# CrossOverChess
+# ShogiCross
 html/canvasで将棋類の駒を使ってわちゃわちゃできるものを作る
 
-## crossOverChess/
+## shogiCross/
 そのままWeb公開を行うファイル類
 
 ### index.html
