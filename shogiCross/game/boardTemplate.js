@@ -14,7 +14,7 @@ const panelSizes = col=>
 		panelHeight: 80,
 		pieceSize: 60
 	}:
-	col < 11? {
+	col < 13? {
 		panelWidth: 50,
 		panelHeight: 55,
 		pieceSize: 45

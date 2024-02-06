@@ -6,20 +6,22 @@ export const PlayGame = {
 		name: "--ゲームを選択--",
 		run(canvas, onDrawed){
 			const pieceMap = [
-				"▽戰▽杵▽橡▽巨▽將▽漢▽舶▽柱▽豪",
-				"▽城▽騏▽僧▽妃▽帝▽公▽駁▽太▽駈",
-				"▽杏▽圭▽全▽う▽皇▽と▽馬▽幾▽竜",
-				"▽に▽貴▽率▲人▲主▲像▲臣▲午▲戦",
-				"▲き▲ひ▲ぞ▲貝▲君▲種▲根▲瑪▲船",
-				"▲包▲豕▲舟▲卆▲楚▲士▲象▲馭▲車",
-				"▲炮▲醉▲銅▲卒▲帥▲仕▲相▲馮▲俥",
-				"▲駆▲ラ▲駮▲兵▲王▲后▲聖▲騎▲塔",
-				"▲飛▲京▲角▲歩▲玉▲金▲銀▲桂▲香"
+				"▽う▽幾▽皇▽帝▽將▽漢▽公▽太▽狂▽鈕▽鎭",
+				"▽竜▽馬▽柱▽巨▽豪▽戰▽舶▽橡▽杵▽全▽圭",
+				"▽杏▽錆▽錨▽鋼▽鉐▽鰤▽卉▽鷲▽鷹▽牛▽猪",
+				"▽酔▽に▽貴▽率▽鹿▽鯨▽駒▽升▽桷▽黄▽堅",
+				"▲歩▲兵▲卒▲卆▽駈▽駁▽城▽僧▽騏▽妃▽と",
+				"▲瀧▲嗔▲丑▲狼▲貝▲央▲ひ▲仲▲石▲鉄▲猫",
+				"▲京▲銅▲醉▲駮▲駆▲舟▲豕▲麒▲猛▲鳳▲反",
+				"▲炮▲角▲横▲竪▲虎▲碼▲龍▲奔▲獅▲飛▲包",
+				"▲船▲瑪▲根▲種▲君▲き▲主▲臣▲像▲午▲戦",
+				"▲俥▲馮▲相▲仕▲帥▲ぞ▲楚▲士▲象▲馭▲車",
+				"▲香▲桂▲玉▲金▲銀▲ラ▲王▲后▲聖▲騎▲塔"
 			].join("\n");
 
 			const board = new Board(canvas, {
-				playBoard: "クロス9x9",
-				...boardTemplate(9, 9, true)
+				playBoard: "クロス11x11",
+				...boardTemplate(11, 11, true)
 			});
 			board.inputPieces(pieceMap);
 			board.onDrawed = onDrawed;
@@ -204,6 +206,48 @@ export const PlayGame = {
 			});
 			board.putStartPieces(0, "チェス");
 			board.putStartPieces(1, "チェス", "2p");
+			board.onDrawed = onDrawed;
+			board.draw();
+			return board;
+		}
+	},
+	chuShogi: {
+		name: "中将棋",
+		run(canvas, onDrawed){
+			const board = new Board(canvas, {
+				playBoard: "古将棋12x12",
+				...boardTemplate(12, 12)
+			});
+			board.putStartPieces(0, "将棋");
+			board.putStartPieces(1, "将棋", "2p");
+			board.onDrawed = onDrawed;
+			board.draw();
+			return board;
+		}
+	},
+	daiShogi: {
+		name: "大将棋",
+		run(canvas, onDrawed){
+			const board = new Board(canvas, {
+				playBoard: "古将棋15x15",
+				...boardTemplate(15, 15)
+			});
+			board.putStartPieces(0, "将棋", "dai");
+			board.putStartPieces(1, "将棋", "dai2p");
+			board.onDrawed = onDrawed;
+			board.draw();
+			return board;
+		}
+	},
+	shishiShogi: {
+		name: "獅子将棋",
+		run(canvas, onDrawed){
+			const board = new Board(canvas, {
+				playBoard: "古将棋9x9",
+				...boardTemplate(9, 9)
+			});
+			board.putStartPieces(0, "将棋", "shishi");
+			board.putStartPieces(1, "将棋", "shishi2p");
 			board.onDrawed = onDrawed;
 			board.draw();
 			return board;

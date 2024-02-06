@@ -11,18 +11,6 @@
 		},
 		"promo": "と"
 	},
-	"香": {
-		"name": "香車",
-		"display": ["香車"],
-		"gameName": "将棋",
-		"unit": "車",
-		"attr": ["capture"],
-		"mustPromoLine": -1,
-		"range": {
-			"default": "香"
-		},
-		"promo": "杏"
-	},
 	"桂": {
 		"name": "桂馬",
 		"display": ["桂馬"],
@@ -46,16 +34,6 @@
 		},
 		"promo": "全"
 	},
-	"金": {
-		"name": "金将",
-		"display": ["金將", "金将"],
-		"gameName": "将棋",
-		"unit": "臣",
-		"attr": ["capture"],
-		"range": {
-			"default": "金"
-		}
-	},
 	"角": {
 		"name": "角行",
 		"display": ["角行"],
@@ -66,6 +44,18 @@
 			"default": "聖"
 		},
 		"promo": "馬"
+	},
+	"香": {
+		"name": "香車",
+		"display": ["香車"],
+		"gameName": "将棋",
+		"unit": "車",
+		"attr": ["capture"],
+		"mustPromoLine": -1,
+		"range": {
+			"default": "香"
+		},
+		"promo": "杏"
 	},
 	"飛": {
 		"name": "飛車",
@@ -78,41 +68,15 @@
 		},
 		"promo": "竜"
 	},
-	"京": {
-		"name": "京翔",
-		"display": ["京翔"],
-		"gameName": "将棋",
-		"unit": "馬",
-		"attr": ["capture"],
-		"mustPromoLine": -3,
-		"range": {
-			"default": "京"
-		},
-		"promo": "幾"
-	},
-	"銅": {
-		"name": "銅将",
-		"display": ["銅将"],
+	"金": {
+		"name": "金将",
+		"display": ["金將", "金将"],
 		"gameName": "将棋",
 		"unit": "臣",
 		"attr": ["capture"],
-		"mustPromoLine": -1,
 		"range": {
-			"default": "銅"
-		},
-		"promo": "う"
-	},
-	"醉": {
-		"name": "醉象",
-		"display": ["醉象"],
-		"gameName": "将棋",
-		"mustPromoLine": -1,
-		"unit": "臣",
-		"attr": ["capture", "cantCapture"],
-		"range": {
-			"default": "醉"
-		},
-		"promo": "太"
+			"default": "金"
+		}
 	},
 	"玉": {
 		"name": "玉将",
@@ -138,32 +102,6 @@
 			"attack": "兵"
 		},
 		"promo": "妃騏城僧"
-	},
-	"丘": {
-		"name": "ポーン",
-		"display": ["♟兵", "♙兵", "♟丘", "♙丘"],
-		"gameName": "チェス",
-		"unit": "兵",
-		"mustPromoLine": -1,
-		"range": {
-			"default": "歩",
-			"attack": "兵"
-		},
-		"promo": "妃騏城"
-	},
-	"浜": {
-		"name": "ポーン",
-		"display": ["♟兵", "♙兵", "♟浜", "♙浜"],
-		"gameName": "チェス",
-		"unit": "兵",
-		"attr": ["enPassant"],
-		"mustPromoLine": -1,
-		"range": {
-			"default": "歩",
-			"start": "二",
-			"attack": "兵"
-		},
-		"promo": "妃駈駁騏城僧"
 	},
 	"騎": {
 		"name": "ナイト",
@@ -200,24 +138,6 @@
 		"unit": "臣",
 		"range": {
 			"default": "后"
-		}
-	},
-	"駮": {
-		"name": "カーディナル",
-		"display": ["🩓駮", "🩐駮"],
-		"gameName": "チェス",
-		"unit": "臣",
-		"range": {
-			"default": "駮"
-		}
-	},
-	"駆": {
-		"name": "マーシャル",
-		"display": ["🩒駆", "🩏駆"],
-		"gameName": "チェス",
-		"unit": "臣",
-		"range": {
-			"default": "駆"
 		}
 	},
 	"王": {
@@ -468,18 +388,6 @@
 		},
 		"promo": "橡"
 	},
-	"矢": {
-		"name": "パダーティ",
-		"display": ["🗡人", "🗡矢"],
-		"gameName": "チャトランガ",
-		"unit": "兵",
-		"mustPromoLine": -1,
-		"range": {
-			"default": "歩",
-			"attack": "兵"
-		},
-		"promo": "舶"
-	},
 	"木": {
 		"name": "パダーティ",
 		"display": ["🗡人", "🗡木"],
@@ -492,18 +400,7 @@
 		},
 		"promo": "戰"
 	},
-	"本": {
-		"name": "パダーティ",
-		"display": ["🗡人", "🗡本"],
-		"gameName": "チャトランガ",
-		"unit": "兵",
-		"mustPromoLine": -1,
-		"range": {
-			"default": "歩",
-			"attack": "兵"
-		},
-		"promo": "豪"
-	},
+
 	"大": {
 		"name": "パダーティ",
 		"display": ["🗡人", "🗡大"],
@@ -547,27 +444,9 @@
 			"default": "像"
 		}
 	},
-	"舟": {
-		"name": "ローカ",
-		"display": ["⛵舟"],
-		"gameName": "チャトランガ",
-		"unit": "象",
-		"range": {
-			"default": "像"
-		}
-	},
 	"戦": {
 		"name": "ラタ",
 		"display": ["🛞戦"],
-		"gameName": "チャトランガ",
-		"unit": "車",
-		"range": {
-			"default": "車"
-		}
-	},
-	"豕": {
-		"name": "ハスティー",
-		"display": ["🐘豕"],
 		"gameName": "チャトランガ",
 		"unit": "車",
 		"range": {
@@ -634,6 +513,389 @@
 			"default": "王"
 		}
 	},
+	"京": {
+		"name": "京翔",
+		"display": ["京翔"],
+		"gameName": "将棋",
+		"expansion": "京将棋",
+		"unit": "馬",
+		"attr": ["capture"],
+		"mustPromoLine": -3,
+		"range": {
+			"default": "京"
+		},
+		"promo": "幾"
+	},
+	"銅": {
+		"name": "銅将",
+		"display": ["銅将"],
+		"gameName": "将棋",
+		"expansion": "京将棋",
+		"unit": "臣",
+		"attr": ["capture"],
+		"range": {
+			"default": "銅"
+		},
+		"promo": "う"
+	},
+	"醉": {
+		"name": "醉象",
+		"display": ["醉象"],
+		"expansion": "朝倉象棋",
+		"gameName": "将棋",
+		"unit": "臣",
+		"attr": ["capture", "cantCapture"],
+		"range": {
+			"default": "醉"
+		},
+		"promo": "太"
+	},
+	"丘": {
+		"name": "ポーン",
+		"display": ["♟兵", "♙兵", "♟丘", "♙丘"],
+		"gameName": "チェス",
+		"expansion": "ロスアラモスチェス",
+		"unit": "兵",
+		"mustPromoLine": -1,
+		"range": {
+			"default": "歩",
+			"attack": "兵"
+		},
+		"promo": "妃騏城"
+	},
+	"浜": {
+		"name": "ポーン",
+		"display": ["♟兵", "♙兵", "♟浜", "♙浜"],
+		"gameName": "チェス",
+		"expansion": "カパブランカチェス",
+		"unit": "兵",
+		"attr": ["enPassant"],
+		"mustPromoLine": -1,
+		"range": {
+			"default": "歩",
+			"start": "二",
+			"attack": "兵"
+		},
+		"promo": "妃駈駁騏城僧"
+	},
+	"駮": {
+		"name": "カーディナル",
+		"display": ["🩓駮", "🩐駮"],
+		"gameName": "チェス",
+		"expansion": "カパブランカチェス",
+		"unit": "臣",
+		"range": {
+			"default": "駮"
+		}
+	},
+	"駆": {
+		"name": "マーシャル",
+		"display": ["🩒駆", "🩏駆"],
+		"gameName": "チェス",
+		"expansion": "カパブランカチェス",
+		"unit": "臣",
+		"range": {
+			"default": "駆"
+		}
+	},
+	"矢": {
+		"name": "パダーティ",
+		"display": ["🗡人", "🗡矢"],
+		"gameName": "チャトランガ",
+		"expansion": "チャトラジ",
+		"unit": "兵",
+		"mustPromoLine": -1,
+		"range": {
+			"default": "歩",
+			"attack": "兵"
+		},
+		"promo": "舶"
+	},
+	"本": {
+		"name": "パダーティ",
+		"display": ["🗡人", "🗡本"],
+		"gameName": "チャトランガ",
+		"expansion": "チャトラジ",
+		"unit": "兵",
+		"mustPromoLine": -1,
+		"range": {
+			"default": "歩",
+			"attack": "兵"
+		},
+		"promo": "豪"
+	},
+	"舟": {
+		"name": "ローカ",
+		"display": ["⛵舟"],
+		"gameName": "チャトランガ",
+		"expansion": "チャトラジ",
+		"unit": "象",
+		"range": {
+			"default": "像"
+		}
+	},
+	"豕": {
+		"name": "ハスティー",
+		"display": ["🐘豕"],
+		"gameName": "チャトランガ",
+		"expansion": "チャトラジ",
+		"unit": "車",
+		"range": {
+			"default": "車"
+		}
+	},
+	"仲": {
+		"name": "仲人",
+		"display": ["仲人"],
+		"gameName": "将棋",
+		"expansion": "中将棋",
+		"unit": "兵",
+		"range": {
+			"default": "仲"
+		},
+		"promo": "酔"
+	},
+	"同": {
+		"name": "銅将",
+		"display": ["銅将"],
+		"gameName": "将棋",
+		"expansion": "中将棋",
+		"unit": "臣",
+		"range": {
+			"default": "歩"
+		},
+		"promo": "黄"
+	},
+	"艮": {
+		"name": "銀将",
+		"display": ["銀将"],
+		"gameName": "将棋",
+		"expansion": "中将棋",
+		"unit": "象",
+		"range": {
+			"default": "銀"
+		},
+		"promo": "堅"
+	},
+	"釛": {
+		"name": "金将",
+		"display": ["金將", "金将"],
+		"gameName": "将棋",
+		"expansion": "中将棋",
+		"unit": "臣",
+		"range": {
+			"default": "金"
+		},
+		"promo": "升"
+	},
+	"猛": {
+		"name": "猛豹",
+		"display": ["猛豹"],
+		"gameName": "将棋",
+		"expansion": "中将棋",
+		"unit": "象",
+		"range": {
+			"default": "聖"
+		},
+		"promo": "桷"
+	},
+	"馨": {
+		"name": "香車",
+		"display": ["香車"],
+		"gameName": "将棋",
+		"expansion": "中将棋",
+		"unit": "車",
+		"range": {
+			"default": "香"
+		},
+		"promo": "駒"
+	},
+	"反": {
+		"name": "反車",
+		"display": ["反車"],
+		"gameName": "将棋",
+		"expansion": "中将棋",
+		"unit": "車",
+		"range": {
+			"default": "反"
+		},
+		"promo": "鯨"
+	},
+	"虎": {
+		"name": "盲虎",
+		"display": ["盲虎"],
+		"gameName": "将棋",
+		"expansion": "中将棋",
+		"unit": "象",
+		"range": {
+			"default": "虎"
+		},
+		"promo": "鹿"
+	},
+	"麒": {
+		"name": "麒麟",
+		"display": ["麒麟"],
+		"gameName": "将棋",
+		"expansion": "中将棋",
+		"unit": "馬",
+		"range": {
+			"default": "麒"
+		},
+		"promo": "鰤"
+	},
+	"鳳": {
+		"name": "鳳凰",
+		"display": ["鳳凰"],
+		"gameName": "将棋",
+		"expansion": "中将棋",
+		"unit": "象",
+		"range": {
+			"default": "鳳"
+		},
+		"promo": "卉"
+	},
+	"横": {
+		"name": "横行",
+		"display": ["横行"],
+		"gameName": "将棋",
+		"expansion": "中将棋",
+		"unit": "車",
+		"range": {
+			"default": "横"
+		},
+		"promo": "猪"
+	},
+	"竪": {
+		"name": "竪行",
+		"display": ["竪行"],
+		"gameName": "将棋",
+		"expansion": "中将棋",
+		"unit": "車",
+		"range": {
+			"default": "竪"
+		},
+		"promo": "牛"
+	},
+	"碼": {
+		"name": "竜馬",
+		"display": ["竜馬"],
+		"gameName": "将棋",
+		"expansion": "中将棋",
+		"unit": "臣",
+		"range": {
+			"default": "馬"
+		},
+		"promo": "鷹"
+	},
+	"龍": {
+		"name": "竜王",
+		"display": ["竜王"],
+		"gameName": "将棋",
+		"expansion": "中将棋",
+		"unit": "臣",
+		"range": {
+			"default": "竜"
+		},
+		"promo": "鷲"
+	},
+	"奔": {
+		"name": "奔走",
+		"display": ["奔走"],
+		"gameName": "将棋",
+		"expansion": "中将棋",
+		"unit": "臣",
+		"range": {
+			"default": "后"
+		}
+	},
+	"獅": {
+		"name": "獅子",
+		"display": ["獅子"],
+		"gameName": "将棋",
+		"expansion": "中将棋",
+		"unit": "臣",
+		"range": {
+			"default": "獅"
+		}
+	},
+	"石": {
+		"name": "石将",
+		"display": ["石将"],
+		"gameName": "将棋",
+		"expansion": "大将棋",
+		"unit": "兵",
+		"range": {
+			"default": "石"
+		},
+		"promo": "鉐"
+	},
+	"鉄": {
+		"name": "鉄将",
+		"display": ["鐵将", "鐵将", "鉄将"],
+		"alias": "鐵",
+		"gameName": "将棋",
+		"expansion": "大将棋",
+		"unit": "兵",
+		"range": {
+			"default": "鉄"
+		},
+		"promo": "鋼"
+	},
+	"猫": {
+		"name": "猫刄",
+		"display": ["猫刄"],
+		"gameName": "将棋",
+		"expansion": "大将棋",
+		"unit": "象",
+		"range": {
+			"default": "ぞ"
+		},
+		"promo": "錨"
+	},
+	"瀧": {
+		"name": "飛龍",
+		"display": ["飛龍"],
+		"gameName": "将棋",
+		"expansion": "大将棋",
+		"unit": "象",
+		"range": {
+			"default": "瀧"
+		},
+		"promo": "錆"
+	},
+	"嗔": {
+		"name": "嗔猪",
+		"display": ["嗔猪"],
+		"gameName": "将棋",
+		"expansion": "大将棋",
+		"unit": "車",
+		"range": {
+			"default": "き"
+		},
+		"promo": "鎭"
+	},
+	"丑": {
+		"name": "猛牛",
+		"display": ["猛牛"],
+		"gameName": "将棋",
+		"expansion": "大将棋",
+		"unit": "車",
+		"range": {
+			"default": "丑"
+		},
+		"promo": "鈕"
+	},
+	"狼": {
+		"name": "悪狼",
+		"display": ["悪狼"],
+		"gameName": "将棋",
+		"expansion": "大将棋",
+		"unit": "臣",
+		"range": {
+			"default": "狼"
+		},
+		"promo": "狂"
+	},
 	"と": {
 		"name": "と金",
 		"display": ["と", "个"],
@@ -680,7 +942,6 @@
 	"竜": {
 		"name": "龍王",
 		"display": ["龍王", "龍王", "竜王"],
-		"alias": "龍",
 		"attr": ["capture"],
 		"range": {
 			"default": "竜"
@@ -820,6 +1081,153 @@
 		"name": "にわとり",
 		"display": ["🐔に"],
 		"attr": ["capture"],
+		"range": {
+			"default": "金"
+		}
+	},
+	"升": {
+		"name": "金飛車",
+		"display": ["金飛"],
+		"range": {
+			"default": "車"
+		}
+	},
+	"堅": {
+		"name": "銀竪行",
+		"display": ["銀竪"],
+		"range": {
+			"default": "竪"
+		}
+	},
+	"黄": {
+		"name": "銅横行",
+		"display": ["銅横"],
+		"range": {
+			"default": "横"
+		}
+	},
+	"桷": {
+		"name": "小角",
+		"display": ["小角"],
+		"range": {
+			"default": "聖"
+		}
+	},
+	"駒": {
+		"name": "白駒",
+		"display": ["白駒"],
+		"range": {
+			"default": "駒"
+		}
+	},
+	"鯨": {
+		"name": "鯨鯢",
+		"display": ["鯨鯢"],
+		"range": {
+			"default": "鯨"
+		}
+	},
+	"鹿": {
+		"name": "飛鹿",
+		"display": ["飛鹿"],
+		"range": {
+			"default": "鹿"
+		}
+	},
+	"鰤": {
+		"name": "麒獅子",
+		"display": ["麒獅"],
+		"range": {
+			"default": "獅"
+		}
+	},
+	"卉": {
+		"name": "鳳奔走",
+		"display": ["鳳奔"],
+		"range": {
+			"default": "后"
+		}
+	},
+	"酔": {
+		"name": "酔象",
+		"display": ["酔象"],
+		"range": {
+			"default": "醉"
+		}
+	},
+	"猪": {
+		"name": "奔猪",
+		"display": ["奔猪"],
+		"range": {
+			"default": "猪"
+		}
+	},
+	"牛": {
+		"name": "飛牛",
+		"display": ["飛牛"],
+		"range": {
+			"default": "牛"
+		}
+	},
+	"鷹": {
+		"name": "角鷹",
+		"display": ["角鷹"],
+		"range": {
+			"default": "鷹"
+		}
+	},
+	"鷲": {
+		"name": "飛鷲",
+		"display": ["飛鷲"],
+		"range": {
+			"default": "鷲"
+		}
+	},
+	"鉐": {
+		"name": "石金将",
+		"display": ["石金"],
+		"range": {
+			"default": "金"
+		}
+	},
+	"鋼": {
+		"name": "金将",
+		"display": ["鉄金"],
+		"range": {
+			"default": "金"
+		}
+	},
+	"錨": {
+		"name": "猫金将",
+		"display": ["猫金"],
+		"range": {
+			"default": "金"
+		}
+	},
+	"錆": {
+		"name": "龍金将",
+		"display": ["龍金"],
+		"range": {
+			"default": "金"
+		}
+	},
+	"鎭": {
+		"name": "嗔金将",
+		"display": ["嗔金"],
+		"range": {
+			"default": "金"
+		}
+	},
+	"鈕": {
+		"name": "牛金将",
+		"display": ["牛金"],
+		"range": {
+			"default": "金"
+		}
+	},
+	"狂": {
+		"name": "狼金将",
+		"display": ["狼金"],
 		"range": {
 			"default": "金"
 		}

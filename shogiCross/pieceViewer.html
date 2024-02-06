@@ -82,6 +82,8 @@
 			<input id="pieceUnit" style="width: 4em;" readonly>
 			Cost:
 			<input id="pieceCost" style="width: 4em;" readonly>
+			Attr:
+			<input id="pieceAttr" readonly>
 			<a href="./">Game</a>
 			<a href="https://github.com/yosgspec/CrossChess">GitHub</a>
 			<a href="/">TOP</a>
@@ -102,15 +104,16 @@
 		]);
 		const pieceValue = new Map([
 			["unit", document.getElementById("pieceUnit")],
-			["cost", document.getElementById("pieceCost")]
+			["cost", document.getElementById("pieceCost")],
+			["attr", document.getElementById("pieceAttr")]
 		]);
 
 		const ctx = canvas.getContext("2d");
 		const pieces = Piece.getPieces(ctx, 100);
-		Piece.piecesToList(pieces).forEach(([key, {name, gameName}])=>{
+		Piece.piecesToList(pieces).forEach(([key, {name, gameName, expansion}])=>{
 			const opt = document.createElement("option");
 			opt.value = key;
-			opt.textContent = `${key}:${name} (${gameName})`;
+			opt.textContent = `${key}:${name} (${expansion? expansion: gameName})`;
 			pieceSelect.appendChild(opt);
 		});
 

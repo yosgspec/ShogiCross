@@ -168,6 +168,65 @@
 			"BWBWBWBWBW"
 		]
 	},
+	"古将棋9x9": {
+		"backgroundColor": "#EECC88",
+		"borderColor": "#333333",
+		"borderWidth": 2,
+		"field": [
+			"TTTTTTTTT",
+			"TTTTTTTTT",
+			"TTTTTTTTT",
+			"TTTTTTTTT",
+			"TTTTTTTTT",
+			"TTTTTTTTT",
+			"TTTTTTTTT",
+			"TTTTTTTTT",
+			"TTTTTTTTT"
+		]
+	},
+	"古将棋12x12": {
+		"backgroundColor": "#EECC88",
+		"borderColor": "#333333",
+		"borderWidth": 2,
+		"promoLineOffset": 1,
+		"field": [
+			"TTTTTTTTTTTT",
+			"TTTTTTTTTTTT",
+			"TTTTTTTTTTTT",
+			"TTTTTTTTTTTT",
+			"TTTTTTTTTTTT",
+			"TTTTTTTTTTTT",
+			"TTTTTTTTTTTT",
+			"TTTTTTTTTTTT",
+			"TTTTTTTTTTTT",
+			"TTTTTTTTTTTT",
+			"TTTTTTTTTTTT",
+			"TTTTTTTTTTTT"
+		]
+	},
+	"古将棋15x15": {
+		"backgroundColor": "#EECC88",
+		"borderColor": "#333333",
+		"borderWidth": 2,
+		"promoLineOffset": 2,
+		"field": [
+			"TTTTTTTTTTTTTTT",
+			"TTTTTTTTTTTTTTT",
+			"TTTTTTTTTTTTTTT",
+			"TTTTTTTTTTTTTTT",
+			"TTTTTTTTTTTTTTT",
+			"TTTTTTTTTTTTTTT",
+			"TTTTTTTTTTTTTTT",
+			"TTTTTTTTTTTTTTT",
+			"TTTTTTTTTTTTTTT",
+			"TTTTTTTTTTTTTTT",
+			"TTTTTTTTTTTTTTT",
+			"TTTTTTTTTTTTTTT",
+			"TTTTTTTTTTTTTTT",
+			"TTTTTTTTTTTTTTT",
+			"TTTTTTTTTTTTTTT"
+		]
+	},
 	"4人チェス": {
 		"backgroundColor": "#333333",
 		"borderColor": "#000000",
@@ -233,15 +292,33 @@
 		"borderColor": "#333333",
 		"borderWidth": 2,
 		"field": [
-			"CSC<#>CSC",
-			"SCS#*#SCS",
-			"CSC>#<CSC",
+			"XSX<#>XSX",
+			"SXS#*#SXS",
+			"XSX>#<XSX",
 			"SSSSSSSSS",
 			"=[=====]=",
 			"SSSSSSSSS",
-			"CSC<#>CSC",
-			"SCS#*#SCS",
-			"CSC>#<CSC"
+			"XSX<#>XSX",
+			"SXS#*#SXS",
+			"XSX>#<XSX"
+		]
+	},
+	"クロス11x11": {
+		"backgroundColor": "#EECC88",
+		"borderColor": "#333333",
+		"borderWidth": 2,
+		"field": [
+			"BWBW<#>SXSX",
+			"WBWB#*#XSXS",
+			"BWBW>#<SXSX",
+			"SSSSSSSSSSS",
+			"SSSSSSSSSSS",
+			"=[=======]=",
+			"SSSSSSSSSSS",
+			"SSSSSSSSSSS",
+			"XSXS<#>WBWB",
+			"SXSX#*#BWBW",
+			"XSXS>#<WBWB"
 		]
 	},
 	"4人用クロス8列": {
@@ -250,20 +327,20 @@
 		"borderWidth": 2,
 		"promoLineOffset": 6,
 		"field": [
-			"...CSC<#>CS...",
-			"...SCS#*#SC...",
-			"...CSC>#<CS...",
-			"CSCWBWBWBWBSCS",
-			"SCSBWBWBWBWCSC",
-			"<#>WB===]WBSCS",
+			"...XSX<#>XS...",
+			"...SXS#*#SX...",
+			"...XSX>#<XS...",
+			"XSXWBWBWBWBSXS",
+			"SXSBWBWBWBWXSX",
+			"<#>WB===]WBSXS",
 			"#*#BW====BW<#>",
 			">#<WB====WB#*#",
-			"SCSBW[===BW>#<",
-			"CSCWBWBWBWBSCS",
-			"SCSBWBWBWBWCSC",
-			"...SC<#>CSC...",
-			"...CS#*#SCS...",
-			"...SC>#<CSC..."
+			"SXSBW[===BW>#<",
+			"XSXWBWBWBWBSXS",
+			"SXSBWBWBWBWXSX",
+			"...SX<#>XSX...",
+			"...XS#*#SXS...",
+			"...SX>#<XSX..."
 		]
 	},
 	"4人用クロス9列": {
@@ -272,21 +349,21 @@
 		"borderWidth": 2,
 		"promoLineOffset": 6,
 		"field": [
-			"...CSC<#>CSC...",
-			"...SCS#*#SCS...",
-			"...CSC>#<CSC...",
-			"CSCBWBWBWBWBCSC",
-			"SCSWBWBWBWBWSCS",
-			"CSCBWB==]BWBCSC",
+			"...XSX<#>XSX...",
+			"...SXS#*#SXS...",
+			"...XSX>#<XSX...",
+			"XSXBWBWBWBWBXSX",
+			"SXSWBWBWBWBWSXS",
+			"XSXBWB==]BWBXSX",
 			"<#>WB=====BW<#>",
 			"#*#BW=====WB#*#",
 			">#<WB=====BW>#<",
-			"CSCBWB[==BWBCSC",
-			"SCSWBWBWBWBWSCS",
-			"CSCBWBWBWBWBCSC",
-			"...CSC<#>CSC...",
-			"...SCS#*#SCS...",
-			"...CSC>#<CSC..."
+			"XSXBWB[==BWBXSX",
+			"SXSWBWBWBWBWSXS",
+			"XSXBWBWBWBWBXSX",
+			"...XSX<#>XSX...",
+			"...SXS#*#SXS...",
+			"...XSX>#<XSX..."
 		]
 	},
 	"4人用クロス9列4行": {
@@ -295,23 +372,23 @@
 		"borderWidth": 2,
 		"promoLineOffset": 6,
 		"field": [
-			"....CSC<#>CSC....",
-			"....SCS#*#SCS....",
-			"....CSC>#<CSC....",
-			"....SCSCSCSCS....",
-			"CSCSBWBWBWBWBSCSC",
-			"SCSCWBWBWBWBWCSCS",
-			"CSCSBWB==]BWBSCSC",
-			"<#>CWB=====BWC<#>",
+			"....XSX<#>XSX....",
+			"....SXS#*#SXS....",
+			"....XSX>#<XSX....",
+			"....SXSXSXSXS....",
+			"XSXSBWBWBWBWBSXSX",
+			"SXSXWBWBWBWBWXSXS",
+			"XSXSBWB==]BWBSXSX",
+			"<#>XWB=====BWX<#>",
 			"#*#SBW=====WBS#*#",
-			">#<CWB=====BWC>#<",
-			"CSCSBWB[==BWBSCSC",
-			"SCSCWBWBWBWBWCSCS",
-			"CSCSBWBWBWBWBSCSC",
-			"....SCSCSCSCS....",
-			"....CSC<#>CSC....",
-			"....SCS#*#SCS....",
-			"....CSC>#<CSC...."
+			">#<XWB=====BWX>#<",
+			"XSXSBWB[==BWBSXSX",
+			"SXSXWBWBWBWBWXSXS",
+			"XSXSBWBWBWBWBSXSX",
+			"....SXSXSXSXS....",
+			"....XSX<#>XSX....",
+			"....SXS#*#SXS....",
+			"....XSX>#<XSX...."
 		]
 	}
 }

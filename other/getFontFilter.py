@@ -76,7 +76,7 @@ class FontFilter(Dir2Any):
 		super().compress()
 
 def main():
-	targetDir = "crossOverChess"
+	targetDir = "shogiCross"
 	d2 = FontFilter(targetDir)
 	d2.compress()
 	# d2.write()

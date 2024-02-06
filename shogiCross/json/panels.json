@@ -7,7 +7,15 @@
 		"borderWidth": 2,
 		"attr": []
 	},
-	"C": {
+	"T": {
+		"name": "古将棋",
+		"text": "　　",
+		"backgroundColor": "#EECC88",
+		"borderColor": "#333333",
+		"borderWidth": 2,
+		"attr": ["cantCapture"]
+	},
+	"X": {
 		"name": "クロス用黒",
 		"text": "　　",
 		"backgroundColor": "#BB7744",

@@ -139,9 +139,9 @@ export class Piece{
 		this.isSelected = false;
 		this.isMoved = false;
 		if(!this.attr) this.attr = [];
-		Object.entries(this.range).forEach(([key, rng])=>
+		Object.entries(this.range).forEach(([key, rng])=>{
 			this.range[key] = rng.map(row=>[...row])
-		);
+		});
 	}
 
 	/** 駒をクローン
@@ -164,10 +164,9 @@ export class Piece{
 
 		if(!promo) throw Error(`promo=${char}, Not plomote piece.`);
 		if(!promo in promo) throw Error(`promo=${char}, Plomote key is missing.`);
-		if(this.unit === "成") throw Error(`promo=${char}, Promoted piece.`);
+		if(this.hasAttr("promoted")) throw Error(`promo=${char}, Promoted piece.`);
 		Object.assign(this, promo[char]);
 		this.char = char;
-		this.unit = "成";
 	}
 
 	/** 属性の存在を確認
@@ -175,7 +174,7 @@ export class Piece{
 	 * @returns boolean
 	 */
 	hasAttr(attr){
-		this.attr.includes(attr);
+		return this.attr.includes(attr);
 	}
 
 
@@ -241,8 +240,7 @@ export class Piece{
 		const {ctx, game} = this;
 
 		const zoom = this.size/100;
-		ctx.strokeStyle = "#777777";
-
+		ctx.strokeStyle = this.hasAttr("promoted")? "#FF3300": "#777777";
 		ctx.fillStyle = game.backgroundColor;
 		ctx.lineWidth = 8*zoom;
 		ctx.save();

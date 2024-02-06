@@ -40,8 +40,9 @@ export function checkTarget(board, piece, pX, pY){
 
 	// 直線移動範囲文字のジャンプ回数
 	const linerChars = [
-		["*", {jmps: 0}],
-		["+", {jmps: 1}]
+		["*", {}],
+		["+", {jmps: 1}],
+		["2", {moves: 2}]
 	];
 
 	/** rangeの原点座標を取得
@@ -135,16 +136,19 @@ export function checkTarget(board, piece, pX, pY){
 			}
 
 			// 直線移動
-			for(const [char, {jmps}] of linerChars){
+			for(const [char, {jmps, moves}] of linerChars){
+				const isMoveInf = !moves || 0 === moves;
 				for(let rY=oY-1;rY<=oY+1;rY++){
 					for(let rX=oX-1;rX<=oX+1;rX++){
-						let jmpCnt = jmps;
+						let jmpCnt = jmps? jmps: 0;
+						let moveCnt = moves? moves: 0;
 						if(rX === oX && rY === oY || rng[rY][rX] !== char) continue;
 						const [incX, incY] = [rX-oX, rY-oY];
 						for(let x=pX,y=pY;;){
 							x+=incX;
 							y+=incY;
-							if(!inField(x, y)) break;
+							if(!inField(x, y) || !isMoveInf && moveCnt === 0) break;
+							moveCnt--;
 							const isJumped = 0 === jmpCnt;
 							if(isJumped && canMove(isAttack, x, y, key, isJumped)) field[y][x].isTarget = true;
 							if(field[y][x].piece){

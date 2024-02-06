@@ -245,7 +245,8 @@ export class Board{
 
 		let canPromo = this.checkCanPromo(fromPanel);
 
-		this.stand.capturePiece(fromPanel.piece, toPanel.piece);
+		if(!toPanel.hasAttr("cantCapture"))
+			this.stand.capturePiece(fromPanel.piece, toPanel.piece);
 		toPanel.piece = fromPanel.piece;
 		fromPanel.piece = null;
 
