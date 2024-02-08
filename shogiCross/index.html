@@ -79,18 +79,19 @@
 		</div>
 
 		<script type="module">
+		import {boards, games} from "./ShogiCross/lib.js"
 		import {PlayGame} from "./game/playGame.js";
 		const selectGame = document.getElementById("selectGame");
 		const crossGame = document.getElementById("crossGame");
-		import {boards, games} from "./core/board.js";
 		const selectBoard = document.getElementById("selectBoard");
 		const selectStand = document.getElementById("selectStand");
-		import {canvasFont} from "./core/extendCanvasFont.js";
 		const selectPieces = document.querySelectorAll(".selectPieces");
 		const selectPiecesOther = document.querySelectorAll(".selectPiecesOther");
 		const canvas = document.getElementById("shogiCross");
 		const txt = document.getElementById("shogiCrossText");
 		const txtMini = document.getElementById("shogiCrossTextMini");
+
+		// セレクトボックス
 		const getSelects = ()=>({
 			playBoard: selectBoard.value,
 			useStand: JSON.parse(selectStand.value),
@@ -103,7 +104,7 @@
 		// 実行中のゲーム
 		let playingGame;
 
-		// リストボックスに追加
+		// セレクトボックスに追加
 		Object.entries(PlayGame).forEach(([key, {name}])=>{
 			const opt = document.createElement("option");
 			opt.value = key;
@@ -181,7 +182,6 @@
 
 		/** ゲームを実行 */
 		async function playGame(){
-			await canvasFont.import();
 			playingGame?.close();
 			playingGame = PlayGame[selectGame.value].run(canvas, onDrawed, getSelects());
 			txt.onchange = txtOnChange;

@@ -1,5 +1,35 @@
-import {Board, boards} from "../core/board.js";
+import {canvasFont, Board, boards} from "../ShogiCross/lib.js";
 import {boardTemplate} from "./boardTemplate.js"
+
+/** ゲームを実行する
+ * @param {HTMLCanvasElement}} canvas
+ * @param {(HTMLCanvasElement)=>void} onDrawed - 描写イベント
+ * @param {string} playBoard - 使用するボード
+ * @param {boolean} useStand - 駒台の使用有無
+ * @param {{game: string, other: string}[]} playPieces - プレイヤー毎の駒情報
+ * @returns Board
+ */
+function run(canvas, onDrawed, {playBoard, useStand, playPieces}){
+	const players = playPieces.some(({game}, i)=>1 < i && game)? 4: 2;
+	const boardField = boards[playBoard].field;
+	const xLen = boardField[0].length;
+	const yLen = boardField.length;
+	const board = new Board(canvas, {
+		playBoard,
+		...boardTemplate(xLen, yLen, useStand),
+	}, players);
+	canvasFont.import().then(()=>board.draw());
+	playPieces.forEach(({game, other}, i)=>{
+		if(!game || !other) return;
+		try{
+			board.putStartPieces(i, game, other);
+		}
+		catch{}
+	});
+	board.onDrawed = onDrawed;
+	board.draw();
+	return board;
+}
 
 export const PlayGame = {
 	default: {
@@ -23,6 +53,7 @@ export const PlayGame = {
 				playBoard: "クロス11x11",
 				...boardTemplate(11, 11, true)
 			});
+			canvasFont.import().then(()=>board.draw());
 			board.inputPieces(pieceMap);
 			board.onDrawed = onDrawed;
 			board.draw();
@@ -32,312 +63,254 @@ export const PlayGame = {
 	shogi: {
 		name: "将棋",
 		run(canvas, onDrawed){
-			const board = new Board(canvas, {
+			return run(canvas, onDrawed,{
 				playBoard: "将棋",
-				...boardTemplate(9, 9, true)
+				useStand: true,
+				playPieces: [
+					{game: "将棋", other: "default"},
+					{game: "将棋", other: "2p"}
+				]
 			});
-			board.putStartPieces(0, "将棋");
-			board.putStartPieces(1, "将棋", "2p");
-			board.onDrawed = onDrawed;
-			board.draw();
-			return board;
 		}
 	},
 	chess: {
 		name: "チェス",
 		run(canvas, onDrawed){
-			const board = new Board(canvas, {
+			return run(canvas, onDrawed,{
 				playBoard: "チェス",
-				...boardTemplate(8, 8)
+				playPieces: [
+					{game: "チェス", other: "default"},
+					{game: "チェス", other: "2p"}
+				]
 			});
-			board.putStartPieces(0, "チェス");
-			board.putStartPieces(1, "チェス", "2p");
-			board.onDrawed = onDrawed;
-			board.draw();
-			return board;
 		}
 	},
 	xiangq: {
 		name: "シャンチー",
 		run(canvas, onDrawed){
-			const board = new Board(canvas, {
+			return run(canvas, onDrawed,{
 				playBoard: "シャンチー",
-				...boardTemplate(9, 10)
+				playPieces: [
+					{game: "シャンチー", other: "default"},
+					{game: "シャンチー", other: "2p"}
+				]
 			});
-			board.putStartPieces(0, "シャンチー");
-			board.putStartPieces(1, "シャンチー", "2p");
-			board.onDrawed = onDrawed;
-			board.draw();
-			return board;
 		}
 	},
 	janggi: {
 		name: "チャンギ",
 		run(canvas, onDrawed){
-			const board = new Board(canvas, {
+			return run(canvas, onDrawed,{
 				playBoard: "チャンギ",
-				...boardTemplate(9, 10)
+				playPieces: [
+					{game: "チャンギ", other: "default"},
+					{game: "チャンギ", other: "2p"}
+				]
 			});
-			board.putStartPieces(0, "チャンギ");
-			board.putStartPieces(1, "チャンギ", "2p");
-			board.onDrawed = onDrawed;
-			board.draw();
-			return board;
 		}
 	},
 	makruk: {
 		name: "マークルック",
 		run(canvas, onDrawed){
-			const board = new Board(canvas, {
+			return run(canvas, onDrawed,{
 				playBoard: "マークルック",
-				...boardTemplate(8, 8)
+				playPieces: [
+					{game: "マークルック", other: "default"},
+					{game: "マークルック", other: "2p"}
+				]
 			});
-			board.putStartPieces(0, "マークルック");
-			board.putStartPieces(1, "マークルック", "2p");
-			board.onDrawed = onDrawed;
-			board.draw();
-			return board;
 		}
 	},
 	chaturanga: {
 		name: "チャトランガ",
 		run(canvas, onDrawed){
-			const board = new Board(canvas, {
+			return run(canvas, onDrawed,{
 				playBoard: "チェス",
-				...boardTemplate(8, 8)
+				playPieces: [
+					{game: "チャトランガ", other: "default"},
+					{game: "チャトランガ", other: "default"}
+				]
 			});
-			board.putStartPieces(0, "チャトランガ");
-			board.putStartPieces(1, "チャトランガ");
-			board.onDrawed = onDrawed;
-			board.draw();
-			return board;
 		}
 	},
 	dobutsuShogi: {
 		name: "どうぶつしょうぎ",
 		run(canvas, onDrawed){
-			const board = new Board(canvas, {
+			return run(canvas, onDrawed,{
 				playBoard: "どうぶつしょうぎ",
-				...boardTemplate(3, 4, true)
+				playPieces: [
+					{game: "どうぶつしょうぎ", other: "default"},
+					{game: "どうぶつしょうぎ", other: "default"}
+				]
 			});
-			board.putStartPieces(0, "どうぶつしょうぎ");
-			board.putStartPieces(1, "どうぶつしょうぎ");
-			board.onDrawed = onDrawed;
-			board.draw();
-			return board;
 		}
 	},
 	asakuraShogi: {
 		name: "朝倉象棋",
 		run(canvas, onDrawed){
-			const board = new Board(canvas, {
+			return run(canvas, onDrawed,{
 				playBoard: "将棋",
-				...boardTemplate(9, 9, true)
+				playPieces: [
+					{game: "将棋", other: "朝倉象棋"},
+					{game: "将棋", other: "朝倉象棋2p"}
+				]
 			});
-			board.putStartPieces(0, "将棋", "asakura");
-			board.putStartPieces(1, "将棋", "asakura2p");
-			board.onDrawed = onDrawed;
-			board.draw();
-			return board;
 		}
 	},
 	kyoShogi: {
 		name: "京将棋",
 		run(canvas, onDrawed){
-			const board = new Board(canvas, {
+			return run(canvas, onDrawed,{
 				playBoard: "将棋10x10",
-				...boardTemplate(10, 10, true)
+				playPieces: [
+					{game: "将棋", other: "京将棋"},
+					{game: "将棋", other: "京将棋2p"}
+				]
 			});
-			board.putStartPieces(0, "将棋");
-			board.putStartPieces(1, "将棋", "2p");
-			board.onDrawed = onDrawed;
-			board.draw();
-			return board;
 		}
 	},
 	e5Shogi: {
 		name: "5五将棋",
 		run(canvas, onDrawed){
-			const board = new Board(canvas, {
+			return run(canvas, onDrawed,{
 				playBoard: "将棋5x5",
-				...boardTemplate(5, 5, true)
+				playPieces: [
+					{game: "将棋", other: "default"},
+					{game: "将棋", other: "2p"}
+				]
 			});
-			board.putStartPieces(0, "将棋");
-			board.putStartPieces(1, "将棋", "2p");
-			board.onDrawed = onDrawed;
-			board.draw();
-			return board;
 		}
 	},
 	capablancaChess: {
 		name: "カパブランカチェス",
 		run(canvas, onDrawed){
-			const board = new Board(canvas, {
+			return run(canvas, onDrawed,{
 				playBoard: "チェス10x8",
-				...boardTemplate(10, 8)
+				playPieces: [
+					{game: "チェス", other: "カパブランカチェス"},
+					{game: "チェス", other: "カパブランカチェス2p"}
+				]
 			});
-			board.putStartPieces(0, "チェス");
-			board.putStartPieces(1, "チェス", "2p");
-			board.onDrawed = onDrawed;
-			board.draw();
-			return board;
 		}
 	},
 	grandChess: {
 		name: "グランドチェス",
 		run(canvas, onDrawed){
-			const board = new Board(canvas, {
+			return run(canvas, onDrawed,{
 				playBoard: "チェス10x10",
-				...boardTemplate(10, 10)
+				playPieces: [
+					{game: "チェス", other: "グランドチェス"},
+					{game: "チェス", other: "グランドチェス2p"}
+				]
 			});
-			board.putStartPieces(0, "チェス", "grand");
-			board.putStartPieces(1, "チェス", "grand2p");
-			board.onDrawed = onDrawed;
-			board.draw();
-			return board;
 		}
 	},
 	losAlamosChess: {
 		name: "ロスアラモスチェス",
 		run(canvas, onDrawed){
-			const board = new Board(canvas, {
+			return run(canvas, onDrawed,{
 				playBoard: "チェス6x6",
-				...boardTemplate(6, 6)
+				playPieces: [
+					{game: "チェス", other: "default"},
+					{game: "チェス", other: "2p"}
+				]
 			});
-			board.putStartPieces(0, "チェス");
-			board.putStartPieces(1, "チェス", "2p");
-			board.onDrawed = onDrawed;
-			board.draw();
-			return board;
 		}
 	},
 	chuShogi: {
 		name: "中将棋",
 		run(canvas, onDrawed){
-			const board = new Board(canvas, {
+			return run(canvas, onDrawed,{
 				playBoard: "古将棋12x12",
-				...boardTemplate(12, 12)
+				playPieces: [
+					{game: "将棋", other: "中将棋"},
+					{game: "将棋", other: "中将棋2p"}
+				]
 			});
-			board.putStartPieces(0, "将棋");
-			board.putStartPieces(1, "将棋", "2p");
-			board.onDrawed = onDrawed;
-			board.draw();
-			return board;
 		}
 	},
 	daiShogi: {
 		name: "大将棋",
 		run(canvas, onDrawed){
-			const board = new Board(canvas, {
+			return run(canvas, onDrawed,{
 				playBoard: "古将棋15x15",
-				...boardTemplate(15, 15)
+				playPieces: [
+					{game: "将棋", other: "大将棋"},
+					{game: "将棋", other: "大将棋2p"}
+				]
 			});
-			board.putStartPieces(0, "将棋", "dai");
-			board.putStartPieces(1, "将棋", "dai2p");
-			board.onDrawed = onDrawed;
-			board.draw();
-			return board;
 		}
 	},
 	shishiShogi: {
 		name: "獅子将棋",
 		run(canvas, onDrawed){
-			const board = new Board(canvas, {
+			return run(canvas, onDrawed,{
 				playBoard: "古将棋9x9",
-				...boardTemplate(9, 9)
+				playPieces: [
+					{game: "将棋", other: "獅子将棋"},
+					{game: "将棋", other: "獅子将棋2p"}
+				]
 			});
-			board.putStartPieces(0, "将棋", "shishi");
-			board.putStartPieces(1, "将棋", "shishi2p");
-			board.onDrawed = onDrawed;
-			board.draw();
-			return board;
 		}
 	},
 	p4Shogi: {
 		name: "四人将棋",
 		run(canvas, onDrawed){
-			const board = new Board(canvas, {
+			return run(canvas, onDrawed,{
 				playBoard: "将棋",
-				...boardTemplate(9, 9, true)
-			}, 4);
-			board.putStartPieces(0, "将棋", "p4");
-			board.putStartPieces(1, "将棋", "p4");
-			board.putStartPieces(2, "将棋", "p4");
-			board.putStartPieces(3, "将棋", "p4");
-			board.onDrawed = onDrawed;
-			board.draw();
-			return board;
+				playPieces: [
+					{game: "将棋", other: "p4"},
+					{game: "将棋", other: "p4"},
+					{game: "将棋", other: "p4"},
+					{game: "将棋", other: "p4"}
+				]
+			});
 		}
 	},
 	p4Chess: {
 		name: "4人チェス",
 		run(canvas, onDrawed){
-			const board = new Board(canvas, {
+			return run(canvas, onDrawed,{
 				playBoard: "4人チェス",
-				...boardTemplate(14, 14)
-			}, 4);
-			board.putStartPieces(0, "チェス");
-			board.putStartPieces(1, "チェス");
-			board.putStartPieces(2, "チェス");
-			board.putStartPieces(3, "チェス");
-			board.onDrawed = onDrawed;
-			board.draw();
-			return board;
+				playPieces: [
+					{game: "チェス", other: "p4"},
+					{game: "チェス", other: "p4"},
+					{game: "チェス", other: "p4"},
+					{game: "チェス", other: "p4"}
+				]
+			});
 		}
 	},
 	g4Shogi: {
 		name: "四神将棋",
 		run(canvas, onDrawed){
-			const board = new Board(canvas, {
+			return run(canvas, onDrawed,{
 				playBoard: "四神将棋",
-				...boardTemplate(15, 15, true)
-			}, 4);
-			board.putStartPieces(0, "将棋");
-			board.putStartPieces(1, "将棋");
-			board.putStartPieces(2, "将棋");
-			board.putStartPieces(3, "将棋");
-			board.onDrawed = onDrawed;
-			board.draw();
-			return board;
+				playPieces: [
+					{game: "将棋", other: "p4"},
+					{game: "将棋", other: "p4"},
+					{game: "将棋", other: "p4"},
+					{game: "将棋", other: "p4"}
+				]
+			});
 		}
 	},
 	chaturaji: {
 		name: "チャトラジ",
 		run(canvas, onDrawed){
-			const board = new Board(canvas, {
+			return run(canvas, onDrawed,{
 				playBoard: "チェス",
-				...boardTemplate(8, 8)
-			}, 4);
-			board.putStartPieces(0, "チャトランガ", "p4");
-			board.putStartPieces(1, "チャトランガ", "p4");
-			board.putStartPieces(2, "チャトランガ", "p4");
-			board.putStartPieces(3, "チャトランガ", "p4");
-			board.onDrawed = onDrawed;
-			board.draw();
-			return board;
+				playPieces: [
+					{game: "チャトランガ", other: "p4"},
+					{game: "チャトランガ", other: "p4"},
+					{game: "チャトランガ", other: "p4"},
+					{game: "チャトランガ", other: "p4"}
+				]
+			});
 		}
 	},
 	cross: {
 		name: "【クロス】",
-		run(canvas, onDrawed, {playBoard, useStand, playPieces}){
-			const players = playPieces.some(({game}, i)=>1 < i && game)? 4: 2;
-			const boardField = boards[playBoard].field;
-			const xLen = boardField[0].length;
-			const yLen = boardField.length;
-			const board = new Board(canvas, {
-				playBoard,
-				...boardTemplate(xLen, yLen, useStand),
-			}, players);
-			playPieces.forEach(({game, other}, i)=>{
-				if(!game || !other) return;
-				try{
-					board.putStartPieces(i, game, other);
-				}
-				catch{}
-			});
-			board.onDrawed = onDrawed;
-			board.draw();
-			return board;
-		}
+		run
 	}
 };
