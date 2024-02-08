@@ -85,6 +85,7 @@
 		"backgroundColor": "#FFFFDD",
 		"borderColor": "#FFDD99",
 		"borderWidth": 2,
+		"promoLineOffset": -2,
 		"field": [
 			"DDD",
 			"$$$",
@@ -166,6 +167,20 @@
 			"BWBWBWBWBW",
 			"WBWBWBWBWB",
 			"BWBWBWBWBW"
+		]
+	},
+	"ごろごろどうぶつしょうぎ": {
+		"backgroundColor": "#FFFFDD",
+		"borderColor": "#FFDD99",
+		"borderWidth": 2,
+		"promoLineOffset": -1,
+		"field": [
+			"44444",
+			"44444",
+			"$$$$$",
+			"$$$$$",
+			"ddddd",
+			"ddddd"
 		]
 	},
 	"古将棋9x9": {

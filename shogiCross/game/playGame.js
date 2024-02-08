@@ -138,6 +138,7 @@ export const PlayGame = {
 		run(canvas, onDrawed){
 			return run(canvas, onDrawed,{
 				playBoard: "どうぶつしょうぎ",
+				useStand: true,
 				playPieces: [
 					{game: "どうぶつしょうぎ", other: "default"},
 					{game: "どうぶつしょうぎ", other: "default"}
@@ -150,6 +151,7 @@ export const PlayGame = {
 		run(canvas, onDrawed){
 			return run(canvas, onDrawed,{
 				playBoard: "将棋",
+				useStand: true,
 				playPieces: [
 					{game: "将棋", other: "朝倉象棋"},
 					{game: "将棋", other: "朝倉象棋2p"}
@@ -162,6 +164,7 @@ export const PlayGame = {
 		run(canvas, onDrawed){
 			return run(canvas, onDrawed,{
 				playBoard: "将棋10x10",
+				useStand: true,
 				playPieces: [
 					{game: "将棋", other: "京将棋"},
 					{game: "将棋", other: "京将棋2p"}
@@ -174,6 +177,7 @@ export const PlayGame = {
 		run(canvas, onDrawed){
 			return run(canvas, onDrawed,{
 				playBoard: "将棋5x5",
+				useStand: true,
 				playPieces: [
 					{game: "将棋", other: "default"},
 					{game: "将棋", other: "2p"}
@@ -217,6 +221,20 @@ export const PlayGame = {
 			});
 		}
 	},
+	gorogoroDobutsuShogi: {
+		name: "ごろごろどうぶつしょうぎ",
+		run(canvas, onDrawed){
+			return run(canvas, onDrawed,{
+				playBoard: "ごろごろどうぶつしょうぎ",
+				useStand: true,
+				playPieces: [
+					{game: "どうぶつしょうぎ", other: "default"},
+					{game: "どうぶつしょうぎ", other: "default"}
+				]
+			});
+		}
+	},
+
 	chuShogi: {
 		name: "中将棋",
 		run(canvas, onDrawed){
@@ -258,6 +276,7 @@ export const PlayGame = {
 		run(canvas, onDrawed){
 			return run(canvas, onDrawed,{
 				playBoard: "将棋",
+				useStand: true,
 				playPieces: [
 					{game: "将棋", other: "p4"},
 					{game: "将棋", other: "p4"},
@@ -286,6 +305,7 @@ export const PlayGame = {
 		run(canvas, onDrawed){
 			return run(canvas, onDrawed,{
 				playBoard: "四神将棋",
+				useStand: true,
 				playPieces: [
 					{game: "将棋", other: "p4"},
 					{game: "将棋", other: "p4"},

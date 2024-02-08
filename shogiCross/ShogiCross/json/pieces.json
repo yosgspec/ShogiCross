@@ -478,6 +478,7 @@
 		"gameName": "どうぶつしょうぎ",
 		"unit": "兵",
 		"attr": ["capture"],
+		"mustPromoLine": -1,
 		"range": {
 			"default": "歩"
 		},
@@ -642,6 +643,40 @@
 		"unit": "車",
 		"range": {
 			"default": "車"
+		}
+	},
+	"ね": {
+		"name": "ねこ",
+		"display": ["🐱ね"],
+		"gameName": "どうぶつしょうぎ",
+		"expansion": "ごろごろどうぶつしょうぎ",
+		"unit": "象",
+		"attr": ["capture"],
+		"range": {
+			"default": "銀"
+		},
+		"promo": "ネ"
+	},
+	"い": {
+		"name": "いぬ",
+		"display": ["🐶い"],
+		"gameName": "どうぶつしょうぎ",
+		"expansion": "ごろごろどうぶつしょうぎ",
+		"unit": "臣",
+		"attr": ["capture"],
+		"range": {
+			"default": "金"
+		}
+	},
+	"ら": {
+		"name": "ライオン",
+		"display": ["🦁ラ"],
+		"gameName": "どうぶつしょうぎ",
+		"expansion": "ごろごろどうぶつしょうぎ",
+		"unit": "王",
+		"attr": ["king", "capture"],
+		"range": {
+			"default": "王"
 		}
 	},
 	"仲": {
@@ -947,30 +982,6 @@
 			"default": "竜"
 		}
 	},
-	"幾": {
-		"name": "成京",
-		"display": ["き"],
-		"attr": ["capture"],
-		"range": {
-			"default": "金"
-		}
-	},
-	"う": {
-		"name": "成銅",
-		"display": ["う"],
-		"attr": ["capture"],
-		"range": {
-			"default": "銅"
-		}
-	},
-	"太": {
-		"name": "太子",
-		"display": ["太子"],
-		"attr": ["king", "capture", "cantCapture"],
-		"range": {
-			"default": "王"
-		}
-	},
 	"妃": {
 		"name": "Pクイーン",
 		"display": ["♕妃", "♛妃"],
@@ -997,20 +1008,6 @@
 		"display": ["♗僧", "♝僧"],
 		"range": {
 			"default": "聖"
-		}
-	},
-	"駁": {
-		"name": "Pカーディナル",
-		"display": ["🩐駁", "🩓駁"],
-		"range": {
-			"default": "駮"
-		}
-	},
-	"駈": {
-		"name": "Pマーシャル",
-		"display": ["🩏駈", "🩒駈"],
-		"range": {
-			"default": "駆"
 		}
 	},
 	"率": {
@@ -1042,23 +1039,9 @@
 			"default": "像"
 		}
 	},
-	"舶": {
-		"name": "Pローカ",
-		"display": ["⛵舶"],
-		"range": {
-			"default": "像"
-		}
-	},
 	"戰": {
 		"name": "Pラタ",
 		"display": ["🛞戰"],
-		"range": {
-			"default": "車"
-		}
-	},
-	"豪": {
-		"name": "Pハスティー",
-		"display": ["🐘豪"],
 		"range": {
 			"default": "車"
 		}
@@ -1077,9 +1060,70 @@
 			"default": "王"
 		}
 	},
+
 	"に": {
 		"name": "にわとり",
 		"display": ["🐔に"],
+		"attr": ["capture"],
+		"range": {
+			"default": "金"
+		}
+	},
+	"幾": {
+		"name": "成京",
+		"display": ["き"],
+		"attr": ["capture"],
+		"range": {
+			"default": "金"
+		}
+	},
+	"う": {
+		"name": "成銅",
+		"display": ["う"],
+		"attr": ["capture"],
+		"range": {
+			"default": "銅"
+		}
+	},
+	"太": {
+		"name": "太子",
+		"display": ["太子"],
+		"attr": ["king", "capture", "cantCapture"],
+		"range": {
+			"default": "王"
+		}
+	},
+	"駁": {
+		"name": "Pカーディナル",
+		"display": ["🩐駁", "🩓駁"],
+		"range": {
+			"default": "駮"
+		}
+	},
+	"駈": {
+		"name": "Pマーシャル",
+		"display": ["🩏駈", "🩒駈"],
+		"range": {
+			"default": "駆"
+		}
+	},
+	"舶": {
+		"name": "Pローカ",
+		"display": ["⛵舶"],
+		"range": {
+			"default": "像"
+		}
+	},
+	"豪": {
+		"name": "Pハスティー",
+		"display": ["🐘豪"],
+		"range": {
+			"default": "車"
+		}
+	},
+	"ネ": {
+		"name": "パワーアップねこ",
+		"display": ["😺ネ"],
 		"attr": ["capture"],
 		"range": {
 			"default": "金"

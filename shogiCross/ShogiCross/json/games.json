@@ -499,16 +499,24 @@
 				]
 			}
 		}
-	},	"どうぶつしょうぎ": {
+	},
+	"どうぶつしょうぎ": {
 		"english": "DobutsuShogi",
 		"fontColor": "#666666",
 		"backgroundColor": "#DDCCFF",
-		"promoLine": -1,
+		"promoLine": -3,
 		"position": {
 			"3": {
 				"default": [
 					"・ひ・",
 					"きラぞ"
+				]
+			},
+			"5": {
+				"default": [
+					"・ひひひ・",
+					"・・・・・",
+					"ねいらいね"
 				]
 			}
 		}

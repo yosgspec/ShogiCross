@@ -51,7 +51,15 @@
 		"name": "どうぶつしょうぎ空",
 		"text": "　　",
 		"backgroundColor": "#AADDFF",
-		"borderColor": "#FFDD99",
+		"borderColor": "#FFBB77",
+		"borderWidth": 2,
+		"attr": []
+	},
+	"4":  {
+		"name": "どうぶつしょうぎ夕",
+		"text": "　　",
+		"backgroundColor": "#FFDDAA",
+		"borderColor": "#FFBB77",
 		"borderWidth": 2,
 		"attr": []
 	},
@@ -59,7 +67,7 @@
 		"name": "どうぶつしょうぎ地",
 		"text": "　　",
 		"backgroundColor": "#FFFFDD",
-		"borderColor": "#FFDD99",
+		"borderColor": "#FFBB77",
 		"borderWidth": 2,
 		"attr": []
 	},
@@ -67,7 +75,7 @@
 		"name": "どうぶつしょうぎ森",
 		"text": "　　",
 		"backgroundColor": "#DDFFAA",
-		"borderColor": "#FFDD99",
+		"borderColor": "#FFBB77",
 		"borderWidth": 2,
 		"attr": []
 	},
