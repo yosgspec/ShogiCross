@@ -124,13 +124,23 @@ body,button,input[type="text"],input[type="button"],textarea{
 	line-height: 1;
 }
 
+.flex-row{
+	display: flex;
+	flex-wrap: wrap;
+}
+.flex-col{
+	display: flex;
+	flex-wrap: wrap;
+	flex-direction: column;
+	align-items: flex-start;
+
+}
 .flex-center{
 	display: flex;
 	flex-wrap: wrap;
 	justify-content: center;
 	align-items: center;
 }
-
 .flex-center-col{
 	display: flex;
 	flex-wrap: wrap;

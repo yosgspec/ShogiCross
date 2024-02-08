@@ -14,7 +14,7 @@
 		<meta name="viewport" content="width=device-width" />
 		<title>ShogiCross</title>
 		<link rel=icon href="../favicon.ico">
-		<link href="../gspec20.css" rel="stylesheet">
+		<link href="../gspec24.css" rel="stylesheet">
 		<link rel="preconnect" href="https://fonts.googleapis.com">
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 		<link href="https://fonts.googleapis.com/css2?family=Kosugi&family=Noto+Serif+JP:wght@900&family=Noto+Serif+TC:wght@900&family=Noto+Serif:wght@900&display=swap" rel="stylesheet">
@@ -28,26 +28,42 @@
 				font-family:"Noto Serif JP","Noto Serif TC","Noto Serif",serif;
 				line-height: 1em;
 			}
-			.flex-col{
-				display: flex;
-				flex-direction: column;
-				align-items: flex-start;
-			}
-			.flex-row{
-				display: flex;
-				flex-wrap: wrap;
-			}
 		</style>
 	</head>
 	<body>
 		<h1>ShogiCross</h1>
 		<div class="flex-col">
 			<div class="flex-row">
-				<div>
+				<div style="">
 					<canvas id="shogiCross"></canvas>
 				</div>
 				<div>
-					<div><select id="selectGame"></select></div>
+					<select id="selectGame"></select>
+					<div id="crossGame" class="flex-row" style="display:none">
+						<div class="flex-col">
+							<select id="selectBoard"></select>
+							<select id="selectStand">
+								<option value="true">駒台あり</option>
+								<option value="false">駒台なし</option>
+							</select>
+						</div>
+						<div class="flex-col">
+							<select class="selectPieces"></select>
+							<select class="selectPiecesOther"></select>
+						</div>
+						<div class="flex-col">
+							<select class="selectPieces"></select>
+							<select class="selectPiecesOther"></select>
+						</div>
+						<div class="flex-col">
+							<select class="selectPieces"></select>
+							<select class="selectPiecesOther"></select>
+						</div>
+						<div class="flex-col">
+							<select class="selectPieces"></select>
+							<select class="selectPiecesOther"></select>
+						</div>
+					</div>
 					<div><textarea id="shogiCrossText"></textarea></div>
 					<div><textarea id="shogiCrossTextMini"></textarea></div>
 				</div>
@@ -64,11 +80,26 @@
 
 		<script type="module">
 		import {PlayGame} from "./game/playGame.js";
-		import {canvasFont} from "./core/extendCanvasFont.js";
-		const canvas = document.getElementById("shogiCross");
 		const selectGame = document.getElementById("selectGame");
+		const crossGame = document.getElementById("crossGame");
+		import {boards, games} from "./core/board.js";
+		const selectBoard = document.getElementById("selectBoard");
+		const selectStand = document.getElementById("selectStand");
+		import {canvasFont} from "./core/extendCanvasFont.js";
+		const selectPieces = document.querySelectorAll(".selectPieces");
+		const selectPiecesOther = document.querySelectorAll(".selectPiecesOther");
+		const canvas = document.getElementById("shogiCross");
 		const txt = document.getElementById("shogiCrossText");
 		const txtMini = document.getElementById("shogiCrossTextMini");
+		const getSelects = ()=>({
+			playBoard: selectBoard.value,
+			useStand: JSON.parse(selectStand.value),
+			playPieces: [...selectPieces].map((pieces, i)=>({
+				game: pieces.value,
+				other: selectPiecesOther[i].value
+			}))
+		});
+
 		// 実行中のゲーム
 		let playingGame;
 
@@ -80,6 +111,51 @@
 			selectGame.appendChild(opt);
 			//if(key === "p4CrossOver9") opt.selected = true;
 		});
+
+		/** クロスセレクトメニュー */
+		function changeCrossGame(){
+			if(selectGame.value !== "cross"){
+				crossGame.style.display = "none";
+				return;
+			}
+			// ボード一覧を初期化
+			crossGame.style.display = "";
+			selectBoard.innerHTML = "";
+			Object.keys(boards).forEach(boardName=>{
+				const opt = document.createElement("option");
+				opt.value = opt.textContent = boardName;
+				selectBoard.appendChild(opt);
+			});
+			selectPieces.forEach((ele, i)=>{
+				ele.innerHTML = "";
+				const opt = document.createElement("option");
+				opt.value = "";
+				opt.textContent = `--駒${i+1}--`;
+				ele.appendChild(opt);
+				Object.entries(games).forEach(([key, game])=>{
+					const opt = document.createElement("option");
+					opt.value = opt.textContent = key;
+					ele.appendChild(opt);
+				});
+			});
+		}
+
+		/** クロス駒配置パターン */
+		function changeCrossPiece(piecesName, i){
+			const game = selectPieces[i];
+			const other = selectPiecesOther[i];
+			return function(){
+				other.innerHTML = "";
+				if(!games[game.value]) return;
+				const xLen = boards[selectBoard.value].field[0].length;
+				if(!games[game.value].position[xLen]) return;
+				Object.keys(games[game.value].position[xLen]).forEach(key=>{
+					const opt = document.createElement("option");
+					opt.value = opt.textContent = key;
+					other.appendChild(opt);
+				});
+			}
+		}
 
 		/** 描写イベント
 		 * {board} e
@@ -99,24 +175,30 @@
 		/** テキスト更新イベント
 		 * {any} target - HTMLElement
 		 */
-		function onChange({target}){
+		function txtOnChange({target}){
 			playingGame.inputPieces(target.value);
 		};
 
-		/** ゲームを実行
-		 * {any} target - HTMLElement
-		 */
-		async function playGame({target}){
+		/** ゲームを実行 */
+		async function playGame(){
 			await canvasFont.import();
 			playingGame?.close();
-			playingGame = PlayGame[target.value].run(canvas, onDrawed);
-			txt.onchange = onChange;
-			txtMini.onchange = onChange;
+			playingGame = PlayGame[selectGame.value].run(canvas, onDrawed, getSelects());
+			txt.onchange = txtOnChange;
+			txtMini.onchange = txtOnChange;
 		};
 
 		(function(){
-			playGame({target: selectGame});
+			playGame();
+			selectGame.addEventListener("change", changeCrossGame);
 			selectGame.addEventListener("change", playGame);
+			selectBoard.addEventListener("change", playGame);
+			selectStand.addEventListener("change", playGame);
+			selectPieces.forEach((p, i)=>{
+				selectPieces[i].addEventListener("change", changeCrossPiece(p.value, i));
+				selectPieces[i].addEventListener("change", playGame);
+				selectPiecesOther[i].addEventListener("change", playGame);
+			})
 		})();
 		</script>
 	</body>

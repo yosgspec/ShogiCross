@@ -1,9 +1,9 @@
 import {canvasFont} from "./extendCanvasFont.js";
-import pieces from "../json/pieces.json" assert { type: "json" };
-import pieceRange from "../json/pieceRange.json" assert { type: "json" };
-import pieceCost from "../json/pieceCost.json" assert { type: "json" };
-import pieceEn from "../json/pieceEn.json" assert { type: "json" };
-import games from "../json/games.json" assert { type: "json" };
+import pieces from "../json/pieces.json" assert {type: "json"};
+import pieceRange from "../json/pieceRange.json" assert {type: "json"};
+import pieceCost from "../json/pieceCost.json" assert {type: "json"};
+import pieceEn from "../json/pieceEn.json" assert {type: "json"};
+import games from "../json/games.json" assert {type: "json"};
 
 /** 駒の管理クラス */
 export class Piece{

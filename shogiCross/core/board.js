@@ -2,8 +2,9 @@ import {Piece} from "./piece.js";
 import {Panel} from "./panel.js";
 import {Stand} from "./stand.js";
 import {uIControl} from "./uiControl.js";
-import boards from "../json/boards.json" assert { type: "json" };
-import games from "../json/games.json" assert { type: "json" };
+import boards from "../json/boards.json" assert {type: "json"};
+import games from "../json/games.json" assert {type: "json"};
+export {boards, games};
 
 /** 盤の管理クラス */
 export class Board{

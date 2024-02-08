@@ -1,4 +1,4 @@
-import {Board} from "../core/board.js";
+import {Board, boards} from "../core/board.js";
 import {boardTemplate} from "./boardTemplate.js"
 
 export const PlayGame = {
@@ -317,107 +317,27 @@ export const PlayGame = {
 			return board;
 		}
 	},
-	crossOver8: {
-		name: "クロス8x8",
-		run(canvas, onDrawed){
+	cross: {
+		name: "【クロス】",
+		run(canvas, onDrawed, {playBoard, useStand, playPieces}){
+			const players = playPieces.some(({game}, i)=>1 < i && game)? 4: 2;
+			const boardField = boards[playBoard].field;
+			const xLen = boardField[0].length;
+			const yLen = boardField.length;
 			const board = new Board(canvas, {
-				playBoard: "クロス8x8",
-				...boardTemplate(8, 8, true)
+				playBoard,
+				...boardTemplate(xLen, yLen, useStand),
+			}, players);
+			playPieces.forEach(({game, other}, i)=>{
+				if(!game || !other) return;
+				try{
+					board.putStartPieces(i, game, other);
+				}
+				catch{}
 			});
-			board.putStartPieces(0, "チェス");
-			board.putStartPieces(1, "マークルック");
 			board.onDrawed = onDrawed;
 			board.draw();
 			return board;
 		}
-	},
-	crossOver9: {
-		name: "クロス9x9",
-		run(canvas, onDrawed){
-			const board = new Board(canvas, {
-				playBoard: "クロス9x9",
-				...boardTemplate(9, 9, true)
-			});
-			board.putStartPieces(0, "将棋");
-			board.putStartPieces(1, "チャンギ", "left");
-			board.onDrawed = onDrawed;
-			board.draw();
-			return board;
-		}
-	},
-	p4CrossOver8: {
-		name: "4人用クロス8列",
-		run(canvas, onDrawed){
-			const board = new Board(canvas, {
-				playBoard: "4人用クロス8列",
-				...boardTemplate(14, 14, true)
-			}, 4);
-			board.putStartPieces(0, "将棋");
-			board.putStartPieces(1, "シャンチー");
-			board.putStartPieces(2, "チェス");
-			board.putStartPieces(3, "マークルック");
-			board.putNewPiece("士", 6, 6, 0);
-			board.putNewPiece("車", 6, 5, 0);
-			board.putNewPiece("卆", 7, 5, 0);
-			board.putNewPiece("象", 7, 6, 1);
-			board.putNewPiece("包", 8, 6, 1);
-			board.putNewPiece("卆", 8, 7, 1);
-			board.putNewPiece("馭", 8, 8, 1);
-			board.putNewPiece("楚", 7, 7, 2);
-			board.putNewPiece("車", 7, 8, 2);
-			board.putNewPiece("卆", 6, 8, 2);
-			board.putNewPiece("象", 6, 7, 3);
-			board.putNewPiece("包", 5, 7, 3);
-			board.putNewPiece("卆", 5, 6, 3);
-			board.putNewPiece("馭", 5, 5, 3);
-			board.onDrawed = onDrawed;
-			board.draw();
-			return board;
-		}
-	},
-	p4CrossOver9: {
-		name: "4人用クロス9列",
-		run(canvas, onDrawed){
-			const board = new Board(canvas, {
-				playBoard: "4人用クロス9列",
-				...boardTemplate(15, 15, true)
-			}, 4);
-			board.putStartPieces(0, "将棋");
-			board.putStartPieces(1, "シャンチー");
-			board.putStartPieces(2, "チェス");
-			board.putStartPieces(3, "マークルック");
-			board.putNewPiece("卆", 5, 7, 3);
-			board.putNewPiece("包", 5, 8, 2);
-			board.putNewPiece("象", 6, 6, 3);
-			board.putNewPiece("馭", 6, 7, 3);
-			board.putNewPiece("士", 6, 8, 2);
-			board.putNewPiece("卆", 7, 5, 0);
-			board.putNewPiece("車", 7, 6, 0);
-			board.putNewPiece("楚", 7, 7, 0);
-			board.putNewPiece("卆", 7, 9, 2);
-			board.putNewPiece("車", 7, 8, 2);
-			board.putNewPiece("士", 8, 6, 0);
-			board.putNewPiece("馭", 8, 7, 1);
-			board.putNewPiece("象", 8, 8, 1);
-			board.putNewPiece("包", 9, 6, 0);
-			board.putNewPiece("卆", 9, 7, 1);
-			board.onDrawed = onDrawed;
-			board.draw();
-			return board;
-		}
-	},
-	shogiVsChess: {
-		name: "将棋VSチェス",
-		run(canvas, onDrawed){
-			const board = new Board(canvas, {
-				playBoard: "将棋",
-				...boardTemplate(9, 9, true)
-			});
-			board.putStartPieces(0, "将棋");
-			board.putStartPieces(1, "チェス");
-			board.onDrawed = onDrawed;
-			board.draw();
-			return board;
-		}
-	},
+	}
 };

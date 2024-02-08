@@ -1,5 +1,5 @@
 import {canvasFont} from "./extendCanvasFont.js";
-import panels from "../json/panels.json" assert { type: "json" };
+import panels from "../json/panels.json" assert {type: "json"};
 
 /** マス目の管理クラス */
 export class Panel{
@@ -48,7 +48,7 @@ export class Panel{
 	 * @returns boolean
 	 */
 	hasAttr(attr){
-		this.attr.includes(attr);
+		return this.attr.includes(attr);
 	}
 
 	/** 座標がマス目に含まれるか判定
