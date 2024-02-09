@@ -18,7 +18,6 @@ function run(canvas, onDrawed, {playBoard, useStand, playPieces}){
 		playBoard,
 		...boardTemplate(xLen, yLen, useStand),
 	}, players);
-	canvasFont.import().then(()=>board.draw());
 	playPieces.forEach(({game, other}, i)=>{
 		if(!game || !other) return;
 		try{
@@ -36,24 +35,24 @@ export const PlayGame = {
 		name: "--ゲームを選択--",
 		run(canvas, onDrawed){
 			const pieceMap = [
-				"▽う▽幾▽皇▽帝▽將▽漢▽公▽太▽狂▽鈕▽鎭",
-				"▽竜▽馬▽柱▽巨▽豪▽戰▽舶▽橡▽杵▽全▽圭",
-				"▽杏▽錆▽錨▽鋼▽鉐▽鰤▽卉▽鷲▽鷹▽牛▽猪",
-				"▽酔▽に▽貴▽率▽鹿▽鯨▽駒▽升▽桷▽黄▽堅",
-				"▲歩▲兵▲卒▲卆▽駈▽駁▽城▽僧▽騏▽妃▽と",
-				"▲瀧▲嗔▲丑▲狼▲貝▲央▲ひ▲仲▲石▲鉄▲猫",
-				"▲京▲銅▲醉▲駮▲駆▲舟▲豕▲麒▲猛▲鳳▲反",
-				"▲炮▲角▲横▲竪▲虎▲碼▲龍▲奔▲獅▲飛▲包",
-				"▲船▲瑪▲根▲種▲君▲き▲主▲臣▲像▲午▲戦",
-				"▲俥▲馮▲相▲仕▲帥▲ぞ▲楚▲士▲象▲馭▲車",
-				"▲香▲桂▲玉▲金▲銀▲ラ▲王▲后▲聖▲騎▲塔"
+				"▽城▽騏▽僧▽妃▽駈▽帝▽皇▽竜▽馬▽全▽圭▽杏",
+				"▽戰▽杵▽橡▽巨▽舶▽柱▽公▽駁▽豪▽狂▽鈕▽鎭",
+				"▽錆▽錨▽鋼▽鉐▽鰤▽漢▽將▽卉▽鷲▽鷹▽牛▽猪",
+				"▽酔▽鹿▽鯨▽駒▽升▽桷▽黄▽堅▽ネ▽太▽う▽幾",
+				"｜・｜・｜・▽と▽貴▽往▽率▽に▽鴈▽雕▽左▽右",
+				"▲歩▲兵▲卒▲卆▲貝▲央▲ひ｜・｜・｜・｜・｜・",
+				"▲瀧▲嗔▲丑▲狼▲銅▲麒▲猛▲燕▲仲▲石▲鉄▲猫",
+				"▲舟▲鳳▲反▲横▲竪▲虎▲碼▲龍▲奔▲醉▲獅▲豕",
+				"▲香▲桂▲銀▲金▲飛▲玉▲王▲駆▲后▲聖▲騎▲戦",
+				"▲俥▲馮▲相▲仕▲炮▲帥▲楚▲包▲士▲象▲馭▲車",
+				"▲船▲瑪▲根▲種▲角▲君▲主▲駮▲臣▲像▲午▲塔",
+				"▲き▲京▲ね▲い▲ぞ▲ラ▲鵬▲鶉▲鷂▲鶴▲雉▲享"
 			].join("\n");
 
 			const board = new Board(canvas, {
-				playBoard: "クロス11x11",
-				...boardTemplate(11, 11, true)
+				playBoard: "クロス12x12",
+				...boardTemplate(12, 12, true)
 			});
-			canvasFont.import().then(()=>board.draw());
 			board.inputPieces(pieceMap);
 			board.onDrawed = onDrawed;
 			board.draw();
@@ -128,7 +127,7 @@ export const PlayGame = {
 				playBoard: "チェス",
 				playPieces: [
 					{game: "チャトランガ", other: "default"},
-					{game: "チャトランガ", other: "default"}
+					{game: "チャトランガ", other: "2p"}
 				]
 			});
 		}
@@ -142,6 +141,19 @@ export const PlayGame = {
 				playPieces: [
 					{game: "どうぶつしょうぎ", other: "default"},
 					{game: "どうぶつしょうぎ", other: "default"}
+				]
+			});
+		}
+	},
+	toriShogi: {
+		name: "禽将棋",
+		run(canvas, onDrawed){
+			return run(canvas, onDrawed,{
+				playBoard: "将棋7x7",
+				useStand: true,
+				playPieces: [
+					{game: "将棋", other: "禽将棋"},
+					{game: "将棋", other: "禽将棋"}
 				]
 			});
 		}

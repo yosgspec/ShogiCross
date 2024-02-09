@@ -7,7 +7,7 @@ Object.assign(canvasFont, {
 	async import(){
 		if(this.imported) return;
 		const id = new Date().getTime().toString();
-		this.names = canvasFont.fonts.map(o=>`"${o[0]}${id}"`).join(",");
+		this.names = canvasFont.fonts.map(o=>`"${o[0]}${id}"`).join(",")+",serif";
 
 		return Promise.all(
 			canvasFont.fonts.map(async ([fontName, fontWeight])=>{

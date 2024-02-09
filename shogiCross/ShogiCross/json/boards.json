@@ -106,6 +106,21 @@
 			"SSSSS"
 		]
 	},
+	"将棋7x7": {
+		"backgroundColor": "#EECC88",
+		"borderColor": "#333333",
+		"borderWidth": 2,
+		"promoLineOffset": -1,
+		"field": [
+			"SSSSSSS",
+			"SSSSSSS",
+			"SSSSSSS",
+			"SSSSSSS",
+			"SSSSSSS",
+			"SSSSSSS",
+			"SSSSSSS"
+		]
+	},
 	"将棋10x10": {
 		"backgroundColor": "#EECC88",
 		"borderColor": "#333333",
@@ -334,6 +349,25 @@
 			"XSXS<#>WBWB",
 			"SXSX#*#BWBW",
 			"XSXS>#<WBWB"
+		]
+	},
+	"クロス12x12": {
+		"backgroundColor": "#EECC88",
+		"borderColor": "#333333",
+		"borderWidth": 2,
+		"field": [
+			"BWBW<#>XSXSX",
+			"WBWB#*#SXSXS",
+			"BWBW>#<XSXSX",
+			"SSSSSSSSSSSS",
+			"SSSSSSSSSSSS",
+			"==========]=",
+			"=[========]=",
+			"SSSSSSSSSSSS",
+			"SSSSSSSSSSSS",
+			"XSXSX<#>WBWB",
+			"SXSXS#*#BWBW",
+			"XSXSX>#<WBWB"
 		]
 	},
 	"4人用クロス8列": {

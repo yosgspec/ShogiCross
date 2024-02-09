@@ -400,7 +400,6 @@
 		},
 		"promo": "戰"
 	},
-
 	"大": {
 		"name": "パダーティ",
 		"display": ["🗡人", "🗡大"],
@@ -424,7 +423,7 @@
 			"default": "歩",
 			"attack": "兵"
 		},
-		"promo": "柱"
+		"promo": "往"
 	},
 	"午": {
 		"name": "アシュワ",
@@ -465,7 +464,8 @@
 	"主": {
 		"name": "ラージャ",
 		"gameName": "チャトランガ",
-		"display": ["👑主"],
+		"display": ["👑主", "🛡主", "🛡柱"],
+		"alias": "柱",
 		"unit": "王",
 		"attr": ["king"],
 		"range": {
@@ -510,6 +510,87 @@
 		"gameName": "どうぶつしょうぎ",
 		"unit": "王",
 		"attr": ["king", "capture", "ruleThrough"],
+		"range": {
+			"default": "王"
+		}
+	},
+	"燕": {
+		"name": "燕",
+		"display": ["燕"],
+		"gameName": "将棋",
+		"expansion": "禽将棋",
+		"unit": "兵",
+		"attr": ["capture"],
+		"mustPromoLine": -1,
+		"range": {
+			"default": "歩"
+		},
+		"promo": "鴈"
+	},
+	"雉": {
+		"name": "雉",
+		"display": ["雉"],
+		"gameName": "将棋",
+		"expansion": "禽将棋",
+		"unit": "馬",
+		"attr": ["capture"],
+		"range": {
+			"default": "雉"
+		}
+	},
+	"鶴": {
+		"name": "銀将",
+		"display": ["鶴"],
+		"gameName": "将棋",
+		"expansion": "禽将棋",
+		"unit": "象",
+		"attr": ["capture"],
+		"range": {
+			"default": "猛"
+		}
+	},
+	"鶉": {
+		"name": "鶉(左)",
+		"display": ["左鶉"],
+		"gameName": "将棋",
+		"expansion": "禽将棋",
+		"unit": "車",
+		"attr": ["capture"],
+		"mustPromoLine": -1,
+		"range": {
+			"default": "鶉"
+		}
+	},
+	"享": {
+		"name": "鶉(右)",
+		"display": ["右鶉"],
+		"gameName": "将棋",
+		"expansion": "禽将棋",
+		"unit": "車",
+		"attr": ["capture"],
+		"range": {
+			"default": "享"
+		}
+	},
+	"鷂": {
+		"name": "鷹",
+		"display": ["鷹"],
+		"gameName": "将棋",
+		"expansion": "禽将棋",
+		"unit": "臣",
+		"attr": ["capture"],
+		"range": {
+			"default": "醉"
+		},
+		"promo": "雕"
+	},
+	"鵬": {
+		"name": "鵬",
+		"display": ["鵬"],
+		"gameName": "将棋",
+		"expansion": "禽将棋",
+		"unit": "王",
+		"attr": ["king", "capture"],
 		"range": {
 			"default": "王"
 		}
@@ -860,7 +941,7 @@
 		"expansion": "大将棋",
 		"unit": "兵",
 		"range": {
-			"default": "石"
+			"default": "兵"
 		},
 		"promo": "鉐"
 	},
@@ -1053,20 +1134,50 @@
 			"default": "ぞ"
 		}
 	},
-	"柱": {
+	"往": {
 		"name": "Pラージャ",
-		"display": ["👑柱"],
+		"display": ["🔱柱"],
 		"range": {
 			"default": "王"
 		}
 	},
-
 	"に": {
 		"name": "にわとり",
 		"display": ["🐔に"],
 		"attr": ["capture"],
 		"range": {
 			"default": "金"
+		}
+	},
+	"鴈": {
+		"name": "鴈",
+		"display": ["鴈"],
+		"attr": ["capture"],
+		"range": {
+			"default": "鴈"
+		}
+	},
+	"左": {
+		"name": "左(鶉)",
+		"display": ["左"],
+		"gameName": "将棋",
+		"unit": "車",
+		"range": {}
+	},
+	"右": {
+		"name": "右(鶉)",
+		"display": ["右"],
+		"gameName": "将棋",
+		"unit": "車",
+		"range": {}
+	},
+	"雕": {
+		"name": "鵰",
+		"display": ["鵰", "鵰"],
+		"alias": "鵰",
+		"attr": ["capture"],
+		"range": {
+			"default": "雕"
 		}
 	},
 	"幾": {

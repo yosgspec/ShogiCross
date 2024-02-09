@@ -139,9 +139,15 @@ export class Piece{
 		this.isSelected = false;
 		this.isMoved = false;
 		if(!this.attr) this.attr = [];
-		Object.entries(this.range).forEach(([key, rng])=>{
-			this.range[key] = rng.map(row=>[...row])
-		});
+		try{
+			Object.entries(this.range).forEach(([key, rng])=>
+				this.range[key] = rng.map(row=>[...row])
+			);
+		}
+		catch(e){
+			console.error(e);
+			throw piece;
+		}
 	}
 
 	/** 駒をクローン
