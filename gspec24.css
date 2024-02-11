@@ -133,7 +133,11 @@ body,button,input[type="text"],input[type="button"],textarea{
 	flex-wrap: wrap;
 	flex-direction: column;
 	align-items: flex-start;
-
+}
+.flex-col-fit{
+	display: flex;
+	flex-wrap: wrap;
+	flex-direction: column;
 }
 .flex-center{
 	display: flex;

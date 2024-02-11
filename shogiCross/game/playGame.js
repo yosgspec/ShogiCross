@@ -30,7 +30,7 @@ function run(canvas, onDrawed, {playBoard, useStand, playPieces}){
 	return board;
 }
 
-export const PlayGame = {
+export const PlayGames = {
 	default: {
 		name: "--ゲームを選択--",
 		run(canvas, onDrawed){
