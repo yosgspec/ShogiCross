@@ -42,8 +42,16 @@
 	"B":  {
 		"name": "チェス黒",
 		"text": "　　",
-		"backgroundColor": "#333333",
+		"backgroundColor": "#444444",
 		"borderColor": "#CCCCCC77",
+		"borderWidth": 2,
+		"attr": []
+	},
+	"$":  {
+		"name": "どうぶつしょうぎ地",
+		"text": "　　",
+		"backgroundColor": "#FFFFDD",
+		"borderColor": "#FFBB77",
 		"borderWidth": 2,
 		"attr": []
 	},
@@ -59,14 +67,6 @@
 		"name": "どうぶつしょうぎ夕",
 		"text": "　　",
 		"backgroundColor": "#FFDDAA",
-		"borderColor": "#FFBB77",
-		"borderWidth": 2,
-		"attr": []
-	},
-	"$":  {
-		"name": "どうぶつしょうぎ地",
-		"text": "　　",
-		"backgroundColor": "#FFFFDD",
 		"borderColor": "#FFBB77",
 		"borderWidth": 2,
 		"attr": []

@@ -16,7 +16,7 @@
 		]
 	},
 	"チェス": {
-		"backgroundColor": "#333333",
+		"backgroundColor": "#444444",
 		"borderColor": "#000000",
 		"borderWidth": 2,
 		"field": [
@@ -139,7 +139,7 @@
 		]
 	},
 	"チェス6x6": {
-		"backgroundColor": "#333333",
+		"backgroundColor": "#444444",
 		"borderColor": "#000000",
 		"borderWidth": 2,
 		"field": [
@@ -152,7 +152,7 @@
 		]
 	},
 	"チェス10x8": {
-		"backgroundColor": "#333333",
+		"backgroundColor": "#444444",
 		"borderColor": "#000000",
 		"borderWidth": 2,
 		"field": [
@@ -167,7 +167,7 @@
 		]
 	},
 	"チェス10x10": {
-		"backgroundColor": "#333333",
+		"backgroundColor": "#444444",
 		"borderColor": "#000000",
 		"borderWidth": 2,
 		"promoLineOffset": 2,
@@ -258,7 +258,7 @@
 		]
 	},
 	"4人チェス": {
-		"backgroundColor": "#333333",
+		"backgroundColor": "#444444",
 		"borderColor": "#000000",
 		"borderWidth": 2,
 		"promoLineOffset": 6,
@@ -371,7 +371,7 @@
 		]
 	},
 	"4人用クロス8列": {
-		"backgroundColor": "#333333",
+		"backgroundColor": "#444444",
 		"borderColor": "#000000",
 		"borderWidth": 2,
 		"promoLineOffset": 6,
