@@ -1,6 +1,6 @@
 # 駒配置表
 ## [将棋](https://ja.wikipedia.org/wiki/%E5%B0%86%E6%A3%8B)
-一般的な将棋。持ち駒あり。y
+一般的な将棋。持ち駒あり。  
 ![](img/00_将棋.png)
 
 <details>
