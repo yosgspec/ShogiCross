@@ -75,19 +75,23 @@
 ![](img/51_チャトラジ.png)
 </details>
 
-## [どうぶつしょうぎ](https://www.silverstar.co.jp/02products/dobutsushogi/switch/animal.html)
+### [どうぶつしょうぎ](https://www.silverstar.co.jp/02products/dobutsushogi/switch/animal.html)
 入門用として考案された将棋。持ち駒あり。  
 ![](img/60_どうぶつしょうぎ.png)
+
+<details>
+<summary style=cursor:pointer>バリエーション</summary>
 
 ### [ごろごろどうぶつしょうぎ](https://www.silverstar.co.jp/02products/dobutsushogi/switch/gorogoro.html)
 「きりん」と「ぞう」の代わりに「いぬ」(金将)と「ねこ」(銀将)を追加したどうぶつしょうぎ。持ち駒あり。  
 ![](img/61_ごろごろどうぶつしょうぎ.png)
+</details>
 
-### [禽将棋](https://ja.wikipedia.org/wiki/%E7%A6%BD%E5%B0%86%E6%A3%8B)
+## [禽将棋](https://ja.wikipedia.org/wiki/%E7%A6%BD%E5%B0%86%E6%A3%8B)
 鳥の名の駒を使用する将棋。持ち駒あり。  
 ![](img/70_禽将棋.png)
 
-### [中将棋](https://ja.wikipedia.org/wiki/%E4%B8%AD%E5%B0%86%E6%A3%8B)
+## [中将棋](https://ja.wikipedia.org/wiki/%E4%B8%AD%E5%B0%86%E6%A3%8B)
 現在でもプレイされることのある古将棋の一種。持ち駒なし。  
 ![](img/80_中将棋.png)
 
