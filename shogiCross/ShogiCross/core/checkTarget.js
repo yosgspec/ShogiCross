@@ -75,7 +75,7 @@ export function checkTarget(board, piece, pX, pY){
 	function canMove(isAttack, x, y, key="", checkRivalDeg=true){
 		const panel = field[y][x];
 		if(piece.hasAttr("inPalace") && !panel.hasAttr("palace")) return false;
-		if(key.indexOf("palace") === 0 && !panel.hasAttr(key)) return false;
+		if(key.indexOf("palace") === 0 && !(panel.hasAttr(key) && field[pY][pX].hasAttr(key))) return false;
 		if(piece.hasAttr("unCrossCenter") && yLen-(0|yLen/2) <= board.getRow(x, y, piece.deg)) return false;
 		if(!isAttack) return !field[y][x].piece;
 		if(!field[y][x].piece) return false;
