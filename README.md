@@ -12,10 +12,10 @@ CPUやゲームルールは実装されていません。
 
 ## ペーパークラフト
 ### コンポーネントの組み立て
-![](img/making.png)
+![](/paper/img/making.png)
 
 ### コンポーネント一覧
-[ファイルはこちらを参照。](dist)
+[ファイルはこちらを参照。](/paper/dist)
 
 #### 駒
 ##### [paperPiece.pdf](/paper/distpaperPiece.pdf)
