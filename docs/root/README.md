@@ -1,4 +1,4 @@
-# ディレクトリ構成
+# ディレクトリ構成【CrossShogi】
 html/canvasで将棋類の駒を使ってわちゃわちゃできるものを作る  
 [ゲームページ](http://tool.yosgspec.com/shogiCross/)
 

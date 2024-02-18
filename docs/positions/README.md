@@ -1,4 +1,4 @@
-# 駒配置表
+# 駒配置表【CrossShogi】
 ## [将棋](https://ja.wikipedia.org/wiki/%E5%B0%86%E6%A3%8B)
 一般的な将棋。本将棋とも呼ばれる。持ち駒あり。  
 ![](img/00_将棋.png)
