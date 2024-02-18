@@ -2,9 +2,9 @@
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
 
 <svg
-   width="210mm"
-   height="297mm"
-   viewBox="0 0 210 297"
+   width="57.670776mm"
+   height="40.250084mm"
+   viewBox="0 0 57.670776 40.250084"
    version="1.1"
    id="svg5"
    inkscape:version="1.1.2 (0a00cf5339, 2022-02-04)"
@@ -27,8 +27,8 @@
      showguides="true"
      inkscape:guide-bbox="true"
      inkscape:zoom="2.8900221"
-     inkscape:cx="376.46771"
-     inkscape:cy="566.77768"
+     inkscape:cx="60.899188"
+     inkscape:cy="74.739913"
      inkscape:window-width="1793"
      inkscape:window-height="899"
      inkscape:window-x="24"
@@ -42,45 +42,51 @@
      inkscape:bbox-nodes="true"
      inkscape:bbox-paths="false"
      inkscape:snap-bbox-edge-midpoints="true"
-     inkscape:snap-bbox-midpoints="true">
+     inkscape:snap-bbox-midpoints="true"
+     fit-margin-top="0"
+     fit-margin-left="0"
+     fit-margin-right="0"
+     fit-margin-bottom="0">
     <inkscape:grid
        type="xygrid"
        id="grid249"
        units="mm"
        spacingx="1"
-       spacingy="1" />
+       spacingy="1"
+       originx="-75.855597"
+       originy="-130.19209" />
     <sodipodi:guide
-       position="122,147"
+       position="46.144401,20.442173"
        orientation="0,-1"
        id="guide251" />
     <sodipodi:guide
-       position="96.999998,127"
+       position="21.144399,0.44217259"
        orientation="0,-1"
        id="guide2039" />
     <sodipodi:guide
-       position="80,42"
+       position="4.1444006,-84.557828"
        orientation="1,0"
        id="guide2043" />
     <sodipodi:guide
-       position="130,132"
+       position="54.144401,5.4421726"
        orientation="1,0"
        id="guide2045" />
     <sodipodi:guide
-       position="105,117"
+       position="29.144401,-9.5578274"
        orientation="1,0"
        id="guide1361" />
     <sodipodi:guide
-       position="54.999999,167"
+       position="-20.8556,40.442173"
        orientation="0,-1"
        id="guide1365" />
   </sodipodi:namedview>
   <defs
      id="defs2">
     <rect
-       x="234.33071"
-       y="162.51969"
-       width="30.23622"
-       height="71.811024"
+       x="234.3307"
+       y="162.51968"
+       width="30.236219"
+       height="71.811028"
        id="rect617748" />
     <linearGradient
        id="linearGradient73162"
@@ -95,27 +101,27 @@
          id="stop73160" />
     </linearGradient>
     <rect
-       x="396.85039"
-       y="551.81102"
+       x="396.8504"
+       y="551.81104"
        width="11.338582"
-       height="41.574803"
+       height="41.574802"
        id="rect343496" />
     <rect
        x="385.51181"
-       y="563.14961"
-       width="26.456693"
+       y="563.1496"
+       width="26.456694"
        height="60.472439"
        id="rect280216" />
     <rect
        x="385.51181"
-       y="563.14961"
-       width="26.456693"
+       y="563.1496"
+       width="26.456694"
        height="60.472439"
        id="rect305236" />
     <rect
        x="385.51181"
-       y="563.14961"
-       width="26.456693"
+       y="563.1496"
+       width="26.456694"
        height="60.472439"
        id="rect314826" />
     <linearGradient
@@ -139,7 +145,8 @@
      inkscape:groupmode="layer"
      id="g110154"
      inkscape:label="将棋"
-     style="display:inline">
+     style="display:inline"
+     transform="translate(-75.855599,-130.19209)">
     <g
        id="g158243">
       <text

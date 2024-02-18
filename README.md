@@ -1,16 +1,36 @@
 # 将棋クロス【CrossShogi】
-![](/img/logo.png)  
+![](/img/logo.min.svg)  
 様々な将棋類を将棋駒として実体化するプロジェクト。
+
+
+## 対応ゲーム
+![](/img/all.png)  
+* 将棋
+* チェス
+* シャンチー
+* チャンギ
+* マークルック
+* チャトランガ
+* どうぶつしょうぎ
+* 禽将棋
+* 中将棋
+* その他バリエーション等
+
+### 駒配置
+[別紙を参照。](/docs/positions/README.md)
+
+### 駒情報
+[別紙を参照。](/docs/pieces/README.md)
 
 ## Webアプリ
 http://tool.yosgspec.com/shogiCross/  
 駒を自由に並べ替えたりできるやつ。  
-CPUやゲームルールは実装されていません。
-
-## 駒配置
-[別紙を参照](/docs/positions/README.md)
+CPUや駒の移動範囲表示以外のゲームルールは未実装。
 
 ## ペーパークラフト
+紙媒体での実体化。  
+必要なものの印刷を行い組み立てる。
+
 ### コンポーネントの組み立て
 ![](/paper/img/making.png)
 
@@ -102,6 +122,16 @@ TCGのパックもどきをやるのに使用。
 ##### [BBEST ラベル用紙 A4](https://www.amazon.co.jp/gp/product/B09BZ91LY3)
 ラベルシール。大箱をこれでデコっても良い。
 
+## 使用フォント
+下記の優先度でフォントを適用。
+* [Noto Serif JP Black](https://fonts.google.com/noto/specimen/Noto+Serif+JP)
+* [Noto Emoji](https://fonts.google.com/noto/specimen/Noto+Emoji?noto.query=emoji)
+* [Noto Sans Symbols 2](https://fonts.google.com/noto/specimen/Noto+Sans+Symbols+2?noto.query=Symbols)
+* [Noto Sans Symbols](https://fonts.google.com/noto/specimen/Noto+Sans+Symbols?noto.query=Symbols)
+* [Noto Serif Black](https://fonts.google.com/noto/specimen/Noto+Serif?noto.query=serif)
+* [Noto Serif TC Black](https://fonts.google.com/noto/specimen/Noto+Serif+TC?noto.query=serif+tc)
+
 ## その他
-その他不足情報があれば、下記を参照
-* [超棋](docs/超棋.pdf)
+その他不足情報があれば、下記を参照。  
+(過去類似作成物)
+* [超棋.pdf](docs/超棋.pdf)
