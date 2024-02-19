@@ -14,13 +14,15 @@ export class Stand{
 	 */
 	constructor(board){
 		this.board = board;
-		const {left, top, width, height, panelWidth, panelHeight, xLen, yLen} = board;
+		const {top, right, bottom, width, height, panelWidth, panelHeight, xLen, yLen} = board;
 
 		this.clear();
-		this.left = left+width*1.02;
+		this.left = right*1.02;
 		this.top = top;
 		this.width = width/2;
 		this.height = height;
+		this.right = this.left+this.width;
+		this.bottom = bottom;
 		this.pitchWidth = panelWidth/2;
 		this.pitchHeight = panelHeight;
 		this.xLen = xLen;

@@ -11,13 +11,15 @@ import {boardTemplate} from "./boardTemplate.js"
  */
 function run(canvas, onDrawed, {playBoard, useStand, playPieces}){
 	const players = playPieces.some(({game}, i)=>1 < i && game)? 4: 2;
-	const boardField = boards[playBoard].field;
-	const xLen = boardField[0].length;
-	const yLen = boardField.length;
+	const xLen = boards[playBoard].field[0].length;
+	// ボードを生成
 	const board = new Board(canvas, {
 		playBoard,
-		...boardTemplate(xLen, yLen, useStand),
-	}, players);
+		players,
+		useStand,
+		...boardTemplate(xLen)
+	});
+	// 駒を配置
 	playPieces.forEach(({game, other}, i)=>{
 		if(!game || !other) return;
 		try{
@@ -25,7 +27,9 @@ function run(canvas, onDrawed, {playBoard, useStand, playPieces}){
 		}
 		catch{}
 	});
+	// 描写イベントを設定
 	board.onDrawed = onDrawed;
+	// Canvasを描写
 	board.draw();
 	return board;
 }
@@ -51,7 +55,8 @@ export const PlayGames = {
 
 			const board = new Board(canvas, {
 				playBoard: "クロス12x12",
-				...boardTemplate(12, 12, true)
+				useStand: true,
+				...boardTemplate(12)
 			});
 			board.inputPieces(pieceMap);
 			board.onDrawed = onDrawed;

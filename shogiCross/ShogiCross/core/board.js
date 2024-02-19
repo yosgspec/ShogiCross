@@ -18,11 +18,22 @@ export class Board{
 	 * @param {number} panelHeight - パネル高さ
 	 * @param {number} players - プレイヤー人数(2 or 4)
 	 */
-	constructor(canvas, {canvasWidth, canvasHeight, playBoard, boardLeft, boardTop, panelWidth, panelHeight, pieceSize, backgroundColor="#00000000"}, players = 2){
-		canvas.width = canvasWidth;
-		canvas.height = canvasHeight;
+	constructor(canvas, {
+		playBoard,
+		players = 2,
+		canvasWidth=undefined,
+		canvasHeight=undefined,
+		boardLeft=5,
+		boardTop=5,
+		panelWidth=70,
+		panelHeight=0|panelWidth*1.1,
+		pieceSize=0|panelWidth*0.9,
+		useStand=false,
+		backgroundColor="#00000000"
+	}){
+
 		const ctx = canvas.getContext("2d");
-		ctx.clearRect(0, 0, canvas.panelWidth, canvas.panelHeight);
+		ctx.clearRect(0, 0, canvas.width, canvas.height);
 		this.pieces = Piece.getPieces(ctx, pieceSize);
 
 		Object.assign(this, boards[playBoard]);
@@ -41,6 +52,7 @@ export class Board{
 		// マス目データを構築
 		this.field = this.field.map((row, pY)=>
 			[...row].map((char, pX)=>{
+				console.log(panelHeight);
 				const center = boardLeft+panelWidth*(pX+1);
 				const middle = boardTop+panelHeight*(pY+1)
 				return new Panel(ctx, char, center, middle, panelWidth, panelHeight, this.borderWidth, pX, pY);
@@ -53,7 +65,9 @@ export class Board{
 		this.right = boardLeft+this.width;
 		this.bottom = boardTop+this.height;
 		this.stand = new Stand(this);
-		this.record = "";
+		canvas.width = canvasWidth ?? (useStand? this.stand.right: this.right)+5;
+		canvas.height = canvasHeight ?? this.bottom+5;
+		this.record = [];
 		this.onDrawed = null;
 		this.uiControl = uIControl(this);
 	}
