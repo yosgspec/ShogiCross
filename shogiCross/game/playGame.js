@@ -171,15 +171,28 @@ export const PlayGames = {
 			});
 		}
 	},
-	kyoShogi: {
-		name: "京将棋",
+	kyoShogiLeft: {
+		name: "京将棋(左京配置)",
 		run(canvas, onDrawed){
 			return run(canvas, onDrawed,{
 				playBoard: "将棋10x10",
 				useStand: true,
 				playPieces: [
-					{game: "将棋", other: "京将棋"},
-					{game: "将棋", other: "京将棋2p"}
+					{game: "将棋", other: "京将棋左京配置"},
+					{game: "将棋", other: "京将棋左京配置2p"}
+				]
+			});
+		}
+	},
+	kyoShogiRight: {
+		name: "京将棋(右京配置)",
+		run(canvas, onDrawed){
+			return run(canvas, onDrawed,{
+				playBoard: "将棋10x10",
+				useStand: true,
+				playPieces: [
+					{game: "将棋", other: "京将棋右京配置"},
+					{game: "将棋", other: "京将棋右京配置2p"}
 				]
 			});
 		}

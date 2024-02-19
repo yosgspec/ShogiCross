@@ -15,8 +15,9 @@
 ![](img/02_朝倉象棋.png)
 
 ### [京将棋](https://ja.wikipedia.org/wiki/%E4%BA%AC%E5%B0%86%E6%A3%8B)
-京翔と銅将を追加した将棋。持ち駒あり。  
-![](img/03_京将棋.png)
+京翔と銅将を追加した将棋。左右の配置が存在。持ち駒あり。  
+![](img/03_京将棋左京配置.png)  
+![](img/03_京将棋右京配置.png)
 
 ### [四人将棋](https://ja.wikipedia.org/wiki/%E5%9B%9B%E4%BA%BA%E5%B0%86%E6%A3%8B)
 4人用の将棋。持ち駒あり。  
