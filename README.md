@@ -69,6 +69,7 @@ CPUや駒の移動範囲表示以外のゲームルールは未実装。
 |四人将棋                |1         |[board_shogi.pdf](paper/dist/board_shogi.pdf)
 |四神将棋                |1         |[board_some15x15.pdf](paper/dist/board_some15x15.pdf)
 |**チェス**              |2         |[board_chess.pdf](paper/dist/board_chess.pdf)
+|クレージーハウス        |2         |[board_chess.pdf](paper/dist/board_chess.pdf)
 |ロスアラモスチェス      |2         |[board_chess6x6.pdf](paper/dist/board_chess6x6.pdf)
 |カパブランカチェス      |2         |[board_chess10x8.pdf](paper/dist/board_chess10x8.pdf)
 |グランドチェス          |2         |[board_chess10x10.pdf](paper/dist/board_chess10x10.pdf)

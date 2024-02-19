@@ -43,9 +43,9 @@ export const PlayGames = {
 				"▲歩▲兵▲卒▲卆▲貝▲央▲ひ｜・｜・｜・｜・｜・",
 				"▲瀧▲嗔▲丑▲狼▲銅▲麒▲猛▲燕▲仲▲石▲鉄▲猫",
 				"▲舟▲鳳▲反▲横▲竪▲虎▲碼▲龍▲奔▲醉▲獅▲豕",
-				"▲香▲桂▲銀▲金▲飛▲玉▲王▲駆▲后▲聖▲騎▲戦",
+				"▲香▲桂▲銀▲金▲飛▲玉▲王▲駆▲后▲聖▲騎▲塔",
 				"▲俥▲馮▲相▲仕▲炮▲帥▲楚▲包▲士▲象▲馭▲車",
-				"▲船▲瑪▲根▲種▲角▲君▲主▲駮▲臣▲像▲午▲塔",
+				"▲船▲瑪▲根▲種▲角▲君▲主▲駮▲臣▲像▲午▲戦",
 				"▲き▲京▲ね▲い▲ぞ▲ラ▲鵬▲鶉▲鷂▲鶴▲雉▲享"
 			].join("\n");
 
@@ -193,6 +193,19 @@ export const PlayGames = {
 				playPieces: [
 					{game: "将棋", other: "default"},
 					{game: "将棋", other: "2p"}
+				]
+			});
+		}
+	},
+	crazyHouse: {
+		name: "クレージーハウス",
+		run(canvas, onDrawed){
+			return run(canvas, onDrawed,{
+				playBoard: "クレージーハウス",
+				useStand: true,
+				playPieces: [
+					{game: "チェス", other: "default"},
+					{game: "チェス", other: "2p"}
 				]
 			});
 		}

@@ -59,10 +59,12 @@ export class Stand{
 	 * @param {Piece|null} winnerPiece - 移動する駒
 	 * @param {Piece} loserPiece - 捕縛される駒
 	 */
-	capturePiece(winnerPiece, loserPiece){
+	capturePiece(winnerPiece, loserPiece, forceCapture=false, forceCantCapture=false){
+		const hasAttr = s=>attr.includes(s);
 		if(
+			forceCantCapture ||
 			!loserPiece ||
-			!winnerPiece.hasAttr("capture") ||
+			!(forceCapture || winnerPiece.hasAttr("capture"))  ||
 			loserPiece.hasAttr("king") ||
 			loserPiece.hasAttr("cantCapture")
 		) return;

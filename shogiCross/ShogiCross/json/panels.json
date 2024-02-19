@@ -7,8 +7,8 @@
 		"borderWidth": 2,
 		"attr": []
 	},
-	"T": {
-		"name": "古将棋",
+	"s": {
+		"name": "古将棋(持ち駒なし)",
 		"text": "　　",
 		"backgroundColor": "#EECC88",
 		"borderColor": "#333333",
@@ -46,6 +46,22 @@
 		"borderColor": "#CCCCCC77",
 		"borderWidth": 2,
 		"attr": []
+	},
+	"w": {
+		"name": "チェス白(持ち駒あり)",
+		"text": "　　",
+		"backgroundColor": "#CCCCCC",
+		"borderColor": "#33333377",
+		"borderWidth": 2,
+		"attr": ["capture"]
+	},
+	"b":  {
+		"name": "チェス黒(持ち駒あり)",
+		"text": "　　",
+		"backgroundColor": "#444444",
+		"borderColor": "#CCCCCC77",
+		"borderWidth": 2,
+		"attr": ["capture"]
 	},
 	"$":  {
 		"name": "どうぶつしょうぎ地",

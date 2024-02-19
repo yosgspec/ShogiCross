@@ -203,15 +203,15 @@
 		"borderColor": "#333333",
 		"borderWidth": 2,
 		"field": [
-			"TTTTTTTTT",
-			"TTTTTTTTT",
-			"TTTTTTTTT",
-			"TTTTTTTTT",
-			"TTTTTTTTT",
-			"TTTTTTTTT",
-			"TTTTTTTTT",
-			"TTTTTTTTT",
-			"TTTTTTTTT"
+			"sssssssss",
+			"sssssssss",
+			"sssssssss",
+			"sssssssss",
+			"sssssssss",
+			"sssssssss",
+			"sssssssss",
+			"sssssssss",
+			"sssssssss"
 		]
 	},
 	"古将棋12x12": {
@@ -220,18 +220,18 @@
 		"borderWidth": 2,
 		"promoLineOffset": 1,
 		"field": [
-			"TTTTTTTTTTTT",
-			"TTTTTTTTTTTT",
-			"TTTTTTTTTTTT",
-			"TTTTTTTTTTTT",
-			"TTTTTTTTTTTT",
-			"TTTTTTTTTTTT",
-			"TTTTTTTTTTTT",
-			"TTTTTTTTTTTT",
-			"TTTTTTTTTTTT",
-			"TTTTTTTTTTTT",
-			"TTTTTTTTTTTT",
-			"TTTTTTTTTTTT"
+			"ssssssssssss",
+			"ssssssssssss",
+			"ssssssssssss",
+			"ssssssssssss",
+			"ssssssssssss",
+			"ssssssssssss",
+			"ssssssssssss",
+			"ssssssssssss",
+			"ssssssssssss",
+			"ssssssssssss",
+			"ssssssssssss",
+			"ssssssssssss"
 		]
 	},
 	"古将棋15x15": {
@@ -240,21 +240,36 @@
 		"borderWidth": 2,
 		"promoLineOffset": 2,
 		"field": [
-			"TTTTTTTTTTTTTTT",
-			"TTTTTTTTTTTTTTT",
-			"TTTTTTTTTTTTTTT",
-			"TTTTTTTTTTTTTTT",
-			"TTTTTTTTTTTTTTT",
-			"TTTTTTTTTTTTTTT",
-			"TTTTTTTTTTTTTTT",
-			"TTTTTTTTTTTTTTT",
-			"TTTTTTTTTTTTTTT",
-			"TTTTTTTTTTTTTTT",
-			"TTTTTTTTTTTTTTT",
-			"TTTTTTTTTTTTTTT",
-			"TTTTTTTTTTTTTTT",
-			"TTTTTTTTTTTTTTT",
-			"TTTTTTTTTTTTTTT"
+			"sssssssssssssss",
+			"sssssssssssssss",
+			"sssssssssssssss",
+			"sssssssssssssss",
+			"sssssssssssssss",
+			"sssssssssssssss",
+			"sssssssssssssss",
+			"sssssssssssssss",
+			"sssssssssssssss",
+			"sssssssssssssss",
+			"sssssssssssssss",
+			"sssssssssssssss",
+			"sssssssssssssss",
+			"sssssssssssssss",
+			"sssssssssssssss"
+		]
+	},
+	"クレージーハウス": {
+		"backgroundColor": "#444444",
+		"borderColor": "#000000",
+		"borderWidth": 2,
+		"field": [
+			"wbwbwbwb",
+			"bwbwbwbw",
+			"wbwbwbwb",
+			"bwbwbwbw",
+			"wbwbwbwb",
+			"bwbwbwbw",
+			"wbwbwbwb",
+			"bwbwbwbw"
 		]
 	},
 	"4人チェス": {

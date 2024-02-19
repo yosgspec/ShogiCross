@@ -34,21 +34,25 @@
 <details>
 <summary style=cursor:pointer>バリエーション</summary>
 
+### [クレージーハウス](https://ja.wikipedia.org/wiki/%E3%82%AF%E3%83%AC%E3%83%BC%E3%82%B8%E3%83%BC%E3%83%8F%E3%82%A6%E3%82%B9)
+持ち駒が使用できるチェス。持ち駒あり。  
+![](img/11_クレージーハウス.png)
+
 ### [ロスアラモスチェス](https://en.wikipedia.org/wiki/Los_Alamos_chess)
-簡略化された将棋。持ち駒なし。  
-![](img/11_ロスアラモスチェス.png)
+簡略化されたチェス。持ち駒なし。  
+![](img/12_ロスアラモスチェス.png)
 
 ### [カパブランカチェス](https://en.wikipedia.org/wiki/Capablanca_chess)
 マーシャル(エンプレス)、カーディナル(プリンセス)を追加したチェス。持ち駒なし。
-![](img/12_カパブランカチェス.png)
+![](img/13_カパブランカチェス.png)
 
 ### [グランドチェス](https://en.wikipedia.org/wiki/Grand_Chess)
 カパブランカチェスと同様の駒を使用するが配置が異なる。持ち駒なし。  
-![](img/13_グランドチェス.png)
+![](img/14_グランドチェス.png)
 
 ### [4人チェス](https://en.wikipedia.org/wiki/Four-player_chess)
 4人用のチェス。持ち駒なし。  
-![](img/14_4人チェス.png)
+![](img/15_4人チェス.png)
 </details>
 
 ## [シャンチー](https://ja.wikipedia.org/wiki/%E3%82%B7%E3%83%A3%E3%83%B3%E3%83%81%E3%83%BC)
