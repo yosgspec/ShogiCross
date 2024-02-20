@@ -128,7 +128,8 @@
 		"unit": "車",
 		"attr": ["castlingRook"],
 		"range": {
-			"default": "車"
+			"default": "車",
+			"castling": "塔"
 		}
 	},
 	"后": {
@@ -148,7 +149,8 @@
 		"unit": "王",
 		"attr": ["king", "castlingKing"],
 		"range": {
-			"default": "王"
+			"default": "王",
+			"castling": "城"
 		}
 	},
 	"卒": {

@@ -3,19 +3,20 @@ import {boardTemplate} from "./boardTemplate.js"
 
 /** ゲームを実行する
  * @param {HTMLCanvasElement}} canvas
- * @param {(HTMLCanvasElement)=>void} onDrawed - 描写イベント
  * @param {string} playBoard - 使用するボード
  * @param {boolean} useStand - 駒台の使用有無
  * @param {{game: string, other: string}[]} playPieces - プレイヤー毎の駒情報
+ * @param {(Board)=>void} onDrawed - 描写イベント
  * @returns Board
  */
-function run(canvas, onDrawed, {playBoard, useStand=false, playPieces}){
+function run({canvas, playBoard, useStand, playPieces, onDrawed}){
 	const players = playPieces.some(({game}, i)=>1 < i && game)? 4: 2;
 	const xLen = boards[playBoard].field[0].length;
 	// ボードを生成
 	const board = new Board(canvas, playBoard, {
 		players,
 		useStand,
+		onDrawed,
 		...boardTemplate(xLen)
 	});
 	// 駒を配置
@@ -34,7 +35,10 @@ function run(canvas, onDrawed, {playBoard, useStand=false, playPieces}){
 export const PlayGames = {
 	default: {
 		name: "--ゲームを選択--",
-		run(canvas, onDrawed){
+		playBoard: "クロス12x12",
+		useStand: true,
+		run({canvas, onDrawed}){
+			const {playBoard, useStand} = this;
 			const pieceMap = [
 				"▽城▽騏▽僧▽妃▽駈▽帝▽皇▽竜▽馬▽全▽圭▽杏",
 				"▽戰▽杵▽橡▽巨▽舶▽柱▽公▽駁▽豪▽狂▽鈕▽鎭",
@@ -50,8 +54,8 @@ export const PlayGames = {
 				"▲き▲京▲ね▲い▲ぞ▲ラ▲鵬▲鶉▲鷂▲鶴▲雉▲享"
 			].join("\n");
 
-			const board = new Board(canvas, "クロス12x12", {
-				useStand: true,
+			const board = new Board(canvas, playBoard, {
+				useStand,
 				...boardTemplate(12)
 			});
 			board.inputPieces(pieceMap);
@@ -67,7 +71,7 @@ export const PlayGames = {
 			{game: "将棋", other: "default"},
 			{game: "将棋", other: "2p"}
 		],
-		run(canvas, onDrawed){return run(canvas, onDrawed, this)}
+		run(options){return run({...options, ...this})}
 	},
 	chess: {
 		name: "チェス",
@@ -76,7 +80,7 @@ export const PlayGames = {
 			{game: "チェス", other: "default"},
 			{game: "チェス", other: "2p"}
 		],
-		run(canvas, onDrawed){return run(canvas, onDrawed, this)}
+		run(options){return run({...options, ...this})}
 	},
 	xiangq: {
 		name: "シャンチー",
@@ -85,7 +89,7 @@ export const PlayGames = {
 			{game: "シャンチー", other: "default"},
 			{game: "シャンチー", other: "2p"}
 		],
-		run(canvas, onDrawed){return run(canvas, onDrawed, this)}
+		run(options){return run({...options, ...this})}
 	},
 	janggi: {
 		name: "チャンギ",
@@ -94,7 +98,7 @@ export const PlayGames = {
 			{game: "チャンギ", other: "default"},
 			{game: "チャンギ", other: "2p"}
 		],
-		run(canvas, onDrawed){return run(canvas, onDrawed, this)}
+		run(options){return run({...options, ...this})}
 	},
 	makruk: {
 		name: "マークルック",
@@ -103,7 +107,7 @@ export const PlayGames = {
 			{game: "マークルック", other: "default"},
 			{game: "マークルック", other: "2p"}
 		],
-		run(canvas, onDrawed){return run(canvas, onDrawed, this)}
+		run(options){return run({...options, ...this})}
 	},
 	chaturanga: {
 		name: "チャトランガ",
@@ -112,7 +116,7 @@ export const PlayGames = {
 			{game: "チャトランガ", other: "default"},
 			{game: "チャトランガ", other: "2p"}
 		],
-		run(canvas, onDrawed){return run(canvas, onDrawed, this)}
+		run(options){return run({...options, ...this})}
 	},
 	dobutsuShogi: {
 		name: "どうぶつしょうぎ",
@@ -122,7 +126,7 @@ export const PlayGames = {
 			{game: "どうぶつしょうぎ", other: "default"},
 			{game: "どうぶつしょうぎ", other: "default"}
 		],
-		run(canvas, onDrawed){return run(canvas, onDrawed, this)}
+		run(options){return run({...options, ...this})}
 	},
 	toriShogi: {
 		name: "禽将棋",
@@ -132,7 +136,7 @@ export const PlayGames = {
 			{game: "将棋", other: "禽将棋"},
 			{game: "将棋", other: "禽将棋"}
 		],
-		run(canvas, onDrawed){return run(canvas, onDrawed, this)}
+		run(options){return run({...options, ...this})}
 	},
 	chuShogi: {
 		name: "中将棋",
@@ -141,7 +145,7 @@ export const PlayGames = {
 			{game: "将棋", other: "中将棋"},
 			{game: "将棋", other: "中将棋2p"}
 		],
-		run(canvas, onDrawed){return run(canvas, onDrawed, this)}
+		run(options){return run({...options, ...this})}
 	},
 	asakuraShogi: {
 		name: "朝倉象棋",
@@ -151,7 +155,7 @@ export const PlayGames = {
 			{game: "将棋", other: "朝倉象棋"},
 			{game: "将棋", other: "朝倉象棋2p"}
 		],
-		run(canvas, onDrawed){return run(canvas, onDrawed, this)}
+		run(options){return run({...options, ...this})}
 	},
 	kyoShogiLeft: {
 		name: "京将棋(左京配置)",
@@ -161,7 +165,7 @@ export const PlayGames = {
 			{game: "将棋", other: "京将棋(左京配置)"},
 			{game: "将棋", other: "京将棋(左京配置)2p"}
 		],
-		run(canvas, onDrawed){return run(canvas, onDrawed, this)}
+		run(options){return run({...options, ...this})}
 	},
 	kyoShogiRight: {
 		name: "京将棋(右京配置)",
@@ -171,7 +175,7 @@ export const PlayGames = {
 			{game: "将棋", other: "京将棋(右京配置)"},
 			{game: "将棋", other: "京将棋(右京配置)2p"}
 		],
-		run(canvas, onDrawed){return run(canvas, onDrawed, this)}
+		run(options){return run({...options, ...this})}
 	},
 	e5Shogi: {
 		name: "5五将棋",
@@ -181,7 +185,7 @@ export const PlayGames = {
 			{game: "将棋", other: "default"},
 			{game: "将棋", other: "2p"}
 		],
-		run(canvas, onDrawed){return run(canvas, onDrawed, this)}
+		run(options){return run({...options, ...this})}
 	},
 	crazyHouse: {
 		name: "クレージーハウス",
@@ -191,7 +195,7 @@ export const PlayGames = {
 			{game: "チェス", other: "default"},
 			{game: "チェス", other: "2p"}
 		],
-		run(canvas, onDrawed){return run(canvas, onDrawed, this)}
+		run(options){return run({...options, ...this})}
 	},
 	capablancaChess: {
 		name: "カパブランカチェス",
@@ -200,7 +204,7 @@ export const PlayGames = {
 			{game: "チェス", other: "カパブランカチェス"},
 			{game: "チェス", other: "カパブランカチェス2p"}
 		],
-		run(canvas, onDrawed){return run(canvas, onDrawed, this)}
+		run(options){return run({...options, ...this})}
 	},
 	grandChess: {
 		name: "グランドチェス",
@@ -209,7 +213,7 @@ export const PlayGames = {
 			{game: "チェス", other: "グランドチェス"},
 			{game: "チェス", other: "グランドチェス2p"}
 		],
-		run(canvas, onDrawed){return run(canvas, onDrawed, this)}
+		run(options){return run({...options, ...this})}
 	},
 	losAlamosChess: {
 		name: "ロスアラモスチェス",
@@ -218,7 +222,7 @@ export const PlayGames = {
 			{game: "チェス", other: "default"},
 			{game: "チェス", other: "2p"}
 		],
-		run(canvas, onDrawed){return run(canvas, onDrawed, this)}
+		run(options){return run({...options, ...this})}
 	},
 	gorogoroDobutsuShogi: {
 		name: "ごろごろどうぶつしょうぎ",
@@ -228,7 +232,7 @@ export const PlayGames = {
 			{game: "どうぶつしょうぎ", other: "default"},
 			{game: "どうぶつしょうぎ", other: "default"}
 		],
-		run(canvas, onDrawed){return run(canvas, onDrawed, this)}
+		run(options){return run({...options, ...this})}
 	},
 	daiShogi: {
 		name: "大将棋",
@@ -237,7 +241,7 @@ export const PlayGames = {
 			{game: "将棋", other: "大将棋"},
 			{game: "将棋", other: "大将棋2p"}
 		],
-		run(canvas, onDrawed){return run(canvas, onDrawed, this)}
+		run(options){return run({...options, ...this})}
 	},
 	shishiShogi: {
 		name: "獅子将棋",
@@ -246,7 +250,7 @@ export const PlayGames = {
 			{game: "将棋", other: "獅子将棋"},
 			{game: "将棋", other: "獅子将棋2p"}
 		],
-		run(canvas, onDrawed){return run(canvas, onDrawed, this)}
+		run(options){return run({...options, ...this})}
 	},
 	p4Shogi: {
 		name: "四人将棋",
@@ -258,7 +262,7 @@ export const PlayGames = {
 			{game: "将棋", other: "p4"},
 			{game: "将棋", other: "p4"}
 		],
-		run(canvas, onDrawed){return run(canvas, onDrawed, this)}
+		run(options){return run({...options, ...this})}
 	},
 	p4Chess: {
 		name: "4人チェス",
@@ -269,7 +273,7 @@ export const PlayGames = {
 			{game: "チェス", other: "p4"},
 			{game: "チェス", other: "p4"}
 		],
-		run(canvas, onDrawed){return run(canvas, onDrawed, this)}
+		run(options){return run({...options, ...this})}
 	},
 	g4Shogi: {
 		name: "四神将棋",
@@ -281,7 +285,7 @@ export const PlayGames = {
 			{game: "将棋", other: "p4"},
 			{game: "将棋", other: "p4"}
 		],
-		run(canvas, onDrawed){return run(canvas, onDrawed, this)}
+		run(options){return run({...options, ...this})}
 	},
 	chaturaji: {
 		name: "チャトラジ",
@@ -292,7 +296,7 @@ export const PlayGames = {
 			{game: "チャトランガ", other: "p4"},
 			{game: "チャトランガ", other: "p4"}
 		],
-		run(canvas, onDrawed){return run(canvas, onDrawed, this)}
+		run(options){return run({...options, ...this})}
 	},
 	cross: {
 		name: "【クロス】",

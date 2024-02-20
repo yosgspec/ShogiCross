@@ -16,6 +16,8 @@ export function checkTarget(board, piece, pX, pY){
 		["default", {isAttack: false}],
 		["start", {isAttack: false}],
 		["attack", {isAttack: true}],
+		["castling", {isAttack: false}],
+		["palaceRight", {isAttack: false}],
 		["palaceRight", {isAttack: false}],
 		["palaceRight", {isAttack: true}],
 		["palaceLeft", {isAttack: false}],
@@ -42,6 +44,7 @@ export function checkTarget(board, piece, pX, pY){
 	const linerChars = [
 		["*", {}],
 		["+", {jmps: 1}],
+		["|", {jmps: 1, moves: 1}],
 		["2", {moves: 2}]
 	];
 
@@ -113,7 +116,7 @@ export function checkTarget(board, piece, pX, pY){
 		const range = piece.getRange();
 		if(!range.attack) range.attack = range.default;
 		for(const [key, {isAttack}] of rangeKeys){
-			if(key === "start" && piece.isMoved) continue;
+			if(piece.isMoved && ["start", "castling"].includes(key)) continue;
 
 			const rng = range[key];
 			if(!rng) continue;
@@ -148,9 +151,11 @@ export function checkTarget(board, piece, pX, pY){
 							x+=incX;
 							y+=incY;
 							if(!inField(x, y) || !isMoveInf && moveCnt === 0) break;
-							moveCnt--;
 							const isJumped = 0 === jmpCnt;
-							if(isJumped && canMove(isAttack, x, y, key, isJumped)) field[y][x].isTarget = true;
+							if(isJumped && canMove(isAttack, x, y, key, isJumped)){
+								moveCnt--
+								field[y][x].isTarget = true
+							};
 							if(field[y][x].piece){
 								jmpCnt--;
 								if(isJumped) break;

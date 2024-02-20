@@ -20,7 +20,9 @@ export class Board{
 	 * @param {number} panelHeight - パネル高さ
 	 * @param {boolean} useStand - 駒台の使用有無
 	 * @param {string} backgroundColor - 背景色(デフォルト無職)
-	 * @param {boolean} autoDrawing - 描写をの自動更新有無
+	 * @param {boolean} autoDrawing - 描写の自動更新有無
+	 * @param {(Board)=>void} onDrawed - 描写イベント
+	 * @param {boolean} freeMode - フリーモード有効化/無効化
 	 */
 	constructor(canvas, playBoard, {
 		players=2,
@@ -33,25 +35,28 @@ export class Board{
 		pieceSize=0|panelWidth*0.9,
 		useStand=false,
 		backgroundColor="#00000000",
-		autoDrawing=true
+		autoDrawing=true,
+		onDrawed,
+		freeMode=false
 	}={}){
-
+		// 初期化
 		const canvasFontAsync = canvasFont.importAsync();
+		this.canvas = canvas;
 		const ctx = canvas.getContext("2d");
 		ctx.clearRect(0, 0, canvas.width, canvas.height);
-		this.pieces = Piece.getPieces(ctx, pieceSize);
-		Object.assign(this, boards[playBoard]);
-		this.canvas = canvas;
 		this.ctx = ctx;
+		this.pieces = Piece.getPieces(ctx, pieceSize);
+
+		// ボード情報
+		Object.assign(this, boards[playBoard]);
+		if(![2, 4].includes(players)) throw Error(`players=${players}, players need 2 or 4.`);
+		this.players = players;
 		this.left = boardLeft;
 		this.top = boardTop;
 		this.panelWidth = panelWidth;
 		this.panelHeight = panelHeight;
 		this.pieceSize = pieceSize;
 		this.canvasBackgroundColor = backgroundColor;
-
-		if(![2, 4].includes(players)) throw Error(`players=${players}, players need 2 or 4.`);
-		this.players = players;
 
 		// マス目データを構築
 		this.field = this.field.map((row, pY)=>
@@ -70,14 +75,18 @@ export class Board{
 		this.stand = new Stand(this);
 		canvas.width = canvasWidth ?? (useStand? this.stand.right: this.right)+5;
 		canvas.height = canvasHeight ?? this.bottom+5;
-		this.record = [];
-		this.onDrawed = null;
-		this.uiControl = uIControl(this);
+
+		// 描写設定
 		this.autoDrawing = autoDrawing;
 		if(autoDrawing){
 			canvasFontAsync.then(()=>this.draw());
 			this.draw();
 		}
+		this.onDrawed ??= onDrawed;
+		this.freeMode = freeMode;
+
+		this.record = [];
+		this.uiControl = uIControl(this);
 	}
 
 	/** ボードを閉じる */
@@ -264,7 +273,8 @@ export class Board{
 			!fromPanel ||
 			toPanel.hasAttr("keepOut") ||
 			toPanel.piece === fromPanel.piece ||
-			toPanel.piece?.deg === fromPanel.piece.deg
+			toPanel.piece?.deg === fromPanel.piece.deg ||
+			!this.freeMode && !toPanel.isTarget
 		) return;
 
 		let canPromo = this.checkCanPromo(fromPanel);
