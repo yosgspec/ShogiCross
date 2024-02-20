@@ -153,6 +153,18 @@
 			"castling": "城"
 		}
 	},
+	"国": {
+		"name": "キング",
+		"display": ["♚王", "♔王"],
+		"alias": "國",
+		"gameName": "チェス",
+		"unit": "王",
+		"attr": ["king", "castlingKing"],
+		"range": {
+			"default": "王",
+			"castling": "国"
+		}
+	},
 	"卒": {
 		"name": "卒【象棋】",
 		"display": ["○卒", "○兵", "卒", "兵"],
