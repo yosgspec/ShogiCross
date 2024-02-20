@@ -1,4 +1,4 @@
-# 将棋クロス【CrossShogi】
+# 将棋クロス【ShogiCross】
 ![](img/logo.min.svg)  
 様々な将棋類を将棋駒として実体化するプロジェクト。
 
