@@ -17,10 +17,10 @@
 * その他バリエーション等
 
 ### 駒配置
-[別紙を参照。](docs/positions/README.md)
+[別紙を参照。](doc/positions/README.md)
 
 ### 駒情報
-[別紙を参照。](docs/pieces/README.md)
+[別紙を参照。](doc/pieces/README.md)
 
 ## Webアプリ
 http://tool.yosgspec.com/shogiCross/  
@@ -139,4 +139,4 @@ TCGのパックもどきをやるのに使用。
 ## その他
 その他不足情報があれば、下記を参照。  
 (過去類似作成物)
-* [超棋.pdf](docs/超棋.pdf)
+* [超棋.pdf](doc/超棋.pdf)
