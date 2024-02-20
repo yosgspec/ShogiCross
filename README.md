@@ -55,7 +55,7 @@ http://tool.yosgspec.com/shogiCross/simple/
 #### 駒箱
 ##### [toolBox.pdf](paper/dist/toolBox.pdf)
 必要な箱のページのみ印刷する。  
-2ページで1組になる。  
+2ページで1組になる。
 
 #### ???
 ##### [pack.pdf](paper/dist/pack.pdf)
@@ -103,7 +103,7 @@ http://tool.yosgspec.com/shogiCross/simple/
 ##### [コクヨ 厚紙用紙 A4](https://www.amazon.co.jp/dp/B00009AJBN)
 ##### [キョクトウ ぶ厚いコピー用紙 A4](https://www.amazon.co.jp/dp/B00HLA4HFQ)
 厚手のコピー用紙を使用。  
-コクヨの方が低コストで購入可能。
+コクヨの方が低コストで購入可能。  
 キョクトウの方が厚くなるため、強度が更に必要と感じる場合はこれを使用。
 
 ##### [セメダイン 木工用速乾](https://www.yodobashi.com/product/100000001003425270/)*
