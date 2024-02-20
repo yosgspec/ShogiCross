@@ -63,6 +63,10 @@ export const PlayGames = {
 			return board;
 		}
 	},
+	cross: {
+		name: "*クロスゲーム*",
+		run
+	},
 	shogi: {
 		name: "将棋",
 		playBoard: "将棋",
@@ -76,6 +80,7 @@ export const PlayGames = {
 	chess: {
 		name: "チェス",
 		playBoard: "チェス",
+		useStand: false,
 		playPieces: [
 			{game: "チェス", other: "default"},
 			{game: "チェス", other: "2p"}
@@ -85,6 +90,7 @@ export const PlayGames = {
 	xiangq: {
 		name: "シャンチー",
 		playBoard: "シャンチー",
+		useStand: false,
 		playPieces: [
 			{game: "シャンチー", other: "default"},
 			{game: "シャンチー", other: "2p"}
@@ -94,6 +100,7 @@ export const PlayGames = {
 	janggi: {
 		name: "チャンギ",
 		playBoard: "チャンギ",
+		useStand: false,
 		playPieces: [
 			{game: "チャンギ", other: "default"},
 			{game: "チャンギ", other: "2p"}
@@ -103,6 +110,7 @@ export const PlayGames = {
 	makruk: {
 		name: "マークルック",
 		playBoard: "マークルック",
+		useStand: false,
 		playPieces: [
 			{game: "マークルック", other: "default"},
 			{game: "マークルック", other: "2p"}
@@ -112,6 +120,7 @@ export const PlayGames = {
 	chaturanga: {
 		name: "チャトランガ",
 		playBoard: "チェス",
+		useStand: false,
 		playPieces: [
 			{game: "チャトランガ", other: "default"},
 			{game: "チャトランガ", other: "2p"}
@@ -141,6 +150,7 @@ export const PlayGames = {
 	chuShogi: {
 		name: "中将棋",
 		playBoard: "古将棋12x12",
+		useStand: false,
 		playPieces: [
 			{game: "将棋", other: "中将棋"},
 			{game: "将棋", other: "中将棋2p"}
@@ -200,6 +210,7 @@ export const PlayGames = {
 	capablancaChess: {
 		name: "カパブランカチェス",
 		playBoard: "チェス10x8",
+		useStand: false,
 		playPieces: [
 			{game: "チェス", other: "カパブランカチェス"},
 			{game: "チェス", other: "カパブランカチェス2p"}
@@ -209,6 +220,7 @@ export const PlayGames = {
 	grandChess: {
 		name: "グランドチェス",
 		playBoard: "チェス10x10",
+		useStand: false,
 		playPieces: [
 			{game: "チェス", other: "グランドチェス"},
 			{game: "チェス", other: "グランドチェス2p"}
@@ -218,6 +230,7 @@ export const PlayGames = {
 	losAlamosChess: {
 		name: "ロスアラモスチェス",
 		playBoard: "チェス6x6",
+		useStand: false,
 		playPieces: [
 			{game: "チェス", other: "default"},
 			{game: "チェス", other: "2p"}
@@ -237,6 +250,7 @@ export const PlayGames = {
 	daiShogi: {
 		name: "大将棋",
 		playBoard: "古将棋15x15",
+		useStand: false,
 		playPieces: [
 			{game: "将棋", other: "大将棋"},
 			{game: "将棋", other: "大将棋2p"}
@@ -246,6 +260,7 @@ export const PlayGames = {
 	shishiShogi: {
 		name: "獅子将棋",
 		playBoard: "古将棋9x9",
+		useStand: false,
 		playPieces: [
 			{game: "将棋", other: "獅子将棋"},
 			{game: "将棋", other: "獅子将棋2p"}
@@ -267,6 +282,7 @@ export const PlayGames = {
 	p4Chess: {
 		name: "4人チェス",
 		playBoard: "4人チェス",
+		useStand: false,
 		playPieces: [
 			{game: "チェス", other: "p4"},
 			{game: "チェス", other: "p4"},
@@ -290,6 +306,7 @@ export const PlayGames = {
 	chaturaji: {
 		name: "チャトラジ",
 		playBoard: "チェス",
+		useStand: false,
 		playPieces: [
 			{game: "チャトランガ", other: "p4"},
 			{game: "チャトランガ", other: "p4"},
@@ -297,9 +314,5 @@ export const PlayGames = {
 			{game: "チャトランガ", other: "p4"}
 		],
 		run(options){return run({...options, ...this})}
-	},
-	cross: {
-		name: "【クロス】",
-		run
 	}
 };
