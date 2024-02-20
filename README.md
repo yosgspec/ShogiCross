@@ -27,6 +27,10 @@ http://tool.yosgspec.com/shogiCross/
 駒を自由に並べ替えたりできるやつ。  
 CPUや駒の移動範囲表示以外のゲームルールは未実装。
 
+### 実装サンプル
+http://tool.yosgspec.com/shogiCross/simple/  
+本ゲームを最低限の記述で動作させたサンプル。
+
 ## ペーパークラフト
 紙媒体での実体化。  
 必要なものの印刷を行い組み立てる。
