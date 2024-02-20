@@ -2,8 +2,11 @@
 html/canvasで将棋類の駒を使ってわちゃわちゃできるものを作る  
 [ゲームページ](http://tool.yosgspec.com/shogiCross/)
 
-## docs/
-ドキュメント用ディレクトリ
+## doc/
+ドキュメント類
+
+### pieces/README.md
+駒の情報を記述
 
 ### positions/README.md
 駒の配置情報を記述
@@ -42,52 +45,52 @@ Canvasサイズやパネルサイズを定義
 #### core/
 ゲームの中心機能を構成するプログラム類
 
-#### extendCanvasFonts.js
+##### extendCanvasFonts.js
 Canvas用のGoogleフォントローダー
 
-#### board.js
+##### board.js
 ゲームで使用するボードを構成
 
-#### panel.js
+##### panel.js
 ボード中の1マスを構成
 
-#### piece.js
+##### piece.js
 ボードに配置する駒を構成
 
-#### stand.js
+##### stand.js
 駒台を構成
 
-#### uiControl.js
+##### uiControl.js
 マウスなどゲームの操作を構成
 
-#### checkTarget.js
+##### checkTarget.js
 駒の移動範囲を取得
 
-### json/
+#### json/
 json形式でゲームに必要なデータを記載
 
-#### canvasFont.json
+##### canvasFont.json
 Canvas用のGoogleフォント情報
 
-#### boards.json
+##### boards.json
 ボードの構成情報
 
-#### panels.json
+##### panels.json
 ボード中のマス情報
 
-#### games.json
+##### games.json
 ゲームの種類に共通する駒情報や駒配置情報
 
-#### pieces.json
+##### pieces.json
 駒情報
 
-#### pieceRange.json
+##### pieceRange.json
 駒の移動範囲情報
 
-#### pieceCost.json
+##### pieceCost.json
 駒の価値情報
 
-#### pieceEn,js
+##### pieceEn,js
 駒の英語簡易表記  
 中将棋対応面倒なため廃止候補
 
@@ -124,5 +127,5 @@ getFontFilter.pyを簡易的なコマンド呼べるようにするだけのシ�
 ## favion.ico
 ファビコン。htmlで使うやつ
 
-## gspec20.css
+## gspec24.css
 CSS。htmlで使うやつ
