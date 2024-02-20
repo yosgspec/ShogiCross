@@ -4,7 +4,7 @@ export {canvasFont};
 Object.assign(canvasFont, {
 	imported: false,
 	names: "",
-	async import(){
+	async importAsync(){
 		if(this.imported) return;
 		const id = new Date().getTime().toString();
 		this.names = canvasFont.fonts.map(o=>`"${o[0]}${id}"`).join(",")+",serif";

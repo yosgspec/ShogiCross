@@ -83,18 +83,11 @@
 		</div>
 
 		<script type="module">
-		import {canvasFont} from "./ShogiCross/lib.js"
 		import {PlayGames} from "./game/playGame.js";
 		import {SelectControl} from "./game/selectControl.js";
 		const canvas = document.getElementById("shogiCross");
 		const txt = document.getElementById("shogiCrossText");
 		const txtMini = document.getElementById("shogiCrossTextMini");
-
-		// 実行中のゲーム
-		let playingGame={};
-		canvasFont.import().then(()=>{
-			if(playingGame.draw) playingGame.draw();
-		});
 
 		/** 描写イベント
 		 * {board} e
@@ -117,6 +110,9 @@
 		function txtOnChange({target}){
 			playingGame.inputPieces(target.value);
 		};
+
+		// 実行中のゲーム
+		let playingGame={};
 
 		/** ゲームを実行 */
 		async function playGame(){

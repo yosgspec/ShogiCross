@@ -1,4 +1,4 @@
-import {canvasFont, Board, boards} from "../ShogiCross/lib.js";
+import {Board, boards} from "../ShogiCross/lib.js";
 import {boardTemplate} from "./boardTemplate.js"
 
 /** ゲームを実行する
@@ -9,12 +9,11 @@ import {boardTemplate} from "./boardTemplate.js"
  * @param {{game: string, other: string}[]} playPieces - プレイヤー毎の駒情報
  * @returns Board
  */
-function run(canvas, onDrawed, {playBoard, useStand, playPieces}){
+function run(canvas, onDrawed, {playBoard, useStand=false, playPieces}){
 	const players = playPieces.some(({game}, i)=>1 < i && game)? 4: 2;
 	const xLen = boards[playBoard].field[0].length;
 	// ボードを生成
-	const board = new Board(canvas, {
-		playBoard,
+	const board = new Board(canvas, playBoard, {
 		players,
 		useStand,
 		...boardTemplate(xLen)
@@ -29,8 +28,6 @@ function run(canvas, onDrawed, {playBoard, useStand, playPieces}){
 	});
 	// 描写イベントを設定
 	board.onDrawed = onDrawed;
-	// Canvasを描写
-	board.draw();
 	return board;
 }
 
@@ -53,324 +50,249 @@ export const PlayGames = {
 				"▲き▲京▲ね▲い▲ぞ▲ラ▲鵬▲鶉▲鷂▲鶴▲雉▲享"
 			].join("\n");
 
-			const board = new Board(canvas, {
-				playBoard: "クロス12x12",
+			const board = new Board(canvas, "クロス12x12", {
 				useStand: true,
 				...boardTemplate(12)
 			});
 			board.inputPieces(pieceMap);
 			board.onDrawed = onDrawed;
-			board.draw();
 			return board;
 		}
 	},
 	shogi: {
 		name: "将棋",
-		run(canvas, onDrawed){
-			return run(canvas, onDrawed,{
-				playBoard: "将棋",
-				useStand: true,
-				playPieces: [
-					{game: "将棋", other: "default"},
-					{game: "将棋", other: "2p"}
-				]
-			});
-		}
+		playBoard: "将棋",
+		useStand: true,
+		playPieces: [
+			{game: "将棋", other: "default"},
+			{game: "将棋", other: "2p"}
+		],
+		run(canvas, onDrawed){return run(canvas, onDrawed, this)}
 	},
 	chess: {
 		name: "チェス",
-		run(canvas, onDrawed){
-			return run(canvas, onDrawed,{
-				playBoard: "チェス",
-				playPieces: [
-					{game: "チェス", other: "default"},
-					{game: "チェス", other: "2p"}
-				]
-			});
-		}
+		playBoard: "チェス",
+		playPieces: [
+			{game: "チェス", other: "default"},
+			{game: "チェス", other: "2p"}
+		],
+		run(canvas, onDrawed){return run(canvas, onDrawed, this)}
 	},
 	xiangq: {
 		name: "シャンチー",
-		run(canvas, onDrawed){
-			return run(canvas, onDrawed,{
-				playBoard: "シャンチー",
-				playPieces: [
-					{game: "シャンチー", other: "default"},
-					{game: "シャンチー", other: "2p"}
-				]
-			});
-		}
+		playBoard: "シャンチー",
+		playPieces: [
+			{game: "シャンチー", other: "default"},
+			{game: "シャンチー", other: "2p"}
+		],
+		run(canvas, onDrawed){return run(canvas, onDrawed, this)}
 	},
 	janggi: {
 		name: "チャンギ",
-		run(canvas, onDrawed){
-			return run(canvas, onDrawed,{
-				playBoard: "チャンギ",
-				playPieces: [
-					{game: "チャンギ", other: "default"},
-					{game: "チャンギ", other: "2p"}
-				]
-			});
-		}
+		playBoard: "チャンギ",
+		playPieces: [
+			{game: "チャンギ", other: "default"},
+			{game: "チャンギ", other: "2p"}
+		],
+		run(canvas, onDrawed){return run(canvas, onDrawed, this)}
 	},
 	makruk: {
 		name: "マークルック",
-		run(canvas, onDrawed){
-			return run(canvas, onDrawed,{
-				playBoard: "マークルック",
-				playPieces: [
-					{game: "マークルック", other: "default"},
-					{game: "マークルック", other: "2p"}
-				]
-			});
-		}
+		playBoard: "マークルック",
+		playPieces: [
+			{game: "マークルック", other: "default"},
+			{game: "マークルック", other: "2p"}
+		],
+		run(canvas, onDrawed){return run(canvas, onDrawed, this)}
 	},
 	chaturanga: {
 		name: "チャトランガ",
-		run(canvas, onDrawed){
-			return run(canvas, onDrawed,{
-				playBoard: "チェス",
-				playPieces: [
-					{game: "チャトランガ", other: "default"},
-					{game: "チャトランガ", other: "2p"}
-				]
-			});
-		}
+		playBoard: "チェス",
+		playPieces: [
+			{game: "チャトランガ", other: "default"},
+			{game: "チャトランガ", other: "2p"}
+		],
+		run(canvas, onDrawed){return run(canvas, onDrawed, this)}
 	},
 	dobutsuShogi: {
 		name: "どうぶつしょうぎ",
-		run(canvas, onDrawed){
-			return run(canvas, onDrawed,{
-				playBoard: "どうぶつしょうぎ",
-				useStand: true,
-				playPieces: [
-					{game: "どうぶつしょうぎ", other: "default"},
-					{game: "どうぶつしょうぎ", other: "default"}
-				]
-			});
-		}
+		playBoard: "どうぶつしょうぎ",
+		useStand: true,
+		playPieces: [
+			{game: "どうぶつしょうぎ", other: "default"},
+			{game: "どうぶつしょうぎ", other: "default"}
+		],
+		run(canvas, onDrawed){return run(canvas, onDrawed, this)}
 	},
 	toriShogi: {
 		name: "禽将棋",
-		run(canvas, onDrawed){
-			return run(canvas, onDrawed,{
-				playBoard: "将棋7x7",
-				useStand: true,
-				playPieces: [
-					{game: "将棋", other: "禽将棋"},
-					{game: "将棋", other: "禽将棋"}
-				]
-			});
-		}
+		playBoard: "将棋7x7",
+		useStand: true,
+		playPieces: [
+			{game: "将棋", other: "禽将棋"},
+			{game: "将棋", other: "禽将棋"}
+		],
+		run(canvas, onDrawed){return run(canvas, onDrawed, this)}
+	},
+	chuShogi: {
+		name: "中将棋",
+		playBoard: "古将棋12x12",
+		playPieces: [
+			{game: "将棋", other: "中将棋"},
+			{game: "将棋", other: "中将棋2p"}
+		],
+		run(canvas, onDrawed){return run(canvas, onDrawed, this)}
 	},
 	asakuraShogi: {
 		name: "朝倉象棋",
-		run(canvas, onDrawed){
-			return run(canvas, onDrawed,{
-				playBoard: "将棋",
-				useStand: true,
-				playPieces: [
-					{game: "将棋", other: "朝倉象棋"},
-					{game: "将棋", other: "朝倉象棋2p"}
-				]
-			});
-		}
+		playBoard: "将棋",
+		useStand: true,
+		playPieces: [
+			{game: "将棋", other: "朝倉象棋"},
+			{game: "将棋", other: "朝倉象棋2p"}
+		],
+		run(canvas, onDrawed){return run(canvas, onDrawed, this)}
 	},
 	kyoShogiLeft: {
 		name: "京将棋(左京配置)",
-		run(canvas, onDrawed){
-			return run(canvas, onDrawed,{
-				playBoard: "将棋10x10",
-				useStand: true,
-				playPieces: [
-					{game: "将棋", other: "京将棋左京配置"},
-					{game: "将棋", other: "京将棋左京配置2p"}
-				]
-			});
-		}
+		playBoard: "将棋10x10",
+		useStand: true,
+		playPieces: [
+			{game: "将棋", other: "京将棋(左京配置)"},
+			{game: "将棋", other: "京将棋(左京配置)2p"}
+		],
+		run(canvas, onDrawed){return run(canvas, onDrawed, this)}
 	},
 	kyoShogiRight: {
 		name: "京将棋(右京配置)",
-		run(canvas, onDrawed){
-			return run(canvas, onDrawed,{
-				playBoard: "将棋10x10",
-				useStand: true,
-				playPieces: [
-					{game: "将棋", other: "京将棋右京配置"},
-					{game: "将棋", other: "京将棋右京配置2p"}
-				]
-			});
-		}
+		playBoard: "将棋10x10",
+		useStand: true,
+		playPieces: [
+			{game: "将棋", other: "京将棋(右京配置)"},
+			{game: "将棋", other: "京将棋(右京配置)2p"}
+		],
+		run(canvas, onDrawed){return run(canvas, onDrawed, this)}
 	},
 	e5Shogi: {
 		name: "5五将棋",
-		run(canvas, onDrawed){
-			return run(canvas, onDrawed,{
-				playBoard: "将棋5x5",
-				useStand: true,
-				playPieces: [
-					{game: "将棋", other: "default"},
-					{game: "将棋", other: "2p"}
-				]
-			});
-		}
+		playBoard: "将棋5x5",
+		useStand: true,
+		playPieces: [
+			{game: "将棋", other: "default"},
+			{game: "将棋", other: "2p"}
+		],
+		run(canvas, onDrawed){return run(canvas, onDrawed, this)}
 	},
 	crazyHouse: {
 		name: "クレージーハウス",
-		run(canvas, onDrawed){
-			return run(canvas, onDrawed,{
-				playBoard: "クレージーハウス",
-				useStand: true,
-				playPieces: [
-					{game: "チェス", other: "default"},
-					{game: "チェス", other: "2p"}
-				]
-			});
-		}
+		playBoard: "クレージーハウス",
+		useStand: true,
+		playPieces: [
+			{game: "チェス", other: "default"},
+			{game: "チェス", other: "2p"}
+		],
+		run(canvas, onDrawed){return run(canvas, onDrawed, this)}
 	},
 	capablancaChess: {
 		name: "カパブランカチェス",
-		run(canvas, onDrawed){
-			return run(canvas, onDrawed,{
-				playBoard: "チェス10x8",
-				playPieces: [
-					{game: "チェス", other: "カパブランカチェス"},
-					{game: "チェス", other: "カパブランカチェス2p"}
-				]
-			});
-		}
+		playBoard: "チェス10x8",
+		playPieces: [
+			{game: "チェス", other: "カパブランカチェス"},
+			{game: "チェス", other: "カパブランカチェス2p"}
+		],
+		run(canvas, onDrawed){return run(canvas, onDrawed, this)}
 	},
 	grandChess: {
 		name: "グランドチェス",
-		run(canvas, onDrawed){
-			return run(canvas, onDrawed,{
-				playBoard: "チェス10x10",
-				playPieces: [
-					{game: "チェス", other: "グランドチェス"},
-					{game: "チェス", other: "グランドチェス2p"}
-				]
-			});
-		}
+		playBoard: "チェス10x10",
+		playPieces: [
+			{game: "チェス", other: "グランドチェス"},
+			{game: "チェス", other: "グランドチェス2p"}
+		],
+		run(canvas, onDrawed){return run(canvas, onDrawed, this)}
 	},
 	losAlamosChess: {
 		name: "ロスアラモスチェス",
-		run(canvas, onDrawed){
-			return run(canvas, onDrawed,{
-				playBoard: "チェス6x6",
-				playPieces: [
-					{game: "チェス", other: "default"},
-					{game: "チェス", other: "2p"}
-				]
-			});
-		}
+		playBoard: "チェス6x6",
+		playPieces: [
+			{game: "チェス", other: "default"},
+			{game: "チェス", other: "2p"}
+		],
+		run(canvas, onDrawed){return run(canvas, onDrawed, this)}
 	},
 	gorogoroDobutsuShogi: {
 		name: "ごろごろどうぶつしょうぎ",
-		run(canvas, onDrawed){
-			return run(canvas, onDrawed,{
-				playBoard: "ごろごろどうぶつしょうぎ",
-				useStand: true,
-				playPieces: [
-					{game: "どうぶつしょうぎ", other: "default"},
-					{game: "どうぶつしょうぎ", other: "default"}
-				]
-			});
-		}
-	},
-
-	chuShogi: {
-		name: "中将棋",
-		run(canvas, onDrawed){
-			return run(canvas, onDrawed,{
-				playBoard: "古将棋12x12",
-				playPieces: [
-					{game: "将棋", other: "中将棋"},
-					{game: "将棋", other: "中将棋2p"}
-				]
-			});
-		}
+		playBoard: "ごろごろどうぶつしょうぎ",
+		useStand: true,
+		playPieces: [
+			{game: "どうぶつしょうぎ", other: "default"},
+			{game: "どうぶつしょうぎ", other: "default"}
+		],
+		run(canvas, onDrawed){return run(canvas, onDrawed, this)}
 	},
 	daiShogi: {
 		name: "大将棋",
-		run(canvas, onDrawed){
-			return run(canvas, onDrawed,{
-				playBoard: "古将棋15x15",
-				playPieces: [
-					{game: "将棋", other: "大将棋"},
-					{game: "将棋", other: "大将棋2p"}
-				]
-			});
-		}
+		playBoard: "古将棋15x15",
+		playPieces: [
+			{game: "将棋", other: "大将棋"},
+			{game: "将棋", other: "大将棋2p"}
+		],
+		run(canvas, onDrawed){return run(canvas, onDrawed, this)}
 	},
 	shishiShogi: {
 		name: "獅子将棋",
-		run(canvas, onDrawed){
-			return run(canvas, onDrawed,{
-				playBoard: "古将棋9x9",
-				playPieces: [
-					{game: "将棋", other: "獅子将棋"},
-					{game: "将棋", other: "獅子将棋2p"}
-				]
-			});
-		}
+		playBoard: "古将棋9x9",
+		playPieces: [
+			{game: "将棋", other: "獅子将棋"},
+			{game: "将棋", other: "獅子将棋2p"}
+		],
+		run(canvas, onDrawed){return run(canvas, onDrawed, this)}
 	},
 	p4Shogi: {
 		name: "四人将棋",
-		run(canvas, onDrawed){
-			return run(canvas, onDrawed,{
-				playBoard: "将棋",
-				useStand: true,
-				playPieces: [
-					{game: "将棋", other: "p4"},
-					{game: "将棋", other: "p4"},
-					{game: "将棋", other: "p4"},
-					{game: "将棋", other: "p4"}
-				]
-			});
-		}
+		playBoard: "将棋",
+		useStand: true,
+		playPieces: [
+			{game: "将棋", other: "p4"},
+			{game: "将棋", other: "p4"},
+			{game: "将棋", other: "p4"},
+			{game: "将棋", other: "p4"}
+		],
+		run(canvas, onDrawed){return run(canvas, onDrawed, this)}
 	},
 	p4Chess: {
 		name: "4人チェス",
-		run(canvas, onDrawed){
-			return run(canvas, onDrawed,{
-				playBoard: "4人チェス",
-				playPieces: [
-					{game: "チェス", other: "p4"},
-					{game: "チェス", other: "p4"},
-					{game: "チェス", other: "p4"},
-					{game: "チェス", other: "p4"}
-				]
-			});
-		}
+		playBoard: "4人チェス",
+		playPieces: [
+			{game: "チェス", other: "p4"},
+			{game: "チェス", other: "p4"},
+			{game: "チェス", other: "p4"},
+			{game: "チェス", other: "p4"}
+		],
+		run(canvas, onDrawed){return run(canvas, onDrawed, this)}
 	},
 	g4Shogi: {
 		name: "四神将棋",
-		run(canvas, onDrawed){
-			return run(canvas, onDrawed,{
-				playBoard: "四神将棋",
-				useStand: true,
-				playPieces: [
-					{game: "将棋", other: "p4"},
-					{game: "将棋", other: "p4"},
-					{game: "将棋", other: "p4"},
-					{game: "将棋", other: "p4"}
-				]
-			});
-		}
+		playBoard: "四神将棋",
+		useStand: true,
+		playPieces: [
+			{game: "将棋", other: "p4"},
+			{game: "将棋", other: "p4"},
+			{game: "将棋", other: "p4"},
+			{game: "将棋", other: "p4"}
+		],
+		run(canvas, onDrawed){return run(canvas, onDrawed, this)}
 	},
 	chaturaji: {
 		name: "チャトラジ",
-		run(canvas, onDrawed){
-			return run(canvas, onDrawed,{
-				playBoard: "チェス",
-				playPieces: [
-					{game: "チャトランガ", other: "p4"},
-					{game: "チャトランガ", other: "p4"},
-					{game: "チャトランガ", other: "p4"},
-					{game: "チャトランガ", other: "p4"}
-				]
-			});
-		}
+		playBoard: "チェス",
+		playPieces: [
+			{game: "チャトランガ", other: "p4"},
+			{game: "チャトランガ", other: "p4"},
+			{game: "チャトランガ", other: "p4"},
+			{game: "チャトランガ", other: "p4"}
+		],
+		run(canvas, onDrawed){return run(canvas, onDrawed, this)}
 	},
 	cross: {
 		name: "【クロス】",

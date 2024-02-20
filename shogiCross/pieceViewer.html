@@ -131,7 +131,7 @@
 		}
 		(function(){
 			pieceView();
-			canvasFont.import().then(pieceView);
+			canvasFont.importAsync().then(pieceView);
 			pieceSelect.addEventListener("change", pieceView);
 			pieceSize.addEventListener("change", pieceView);
 		})();

@@ -1,3 +1,4 @@
+import {canvasFont} from "./extendCanvasFont.js";
 import {Piece} from "./piece.js";
 import {Panel} from "./panel.js";
 import {Stand} from "./stand.js";
@@ -9,33 +10,36 @@ import games from "../json/games.json" assert {type: "json"};
 export class Board{
 	/**
 	 * @param {HTMLCanvasElement} canvas - キャンバス要素
+	 * @param {string} playBoard - ボードタイプ
+	 * @param {number} players - プレイヤー人数(2 or 4)
 	 * @param {number} canvasWidth - キャンバス幅
 	 * @param {number} canvasHeight - キャンバス高さ
-	 * @param {string} playBoard - ボードタイプ
 	 * @param {number} boardLeft - 描写するX座標
 	 * @param {number} boardTop - 描写するY座標
 	 * @param {number} panelWidth - パネル幅
 	 * @param {number} panelHeight - パネル高さ
-	 * @param {number} players - プレイヤー人数(2 or 4)
+	 * @param {boolean} useStand - 駒台の使用有無
+	 * @param {string} backgroundColor - 背景色(デフォルト無職)
+	 * @param {boolean} autoDrawing - 描写をの自動更新有無
 	 */
-	constructor(canvas, {
-		playBoard,
-		players = 2,
+	constructor(canvas, playBoard, {
+		players=2,
 		canvasWidth=undefined,
 		canvasHeight=undefined,
 		boardLeft=5,
 		boardTop=5,
-		panelWidth=70,
+		panelWidth=50,
 		panelHeight=0|panelWidth*1.1,
 		pieceSize=0|panelWidth*0.9,
 		useStand=false,
-		backgroundColor="#00000000"
-	}){
+		backgroundColor="#00000000",
+		autoDrawing=true
+	}={}){
 
+		const canvasFontAsync = canvasFont.importAsync();
 		const ctx = canvas.getContext("2d");
 		ctx.clearRect(0, 0, canvas.width, canvas.height);
 		this.pieces = Piece.getPieces(ctx, pieceSize);
-
 		Object.assign(this, boards[playBoard]);
 		this.canvas = canvas;
 		this.ctx = ctx;
@@ -52,7 +56,6 @@ export class Board{
 		// マス目データを構築
 		this.field = this.field.map((row, pY)=>
 			[...row].map((char, pX)=>{
-				console.log(panelHeight);
 				const center = boardLeft+panelWidth*(pX+1);
 				const middle = boardTop+panelHeight*(pY+1)
 				return new Panel(ctx, char, center, middle, panelWidth, panelHeight, this.borderWidth, pX, pY);
@@ -70,6 +73,11 @@ export class Board{
 		this.record = [];
 		this.onDrawed = null;
 		this.uiControl = uIControl(this);
+		this.autoDrawing = autoDrawing;
+		if(autoDrawing){
+			canvasFontAsync.then(()=>this.draw());
+			this.draw();
+		}
 	}
 
 	/** ボードを閉じる */
@@ -129,6 +137,7 @@ export class Board{
 			});
 		});
 		this.rotateField(-deg);
+		if(this.autoDrawing) this.draw();
 	}
 
 	/** 駒の配置
@@ -149,6 +158,7 @@ export class Board{
 		piece.center = panel.center;
 		piece.middle = panel.middle;
 		panel.piece = piece;
+		if(this.autoDrawing) this.draw();
 	}
 
 	/** 文字列から駒を配置
@@ -197,7 +207,7 @@ export class Board{
 				this.stand.add(piece);
 			});
 		}
-		this.draw();
+		if(this.autoDrawing) this.draw();
 	}
 
 	/** 角度基準のパネルの行を取得する
