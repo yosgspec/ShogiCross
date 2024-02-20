@@ -3,10 +3,10 @@
 必要なものの印刷を行い組み立てる。
 
 ## 駒配置
-[別紙を参照。](doc/positions/README.md)
+[別紙を参照。](../doc/positions/README.md)
 
 ## 駒情報
-[別紙を参照。](doc/pieces/README.md)
+[別紙を参照。](../doc/pieces/README.md)
 
 ## コンポーネントの組み立て
 ![](img/making.png)
