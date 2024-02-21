@@ -5,7 +5,7 @@
 		"gameName": "将棋",
 		"unit": "兵",
 		"attr": ["capture"],
-		"mustPromoLine": -1,
+		"forcePromoLine": -1,
 		"range": {
 			"default": "歩"
 		},
@@ -17,7 +17,7 @@
 		"gameName": "将棋",
 		"unit": "馬",
 		"attr": ["capture"],
-		"mustPromoLine": -2,
+		"forcePromoLine": -2,
 		"range": {
 			"default": "桂"
 		},
@@ -51,7 +51,7 @@
 		"gameName": "将棋",
 		"unit": "車",
 		"attr": ["capture"],
-		"mustPromoLine": -1,
+		"forcePromoLine": -1,
 		"range": {
 			"default": "香"
 		},
@@ -95,7 +95,7 @@
 		"gameName": "チェス",
 		"unit": "兵",
 		"attr": ["enPassant"],
-		"mustPromoLine": -1,
+		"forcePromoLine": -1,
 		"range": {
 			"default": "歩",
 			"start": "二",
@@ -170,7 +170,7 @@
 		"display": ["○卒", "○兵", "卒", "兵"],
 		"gameName": "シャンチー",
 		"unit": "兵",
-		"mustPromoLine": -4,
+		"forcePromoLine": -4,
 		"range": {
 			"default": "歩"
 		},
@@ -323,7 +323,7 @@
 		"display": ["⛂貝", "◎貝"],
 		"gameName": "マークルック",
 		"unit": "兵",
-		"mustPromoLine": -1,
+		"forcePromoLine": -1,
 		"range": {
 			"default": "歩",
 			"attack": "兵"
@@ -383,7 +383,7 @@
 		"display": ["🗡人", "🗡火"],
 		"gameName": "チャトランガ",
 		"unit": "兵",
-		"mustPromoLine": -1,
+		"forcePromoLine": -1,
 		"range": {
 			"default": "歩",
 			"attack": "兵"
@@ -395,7 +395,7 @@
 		"display": ["🗡人", "🗡天"],
 		"gameName": "チャトランガ",
 		"unit": "兵",
-		"mustPromoLine": -1,
+		"forcePromoLine": -1,
 		"range": {
 			"default": "歩",
 			"attack": "兵"
@@ -407,7 +407,7 @@
 		"display": ["🗡人", "🗡木"],
 		"gameName": "チャトランガ",
 		"unit": "兵",
-		"mustPromoLine": -1,
+		"forcePromoLine": -1,
 		"range": {
 			"default": "歩",
 			"attack": "兵"
@@ -419,7 +419,7 @@
 		"display": ["🗡人", "🗡大"],
 		"gameName": "チャトランガ",
 		"unit": "兵",
-		"mustPromoLine": -1,
+		"forcePromoLine": -1,
 		"range": {
 			"default": "歩",
 			"attack": "兵"
@@ -432,7 +432,7 @@
 		"alias": "人",
 		"gameName": "チャトランガ",
 		"unit": "兵",
-		"mustPromoLine": -1,
+		"forcePromoLine": -1,
 		"range": {
 			"default": "歩",
 			"attack": "兵"
@@ -492,7 +492,7 @@
 		"gameName": "どうぶつしょうぎ",
 		"unit": "兵",
 		"attr": ["capture"],
-		"mustPromoLine": -1,
+		"forcePromoLine": -1,
 		"range": {
 			"default": "歩"
 		},
@@ -535,7 +535,7 @@
 		"expansion": "禽将棋",
 		"unit": "兵",
 		"attr": ["capture"],
-		"mustPromoLine": -1,
+		"forcePromoLine": -3,
 		"range": {
 			"default": "歩"
 		},
@@ -570,7 +570,6 @@
 		"expansion": "禽将棋",
 		"unit": "車",
 		"attr": ["capture"],
-		"mustPromoLine": -1,
 		"range": {
 			"default": "鶉"
 		}
@@ -593,6 +592,7 @@
 		"expansion": "禽将棋",
 		"unit": "臣",
 		"attr": ["capture"],
+		"forcePromoLine": -3,
 		"range": {
 			"default": "醉"
 		},
@@ -616,7 +616,7 @@
 		"expansion": "京将棋",
 		"unit": "馬",
 		"attr": ["capture"],
-		"mustPromoLine": -3,
+		"forcePromoLine": -3,
 		"range": {
 			"default": "京"
 		},
@@ -652,7 +652,7 @@
 		"gameName": "チェス",
 		"expansion": "ロスアラモスチェス",
 		"unit": "兵",
-		"mustPromoLine": -1,
+		"forcePromoLine": -1,
 		"range": {
 			"default": "歩",
 			"attack": "兵"
@@ -666,7 +666,7 @@
 		"expansion": "カパブランカチェス",
 		"unit": "兵",
 		"attr": ["enPassant"],
-		"mustPromoLine": -1,
+		"forcePromoLine": -1,
 		"range": {
 			"default": "歩",
 			"start": "二",
@@ -700,7 +700,7 @@
 		"gameName": "チャトランガ",
 		"expansion": "チャトラジ",
 		"unit": "兵",
-		"mustPromoLine": -1,
+		"forcePromoLine": -1,
 		"range": {
 			"default": "歩",
 			"attack": "兵"
@@ -713,7 +713,7 @@
 		"gameName": "チャトランガ",
 		"expansion": "チャトラジ",
 		"unit": "兵",
-		"mustPromoLine": -1,
+		"forcePromoLine": -1,
 		"range": {
 			"default": "歩",
 			"attack": "兵"

@@ -245,7 +245,10 @@ export class Board{
 		const {yLen} = this;
 		const {piece, pX, pY} = panel;
 		const {deg} = piece;
-		const promoLine = yLen+piece.game.promoLine-(0|this.promoLineOffset);
+		const [promoLine, forcePromoLine] = [
+			piece.game.promoLine,
+			piece.forcePromoLine
+		].map(line=>yLen+line-(0|this.promoLineOffset));
 
 		let row;
 		if(!this.sidePromo){
@@ -261,7 +264,10 @@ export class Board{
 				)
 			);
 		}
-		return promoLine <= row;
+		return {
+			canPromo: promoLine <= row,
+			forcePromo: forcePromoLine <= row
+		};
 	}
 
 	/** 駒を移動
@@ -269,6 +275,7 @@ export class Board{
 	 * @param {Panel} toPanel - 選択中のパネル
 	 */
 	movePiece(fromPanel, toPanel){
+		const {freeMode} = this;
 		if(
 			!fromPanel ||
 			toPanel.hasAttr("keepOut") ||
@@ -277,7 +284,7 @@ export class Board{
 			!this.freeMode && !toPanel.isTarget
 		) return;
 
-		let canPromo = this.checkCanPromo(fromPanel);
+		let {canPromo, forcePromo} = this.checkCanPromo(fromPanel);
 
 		this.stand.capturePiece(
 			fromPanel.piece,
@@ -293,19 +300,24 @@ export class Board{
 		piece.center = toPanel.center;
 		piece.middle = toPanel.middle;
 		piece.isMoved = true;
-		canPromo ||= this.checkCanPromo(toPanel);
+
+		const afterPromo = this.checkCanPromo(toPanel);
+		canPromo ||= afterPromo.canPromo;
+		forcePromo ||= afterPromo.forcePromo;
 
 		// プロモーション処理
 		if(!piece.promo || piece.hasAttr("promoted") || !canPromo) return;
-		for(const [char, {name}] of Object.entries(piece.promo)){
-			if(confirm(`成りますか?
-${piece.char}:${piece.name}
-　↓
-${char}:${name}`)){
-				piece.promotion(char);
-				break;
+		do{
+			for(const [char, {name}] of Object.entries(piece.promo)){
+				if(confirm(`成りますか?
+	${piece.char}:${piece.name}
+	　↓
+	${char}:${name}`)){
+					piece.promotion(char);
+					return;
+				}
 			}
-		}
+		} while(!freeMode && forcePromo);
 	}
 
 	/** 盤を描写 */
