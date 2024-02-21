@@ -30,7 +30,8 @@ function changeCrossGame(){
 	select.board.innerHTML = "";
 	Object.keys(boards).forEach(boardName=>{
 		const opt = document.createElement("option");
-		opt.value = opt.textContent = boardName;
+		opt.value = boardName;
+		opt.textContent = `${boardName}盤`;
 		select.board.appendChild(opt);
 	});
 	select.pieces.forEach((ele, i)=>{
@@ -47,19 +48,20 @@ function changeCrossGame(){
 	});
 }
 
-/** クロス駒配置パターン */
+/** クロスゲーム用 駒配置パターン */
 function changeCrossPiece(piecesName, i){
 	const game = select.pieces[i];
-	const other = select.pieceSet[i];
+	const pieceSet = select.pieceSet[i];
 	return function(){
-		other.innerHTML = "";
-		if(!games[game.value]) return;
+		const gameName = game.value;
+		pieceSet.innerHTML = "";
+		if(!games[gameName]) return;
 		const xLen = boards[select.board.value].field[0].length;
-		if(!games[game.value].position[xLen]) return;
-		Object.keys(games[game.value].position[xLen]).forEach(key=>{
+		if(!games[gameName].position[xLen]) return;
+		Object.keys(games[gameName].position[xLen]).forEach(key=>{
 			const opt = document.createElement("option");
 			opt.value = opt.textContent = key;
-			other.appendChild(opt);
+			pieceSet.appendChild(opt);
 		});
 	}
 }
@@ -74,7 +76,7 @@ export class SelectControl{
 			playBoard: select.board.value,
 			useStand: JSON.parse(select.stand.value),
 			playPieces: [...select.pieces].map((pieces, i)=>({
-				game: pieces.value,
+				gameName: pieces.value,
 				pieceSet: select.pieceSet[i].value
 			}))
 		}

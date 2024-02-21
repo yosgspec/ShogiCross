@@ -1,4 +1,4 @@
-import {canvasFont} from "./extendCanvasFont.js";
+import {canvasFont} from "./canvasFontLoader.js";
 import panels from "../json/panels.json" assert {type: "json"};
 
 /** マス目の管理クラス */

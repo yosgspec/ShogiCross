@@ -33,9 +33,7 @@
 	<body>
 		<div class="flex-col">
 			<div class="flex-col">
-				<div style="">
-					<canvas id="shogiCross"></canvas>
-				</div>
+				<canvas id="shogiCross"></canvas>
 				<div>
 					<select id="selectGame"></select>
 					<div id="crossSelects" class="flex-row" style="display:none">
@@ -65,8 +63,12 @@
 					</div>
 					<details>
 						<summary style="cursor:pointer;">テキスト形式表示</summary>
-						<div><textarea id="shogiCrossText"></textarea></div>
-						<div><textarea id="shogiCrossTextMini"></textarea></div>
+						テキストを直接書き換えて駒配置を直接編集できます。<br>
+						配置可能な駒は<a href="https://github.com/yosgspec/ShogiCross/blob/main/doc/pieces/README.md">駒情報表</a>を参照してください。<br>
+						<div class="flex-row">
+							<textarea id="shogiCrossText"></textarea>
+							<textarea id="shogiCrossTextMini"></textarea>
+						</div>
 					</details>
 				</div>
 			</div>

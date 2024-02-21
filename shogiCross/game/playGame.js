@@ -1,16 +1,16 @@
-import {Board, boards} from "../ShogiCross/lib.js";
+import {Board, boards, gameSoft} from "../ShogiCross/lib.js";
 import {boardTemplate} from "./boardTemplate.js"
 
 /** ゲームを実行する
  * @param {HTMLCanvasElement}} canvas
  * @param {string} playBoard - 使用するボード
  * @param {boolean} useStand - 駒台の使用有無
- * @param {{game: string, pieceSet: string}[]} playPieces - プレイヤー毎の駒情報
+ * @param {{gameName: string, pieceSet: string}[]} playPieces - プレイヤー毎の駒情報
  * @param {(Board)=>void} onDrawed - 描写イベント
  * @returns Board
  */
 function run({canvas, playBoard, useStand, playPieces, onDrawed}){
-	const players = playPieces.some(({game}, i)=>1 < i && game)? 4: 2;
+	const players = playPieces.some(({gameName}, i)=>1 < i && gameName)? 4: 2;
 	const xLen = boards[playBoard].field[0].length;
 	// ボードを生成
 	const board = new Board(canvas, playBoard, {
@@ -20,10 +20,10 @@ function run({canvas, playBoard, useStand, playPieces, onDrawed}){
 		...boardTemplate(xLen)
 	});
 	// 駒を配置
-	playPieces.forEach(({game, pieceSet}, i)=>{
-		if(!game || !pieceSet) return;
+	playPieces.forEach(({gameName, pieceSet}, i)=>{
+		if(!gameName || !pieceSet) return;
 		try{
-			board.putStartPieces(i, game, pieceSet);
+			board.putStartPieces(i, gameName, pieceSet);
 		}
 		catch{}
 	});
@@ -32,7 +32,7 @@ function run({canvas, playBoard, useStand, playPieces, onDrawed}){
 	return board;
 }
 
-export const PlayGames = {
+const PlayGamesCustom = {
 	default: {
 		name: "--ゲームを選択--",
 		playBoard: "クロス12x12",
@@ -66,253 +66,16 @@ export const PlayGames = {
 	cross: {
 		name: "*クロスゲーム*",
 		run
-	},
-	shogi: {
-		name: "将棋",
-		playBoard: "将棋",
-		useStand: true,
-		playPieces: [
-			{game: "将棋", pieceSet: "default"},
-			{game: "将棋", pieceSet: "2p"}
-		],
-		run(options){return run({...options, ...this})}
-	},
-	chess: {
-		name: "チェス",
-		playBoard: "チェス",
-		useStand: false,
-		playPieces: [
-			{game: "チェス", pieceSet: "default"},
-			{game: "チェス", pieceSet: "2p"}
-		],
-		run(options){return run({...options, ...this})}
-	},
-	xiangq: {
-		name: "シャンチー",
-		playBoard: "シャンチー",
-		useStand: false,
-		playPieces: [
-			{game: "シャンチー", pieceSet: "default"},
-			{game: "シャンチー", pieceSet: "2p"}
-		],
-		run(options){return run({...options, ...this})}
-	},
-	janggi: {
-		name: "チャンギ",
-		playBoard: "チャンギ",
-		useStand: false,
-		playPieces: [
-			{game: "チャンギ", pieceSet: "default"},
-			{game: "チャンギ", pieceSet: "2p"}
-		],
-		run(options){return run({...options, ...this})}
-	},
-	makruk: {
-		name: "マークルック",
-		playBoard: "マークルック",
-		useStand: false,
-		playPieces: [
-			{game: "マークルック", pieceSet: "default"},
-			{game: "マークルック", pieceSet: "2p"}
-		],
-		run(options){return run({...options, ...this})}
-	},
-	chaturanga: {
-		name: "チャトランガ",
-		playBoard: "チェス",
-		useStand: false,
-		playPieces: [
-			{game: "チャトランガ", pieceSet: "default"},
-			{game: "チャトランガ", pieceSet: "2p"}
-		],
-		run(options){return run({...options, ...this})}
-	},
-	dobutsuShogi: {
-		name: "どうぶつしょうぎ",
-		playBoard: "どうぶつしょうぎ",
-		useStand: true,
-		playPieces: [
-			{game: "どうぶつしょうぎ", pieceSet: "default"},
-			{game: "どうぶつしょうぎ", pieceSet: "default"}
-		],
-		run(options){return run({...options, ...this})}
-	},
-	toriShogi: {
-		name: "禽将棋",
-		playBoard: "将棋7x7",
-		useStand: true,
-		playPieces: [
-			{game: "将棋", pieceSet: "禽将棋"},
-			{game: "将棋", pieceSet: "禽将棋"}
-		],
-		run(options){return run({...options, ...this})}
-	},
-	chuShogi: {
-		name: "中将棋",
-		playBoard: "古将棋12x12",
-		useStand: false,
-		playPieces: [
-			{game: "将棋", pieceSet: "中将棋"},
-			{game: "将棋", pieceSet: "中将棋2p"}
-		],
-		run(options){return run({...options, ...this})}
-	},
-	asakuraShogi: {
-		name: "朝倉象棋",
-		playBoard: "将棋",
-		useStand: true,
-		playPieces: [
-			{game: "将棋", pieceSet: "朝倉象棋"},
-			{game: "将棋", pieceSet: "朝倉象棋2p"}
-		],
-		run(options){return run({...options, ...this})}
-	},
-	kyoShogiLeft: {
-		name: "京将棋(左京配置)",
-		playBoard: "将棋10x10",
-		useStand: true,
-		playPieces: [
-			{game: "将棋", pieceSet: "京将棋(左京配置)"},
-			{game: "将棋", pieceSet: "京将棋(左京配置)2p"}
-		],
-		run(options){return run({...options, ...this})}
-	},
-	kyoShogiRight: {
-		name: "京将棋(右京配置)",
-		playBoard: "将棋10x10",
-		useStand: true,
-		playPieces: [
-			{game: "将棋", pieceSet: "京将棋(右京配置)"},
-			{game: "将棋", pieceSet: "京将棋(右京配置)2p"}
-		],
-		run(options){return run({...options, ...this})}
-	},
-	e5Shogi: {
-		name: "5五将棋",
-		playBoard: "将棋5x5",
-		useStand: true,
-		playPieces: [
-			{game: "将棋", pieceSet: "default"},
-			{game: "将棋", pieceSet: "2p"}
-		],
-		run(options){return run({...options, ...this})}
-	},
-	crazyHouse: {
-		name: "クレージーハウス",
-		playBoard: "クレージーハウス",
-		useStand: true,
-		playPieces: [
-			{game: "チェス", pieceSet: "default"},
-			{game: "チェス", pieceSet: "2p"}
-		],
-		run(options){return run({...options, ...this})}
-	},
-	capablancaChess: {
-		name: "カパブランカチェス",
-		playBoard: "チェス10x8",
-		useStand: false,
-		playPieces: [
-			{game: "チェス", pieceSet: "カパブランカチェス"},
-			{game: "チェス", pieceSet: "カパブランカチェス2p"}
-		],
-		run(options){return run({...options, ...this})}
-	},
-	grandChess: {
-		name: "グランドチェス",
-		playBoard: "チェス10x10",
-		useStand: false,
-		playPieces: [
-			{game: "チェス", pieceSet: "グランドチェス"},
-			{game: "チェス", pieceSet: "グランドチェス2p"}
-		],
-		run(options){return run({...options, ...this})}
-	},
-	losAlamosChess: {
-		name: "ロスアラモスチェス",
-		playBoard: "チェス6x6",
-		useStand: false,
-		playPieces: [
-			{game: "チェス", pieceSet: "default"},
-			{game: "チェス", pieceSet: "2p"}
-		],
-		run(options){return run({...options, ...this})}
-	},
-	gorogoroDobutsuShogi: {
-		name: "ごろごろどうぶつしょうぎ",
-		playBoard: "ごろごろどうぶつしょうぎ",
-		useStand: true,
-		playPieces: [
-			{game: "どうぶつしょうぎ", pieceSet: "default"},
-			{game: "どうぶつしょうぎ", pieceSet: "default"}
-		],
-		run(options){return run({...options, ...this})}
-	},
-	daiShogi: {
-		name: "大将棋",
-		playBoard: "古将棋15x15",
-		useStand: false,
-		playPieces: [
-			{game: "将棋", pieceSet: "大将棋"},
-			{game: "将棋", pieceSet: "大将棋2p"}
-		],
-		run(options){return run({...options, ...this})}
-	},
-	shishiShogi: {
-		name: "獅子将棋",
-		playBoard: "古将棋9x9",
-		useStand: false,
-		playPieces: [
-			{game: "将棋", pieceSet: "獅子将棋"},
-			{game: "将棋", pieceSet: "獅子将棋2p"}
-		],
-		run(options){return run({...options, ...this})}
-	},
-	p4Shogi: {
-		name: "四人将棋",
-		playBoard: "将棋",
-		useStand: true,
-		playPieces: [
-			{game: "将棋", pieceSet: "p4"},
-			{game: "将棋", pieceSet: "p4"},
-			{game: "将棋", pieceSet: "p4"},
-			{game: "将棋", pieceSet: "p4"}
-		],
-		run(options){return run({...options, ...this})}
-	},
-	p4Chess: {
-		name: "4人チェス",
-		playBoard: "4人チェス",
-		useStand: false,
-		playPieces: [
-			{game: "チェス", pieceSet: "p4"},
-			{game: "チェス", pieceSet: "p4"},
-			{game: "チェス", pieceSet: "p4"},
-			{game: "チェス", pieceSet: "p4"}
-		],
-		run(options){return run({...options, ...this})}
-	},
-	g4Shogi: {
-		name: "四神将棋",
-		playBoard: "四神将棋",
-		useStand: true,
-		playPieces: [
-			{game: "将棋", pieceSet: "p4"},
-			{game: "将棋", pieceSet: "p4"},
-			{game: "将棋", pieceSet: "p4"},
-			{game: "将棋", pieceSet: "p4"}
-		],
-		run(options){return run({...options, ...this})}
-	},
-	chaturaji: {
-		name: "チャトラジ",
-		playBoard: "チェス",
-		useStand: false,
-		playPieces: [
-			{game: "チャトランガ", pieceSet: "p4"},
-			{game: "チャトランガ", pieceSet: "p4"},
-			{game: "チャトランガ", pieceSet: "p4"},
-			{game: "チャトランガ", pieceSet: "p4"}
-		],
-		run(options){return run({...options, ...this})}
 	}
 };
+
+Object.keys(gameSoft).forEach(key=>{
+	gameSoft[key].run = function(options){
+		return run({...options, ...this})
+	};
+})
+
+export const PlayGames = {
+	...PlayGamesCustom,
+	...gameSoft
+}

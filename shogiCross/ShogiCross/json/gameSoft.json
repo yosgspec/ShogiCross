@@ -1,0 +1,226 @@
+{
+	"shogi": {
+		"name": "将棋",
+		"playBoard": "将棋",
+		"useStand": true,
+		"playPieces": [
+			{"gameName": "将棋", "pieceSet": "default"},
+			{"gameName": "将棋", "pieceSet": "2p"}
+		]
+	},
+	"chess": {
+		"name": "チェス",
+		"playBoard": "チェス",
+		"useStand": false,
+		"playPieces": [
+			{"gameName": "チェス", "pieceSet": "default"},
+			{"gameName": "チェス", "pieceSet": "2p"}
+		]
+	},
+	"xiangq": {
+		"name": "シャンチー",
+		"playBoard": "シャンチー",
+		"useStand": false,
+		"playPieces": [
+			{"gameName": "シャンチー", "pieceSet": "default"},
+			{"gameName": "シャンチー", "pieceSet": "2p"}
+		]
+	},
+	"janggi": {
+		"name": "チャンギ",
+		"playBoard": "チャンギ",
+		"useStand": false,
+		"playPieces": [
+			{"gameName": "チャンギ", "pieceSet": "default"},
+			{"gameName": "チャンギ", "pieceSet": "2p"}
+		]
+	},
+	"makruk": {
+		"name": "マークルック",
+		"playBoard": "マークルック",
+		"useStand": false,
+		"playPieces": [
+			{"gameName": "マークルック", "pieceSet": "default"},
+			{"gameName": "マークルック", "pieceSet": "2p"}
+		]
+	},
+	"chaturanga": {
+		"name": "チャトランガ",
+		"playBoard": "チェス",
+		"useStand": false,
+		"playPieces": [
+			{"gameName": "チャトランガ", "pieceSet": "default"},
+			{"gameName": "チャトランガ", "pieceSet": "2p"}
+		]
+	},
+	"dobutsuShogi": {
+		"name": "どうぶつしょうぎ",
+		"playBoard": "どうぶつしょうぎ",
+		"useStand": true,
+		"playPieces": [
+			{"gameName": "どうぶつしょうぎ", "pieceSet": "default"},
+			{"gameName": "どうぶつしょうぎ", "pieceSet": "default"}
+		]
+	},
+	"toriShogi": {
+		"name": "禽将棋",
+		"playBoard": "将棋7x7",
+		"useStand": true,
+		"playPieces": [
+			{"gameName": "将棋", "pieceSet": "禽将棋"},
+			{"gameName": "将棋", "pieceSet": "禽将棋"}
+		]
+	},
+	"chuShogi": {
+		"name": "中将棋",
+		"playBoard": "古将棋12x12",
+		"useStand": false,
+		"playPieces": [
+			{"gameName": "将棋", "pieceSet": "中将棋"},
+			{"gameName": "将棋", "pieceSet": "中将棋2p"}
+		]
+	},
+	"asakuraShogi": {
+		"name": "朝倉象棋",
+		"playBoard": "将棋",
+		"useStand": true,
+		"playPieces": [
+			{"gameName": "将棋", "pieceSet": "朝倉象棋"},
+			{"gameName": "将棋", "pieceSet": "朝倉象棋2p"}
+		]
+	},
+	"kyoShogiLeft": {
+		"name": "京将棋(左京配置)",
+		"playBoard": "将棋10x10",
+		"useStand": true,
+		"playPieces": [
+			{"gameName": "将棋", "pieceSet": "京将棋(左京配置)"},
+			{"gameName": "将棋", "pieceSet": "京将棋(左京配置)2p"}
+		]
+	},
+	"kyoShogiRight": {
+		"name": "京将棋(右京配置)",
+		"playBoard": "将棋10x10",
+		"useStand": true,
+		"playPieces": [
+			{"gameName": "将棋", "pieceSet": "京将棋(右京配置)"},
+			{"gameName": "将棋", "pieceSet": "京将棋(右京配置)2p"}
+		]
+	},
+	"e5Shogi": {
+		"name": "5五将棋",
+		"playBoard": "将棋5x5",
+		"useStand": true,
+		"playPieces": [
+			{"gameName": "将棋", "pieceSet": "default"},
+			{"gameName": "将棋", "pieceSet": "2p"}
+		]
+	},
+	"crazyHouse": {
+		"name": "クレージーハウス",
+		"playBoard": "クレージーハウス",
+		"useStand": true,
+		"playPieces": [
+			{"gameName": "チェス", "pieceSet": "default"},
+			{"gameName": "チェス", "pieceSet": "2p"}
+		]
+	},
+	"capablancaChess": {
+		"name": "カパブランカチェス",
+		"playBoard": "チェス10x8",
+		"useStand": false,
+		"playPieces": [
+			{"gameName": "チェス", "pieceSet": "カパブランカチェス"},
+			{"gameName": "チェス", "pieceSet": "カパブランカチェス2p"}
+		]
+	},
+	"grandChess": {
+		"name": "グランドチェス",
+		"playBoard": "チェス10x10",
+		"useStand": false,
+		"playPieces": [
+			{"gameName": "チェス", "pieceSet": "グランドチェス"},
+			{"gameName": "チェス", "pieceSet": "グランドチェス2p"}
+		]
+	},
+	"losAlamosChess": {
+		"name": "ロスアラモスチェス",
+		"playBoard": "チェス6x6",
+		"useStand": false,
+		"playPieces": [
+			{"gameName": "チェス", "pieceSet": "default"},
+			{"gameName": "チェス", "pieceSet": "2p"}
+		]
+	},
+	"gorogoroDobutsuShogi": {
+		"name": "ごろごろどうぶつしょうぎ",
+		"playBoard": "ごろごろどうぶつしょうぎ",
+		"useStand": true,
+		"playPieces": [
+			{"gameName": "どうぶつしょうぎ", "pieceSet": "default"},
+			{"gameName": "どうぶつしょうぎ", "pieceSet": "default"}
+		]
+	},
+	"daiShogi": {
+		"name": "大将棋",
+		"playBoard": "古将棋15x15",
+		"useStand": false,
+		"playPieces": [
+			{"gameName": "将棋", "pieceSet": "大将棋"},
+			{"gameName": "将棋", "pieceSet": "大将棋2p"}
+		]
+	},
+	"shishiShogi": {
+		"name": "獅子将棋",
+		"playBoard": "古将棋9x9",
+		"useStand": false,
+		"playPieces": [
+			{"gameName": "将棋", "pieceSet": "獅子将棋"},
+			{"gameName": "将棋", "pieceSet": "獅子将棋2p"}
+		]
+	},
+	"p4Shogi": {
+		"name": "四人将棋",
+		"playBoard": "将棋",
+		"useStand": true,
+		"playPieces": [
+			{"gameName": "将棋", "pieceSet": "p4"},
+			{"gameName": "将棋", "pieceSet": "p4"},
+			{"gameName": "将棋", "pieceSet": "p4"},
+			{"gameName": "将棋", "pieceSet": "p4"}
+		]
+	},
+	"p4Chess": {
+		"name": "4人チェス",
+		"playBoard": "4人チェス",
+		"useStand": false,
+		"playPieces": [
+			{"gameName": "チェス", "pieceSet": "p4"},
+			{"gameName": "チェス", "pieceSet": "p4"},
+			{"gameName": "チェス", "pieceSet": "p4"},
+			{"gameName": "チェス", "pieceSet": "p4"}
+		]
+	},
+	"g4Shogi": {
+		"name": "四神将棋",
+		"playBoard": "四神将棋",
+		"useStand": true,
+		"playPieces": [
+			{"gameName": "将棋", "pieceSet": "p4"},
+			{"gameName": "将棋", "pieceSet": "p4"},
+			{"gameName": "将棋", "pieceSet": "p4"},
+			{"gameName": "将棋", "pieceSet": "p4"}
+		]
+	},
+	"chaturaji": {
+		"name": "チャトラジ",
+		"playBoard": "チェス",
+		"useStand": false,
+		"playPieces": [
+			{"gameName": "チャトランガ", "pieceSet": "p4"},
+			{"gameName": "チャトランガ", "pieceSet": "p4"},
+			{"gameName": "チャトランガ", "pieceSet": "p4"},
+			{"gameName": "チャトランガ", "pieceSet": "p4"}
+		]
+	}
+}

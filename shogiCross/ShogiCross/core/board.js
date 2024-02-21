@@ -1,4 +1,4 @@
-import {canvasFont} from "./extendCanvasFont.js";
+import {canvasFont} from "./canvasFontLoader.js";
 import {Piece} from "./piece.js";
 import {Panel} from "./panel.js";
 import {Stand} from "./stand.js";
