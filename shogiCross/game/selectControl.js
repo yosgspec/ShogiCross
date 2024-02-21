@@ -7,7 +7,7 @@ const select = {
 	board: document.getElementById("selectBoard"),
 	stand: document.getElementById("selectStand"),
 	pieces: document.querySelectorAll(".selectPieces"),
-	piecesOther: document.querySelectorAll(".selectPiecesOther")
+	pieceSet: document.querySelectorAll(".selectPieceSet")
 }
 
 // セレクトボックスに追加
@@ -50,7 +50,7 @@ function changeCrossGame(){
 /** クロス駒配置パターン */
 function changeCrossPiece(piecesName, i){
 	const game = select.pieces[i];
-	const other = select.piecesOther[i];
+	const other = select.pieceSet[i];
 	return function(){
 		other.innerHTML = "";
 		if(!games[game.value]) return;
@@ -75,7 +75,7 @@ export class SelectControl{
 			useStand: JSON.parse(select.stand.value),
 			playPieces: [...select.pieces].map((pieces, i)=>({
 				game: pieces.value,
-				other: select.piecesOther[i].value
+				pieceSet: select.pieceSet[i].value
 			}))
 		}
 	}
@@ -87,7 +87,7 @@ export class SelectControl{
 		select.pieces.forEach((p, i)=>{
 			select.pieces[i].addEventListener("change", changeCrossPiece(p.value, i));
 			select.pieces[i].addEventListener("change", value);
-			select.piecesOther[i].addEventListener("change", value);
+			select.pieceSet[i].addEventListener("change", value);
 		})
 	}
 }

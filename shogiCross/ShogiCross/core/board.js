@@ -123,16 +123,16 @@ export class Board{
 
 	/** 駒の初期配置
 	 * {number} playerId - プレイヤー番号
-	 * {string} pieceSet - 駒の配置セット
-	 * {string} ptn - 駒の配置パターン変更
+	 * {string} gameName - 駒の配置セット
+	 * {string} pieceSet - 駒の配置パターン変更
 	 */
-	putStartPieces(playerId, pieceSet, ptn="default"){
+	putStartPieces(playerId, gameName, pieceSet="default"){
 		const {pieces} = this;
 
 		const deg = 0|playerId*360/this.players;
 		this.rotateField(deg);
-		const pos = games[pieceSet].position[this.xLen][ptn];
-		if(!pos) throw Error(`games["${pieceSet}"].position["${this.xLen}"]["${ptn}"]is null.`);
+		const pos = games[gameName].position[this.xLen][pieceSet];
+		if(!pos) throw Error(`games["${gameName}"].position["${this.xLen}"]["${pieceSet}"]is null.`);
 		pos.forEach((row, i)=>{
 			if(row.length < this.xLen) throw Error(row.join(""));
 			const pY = i+this.yLen - pos.length;

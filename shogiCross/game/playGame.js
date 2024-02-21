@@ -5,7 +5,7 @@ import {boardTemplate} from "./boardTemplate.js"
  * @param {HTMLCanvasElement}} canvas
  * @param {string} playBoard - 使用するボード
  * @param {boolean} useStand - 駒台の使用有無
- * @param {{game: string, other: string}[]} playPieces - プレイヤー毎の駒情報
+ * @param {{game: string, pieceSet: string}[]} playPieces - プレイヤー毎の駒情報
  * @param {(Board)=>void} onDrawed - 描写イベント
  * @returns Board
  */
@@ -20,10 +20,10 @@ function run({canvas, playBoard, useStand, playPieces, onDrawed}){
 		...boardTemplate(xLen)
 	});
 	// 駒を配置
-	playPieces.forEach(({game, other}, i)=>{
-		if(!game || !other) return;
+	playPieces.forEach(({game, pieceSet}, i)=>{
+		if(!game || !pieceSet) return;
 		try{
-			board.putStartPieces(i, game, other);
+			board.putStartPieces(i, game, pieceSet);
 		}
 		catch{}
 	});
@@ -72,8 +72,8 @@ export const PlayGames = {
 		playBoard: "将棋",
 		useStand: true,
 		playPieces: [
-			{game: "将棋", other: "default"},
-			{game: "将棋", other: "2p"}
+			{game: "将棋", pieceSet: "default"},
+			{game: "将棋", pieceSet: "2p"}
 		],
 		run(options){return run({...options, ...this})}
 	},
@@ -82,8 +82,8 @@ export const PlayGames = {
 		playBoard: "チェス",
 		useStand: false,
 		playPieces: [
-			{game: "チェス", other: "default"},
-			{game: "チェス", other: "2p"}
+			{game: "チェス", pieceSet: "default"},
+			{game: "チェス", pieceSet: "2p"}
 		],
 		run(options){return run({...options, ...this})}
 	},
@@ -92,8 +92,8 @@ export const PlayGames = {
 		playBoard: "シャンチー",
 		useStand: false,
 		playPieces: [
-			{game: "シャンチー", other: "default"},
-			{game: "シャンチー", other: "2p"}
+			{game: "シャンチー", pieceSet: "default"},
+			{game: "シャンチー", pieceSet: "2p"}
 		],
 		run(options){return run({...options, ...this})}
 	},
@@ -102,8 +102,8 @@ export const PlayGames = {
 		playBoard: "チャンギ",
 		useStand: false,
 		playPieces: [
-			{game: "チャンギ", other: "default"},
-			{game: "チャンギ", other: "2p"}
+			{game: "チャンギ", pieceSet: "default"},
+			{game: "チャンギ", pieceSet: "2p"}
 		],
 		run(options){return run({...options, ...this})}
 	},
@@ -112,8 +112,8 @@ export const PlayGames = {
 		playBoard: "マークルック",
 		useStand: false,
 		playPieces: [
-			{game: "マークルック", other: "default"},
-			{game: "マークルック", other: "2p"}
+			{game: "マークルック", pieceSet: "default"},
+			{game: "マークルック", pieceSet: "2p"}
 		],
 		run(options){return run({...options, ...this})}
 	},
@@ -122,8 +122,8 @@ export const PlayGames = {
 		playBoard: "チェス",
 		useStand: false,
 		playPieces: [
-			{game: "チャトランガ", other: "default"},
-			{game: "チャトランガ", other: "2p"}
+			{game: "チャトランガ", pieceSet: "default"},
+			{game: "チャトランガ", pieceSet: "2p"}
 		],
 		run(options){return run({...options, ...this})}
 	},
@@ -132,8 +132,8 @@ export const PlayGames = {
 		playBoard: "どうぶつしょうぎ",
 		useStand: true,
 		playPieces: [
-			{game: "どうぶつしょうぎ", other: "default"},
-			{game: "どうぶつしょうぎ", other: "default"}
+			{game: "どうぶつしょうぎ", pieceSet: "default"},
+			{game: "どうぶつしょうぎ", pieceSet: "default"}
 		],
 		run(options){return run({...options, ...this})}
 	},
@@ -142,8 +142,8 @@ export const PlayGames = {
 		playBoard: "将棋7x7",
 		useStand: true,
 		playPieces: [
-			{game: "将棋", other: "禽将棋"},
-			{game: "将棋", other: "禽将棋"}
+			{game: "将棋", pieceSet: "禽将棋"},
+			{game: "将棋", pieceSet: "禽将棋"}
 		],
 		run(options){return run({...options, ...this})}
 	},
@@ -152,8 +152,8 @@ export const PlayGames = {
 		playBoard: "古将棋12x12",
 		useStand: false,
 		playPieces: [
-			{game: "将棋", other: "中将棋"},
-			{game: "将棋", other: "中将棋2p"}
+			{game: "将棋", pieceSet: "中将棋"},
+			{game: "将棋", pieceSet: "中将棋2p"}
 		],
 		run(options){return run({...options, ...this})}
 	},
@@ -162,8 +162,8 @@ export const PlayGames = {
 		playBoard: "将棋",
 		useStand: true,
 		playPieces: [
-			{game: "将棋", other: "朝倉象棋"},
-			{game: "将棋", other: "朝倉象棋2p"}
+			{game: "将棋", pieceSet: "朝倉象棋"},
+			{game: "将棋", pieceSet: "朝倉象棋2p"}
 		],
 		run(options){return run({...options, ...this})}
 	},
@@ -172,8 +172,8 @@ export const PlayGames = {
 		playBoard: "将棋10x10",
 		useStand: true,
 		playPieces: [
-			{game: "将棋", other: "京将棋(左京配置)"},
-			{game: "将棋", other: "京将棋(左京配置)2p"}
+			{game: "将棋", pieceSet: "京将棋(左京配置)"},
+			{game: "将棋", pieceSet: "京将棋(左京配置)2p"}
 		],
 		run(options){return run({...options, ...this})}
 	},
@@ -182,8 +182,8 @@ export const PlayGames = {
 		playBoard: "将棋10x10",
 		useStand: true,
 		playPieces: [
-			{game: "将棋", other: "京将棋(右京配置)"},
-			{game: "将棋", other: "京将棋(右京配置)2p"}
+			{game: "将棋", pieceSet: "京将棋(右京配置)"},
+			{game: "将棋", pieceSet: "京将棋(右京配置)2p"}
 		],
 		run(options){return run({...options, ...this})}
 	},
@@ -192,8 +192,8 @@ export const PlayGames = {
 		playBoard: "将棋5x5",
 		useStand: true,
 		playPieces: [
-			{game: "将棋", other: "default"},
-			{game: "将棋", other: "2p"}
+			{game: "将棋", pieceSet: "default"},
+			{game: "将棋", pieceSet: "2p"}
 		],
 		run(options){return run({...options, ...this})}
 	},
@@ -202,8 +202,8 @@ export const PlayGames = {
 		playBoard: "クレージーハウス",
 		useStand: true,
 		playPieces: [
-			{game: "チェス", other: "default"},
-			{game: "チェス", other: "2p"}
+			{game: "チェス", pieceSet: "default"},
+			{game: "チェス", pieceSet: "2p"}
 		],
 		run(options){return run({...options, ...this})}
 	},
@@ -212,8 +212,8 @@ export const PlayGames = {
 		playBoard: "チェス10x8",
 		useStand: false,
 		playPieces: [
-			{game: "チェス", other: "カパブランカチェス"},
-			{game: "チェス", other: "カパブランカチェス2p"}
+			{game: "チェス", pieceSet: "カパブランカチェス"},
+			{game: "チェス", pieceSet: "カパブランカチェス2p"}
 		],
 		run(options){return run({...options, ...this})}
 	},
@@ -222,8 +222,8 @@ export const PlayGames = {
 		playBoard: "チェス10x10",
 		useStand: false,
 		playPieces: [
-			{game: "チェス", other: "グランドチェス"},
-			{game: "チェス", other: "グランドチェス2p"}
+			{game: "チェス", pieceSet: "グランドチェス"},
+			{game: "チェス", pieceSet: "グランドチェス2p"}
 		],
 		run(options){return run({...options, ...this})}
 	},
@@ -232,8 +232,8 @@ export const PlayGames = {
 		playBoard: "チェス6x6",
 		useStand: false,
 		playPieces: [
-			{game: "チェス", other: "default"},
-			{game: "チェス", other: "2p"}
+			{game: "チェス", pieceSet: "default"},
+			{game: "チェス", pieceSet: "2p"}
 		],
 		run(options){return run({...options, ...this})}
 	},
@@ -242,8 +242,8 @@ export const PlayGames = {
 		playBoard: "ごろごろどうぶつしょうぎ",
 		useStand: true,
 		playPieces: [
-			{game: "どうぶつしょうぎ", other: "default"},
-			{game: "どうぶつしょうぎ", other: "default"}
+			{game: "どうぶつしょうぎ", pieceSet: "default"},
+			{game: "どうぶつしょうぎ", pieceSet: "default"}
 		],
 		run(options){return run({...options, ...this})}
 	},
@@ -252,8 +252,8 @@ export const PlayGames = {
 		playBoard: "古将棋15x15",
 		useStand: false,
 		playPieces: [
-			{game: "将棋", other: "大将棋"},
-			{game: "将棋", other: "大将棋2p"}
+			{game: "将棋", pieceSet: "大将棋"},
+			{game: "将棋", pieceSet: "大将棋2p"}
 		],
 		run(options){return run({...options, ...this})}
 	},
@@ -262,8 +262,8 @@ export const PlayGames = {
 		playBoard: "古将棋9x9",
 		useStand: false,
 		playPieces: [
-			{game: "将棋", other: "獅子将棋"},
-			{game: "将棋", other: "獅子将棋2p"}
+			{game: "将棋", pieceSet: "獅子将棋"},
+			{game: "将棋", pieceSet: "獅子将棋2p"}
 		],
 		run(options){return run({...options, ...this})}
 	},
@@ -272,10 +272,10 @@ export const PlayGames = {
 		playBoard: "将棋",
 		useStand: true,
 		playPieces: [
-			{game: "将棋", other: "p4"},
-			{game: "将棋", other: "p4"},
-			{game: "将棋", other: "p4"},
-			{game: "将棋", other: "p4"}
+			{game: "将棋", pieceSet: "p4"},
+			{game: "将棋", pieceSet: "p4"},
+			{game: "将棋", pieceSet: "p4"},
+			{game: "将棋", pieceSet: "p4"}
 		],
 		run(options){return run({...options, ...this})}
 	},
@@ -284,10 +284,10 @@ export const PlayGames = {
 		playBoard: "4人チェス",
 		useStand: false,
 		playPieces: [
-			{game: "チェス", other: "p4"},
-			{game: "チェス", other: "p4"},
-			{game: "チェス", other: "p4"},
-			{game: "チェス", other: "p4"}
+			{game: "チェス", pieceSet: "p4"},
+			{game: "チェス", pieceSet: "p4"},
+			{game: "チェス", pieceSet: "p4"},
+			{game: "チェス", pieceSet: "p4"}
 		],
 		run(options){return run({...options, ...this})}
 	},
@@ -296,10 +296,10 @@ export const PlayGames = {
 		playBoard: "四神将棋",
 		useStand: true,
 		playPieces: [
-			{game: "将棋", other: "p4"},
-			{game: "将棋", other: "p4"},
-			{game: "将棋", other: "p4"},
-			{game: "将棋", other: "p4"}
+			{game: "将棋", pieceSet: "p4"},
+			{game: "将棋", pieceSet: "p4"},
+			{game: "将棋", pieceSet: "p4"},
+			{game: "将棋", pieceSet: "p4"}
 		],
 		run(options){return run({...options, ...this})}
 	},
@@ -308,10 +308,10 @@ export const PlayGames = {
 		playBoard: "チェス",
 		useStand: false,
 		playPieces: [
-			{game: "チャトランガ", other: "p4"},
-			{game: "チャトランガ", other: "p4"},
-			{game: "チャトランガ", other: "p4"},
-			{game: "チャトランガ", other: "p4"}
+			{game: "チャトランガ", pieceSet: "p4"},
+			{game: "チャトランガ", pieceSet: "p4"},
+			{game: "チャトランガ", pieceSet: "p4"},
+			{game: "チャトランガ", pieceSet: "p4"}
 		],
 		run(options){return run({...options, ...this})}
 	}
