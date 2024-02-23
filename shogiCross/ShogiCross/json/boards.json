@@ -198,6 +198,37 @@
 			"ddddd"
 		]
 	},
+	"古将棋8x8": {
+		"backgroundColor": "#EECC88",
+		"borderColor": "#333333",
+		"borderWidth": 2,
+		"field": [
+			"ssssssss",
+			"ssssssss",
+			"ssssssss",
+			"ssssssss",
+			"ssssssss",
+			"ssssssss",
+			"ssssssss",
+			"ssssssss"
+		]
+	},
+	"古将棋9x8": {
+		"backgroundColor": "#EECC88",
+		"borderColor": "#333333",
+		"borderWidth": 2,
+		"field": [
+			"sssssssss",
+			"sssssssss",
+			"sssssssss",
+			"sssssssss",
+			"sssssssss",
+			"sssssssss",
+			"sssssssss",
+			"sssssssss"
+
+		]
+	},
 	"古将棋9x9": {
 		"backgroundColor": "#EECC88",
 		"borderColor": "#333333",

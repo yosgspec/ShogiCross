@@ -85,8 +85,8 @@
 		"playBoard": "将棋",
 		"useStand": true,
 		"playPieces": [
-			{"gameName": "将棋", "pieceSet": "朝倉象棋"},
-			{"gameName": "将棋", "pieceSet": "朝倉象棋2p"}
+			{"gameName": "将棋", "pieceSet": "小将棋"},
+			{"gameName": "将棋", "pieceSet": "小将棋2p"}
 		]
 	},
 	"kyoShogiLeft": {
@@ -177,6 +177,42 @@
 		"playPieces": [
 			{"gameName": "将棋", "pieceSet": "獅子将棋"},
 			{"gameName": "将棋", "pieceSet": "獅子将棋2p"}
+		]
+	},
+	"shoShogi": {
+		"name": "小将棋",
+		"playBoard": "将棋",
+		"useStand": false,
+		"playPieces": [
+			{"gameName": "将棋", "pieceSet": "小将棋"},
+			{"gameName": "将棋", "pieceSet": "小将棋2p"}
+		]
+	},
+	"heianShogi8x8": {
+		"name": "平安将棋(8x8)",
+		"playBoard": "古将棋8x8",
+		"useStand": false,
+		"playPieces": [
+			{"gameName": "将棋", "pieceSet": "平安将棋"},
+			{"gameName": "将棋", "pieceSet": "平安将棋2p"}
+		]
+	},
+	"heianShogi9x8": {
+		"name": "平安将棋(9x8)",
+		"playBoard": "古将棋9x8",
+		"useStand": false,
+		"playPieces": [
+			{"gameName": "将棋", "pieceSet": "平安将棋"},
+			{"gameName": "将棋", "pieceSet": "平安将棋2p"}
+		]
+	},
+	"heianShogi9x9": {
+		"name": "平安将棋(9x9)",
+		"playBoard": "古将棋9x9",
+		"useStand": false,
+		"playPieces": [
+			{"gameName": "将棋", "pieceSet": "平安将棋"},
+			{"gameName": "将棋", "pieceSet": "平安将棋2p"}
 		]
 	},
 	"p4Shogi": {

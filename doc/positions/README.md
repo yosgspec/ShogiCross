@@ -19,13 +19,23 @@
 ![](img/03_京将棋左京配置.png)  
 ![](img/03_京将棋右京配置.png)
 
+### [小将棋](https://ja.wikipedia.org/wiki/%E5%B0%8F%E5%B0%86%E6%A3%8B)
+中将棋から駒を取り入れて原点回帰した平安将棋。持ち駒なし。  
+![](img/04_小将棋.png)
+
+### [平安将棋](https://ja.wikipedia.org/wiki/%E5%B9%B3%E5%AE%89%E5%B0%86%E6%A3%8B)
+記録が残る最古の日本の将棋。盤の大きさに緒説ある。持ち駒なし。  
+![](img/05_平安将棋8x8.png)  
+![](img/05_平安将棋9x8.png)  
+![](img/05_平安将棋9x9.png)
+
 ### [四人将棋](https://ja.wikipedia.org/wiki/%E5%9B%9B%E4%BA%BA%E5%B0%86%E6%A3%8B)
 4人用の将棋。持ち駒あり。  
-![](img/04_四人将棋.png)
+![](img/06_四人将棋.png)
 
 ### [四神将棋](https://ja.wikipedia.org/wiki/%E5%9B%9B%E7%A5%9E%E5%B0%86%E6%A3%8B)
 テレビ用の企画として考案された4人用の将棋。持ち駒あり。  
-![](img/05_四神将棋.png)
+![](img/07_四神将棋.png)
 </details>
 
 ## [チェス](https://ja.wikipedia.org/wiki/%E3%83%81%E3%82%A7%E3%82%B9)
