@@ -99,7 +99,8 @@
 		"range": {
 			"default": "歩",
 			"start": "二",
-			"attack": "兵"
+			"attack": "兵",
+			"enPassant": "通"
 		},
 		"promo": "妃騏城僧"
 	},
@@ -954,6 +955,7 @@
 		"gameName": "将棋",
 		"expansion": "大将棋",
 		"unit": "兵",
+		"forcePromoLine": -1,
 		"range": {
 			"default": "兵"
 		},
@@ -966,6 +968,7 @@
 		"gameName": "将棋",
 		"expansion": "大将棋",
 		"unit": "兵",
+		"forcePromoLine": -1,
 		"range": {
 			"default": "鉄"
 		},

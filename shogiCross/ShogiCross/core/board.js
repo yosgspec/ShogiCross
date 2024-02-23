@@ -3,6 +3,7 @@ import {Piece} from "./piece.js";
 import {Panel} from "./panel.js";
 import {Stand} from "./stand.js";
 import {uIControl} from "./uiControl.js";
+import {EnPassant} from "./enPassant.js";
 import boards from "../json/boards.json" assert {type: "json"};
 import games from "../json/games.json" assert {type: "json"};
 
@@ -87,6 +88,7 @@ export class Board{
 
 		this.record = [];
 		this.uiControl = uIControl(this);
+		this.enPassant = new EnPassant();
 	}
 
 	/** ボードを閉じる */
@@ -238,6 +240,25 @@ export class Board{
 		);
 	}
 
+	/** 角度基準のパネルの列を取得する
+	 * @param {Panel} panel - パネル
+	 * @param {number} deg - 角度
+	 * @param {number} offsetDeg - 補正角度
+	 * @returns {number}
+	 */
+	getCol(pX, pY, deg, offsetDeg=0){
+		const {xLen, yLen} = this;
+		deg += offsetDeg;
+		do{deg = (deg+360)%360} while(deg<0);
+		return (
+			deg === 0? pX:
+			deg === 90? yLen-1-pY:
+			deg === 180? xLen-1-pX:
+			deg === 270? pY:
+			-1
+		);
+	}
+
 	/** プロモーションエリア内であるか判別
 	 * @param {Panel} panel - パネル
 	 */
@@ -275,18 +296,17 @@ export class Board{
 	 * @param {Panel} toPanel - 選択中のパネル
 	 */
 	movePiece(fromPanel, toPanel){
-		const {freeMode} = this;
-		if(
-			!fromPanel ||
-			toPanel.hasAttr("keepOut") ||
-			toPanel.piece === fromPanel.piece ||
-			toPanel.piece?.deg === fromPanel.piece.deg ||
-			!this.freeMode && !toPanel.isTarget
+		const {stand, freeMode, enPassant} = this;
+		if(!fromPanel
+			|| toPanel.hasAttr("keepOut")
+			|| toPanel.piece === fromPanel.piece
+			|| toPanel.piece?.deg === fromPanel.piece.deg
+			|| !this.freeMode && !toPanel.isTarget
 		) return;
 
 		let {canPromo, forcePromo} = this.checkCanPromo(fromPanel);
 
-		this.stand.capturePiece(
+		stand.capturePiece(
 			fromPanel.piece,
 			toPanel.piece,
 			toPanel.hasAttr("capture"),
@@ -304,6 +324,9 @@ export class Board{
 		const afterPromo = this.checkCanPromo(toPanel);
 		canPromo ||= afterPromo.canPromo;
 		forcePromo ||= afterPromo.forcePromo;
+
+		// アンパッサン
+		enPassant.setPiece(toPanel);
 
 		// プロモーション処理
 		if(!piece.promo || piece.hasAttr("promoted") || !canPromo) return;

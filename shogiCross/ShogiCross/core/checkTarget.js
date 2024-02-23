@@ -9,7 +9,7 @@ import {Piece} from "./piece.js";
  * @returns
  */
 export function checkTarget(board, piece, pX, pY){
-	const {field, yLen} = board;
+	const {field, yLen, enPassant} = board;
 
 	// 移動範囲オプション
 	const rangeKeys = [
@@ -17,6 +17,7 @@ export function checkTarget(board, piece, pX, pY){
 		["start", {isAttack: false}],
 		["attack", {isAttack: true}],
 		["castling", {isAttack: false}],
+		["enPassant", {isAttack: true}],
 		["palaceRight", {isAttack: false}],
 		["palaceRight", {isAttack: false}],
 		["palaceRight", {isAttack: true}],
@@ -111,6 +112,17 @@ export function checkTarget(board, piece, pX, pY){
 		return false;
 	}
 
+	/** 移動先表示を設定
+	 * @param {number} x - 判定するパネルの列
+	 * @param {number} y - 判定するパネルの行
+	 */
+	function setTarget(rangeKey, x, y){
+		const panel = field[y][x];
+		if(!enPassant.checkPanel(panel)) return;
+		panel.isTarget = true;
+		enPassant.setPanel(rangeKey, panel, piece);
+	}
+
 	// メイン処理
 	(function(){
 		const range = piece.getRange();
@@ -127,13 +139,11 @@ export function checkTarget(board, piece, pX, pY){
 				for(let rY=0;rY<rng.length;rY++){
 					for(let rX=0;rX<rng[rY].length;rX++){
 						const [x, y] = [rX+pX-oX, rY+pY-oY];
-						if(
-							!inField(x, y) ||
-							!canMove(isAttack, x, y, key) ||
-							rng[rY][rX] !== parent ||
-							existsChild(rng, child, false, oX, oY)
-						) continue;
-						field[y][x].isTarget = true;
+						if(!inField(x, y)
+							|| !canMove(isAttack, x, y, key)
+							|| rng[rY][rX] !== parent
+							|| existsChild(rng, child, false, oX, oY)) continue;
+						setTarget(key, x, y);
 					}
 				}
 			}
@@ -154,7 +164,7 @@ export function checkTarget(board, piece, pX, pY){
 							const isJumped = 0 === jmpCnt;
 							if(isJumped && canMove(isAttack, x, y, key, isJumped)){
 								moveCnt--
-								field[y][x].isTarget = true
+								setTarget(key, x, y);
 							};
 							if(field[y][x].piece){
 								jmpCnt--;

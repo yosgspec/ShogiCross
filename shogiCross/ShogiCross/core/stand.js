@@ -63,12 +63,11 @@ export class Stand{
 	 */
 	capturePiece(winnerPiece, loserPiece, forceCapture=false, forceCantCapture=false){
 		const hasAttr = s=>attr.includes(s);
-		if(
-			forceCantCapture ||
-			!loserPiece ||
-			!(forceCapture || winnerPiece.hasAttr("capture"))  ||
-			loserPiece.hasAttr("king") ||
-			loserPiece.hasAttr("cantCapture")
+		if(forceCantCapture
+			|| !loserPiece
+			|| !(forceCapture || winnerPiece.hasAttr("capture"))
+			|| loserPiece.hasAttr("king")
+			|| loserPiece.hasAttr("cantCapture")
 		) return;
 
 		loserPiece.deg = winnerPiece.deg;
