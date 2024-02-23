@@ -46,7 +46,10 @@ http://tool.yosgspec.com/shogiCross/simple/
 * [Noto Serif Black](https://fonts.google.com/noto/specimen/Noto+Serif?noto.query=serif)
 * [Noto Serif TC Black](https://fonts.google.com/noto/specimen/Noto+Serif+TC?noto.query=serif+tc)
 
-本来は楷書体が適切だと考えるが文字の網羅性と扱いやすさからNotoフォントで統一した。
+本来は楷書体が適切だと考えるが文字の網羅性と扱いやすさからNotoフォントで統一。
+
+## ライセンス
+CC0またはパブリックドメイン。
 
 ## その他
 その他不足情報があれば、下記を参照。  
