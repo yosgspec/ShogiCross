@@ -297,6 +297,7 @@ export class Board{
 	 */
 	movePiece(fromPanel, toPanel){
 		const {stand, freeMode, enPassant} = this;
+
 		if(!fromPanel
 			|| toPanel.hasAttr("keepOut")
 			|| toPanel.piece === fromPanel.piece
@@ -326,7 +327,7 @@ export class Board{
 		forcePromo ||= afterPromo.forcePromo;
 
 		// アンパッサン
-		enPassant.setPiece(toPanel);
+		enPassant.setMoved(toPanel);
 
 		// プロモーション処理
 		if(!piece.promo || piece.hasAttr("promoted") || !canPromo) return;

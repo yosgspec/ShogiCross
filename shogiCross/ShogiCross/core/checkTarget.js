@@ -118,9 +118,9 @@ export function checkTarget(board, piece, pX, pY){
 	 */
 	function setTarget(rangeKey, x, y){
 		const panel = field[y][x];
-		if(!enPassant.checkPanel(panel)) return;
+		if(!enPassant.isTarget(panel)) return;
 		panel.isTarget = true;
-		enPassant.setPanel(rangeKey, panel, piece);
+		enPassant.setTarget(rangeKey, panel, piece);
 	}
 
 	// メイン処理
