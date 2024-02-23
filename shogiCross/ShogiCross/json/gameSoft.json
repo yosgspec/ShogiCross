@@ -194,7 +194,7 @@
 		"useStand": false,
 		"playPieces": [
 			{"gameName": "将棋", "pieceSet": "平安将棋"},
-			{"gameName": "将棋", "pieceSet": "平安将棋2p"}
+			{"gameName": "将棋", "pieceSet": "平安将棋"}
 		]
 	},
 	"heianShogi9x8": {
@@ -203,7 +203,7 @@
 		"useStand": false,
 		"playPieces": [
 			{"gameName": "将棋", "pieceSet": "平安将棋"},
-			{"gameName": "将棋", "pieceSet": "平安将棋2p"}
+			{"gameName": "将棋", "pieceSet": "平安将棋"}
 		]
 	},
 	"heianShogi9x9": {
@@ -212,7 +212,7 @@
 		"useStand": false,
 		"playPieces": [
 			{"gameName": "将棋", "pieceSet": "平安将棋"},
-			{"gameName": "将棋", "pieceSet": "平安将棋2p"}
+			{"gameName": "将棋", "pieceSet": "平安将棋"}
 		]
 	},
 	"p4Shogi": {
