@@ -45,7 +45,7 @@ Canvasサイズやパネルサイズを定義
 #### core/
 ゲームの中心機能を構成するプログラム類
 
-##### extendCanvasFonts.js
+##### canvasFontsLoader.js
 Canvas用のGoogleフォントローダー
 
 ##### board.js
@@ -59,6 +59,9 @@ Canvas用のGoogleフォントローダー
 
 ##### stand.js
 駒台を構成
+
+##### enPassant.js
+アンパッサンに冠する情報を管理
 
 ##### uiControl.js
 マウスなどゲームの操作を構成
@@ -109,17 +112,17 @@ SVGで将棋駒を描写しようとしたなにか
 ## paper/
 ペーパークラフト関連ディレクトリ
 
-### work/
-作業ディレクトリ
-
 ### dist/
 公開用のペーパークラフトデータ
+
+## work/
+作業ディレクトリ
 
 ## README.md
 プロジェクト全体のドキュメント
 
 ## LICENSE
-Unlicence、つまりパブリックドメイン(CC0)
+CC0、いわゆるパブリックドメイン
 
 ## gff.sh
 getFontFilter.pyを簡易的なコマンド呼べるようにするだけのシェルスクリプト
