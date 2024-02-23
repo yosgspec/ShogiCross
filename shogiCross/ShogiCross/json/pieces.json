@@ -836,6 +836,7 @@
 		"gameName": "将棋",
 		"expansion": "中将棋",
 		"unit": "車",
+		"forcePromoLine": -1,
 		"range": {
 			"default": "香"
 		},
