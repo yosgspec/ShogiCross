@@ -40,10 +40,13 @@ export class Stand{
 	 * @param {number} i - 配置する持ち駒のインデックス
 	 */
 	releasePiece(toPanel, {deg, i}){
+		const {board} = this;
+
 		const stock = this.stocks[deg];
 		toPanel.piece = stock[i];
 		stock[i].center = toPanel.center;
 		stock[i].middle = toPanel.middle;
+		board.addRecord(toPanel, {end: "打"});
 		stock.splice(i,1);
 	}
 
@@ -62,7 +65,6 @@ export class Stand{
 	 * @param {Piece} loserPiece - 捕縛される駒
 	 */
 	capturePiece(winnerPiece, loserPiece, forceCapture=false, forceCantCapture=false){
-		const hasAttr = s=>attr.includes(s);
 		if(forceCantCapture
 			|| !loserPiece
 			|| !(forceCapture || winnerPiece.hasAttr("capture"))

@@ -330,18 +330,63 @@ export class Board{
 		enPassant.setMoved(toPanel);
 
 		// プロモーション処理
-		if(!piece.promo || piece.hasAttr("promoted") || !canPromo) return;
+		if(!piece.promo || piece.hasAttr("promoted") || !canPromo){
+			this.addRecord(toPanel, {fromPanel});
+			return
+		};
 		do{
 			for(const [char, {name}] of Object.entries(piece.promo)){
 				if(confirm(`成りますか?
 	${piece.char}:${piece.name}
 	　↓
 	${char}:${name}`)){
+					this.addRecord(toPanel, {fromPanel, end:"成"});
 					piece.promotion(char);
 					return;
 				}
 			}
 		} while(!freeMode && forcePromo);
+		this.addRecord(toPanel, {fromPanel, end:"不成"});
+	}
+
+	/** 棋譜を追記
+	 * @param {Panel} toPanel - 移動先のパネル
+	 * @param {Panel} fromPanel - 移動元のパネル
+	 * @param {string} end - オプション=成|不成|打
+	 */
+	addRecord(toPanel, {fromPanel, end=""}={}){
+		const {piece} = toPanel;
+		this.record.push({
+			to: {
+				pX: toPanel.pX,
+				pY: toPanel.pY,
+			},
+			from: {
+				pX: fromPanel?.pX,
+				pY: fromPanel?.pY
+			},
+			deg: piece.deg,
+			pieceChar: piece.char,
+			end
+		});
+	}
+
+	/** 棋譜をテキストで取得
+	 * @returns {string}
+	 */
+	getTextRecord(){
+		const getPX = ({pX})=> pX==null? "*": (this.xLen-pX).toString(36);
+		const getPY = ({pY})=> pY==null? "*": (pY+1).toString(36);
+		return this.record.map(
+			({to, from, deg, pieceChar, end})=>`${
+				Piece.degChars[deg]}${
+				getPX(to)}${
+				getPY(to)}${
+				pieceChar}${
+				end} (${
+				getPX(from)},${
+				getPY(from)})`
+		).join("\n");
 	}
 
 	/** 盤を描写 */

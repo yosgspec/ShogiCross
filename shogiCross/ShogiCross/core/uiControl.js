@@ -18,10 +18,12 @@ export function uIControl(board){
 	 *     panel: Panel,
 	 *     x: number,
 	 *     y: number,
-	 *     pX: number,
-	 *     pY: number
-	 * )=>void} fn - コールバック関数
-	 */
+	 * )=>void} fnPanel - マス目のコールバック関数
+	 * @param {(
+	 *     x: number,
+	 *     y: number,
+	 * )=>void} fnAfter - 後処理のコールバック関数
+     */
 	const fieldProc = (e, fnPanel, fnAfter=()=>{})=>{
 		const rect = e.target.getBoundingClientRect();
 		let x;
@@ -53,12 +55,14 @@ export function uIControl(board){
 	const dragStart = e=>{
 		isClick = true;
 		fieldProc(e,
-			(panel, x, y, pX, pY)=>{
-				if(panel.piece && panel.checkRangeMouse(x, y)){
+			(panel, x, y)=>{
+				const {piece, pX, pY} = panel;
+
+				if(piece && panel.checkRangeMouse(x, y)){
 					e.preventDefault();
-					panel.piece.isSelected = true;
+					piece.isSelected = true;
 					selectPanel = panel;
-					checkTarget(board, panel.piece, pX, pY);
+					checkTarget(board, piece, pX, pY);
 				}
 			},
 			(x, y)=>{
@@ -93,10 +97,10 @@ export function uIControl(board){
 	const dragEnd = e=>{
 		isClick = false;
 		fieldProc(e,
-			(panel, x, y, pX, pY)=>{
+			(panel, x, y)=>{
 				if(!panel.checkRangeMouse(x, y)) return;
 				if(selectPanel){
-					board.movePiece(selectPanel, panel, pX, pY);
+					board.movePiece(selectPanel, panel);
 				}
 				if(selectStand && !panel.piece){
 					board.stand.releasePiece(panel, selectStand);

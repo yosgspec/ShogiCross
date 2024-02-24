@@ -100,7 +100,7 @@ TCGのパックもどきをやるのに使用。
 #### [BBEST ラベル用紙 A4](https://www.amazon.co.jp/gp/product/B09BZ91LY3)
 ラベルシール。大箱をこれでデコっても良い。
 
-## 画像
+## 参考画像
 ### 大将棋
 醉象を並べ忘れてる。  
 ![](./img/daiShogi.jpg)
