@@ -45,11 +45,10 @@ export class EnPassant{
 	 * @param {Panel} panel - アンパッサン対象と成りうるマス目
 	 * @returns {boolean}
 	 */
-	isTarget(rangeKey, panel){
-		const {piece} = panel;
-		return !piece
-			|| !piece.hasAttr("enPassant")
-			|| rangeKey !== "enPassant"
-			|| piece === this.degs[piece.deg].piece;
+	isTarget(rangeKey, panel, piece){
+		if(!panel.piece) return true;
+		if(rangeKey === "enPassant" && !panel.piece.hasAttr("enPassant")) return false;
+		return piece.char === panel.piece.char
+			&& panel.piece === this.degs[panel.piece.deg].piece;
 	}
 }
