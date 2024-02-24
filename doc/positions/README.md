@@ -29,17 +29,48 @@
 ![](img/05_平安将棋9x8.png)  
 ![](img/05_平安将棋9x9.png)
 
+
+### [小京将棋](https://ja.wikipedia.org/wiki/%E4%BA%AC%E5%B0%86%E6%A3%8B)
+桂馬を京翔へ置き換えた本将棋。左右の配置が存在。持ち駒あり。  
+![](img/06_小京将棋左置換.png)  
+![](img/06_小京将棋右置換.png)
+
+### [山車将棋](https://ja.wikipedia.org/wiki/%E4%BA%AC%E5%B0%86%E6%A3%8B)
+香車を山車へ置き換えた本将棋。左右の配置が存在。持ち駒あり。  
+![](img/07_山車将棋左置換.png)  
+![](img/07_山車将棋右置換.png)
+
+### [銅将棋](https://ja.wikipedia.org/wiki/%E4%BA%AC%E5%B0%86%E6%A3%8B)
+銀将を銅将へ置き換えた本将棋。左右の配置が存在。持ち駒あり。  
+![](img/08_銅将棋左置換.png)  
+![](img/08_銅将棋右置換.png)
+
+### [金翅将棋](https://ja.wikipedia.org/wiki/%E4%BA%AC%E5%B0%86%E6%A3%8B)
+金将を金翅へ置き換えた本将棋。左右の配置が存在。持ち駒あり。  
+![](img/09_金翅将棋左置換.png)  
+![](img/09_金翅将棋右置換.png)
+
+### [金斗将棋](https://ja.wikipedia.org/wiki/%E4%BA%AC%E5%B0%86%E6%A3%8B)
+金将を金斗へ置き換えた本将棋。左右の配置が存在。持ち駒あり。  
+![](img/0A_金斗将棋左置換.png)  
+![](img/0A_金斗将棋右置換.png)
+
+### [将棋30++](https://ja.wikipedia.org/wiki/%E4%BA%AC%E5%B0%86%E6%A3%8B)
+京将棋系の駒で複数置換した本将棋。左右の配置が存在。持ち駒あり。  
+![](img/0B_将棋30++左全置換.png)  
+![](img/0B_将棋30++右全置換.png)
+
 ### [御妃将棋](https://en.wikipedia.org/wiki/Okisaki_shogi)
 チェスの要素を取り入れた将棋。香車はわざと反車として表示した。持ち駒あり。  
-![](img/06_御妃将棋.png)
+![](img/0C_御妃将棋.png)
 
 ### [四人将棋](https://ja.wikipedia.org/wiki/%E5%9B%9B%E4%BA%BA%E5%B0%86%E6%A3%8B)
 4人用の将棋。持ち駒あり。  
-![](img/07_四人将棋.png)
+![](img/0D_四人将棋.png)
 
 ### [四神将棋](https://ja.wikipedia.org/wiki/%E5%9B%9B%E7%A5%9E%E5%B0%86%E6%A3%8B)
 テレビ用の企画として考案された4人用の将棋。持ち駒あり。  
-![](img/08_四神将棋.png)
+![](img/0E_四神将棋.png)
 </details>
 
 ## [チェス](https://ja.wikipedia.org/wiki/%E3%83%81%E3%82%A7%E3%82%B9)

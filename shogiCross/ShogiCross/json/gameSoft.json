@@ -179,6 +179,114 @@
 			{"gameName": "将棋", "pieceSet": "獅子将棋2p"}
 		]
 	},
+	"shoKyoShogiLeft": {
+		"name": "小京将棋(左置換)",
+		"playBoard": "将棋",
+		"useStand": true,
+		"playPieces": [
+			{"gameName": "将棋", "pieceSet": "小京将棋(左置換)"},
+			{"gameName": "将棋", "pieceSet": "小京将棋(左置換)2p"}
+		]
+	},
+	"shoKyoShogiRight": {
+		"name": "小京将棋(右置換)",
+		"playBoard": "将棋",
+		"useStand": true,
+		"playPieces": [
+			{"gameName": "将棋", "pieceSet": "小京将棋(右置換)"},
+			{"gameName": "将棋", "pieceSet": "小京将棋(右置換)2p"}
+		]
+	},
+	"sanshaShogiLeft": {
+		"name": "山車将棋(左置換)",
+		"playBoard": "将棋",
+		"useStand": true,
+		"playPieces": [
+			{"gameName": "将棋", "pieceSet": "山車将棋(左置換)"},
+			{"gameName": "将棋", "pieceSet": "山車将棋(左置換)2p"}
+		]
+	},
+	"sanshaShogiRight": {
+		"name": "山車将棋(右置換)",
+		"playBoard": "将棋",
+		"useStand": true,
+		"playPieces": [
+			{"gameName": "将棋", "pieceSet": "山車将棋(右置換)"},
+			{"gameName": "将棋", "pieceSet": "山車将棋(右置換)2p"}
+		]
+	},
+	"doShogiLeft": {
+		"name": "銅将棋(左置換)",
+		"playBoard": "将棋",
+		"useStand": true,
+		"playPieces": [
+			{"gameName": "将棋", "pieceSet": "銅将棋(左置換)"},
+			{"gameName": "将棋", "pieceSet": "銅将棋(左置換)2p"}
+		]
+	},
+	"doShogiRight": {
+		"name": "銅将棋(右置換)",
+		"playBoard": "将棋",
+		"useStand": true,
+		"playPieces": [
+			{"gameName": "将棋", "pieceSet": "銅将棋(右置換)"},
+			{"gameName": "将棋", "pieceSet": "銅将棋(右置換)2p"}
+		]
+	},
+	"kinshiShogiLeft": {
+		"name": "金翅将棋(左置換)",
+		"playBoard": "将棋",
+		"useStand": true,
+		"playPieces": [
+			{"gameName": "将棋", "pieceSet": "金翅将棋(左置換)"},
+			{"gameName": "将棋", "pieceSet": "金翅将棋(左置換)2p"}
+		]
+	},
+	"kinshiShogiRight": {
+		"name": "金翅将棋(右置換)",
+		"playBoard": "将棋",
+		"useStand": true,
+		"playPieces": [
+			{"gameName": "将棋", "pieceSet": "金翅将棋(右置換)"},
+			{"gameName": "将棋", "pieceSet": "金翅将棋(右置換)2p"}
+		]
+	},
+	"kintoShogiLeft": {
+		"name": "金斗将棋(左置換)",
+		"playBoard": "将棋",
+		"useStand": true,
+		"playPieces": [
+			{"gameName": "将棋", "pieceSet": "金斗将棋(左置換)"},
+			{"gameName": "将棋", "pieceSet": "金斗将棋(左置換)2p"}
+		]
+	},
+	"kintoShogiRight": {
+		"name": "金斗将棋(右置換)",
+		"playBoard": "将棋",
+		"useStand": true,
+		"playPieces": [
+			{"gameName": "将棋", "pieceSet": "金斗将棋(右置換)"},
+			{"gameName": "将棋", "pieceSet": "金斗将棋(右置換)2p"}
+		]
+	},
+	"shogi30AllLeft": {
+		"name": "将棋30++(左全置換)",
+		"playBoard": "将棋",
+		"useStand": true,
+		"playPieces": [
+			{"gameName": "将棋", "pieceSet": "将棋30++(左全置換)"},
+			{"gameName": "将棋", "pieceSet": "将棋30++(左全置換)2p"}
+		]
+	},
+	"shogi30AllRight": {
+		"name": "将棋30++(右全置換)",
+		"playBoard": "将棋",
+		"useStand": true,
+		"playPieces": [
+			{"gameName": "将棋", "pieceSet": "将棋30++(右全置換)"},
+			{"gameName": "将棋", "pieceSet": "将棋30++(右全置換)2p"}
+		]
+	},
 	"shoShogi": {
 		"name": "小将棋",
 		"playBoard": "将棋",

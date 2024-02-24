@@ -628,12 +628,46 @@
 		"display": ["銅将"],
 		"gameName": "将棋",
 		"expansion": "京将棋",
-		"unit": "臣",
+		"unit": "象",
 		"attr": ["capture"],
 		"range": {
 			"default": "銅"
 		},
 		"promo": "う"
+	},
+	"山": {
+		"name": "山車",
+		"display": ["山車"],
+		"gameName": "将棋",
+		"expansion": "京将棋",
+		"unit": "車",
+		"attr": ["capture"],
+		"range": {
+			"default": "山"
+		},
+		"promo": "さ"
+	},
+	"翅": {
+		"name": "金翅",
+		"display": ["金翅"],
+		"gameName": "将棋",
+		"expansion": "京将棋",
+		"unit": "臣",
+		"attr": ["capture"],
+		"range": {
+			"default": "翅"
+		}
+	},
+	"斗": {
+		"name": "金斗",
+		"display": ["金斗"],
+		"gameName": "将棋",
+		"expansion": "京将棋",
+		"unit": "臣",
+		"attr": ["capture"],
+		"range": {
+			"default": "斗"
+		}
 	},
 	"跳": {
 		"name": "跳馬",
@@ -1215,6 +1249,7 @@
 		"display": ["左"],
 		"gameName": "将棋",
 		"unit": "車",
+		"attr": ["promoted"],
 		"range": {}
 	},
 	"右": {
@@ -1222,6 +1257,7 @@
 		"display": ["右"],
 		"gameName": "将棋",
 		"unit": "車",
+		"attr": ["promoted"],
 		"range": {}
 	},
 	"雕": {
@@ -1246,7 +1282,15 @@
 		"display": ["う"],
 		"attr": ["capture"],
 		"range": {
-			"default": "銅"
+			"default": "金"
+		}
+	},
+	"さ": {
+		"name": "成山",
+		"display": ["さ"],
+		"attr": ["capture"],
+		"range": {
+			"default": "金"
 		}
 	},
 	"太": {

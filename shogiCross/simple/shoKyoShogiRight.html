@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<meta name="viewport" content="width=device-width" />
+		<title>SimpleGame</title>
+	</head>
+	<body>
+		<canvas id="simpleGame"></canvas>
+		<p><a href=".">RETURN</a></p>
+		<script type="module">
+		import {Board} from "../ShogiCross/lib.js"
+		const canvas = document.getElementById("simpleGame");
+
+		const board = new Board(canvas, "将棋", {useStand: true});
+		board.putStartPieces(0, "将棋", "小京将棋(右置換)");
+		board.putStartPieces(1, "将棋", "小京将棋(右置換)2p");
+		</script>
+	</body>
+</html>
