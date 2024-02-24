@@ -41,13 +41,15 @@ export class EnPassant{
 	}
 
 	/** アンパッサン対象のマスか確認する
+	 * @param {string} rangeKey - 移動範囲情報のキー
 	 * @param {Panel} panel - アンパッサン対象と成りうるマス目
 	 * @returns {boolean}
 	 */
-	isTarget(panel){
+	isTarget(rangeKey, panel){
 		const {piece} = panel;
 		return !piece
 			|| !piece.hasAttr("enPassant")
+			|| rangeKey !== "enPassant"
 			|| piece === this.degs[piece.deg].piece;
 	}
 }
