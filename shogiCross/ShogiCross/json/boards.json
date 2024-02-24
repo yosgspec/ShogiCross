@@ -245,6 +245,24 @@
 			"sssssssss"
 		]
 	},
+	"古将棋10x10": {
+		"backgroundColor": "#EECC88",
+		"borderColor": "#333333",
+		"borderWidth": 2,
+		"promoLineOffset": 1,
+		"field": [
+			"ssssssssss",
+			"ssssssssss",
+			"ssssssssss",
+			"ssssssssss",
+			"ssssssssss",
+			"ssssssssss",
+			"ssssssssss",
+			"ssssssssss",
+			"ssssssssss",
+			"ssssssssss"
+		]
+	},
 	"古将棋12x12": {
 		"backgroundColor": "#EECC88",
 		"borderColor": "#333333",

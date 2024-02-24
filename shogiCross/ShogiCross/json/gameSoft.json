@@ -215,6 +215,24 @@
 			{"gameName": "将棋", "pieceSet": "平安将棋"}
 		]
 	},
+	"heiseiShogi": {
+		"name": "平成将棋",
+		"playBoard": "古将棋10x10",
+		"useStand": false,
+		"playPieces": [
+			{"gameName": "将棋", "pieceSet": "平成将棋"},
+			{"gameName": "将棋", "pieceSet": "平成将棋2p"}
+		]
+	},
+	"okisakiShogi": {
+		"name": "御妃将棋",
+		"playBoard": "将棋10x10",
+		"useStand": true,
+		"playPieces": [
+			{"gameName": "将棋", "pieceSet": "御妃将棋"},
+			{"gameName": "将棋", "pieceSet": "御妃将棋2p"}
+		]
+	},
 	"p4Shogi": {
 		"name": "四人将棋",
 		"playBoard": "将棋",

@@ -635,6 +635,41 @@
 		},
 		"promo": "う"
 	},
+	"跳": {
+		"name": "跳馬",
+		"display": ["跳馬"],
+		"gameName": "将棋",
+		"expansion": "御妃将棋",
+		"unit": "馬",
+		"attr": ["capture"],
+		"range": {
+			"default": "騎"
+		},
+		"promo": "含"
+	},
+	"返": {
+		"name": "反車",
+		"display": ["反車"],
+		"gameName": "将棋",
+		"expansion": "御妃将棋",
+		"unit": "車",
+		"attr": ["capture"],
+		"range": {
+			"default": "反"
+		},
+		"promo": "余"
+	},
+	"女": {
+		"name": "妃将",
+		"display": ["妃將"],
+		"gameName": "将棋",
+		"expansion": "御妃将棋",
+		"unit": "臣",
+		"attr": ["capture"],
+		"range": {
+			"default": "后"
+		}
+	},
 	"醉": {
 		"name": "醉象",
 		"display": ["醉象"],
@@ -1220,6 +1255,22 @@
 		"attr": ["king", "capture", "cantCapture"],
 		"range": {
 			"default": "王"
+		}
+	},
+	"余": {
+		"name": "成反",
+		"display": ["余"],
+		"attr": ["capture"],
+		"range": {
+			"default": "金"
+		}
+	},
+	"含": {
+		"name": "成跳",
+		"display": ["含"],
+		"attr": ["capture"],
+		"range": {
+			"default": "金"
 		}
 	},
 	"駁": {

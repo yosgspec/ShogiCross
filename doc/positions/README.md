@@ -29,13 +29,17 @@
 ![](img/05_平安将棋9x8.png)  
 ![](img/05_平安将棋9x9.png)
 
+### [御妃将棋](https://en.wikipedia.org/wiki/Okisaki_shogi)
+チェスの要素を取り入れた将棋。香車はわざと反車として表示した。持ち駒あり。  
+![](img/06_御妃将棋.png)
+
 ### [四人将棋](https://ja.wikipedia.org/wiki/%E5%9B%9B%E4%BA%BA%E5%B0%86%E6%A3%8B)
 4人用の将棋。持ち駒あり。  
-![](img/06_四人将棋.png)
+![](img/07_四人将棋.png)
 
 ### [四神将棋](https://ja.wikipedia.org/wiki/%E5%9B%9B%E7%A5%9E%E5%B0%86%E6%A3%8B)
 テレビ用の企画として考案された4人用の将棋。持ち駒あり。  
-![](img/07_四神将棋.png)
+![](img/08_四神将棋.png)
 </details>
 
 ## [チェス](https://ja.wikipedia.org/wiki/%E3%83%81%E3%82%A7%E3%82%B9)
@@ -118,6 +122,10 @@
 ![](img/81_大将棋.png)
 
 ### [獅子将棋](https://drive.google.com/file/d/1emrOmE1Xh-sR8wApTOikEgXDGVaAYrrO/view)
-中将棋を遊びやすくするよう考案された将棋類。持ち駒なし。  
+中将棋を遊びやすくするよう考案された将棋。持ち駒なし。  
 ![](img/82_獅子将棋.png)
+
+### [平成将棋](http://akasaka0x16.blog.fc2.com/blog-entry-130.html)
+中将棋を遊びやすくするよう考案された将棋。持ち駒なし。  
+![](img/83_平成将棋.png)
 </details>
