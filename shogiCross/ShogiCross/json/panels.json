@@ -39,7 +39,7 @@
 		"borderWidth": 2,
 		"attr": []
 	},
-	"B":  {
+	"B": {
 		"name": "チェス黒",
 		"text": "　　",
 		"backgroundColor": "#444444",
@@ -48,14 +48,14 @@
 		"attr": []
 	},
 	"w": {
-		"name": "チェス白(持ち駒あり)",
+		"name": "チェス白(クレージーハウス)",
 		"text": "　　",
 		"backgroundColor": "#CCCCCC",
 		"borderColor": "#33333377",
 		"borderWidth": 2,
 		"attr": ["capture"]
 	},
-	"b":  {
+	"b": {
 		"name": "チェス黒(持ち駒あり)",
 		"text": "　　",
 		"backgroundColor": "#444444",
@@ -63,7 +63,16 @@
 		"borderWidth": 2,
 		"attr": ["capture"]
 	},
-	"$":  {
+	"+": {
+		"name": "シャンチー(交点)",
+		"text": "　　",
+		"backgroundColor": "#EECC88",
+		"borderColor": "#333333",
+		"borderWidth": 2,
+		"intersect": true,
+		"attr": []
+	},
+	"$": {
 		"name": "どうぶつしょうぎ地",
 		"text": "　　",
 		"backgroundColor": "#FFFFDD",
@@ -71,7 +80,7 @@
 		"borderWidth": 2,
 		"attr": []
 	},
-	"D":  {
+	"D": {
 		"name": "どうぶつしょうぎ空",
 		"text": "　　",
 		"backgroundColor": "#AADDFF",
@@ -79,7 +88,7 @@
 		"borderWidth": 2,
 		"attr": []
 	},
-	"4":  {
+	"4": {
 		"name": "どうぶつしょうぎ夕",
 		"text": "　　",
 		"backgroundColor": "#FFDDAA",
@@ -87,7 +96,7 @@
 		"borderWidth": 2,
 		"attr": []
 	},
-	"d":  {
+	"d": {
 		"name": "どうぶつしょうぎ森",
 		"text": "　　",
 		"backgroundColor": "#DDFFAA",

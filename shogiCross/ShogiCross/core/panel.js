@@ -80,11 +80,24 @@ export class Panel{
 		ctx.strokeStyle = this.borderColor;
 		ctx.lineWidth = this.borderWidth;
 
-		// マス目を描写
 		ctx.save();
 		ctx.translate(left, top);
 		ctx.fillRect(0, 0, width, height);
-		ctx.strokeRect(0, 0, width, height);
+		// 交点を描写
+		if(this.intersect){
+			ctx.lineWidth = this.borderWidth;
+			ctx.beginPath();
+			ctx.moveTo(width/2, 0);
+			ctx.lineTo(width/2, height);
+			ctx.moveTo(0, height/2);
+			ctx.lineTo(width, height/2);
+			ctx.closePath();
+			ctx.stroke();
+		}
+		// マス目を描写
+		else{
+			ctx.strokeRect(0, 0, width, height);
+		}
 
 		// 斜線を描写
 		ctx.lineWidth = this.borderWidth/2;
