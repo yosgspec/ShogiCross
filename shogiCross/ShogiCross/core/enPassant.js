@@ -46,8 +46,8 @@ export class EnPassant{
 	 * @returns {boolean}
 	 */
 	isTarget(rangeKey, panel, piece){
-		if(!panel.piece) return true;
-		if(rangeKey === "enPassant" && !panel.piece.hasAttr("enPassant")) return false;
+		if(!panel.piece || rangeKey !== "enPassant") return true;
+		if(!panel.piece.hasAttr("enPassant")) return false;
 		return piece.char === panel.piece.char
 			&& panel.piece === this.degs[panel.piece.deg].piece;
 	}
