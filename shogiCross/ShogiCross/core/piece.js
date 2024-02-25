@@ -217,6 +217,24 @@ export class Piece{
 		return range;
 	}
 
+	// サイズ変更設定値
+	sizes = {
+		"KR": 1,
+		"SR": 0.975,
+		"R": 0.95,
+		"UC": 0.925,
+		"C": 0.9
+	}
+	get rare(){
+		return (
+			this.cost <= 0? "KR":
+			24 <= this.cost? "SR":
+			12 <= this.cost? "R":
+			5 <= this.cost? "UC":
+			"C"
+		);
+	}
+
 	/** 駒/マスクを描写 */
 	draw(){
 		this.drawPiece();
@@ -246,6 +264,7 @@ export class Piece{
 		const {ctx, game} = this;
 
 		const zoom = this.size/100;
+		// const zoom = this.size/100*this.sizes[this.rare];
 		ctx.strokeStyle = this.hasAttr("promoted")? "#FF3300": "#777777";
 		ctx.fillStyle = game.backgroundColor;
 		ctx.lineWidth = 8*zoom;
