@@ -384,7 +384,7 @@ export class Board{
 				getPY(to)}${
 				pieceChar}${
 				end} (${
-				getPX(from)},${
+				getPX(from)}${
 				getPY(from)})`
 		).join("\n");
 	}
