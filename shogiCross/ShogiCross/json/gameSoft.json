@@ -270,21 +270,21 @@
 		]
 	},
 	"shogi30AllLeft": {
-		"name": "将棋30++(左全置換)",
+		"name": "将棋30++(左系フル置換)",
 		"playBoard": "将棋",
 		"useStand": true,
 		"playPieces": [
-			{"gameName": "将棋", "pieceSet": "将棋30++(左全置換)"},
-			{"gameName": "将棋", "pieceSet": "将棋30++(左全置換)2p"}
+			{"gameName": "将棋", "pieceSet": "将棋30++(左系フル置換)"},
+			{"gameName": "将棋", "pieceSet": "将棋30++(左系フル置換)2p"}
 		]
 	},
 	"shogi30AllRight": {
-		"name": "将棋30++(右全置換)",
+		"name": "将棋30++(右系フル置換)",
 		"playBoard": "将棋",
 		"useStand": true,
 		"playPieces": [
-			{"gameName": "将棋", "pieceSet": "将棋30++(右全置換)"},
-			{"gameName": "将棋", "pieceSet": "将棋30++(右全置換)2p"}
+			{"gameName": "将棋", "pieceSet": "将棋30++(右系フル置換)"},
+			{"gameName": "将棋", "pieceSet": "将棋30++(右系フル置換)2p"}
 		]
 	},
 	"shoShogi": {
