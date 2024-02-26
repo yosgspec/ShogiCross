@@ -7,7 +7,7 @@ export class Panel{
 
 	/**
 	 * @param {any} ctx - Canvas描画コンテキスト
-	 * @param {[s:string]:any}} panel - マス目
+	 * @param {Object<string, any>} panel - マス目
 	 * @param {number} center - 描写するX座標(中心原点)
 	 * @param {number} middle - 描写するY座標(中心原点)
 	 * @param {number} width - パネル幅

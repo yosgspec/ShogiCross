@@ -9,6 +9,33 @@ import games from "../json/games.json" assert {type: "json"};
 
 /** 盤の管理クラス */
 export class Board{
+	/** ゲームを実行する
+	 * @param {HTMLCanvasElement}} canvas
+	 * @param {Object<string, any>} options - オプション
+	 * @returns Board
+	 */
+	static run(canvas, options){
+		const {playBoard, playPieces, onDrawed} = options;
+		const players = playPieces.some(({gameName}, i)=>1 < i && gameName)? 4: 2;
+		// ボードを生成
+		const board = new Board(canvas, playBoard, {
+			...options,
+			players,
+			onDrawed
+		});
+		// 駒を配置
+		playPieces.forEach(({gameName, pieceSet}, i)=>{
+			if(!gameName || !pieceSet) return;
+			try{
+				board.putStartPieces(i, gameName, pieceSet);
+			}
+			catch{}
+		});
+		// 描写イベントを設定
+		board.onDrawed = onDrawed;
+		return board;
+	}
+
 	/**
 	 * @param {HTMLCanvasElement} canvas - キャンバス要素
 	 * @param {string} playBoard - ボードタイプ

@@ -127,7 +127,7 @@
 		/** ゲームを実行 */
 		async function playGame(){
 			if(playingGame.close) playingGame.close();
-			playingGame = PlayGames[SelectControl.gameName].run({canvas, onDrawed, ...SelectControl.options});
+			playingGame = PlayGames[SelectControl.gameName].run(canvas, {onDrawed, ...SelectControl.options});
 			txt.onchange = txtOnChange;
 			txtMini.onchange = txtOnChange;
 		};

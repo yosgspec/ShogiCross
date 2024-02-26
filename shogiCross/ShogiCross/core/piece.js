@@ -2,7 +2,6 @@ import {canvasFont} from "./canvasFontLoader.js";
 import pieces from "../json/pieces.json" assert {type: "json"};
 import pieceRange from "../json/pieceRange.json" assert {type: "json"};
 import pieceCost from "../json/pieceCost.json" assert {type: "json"};
-import pieceEn from "../json/pieceEn.json" assert {type: "json"};
 import games from "../json/games.json" assert {type: "json"};
 
 /** 駒の管理クラス */
@@ -33,7 +32,6 @@ export class Piece{
 			if(!piece.attr) piece.attr = [];
 			if(piece.unit) piece.base = piece;
 			if(pieceCost[key]) piece.cost = pieceCost[key];
-			piece.en = pieceEn[key];
 			Object.entries(piece.range).forEach(([rangeKey, rangeValue])=>{
 				piece.range[rangeKey] = pieceRange[rangeValue];
 			})
@@ -73,7 +71,7 @@ export class Piece{
 	}
 
 	/** 文字列から駒を取得
-	 * @param {{[s:string]:Piece}} piece - 駒
+	 * @param {Object<string, Piece>} piece - 駒
 	 * @param {string} text - 駒文字列
 	 */
 	static stringToPiece(pieces, text){
@@ -122,7 +120,7 @@ export class Piece{
 
 	/**
 	 * @param {any} ctx - Canvas描画コンテキスト
-	 * @param {{[s:string]:any}} piece - 駒
+	 * @param {Object<string, any>} piece - 駒
 	 * @param {number} displayPtn - 表示文字列を変更(1〜)
 	 * @param {number} deg - パネル角度
 	 * @param {number} size - パネルサイズ

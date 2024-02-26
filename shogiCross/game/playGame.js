@@ -1,43 +1,12 @@
 import {Board, boards, gameSoft} from "../ShogiCross/lib.js";
 import {boardTemplate} from "./boardTemplate.js"
 
-/** ゲームを実行する
- * @param {HTMLCanvasElement}} canvas
- * @param {string} playBoard - 使用するボード
- * @param {boolean} useStand - 駒台の使用有無
- * @param {{gameName: string, pieceSet: string}[]} playPieces - プレイヤー毎の駒情報
- * @param {(Board)=>void} onDrawed - 描写イベント
- * @returns Board
- */
-function run({canvas, playBoard, useStand, playPieces, onDrawed}){
-	const players = playPieces.some(({gameName}, i)=>1 < i && gameName)? 4: 2;
-	const xLen = boards[playBoard].field[0].length;
-	// ボードを生成
-	const board = new Board(canvas, playBoard, {
-		players,
-		useStand,
-		onDrawed,
-		...boardTemplate(xLen)
-	});
-	// 駒を配置
-	playPieces.forEach(({gameName, pieceSet}, i)=>{
-		if(!gameName || !pieceSet) return;
-		try{
-			board.putStartPieces(i, gameName, pieceSet);
-		}
-		catch{}
-	});
-	// 描写イベントを設定
-	board.onDrawed = onDrawed;
-	return board;
-}
-
 const PlayGamesCustom = {
 	default: {
 		name: "--ゲームを選択--",
 		playBoard: "クロス12x12",
 		useStand: true,
-		run({canvas, onDrawed}){
+		run(canvas, {onDrawed}){
 			const {playBoard, useStand} = this;
 			const pieceMap = [
 				"▽城▽騏▽僧▽妃▽駈▽帝▽皇▽竜▽馬▽全▽圭▽杏",
@@ -65,13 +34,14 @@ const PlayGamesCustom = {
 	},
 	cross: {
 		name: "*クロスゲーム*",
-		run
+		run: Board.run
 	}
 };
 
 Object.keys(gameSoft).forEach(key=>{
-	gameSoft[key].run = function(options){
-		return run({...options, ...this})
+	gameSoft[key].run = function(canvas, options){
+		const xLen = boards[this.playBoard].field[0].length;
+		return Board.run(canvas, {...options, ...this, ...boardTemplate(xLen)});
 	};
 })
 
