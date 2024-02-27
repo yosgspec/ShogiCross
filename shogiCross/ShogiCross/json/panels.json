@@ -118,7 +118,7 @@
 		"backgroundColor": "#EECC88",
 		"borderColor": "#33221144",
 		"borderWidth": 2,
-		"textDisplay": "河",
+		"displayText": "河",
 		"textRotate": -90,
 		"attr": []
 	},
@@ -128,7 +128,7 @@
 		"backgroundColor": "#EECC88",
 		"borderColor": "#33221144",
 		"borderWidth": 2,
-		"textDisplay": "界",
+		"displayText": "界",
 		"textRotate": 90,
 		"attr": []
 	},
@@ -166,7 +166,7 @@
 		"borderWidth": 2,
 		"borderSlushLeft": true,
 		"borderSlushRight": true,
-		"attr": ["palace", "palaceRight", "palaceLeft"]
+		"attr": ["palace", "palaceLeft", "palaceRight"]
 	},
 	".":{
 		"name": "立入禁止",

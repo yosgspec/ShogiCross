@@ -27,9 +27,9 @@ export class Piece{
 
 		/* 移動範囲データを補完 */
 		for(const [key, piece] of exPieces){
-			if(!piece.alias) piece.alias = "";
+			piece.alias ??= "";
 			piece.alias = [...piece.alias];
-			if(!piece.attr) piece.attr = [];
+			piece.attr ??= [];
 			if(piece.unit) piece.base = piece;
 			if(pieceCost[key]) piece.cost = pieceCost[key];
 			Object.entries(piece.range).forEach(([rangeKey, rangeValue])=>{
@@ -136,7 +136,7 @@ export class Piece{
 		this.deg = deg;
 		this.isSelected = false;
 		this.isMoved = false;
-		if(!this.attr) this.attr = [];
+		this.attr ??= [];
 		try{
 			Object.entries(this.range).forEach(([key, rng])=>
 				this.range[key] = rng.map(row=>[...row])
@@ -260,11 +260,22 @@ export class Piece{
 	/** 駒を描写 */
 	drawPiece(){
 		const {ctx, game} = this;
+		let fontColor, backgroundColor, borderColor;
+		if(this.hasAttr("promoted")){
+			fontColor = game.promoteFontColor ?? game.fontColor ?? "#000000";
+			backgroundColor = game.promoteBackgroundColor ?? game.backgroundColor ?? "#FFFFFF",
+			borderColor = game.promoteBorderColor ?? game.borderColor ?? "#FF3300";
+		}
+		else {
+			fontColor = game.fontColor ?? "#000000";
+			backgroundColor = game.backgroundColor ?? "#FFFFFF",
+			borderColor = game.borderColor ?? "#777777";
+		}
 
 		const zoom = this.size/100;
 		// const zoom = this.size/100*this.sizes[this.rare];
-		ctx.strokeStyle = this.hasAttr("promoted")? "#FF3300": "#777777";
-		ctx.fillStyle = game.backgroundColor;
+		ctx.strokeStyle = borderColor;
+		ctx.fillStyle = backgroundColor;
 		ctx.lineWidth = 8*zoom;
 		ctx.save();
 		this.makePath(zoom);
@@ -272,7 +283,7 @@ export class Piece{
 		ctx.fill();
 
 		/* 文字を描写 */
-		ctx.fillStyle = game.fontColor;
+		ctx.fillStyle = fontColor;
 		const text = [...this.display[this.displayPtn]];
 		const fontSize = 40*zoom;
 		ctx.font = `${fontSize}px ${canvasFont.names}`;

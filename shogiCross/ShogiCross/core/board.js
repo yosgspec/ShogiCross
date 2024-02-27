@@ -25,7 +25,8 @@ export class Board{
 		});
 		// 駒を配置
 		playPieces.forEach(({gameName, pieceSet}, i)=>{
-			if(!gameName || !pieceSet) return;
+			if(!gameName) return;
+			pieceSet ??= "default";
 			try{
 				board.putStartPieces(i, gameName, pieceSet);
 			}
@@ -296,7 +297,7 @@ export class Board{
 		const [promoLine, forcePromoLine] = [
 			piece.game.promoLine,
 			piece.forcePromoLine
-		].map(line=>yLen+line-(0|this.promoLineOffset));
+		].map(line=>yLen-line-(0|this.promoLineOffset));
 
 		let row;
 		if(!this.sidePromo){

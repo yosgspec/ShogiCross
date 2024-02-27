@@ -10,7 +10,7 @@ export function uIControl(board){
 	let lastXY = [];
 	let selectPanel = null;
 	let selectStand = null;
-	const {canvas, enPassant} = board;
+	const {canvas} = board;
 
 	/** マス目に対する処理
 	 * @param {Event} e - イベント引数

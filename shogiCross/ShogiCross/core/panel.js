@@ -27,6 +27,8 @@ export class Panel{
 		this.borderWidth = borderWidth;
 		this.pX = pX;
 		this.pY = pY;
+		this.selectColor ??= "#FF000066";
+		this.targetColor ??= "#00FF0066";
 		this.piece = null;
 		this.isSelected = false;
 		this.isTarget = false;
@@ -64,17 +66,16 @@ export class Panel{
 
 	/** マス目/マスク/駒を描写 */
 	draw(){
+		const {selectColor, targetColor} = this;
 		this.drawPanel();
-		const selectColor = "#FF000066";
 		if(this.isSelected) this.drawMask(selectColor);
-		const targetColor = "#00FF0066";
 		if(this.isTarget) this.drawMask(targetColor);
 		this.piece?.draw();
 	}
 
 	/** マス目を描写 */
 	drawPanel(){
-		const {ctx, left, top, center, middle, width, height, textDisplay, textRotate} = this;
+		const {ctx, left, top, center, middle, width, height, displayText, textRotate} = this;
 
 		ctx.fillStyle = this.backgroundColor;
 		ctx.strokeStyle = this.borderColor;
@@ -115,7 +116,7 @@ export class Panel{
 		ctx.restore();
 
 		// 文字を描写
-		if(textDisplay){
+		if(displayText){
 			ctx.save();
 			ctx.translate(center, middle);
 			ctx.fillStyle = this.borderColor;
@@ -126,9 +127,9 @@ export class Panel{
 			const fontSize = Math.min(this.width, this.height)*0.6;
 			ctx.font = `${fontSize}px ${canvasFont.names}`;
 
-			const width = ctx.measureText(textDisplay).width;
+			const width = ctx.measureText(displayText).width;
 			const height = fontSize/2*0.8;
-			ctx.fillText(textDisplay, -width/2, height);
+			ctx.fillText(displayText, -width/2, height);
 			ctx.restore();
 		}
 	}

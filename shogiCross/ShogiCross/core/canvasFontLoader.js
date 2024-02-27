@@ -1,9 +1,17 @@
 import canvasFont from "../json/canvasFont.json" assert {type: "json"};
+import panels from "../json/panels.json" assert {type: "json"};
+import pieces from "../json/pieces.json" assert {type: "json"};
 export {canvasFont};
 
 Object.assign(canvasFont, {
 	imported: false,
 	names: "",
+	include: [...
+		new Set([...
+			Object.values(panels).map(({displayText})=>displayText).join("")+
+			Object.values(pieces).map(({display})=>display.join("")).join("")
+		])
+	].sort().join(""),
 	async importAsync(){
 		if(this.imported) return;
 		const id = new Date().getTime().toString();
@@ -13,8 +21,7 @@ Object.assign(canvasFont, {
 			canvasFont.fonts.map(async ([fontName, fontWeight])=>{
 				const googleUrl = "https://fonts.googleapis.com/css2?family="
 				const fontNamePlus = fontName.replace(/ /g, "+");
-				const fontFilter = encodeURIComponent(canvasFont.include);
-				const fontUrl = `${googleUrl}${fontNamePlus}:wght@${fontWeight}&text=${fontFilter}`;
+				const fontUrl = `${googleUrl}${fontNamePlus}:wght@${fontWeight}&text=${this.include}`;
 				const res = await fetch(fontUrl);
 				if(!res.ok) return;
 				const css = await res.text();

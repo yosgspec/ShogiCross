@@ -3,7 +3,7 @@
 		"english": "Shogi",
 		"fontColor": "#000000",
 		"backgroundColor": "#FFDDAA",
-		"promoLine": -3,
+		"promoLine": 3,
 		"position": {
 			"5": {
 				"default": [
@@ -19,7 +19,7 @@
 				"禽将棋": [
 					"・・・・燕・・",
 					"燕燕燕燕燕燕燕",
-					"・・・鷂・・・",
+					"・・・鷹・・・",
 					"鶉雉鶴鵬鶴雉享"
 				]
 			},
@@ -194,7 +194,7 @@
 				"禽将棋": [
 					"・・・・・・燕・・",
 					"燕燕燕燕燕燕燕燕燕",
-					"・・・鷂・鷂・・・",
+					"・・・鷹・鷹・・・",
 					"鶉雉鶴・鵬・鶴雉享"
 				],
 				"p4": [
@@ -312,7 +312,7 @@
 		"english": "Chess",
 		"fontColor": "#FFFFFF",
 		"backgroundColor": "#000000",
-		"promoLine": -1,
+		"promoLine": 1,
 		"position": {
 			"6": {
 				"default": [
@@ -388,7 +388,7 @@
 		"english": "Xiangqi",
 		"fontColor": "#BB1100",
 		"backgroundColor": "#FFDD77",
-		"promoLine": -4,
+		"promoLine": 4,
 		"position": {
 			"8": {
 				"default": [
@@ -575,7 +575,7 @@
 		"english": "Makruk",
 		"fontColor": "#FFFFFF",
 		"backgroundColor": "#CC2222",
-		"promoLine": -3,
+		"promoLine": 3,
 		"position": {
 			"8": {
 				"default": [
