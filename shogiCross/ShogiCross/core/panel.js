@@ -1,5 +1,5 @@
 import {canvasFont} from "./canvasFontLoader.js";
-import panels from "../json/panels.json" assert {type: "json"};
+import {panels} from "./json.js";
 
 /** マス目の管理クラス */
 export class Panel{

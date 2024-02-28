@@ -1,5 +1,6 @@
 import {Panel} from "./panel.js";
 import {Piece} from "./piece.js";
+
 const degs = Object.keys(Piece.degChars);
 const getInit = ()=>({
 	panel: null,

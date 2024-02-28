@@ -1,11 +1,10 @@
 import {canvasFont} from "./canvasFontLoader.js";
-import {Piece} from "./piece.js";
-import {Panel} from "./panel.js";
-import {Stand} from "./stand.js";
 import {uIControl} from "./uiControl.js";
+import {Stand} from "./stand.js";
+import {Panel} from "./panel.js";
+import {Piece} from "./piece.js";
 import {EnPassant} from "./enPassant.js";
-import boards from "../json/boards.json" assert {type: "json"};
-import games from "../json/games.json" assert {type: "json"};
+import {boards, games} from "./json.js";
 
 /** 盤の管理クラス */
 export class Board{
