@@ -14,15 +14,12 @@ export function checkTarget(board, piece, pX, pY){
 	// 移動範囲オプション
 	const rangeKeys = [
 		["default", {isAttack: false}],
-		["start", {isAttack: false}],
 		["attack", {isAttack: true}],
+		["start", {isAttack: false}],
 		["castling", {isAttack: false}],
 		["enPassant", {isAttack: true}],
-		["palaceRight", {isAttack: false}],
-		["palaceRight", {isAttack: false}],
-		["palaceRight", {isAttack: true}],
-		["palaceLeft", {isAttack: false}],
-		["palaceLeft", {isAttack: true}]
+		["palaceSlash", {isAttack: false}],
+		["palaceSlash", {isAttack: true}]
 	];
 
 	// 移動範囲文字の親子関係
@@ -80,7 +77,7 @@ export function checkTarget(board, piece, pX, pY){
 		const panel = field[y][x];
 		if(piece.hasAttr("inPalace") && !panel.hasAttr("palace")) return false;
 		if(key.indexOf("palace") === 0 && !(panel.hasAttr(key) && field[pY][pX].hasAttr(key))) return false;
-		if(piece.hasAttr("unCrossCenter") && yLen-(0|yLen/2) <= board.getRow(x, y, piece.deg)) return false;
+		if(piece.hasAttr("unCrossRiver") && yLen-(0|yLen/2) <= board.getRow(x, y, piece.deg)) return false;
 		if(!isAttack) return !field[y][x].piece;
 		if(!field[y][x].piece) return false;
 		if(checkRivalDeg) return piece.deg !== field[y][x].piece.deg;
@@ -126,7 +123,7 @@ export function checkTarget(board, piece, pX, pY){
 	// メイン処理
 	(function(){
 		const range = piece.getRange();
-		if(!range.attack) range.attack = range.default;
+		range.attack ??= range.default;
 		for(const [key, {isAttack}] of rangeKeys){
 			if(piece.isMoved && ["start", "castling"].includes(key)) continue;
 

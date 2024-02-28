@@ -32,7 +32,7 @@ export class Panel{
 		this.piece = null;
 		this.isSelected = false;
 		this.isTarget = false;
-		if(!this.attr) this.attr = [];
+		this.attr ??= [];
 	}
 
 	/** マス目の選択状態
@@ -103,11 +103,11 @@ export class Panel{
 		// 斜線を描写
 		ctx.lineWidth = this.borderWidth/2;
 		ctx.beginPath();
-		if(this.borderSlushLeft){
+		if(this.borderSlashLeft){
 			ctx.moveTo(0, 0);
 			ctx.lineTo(width, height);
 		}
-		if(this.borderSlushRight){
+		if(this.borderSlashRight){
 			ctx.moveTo(width, 0);
 			ctx.lineTo(0, height);
 		}

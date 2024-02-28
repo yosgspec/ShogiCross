@@ -204,7 +204,7 @@
 		"display": ["○相", "○象", "相", "象"],
 		"gameName": "シャンチー",
 		"unit": "象",
-		"attr": ["unCrossCenter"],
+		"attr": ["unCrossRiver"],
 		"range": {
 			"default": "相"
 		}
@@ -225,8 +225,7 @@
 		"unit": "臣",
 		"attr": ["inPalace"],
 		"range": {
-			"palaceRight": "右",
-			"palaceLeft": "左"
+			"palaceSlash": "ぞ"
 		}
 	},
 	"帥": {
@@ -247,8 +246,7 @@
 		"unit": "兵",
 		"range": {
 			"default": "卒",
-			"palaceRight": "口",
-			"palaceLeft": "工"
+			"palaceSlash": "兵"
 		}
 	},
 	"包": {
@@ -259,8 +257,7 @@
 		"attr": ["po"],
 		"range": {
 			"default": "砲",
-			"palaceRight": "石",
-			"palaceLeft": "矼"
+			"palaceSlash": "弓"
 		}
 	},
 	"馭": {
@@ -290,8 +287,7 @@
 		"unit": "車",
 		"range": {
 			"default": "車",
-			"palaceRight": "佑",
-			"palaceLeft": "佐"
+			"palaceSlash": "聖"
 		}
 	},
 	"士": {
@@ -302,8 +298,7 @@
 		"attr": ["inPalace"],
 		"range": {
 			"default": "き",
-			"palaceRight": "右",
-			"palaceLeft": "左"
+			"palaceSlash": "ぞ"
 		}
 	},
 	"楚": {
@@ -315,8 +310,7 @@
 		"attr": ["king", "inPalace", "bikjang", "usePass", "swapHorseElephant"],
 		"range": {
 			"default": "き",
-			"palaceRight": "右",
-			"palaceLeft": "左"
+			"palaceSlash": "ぞ"
 		}
 	},
 	"貝": {
@@ -605,7 +599,7 @@
 		"gameName": "将棋",
 		"expansion": "禽将棋",
 		"unit": "王",
-		"attr": ["king", "capture"],
+		"attr": ["king", "capture", "twoSwallows"],
 		"range": {
 			"default": "王"
 		}
