@@ -74,6 +74,7 @@ export class Board{
 		const ctx = canvas.getContext("2d");
 		ctx.clearRect(0, 0, canvas.width, canvas.height);
 		this.ctx = ctx;
+		Piece.size = pieceSize;
 		this.pieces = Piece.getPieces(ctx, pieceSize);
 
 		// ボード情報
@@ -185,13 +186,14 @@ export class Board{
 	 * @param {number} pY - Y方向配置位置(マス目基準)
 	 * @param {number} playeaIdOrDeg - プレイヤー番号または駒の配置角
 	 * @param {number} displayPtn - 表示文字列を変更(1〜)
+	 * @param {boolean} isMoved - 初回移動済みか否か
 	 */
-	putNewPiece(piece, pX, pY, playeaIdOrDeg, displayPtn=0, setDeg=false){
+	putNewPiece(piece, pX, pY, playeaIdOrDeg, {displayPtn=0, setDeg=false, isMoved=false}={}){
 		const {pieces} = this;
 
 		const deg = !setDeg? playeaIdOrDeg*90: playeaIdOrDeg;
 		if(typeof piece === "string"){
-			piece = new Piece(this.ctx, pieces[piece], displayPtn, deg);
+			piece = new Piece(this.ctx, pieces[piece], {displayPtn, deg, isMoved});
 		}
 		const panel = this.field[pY][pX];
 		piece.center = panel.center;

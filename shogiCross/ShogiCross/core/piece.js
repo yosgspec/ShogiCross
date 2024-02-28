@@ -6,6 +6,9 @@ import games from "../json/games.json" assert {type: "json"};
 
 /** 駒の管理クラス */
 export class Piece{
+	/** 描写サイズ */
+	static size = 45;
+
 	/** テキスト出力時のプレイヤー表示 */
 	static degChars = {
 		0: "▲",
@@ -19,10 +22,8 @@ export class Piece{
 
 	/** 駒データを初期化
 	 * @param {any} ctx - Canvas描画コンテキスト
-	 * @param {number} size - 描写サイズ
 	 */
-	static getPieces(ctx, size){
-		Piece.size = size;
+	static getPieces(ctx){
 		const exPieces = new Map(Object.entries(JSON.parse(JSON.stringify(pieces))));
 
 		/* 移動範囲データを補完 */
@@ -124,8 +125,9 @@ export class Piece{
 	 * @param {number} displayPtn - 表示文字列を変更(1〜)
 	 * @param {number} deg - パネル角度
 	 * @param {number} size - パネルサイズ
+	 * @param {boolean} isMoved - 初回移動済みか否か
 	 */
-	constructor(ctx, piece, displayPtn=0, deg=0, size=Piece.size){
+	constructor(ctx, piece, {displayPtn=0, deg=0, size=Piece.size, isMoved=false}={}){
 		Object.assign(this, piece);
 		this.ctx = ctx;
 		this.game = games[this.gameName];
@@ -134,8 +136,8 @@ export class Piece{
 		this.middle = 0;
 		this.size = size;
 		this.deg = deg;
+		this.isMoved = isMoved;
 		this.isSelected = false;
-		this.isMoved = false;
 		this.attr ??= [];
 		try{
 			Object.entries(this.range).forEach(([key, rng])=>
@@ -152,7 +154,8 @@ export class Piece{
 	 * @returns Piece
 	 */
 	clone(){
-		return new Piece(this.ctx, {...this}, this.displayPtn, this.deg, this.size);
+		const {displayPtn, deg, size, isMoved} = this;
+		return new Piece(this.ctx, {...this}, {displayPtn, deg, size, isMoved});
 	}
 
 	/** 駒を表返す */
