@@ -61,12 +61,8 @@
 					<textarea id="pieceRangeStart" class="range" readonly></textarea>
 				</div>
 				<div class="flex-col">
-					PalaceL
-					<textarea id="pieceRangePalaceLeft" class="range" readonly></textarea>
-				</div>
-				<div class="flex-col">
-					PalaceR
-					<textarea id="pieceRangePalaceRight" class="range" readonly></textarea>
+					Palace
+					<textarea id="pieceRangePalaceSlash" class="range" readonly></textarea>
 				</div>
 			</div>
 			Unit:
@@ -89,8 +85,7 @@
 			["default", document.getElementById("pieceRangeDefault")],
 			["attack", document.getElementById("pieceRangeAttack")],
 			["start", document.getElementById("pieceRangeStart")],
-			["palaceLeft", document.getElementById("pieceRangePalaceLeft")],
-			["palaceRight", document.getElementById("pieceRangePalaceRight")]
+			["palaceSlash", document.getElementById("pieceRangePalaceSlash")],
 		]);
 		const pieceValue = new Map([
 			["unit", document.getElementById("pieceUnit")],

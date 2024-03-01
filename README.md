@@ -16,15 +16,19 @@
 * その他バリエーション等
 
 ### 駒配置
-[別紙を参照。](doc/positions/README.md)
+[別紙参照](doc/positions/README.md)
 
 ### 駒情報
-[別紙を参照。](doc/pieces/README.md)
+[別紙参照](doc/pieces/README.md)
 
 ## Webアプリ
 http://tool.yosgspec.com/shogiCross/  
 駒を自由に並べ替えたりできるやつ。  
 CPUや駒の移動範囲表示以外のゲームルールは未実装。
+
+### ゲームデータ定義仕様書
+駒データやボードの仕様。駒やボードの追加を行う場合は要参照。  
+[別師参照](doc/json/README.md)
 
 ### 実装サンプル
 http://tool.yosgspec.com/shogiCross/simple/  
@@ -32,10 +36,10 @@ http://tool.yosgspec.com/shogiCross/simple/
 
 ## ペーパークラフト
 様々な将棋類を紙の力で実体化。  
-[別紙を参照。](paper/README.md)
+[別紙参照](paper/README.md)
 
 ## ディレクトリ構成
-[別紙を参照。](doc/root/README.md)
+[別紙参照](doc/root/README.md)
 
 ## 使用フォント
 下記の優先度でフォントを適用。

@@ -93,10 +93,6 @@ Canvas用のGoogleフォント情報
 ##### pieceCost.json
 駒の価値情報
 
-##### pieceEn,js
-駒の英語簡易表記  
-中将棋対応面倒なため廃止候補
-
 ## other/
 その他のファイルとか
 
