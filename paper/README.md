@@ -23,7 +23,7 @@
 #### [board_〇〇.pdf](#コンポーネント構成早見表)
 必要なボードのみ印刷する。  
 `board_any`とつくファイルについては特定のゲームによらず使用できるよう想定。  
-不要なマスについては紙などを当てて隠すこと。
+不要なマスについては折り込むか紙などを当てて隠すこと。
 
 ### 駒箱
 #### [toolBox.pdf](dist/toolBox.pdf)
@@ -62,6 +62,7 @@
 |**中将棋**              |1,7       |[board_shogi12x12.pdf](dist/board_shogi12x12.pdf)
 |大将棋                  |1,3,4,7,8 |[board_shogi15x15.pdf](dist/board_shogi15x15.pdf)
 |獅子将棋                |1,7       |[board_shogi.pdf](dist/board_shogi.pdf)
+|**Grant Acedrex**       |9         |[board_shogi12x12.pdf](dist/board_shogi12x12.pdf)
 
 ## おすすめ商品
 印刷や組み立てに使用材料としておすすめする商品など。

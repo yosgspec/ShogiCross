@@ -162,6 +162,6 @@
 </details>
 
 ## [Grant Acedrex](https://www.chessvariants.org/rules/grantacedrex)
-古のチェスの一種特殊な動きをする駒が多い。  
+古のチェスの一種。特殊な動きをする駒が多い。  
 プロモーション先は本来は敵陣の到着列の駒となる(未実装)。持ち駒なし。  
 ![](img/90_GrantAcedrex.png)
