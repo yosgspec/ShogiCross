@@ -22,12 +22,12 @@ export class EnPassant{
 	}
 
 	/** アンパッサン対象と成りうるマス情報を記録
-	 * @param {string} rangeKey - 移動範囲情報のキー
+	 * @param {string} rangeName - 移動範囲の定義名
 	 * @param {Panel} panel - アンパッサン対象と成りうるマス目
 	 * @param {Piece} piece - アンパッサン対象と成りうる駒
 	 */
-	setTarget(rangeKey, panel, piece){
-		if(rangeKey === "start" && piece.hasAttr("enPassant"))
+	setTarget(rangeName, panel, piece){
+		if(rangeName === "start" && piece.hasAttr("enPassant"))
 			this.degs[piece.deg].panel = panel;
 	}
 
@@ -42,12 +42,12 @@ export class EnPassant{
 	}
 
 	/** アンパッサン対象のマスか確認する
-	 * @param {string} rangeKey - 移動範囲情報のキー
+	 * @param {string} rangeName - 移動範囲の定義名
 	 * @param {Panel} panel - アンパッサン対象と成りうるマス目
 	 * @returns {boolean}
 	 */
-	isTarget(rangeKey, panel, piece){
-		if(!panel.piece || rangeKey !== "enPassant") return true;
+	isTarget(rangeName, panel, piece){
+		if(!panel.piece || rangeName !== "enPassant") return true;
 		if(!panel.piece.hasAttr("enPassant")) return false;
 		return panel.piece === this.degs[panel.piece.deg].piece;
 	}
