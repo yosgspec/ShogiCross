@@ -8,7 +8,7 @@
    version="1.1"
    id="svg5"
    inkscape:version="1.1.2 (0a00cf5339, 2022-02-04)"
-   sodipodi:docname="はこ.svg"
+   sodipodi:docname="toolBox.svg"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns="http://www.w3.org/2000/svg"
@@ -25,15 +25,15 @@
      showgrid="true"
      showguides="true"
      inkscape:guide-bbox="true"
-     inkscape:zoom="0.85922204"
-     inkscape:cx="245.57098"
-     inkscape:cy="462.04588"
+     inkscape:zoom="1.2151235"
+     inkscape:cx="425.88265"
+     inkscape:cy="599.11608"
      inkscape:window-width="1920"
      inkscape:window-height="1015"
      inkscape:window-x="0"
      inkscape:window-y="0"
      inkscape:window-maximized="1"
-     inkscape:current-layer="layer4"
+     inkscape:current-layer="g947"
      inkscape:snap-others="true"
      inkscape:snap-text-baseline="true"
      inkscape:snap-bbox="true"
@@ -101,7 +101,7 @@
      inkscape:groupmode="layer"
      id="layer4"
      inkscape:label="下箱"
-     style="display:inline">
+     style="display:none">
     <g
        id="g367930"
        transform="translate(3.8597533,16.621875)"
@@ -188,7 +188,7 @@
      inkscape:label="上箱"
      inkscape:groupmode="layer"
      id="layer1"
-     style="display:none">
+     style="display:inline">
     <g
        id="g17"
        transform="matrix(0.35277777,0,0,-0.35277777,-65.31953,257.70794)">
@@ -402,6 +402,23 @@
   </g>
   <g
      inkscape:groupmode="layer"
+     id="g947"
+     inkscape:label="Grant Acedrex"
+     style="display:none">
+    <text
+       xml:space="preserve"
+       style="font-size:40.5694px;line-height:1.25;font-family:TKaisho-GT01;-inkscape-font-specification:TKaisho-GT01;writing-mode:tb-rl;display:inline;stroke-width:0.265;stroke-miterlimit:4;stroke-dasharray:none"
+       x="105"
+       y="124"
+       id="text945"><tspan
+         sodipodi:role="line"
+         id="tspan943"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:40.5694px;font-family:'Noto emoji';-inkscape-font-specification:'Noto emoji';stroke-width:0.265;stroke-miterlimit:4;stroke-dasharray:none"
+         x="124"
+         y="105">🦏</tspan></text>
+  </g>
+  <g
+     inkscape:groupmode="layer"
      id="g342732"
      inkscape:label="禽象棋"
      style="display:none">
@@ -578,7 +595,7 @@
      inkscape:groupmode="layer"
      id="g110154"
      inkscape:label="将棋"
-     style="display:none">
+     style="display:inline">
     <g
        id="g158243">
       <text

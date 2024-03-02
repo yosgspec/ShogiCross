@@ -160,3 +160,7 @@
 中将棋を遊びやすくするよう考案された将棋。持ち駒なし。  
 ![](img/83_平成将棋.png)
 </details>
+
+## [Grant Acedrex](https://www.chessvariants.org/rules/grantacedrex)
+古のチェスの一種特殊な動きをする駒が多い。持ち駒なし。  
+![](img/90_GrantAcedrex.png)

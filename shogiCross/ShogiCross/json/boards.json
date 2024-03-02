@@ -184,6 +184,25 @@
 			"BWBWBWBWBW"
 		]
 	},
+	"チェス12x12": {
+		"backgroundColor": "#444444",
+		"borderColor": "#000000",
+		"borderWidth": 2,
+		"field": [
+			"WBWBWBWBWBWB",
+			"BWBWBWBWBWBW",
+			"WBWBWBWBWBWB",
+			"BWBWBWBWBWBW",
+			"WBWBWBWBWBWB",
+			"BWBWBWBWBWBW",
+			"WBWBWBWBWBWB",
+			"BWBWBWBWBWBW",
+			"WBWBWBWBWBWB",
+			"BWBWBWBWBWBW",
+			"WBWBWBWBWBWB",
+			"BWBWBWBWBWBW"
+		]
+	},
 	"ごろごろどうぶつしょうぎ": {
 		"backgroundColor": "#FFFFDD",
 		"borderColor": "#FFDD99",
@@ -426,12 +445,32 @@
 			"SSSSSSSSSSSS",
 			"SSSSSSSSSSSS",
 			"==========]=",
-			"=[========]=",
+			"=[==========",
 			"SSSSSSSSSSSS",
 			"SSSSSSSSSSSS",
 			"XSXSX<#>WBWB",
 			"SXSXS#*#BWBW",
 			"XSXSX>#<WBWB"
+		]
+	},
+	"クロス13x13": {
+		"backgroundColor": "#EECC88",
+		"borderColor": "#333333",
+		"borderWidth": 2,
+		"field": [
+			"BWBWB<#>XSXSX",
+			"WBWBW#*#SXSXS",
+			"BWBWB>#<XSXSX",
+			"SSSSSSSSSSSSS",
+			"SSSSSSSSSSSSS",
+			"SSSSSSSSSSSSS",
+			"=[=========]=",
+			"SSSSSSSSSSSSS",
+			"SSSSSSSSSSSSS",
+			"SSSSSSSSSSSSS",
+			"XSXSX<#>BWBWB",
+			"SXSXS#*#WBWBW",
+			"XSXSX>#<BWBWB"
 		]
 	},
 	"4人用クロス8列": {

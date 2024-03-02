@@ -154,20 +154,8 @@
 			"castling": "城"
 		}
 	},
-	"国": {
-		"name": "キング",
-		"display": ["♚王", "♔王"],
-		"alias": "國",
-		"gameName": "チェス",
-		"unit": "王",
-		"attr": ["king", "castlingKing"],
-		"range": {
-			"default": "王",
-			"castling": "国"
-		}
-	},
 	"卒": {
-		"name": "卒【象棋】",
+		"name": "卒",
 		"display": ["○卒", "○兵", "卒", "兵"],
 		"gameName": "シャンチー",
 		"unit": "兵",
@@ -240,7 +228,7 @@
 		}
 	},
 	"卆": {
-		"name": "卒【將棋】",
+		"name": "卒",
 		"display": ["⬡卆", "⬡卒", "卆", "卒"],
 		"gameName": "チャンギ",
 		"unit": "兵",
@@ -756,6 +744,105 @@
 		"unit": "臣",
 		"range": {
 			"default": "駆"
+		}
+	},
+	"国": {
+		"name": "キング",
+		"display": ["♚王", "♔王"],
+		"alias": "國",
+		"gameName": "チェス",
+		"expansion": "カパブランカチェス",
+		"unit": "王",
+		"attr": ["king", "castlingKing"],
+		"range": {
+			"default": "王",
+			"castling": "国"
+		}
+	},
+	"梹": {
+		"name": "ポーン",
+		"display": ["♟兵", "♙兵", "♟梹", "♙梹"],
+		"gameName": "チェス",
+		"expansion": "GrantAcedrex",
+		"unit": "兵",
+		"forcePromoLine": 1,
+		"range": {
+			"default": "歩",
+			"attack": "兵"
+		},
+		"promo": "篩遲麋齶塞鵺"
+	},
+	"師": {
+		"name": "ライオン",
+		"display": ["🦁師"],
+		"gameName": "チェス",
+		"expansion": "GrantAcedrex",
+		"unit": "馬",
+		"range": {
+			"default": "師"
+		}
+	},
+	"犀": {
+		"name": "ユニコーン",
+		"display": ["🦏犀"],
+		"gameName": "チェス",
+		"expansion": "GrantAcedrex",
+		"unit": "馬",
+		"range": {
+			"default": "犀"
+		}
+	},
+	"麟": {
+		"name": "ジラフ",
+		"display": ["🦒麟"],
+		"gameName": "チェス",
+		"expansion": "GrantAcedrex",
+		"unit": "象",
+		"range": {
+			"default": "麟"
+		}
+	},
+	"鰐": {
+		"name": "コカトリス",
+		"display": ["🐊鰐"],
+		"gameName": "チェス",
+		"expansion": "GrantAcedrex",
+		"unit": "象",
+		"range": {
+			"default": "聖"
+		}
+	},
+	"砦": {
+		"name": "ルーク",
+		"display": ["♜砦"],
+		"gameName": "チェス",
+		"expansion": "GrantAcedrex",
+		"unit": "車",
+		"range": {
+			"default": "車"
+		}
+	},
+	"鴻": {
+		"name": "アンカ",
+		"display": ["🦅鴻"],
+		"gameName": "チェス",
+		"expansion": "GrantAcedrex",
+		"unit": "臣",
+		"range": {
+			"default": "鴻"
+		}
+	},
+	"呈": {
+		"name": "キング",
+		"display": ["♚王", "♔王"],
+		"alias": "逞",
+		"gameName": "チェス",
+		"expansion":"GrantAcedrex",
+		"unit": "王",
+		"attr": ["king"],
+		"range": {
+			"default": "王",
+			"start": "呈"
 		}
 	},
 	"矢": {
@@ -1323,6 +1410,48 @@
 		"display": ["🩏駈", "🩒駈"],
 		"range": {
 			"default": "駆"
+		}
+	},
+	"篩": {
+		"name": "Pライオン",
+		"display": ["🦁篩"],
+		"range": {
+			"default": "師"
+		}
+	},
+	"遲": {
+		"name": "Pユニコーン",
+		"display": ["🦏遲"],
+		"range": {
+			"default": "犀"
+		}
+	},
+	"麋": {
+		"name": "Pジラフ",
+		"display": ["🦒麋"],
+		"range": {
+			"default": "麟"
+		}
+	},
+	"齶": {
+		"name": "Pコカトリス",
+		"display": ["🐊齶"],
+		"range": {
+			"default": "聖"
+		}
+	},
+	"塞": {
+		"name": "Pルーク",
+		"display": ["♖塞"],
+		"range": {
+			"default": "車"
+		}
+	},
+	"鵺": {
+		"name": "Pアンカ",
+		"display": ["🦅鴻"],
+		"range": {
+			"default": "鴻"
 		}
 	},
 	"舶": {

@@ -143,6 +143,15 @@
 			{"gameName": "チェス", "pieceSet": "グランドチェス2p"}
 		]
 	},
+	"grantAcedrex": {
+		"name": "Grant Acedrex",
+		"playBoard": "チェス12x12",
+		"useStand": false,
+		"playPieces": [
+			{"gameName": "チェス", "pieceSet": "GrantAcedrex"},
+			{"gameName": "チェス", "pieceSet": "GrantAcedrex2p"}
+		]
+	},
 	"losAlamosChess": {
 		"name": "ロスアラモスチェス",
 		"playBoard": "チェス6x6",

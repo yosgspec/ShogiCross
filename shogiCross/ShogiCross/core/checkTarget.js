@@ -25,6 +25,7 @@ const centerChars = [
  * @param {number} moves- 進行可能なマス数
  */
 const pointChars = [
+	["o"],
 	["A", {child: ["a"]}],
 	["B", {child: ["b"]}],
 	["C", {child: ["c"]}],
@@ -58,18 +59,22 @@ for(let i=1;i<=9;i++)
  */
 function getOrigin(range){
 	const oList = [];
-	const chars = centerChars.map(s=>s[0]);
+	let ownX, ownY;
 	for(let rY=0;rY<range.length;rY++){
 		for(let rX=0;rX<range[rY].length;rX++){
 			const rChar = range[rY][rX];
 			for(let [key, {isOwn}] of centerChars){
 				if(rChar !== key) continue;
-
-				oList.push({oX: rX, oY: rY, isOwn});
+				oList.push({isOwn, oX: rX, oY: rY});
+				if(isOwn) [ownX, ownY] = [rX, rY];
 			}
 		}
 	}
-	return oList;
+	return oList.map(o=>{
+		o.offsetX = o.oX-ownX;
+		o.offsetY = o.oY-ownY;
+		return o;
+	});
 }
 
 /** 駒の移動判定
@@ -100,7 +105,10 @@ export function checkTarget(board, piece, pX, pY){
 	 * @returns boolean
 	 */
 	function canMove(isAttack, x, y, rangeName="", checkRivalDeg=true){
+		if(!field[y] || !field[y][x]) return false;
 		const panel = field[y][x];
+		if(!panel) return false;
+		if(!enPassant.isTarget(rangeName, panel, piece)) return false;
 		if(piece.hasAttr("inPalace") && !panel.hasAttr("palace")) return false;
 		if(rangeName.indexOf("palace") === 0 && !(panel.hasAttr(rangeName) && field[pY][pX].hasAttr(rangeName))) return false;
 		if(piece.hasAttr("unCrossRiver") && yLen-(0|yLen/2) <= board.getRow(x, y, piece.deg)) return false;
@@ -125,7 +133,7 @@ export function checkTarget(board, piece, pX, pY){
 					const [x, y] = [rX+pX-oX, rY+pY-oY];
 					if(
 						!inField(x, y) ||
-						canMove(isAttack, x, y, "", false) ||
+						canMove(isAttack, 0|x, 0|y, "", false) ||
 						range[rY][rX] !== char
 					) continue;
 					return true
@@ -142,7 +150,6 @@ export function checkTarget(board, piece, pX, pY){
 	 */
 	function setTarget(rangeName, x, y){
 		const panel = field[y][x];
-		if(!enPassant.isTarget(rangeName, panel, piece)) return;
 		panel.isTarget = true;
 		enPassant.setTarget(rangeName, panel, piece);
 	}
@@ -154,8 +161,9 @@ export function checkTarget(board, piece, pX, pY){
 	 * @param {number} oX - 移動範囲情報の原点位置(行)
 	 * @param {number} oY - 移動範囲情報の原点位置(列)
 	 */
-	function movePoint(range, [rangeName, {isAttack}], oX, oY){
-		for(const [parent, {child}] of pointChars){
+	function movePoint(range, [rangeName, {isAttack}], {oX, oY, isOwn}){
+		if(!isOwn) return;
+		for(const [parent, {child=[]}={}] of pointChars){
 			for(let rY=0;rY<range.length;rY++){
 				for(let rX=0;rX<range[rY].length;rX++){
 					const [x, y] = [rX+pX-oX, rY+pY-oY];
@@ -176,19 +184,22 @@ export function checkTarget(board, piece, pX, pY){
 	 * @param {number} oX - 移動範囲情報の原点位置(行)
 	 * @param {number} oY - 移動範囲情報の原点位置(列)
 	 */
-	function moveLiner(range, [rangeName, {isAttack}], oX, oY){
+	function moveLiner(range, [rangeName, {isAttack}], {oX, oY, isOwn, offsetX, offsetY}){
+		if(!isOwn && !canMove(false, pX+offsetX, pY+offsetY)) return;
 		for(const [char, {jmps=0, moves=0}={}] of linerChars){
 			const isMoveInf = !moves || 0 === moves;
 			// 原点の周囲8マスを探索
 			for(let rY=oY-1;rY<=oY+1;rY++){
 				for(let rX=oX-1;rX<=oX+1;rX++){
-					if( range[rY][rX] !== char || rX === oX && rY === oY) continue;
+					if(range[rY][rX] !== char || rX === oX && rY === oY) continue;
 					let jmpCnt = jmps? jmps: 0;
 					let moveCnt = moves? moves: 0;
 					const [incX, incY] = [rX-oX, rY-oY];
-					for(let x=pX,y=pY;;){
-						x+=incX;
-						y+=incY;
+					for(let _x=pX,_y=pY;;){
+						_x+=incX;
+						_y+=incY;
+						const x=_x+offsetX;
+						const y=_y+offsetY;
 						if(!inField(x, y) || !isMoveInf && moveCnt === 0) break;
 						const isJumped = 0 === jmpCnt;
 						if(isJumped && canMove(isAttack, x, y, rangeName, isJumped)){
@@ -219,14 +230,12 @@ export function checkTarget(board, piece, pX, pY){
 
 			const range = rangeMap[rangeName];
 			if(!range) continue;
-			const [oX, oY] = getOrigin(range)
-			.filter(({isOwn})=>isOwn).map(({oX, oY})=>[oX, oY]).pop();
-
-			// 点移動
-			movePoint(range, rangeOption, oX, oY);
-
-			// 直線移動
-			moveLiner(range, rangeOption, oX, oY);
+			for(const origin of getOrigin(range)){
+				// 点移動
+				movePoint(range, rangeOption, origin);
+				// 直線移動
+				moveLiner(range, rangeOption, origin);
+			}
 		}
 	})();
 }
