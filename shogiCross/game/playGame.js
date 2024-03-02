@@ -1,7 +1,7 @@
 import {Board, boards, gameSoft} from "../ShogiCross/lib.js";
 import {boardTemplate} from "./boardTemplate.js"
 
-const PlayGamesCustom = {
+const PlayGamesTop = {
 	default: {
 		name: "--ゲームを選択--",
 		playBoard: "クロス13x13",
@@ -38,6 +38,34 @@ const PlayGamesCustom = {
 		run: Board.run
 	}
 };
+const PlayGamesBottom = {
+	image: {
+		name: "駒画像テスト",
+		playBoard: "チェス",
+		useStand: false,
+		run(canvas, {onDrawed}){
+			const {playBoard, useStand} = this;
+			const pieceMap = [
+				"▽く▽く▽く▽く▽く▽く▽く▽く",
+				"▽ぽ▽ぽ▽ぽ▽ぽ▽ぽ▽ぽ▽ぽ▽ぽ",
+				"｜・｜・｜・｜・｜・｜・｜・｜・",
+				"｜・｜・｜・｜・｜・｜・｜・｜・",
+				"｜・｜・｜・｜・｜・｜・｜・｜・",
+				"｜・｜・｜・｜・｜・｜・｜・｜・",
+				"▲ぽ▲ぽ▲ぽ▲ぽ▲ぽ▲ぽ▲ぽ▲ぽ",
+				"▲く▲く▲く▲く▲く▲く▲く▲く"
+			].join("\n");
+
+			const board = new Board(canvas, playBoard, {
+				useStand,
+				...boardTemplate(12)
+			});
+			board.inputPieces(pieceMap);
+			board.onDrawed = onDrawed;
+			return board;
+		}
+	}
+};
 
 Object.keys(gameSoft).forEach(key=>{
 	gameSoft[key].run = function(canvas, options){
@@ -47,6 +75,7 @@ Object.keys(gameSoft).forEach(key=>{
 })
 
 export const PlayGames = {
-	...PlayGamesCustom,
-	...gameSoft
+	...PlayGamesTop,
+	...gameSoft,
+	...PlayGamesBottom
 }

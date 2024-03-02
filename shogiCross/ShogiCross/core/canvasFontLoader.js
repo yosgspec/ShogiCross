@@ -10,7 +10,7 @@ let imported = false;
 const getChars = () => [...
 	new Set([...
 		Object.values(panels).map(({displayText})=>displayText).join("")+
-		Object.values(pieces).map(({display})=>display.join("")).join("")
+		Object.values(pieces).map(({display})=>display? display.join(""): "").join("")
 	])
 ].sort().join("");
 

@@ -25,9 +25,11 @@ export class Piece{
 
 		/* 移動範囲データを補完 */
 		for(const [key, piece] of exPieces){
+			piece.display ??= [];
 			piece.alias ??= "";
 			piece.alias = [...piece.alias];
 			piece.attr ??= [];
+			piece.img ??= null;
 			if(piece.unit) piece.base = piece;
 			if(pieceCost[key]) piece.cost = pieceCost[key];
 			Object.entries(piece.range).forEach(([rangeKey, rangeValue])=>{
@@ -116,6 +118,32 @@ export class Piece{
 		return this.middle+this.size/2;
 	}
 
+	// サイズ変更設定値
+	static sizes = {
+		"KR": 1,
+		"SR": 0.975,
+		"R": 0.95,
+		"UC": 0.925,
+		"C": 0.9
+	}
+	get rare(){
+		return (
+			this.cost <= 0? "KR":
+			24 <= this.cost? "SR":
+			12 <= this.cost? "R":
+			5 <= this.cost? "UC":
+			"C"
+		);
+	}
+
+	/**拡大率を取得
+	 * @returns {number}
+	 */
+	get zoom(){
+		return this.size/100;
+		//zoom = this.size/100*this.sizes[this.rare];
+	}
+
 	/**
 	 * @param {any} ctx - Canvas描画コンテキスト
 	 * @param {Object<string, any>} piece - 駒
@@ -133,6 +161,10 @@ export class Piece{
 		this.middle = 0;
 		this.size = size;
 		this.deg = deg;
+		if(this.img){
+			this.image = new Image();
+			this.image.src = this.img;
+		}
 		this.isMoved = isMoved;
 		this.isSelected = false;
 		this.attr ??= [];
@@ -215,29 +247,54 @@ export class Piece{
 		return range;
 	}
 
-	// サイズ変更設定値
-	sizes = {
-		"KR": 1,
-		"SR": 0.975,
-		"R": 0.95,
-		"UC": 0.925,
-		"C": 0.9
-	}
-	get rare(){
-		return (
-			this.cost <= 0? "KR":
-			24 <= this.cost? "SR":
-			12 <= this.cost? "R":
-			5 <= this.cost? "UC":
-			"C"
-		);
+	/** 駒/マスクを描写 */
+	async draw(){
+		const selectColor = "#FF000055";
+		if(this.img){
+			this.drawImage();
+			if(this.isSelected) this.drawMaskImage(selectColor);
+		}
+		else{
+			this.drawPiece();
+			if(this.isSelected) this.drawMask(selectColor);
+		}
 	}
 
-	/** 駒/マスクを描写 */
-	draw(){
-		this.drawPiece();
-		const selectColor = "#FF000055";
-		if(this.isSelected) this.drawMask(selectColor);
+	/** 駒を描写 */
+	drawImage(){
+		const {ctx, image, size} = this;
+		if(!image) return;
+		image.src = this.img;
+		ctx.save();
+		ctx.translate(this.center, this.middle);
+		ctx.rotate(this.rad);
+		let imgWidth, imgHeight;
+		if(image.width*0.9 < image.height){
+			imgWidth = image.width/image.height*size
+			imgHeight = size;
+		}
+		else {
+			imgWidth = size;
+			imgHeight = image.height/image.width*size;
+		}
+		ctx.drawImage(image, -imgWidth/2, -imgHeight/2, imgWidth, imgHeight);
+		ctx.restore();
+	}
+
+	/** 駒にマスクを描写
+	 * @param {string} color - カラーエフェクトの色
+	 */
+	drawMaskImage(color){
+		const {ctx, size} = this;
+
+		ctx.fillStyle = color;
+		ctx.save();
+		const imgWidth = size*0.9;
+		const imgHeight = size;
+
+		ctx.translate(this.center, this.middle);
+		ctx.fillRect(-imgWidth/2, -imgHeight/2, imgWidth, imgHeight);
+		ctx.restore();
 	}
 
 	/** 将棋駒の外形パスを作成 */
@@ -259,7 +316,7 @@ export class Piece{
 
 	/** 駒を描写 */
 	drawPiece(){
-		const {ctx, game} = this;
+		const {ctx, game, zoom} = this;
 		let fontColor, backgroundColor, borderColor;
 		if(this.hasAttr("promoted")){
 			fontColor = game.promoteFontColor ?? game.fontColor ?? "#000000";
@@ -272,8 +329,6 @@ export class Piece{
 			borderColor = game.borderColor ?? "#777777";
 		}
 
-		const zoom = this.size/100;
-		// const zoom = this.size/100*this.sizes[this.rare];
 		ctx.strokeStyle = borderColor;
 		ctx.fillStyle = backgroundColor;
 		ctx.lineWidth = 8*zoom;
@@ -293,7 +348,6 @@ export class Piece{
 			const height = text.length === 1? fontSize/2: i*fontSize;
 			ctx.fillText(v, 0, height);
 		});
-
 		ctx.restore();
 	}
 
@@ -301,9 +355,7 @@ export class Piece{
 	 * @param {string} color - カラーエフェクトの色
 	 */
 	drawMask(color){
-		const {ctx} = this;
-
-		const zoom = this.size/100;
+		const {ctx, zoom} = this;
 
 		ctx.fillStyle = color;
 		ctx.save();

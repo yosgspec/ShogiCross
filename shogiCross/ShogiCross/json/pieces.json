@@ -1622,5 +1622,27 @@
 		"range": {
 			"default": "金"
 		}
+	},
+	"ぽ": {
+		"name": "てがきぽーん",
+		"img": "./img/handPawn.png",
+		"gameName": "チェス",
+		"unit": "兵",
+		"attr": ["enPassant"],
+		"forcePromoLine": 1,
+		"range": {
+			"default": "歩",
+			"start": "二",
+			"attack": "兵",
+			"enPassant": "通"
+		},
+		"promo": "く"
+	},
+	"く": {
+		"name": "てがきくいーん",
+		"img": "./img/handQween.png",
+		"range": {
+			"default": "后"
+		}
 	}
 }
