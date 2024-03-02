@@ -263,7 +263,7 @@ export class Piece{
 		}
 	}
 
-	/** 駒を描写 */
+	/** 駒画像を描写 */
 	drawImage(){
 		const {ctx, images, size} = this;
 		if(!images) return;
@@ -285,7 +285,7 @@ export class Piece{
 		ctx.restore();
 	}
 
-	/** 駒にマスクを描写
+	/** 駒画像にマスクを描写
 	 * @param {string} color - カラーエフェクトの色
 	 */
 	drawMaskImage(color){
