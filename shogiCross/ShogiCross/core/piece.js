@@ -162,8 +162,11 @@ export class Piece{
 		this.size = size;
 		this.deg = deg;
 		if(this.img){
-			this.image = new Image();
-			this.image.src = this.img;
+			this.images = this.img.map(img=>{
+				const image = new Image();
+				image.src = img;
+				return image;
+			})
 		}
 		this.isMoved = isMoved;
 		this.isSelected = false;
@@ -262,12 +265,13 @@ export class Piece{
 
 	/** 駒を描写 */
 	drawImage(){
-		const {ctx, image, size} = this;
-		if(!image) return;
-		image.src = this.img;
+		const {ctx, images, size} = this;
+		if(!images) return;
 		ctx.save();
 		ctx.translate(this.center, this.middle);
 		ctx.rotate(this.rad);
+		const image = images[this.displayPtn];
+
 		let imgWidth, imgHeight;
 		if(image.width*0.9 < image.height){
 			imgWidth = image.width/image.height*size

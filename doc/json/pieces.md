@@ -10,16 +10,27 @@
 "name": "歩兵"
 ```
 
-## display {string[]}
+## display(省略可) {string[]}
 駒に表示する文字列(1、2文字)の配列。  
 配列の2番目はaliasと対応させて駒の表示を行える。
 ```json
 "display": ["玉將", "王將", "玉将", "王将"]
 ```
 
+## img(省略可) {string}
+駒として表示する画像パス。  
+相対パスとする場合は表示するhtmlを起点とする。  
+displayと同様に配列の2番目はaliasと対応させて駒の表示を行える。
+```json
+"img": [
+	"./img/handPawnWhite.png",
+	"./img/handPawnBlack.png"
+]
+```
+
 ### alias(省略可) {string | char[]}
 キーの別名として定める文字の集合(文字列)。  
-aliasに応じたdisplay表示を行う駒データを生成する。  
+aliasに応じたdisplay/img表示を行う駒データを生成する。  
 alias[n] = display[n+1]  
 として対応する。
 ```json

@@ -46,8 +46,8 @@ const PlayGamesBottom = {
 		run(canvas, {onDrawed}){
 			const {playBoard, useStand} = this;
 			const pieceMap = [
-				"▽く▽く▽く▽く▽く▽く▽く▽く",
-				"▽ぽ▽ぽ▽ぽ▽ぽ▽ぽ▽ぽ▽ぽ▽ぽ",
+				"▽ク▽ク▽ク▽ク▽ク▽ク▽ク▽ク",
+				"▽ポ▽ポ▽ポ▽ポ▽ポ▽ポ▽ポ▽ポ",
 				"｜・｜・｜・｜・｜・｜・｜・｜・",
 				"｜・｜・｜・｜・｜・｜・｜・｜・",
 				"｜・｜・｜・｜・｜・｜・｜・｜・",

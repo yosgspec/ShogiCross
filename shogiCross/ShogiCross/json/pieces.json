@@ -1625,7 +1625,11 @@
 	},
 	"ぽ": {
 		"name": "てがきぽーん",
-		"img": "./img/handPawn.png",
+		"img": [
+			"./img/handPawnWhite.png",
+			"./img/handPawnBlack.png"
+		],
+		"alias": "ポ",
 		"gameName": "チェス",
 		"unit": "兵",
 		"attr": ["enPassant"],
@@ -1640,7 +1644,11 @@
 	},
 	"く": {
 		"name": "てがきくいーん",
-		"img": "./img/handQween.png",
+		"img": [
+			"./img/handQweenWhite.png",
+			"./img/handQweenBlack.png"
+		],
+		"alias": "ク",
 		"range": {
 			"default": "后"
 		}
