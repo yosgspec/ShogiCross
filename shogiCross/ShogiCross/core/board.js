@@ -114,7 +114,6 @@ export class Board{
 			canvas.style.maxWidth = "97vw";
 			canvas.style.maxHeight = "97vh";
 			canvas.style.padding = "0px";
-			console.log(canvas.style)
 		}
 		else if(canvasFit === "always"){
 			canvas.style.width = "97vw";
