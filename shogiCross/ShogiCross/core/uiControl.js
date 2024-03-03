@@ -1,6 +1,6 @@
-import {Board} from "./board.js"
-import {Panel} from "./panel.js"
-import {checkTarget} from "./checkTarget.js"
+import {Board} from "./board.js";
+import {Panel} from "./panel.js";
+import {checkTarget} from "./checkTarget.js";
 
 /** マウスコントロール
  * @param {Board} board - 盤
