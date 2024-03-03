@@ -25,17 +25,18 @@ export function uIControl(board){
 	 * )=>void} fnAfter - 後処理のコールバック関数
      */
 	const fieldProc = (e, fnPanel, fnAfter=()=>{})=>{
+		const viewStyle = window.getComputedStyle(canvas);
 		const rect = e.target.getBoundingClientRect();
-		let x;
-		let y;
+		let x = canvas.width/parseFloat(viewStyle.width);
+		let y = canvas.height/parseFloat(viewStyle.height);
 		if(e.clientX){
-			x = e.clientX-rect.left;
-			y = e.clientY-rect.top;
+			x *= e.clientX-rect.left;
+			y *= e.clientY-rect.top;
 		}
 		else if(0 < e.touches.length){
 			if(1 < e.touches.length) return;
-			x = e.touches[0].clientX-rect.left;
-			y = e.touches[0].clientY-rect.top;
+			x *= e.touches[0].clientX-rect.left;
+			y *= e.touches[0].clientY-rect.top;
 		}
 		else{
 			e.preventDefault();

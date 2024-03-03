@@ -37,11 +37,15 @@ export class Board{
 	}
 
 	/**
+	 * @typedef {"overflow"|"always"|null} canvasFit
+	 */
+	/**
 	 * @param {HTMLCanvasElement} canvas - キャンバス要素
 	 * @param {string} playBoard - ボードタイプ
 	 * @param {number} players - プレイヤー人数(2 or 4)
 	 * @param {number} canvasWidth - キャンバス幅
 	 * @param {number} canvasHeight - キャンバス高さ
+	 * @param {canvasFit} canvasFit - キャンバスサイズの自動調整
 	 * @param {number} boardLeft - 描写するX座標
 	 * @param {number} boardTop - 描写するY座標
 	 * @param {number} panelWidth - パネル幅
@@ -56,6 +60,7 @@ export class Board{
 		players=2,
 		canvasWidth=undefined,
 		canvasHeight=undefined,
+		canvasFit="overflow",
 		boardLeft=5,
 		boardTop=5,
 		panelWidth=50,
@@ -104,8 +109,19 @@ export class Board{
 		this.stand = new Stand(this);
 		canvas.width = canvasWidth ?? (useStand? this.stand.right: this.right)+5;
 		canvas.height = canvasHeight ?? this.bottom+5;
+		// キャンバスサイズ調整
+		if(canvasFit === "overflow"){
+			canvas.style.maxWidth = "97vw";
+			canvas.style.maxHeight = "97vh";
+			canvas.style.padding = "0px";
+			console.log(canvas.style)
+		}
+		else if(canvasFit === "always"){
+			canvas.style.width = "97vw";
+			canvas.style.height = "97vh";
+		}
 
-		// 描写設定
+		// 描写更新設定
 		this.autoDrawing = autoDrawing;
 		if(autoDrawing){
 			canvasFontAsync.then(()=>this.draw());

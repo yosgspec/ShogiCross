@@ -61,7 +61,7 @@
 ![](img/0B_将棋30++右系フル置換.png)
 
 ### [御妃将棋](https://en.wikipedia.org/wiki/Okisaki_shogi)
-チェスの要素を取り入れた将棋。香車はわざと反車として表示した。持ち駒あり。  
+チェスの要素を取り入れた本将棋。香車はわざと反車として表示した。持ち駒あり。  
 ![](img/0C_御妃将棋.png)
 
 ### [四人将棋](https://ja.wikipedia.org/wiki/%E5%9B%9B%E4%BA%BA%E5%B0%86%E6%A3%8B)
@@ -74,7 +74,7 @@
 </details>
 
 ## [チェス](https://ja.wikipedia.org/wiki/%E3%83%81%E3%82%A7%E3%82%B9)
-西洋の将棋類。持ち駒なし。  
+西洋の将棋類。西洋将棋とも呼ばれる。持ち駒なし。  
 ![](img/10_チェス.png)
 
 <details>
@@ -102,15 +102,15 @@
 </details>
 
 ## [シャンチー](https://ja.wikipedia.org/wiki/%E3%82%B7%E3%83%A3%E3%83%B3%E3%83%81%E3%83%BC)
-中国の将棋類。持ち駒なし。  
+中国の将棋類。象棋、中国将棋とも呼ばれる。持ち駒なし。  
 ![](img/20_シャンチー.png)
 
 ## [チャンギ](https://ja.wikipedia.org/wiki/%E3%83%81%E3%83%A3%E3%83%B3%E3%82%AE)
-朝鮮半島の将棋類。持ち駒なし。  
+朝鮮半島の将棋類。朝鮮将棋とも呼ばれる。持ち駒なし。  
 ![](img/30_チャンギ.png)
 
 ## [マークルック](https://ja.wikipedia.org/wiki/%E3%83%9E%E3%83%BC%E3%82%AF%E3%83%AB%E3%83%83%E3%82%AF)
-タイの将棋類。持ち駒なし。  
+タイの将棋類。タイ将棋とも呼ばれる。持ち駒なし。  
 ![](img/40_マークルック.png)
 
 ## [チャトランガ](https://ja.wikipedia.org/wiki/%E3%83%81%E3%83%A3%E3%83%88%E3%83%A9%E3%83%B3%E3%82%AC)
@@ -121,7 +121,7 @@
 <summary style=cursor:pointer>バリエーション</summary>
 
 ### [チャトラジ](https://ja.wikipedia.org/wiki/%E3%83%81%E3%83%A3%E3%83%88%E3%83%A9%E3%82%B8)
-四人用のバリエーション。持ち駒なし。  
+四人用のバリエーション。本来はダイスで動かす駒を決める。持ち駒なし。  
 ![](img/51_チャトラジ.png)
 </details>
 
@@ -133,12 +133,12 @@
 <summary style=cursor:pointer>バリエーション</summary>
 
 ### [ごろごろどうぶつしょうぎ](https://www.silverstar.co.jp/02products/dobutsushogi/switch/gorogoro.html)
-「きりん」と「ぞう」の代わりに「いぬ」(金将)と「ねこ」(銀将)を追加したどうぶつしょうぎ。持ち駒あり。  
+「きりん」と「ぞう」の代わりに「いぬ」(金将)と「ねこ」(銀将)を追加したどうぶつしょうぎ。5656将棋のどうぶつしょうぎ版。持ち駒あり。  
 ![](img/61_ごろごろどうぶつしょうぎ.png)
 </details>
 
 ## [禽将棋](https://ja.wikipedia.org/wiki/%E7%A6%BD%E5%B0%86%E6%A3%8B)
-鳥の名の駒を使用する将棋。持ち駒あり。  
+鳥の名の駒を使用する将棋。特殊な動きをする駒が多い。持ち駒あり。  
 ![](img/70_禽将棋.png)
 
 ## [中将棋](https://ja.wikipedia.org/wiki/%E4%B8%AD%E5%B0%86%E6%A3%8B)
@@ -162,6 +162,5 @@
 </details>
 
 ## [Grant Acedrex](https://www.chessvariants.org/rules/grantacedrex)
-古のチェスの一種。特殊な動きをする駒が多い。  
-プロモーション先は本来は敵陣の到着列の駒となる(未実装)。持ち駒なし。  
+古のチェスの一種。特殊な動きをする駒が多い。プロモーション先は本来は敵陣の到着列の駒となる(未実装)。持ち駒なし。  
 ![](img/90_GrantAcedrex.png)
