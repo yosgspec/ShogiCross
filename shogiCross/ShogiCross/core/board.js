@@ -113,7 +113,6 @@ export class Board{
 		if(canvasFit === "overflow"){
 			canvas.style.maxWidth = "97vw";
 			canvas.style.maxHeight = "97vh";
-			canvas.style.padding = "0px";
 		}
 		else if(canvasFit === "always"){
 			canvas.style.width = "97vw";
