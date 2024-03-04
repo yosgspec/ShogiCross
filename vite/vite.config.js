@@ -4,22 +4,12 @@ export default defineConfig({
 	root: "../shogiCross/ShogiCross/",
 	publicDir: "json",
 	build: {
+		target: "esnext",
 		lib: {
 			entry: "lib.js",
 			name: "ShogiCross",
-			fileName: "ShogiCross"
-		},
-		rollupOptions: {
-			external: [
-				"./json/gameSoft.json",
-				"./json/boards.json",
-				"./json/canvasFont.json",
-				"./json/games.json",
-				"./json/panels.json",
-				"./json/pieceCost.json",
-				"./json/pieceRange.json",
-				"./json/pieces.json"
-			],
+			fileName: "lib",
+			formats: ["es"]
 		},
 		outDir: "../../vite/dist"
 	}

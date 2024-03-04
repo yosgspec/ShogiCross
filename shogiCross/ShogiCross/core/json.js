@@ -1,9 +1,11 @@
-import canvasFont from "../json/canvasFont.json" assert {type: "json"};
-import gameSoft from "../json/gameSoft.json" assert {type: "json"};
-import games from "../json/games.json" assert {type: "json"};
-import boards from "../json/boards.json" assert {type: "json"};
-import panels from "../json/panels.json" assert {type: "json"};
-import pieces from "../json/pieces.json" assert {type: "json"};
-import pieceRange from "../json/pieceRange.json" assert {type: "json"};
-import pieceCost from "../json/pieceCost.json" assert {type: "json"};
-export {canvasFont, gameSoft, games, boards, panels, pieces, pieceRange, pieceCost};
+const base = './json/';
+const importJson = async name=>await fetch(`${base}${name}.json`).then(res=>res.json())
+
+export const canvasFont = await importJson("canvasFont");
+export const gameSoft = await importJson("gameSoft");
+export const games = await importJson("games");
+export const boards = await importJson("boards");
+export const panels = await importJson("panels");
+export const pieces = await importJson("pieces");
+export const pieceRange = await importJson("pieceRange");
+export const pieceCost = await importJson("pieceCost");

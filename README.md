@@ -16,7 +16,8 @@
 * その他バリエーション等
 
 ### 駒配置
-[別紙参照](doc/positions/README.md)
+[別紙参照](doc/positions/README.md)  
+[Webアプリ版](http://tool.yosgspec.com/shogiCross/playBoard.html)
 
 ### 駒情報
 [別紙参照](doc/pieces/README.md)

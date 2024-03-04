@@ -184,6 +184,21 @@
 			"BWBWBWBWBW"
 		]
 	},
+	"チェス12x8": {
+		"backgroundColor": "#444444",
+		"borderColor": "#000000",
+		"borderWidth": 2,
+		"field": [
+			"WBWBWBWBWBWB",
+			"BWBWBWBWBWBW",
+			"WBWBWBWBWBWB",
+			"BWBWBWBWBWBW",
+			"WBWBWBWBWBWB",
+			"BWBWBWBWBWBW",
+			"WBWBWBWBWBWB",
+			"BWBWBWBWBWBW"
+		]
+	},
 	"チェス12x12": {
 		"backgroundColor": "#444444",
 		"borderColor": "#000000",

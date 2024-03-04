@@ -164,3 +164,15 @@
 ## [Grant Acedrex](https://www.chessvariants.org/rules/grantacedrex)
 古のチェスの一種。特殊な動きをする駒が多い。プロモーション先は本来は敵陣の到着列の駒となる(未実装)。持ち駒なし。  
 ![](img/90_GrantAcedrex.png)
+
+## [クーリエチェス(定形配置)](https://en.wikipedia.org/wiki/Courier_chess)
+古のチェスの一種。ビショップに等しい走り駒(クーリエ)が初めて使用された。持ち駒なし。  
+![](img/A0_クーリエチェス(定形チェス).png)
+
+<details>
+<summary style=cursor:pointer>バリエーション</summary>
+
+## [クーリエチェス(初期配置)](https://en.wikipedia.org/wiki/Courier_chess)
+ーリエチェスの定形移動を行わない配置。持ち駒なし。  
+![](img/A1_クーリエチェス(初期チェス).png)
+</details>

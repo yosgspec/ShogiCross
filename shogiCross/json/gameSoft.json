@@ -119,6 +119,18 @@
 			{"gameName": "チェス", "pieceSet": "GrantAcedrex2p"}
 		]
 	},
+	"courierChessAdvanced": {
+		"name": "クーリエチェス(定形配置)",
+		"variant": "クーリエチェス(定形配置)",
+		"url": "https://en.wikipedia.org/wiki/Courier_chess",
+		"desc": "古のチェスの一種。ビショップに等しい走り駒(クーリエ)が初めて使用された。",
+		"playBoard": "チェス12x8",
+		"useStand": false,
+		"playPieces": [
+			{"gameName": "チェス", "pieceSet": "クーリエチェス(定形配置)"},
+			{"gameName": "チェス", "pieceSet": "クーリエチェス(定形配置)2p"}
+		]
+	},
 	"e5Shogi": {
 		"name": "5五将棋",
 		"variant": "将棋",
@@ -467,6 +479,18 @@
 			{"gameName": "将棋", "pieceSet": "大将棋2p"}
 		]
 	},
+	"courierChess": {
+		"name": "クーリエチェス(初期配置)",
+		"variant": "クーリエチェス(定形配置)",
+		"url": "https://en.wikipedia.org/wiki/Courier_chess",
+		"desc": "クーリエチェスの定形移動を行わない配置。",
+		"playBoard": "チェス12x8",
+		"useStand": false,
+		"playPieces": [
+			{"gameName": "チェス", "pieceSet": "クーリエチェス(初期配置)"},
+			{"gameName": "チェス", "pieceSet": "クーリエチェス(初期配置)2p"}
+		]
+	},
 	"p4Shogi": {
 		"name": "四人将棋",
 		"variant": "将棋",
@@ -524,10 +548,10 @@
 		]
 	},
 	"handChess": {
-		"name": "駒画像テスト用",
+		"name": "駒画像テスト",
 		"variant": "チェス",
 		"url": "https://ja.wikipedia.org/wiki/%E3%83%81%E3%82%A7%E3%82%B9",
-		"desc": "駒に画像を設定したチェス",
+		"desc": "駒に画像を設定したチェス。",
 		"playBoard": "チェス",
 		"useStand": false,
 		"playPieces": [
