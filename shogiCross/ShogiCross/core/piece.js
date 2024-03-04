@@ -136,12 +136,22 @@ export class Piece{
 		);
 	}
 
-	/**拡大率を取得
+	/** 拡大率を取得
 	 * @returns {number}
 	 */
 	get zoom(){
 		return this.size/100;
 		//zoom = this.size/100*this.sizes[this.rare];
+	}
+
+	/** 画像オブジェクトの取得 */
+	initImages(){
+		if(!this.img) return;
+		this.images = this.img.map(img=>{
+			const image = new Image();
+			image.src = img;
+			return image;
+		});
 	}
 
 	/**
@@ -161,13 +171,8 @@ export class Piece{
 		this.middle = 0;
 		this.size = size;
 		this.deg = deg;
-		if(this.img){
-			this.images = this.img.map(img=>{
-				const image = new Image();
-				image.src = img;
-				return image;
-			})
-		}
+		this.initImages();
+		this.isRotateImg ??= true;
 		this.isMoved = isMoved;
 		this.isSelected = false;
 		this.attr ??= [];
@@ -205,6 +210,7 @@ export class Piece{
 		if(!promo in promo) throw Error(`promo=${char}, Plomote key is missing.`);
 		if(this.hasAttr("promoted")) throw Error(`promo=${char}, Promoted piece.`);
 		Object.assign(this, promo[char]);
+		this.initImages();
 		this.char = char;
 	}
 
@@ -269,7 +275,7 @@ export class Piece{
 		if(!images) return;
 		ctx.save();
 		ctx.translate(this.center, this.middle);
-		ctx.rotate(this.rad);
+		if(this.isRotateImg) ctx.rotate(this.rad);
 		const image = images[this.displayPtn];
 
 		let imgWidth, imgHeight;

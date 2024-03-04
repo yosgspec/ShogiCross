@@ -1,6 +1,7 @@
 {
 	"shogi": {
 		"name": "将棋",
+		"variant": "将棋",
 		"url": "https://ja.wikipedia.org/wiki/%E5%B0%86%E6%A3%8B",
 		"desc": "一般的な将棋。本将棋とも呼ばれる。",
 		"playBoard": "将棋",
@@ -12,6 +13,7 @@
 	},
 	"chess": {
 		"name": "チェス",
+		"variant": "チェス",
 		"url": "https://ja.wikipedia.org/wiki/%E3%83%81%E3%82%A7%E3%82%B9",
 		"desc": "西洋の将棋類。西洋将棋とも呼ばれる。",
 		"playBoard": "チェス",
@@ -23,6 +25,7 @@
 	},
 	"xiangq": {
 		"name": "シャンチー",
+		"variant": "シャンチー",
 		"url": "https://ja.wikipedia.org/wiki/%E3%82%B7%E3%83%A3%E3%83%B3%E3%83%81%E3%83%BC",
 		"desc": "中国の将棋類。象棋、中国将棋とも呼ばれる。",
 		"playBoard": "シャンチー",
@@ -34,6 +37,7 @@
 	},
 	"janggi": {
 		"name": "チャンギ",
+		"variant": "チャンギ",
 		"url": "https://ja.wikipedia.org/wiki/%E3%83%81%E3%83%A3%E3%83%B3%E3%82%AE",
 		"desc": "朝鮮半島の将棋類。朝鮮将棋とも呼ばれる。",
 		"playBoard": "チャンギ",
@@ -45,6 +49,7 @@
 	},
 	"makruk": {
 		"name": "マークルック",
+		"variant": "マークルック",
 		"url": "https://ja.wikipedia.org/wiki/%E3%83%9E%E3%83%BC%E3%82%AF%E3%83%AB%E3%83%83%E3%82%AF",
 		"desc": "タイの将棋類。タイ将棋とも呼ばれる。",
 		"playBoard": "マークルック",
@@ -56,6 +61,7 @@
 	},
 	"chaturanga": {
 		"name": "チャトランガ",
+		"variant": "チャトランガ",
 		"url": "https://ja.wikipedia.org/wiki/%E3%83%81%E3%83%A3%E3%83%88%E3%83%A9%E3%83%B3%E3%82%AC",
 		"desc": "原初の将棋類。詳細なルールは失われている。",
 		"playBoard": "チェス",
@@ -67,6 +73,7 @@
 	},
 	"dobutsuShogi": {
 		"name": "どうぶつしょうぎ",
+		"variant": "どうぶつしょうぎ",
 		"url": "https://www.silverstar.co.jp/02products/dobutsushogi/switch/animal.html",
 		"desc": "入門用として考案された将棋。",
 		"playBoard": "どうぶつしょうぎ",
@@ -78,6 +85,7 @@
 	},
 	"toriShogi": {
 		"name": "禽将棋",
+		"variant": "禽将棋",
 		"url": "https://ja.wikipedia.org/wiki/%E7%A6%BD%E5%B0%86%E6%A3%8B",
 		"desc": "鳥の名の駒を使用する将棋。特殊な動きをする駒が多い。",
 		"playBoard": "将棋7x7",
@@ -89,6 +97,7 @@
 	},
 	"chuShogi": {
 		"name": "中将棋",
+		"variant": "中将棋",
 		"url": "https://ja.wikipedia.org/wiki/%E4%B8%AD%E5%B0%86%E6%A3%8B",
 		"desc": "現在でもプレイされることのある古将棋の一種。",
 		"playBoard": "古将棋12x12",
@@ -96,6 +105,30 @@
 		"playPieces": [
 			{"gameName": "将棋", "pieceSet": "中将棋"},
 			{"gameName": "将棋", "pieceSet": "中将棋2p"}
+		]
+	},
+	"grantAcedrex": {
+		"name": "Grant Acedrex",
+		"variant": "Grant Acedrex",
+		"url": "https://www.chessvariants.org/rules/grantacedrex",
+		"desc": "古のチェスの一種。特殊な動きをする駒が多い。プロモーション先は本来は敵陣の到着列の駒となる(未実装)。",
+		"playBoard": "チェス12x12",
+		"useStand": false,
+		"playPieces": [
+			{"gameName": "チェス", "pieceSet": "GrantAcedrex"},
+			{"gameName": "チェス", "pieceSet": "GrantAcedrex2p"}
+		]
+	},
+	"e5Shogi": {
+		"name": "5五将棋",
+		"variant": "将棋",
+		"url": "https://ja.wikipedia.org/wiki/5%E4%BA%94%E5%B0%86%E6%A3%8B",
+		"desc": "簡略化された将棋。",
+		"playBoard": "将棋5x5",
+		"useStand": true,
+		"playPieces": [
+			{"gameName": "将棋", "pieceSet": "default"},
+			{"gameName": "将棋", "pieceSet": "2p"}
 		]
 	},
 	"asakuraShogi": {
@@ -108,6 +141,54 @@
 		"playPieces": [
 			{"gameName": "将棋", "pieceSet": "小将棋"},
 			{"gameName": "将棋", "pieceSet": "小将棋2p"}
+		]
+	},
+	"shoShogi": {
+		"name": "小将棋",
+		"variant": "将棋",
+		"url": "https://ja.wikipedia.org/wiki/%E5%B0%8F%E5%B0%86%E6%A3%8B",
+		"desc": "中将棋から駒を取り入れて原点回帰した平安将棋。",
+		"playBoard": "将棋",
+		"useStand": false,
+		"playPieces": [
+			{"gameName": "将棋", "pieceSet": "小将棋"},
+			{"gameName": "将棋", "pieceSet": "小将棋2p"}
+		]
+	},
+	"heianShogi8x8": {
+		"name": "平安将棋(8x8)",
+		"variant": "将棋",
+		"url": "https://ja.wikipedia.org/wiki/%E5%B9%B3%E5%AE%89%E5%B0%86%E6%A3%8B",
+		"desc": "記録が残る最古の日本の将棋。盤の大きさに緒説ある。",
+		"playBoard": "古将棋8x8",
+		"useStand": false,
+		"playPieces": [
+			{"gameName": "将棋", "pieceSet": "平安将棋"},
+			{"gameName": "将棋", "pieceSet": "平安将棋"}
+		]
+	},
+	"heianShogi9x8": {
+		"name": "平安将棋(9x8)",
+		"variant": "将棋",
+		"url": "https://ja.wikipedia.org/wiki/%E5%B9%B3%E5%AE%89%E5%B0%86%E6%A3%8B",
+		"desc": "記録が残る最古の日本の将棋。盤の大きさに緒説ある。",
+		"playBoard": "古将棋9x8",
+		"useStand": false,
+		"playPieces": [
+			{"gameName": "将棋", "pieceSet": "平安将棋"},
+			{"gameName": "将棋", "pieceSet": "平安将棋"}
+		]
+	},
+	"heianShogi9x9": {
+		"name": "平安将棋(9x9)",
+		"variant": "将棋",
+		"url": "https://ja.wikipedia.org/wiki/%E5%B9%B3%E5%AE%89%E5%B0%86%E6%A3%8B",
+		"desc": "記録が残る最古の日本の将棋。盤の大きさに緒説ある。",
+		"playBoard": "古将棋9x9",
+		"useStand": false,
+		"playPieces": [
+			{"gameName": "将棋", "pieceSet": "平安将棋"},
+			{"gameName": "将棋", "pieceSet": "平安将棋"}
 		]
 	},
 	"kyoShogiLeft": {
@@ -132,113 +213,6 @@
 		"playPieces": [
 			{"gameName": "将棋", "pieceSet": "京将棋(右京配置)"},
 			{"gameName": "将棋", "pieceSet": "京将棋(右京配置)2p"}
-		]
-	},
-	"e5Shogi": {
-		"name": "5五将棋",
-		"variant": "将棋",
-		"url": "https://ja.wikipedia.org/wiki/5%E4%BA%94%E5%B0%86%E6%A3%8B",
-		"desc": "簡略化された将棋。",
-		"playBoard": "将棋5x5",
-		"useStand": true,
-		"playPieces": [
-			{"gameName": "将棋", "pieceSet": "default"},
-			{"gameName": "将棋", "pieceSet": "2p"}
-		]
-	},
-	"crazyHouse": {
-		"name": "クレージーハウス",
-		"variant": "チェス",
-		"url": "https://ja.wikipedia.org/wiki/%E3%82%AF%E3%83%AC%E3%83%BC%E3%82%B8%E3%83%BC%E3%83%8F%E3%82%A6%E3%82%B9",
-		"desc": "持ち駒が使用できるチェス。",
-		"playBoard": "クレージーハウス",
-		"useStand": true,
-		"playPieces": [
-			{"gameName": "チェス", "pieceSet": "default"},
-			{"gameName": "チェス", "pieceSet": "2p"}
-		]
-	},
-	"capablancaChess": {
-		"name": "カパブランカチェス",
-		"variant": "チェス",
-		"url": "https://en.wikipedia.org/wiki/Capablanca_chess",
-		"desc": "マーシャル(エンプレス)、カーディナル(プリンセス)を追加したチェス。",
-		"playBoard": "チェス10x8",
-		"useStand": false,
-		"playPieces": [
-			{"gameName": "チェス", "pieceSet": "カパブランカチェス"},
-			{"gameName": "チェス", "pieceSet": "カパブランカチェス2p"}
-		]
-	},
-	"grandChess": {
-		"name": "グランドチェス",
-		"variant": "チェス",
-		"url": "https://en.wikipedia.org/wiki/Grand_Chess",
-		"desc": "カパブランカチェスと同様の駒を使用するが配置が異なる。",
-		"playBoard": "チェス10x10",
-		"useStand": false,
-		"playPieces": [
-			{"gameName": "チェス", "pieceSet": "グランドチェス"},
-			{"gameName": "チェス", "pieceSet": "グランドチェス2p"}
-		]
-	},
-	"grantAcedrex": {
-		"name": "Grant Acedrex",
-		"url": "https://www.chessvariants.org/rules/grantacedrex",
-		"desc": "古のチェスの一種。特殊な動きをする駒が多い。プロモーション先は本来は敵陣の到着列の駒となる(未実装)。",
-		"playBoard": "チェス12x12",
-		"useStand": false,
-		"playPieces": [
-			{"gameName": "チェス", "pieceSet": "GrantAcedrex"},
-			{"gameName": "チェス", "pieceSet": "GrantAcedrex2p"}
-		]
-	},
-	"losAlamosChess": {
-		"name": "ロスアラモスチェス",
-		"variant": "チェス",
-		"url": "https://en.wikipedia.org/wiki/Los_Alamos_chess",
-		"desc": "簡略化されたチェス。",
-		"playBoard": "チェス6x6",
-		"useStand": false,
-		"playPieces": [
-			{"gameName": "チェス", "pieceSet": "default"},
-			{"gameName": "チェス", "pieceSet": "2p"}
-		]
-	},
-	"gorogoroDobutsuShogi": {
-		"name": "ごろごろどうぶつしょうぎ",
-		"variant": "どうぶつしょうぎ",
-		"url": "https://www.silverstar.co.jp/02products/dobutsushogi/switch/gorogoro.html",
-		"desc": "「きりん」と「ぞう」の代わりに「いぬ」(金将)と「ねこ」(銀将)を追加したどうぶつしょうぎ。5656将棋のどうぶつしょうぎ版。",
-		"playBoard": "ごろごろどうぶつしょうぎ",
-		"useStand": true,
-		"playPieces": [
-			{"gameName": "どうぶつしょうぎ", "pieceSet": "default"},
-			{"gameName": "どうぶつしょうぎ", "pieceSet": "default"}
-		]
-	},
-	"daiShogi": {
-		"name": "大将棋",
-		"variant": "中将棋",
-		"url": "https://ja.wikipedia.org/wiki/%E5%A4%A7%E5%B0%86%E6%A3%8B",
-		"desc": "中将棋の祖先とされる古将棋。",
-		"playBoard": "古将棋15x15",
-		"useStand": false,
-		"playPieces": [
-			{"gameName": "将棋", "pieceSet": "大将棋"},
-			{"gameName": "将棋", "pieceSet": "大将棋2p"}
-		]
-	},
-	"shishiShogi": {
-		"name": "獅子将棋",
-		"variant": "将棋",
-		"url": "https://drive.google.com/file/d/1emrOmE1Xh-sR8wApTOikEgXDGVaAYrrO/view",
-		"desc": "中将棋を遊びやすくするよう考案された将棋。",
-		"playBoard": "古将棋9x9",
-		"useStand": false,
-		"playPieces": [
-			{"gameName": "将棋", "pieceSet": "獅子将棋"},
-			{"gameName": "将棋", "pieceSet": "獅子将棋2p"}
 		]
 	},
 	"shoKyoShogiLeft": {
@@ -385,52 +359,88 @@
 			{"gameName": "将棋", "pieceSet": "将棋30++(右系フル置換)2p"}
 		]
 	},
-	"shoShogi": {
-		"name": "小将棋",
+	"okisakiShogi": {
+		"name": "御妃将棋",
 		"variant": "将棋",
-		"url": "https://ja.wikipedia.org/wiki/%E5%B0%8F%E5%B0%86%E6%A3%8B",
-		"desc": "中将棋から駒を取り入れて原点回帰した平安将棋。",
-		"playBoard": "将棋",
-		"useStand": false,
+		"url": "https://en.wikipedia.org/wiki/Okisaki_shogi",
+		"desc": "チェスの要素を取り入れた本将棋。香車はわざと反車として表示した。",
+		"playBoard": "将棋10x10",
+		"useStand": true,
 		"playPieces": [
-			{"gameName": "将棋", "pieceSet": "小将棋"},
-			{"gameName": "将棋", "pieceSet": "小将棋2p"}
+			{"gameName": "将棋", "pieceSet": "御妃将棋"},
+			{"gameName": "将棋", "pieceSet": "御妃将棋2p"}
 		]
 	},
-	"heianShogi8x8": {
-		"name": "平安将棋(8x8)",
-		"variant": "将棋",
-		"url": "https://ja.wikipedia.org/wiki/%E5%B9%B3%E5%AE%89%E5%B0%86%E6%A3%8B",
-		"desc": "記録が残る最古の日本の将棋。盤の大きさに緒説ある。",
-		"playBoard": "古将棋8x8",
-		"useStand": false,
+	"crazyHouse": {
+		"name": "クレージーハウス",
+		"variant": "チェス",
+		"url": "https://ja.wikipedia.org/wiki/%E3%82%AF%E3%83%AC%E3%83%BC%E3%82%B8%E3%83%BC%E3%83%8F%E3%82%A6%E3%82%B9",
+		"desc": "持ち駒が使用できるチェス。",
+		"playBoard": "クレージーハウス",
+		"useStand": true,
 		"playPieces": [
-			{"gameName": "将棋", "pieceSet": "平安将棋"},
-			{"gameName": "将棋", "pieceSet": "平安将棋"}
+			{"gameName": "チェス", "pieceSet": "default"},
+			{"gameName": "チェス", "pieceSet": "2p"}
 		]
 	},
-	"heianShogi9x8": {
-		"name": "平安将棋(9x8)",
-		"variant": "将棋",
-		"url": "https://ja.wikipedia.org/wiki/%E5%B9%B3%E5%AE%89%E5%B0%86%E6%A3%8B",
-		"desc": "記録が残る最古の日本の将棋。盤の大きさに緒説ある。",
-		"playBoard": "古将棋9x8",
+	"losAlamosChess": {
+		"name": "ロスアラモスチェス",
+		"variant": "チェス",
+		"url": "https://en.wikipedia.org/wiki/Los_Alamos_chess",
+		"desc": "簡略化されたチェス。",
+		"playBoard": "チェス6x6",
 		"useStand": false,
 		"playPieces": [
-			{"gameName": "将棋", "pieceSet": "平安将棋"},
-			{"gameName": "将棋", "pieceSet": "平安将棋"}
+			{"gameName": "チェス", "pieceSet": "default"},
+			{"gameName": "チェス", "pieceSet": "2p"}
 		]
 	},
-	"heianShogi9x9": {
-		"name": "平安将棋(9x9)",
-		"variant": "将棋",
-		"url": "https://ja.wikipedia.org/wiki/%E5%B9%B3%E5%AE%89%E5%B0%86%E6%A3%8B",
-		"desc": "記録が残る最古の日本の将棋。盤の大きさに緒説ある。",
+	"capablancaChess": {
+		"name": "カパブランカチェス",
+		"variant": "チェス",
+		"url": "https://en.wikipedia.org/wiki/Capablanca_chess",
+		"desc": "マーシャル(エンプレス)、カーディナル(プリンセス)を追加したチェス。",
+		"playBoard": "チェス10x8",
+		"useStand": false,
+		"playPieces": [
+			{"gameName": "チェス", "pieceSet": "カパブランカチェス"},
+			{"gameName": "チェス", "pieceSet": "カパブランカチェス2p"}
+		]
+	},
+	"grandChess": {
+		"name": "グランドチェス",
+		"variant": "チェス",
+		"url": "https://en.wikipedia.org/wiki/Grand_Chess",
+		"desc": "カパブランカチェスと同様の駒を使用するが配置が異なる。",
+		"playBoard": "チェス10x10",
+		"useStand": false,
+		"playPieces": [
+			{"gameName": "チェス", "pieceSet": "グランドチェス"},
+			{"gameName": "チェス", "pieceSet": "グランドチェス2p"}
+		]
+	},
+	"gorogoroDobutsuShogi": {
+		"name": "ごろごろどうぶつしょうぎ",
+		"variant": "どうぶつしょうぎ",
+		"url": "https://www.silverstar.co.jp/02products/dobutsushogi/switch/gorogoro.html",
+		"desc": "「きりん」と「ぞう」の代わりに「いぬ」(金将)と「ねこ」(銀将)を追加したどうぶつしょうぎ。5656将棋のどうぶつしょうぎ版。",
+		"playBoard": "ごろごろどうぶつしょうぎ",
+		"useStand": true,
+		"playPieces": [
+			{"gameName": "どうぶつしょうぎ", "pieceSet": "default"},
+			{"gameName": "どうぶつしょうぎ", "pieceSet": "default"}
+		]
+	},
+	"shishiShogi": {
+		"name": "獅子将棋",
+		"variant": "中将棋",
+		"url": "https://drive.google.com/file/d/1emrOmE1Xh-sR8wApTOikEgXDGVaAYrrO/view",
+		"desc": "中将棋を遊びやすくするよう考案された将棋。",
 		"playBoard": "古将棋9x9",
 		"useStand": false,
 		"playPieces": [
-			{"gameName": "将棋", "pieceSet": "平安将棋"},
-			{"gameName": "将棋", "pieceSet": "平安将棋"}
+			{"gameName": "将棋", "pieceSet": "獅子将棋"},
+			{"gameName": "将棋", "pieceSet": "獅子将棋2p"}
 		]
 	},
 	"heiseiShogi": {
@@ -445,16 +455,16 @@
 			{"gameName": "将棋", "pieceSet": "平成将棋2p"}
 		]
 	},
-	"okisakiShogi": {
-		"name": "御妃将棋",
-		"variant": "将棋",
-		"url": "https://en.wikipedia.org/wiki/Okisaki_shogi",
-		"desc": "チェスの要素を取り入れた本将棋。香車はわざと反車として表示した。",
-		"playBoard": "将棋10x10",
-		"useStand": true,
+	"daiShogi": {
+		"name": "大将棋",
+		"variant": "中将棋",
+		"url": "https://ja.wikipedia.org/wiki/%E5%A4%A7%E5%B0%86%E6%A3%8B",
+		"desc": "中将棋の祖先とされる古将棋。",
+		"playBoard": "古将棋15x15",
+		"useStand": false,
 		"playPieces": [
-			{"gameName": "将棋", "pieceSet": "御妃将棋"},
-			{"gameName": "将棋", "pieceSet": "御妃将棋2p"}
+			{"gameName": "将棋", "pieceSet": "大将棋"},
+			{"gameName": "将棋", "pieceSet": "大将棋2p"}
 		]
 	},
 	"p4Shogi": {
@@ -511,6 +521,18 @@
 			{"gameName": "チャトランガ", "pieceSet": "p4"},
 			{"gameName": "チャトランガ", "pieceSet": "p4"},
 			{"gameName": "チャトランガ", "pieceSet": "p4"}
+		]
+	},
+	"handChess": {
+		"name": "駒画像テスト用",
+		"variant": "チェス",
+		"url": "https://ja.wikipedia.org/wiki/%E3%83%81%E3%82%A7%E3%82%B9",
+		"desc": "駒に画像を設定したチェス",
+		"playBoard": "チェス",
+		"useStand": false,
+		"playPieces": [
+			{"gameName": "チェス", "pieceSet": "てがきちぇす"},
+			{"gameName": "チェス", "pieceSet": "てがきちぇす2p"}
 		]
 	}
 }

@@ -759,92 +759,6 @@
 			"castling": "国"
 		}
 	},
-	"梹": {
-		"name": "ポーン",
-		"display": ["♟兵", "♙兵", "♟梹", "♙梹"],
-		"gameName": "チェス",
-		"expansion": "GrantAcedrex",
-		"unit": "兵",
-		"forcePromoLine": 1,
-		"range": {
-			"default": "歩",
-			"attack": "兵"
-		},
-		"promo": "篩遲麋齶塞鵺"
-	},
-	"師": {
-		"name": "ライオン",
-		"display": ["🦁師"],
-		"gameName": "チェス",
-		"expansion": "GrantAcedrex",
-		"unit": "馬",
-		"range": {
-			"default": "師"
-		}
-	},
-	"犀": {
-		"name": "ユニコーン",
-		"display": ["🦏犀"],
-		"gameName": "チェス",
-		"expansion": "GrantAcedrex",
-		"unit": "馬",
-		"range": {
-			"default": "犀"
-		}
-	},
-	"麟": {
-		"name": "ジラフ",
-		"display": ["🦒麟"],
-		"gameName": "チェス",
-		"expansion": "GrantAcedrex",
-		"unit": "象",
-		"range": {
-			"default": "麟"
-		}
-	},
-	"鰐": {
-		"name": "コカトリス",
-		"display": ["🐊鰐"],
-		"gameName": "チェス",
-		"expansion": "GrantAcedrex",
-		"unit": "象",
-		"range": {
-			"default": "聖"
-		}
-	},
-	"砦": {
-		"name": "ルーク",
-		"display": ["♜砦"],
-		"gameName": "チェス",
-		"expansion": "GrantAcedrex",
-		"unit": "車",
-		"range": {
-			"default": "車"
-		}
-	},
-	"鴻": {
-		"name": "アンカ",
-		"display": ["🦅鴻"],
-		"gameName": "チェス",
-		"expansion": "GrantAcedrex",
-		"unit": "臣",
-		"range": {
-			"default": "鴻"
-		}
-	},
-	"呈": {
-		"name": "キング",
-		"display": ["♚王", "♔王"],
-		"alias": "逞",
-		"gameName": "チェス",
-		"expansion":"GrantAcedrex",
-		"unit": "王",
-		"attr": ["king"],
-		"range": {
-			"default": "王",
-			"start": "呈"
-		}
-	},
 	"矢": {
 		"name": "パダーティ",
 		"display": ["🗡人", "🗡矢"],
@@ -1180,6 +1094,92 @@
 		},
 		"promo": "狂"
 	},
+	"梹": {
+		"name": "ポーン",
+		"display": ["♟兵", "♙兵", "♟梹", "♙梹"],
+		"gameName": "チェス",
+		"expansion": "GrantAcedrex",
+		"unit": "兵",
+		"forcePromoLine": 1,
+		"range": {
+			"default": "歩",
+			"attack": "兵"
+		},
+		"promo": "篩遲麋齶塞鵺"
+	},
+	"師": {
+		"name": "ライオン",
+		"display": ["🦁師"],
+		"gameName": "チェス",
+		"expansion": "GrantAcedrex",
+		"unit": "馬",
+		"range": {
+			"default": "師"
+		}
+	},
+	"犀": {
+		"name": "ユニコーン",
+		"display": ["🦏犀"],
+		"gameName": "チェス",
+		"expansion": "GrantAcedrex",
+		"unit": "馬",
+		"range": {
+			"default": "犀"
+		}
+	},
+	"麟": {
+		"name": "ジラフ",
+		"display": ["🦒麟"],
+		"gameName": "チェス",
+		"expansion": "GrantAcedrex",
+		"unit": "象",
+		"range": {
+			"default": "麟"
+		}
+	},
+	"鰐": {
+		"name": "コカトリス",
+		"display": ["🐊鰐"],
+		"gameName": "チェス",
+		"expansion": "GrantAcedrex",
+		"unit": "象",
+		"range": {
+			"default": "聖"
+		}
+	},
+	"砦": {
+		"name": "ルーク",
+		"display": ["♜砦"],
+		"gameName": "チェス",
+		"expansion": "GrantAcedrex",
+		"unit": "車",
+		"range": {
+			"default": "車"
+		}
+	},
+	"鴻": {
+		"name": "アンカ",
+		"display": ["🦅鴻"],
+		"gameName": "チェス",
+		"expansion": "GrantAcedrex",
+		"unit": "臣",
+		"range": {
+			"default": "鴻"
+		}
+	},
+	"呈": {
+		"name": "キング",
+		"display": ["♚王", "♔王"],
+		"alias": "逞",
+		"gameName": "チェス",
+		"expansion":"GrantAcedrex",
+		"unit": "王",
+		"attr": ["king"],
+		"range": {
+			"default": "王",
+			"start": "呈"
+		}
+	},
 	"と": {
 		"name": "と金",
 		"display": ["と", "个"],
@@ -1412,48 +1412,6 @@
 			"default": "駆"
 		}
 	},
-	"篩": {
-		"name": "Pライオン",
-		"display": ["🦁篩"],
-		"range": {
-			"default": "師"
-		}
-	},
-	"遲": {
-		"name": "Pユニコーン",
-		"display": ["🦏遲"],
-		"range": {
-			"default": "犀"
-		}
-	},
-	"麋": {
-		"name": "Pジラフ",
-		"display": ["🦒麋"],
-		"range": {
-			"default": "麟"
-		}
-	},
-	"齶": {
-		"name": "Pコカトリス",
-		"display": ["🐊齶"],
-		"range": {
-			"default": "聖"
-		}
-	},
-	"塞": {
-		"name": "Pルーク",
-		"display": ["♖塞"],
-		"range": {
-			"default": "車"
-		}
-	},
-	"鵺": {
-		"name": "Pアンカ",
-		"display": ["🦅鴻"],
-		"range": {
-			"default": "鴻"
-		}
-	},
 	"舶": {
 		"name": "Pローカ",
 		"display": ["⛵舶"],
@@ -1623,6 +1581,48 @@
 			"default": "金"
 		}
 	},
+	"篩": {
+		"name": "Pライオン",
+		"display": ["🦁篩"],
+		"range": {
+			"default": "師"
+		}
+	},
+	"遲": {
+		"name": "Pユニコーン",
+		"display": ["🦏遲"],
+		"range": {
+			"default": "犀"
+		}
+	},
+	"麋": {
+		"name": "Pジラフ",
+		"display": ["🦒麋"],
+		"range": {
+			"default": "麟"
+		}
+	},
+	"齶": {
+		"name": "Pコカトリス",
+		"display": ["🐊齶"],
+		"range": {
+			"default": "聖"
+		}
+	},
+	"塞": {
+		"name": "Pルーク",
+		"display": ["♖塞"],
+		"range": {
+			"default": "車"
+		}
+	},
+	"鵺": {
+		"name": "Pアンカ",
+		"display": ["🦅鴻"],
+		"range": {
+			"default": "鴻"
+		}
+	},
 	"ぽ": {
 		"name": "てがきぽーん",
 		"img": [
@@ -1634,6 +1634,7 @@
 		"unit": "兵",
 		"attr": ["enPassant"],
 		"forcePromoLine": 1,
+		"isRotateImg": false,
 		"range": {
 			"default": "歩",
 			"start": "二",
@@ -1642,6 +1643,50 @@
 		},
 		"promo": "く"
 	},
+	"な": {
+		"name": "てがきないと",
+		"img": [
+			"./img/handKnightWhite.png",
+			"./img/handKnightBlack.png"
+		],
+		"alias": "ナ",
+		"gameName": "チェス",
+		"unit": "馬",
+		"isRotateImg": false,
+		"range": {
+			"default": "騎"
+		}
+	},
+	"び": {
+		"name": "てがきびしょっぷ",
+		"img": [
+			"./img/handBishopWhite.png",
+			"./img/handBishopBlack.png"
+		],
+		"alias": "ビ",
+		"gameName": "チェス",
+		"unit": "象",
+		"isRotateImg": false,
+		"range": {
+			"default": "聖"
+		}
+	},
+	"る": {
+		"name": "てがきるーく",
+		"img": [
+			"./img/handRookWhite.png",
+			"./img/handRookBlack.png"
+		],
+		"alias": "ル",
+		"gameName": "チェス",
+		"unit": "車",
+		"attr": ["castlingRook"],
+		"isRotateImg": false,
+		"range": {
+			"default": "車",
+			"castling": "塔"
+		}
+	},
 	"く": {
 		"name": "てがきくいーん",
 		"img": [
@@ -1649,8 +1694,25 @@
 			"./img/handQweenBlack.png"
 		],
 		"alias": "ク",
+		"isRotateImg": false,
 		"range": {
 			"default": "后"
+		}
+	},
+	"お": {
+		"name": "キング",
+		"img": [
+			"./img/handKingWhite.png",
+			"./img/handKingBlack.png"
+		],
+		"alias": "オ",
+		"gameName": "チェス",
+		"unit": "王",
+		"attr": ["king", "castlingKing"],
+		"isRotateImg": false,
+		"range": {
+			"default": "王",
+			"castling": "城"
 		}
 	}
 }

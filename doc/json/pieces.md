@@ -28,6 +28,13 @@ displayと同様に配列の2番目はaliasと対応させて駒の表示を行�
 ]
 ```
 
+## isRotateImg(省略可) {boolean}
+過画像を設定する場合回転するかどうかを設定。  
+既定値はtrue。
+```json
+"isRotateImg": false
+```
+
 ### alias(省略可) {string | char[]}
 キーの別名として定める文字の集合(文字列)。  
 aliasに応じたdisplay/img表示を行う駒データを生成する。  

@@ -38,34 +38,7 @@ const PlayGamesTop = {
 		run: Board.run
 	}
 };
-const PlayGamesBottom = {
-	image: {
-		name: "駒画像テスト",
-		playBoard: "チェス",
-		useStand: false,
-		run(canvas, {onDrawed}){
-			const {playBoard, useStand} = this;
-			const pieceMap = [
-				"▽ク▽ク▽ク▽ク▽ク▽ク▽ク▽ク",
-				"▽ポ▽ポ▽ポ▽ポ▽ポ▽ポ▽ポ▽ポ",
-				"｜・｜・｜・｜・｜・｜・｜・｜・",
-				"｜・｜・｜・｜・｜・｜・｜・｜・",
-				"｜・｜・｜・｜・｜・｜・｜・｜・",
-				"｜・｜・｜・｜・｜・｜・｜・｜・",
-				"▲ぽ▲ぽ▲ぽ▲ぽ▲ぽ▲ぽ▲ぽ▲ぽ",
-				"▲く▲く▲く▲く▲く▲く▲く▲く"
-			].join("\n");
-
-			const board = new Board(canvas, playBoard, {
-				useStand,
-				...boardTemplate(12)
-			});
-			board.inputPieces(pieceMap);
-			board.onDrawed = onDrawed;
-			return board;
-		}
-	}
-};
+const PlayGamesBottom = {};
 
 Object.keys(gameSoft).forEach(key=>{
 	gameSoft[key].run = function(canvas, options){
