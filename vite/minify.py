@@ -1,12 +1,14 @@
 import requests
+import os
 
-filename = "ShogiCross.mjs"
-filename_min = "ShogiCross.min.mjs"
-with open(filename, "r") as r:
+name = "ShogiCross"
+
+os.rename(f"{name}.mjs", f"{name}.js")
+with open(f"{name}.js", "r") as r:
 	response = requests.post(
 		'https://www.toptal.com/developers/javascript-minifier/api/raw',
 		data=dict(input=r.read())
 	).text
 
-with open(filename_min, "w") as w:
+with open(f"{name}.min.js", "w") as w:
 	w.write(response)
