@@ -38,10 +38,10 @@
 		</div>
 
 		<script type="module">
-		import {PlayGames} from "../game/playGame.js";
+		import {gameSoft} from "./ShogiCross.mjs";
 		const ui = document.getElementById("simpleCollection");
 
-		Object.entries(PlayGames).forEach(([key, {name}])=>{
+		Object.entries(gameSoft).forEach(([key, {name}])=>{
 			if(["default", "cross"].includes(key)) return;
 			const li = document.createElement("li");
 			const a = document.createElement("a");
