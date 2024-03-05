@@ -1,4 +1,9 @@
-const _ = "./json/ShogiCross/", E = (p) => fetch(`${_}${p}.json`).then((t) => t.json()), R = await E("canvasFont"), ct = await E("gameSoft"), z = await E("games"), q = await E("boards"), H = await E("panels"), B = await E("pieces"), G = await E("pieceRange"), D = await E("pieceCost");
+const _ = "./json/ShogiCross/";
+async function E(p) {
+  return await fetch(`${_}${p}.json`).then(async (t) => await t.json()).catch(() => {
+  });
+}
+const R = await E("canvasFont"), ct = await E("gameSoft"), z = await E("games"), q = await E("boards"), H = await E("panels"), B = await E("pieces"), G = await E("pieceRange"), D = await E("pieceCost");
 let X = !1;
 const Q = () => [
   .../* @__PURE__ */ new Set([
@@ -385,52 +390,52 @@ function it(p, t, e, s) {
   function c(d, f) {
     return r[f] && r[f][d] && !r[f][d].hasAttr("keepOut");
   }
-  function n(d, f, g, u = "", v = !0) {
-    if (!r[g] || !r[g][f])
+  function n(d, f, u, g = "", v = !0) {
+    if (!r[u] || !r[u][f])
       return !1;
-    const w = r[g][f];
-    return !w || !o.isTarget(u, w, t) || t.hasAttr("inPalace") && !w.hasAttr("palace") || u.indexOf("palace") === 0 && !(w.hasAttr(u) && r[s][e].hasAttr(u)) || t.hasAttr("unCrossRiver") && i - (0 | i / 2) <= p.getRow(f, g, t.deg) ? !1 : d ? r[g][f].piece ? v ? t.deg !== r[g][f].piece.deg : !0 : !1 : !r[g][f].piece;
+    const w = r[u][f];
+    return !w || !o.isTarget(g, w, t) || t.hasAttr("inPalace") && !w.hasAttr("palace") || g.indexOf("palace") === 0 && !(w.hasAttr(g) && r[s][e].hasAttr(g)) || t.hasAttr("unCrossRiver") && i - (0 | i / 2) <= p.getRow(f, u, t.deg) ? !1 : d ? r[u][f].piece ? v ? t.deg !== r[u][f].piece.deg : !0 : !1 : !r[u][f].piece;
   }
-  function a(d, f, g, u, v) {
+  function a(d, f, u, g, v) {
     for (const w of f)
       for (let C = 0; C < d.length; C++)
         for (let y = 0; y < d[C].length; y++) {
-          const [S, b] = [y + e - u, C + s - v];
-          if (!(!c(S, b) || n(g, 0 | S, 0 | b, "", !1) || d[C][y] !== w))
+          const [S, b] = [y + e - g, C + s - v];
+          if (!(!c(S, b) || n(u, 0 | S, 0 | b, "", !1) || d[C][y] !== w))
             return !0;
         }
     return !1;
   }
-  function h(d, f, g) {
-    const u = r[g][f];
-    u.isTarget = !0, o.setTarget(d, u, t);
+  function h(d, f, u) {
+    const g = r[u][f];
+    g.isTarget = !0, o.setTarget(d, g, t);
   }
-  function l(d, [f, { isAttack: g }], { oX: u, oY: v, isOwn: w }) {
+  function l(d, [f, { isAttack: u }], { oX: g, oY: v, isOwn: w }) {
     if (w)
       for (const [C, { child: y = [] } = {}] of et)
         for (let S = 0; S < d.length; S++)
           for (let b = 0; b < d[S].length; b++) {
-            const [x, L] = [b + e - u, S + s - v];
-            !c(x, L) || !n(g, x, L, f) || d[S][b] !== C || a(d, y, !1, u, v) || h(f, x, L);
+            const [x, L] = [b + e - g, S + s - v];
+            !c(x, L) || !n(u, x, L, f) || d[S][b] !== C || a(d, y, !1, g, v) || h(f, x, L);
           }
   }
-  function m(d, [f, { isAttack: g }], { oX: u, oY: v, isOwn: w, offsetX: C, offsetY: y }) {
+  function m(d, [f, { isAttack: u }], { oX: g, oY: v, isOwn: w, offsetX: C, offsetY: y }) {
     if (!(!w && !n(!1, e + C, s + y)))
       for (const [S, { jmps: b = 0, moves: x = 0 } = {}] of J) {
         const L = !x || x === 0;
         for (let j = v - 1; j <= v + 1; j++)
-          for (let $ = u - 1; $ <= u + 1; $++) {
-            if (d[j][$] !== S || $ === u && j === v)
+          for (let $ = g - 1; $ <= g + 1; $++) {
+            if (d[j][$] !== S || $ === g && j === v)
               continue;
             let P = b || 0, F = x || 0;
-            const [K, N] = [$ - u, j - v];
+            const [K, N] = [$ - g, j - v];
             for (let I = e, W = s; ; ) {
               I += K, W += N;
               const O = I + C, A = W + y;
               if (!c(O, A) || !L && F === 0)
                 break;
               const M = P === 0;
-              if (M && n(g, O, A, f, M) ? (F--, h(f, O, A)) : b < 1 && F--, r[A][O].piece && (P--, M))
+              if (M && n(u, O, A, f, M) ? (F--, h(f, O, A)) : b < 1 && F--, r[A][O].piece && (P--, M))
                 break;
             }
           }
@@ -440,13 +445,13 @@ function it(p, t, e, s) {
     const d = t.getRange();
     d.attack ??= d.default;
     for (const f of Z) {
-      const g = f[0];
-      if (t.isMoved && ["start", "castling"].includes(g))
+      const u = f[0];
+      if (t.isMoved && ["start", "castling"].includes(u))
         continue;
-      const u = d[g];
-      if (u)
-        for (const v of st(u))
-          l(u, f, v), m(u, f, v);
+      const g = d[u];
+      if (g)
+        for (const v of st(g))
+          l(g, f, v), m(g, f, v);
     }
   })();
 }
@@ -455,28 +460,28 @@ function rt(p) {
   const { canvas: i } = p, o = (h, l, m = () => {
   }) => {
     const d = window.getComputedStyle(i), f = h.target.getBoundingClientRect();
-    let g = i.width / parseFloat(d.width), u = i.height / parseFloat(d.height);
+    let u = i.width / parseFloat(d.width), g = i.height / parseFloat(d.height);
     if (h.clientX)
-      g *= h.clientX - f.left, u *= h.clientY - f.top;
+      u *= h.clientX - f.left, g *= h.clientY - f.top;
     else if (0 < h.touches.length) {
       if (1 < h.touches.length)
         return;
-      g *= h.touches[0].clientX - f.left, u *= h.touches[0].clientY - f.top;
+      u *= h.touches[0].clientX - f.left, g *= h.touches[0].clientY - f.top;
     } else
-      h.preventDefault(), [g, u] = e;
-    p.field.forEach((v, w) => v.forEach((C, y) => l(C, g, u, y, w))), m(g, u), p.draw(), e = [g, u];
+      h.preventDefault(), [u, g] = e;
+    p.field.forEach((v, w) => v.forEach((C, y) => l(C, u, g, y, w))), m(u, g), p.draw(), e = [u, g];
   }, c = (h) => {
     t = !0, o(
       h,
       (l, m, d) => {
-        const { piece: f, pX: g, pY: u } = l;
-        f && l.checkRangeMouse(m, d) && (h.preventDefault(), f.isSelected = !0, s = l, it(p, f, g, u));
+        const { piece: f, pX: u, pY: g } = l;
+        f && l.checkRangeMouse(m, d) && (h.preventDefault(), f.isSelected = !0, s = l, it(p, f, u, g));
       },
       (l, m) => {
         for (const [d, f] of Object.entries(p.stand.stocks))
-          for (let g = f.length - 1; 0 <= g; g--)
-            if (f[g].checkRangeMouse(l, m)) {
-              h.preventDefault(), f[g].isSelected = !0, r = { deg: d, i: g };
+          for (let u = f.length - 1; 0 <= u; u--)
+            if (f[u].checkRangeMouse(l, m)) {
+              h.preventDefault(), f[u].isSelected = !0, r = { deg: d, i: u };
               return;
             }
       }
@@ -562,11 +567,11 @@ class T {
       let d = 0;
       l = l.slice(-h / 4 * a);
       for (let f = 0 | h / 4 * m; f < h / 4 * (m + 1); f++)
-        for (let g = 0; g < a; g++) {
-          const u = e + o * (g + 1), v = s + c * (f + 1), w = l[d++];
+        for (let u = 0; u < a; u++) {
+          const g = e + o * (u + 1), v = s + c * (f + 1), w = l[d++];
           if (w == null)
             break;
-          w.center = u, w.middle = v, w.draw();
+          w.center = g, w.middle = v, w.draw();
         }
     });
   }
@@ -680,8 +685,8 @@ class U {
     useStand: m = !1,
     backgroundColor: d = "#00000000",
     autoDrawing: f = !0,
-    onDrawed: g,
-    freeMode: u = !1
+    onDrawed: u,
+    freeMode: g = !1
   } = {}) {
     const v = R.importAsync();
     this.canvas = t;
@@ -693,7 +698,7 @@ class U {
         const x = c + a * (b + 1), L = n + h * (y + 1);
         return new V(w, S, x, L, a, h, this.borderWidth, b, y);
       })
-    ), this.xLen = this.field[0].length, this.yLen = this.field.length, this.width = this.panelWidth * (this.xLen + 1), this.height = this.panelHeight * (this.yLen + 1), this.right = c + this.width, this.bottom = n + this.height, this.stand = new T(this), t.width = r ?? (m ? this.stand.right : this.right) + 5, t.height = i ?? this.bottom + 5, o === "overflow" ? (t.style.maxWidth = "97vw", t.style.maxHeight = "97vh") : o === "always" && (t.style.width = "97vw", t.style.height = "97vh"), this.autoDrawing = f, f && (v.then(() => this.draw()), this.draw()), this.onDrawed ??= g, this.freeMode = u, this.record = [], this.uiControl = rt(this), this.enPassant = new nt();
+    ), this.xLen = this.field[0].length, this.yLen = this.field.length, this.width = this.panelWidth * (this.xLen + 1), this.height = this.panelHeight * (this.yLen + 1), this.right = c + this.width, this.bottom = n + this.height, this.stand = new T(this), t.width = r ?? (m ? this.stand.right : this.right) + 5, t.height = i ?? this.bottom + 5, o === "overflow" ? (t.style.maxWidth = "97vw", t.style.maxHeight = "97vh") : o === "always" && (t.style.width = "97vw", t.style.height = "97vh"), this.autoDrawing = f, f && (v.then(() => this.draw()), this.draw()), this.onDrawed ??= u, this.freeMode = g, this.record = [], this.uiControl = rt(this), this.enPassant = new nt();
   }
   /** ボードを閉じる */
   close() {
