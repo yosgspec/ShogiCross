@@ -1,5 +1,5 @@
-const base = './json/';
-const importJson = async name=>await fetch(`${base}${name}.json`).then(res=>res.json())
+const base = './json/ShogiCross/';
+const importJson = name=>fetch(`${base}${name}.json`).then(res=>res.json())
 
 export const canvasFont = await importJson("canvasFont");
 export const gameSoft = await importJson("gameSoft");

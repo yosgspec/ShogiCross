@@ -25,15 +25,15 @@
      showgrid="true"
      showguides="true"
      inkscape:guide-bbox="true"
-     inkscape:zoom="1.2151235"
-     inkscape:cx="425.88265"
-     inkscape:cy="599.11608"
+     inkscape:zoom="0.85922207"
+     inkscape:cx="538.27761"
+     inkscape:cy="612.18167"
      inkscape:window-width="1920"
      inkscape:window-height="1015"
      inkscape:window-x="0"
      inkscape:window-y="0"
      inkscape:window-maximized="1"
-     inkscape:current-layer="g947"
+     inkscape:current-layer="layer1"
      inkscape:snap-others="true"
      inkscape:snap-text-baseline="true"
      inkscape:snap-bbox="true"
@@ -312,6 +312,40 @@
   </g>
   <g
      inkscape:groupmode="layer"
+     id="g948"
+     inkscape:label="クーリエチェス"
+     style="display:none">
+    <text
+       xml:space="preserve"
+       style="font-size:57.15px;line-height:1.25;font-family:TKaisho-GT01;-inkscape-font-specification:TKaisho-GT01;writing-mode:tb-rl;display:inline;stroke-width:0.265;stroke-miterlimit:4;stroke-dasharray:none"
+       x="82.723511"
+       y="166.90251"
+       id="text946"><tspan
+         sodipodi:role="line"
+         id="tspan944"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:57.15px;font-family:'Noto emoji';-inkscape-font-specification:'Noto emoji';writing-mode:lr-tb;stroke-width:0.265;stroke-miterlimit:4;stroke-dasharray:none"
+         x="82.723511"
+         y="166.90251">⨺</tspan></text>
+  </g>
+  <g
+     inkscape:groupmode="layer"
+     id="g947"
+     inkscape:label="Grant Acedrex"
+     style="display:none">
+    <text
+       xml:space="preserve"
+       style="font-size:40.5694px;line-height:1.25;font-family:TKaisho-GT01;-inkscape-font-specification:TKaisho-GT01;writing-mode:tb-rl;display:inline;stroke-width:0.265;stroke-miterlimit:4;stroke-dasharray:none"
+       x="105"
+       y="124"
+       id="text945"><tspan
+         sodipodi:role="line"
+         id="tspan943"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:40.5694px;font-family:'Noto emoji';-inkscape-font-specification:'Noto emoji';stroke-width:0.265;stroke-miterlimit:4;stroke-dasharray:none"
+         x="124"
+         y="105">🦏</tspan></text>
+  </g>
+  <g
+     inkscape:groupmode="layer"
      id="g169884"
      inkscape:label="大将棋"
      style="display:none">
@@ -399,23 +433,6 @@
            y="70.604126"
            id="tspan158324" /></text>
     </g>
-  </g>
-  <g
-     inkscape:groupmode="layer"
-     id="g947"
-     inkscape:label="Grant Acedrex"
-     style="display:none">
-    <text
-       xml:space="preserve"
-       style="font-size:40.5694px;line-height:1.25;font-family:TKaisho-GT01;-inkscape-font-specification:TKaisho-GT01;writing-mode:tb-rl;display:inline;stroke-width:0.265;stroke-miterlimit:4;stroke-dasharray:none"
-       x="105"
-       y="124"
-       id="text945"><tspan
-         sodipodi:role="line"
-         id="tspan943"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:40.5694px;font-family:'Noto emoji';-inkscape-font-specification:'Noto emoji';stroke-width:0.265;stroke-miterlimit:4;stroke-dasharray:none"
-         x="124"
-         y="105">🦏</tspan></text>
   </g>
   <g
      inkscape:groupmode="layer"

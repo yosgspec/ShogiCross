@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "npx vite",
-    "build": "npx vite build",
+    "build": "npx vite build && python3 minify.py",
     "preview": "npx vite preview"
   },
   "devDependencies": {

@@ -8,9 +8,9 @@ export default defineConfig({
 		lib: {
 			entry: "lib.js",
 			name: "ShogiCross",
-			fileName: "lib",
+			fileName: "ShogiCross",
 			formats: ["es"]
 		},
-		outDir: "../../vite/dist"
+		outDir: "../../vite"
 	}
 });
