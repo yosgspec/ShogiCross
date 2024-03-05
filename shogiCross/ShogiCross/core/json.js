@@ -1,5 +1,11 @@
 const base = './json/ShogiCross/';
-const importJson = name=>fetch(`${base}${name}.json`).then(res=>res.json())
+async function importJson(name){
+	return await fetch(`${base}${name}.json`)
+		.then(async res=>{
+			return await res.json()
+		})
+		.catch(()=>{})
+};
 
 export const canvasFont = await importJson("canvasFont");
 export const gameSoft = await importJson("gameSoft");
