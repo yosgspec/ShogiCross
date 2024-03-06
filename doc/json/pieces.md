@@ -17,12 +17,12 @@
 "display": ["玉將", "王將", "玉将", "王将"]
 ```
 
-## img(省略可) {string}
+## imgSrc(省略可) {string}
 駒として表示する画像パス。  
 相対パスとする場合は表示するhtmlを起点とする。  
 displayと同様に配列の2番目はaliasと対応させて駒の表示を行える。
 ```json
-"img": [
+"imgSrc": [
 	"./img/handPawnWhite.png",
 	"./img/handPawnBlack.png"
 ]
