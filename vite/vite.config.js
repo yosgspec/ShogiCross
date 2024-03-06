@@ -11,6 +11,6 @@ export default defineConfig({
 			fileName: "ShogiCross",
 			formats: ["es"]
 		},
-		outDir: "../../vite"
+		outDir: "../../dist/"
 	}
 });

@@ -5,11 +5,10 @@
   "type": "module",
   "scripts": {
     "dev": "npx vite",
-    "build": "npx vite build && python3 minify.py",
+    "build": "npx vite build && node minify.js  ../dist/ShogiCross.mjs",
     "preview": "npx vite preview"
   },
   "devDependencies": {
-    "terser": "^5.28.1",
     "vite": "^5.1.4"
   }
 }
