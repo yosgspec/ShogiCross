@@ -164,6 +164,7 @@ export class Piece{
 	 */
 	constructor(ctx, piece, {displayPtn=0, deg=0, size=Piece.size, isMoved=false}={}){
 		Object.assign(this, piece);
+		this.initImages();
 		this.ctx = ctx;
 		this.game = games[this.gameName];
 		this.displayPtn = displayPtn;
@@ -171,7 +172,6 @@ export class Piece{
 		this.middle = 0;
 		this.size = size;
 		this.deg = deg;
-		this.initImages();
 		this.isRotateImg ??= true;
 		this.isMoved = isMoved;
 		this.isSelected = false;
