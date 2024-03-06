@@ -1707,7 +1707,8 @@
 	},
 	"ぽ": {
 		"name": "てがきぽーん",
-		"img": [
+		"display": ["♟"],
+		"imgSrc": [
 			"./img/handPawnWhite.png",
 			"./img/handPawnBlack.png"
 		],
@@ -1727,7 +1728,8 @@
 	},
 	"な": {
 		"name": "てがきないと",
-		"img": [
+		"display": ["♞"],
+		"imgSrc": [
 			"./img/handKnightWhite.png",
 			"./img/handKnightBlack.png"
 		],
@@ -1741,7 +1743,8 @@
 	},
 	"び": {
 		"name": "てがきびしょっぷ",
-		"img": [
+		"display": ["♝"],
+		"imgSrc": [
 			"./img/handBishopWhite.png",
 			"./img/handBishopBlack.png"
 		],
@@ -1755,7 +1758,8 @@
 	},
 	"る": {
 		"name": "てがきるーく",
-		"img": [
+		"display": ["♜"],
+		"imgSrc": [
 			"./img/handRookWhite.png",
 			"./img/handRookBlack.png"
 		],
@@ -1771,7 +1775,8 @@
 	},
 	"く": {
 		"name": "てがきくいーん",
-		"img": [
+		"display": ["♛"],
+		"imgSrc": [
 			"./img/handQweenWhite.png",
 			"./img/handQweenBlack.png"
 		],
@@ -1783,7 +1788,8 @@
 	},
 	"お": {
 		"name": "キング",
-		"img": [
+		"display": ["♚"],
+		"imgSrc": [
 			"./img/handKingWhite.png",
 			"./img/handKingBlack.png"
 		],

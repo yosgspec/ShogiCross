@@ -1,4 +1,5 @@
 import {canvasFont} from "./canvasFontLoader.js";
+import {canvasImage} from "./canvasImageLoader.js";
 import {uIControl} from "./uiControl.js";
 import {Stand} from "./stand.js";
 import {Panel} from "./panel.js";
@@ -74,6 +75,7 @@ export class Board{
 	}={}){
 		// 初期化
 		const canvasFontAsync = canvasFont.importAsync();
+		const canvasImageAsync = canvasImage.importAsync();
 		this.canvas = canvas;
 		const ctx = canvas.getContext("2d");
 		ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -123,6 +125,7 @@ export class Board{
 		this.autoDrawing = autoDrawing;
 		if(autoDrawing){
 			canvasFontAsync.then(()=>this.draw());
+			canvasImageAsync.then(()=>this.draw());
 			this.draw();
 		}
 		this.onDrawed ??= onDrawed;

@@ -1,4 +1,5 @@
 import {canvasFont} from "./canvasFontLoader.js";
+import {canvasImage} from "./canvasImageLoader.js";
 import {games, pieces, pieceRange, pieceCost} from "./json.js";
 
 /** 駒の管理クラス */
@@ -25,11 +26,11 @@ export class Piece{
 
 		/* 移動範囲データを補完 */
 		for(const [key, piece] of exPieces){
-			piece.display ??= [];
+			piece.display ??= [""];
 			piece.alias ??= "";
 			piece.alias = [...piece.alias];
 			piece.attr ??= [];
-			piece.img ??= null;
+			piece.imgSrc ??= null;
 			if(piece.unit) piece.base = piece;
 			if(pieceCost[key]) piece.cost = pieceCost[key];
 			Object.entries(piece.range).forEach(([rangeKey, rangeValue])=>{
@@ -144,16 +145,6 @@ export class Piece{
 		//zoom = this.size/100*this.sizes[this.rare];
 	}
 
-	/** 画像オブジェクトの取得 */
-	initImages(){
-		if(!this.img) return;
-		this.images = this.img.map(img=>{
-			const image = new Image();
-			image.src = img;
-			return image;
-		});
-	}
-
 	/**
 	 * @param {any} ctx - Canvas描画コンテキスト
 	 * @param {Object<string, any>} piece - 駒
@@ -164,7 +155,6 @@ export class Piece{
 	 */
 	constructor(ctx, piece, {displayPtn=0, deg=0, size=Piece.size, isMoved=false}={}){
 		Object.assign(this, piece);
-		this.initImages();
 		this.ctx = ctx;
 		this.game = games[this.gameName];
 		this.displayPtn = displayPtn;
@@ -210,7 +200,6 @@ export class Piece{
 		if(!promo in promo) throw Error(`promo=${char}, Plomote key is missing.`);
 		if(this.hasAttr("promoted")) throw Error(`promo=${char}, Promoted piece.`);
 		Object.assign(this, promo[char]);
-		this.initImages();
 		this.char = char;
 	}
 
@@ -259,7 +248,7 @@ export class Piece{
 	/** 駒/マスクを描写 */
 	async draw(){
 		const selectColor = "#FF000055";
-		if(this.img){
+		if(this.imgSrc && canvasImage.imported){
 			this.drawImage();
 			if(this.isSelected) this.drawMaskImage(selectColor);
 		}
@@ -271,12 +260,14 @@ export class Piece{
 
 	/** 駒画像を描写 */
 	drawImage(){
-		const {ctx, images, size} = this;
-		if(!images) return;
+		const {ctx, size} = this;
+		const src = this.imgSrc[this.displayPtn];
+		const image = canvasImage.images[src];
+		if(!image) return;
+
 		ctx.save();
 		ctx.translate(this.center, this.middle);
 		if(this.isRotateImg) ctx.rotate(this.rad);
-		const image = images[this.displayPtn];
 
 		let imgWidth, imgHeight;
 		if(image.width*0.9 < image.height){
@@ -349,7 +340,7 @@ export class Piece{
 
 		/* 文字を描写 */
 		ctx.fillStyle = fontColor;
-		const text = [...this.display[this.displayPtn]];
+		const text = [...""+this.display[this.displayPtn]];
 		const fontSize = 40*zoom;
 		ctx.font = `${fontSize}px ${canvasFont.names}`;
 		ctx.textAlign = "center";

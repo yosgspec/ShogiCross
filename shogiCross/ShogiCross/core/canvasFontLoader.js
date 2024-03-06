@@ -1,9 +1,6 @@
 import {canvasFont, panels, pieces} from "./json.js";
 export {canvasFont};
 
-/** 読み込み済みであるか? */
-let imported = false;
-
 /** 読み込む文字の一覧を取得
  * @returns {string}
  */
@@ -14,7 +11,11 @@ const getChars = () => [...
 	])
 ].sort().join("");
 
+/** キャンバス用フォント管理 */
 Object.assign(canvasFont, {
+	/** 読み込み済みであるか? */
+	imported: false,
+
 	/** 読み込むフォントの一覧(","区切り)
 	 * @type {string}
 	 */
@@ -24,7 +25,7 @@ Object.assign(canvasFont, {
 	 * @returns {Promise<void>}
 	 */
 	async importAsync(){
-		if(imported) return;
+		if(this.imported) return;
 		const googleUrl = "https://fonts.googleapis.com/css2?family=";
 		const chars = getChars();
 		const unique = new Date().getTime().toString();
@@ -45,6 +46,6 @@ Object.assign(canvasFont, {
 					document.fonts.add(fontFace);
 				}
 			})
-		).then(_=>imported = true);
+		).then(_=>this.imported = true);
 	}
 });
