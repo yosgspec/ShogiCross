@@ -1,16 +1,16 @@
 import { defineConfig } from "vite";
 
 export default defineConfig({
-	root: "../shogiCross/ShogiCross/",
+	root: ".",
 	publicDir: "json",
 	build: {
 		target: "esnext",
 		lib: {
-			entry: "lib.js",
+			entry: "./shogiCross/ShogiCross/lib.js",
 			name: "ShogiCross",
 			fileName: "ShogiCross",
 			formats: ["es"]
 		},
-		outDir: "../../dist/"
+		outDir: "./dist"
 	}
 });

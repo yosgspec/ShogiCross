@@ -151,7 +151,7 @@ class k {
   static getPieces(t) {
     const e = new Map(Object.entries(JSON.parse(JSON.stringify(I))));
     for (const [r, i] of e)
-      i.display ??= [], i.alias ??= "", i.alias = [...i.alias], i.attr ??= [], i.imgSrc ??= null, i.unit && (i.base = i), z[r] && (i.cost = z[r]), Object.entries(i.range).forEach(([o, c]) => {
+      i.display ??= [""], i.alias ??= "", i.alias = [...i.alias], i.attr ??= [], i.imgSrc ??= null, i.unit && (i.base = i), z[r] && (i.cost = z[r]), Object.entries(i.range).forEach(([o, c]) => {
         i.range[o] = G[c];
       });
     for (const [r, i] of e) {

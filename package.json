@@ -5,10 +5,10 @@
   "type": "module",
   "scripts": {
     "dev": "npx vite",
-    "build": "npx vite build && node minify.js  ../dist/ShogiCross.mjs",
+    "build": "npx vite build && node buildAfter.js ./dist/ShogiCross.js",
     "preview": "npx vite preview"
   },
-  "devDependencies": {
-    "vite": "^5.1.4"
+  "dependencies": {
+    "vite": "^5.1.5"
   }
 }
