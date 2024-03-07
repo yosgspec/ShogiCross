@@ -4,10 +4,14 @@ import {games, pieces, pieceRange, pieceCost} from "./json.js";
 
 /** 駒の管理クラス */
 export class Piece{
-	/** 描写サイズ */
+	/** 描写サイズ
+	 * @type {number}
+	 */
 	static size = 45;
 
-	/** テキスト出力時のプレイヤー表示 */
+	/** テキスト出力時のプレイヤー表示
+	 * @type {Object<string, string>}
+	 */
 	static degChars = {
 		0: "▲",
 		90: "≫",
@@ -18,26 +22,40 @@ export class Piece{
 	/** プレイヤー表示から角度を取得 */
 	static charDegs = {};
 
+	/** サイズ変更設定値
+	 * @type {Object<string, number>}
+	 */
+	static rareRatio = {
+		"KR": 1,
+		"SR": 0.975,
+		"R": 0.95,
+		"UC": 0.925,
+		"C": 0.9
+	}
+
+	/** 駒の段階別価値を取得 */
+	get rare(){
+		return (
+			this.cost <= 0? "KR":
+			20 <= this.cost? "SR":
+			10 <= this.cost? "R":
+			5 <= this.cost? "UC":
+			"C"
+		);
+	}
+
 	/** 駒データを初期化
 	 * @param {any} ctx - Canvas描画コンテキスト
 	 */
 	static getPieces(ctx){
 		const exPieces = new Map(Object.entries(JSON.parse(JSON.stringify(pieces))));
 
-		/* 移動範囲データを補完 */
-		for(const [key, piece] of exPieces){
-			piece.display ??= [""];
-			piece.alias ??= "";
-			piece.alias = [...piece.alias];
+		/* データを補完 */
+		for(const [_, piece] of exPieces){
 			piece.attr ??= [];
-			piece.imgSrc ??= null;
 			if(piece.unit) piece.base = piece;
-			if(pieceCost[key]) piece.cost = pieceCost[key];
-			Object.entries(piece.range).forEach(([rangeKey, rangeValue])=>{
-				piece.range[rangeKey] = pieceRange[rangeValue];
-			})
 		}
-		/* 成駒のデータを統合 */
+		/* 成駒のデータを合成 */
 		for(const [_, piece] of exPieces){
 			if(!piece.promo || typeof(piece.promo) !== "string") continue;
 			const promoKeys = [...piece.promo];
@@ -119,30 +137,11 @@ export class Piece{
 		return this.middle+this.size/2;
 	}
 
-	// サイズ変更設定値
-	static sizes = {
-		"KR": 1,
-		"SR": 0.975,
-		"R": 0.95,
-		"UC": 0.925,
-		"C": 0.9
-	}
-	get rare(){
-		return (
-			this.cost <= 0? "KR":
-			24 <= this.cost? "SR":
-			12 <= this.cost? "R":
-			5 <= this.cost? "UC":
-			"C"
-		);
-	}
-
 	/** 拡大率を取得
 	 * @returns {number}
 	 */
 	get zoom(){
-		return this.size/100;
-		//zoom = this.size/100*this.sizes[this.rare];
+		return this.size/100*Piece.rareRatio[this.rare];
 	}
 
 	/**
@@ -156,8 +155,12 @@ export class Piece{
 	constructor(ctx, piece, {displayPtn=0, deg=0, size=Piece.size, isMoved=false}={}){
 		Object.assign(this, piece);
 		this.ctx = ctx;
-		this.game = games[this.gameName];
+		this.display ??= [""];
+		this.imgSrc ??= null;
+		this.alias = [...this.alias ?? ""];
 		this.displayPtn = displayPtn;
+		this.game = games[this.gameName];
+		this.cost = pieceCost[this.char] ?? 1;
 		this.center = 0;
 		this.middle = 0;
 		this.size = size;
@@ -167,9 +170,10 @@ export class Piece{
 		this.isSelected = false;
 		this.attr ??= [];
 		try{
-			Object.entries(this.range).forEach(([key, rng])=>
-				this.range[key] = rng.map(row=>[...row])
-			);
+			Object.entries(this.range).forEach(([key, rng])=>{
+				if(Array.isArray(rng)) return;
+				this.range[key] = pieceRange[rng].map(row=>[...row])
+			});
 		}
 		catch(e){
 			console.error(e);
