@@ -9,6 +9,16 @@ export class Piece{
 	 */
 	static size = 45;
 
+	/** 格の違いによって駒の大きさを変更するか
+	 * @type {boolean}
+	 */
+	static useRankSize = true;
+
+	/** 影の描写有無
+	 * @type {boolean}
+	 */
+	static isDrawShadow = true;
+
 	/** テキスト出力時のプレイヤー表示
 	 * @type {Object<string, string>}
 	 */
@@ -25,7 +35,7 @@ export class Piece{
 	/** サイズ変更設定値
 	 * @type {Object<string, number>}
 	 */
-	static rareRatio = {
+	static rankRatio = {
 		"KR": 1,
 		"SR": 0.975,
 		"R": 0.95,
@@ -34,7 +44,7 @@ export class Piece{
 	}
 
 	/** 駒の段階別価値を取得 */
-	get rare(){
+	get rank(){
 		return (
 			this.cost <= 0? "KR":
 			20 <= this.cost? "SR":
@@ -141,7 +151,10 @@ export class Piece{
 	 * @returns {number}
 	 */
 	get zoom(){
-		return this.size/100*Piece.rareRatio[this.rare];
+		let zoom =this.size/100;
+		if(this.useRankSize)
+			zoom *= Piece.rankRatio[this.rank];
+		return zoom;
 	}
 
 	/**
@@ -150,9 +163,18 @@ export class Piece{
 	 * @param {number} displayPtn - 表示文字列を変更(1〜)
 	 * @param {number} deg - パネル角度
 	 * @param {number} size - パネルサイズ
+	 * @param {boolean} useRankSize - 格の違いによって駒の大きさを変更するか
+	 * @param {boolean} isDrawShadow - 影の描写有無
 	 * @param {boolean} isMoved - 初回移動済みか否か
 	 */
-	constructor(ctx, piece, {displayPtn=0, deg=0, size=Piece.size, isMoved=false}={}){
+	constructor(ctx, piece, {
+		displayPtn=0,
+		deg=0,
+		size=Piece.size,
+		useRankSize=Piece.useRankSize,
+		isDrawShadow=Piece.isDrawShadow,
+		isMoved=false
+	}={}){
 		Object.assign(this, piece);
 		this.ctx = ctx;
 		this.display ??= [""];
@@ -165,6 +187,8 @@ export class Piece{
 		this.middle = 0;
 		this.size = size;
 		this.deg = deg;
+		this.useRankSize = useRankSize;
+		this.isDrawShadow = isDrawShadow;
 		this.isRotateImg ??= true;
 		this.isMoved = isMoved;
 		this.isSelected = false;
@@ -214,7 +238,6 @@ export class Piece{
 	hasAttr(attr){
 		return this.attr.includes(attr);
 	}
-
 
 	/** 座標が駒に含まれるか判定
 	 * @param {number} x - X座標
@@ -319,6 +342,17 @@ export class Piece{
 		ctx.closePath();
 	}
 
+	/** 駒の影を描写 */
+	drawPieceShadow(zoom){
+		if(!this.isDrawShadow) return;
+		const {ctx} = this;
+
+		ctx.save();
+		ctx.translate(0, 12*zoom);
+		this.drawMask("#00000066");
+		ctx.restore();
+	}
+
 	/** 駒を描写 */
 	drawPiece(){
 		const {ctx, game, zoom} = this;
@@ -337,6 +371,7 @@ export class Piece{
 		ctx.strokeStyle = borderColor;
 		ctx.fillStyle = backgroundColor;
 		ctx.lineWidth = 8*zoom;
+		this.drawPieceShadow(zoom);
 		ctx.save();
 		this.makePath(zoom);
 		ctx.stroke();

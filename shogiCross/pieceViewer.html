@@ -95,6 +95,7 @@
 
 		const ctx = canvas.getContext("2d");
 		Piece.size = 100;
+		Piece.isDrawShadow = false;
 		const pieces = Piece.getPieces(ctx);
 		Piece.piecesToList(pieces).forEach(([key, {name, gameName, expansion}])=>{
 			const opt = document.createElement("option");
