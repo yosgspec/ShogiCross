@@ -38,7 +38,7 @@ export class Board{
 	}
 
 	/**
-	 * @typedef {"overflow"|"always"|null} canvasFit
+	 * @typedef {"overflow"|"horizontal"|"vertical"|"parentOverflow"|"parentHorizontal"|"parentVertical"|null} canvasFit
 	 */
 	/**
 	 * @param {HTMLCanvasElement} canvas - キャンバス要素
@@ -112,13 +112,26 @@ export class Board{
 		canvas.width = canvasWidth ?? (useStand? this.stand.right: this.right)+5;
 		canvas.height = canvasHeight ?? this.bottom+5;
 		// キャンバスサイズ調整
+		const {style} = canvas;
 		if(canvasFit === "overflow"){
-			canvas.style.maxWidth = "97vw";
-			canvas.style.maxHeight = "97vh";
+			if(style.maxWidth === "") style.maxWidth = "97vw";
+			if(style.maxHeight === "") style.maxHeight = "97vh";
 		}
-		else if(canvasFit === "always"){
-			canvas.style.width = "97vw";
-			canvas.style.height = "97vh";
+		else if(canvasFit === "horizontal"){
+			if(style.width === "") style.width = "97vw";
+		}
+		else if(canvasFit === "vertical"){
+			if(style.height === "") style.height = "97vh";
+		}
+		else if(canvasFit === "parentOverflow"){
+			if(style.maxWidth === "") style.maxWidth = "100%";
+			if(style.maxHeight === "") style.maxHeight = "100%";
+		}
+		else if(canvasFit === "parentHorizontal"){
+			if(style.width === "") style.width = "100%";
+		}
+		else if(canvasFit === "parentVertical"){
+				if(style.height === "") style.height = "100%";
 		}
 
 		// 描写更新設定
