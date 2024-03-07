@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "npx vite",
+    "serve": "npx vite serve",
     "build": "npx vite build && node buildAfter.js ./dist/ShogiCross.js",
     "preview": "npx vite preview"
   },

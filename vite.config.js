@@ -3,6 +3,9 @@ import { defineConfig } from "vite";
 export default defineConfig({
 	root: ".",
 	publicDir: "json",
+	server: {
+		open: "./shogiCross/"
+	},
 	build: {
 		target: "esnext",
 		lib: {
