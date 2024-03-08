@@ -14,12 +14,6 @@
 "borderColor": "#333333"
 ```
 
-## borderWidth {number}
-ボード及び駒台の線の太さ。
-```json
-"borderWidth": 2
-```
-
 ## promoLineOffset(省略可) {number}
 ボード自体のプロモーションライン(成りの段)のオフセットを設定。  
 値が正の場合は手前、負の場合は奥方向へズレる。

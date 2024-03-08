@@ -7,11 +7,14 @@ export class Panel{
 
 	/**
 	 * @param {any} ctx - Canvas描画コンテキスト
-	 * @param {Object<string, any>} panel - マス目
+	 * @param {string} char - マス目を示す文字
 	 * @param {number} center - 描写するX座標(中心原点)
 	 * @param {number} middle - 描写するY座標(中心原点)
 	 * @param {number} width - パネル幅
 	 * @param {number} height - パネル高さ
+	 * @param {number} borderWidth - 枠線の太さ
+	 * @param {number} pX - ボード上の横方向マス数
+	 * @param {number} pY - ボード上の縦方向マス数
 	 */
 	constructor(ctx, char, center, middle, width, height, borderWidth, pX, pY){
 		Object.assign(this, panels[char]);

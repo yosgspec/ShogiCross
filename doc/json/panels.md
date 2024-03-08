@@ -26,12 +26,6 @@
 "borderColor": "#333333"
 ```
 
-## borderWidth {number}
-マス目の線の太さ。
-```json
-"borderWidth": 2
-```
-
 ## selectColor(省略可) {string}
 マス目を選択した時の色。
 ```json

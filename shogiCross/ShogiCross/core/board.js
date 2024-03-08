@@ -1,5 +1,6 @@
 import {canvasFont} from "./canvasFontLoader.js";
 import {canvasImage} from "./canvasImageLoader.js";
+import {downloadImage} from "./downloadImage.js";
 import {uIControl} from "./uiControl.js";
 import {Stand} from "./stand.js";
 import {Panel} from "./panel.js";
@@ -51,8 +52,12 @@ export class Board{
 	 * @param {number} boardTop - 描写するY座標
 	 * @param {number} panelWidth - パネル幅
 	 * @param {number} panelHeight - パネル高さ
+	 * @param {number} pieceSize - 駒の大きさ
+	 * @param {boolean} useRankSize - 駒の大きさを格の違いで変更するか
+	 * @param {boolean} isDrawShadow - 駒の影の描写有無
+	 * @panal {number} borderWidth - 枠線太さ
 	 * @param {boolean} useStand - 駒台の使用有無
-	 * @param {string} backgroundColor - 背景色(デフォルト無職)
+	 * @param {string} backgroundColor - 背景色(デフォルト無色)
 	 * @param {boolean} autoDrawing - 描写の自動更新有無
 	 * @param {(Board)=>void} onDrawed - 描写イベント
 	 * @param {boolean} freeMode - フリーモード有効化/無効化
@@ -67,6 +72,7 @@ export class Board{
 		panelWidth=50,
 		panelHeight=0|panelWidth*1.1,
 		pieceSize=0|panelWidth*0.9,
+		borderWidth=Math.max(panelWidth, panelHeight)/30,
 		useStand=false,
 		backgroundColor="#00000000",
 		autoDrawing=true,
@@ -80,8 +86,8 @@ export class Board{
 		const ctx = canvas.getContext("2d");
 		ctx.clearRect(0, 0, canvas.width, canvas.height);
 		this.ctx = ctx;
-		Piece.size = pieceSize;
-		this.pieces = Piece.getPieces(ctx, pieceSize);
+
+		this.pieces = Piece.getPieces(ctx);
 
 		// ボード情報
 		Object.assign(this, boards[playBoard]);
@@ -91,6 +97,7 @@ export class Board{
 		this.top = boardTop;
 		this.panelWidth = panelWidth;
 		this.panelHeight = panelHeight;
+		this.borderWidth = borderWidth;
 		this.pieceSize = pieceSize;
 		this.canvasBackgroundColor = backgroundColor;
 
@@ -99,7 +106,7 @@ export class Board{
 			[...row].map((char, pX)=>{
 				const center = boardLeft+panelWidth*(pX+1);
 				const middle = boardTop+panelHeight*(pY+1)
-				return new Panel(ctx, char, center, middle, panelWidth, panelHeight, this.borderWidth, pX, pY);
+				return new Panel(ctx, char, center, middle, panelWidth, panelHeight, borderWidth, pX, pY);
 			})
 		);
 		this.xLen = this.field[0].length;
@@ -514,5 +521,14 @@ export class Board{
 			footer+
 			this.stand.toString(isMinimam)
 		);
+	}
+
+	/** 画像を取得
+	 * @param {string} fileName - ファイル名
+	 * @param {string} ext - 拡張子
+	 * @returns {Promise<void>}
+	 */
+	async downloadImage(fileName, ext){
+		await downloadImage(this.canvas, fileName, ext);
 	}
 }

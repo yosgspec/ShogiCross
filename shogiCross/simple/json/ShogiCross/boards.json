@@ -2,7 +2,6 @@
 	"将棋": {
 		"backgroundColor": "#EECC88",
 		"borderColor": "#333333",
-		"borderWidth": 2,
 		"field": [
 			"SSSSSSSSS",
 			"SSSSSSSSS",
@@ -18,7 +17,6 @@
 	"チェス": {
 		"backgroundColor": "#444444",
 		"borderColor": "#000000",
-		"borderWidth": 2,
 		"field": [
 			"WBWBWBWB",
 			"BWBWBWBW",
@@ -33,7 +31,6 @@
 	"シャンチー": {
 		"backgroundColor": "#EECC88",
 		"borderColor": "#333333",
-		"borderWidth": 2,
 		"promoLineOffset": 1,
 		"field": [
 			"SSS<#>SSS",
@@ -51,7 +48,6 @@
 	"チャンギ": {
 		"backgroundColor": "#EECC88",
 		"borderColor": "#333333",
-		"borderWidth": 2,
 		"promoLineOffset": 1,
 		"field": [
 			"SSS<#>SSS",
@@ -69,7 +65,6 @@
 	"マークルック": {
 		"backgroundColor": "#775544",
 		"borderColor": "#000000",
-		"borderWidth": 2,
 		"field": [
 			"MMMMMMMM",
 			"MMMMMMMM",
@@ -84,7 +79,6 @@
 	"どうぶつしょうぎ": {
 		"backgroundColor": "#FFFFDD",
 		"borderColor": "#FFDD99",
-		"borderWidth": 2,
 		"promoLineOffset": -2,
 		"field": [
 			"DDD",
@@ -96,7 +90,6 @@
 	"将棋5x5": {
 		"backgroundColor": "#EECC88",
 		"borderColor": "#333333",
-		"borderWidth": 2,
 		"promoLineOffset": -2,
 		"field": [
 			"SSSSS",
@@ -109,7 +102,6 @@
 	"将棋7x7": {
 		"backgroundColor": "#EECC88",
 		"borderColor": "#333333",
-		"borderWidth": 2,
 		"promoLineOffset": -1,
 		"field": [
 			"SSSSSSS",
@@ -124,7 +116,6 @@
 	"将棋10x10": {
 		"backgroundColor": "#EECC88",
 		"borderColor": "#333333",
-		"borderWidth": 2,
 		"field": [
 			"SSSSSSSSSS",
 			"SSSSSSSSSS",
@@ -141,7 +132,6 @@
 	"チェス6x6": {
 		"backgroundColor": "#444444",
 		"borderColor": "#000000",
-		"borderWidth": 2,
 		"field": [
 			"WBWBWB",
 			"BWBWBW",
@@ -154,7 +144,6 @@
 	"チェス10x8": {
 		"backgroundColor": "#444444",
 		"borderColor": "#000000",
-		"borderWidth": 2,
 		"field": [
 			"WBWBWBWBWB",
 			"BWBWBWBWBW",
@@ -169,7 +158,6 @@
 	"チェス10x10": {
 		"backgroundColor": "#444444",
 		"borderColor": "#000000",
-		"borderWidth": 2,
 		"promoLineOffset": 2,
 		"field": [
 			"WBWBWBWBWB",
@@ -187,7 +175,6 @@
 	"チェス12x8": {
 		"backgroundColor": "#444444",
 		"borderColor": "#000000",
-		"borderWidth": 2,
 		"field": [
 			"WBWBWBWBWBWB",
 			"BWBWBWBWBWBW",
@@ -202,7 +189,6 @@
 	"チェス12x12": {
 		"backgroundColor": "#444444",
 		"borderColor": "#000000",
-		"borderWidth": 2,
 		"field": [
 			"WBWBWBWBWBWB",
 			"BWBWBWBWBWBW",
@@ -221,7 +207,6 @@
 	"ごろごろどうぶつしょうぎ": {
 		"backgroundColor": "#FFFFDD",
 		"borderColor": "#FFDD99",
-		"borderWidth": 2,
 		"promoLineOffset": -1,
 		"field": [
 			"44444",
@@ -235,7 +220,6 @@
 	"古将棋8x8": {
 		"backgroundColor": "#EECC88",
 		"borderColor": "#333333",
-		"borderWidth": 2,
 		"field": [
 			"ssssssss",
 			"ssssssss",
@@ -250,7 +234,6 @@
 	"古将棋9x8": {
 		"backgroundColor": "#EECC88",
 		"borderColor": "#333333",
-		"borderWidth": 2,
 		"field": [
 			"sssssssss",
 			"sssssssss",
@@ -266,7 +249,6 @@
 	"古将棋9x9": {
 		"backgroundColor": "#EECC88",
 		"borderColor": "#333333",
-		"borderWidth": 2,
 		"field": [
 			"sssssssss",
 			"sssssssss",
@@ -282,7 +264,6 @@
 	"古将棋10x10": {
 		"backgroundColor": "#EECC88",
 		"borderColor": "#333333",
-		"borderWidth": 2,
 		"promoLineOffset": 1,
 		"field": [
 			"ssssssssss",
@@ -300,7 +281,6 @@
 	"古将棋12x12": {
 		"backgroundColor": "#EECC88",
 		"borderColor": "#333333",
-		"borderWidth": 2,
 		"promoLineOffset": 1,
 		"field": [
 			"ssssssssssss",
@@ -320,7 +300,6 @@
 	"古将棋15x15": {
 		"backgroundColor": "#EECC88",
 		"borderColor": "#333333",
-		"borderWidth": 2,
 		"promoLineOffset": 2,
 		"field": [
 			"sssssssssssssss",
@@ -343,7 +322,6 @@
 	"クレージーハウス": {
 		"backgroundColor": "#444444",
 		"borderColor": "#000000",
-		"borderWidth": 2,
 		"field": [
 			"wbwbwbwb",
 			"bwbwbwbw",
@@ -358,7 +336,6 @@
 	"4人チェス": {
 		"backgroundColor": "#444444",
 		"borderColor": "#000000",
-		"borderWidth": 2,
 		"promoLineOffset": 6,
 		"field": [
 			"...BWBWBWBW...",
@@ -380,7 +357,6 @@
 	"四神将棋": {
 		"backgroundColor": "#EECC88",
 		"borderColor": "#333333",
-		"borderWidth": 2,
 		"sidePromo": true,
 		"field": [
 			"...SSSSSSSSS...",
@@ -403,7 +379,6 @@
 	"クロス8x8": {
 		"backgroundColor": "#EECC88",
 		"borderColor": "#333333",
-		"borderWidth": 2,
 		"field": [
 			"WBW<#>SS",
 			"BWB#*#SS",
@@ -418,7 +393,6 @@
 	"クロス9x9": {
 		"backgroundColor": "#EECC88",
 		"borderColor": "#333333",
-		"borderWidth": 2,
 		"field": [
 			"XSX<#>XSX",
 			"SXS#*#SXS",
@@ -434,7 +408,6 @@
 	"クロス11x11": {
 		"backgroundColor": "#EECC88",
 		"borderColor": "#333333",
-		"borderWidth": 2,
 		"field": [
 			"BWBW<#>SXSX",
 			"WBWB#*#XSXS",
@@ -452,7 +425,6 @@
 	"クロス12x12": {
 		"backgroundColor": "#EECC88",
 		"borderColor": "#333333",
-		"borderWidth": 2,
 		"field": [
 			"BWBW<#>XSXSX",
 			"WBWB#*#SXSXS",
@@ -471,7 +443,6 @@
 	"クロス13x13": {
 		"backgroundColor": "#EECC88",
 		"borderColor": "#333333",
-		"borderWidth": 2,
 		"field": [
 			"BWBWB<#>XSXSX",
 			"WBWBW#*#SXSXS",
@@ -491,7 +462,6 @@
 	"4人用クロス8列": {
 		"backgroundColor": "#444444",
 		"borderColor": "#000000",
-		"borderWidth": 2,
 		"promoLineOffset": 6,
 		"field": [
 			"...XSX<#>XS...",
@@ -513,7 +483,6 @@
 	"4人用クロス9列": {
 		"backgroundColor": "#EECC88",
 		"borderColor": "#333333",
-		"borderWidth": 2,
 		"promoLineOffset": 6,
 		"field": [
 			"...XSX<#>XSX...",
@@ -536,7 +505,6 @@
 	"4人用クロス9列4行": {
 		"backgroundColor": "#EECC88",
 		"borderColor": "#333333",
-		"borderWidth": 2,
 		"promoLineOffset": 6,
 		"field": [
 			"....XSX<#>XSX....",

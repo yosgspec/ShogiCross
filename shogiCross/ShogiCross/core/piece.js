@@ -56,8 +56,9 @@ export class Piece{
 
 	/** 駒データを初期化
 	 * @param {any} ctx - Canvas描画コンテキスト
+	 * @param {Object<string, any>} options - 駒の初期化オプション
 	 */
-	static getPieces(ctx){
+	static getPieces(ctx, options={}){
 		const exPieces = new Map(Object.entries(JSON.parse(JSON.stringify(pieces))));
 
 		/* データを補完 */
@@ -82,7 +83,7 @@ export class Piece{
 		[...exPieces].forEach(([key, piece], i)=>{
 			piece.id = i;
 			piece.char = key;
-			exPieces.set(key, new Piece(ctx, piece));
+			exPieces.set(key, new Piece(ctx, piece, options));
 		});
 		const exPiecesObj = Object.fromEntries(exPieces);
 		// エイリアスのデータを統合
@@ -161,10 +162,10 @@ export class Piece{
 	 * @param {any} ctx - Canvas描画コンテキスト
 	 * @param {Object<string, any>} piece - 駒
 	 * @param {number} displayPtn - 表示文字列を変更(1〜)
-	 * @param {number} deg - パネル角度
-	 * @param {number} size - パネルサイズ
-	 * @param {boolean} useRankSize - 格の違いによって駒の大きさを変更するか
-	 * @param {boolean} isDrawShadow - 影の描写有無
+	 * @param {number} deg - 駒の角度
+	 * @param {number} size - 駒の大きさ
+	 * @param {boolean} useRankSize - 駒の大きさを格の違いで変更するか
+	 * @param {boolean} isDrawShadow - 駒の影の描写有無
 	 * @param {boolean} isMoved - 初回移動済みか否か
 	 */
 	constructor(ctx, piece, {
@@ -185,8 +186,8 @@ export class Piece{
 		this.cost = pieceCost[this.char] ?? 1;
 		this.center = 0;
 		this.middle = 0;
-		this.size = size;
 		this.deg = deg;
+		this.size = size;
 		this.useRankSize = useRankSize;
 		this.isDrawShadow = isDrawShadow;
 		this.isRotateImg ??= true;

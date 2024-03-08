@@ -32,68 +32,68 @@
 	</head>
 	<body>
 		<div class="flex-col">
-			<div class="flex-col">
-				<canvas id="shogiCross"></canvas>
-				<div>
-					<select id="selectGame"></select>
-					<div id="crossSelects" class="flex-row" style="display:none">
-						<div class="flex-col-fit">
-							<select id="selectBoard"></select>
-							<select id="selectStand">
-								<option value="true">駒台あり</option>
-								<option value="false">駒台なし</option>
-							</select>
-						</div>
-						<div class="flex-col-fit">
-							<select class="selectPieces"></select>
-							<select class="selectPieceSet"></select>
-						</div>
-						<div class="flex-col-fit">
-							<select class="selectPieces"></select>
-							<select class="selectPieceSet"></select>
-						</div>
-						<div class="flex-col-fit">
-							<select class="selectPieces"></select>
-							<select class="selectPieceSet"></select>
-						</div>
-						<div class="flex-col-fit">
-							<select class="selectPieces"></select>
-							<select class="selectPieceSet"></select>
-						</div>
-					</div>
-					<details>
-						<summary style="cursor:pointer;">テキスト形式表示</summary>
-						テキストを直接書き換えて駒配置を直接編集できます。<br>
-						配置可能な駒は<a href="https://github.com/yosgspec/ShogiCross/blob/main/doc/pieces/README.md">駒情報表</a>を参照してください。<br>
-						<div class="flex-row">
-							<textarea id="shogiCrossText"></textarea>
-							<textarea id="shogiCrossTextMini"></textarea>
-						</div>
-					</details>
-					<details>
-						<summary style="cursor:pointer;">棋譜</summary>
-						<textarea id="shogiCrossRecord" style="height:100px;overflow-y:scroll;" readonly></textarea>
-					</details>
+			<canvas id="shogiCross"></canvas>
+			<div class="flex-row">
+				<select id="selectGame"></select>
+				<button id="downloadImage">画像ダウンロード</button>
+			</div>
+			<div id="crossSelects" class="flex-row" style="display:none">
+				<div class="flex-col-fit">
+					<select id="selectBoard"></select>
+					<select id="selectStand">
+						<option value="true">駒台あり</option>
+						<option value="false">駒台なし</option>
+					</select>
+				</div>
+				<div class="flex-col-fit">
+					<select class="selectPieces"></select>
+					<select class="selectPieceSet"></select>
+				</div>
+				<div class="flex-col-fit">
+					<select class="selectPieces"></select>
+					<select class="selectPieceSet"></select>
+				</div>
+				<div class="flex-col-fit">
+					<select class="selectPieces"></select>
+					<select class="selectPieceSet"></select>
+				</div>
+				<div class="flex-col-fit">
+					<select class="selectPieces"></select>
+					<select class="selectPieceSet"></select>
 				</div>
 			</div>
-			<div class="flex-col">
-				<h1>将棋クロス【ShogiCross】</h1>
-				駒を自由に並べ替えたりできるやつ。<br>
-				CPUや駒の移動範囲表示以外のゲームルールは未実装。
-				<img src="./img/logo.min.svg">
-				<a href="./pieceViewer.html">PieceViewer</a>
-				<a href="./playBoard.html">将棋類紹介</a>
-				<a href="./simple/">ゲーム単品集</a>
-				<a href="https://github.com/yosgspec/ShogiCross">GitHub(ペーパークラフトもこちら)</a>
-				<a href="http://yosgspec.blog103.fc2.com/blog-entry-2997.html">超棋(過去制作物)</a>
-				<a href="/">TOP</a>
-			</div>
+			<details>
+				<summary style="cursor:pointer;">テキスト形式表示</summary>
+				テキストを直接書き換えて駒配置を直接編集できます。<br>
+				配置可能な駒は<a href="https://github.com/yosgspec/ShogiCross/blob/main/doc/pieces/README.md">駒情報表</a>を参照してください。<br>
+				<div class="flex-row">
+					<textarea id="shogiCrossText"></textarea>
+					<textarea id="shogiCrossTextMini"></textarea>
+				</div>
+			</details>
+			<details>
+				<summary style="cursor:pointer;">棋譜</summary>
+				<textarea id="shogiCrossRecord" style="height:100px;overflow-y:scroll;" readonly></textarea>
+			</details>
+		</div>
+		<div class="flex-col">
+			<h1>将棋クロス【ShogiCross】</h1>
+			駒を自由に並べ替えたりできるやつ。<br>
+			CPUや駒の移動範囲表示以外のゲームルールは未実装。
+			<img src="./img/logo.min.svg">
+			<a href="./pieceViewer.html">PieceViewer</a>
+			<a href="./playBoard.html">将棋類紹介</a>
+			<a href="./simple/">ゲーム単品集</a>
+			<a href="https://github.com/yosgspec/ShogiCross">GitHub(ペーパークラフトもこちら)</a>
+			<a href="http://yosgspec.blog103.fc2.com/blog-entry-2997.html">超棋(過去制作物)</a>
+			<a href="/">TOP</a>
 		</div>
 
 		<script type="module">
 		import {PlayGames} from "./game/playGame.js";
 		import {SelectControl} from "./game/selectControl.js";
 		const canvas = document.getElementById("shogiCross");
+		const downloadImage = document.getElementById("downloadImage");
 		const txt = document.getElementById("shogiCrossText");
 		const txtMini = document.getElementById("shogiCrossTextMini");
 		const record = document.getElementById("shogiCrossRecord");
@@ -122,6 +122,10 @@
 			playingGame.inputPieces(target.value);
 		};
 
+		function downloadImageClick(){
+
+		}
+
 		// 実行中のゲーム
 		let playingGame={};
 
@@ -129,6 +133,7 @@
 		async function playGame(){
 			if(playingGame.close) playingGame.close();
 			playingGame = PlayGames[SelectControl.gameName].run(canvas, {onDrawed, ...SelectControl.options});
+			downloadImage.onclick = e=>playingGame.downloadImage(SelectControl.gameName);
 			txt.onchange = txtOnChange;
 			txtMini.onchange = txtOnChange;
 		};
