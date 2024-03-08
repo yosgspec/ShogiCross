@@ -348,7 +348,7 @@ export class Piece{
 		const {ctx} = this;
 
 		ctx.save();
-		ctx.translate(0, 12*zoom);
+		ctx.translate(0, 10*zoom);
 		this.drawMask("#00000066");
 		ctx.restore();
 	}

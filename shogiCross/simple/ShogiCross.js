@@ -363,7 +363,7 @@ class k {
     if (!this.isDrawShadow)
       return;
     const { ctx: e } = this;
-    e.save(), e.translate(0, 12 * t), this.drawMask("#00000066"), e.restore();
+    e.save(), e.translate(0, 10 * t), this.drawMask("#00000066"), e.restore();
   }
   /** 駒を描写 */
   drawPiece() {
