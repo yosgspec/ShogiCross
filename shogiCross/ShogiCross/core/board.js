@@ -50,8 +50,8 @@ export class Board{
 	 * @param {canvasFit} canvasFit - キャンバスサイズの自動調整
 	 * @param {number} boardLeft - 描写するX座標
 	 * @param {number} boardTop - 描写するY座標
-	 * @param {number} panelWidth - パネル幅
-	 * @param {number} panelHeight - パネル高さ
+	 * @param {number} panelWidth - マス目幅
+	 * @param {number} panelHeight - マス目高さ
 	 * @param {number} pieceSize - 駒の大きさ
 	 * @param {boolean} useRankSize - 駒の大きさを格の違いで変更するか
 	 * @param {boolean} isDrawShadow - 駒の影の描写有無
@@ -287,8 +287,8 @@ export class Board{
 		if(this.autoDrawing) this.draw();
 	}
 
-	/** 角度基準のパネルの行を取得する
-	 * @param {Panel} panel - パネル
+	/** 角度基準のマス目の行を取得する
+	 * @param {Panel} panel - マス目
 	 * @param {number} deg - 角度
 	 * @param {number} offsetDeg - 補正角度
 	 * @returns {number}
@@ -306,8 +306,8 @@ export class Board{
 		);
 	}
 
-	/** 角度基準のパネルの列を取得する
-	 * @param {Panel} panel - パネル
+	/** 角度基準のマス目の列を取得する
+	 * @param {Panel} panel - マス目
 	 * @param {number} deg - 角度
 	 * @param {number} offsetDeg - 補正角度
 	 * @returns {number}
@@ -326,7 +326,7 @@ export class Board{
 	}
 
 	/** プロモーションエリア内であるか判別
-	 * @param {Panel} panel - パネル
+	 * @param {Panel} panel - マス目
 	 */
 	checkCanPromo(panel){
 		const {yLen} = this;
@@ -358,8 +358,8 @@ export class Board{
 	}
 
 	/** 駒を移動
-	 * @param {Panel} fromPanel - 移動元のパネル
-	 * @param {Panel} toPanel - 選択中のパネル
+	 * @param {Panel} fromPanel - 移動元のマス目
+	 * @param {Panel} toPanel - 選択中のマス目
 	 */
 	movePiece(fromPanel, toPanel){
 		const {stand, freeMode, enPassant} = this;
@@ -416,8 +416,8 @@ export class Board{
 	}
 
 	/** 棋譜を追記
-	 * @param {Panel} toPanel - 移動先のパネル
-	 * @param {Panel} fromPanel - 移動元のパネル
+	 * @param {Panel} toPanel - 移動先のマス目
+	 * @param {Panel} fromPanel - 移動元のマス目
 	 * @param {string} end - オプション=成|不成|打
 	 */
 	addRecord(toPanel, {fromPanel, end=""}={}){

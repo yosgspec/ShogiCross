@@ -80,26 +80,44 @@ function getOrigin(range){
 /** 駒の移動判定
  * @param {Board} board - ボード
  * @param {Piece} piece - 駒
- * @param {number} pX - パネルの列
- * @param {number} pY - パネルの行
+ * @param {number} pX - マス目の列
+ * @param {number} pY - マス目の行
  * @returns
  */
 export function checkTarget(board, piece, pX, pY){
 	const {field, yLen, enPassant} = board;
 
-	/** パネル座標がボード範囲内か判定
-	 * @param {number} x - 判定するパネルの列
-	 * @param {number} y - 判定するパネルの行
+	/** マス目座標がボード範囲内か判定
+	 * @param {number} x - 判定するマス目の列
+	 * @param {number} y - 判定するマス目の行
 	 * @returns {boolean}
 	 */
 	function inField(x, y){
 		return field[y] && field[y][x] && !field[y][x].hasAttr("keepOut");
 	}
 
+	/** 包同士であるか
+	 * @param {Panel} panel - マス目
+	 */
+	function isVsPo(panel){
+		return panel.piece && piece.hasAttr("po") && panel.piece.hasAttr("po");
+	}
+
+	/** 対象駒が炮で取れるか
+	 * @param {Panel} panel - マス目
+	 */
+	function isAttackFromPao(panel){
+		return panel.piece
+			&& !piece.isMoved
+			&& !panel.piece.isMoved
+			&& piece.hasAttr("pao")
+			&& piece.cost < panel.piece.cost;
+	}
+
 	/** 移動可能か判定
 	 * @param {boolean} isAttack - 駒を取得対象に含むか?
-	 * @param {number} x - 判定するパネルの列
-	 * @param {number} y - 判定するパネルの行
+	 * @param {number} x - 判定するマス目の列
+	 * @param {number} y - 判定するマス目の行
 	 * @param {string} rangeName - 移動範囲の定義名
 	 * @param {boolean} checkRivalDeg - 敵の駒のみを移動先とするか?
 	 * @returns boolean
@@ -108,6 +126,8 @@ export function checkTarget(board, piece, pX, pY){
 		if(!field[y] || !field[y][x]) return false;
 		const panel = field[y][x];
 		if(!panel) return false;
+		if(isVsPo(panel)) return false;
+		if(isAttackFromPao(panel)) return false;
 		if(!enPassant.isTarget(rangeName, panel, piece)) return false;
 		if(piece.hasAttr("inPalace") && !panel.hasAttr("palace")) return false;
 		if(rangeName.indexOf("palace") === 0 && !(panel.hasAttr(rangeName) && field[pY][pX].hasAttr(rangeName))) return false;
@@ -145,8 +165,8 @@ export function checkTarget(board, piece, pX, pY){
 
 	/** 移動先表示を設定
 	 * @param {string} rangeName - 移動範囲の定義名
-	 * @param {number} x - 判定するパネルの列
-	 * @param {number} y - 判定するパネルの行
+	 * @param {number} x - 判定するマス目の列
+	 * @param {number} y - 判定するマス目の行
 	 */
 	function setTarget(rangeName, x, y){
 		const panel = field[y][x];
@@ -209,9 +229,10 @@ export function checkTarget(board, piece, pX, pY){
 						else if(jmps<1){
 							moveCnt--;
 						}
-						if(field[y][x].piece){
+						const panel = field[y][x];
+						if(panel.piece){
 							jmpCnt--;
-							if(isJumped) break;
+							if(isJumped || isVsPo(panel)) break;
 						}
 					}
 				}
