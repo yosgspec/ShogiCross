@@ -72,7 +72,9 @@ export class Board{
 		panelWidth=50,
 		panelHeight=0|panelWidth*1.1,
 		pieceSize=0|panelWidth*0.9,
-		borderWidth=Math.max(panelWidth, panelHeight)/30,
+		useRankSize = true,
+		isDrawShadow = true,
+		borderWidth=Math.min(panelWidth, panelHeight)/30,
 		useStand=false,
 		backgroundColor="#00000000",
 		autoDrawing=true,
@@ -87,7 +89,11 @@ export class Board{
 		ctx.clearRect(0, 0, canvas.width, canvas.height);
 		this.ctx = ctx;
 
-		this.pieces = Piece.getPieces(ctx);
+		this.pieces = Piece.getPieces(ctx, {
+			size: pieceSize,
+			useRankSize,
+			isDrawShadow
+		});
 
 		// ボード情報
 		Object.assign(this, boards[playBoard]);
