@@ -35,7 +35,8 @@
 			<canvas id="shogiCross"></canvas>
 			<div class="flex-row">
 				<select id="selectGame"></select>
-				<button id="downloadImage">画像ダウンロード</button>
+				<select id="selectVariant"></select>
+				<button id="downloadImage">画像を保存</button>
 			</div>
 			<div id="crossSelects" class="flex-row" style="display:none">
 				<div class="flex-col-fit">
@@ -46,19 +47,19 @@
 					</select>
 				</div>
 				<div class="flex-col-fit">
-					<select class="selectPieces"></select>
+					<select class="selectPieceGame"></select>
 					<select class="selectPieceSet"></select>
 				</div>
 				<div class="flex-col-fit">
-					<select class="selectPieces"></select>
+					<select class="selectPieceGame"></select>
 					<select class="selectPieceSet"></select>
 				</div>
 				<div class="flex-col-fit">
-					<select class="selectPieces"></select>
+					<select class="selectPieceGame"></select>
 					<select class="selectPieceSet"></select>
 				</div>
 				<div class="flex-col-fit">
-					<select class="selectPieces"></select>
+					<select class="selectPieceGame"></select>
 					<select class="selectPieceSet"></select>
 				</div>
 			</div>
@@ -122,8 +123,9 @@
 			playingGame.inputPieces(target.value);
 		};
 
-		function downloadImageClick(){
-
+		/** 画像を保存ボタン */
+		 function downloadImageClick(){
+			playingGame.downloadImage(SelectControl.gameName);
 		}
 
 		// 実行中のゲーム
@@ -133,7 +135,7 @@
 		async function playGame(){
 			if(playingGame.close) playingGame.close();
 			playingGame = PlayGames[SelectControl.gameName].run(canvas, {onDrawed, ...SelectControl.options});
-			downloadImage.onclick = e=>playingGame.downloadImage(SelectControl.gameName);
+			downloadImage.onclick = downloadImageClick;
 			txt.onchange = txtOnChange;
 			txtMini.onchange = txtOnChange;
 		};

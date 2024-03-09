@@ -4,23 +4,46 @@ import {PlayGames} from "./playGame.js";
 const crossSelects = document.getElementById("crossSelects");
 const select = {
 	game: document.getElementById("selectGame"),
+	variant: document.getElementById("selectVariant"),
 	board: document.getElementById("selectBoard"),
 	stand: document.getElementById("selectStand"),
-	pieces: document.querySelectorAll(".selectPieces"),
+	pieceGame: document.querySelectorAll(".selectPieceGame"),
 	pieceSet: document.querySelectorAll(".selectPieceSet")
 }
 
-// セレクトボックスに追加
-Object.entries(PlayGames).forEach(([key, {name}])=>{
-	const opt = document.createElement("option");
-	opt.value = key;
-	opt.textContent = name;
-	select.game.appendChild(opt);
-	//if(key === "p4CrossOver9") opt.selected = true;
+// ゲームセレクトを初期化
+Object.entries(PlayGames).forEach(([key, {name, variant}])=>{
+	if(name === variant || variant == null){
+		const opt = document.createElement("option");
+		opt.value = key;
+		opt.textContent = name;
+		select.game.appendChild(opt);
+	}
 });
 
-/** クロスセレクトメニュー */
-function changeCrossGame(){
+// バリエーションセレクトを初期化
+function updateSelectVariant(){
+	select.variant.innerHTML = "";
+	Object.entries(PlayGames).forEach(([key, {name, variant}])=>{
+		const selectedName = select.game[select.game.selectedIndex].textContent;
+		if(selectedName === variant || variant == null && selectedName === name) {
+			const opt = document.createElement("option");
+			opt.value = key;
+			if(selectedName === name){
+				opt.selected = true;
+				opt.textContent = "--ルールを選択--";
+			}
+			else{
+				opt.textContent = name;
+			}
+			select.variant.appendChild(opt);
+		}
+	});
+}
+updateSelectVariant();
+
+/** クロスゲーム選択メニュー表示 */
+function openCrossGame(){
 	if(select.game.value !== "cross"){
 		crossSelects.style.display = "none";
 		return;
@@ -34,7 +57,7 @@ function changeCrossGame(){
 		opt.textContent = `${boardName}盤`;
 		select.board.appendChild(opt);
 	});
-	select.pieces.forEach((ele, i)=>{
+	select.pieceGame.forEach((ele, i)=>{
 		ele.innerHTML = "";
 		const opt = document.createElement("option");
 		opt.value = "";
@@ -48,12 +71,12 @@ function changeCrossGame(){
 	});
 }
 
-/** クロスゲーム用 駒配置パターン */
-function changeCrossPiece(piecesName, i){
-	const game = select.pieces[i];
+/** クロスゲーム配置パターン初期化 */
+function updateCrossPiece(i){
+	const pieceGame = select.pieceGame[i];
 	const pieceSet = select.pieceSet[i];
 	return function(){
-		const gameName = game.value;
+		const gameName = pieceGame.value;
 		pieceSet.innerHTML = "";
 		if(!games[gameName]) return;
 		const xLen = boards[select.board.value].field[0].length;
@@ -68,27 +91,29 @@ function changeCrossPiece(piecesName, i){
 
 export class SelectControl{
 	static get gameName(){
-		return select.game.value;
+		return select.variant.value;
 	}
 
 	static get options(){
 		return {
 			playBoard: select.board.value,
 			useStand: JSON.parse(select.stand.value),
-			playPieces: [...select.pieces].map((pieces, i)=>({
-				gameName: pieces.value,
+			playPieces: [...select.pieceGame].map((pieceGame, i)=>({
+				gameName: pieceGame.value,
 				pieceSet: select.pieceSet[i].value
 			}))
 		}
 	}
 	static set onchange(value){
-		select.game.addEventListener("change", changeCrossGame);
+		select.game.addEventListener("change", updateSelectVariant);
+		select.game.addEventListener("change", openCrossGame);
 		select.game.addEventListener("change", value);
+		select.variant.addEventListener("change", value);
 		select.board.addEventListener("change", value);
 		select.stand.addEventListener("change", value);
-		select.pieces.forEach((p, i)=>{
-			select.pieces[i].addEventListener("change", changeCrossPiece(p.value, i));
-			select.pieces[i].addEventListener("change", value);
+		select.pieceGame.forEach((pieceGame, i)=>{
+			pieceGame.addEventListener("change", updateCrossPiece(i));
+			pieceGame.addEventListener("change", value);
 			select.pieceSet[i].addEventListener("change", value);
 		})
 	}
