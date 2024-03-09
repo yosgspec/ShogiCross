@@ -117,7 +117,7 @@ export class Stand{
 	}
 
 	/** 文字列形式で取得
-	 * @param {string} - 簡易表示
+	 * @param {boolean} isMinimam - 簡易表示
 	 */
 	toString(isMinimam=false){
 		const {xLen} = this.board;
@@ -128,7 +128,7 @@ export class Stand{
 		if(!isMinimam){
 			head = "";
 			for(const char of Object.values(Piece.degChars)){
-				text = text.replace(char, "\n"+`${char}持ち駒:${char}`);
+				text = text.replace(char, "\n"+`${char}持駒：${char}`);
 			}
 		}
 		return head+text;
