@@ -14,7 +14,7 @@ http://tool.yosgspec.com/shogiCross/simple/
 * ShogiCrossディレクトリ
   * エントリポイント: ShogiCross/lib.js
 
-APIの仕様については[ドキュメント](http://tool.yosgspec.com/shogiCross/simple/doc/api/)を参照(自動生成のため見にくいけど)。
+APIの仕様については[ドキュメント](http://tool.yosgspec.com/shogiCross/doc/api/)を参照(自動生成のため見にくいけど)。
 
 ### ゲームデータファイル
 * jsonディレクトリ
