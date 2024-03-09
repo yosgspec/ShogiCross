@@ -144,7 +144,7 @@ export class Board{
 			if(style.width === "") style.width = "100%";
 		}
 		else if(canvasFit === "parentVertical"){
-				if(style.height === "") style.height = "100%";
+			if(style.height === "") style.height = "100%";
 		}
 
 		// 描写更新設定
