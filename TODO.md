@@ -1,6 +1,11 @@
 # TODOリスト
 ## やる予定のこと
+* [x] BOD形式の盤面出力
 * [ ] 王駒の残数カウントを追加
+* [ ] 型定義ファイル(.d.ts)を生成してみる
+  * https://www.typescriptlang.org/ja/docs/handbook/declaration-files/dts-from-js.html
+* [ ] npmにライブラリとして公開してみる
+  * https://deku.posstree.com/share/deploy-npm-library/
 
 ## 検討中のこと
 * [ ] ゲームとして成立するようにする
@@ -10,9 +15,7 @@
 * [ ] 将棋類紹介、ゲーム単品リストの処理の軽量化
   * [ ] innerHTML代入に書き換える
 * [ ] エラートラップの充実
-* [ ] BOD形式の盤面入出力
-  * [ ] 入力
-  * [ ] 出力
+* [ ] BOD形式の盤面入力
 * [ ] ライブラリとして配布する環境の整備
   * [x] 文面として導入方法を記載
   * [x] jsdocのドキュメント化

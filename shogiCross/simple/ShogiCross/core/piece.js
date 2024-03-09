@@ -37,10 +37,10 @@ export class Piece{
 	 */
 	static rankRatio = {
 		"KR": 1,
-		"SR": 0.96,
-		"R": 0.92,
-		"UC": 0.88,
-		"C": 0.84
+		"SR": 0.965,
+		"R": 0.935,
+		"UC": 0.90,
+		"C": 0.865
 	}
 
 	/** 駒の段階別価値を取得 */
@@ -404,6 +404,17 @@ export class Piece{
 		ctx.fill();
 
 		ctx.restore();
+	}
+
+	/** BOD形式テキストを取得
+	 * @returns {string}
+	 */
+	getBod(){
+		const degBodChars = {
+			0: " ",
+			180: "v"
+		};
+		return degBodChars[this.deg] + this.char;
 	}
 
 	/** 文字列形式で取得 */

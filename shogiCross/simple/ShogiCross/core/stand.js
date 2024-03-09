@@ -116,8 +116,39 @@ export class Stand{
 		});
 	}
 
+	/** BOD形式テキストを取得
+	 * @returns {string}
+	 */
+	getBod(deg=0){
+		// 持駒表示
+		const degBodChars = {
+			0: "先手の持駒：",
+			180: "後手の持駒："
+		};
+		// 漢数字を取得
+		function bodCount(index){
+			if(index<=1) return "";
+			const charI = ["","一","二","三","四","五","六","七","八","九"];
+			const charX = ["","十","弐","参","肆","伍"];
+			const i = index%10;
+			const x = 0|index/10;
+			return charX[x]+charI[i];
+		}
+		// 駒数カウント
+		const pieceMap = new Map();
+		this.stocks[Stand.degId[deg]].forEach(({char})=>{
+			if(!pieceMap.has(char)) pieceMap.set(char, 0);
+			pieceMap.set(char, pieceMap.get(char)+1);
+		});
+
+		return degBodChars[deg]+
+			[...pieceMap].map(([char, cnt])=>
+				char+bodCount(cnt)
+			).join(" ");
+	}
+
 	/** 文字列形式で取得
-	 * @param {string} - 簡易表示
+	 * @param {boolean} isMinimam - 簡易表示
 	 */
 	toString(isMinimam=false){
 		const {xLen} = this.board;
@@ -128,7 +159,7 @@ export class Stand{
 		if(!isMinimam){
 			head = "";
 			for(const char of Object.values(Piece.degChars)){
-				text = text.replace(char, "\n"+`${char}持ち駒:${char}`);
+				text = text.replace(char, "\n"+`${char}持駒：${char}`);
 			}
 		}
 		return head+text;

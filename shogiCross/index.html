@@ -64,6 +64,10 @@
 				</div>
 			</div>
 			<details>
+				<summary style="cursor:pointer;">棋譜</summary>
+				<textarea id="shogiCrossRecord" style="height:100px;overflow-y:scroll;" readonly></textarea>
+			</details>
+			<details>
 				<summary style="cursor:pointer;">テキスト形式表示</summary>
 				テキストを直接書き換えて駒配置を直接編集できます。<br>
 				配置可能な駒は<a href="https://github.com/yosgspec/ShogiCross/blob/main/doc/pieces/README.md">駒情報表</a>を参照してください。<br>
@@ -73,8 +77,8 @@
 				</div>
 			</details>
 			<details>
-				<summary style="cursor:pointer;">棋譜</summary>
-				<textarea id="shogiCrossRecord" style="height:100px;overflow-y:scroll;" readonly></textarea>
+				<summary style="cursor:pointer;">BOD形式表示</summary>
+				<textarea id="shogiCrossBod" style="font-family:monospace;width:300px;height:250px;" readonly></textarea>
 			</details>
 		</div>
 		<div class="flex-col">
@@ -97,23 +101,28 @@
 		const downloadImage = document.getElementById("downloadImage");
 		const txt = document.getElementById("shogiCrossText");
 		const txtMini = document.getElementById("shogiCrossTextMini");
+		const bod = document.getElementById("shogiCrossBod");
 		const record = document.getElementById("shogiCrossRecord");
 
 		/** 描写イベント
 		 * {board} e
 		 */
 		function onDrawed(e){
+			record.value = e.getTextRecord();
+			record.scrollTop = record.scrollHeight;
 			txt.value = ""+e;
 			const txtSplit = txt.value.split(/\n/);
 			const fontSize = parseFloat(window.getComputedStyle(txt, null).getPropertyValue('font-size'));
 			txt.style.width = `${0|fontSize*txtSplit[0].length*1.15}px`;
 			txt.style.height = `${0|fontSize*txtSplit.length*1.1}px`;
+
 			txtMini.value = e.toString(true);
 			const txtMiniSplit = txtMini.value.split(/\n/);
 			txtMini.style.width = `${0|fontSize*txtMiniSplit[0].length*1.2}px`;
 			txtMini.style.height = `${0|fontSize*txtMiniSplit.length*1.2}px`;
-			record.value = e.getTextRecord();
-			record.scrollTop = record.scrollHeight;
+
+			bod.value = e.bodText;
+			const bodSplit = bod.value.split(/\n/);
 		};
 
 		/** テキスト更新イベント

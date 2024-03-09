@@ -495,6 +495,53 @@ export class Board{
 		if(this.onDrawed) this.onDrawed(this);
 	}
 
+	/** BOD形式テキストを取得
+	 * @returns {string}
+	 */
+	get bodText(){
+		const {xLen, players, stand} = this;
+		if(players !== 2) throw Error(`players=${players}, players need 2.`);
+
+		function bodCol(index){
+			const charI = "０１２３４５６７８９";
+			const charX = "０⑩⑳㉚㊵㊿";
+			const i = index%10;
+			const x = 0|index/10;
+			return i===0? charX[x]: charI[i];
+		}
+
+		function bodRow(index){
+			const charI = "〇一二三四五六七八九";
+			const charX = "零十弐参肆伍";
+			const i = index%10;
+			const x = 0|index/10;
+			return i===0? charX[x]: charI[i];
+		}
+		let header =
+			` ${[...Array(xLen).keys()].map(i=>` ${bodCol(xLen-i)}`).join("")}\n`+
+			`+${Array(xLen).fill("---").join("")}+\n`;
+		let footer = `\n+${Array(xLen).fill("---").join("")}+`;
+		let panelOuter = "|";
+		let panelSep = "";
+		let rowSep = "\n";
+
+		return (
+			`${stand.getBod(180)}\n`+
+			header+
+			this.field.map((row, i)=>
+				panelOuter+
+				row.map(panel=>
+					panel.piece?.getBod()
+					?? panel.getBod()
+				).join(panelSep)+
+				panelOuter+
+				bodRow(i+1)
+			).join(rowSep)+
+			footer+
+			`\n${stand.getBod(0)}`
+		);
+	}
+
 	/** 駒配置をテキストで取得
 	 * {boolean} isMinimam - 縮小表示
 	 */
@@ -520,7 +567,7 @@ export class Board{
 			this.field.map(row=>
 				panelOuter+
 				row.map(panel=>
-					""+(panel.piece || panel.toString(isMinimam))
+					""+(panel.piece ?? panel.toString(isMinimam))
 				).join(panelSep)+
 				panelOuter
 			).join(rowSep)+

@@ -406,6 +406,17 @@ export class Piece{
 		ctx.restore();
 	}
 
+	/** BOD形式テキストを取得
+	 * @returns {string}
+	 */
+	getBod(){
+		const degBodChars = {
+			0: " ",
+			180: "v"
+		};
+		return degBodChars[this.deg] + this.char;
+	}
+
 	/** 文字列形式で取得 */
 	toString(){
 		return Piece.degChars[this.deg] + this.char;
