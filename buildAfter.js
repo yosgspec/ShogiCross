@@ -7,14 +7,19 @@ const srcDir = path.dirname(inputName);
 const baseDir = path.join(".", "shogiCross");
 const distDir = path.join(baseDir, "simple");
 const fileName = path.join(distDir, path.parse(inputName).name);
-const fileNameExt =ext=>`${fileName}.${ext}`;
-
-const srcJson = path.join(baseDir, "json/");
-const distJson = path.join(distDir, "json/");
-await fs.cp(srcJson, distJson, {recursive: true});
+const fileNameExt = ext=>`${fileName}.${ext}`;
 
 await fs.rename(inputName, fileNameExt("js"));
 await fs.rmdir(srcDir);
+
+const cpFiles = ["ShogiCross/", "json/"];
+await Promise.all(
+	cpFiles.map(f=>{
+		const srcJson = path.join(baseDir, f);
+		const distJson = path.join(distDir, f);
+		return fs.cp(srcJson, distJson, {recursive: true});
+	})
+);
 
 const code = await fs.readFile(fileNameExt("js"), {encoding: "utf8"});
 const response = await fetch(

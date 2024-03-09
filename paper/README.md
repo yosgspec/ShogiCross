@@ -63,6 +63,7 @@
 |大将棋                  |1,3,4,7,8 |[board_shogi15x15.pdf](dist/board_shogi15x15.pdf)
 |獅子将棋                |1,7       |[board_shogi.pdf](dist/board_shogi.pdf)
 |**Grant Acedrex**       |9         |[board_shogi12x12.pdf](dist/board_shogi12x12.pdf)
+|**クーリエチェス**      |10        |[board_shogi12x12.pdf](dist/board_shogi12x12.pdf)
 
 ## おすすめ商品
 印刷や組み立てに使用材料としておすすめする商品など。

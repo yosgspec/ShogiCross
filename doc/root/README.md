@@ -5,6 +5,12 @@ html/canvasで将棋類の駒を使ってわちゃわちゃできるものを作
 ## doc/
 ドキュメント類
 
+### lib/README.md
+ライブラリとしての使用方法を記述
+
+### json/README.md
+ゲームデータの定義仕様を記述
+
 ### pieces/README.md
 駒の情報を記述
 
@@ -26,6 +32,9 @@ html/canvasで将棋類の駒を使ってわちゃわちゃできるものを作
 ### pieceViewer.html
 使用できる駒を表示を行うだけのCanvas
 
+### playGround.html
+動かしながらゲームごとの動かし方を試すことができる将棋類紹介ページ
+
 ### game/
 Webページ固有の動作を記述するプログラム類
 
@@ -38,6 +47,12 @@ Canvasサイズやパネルサイズを定義
 #### selectControl.js
 画面上のセレクトボックスを制御
 
+### simple/
+本アプリの呼び出し例を各ゲームごとに用意したもの、配布用フォルダとしても想定
+
+### doc/api/
+本アプリをライブラリと使用する場合のAPIドキュメント(自動生成)
+
 ### ShogiCross/
 #### lib.js
 呼ばれるインポート情報を統合
@@ -45,11 +60,17 @@ Canvasサイズやパネルサイズを定義
 #### core/
 ゲームの中心機能を構成するプログラム類
 
-##### canvasFontsLoader.js
+##### canvasFontLoader.js
 Canvas用のGoogleフォントローダー
+
+##### canvasImageLoader.js
+Canvas用の画像ローダー
 
 ##### board.js
 ゲームで使用するボードを構成
+
+##### stand.js
+駒台を構成
 
 ##### panel.js
 ボード中の1マスを構成
@@ -57,17 +78,17 @@ Canvas用のGoogleフォントローダー
 ##### piece.js
 ボードに配置する駒を構成
 
-##### stand.js
-駒台を構成
-
-##### enPassant.js
-アンパッサンに冠する情報を管理
-
 ##### uiControl.js
 マウスなどゲームの操作を構成
 
 ##### checkTarget.js
 駒の移動範囲を取得
+
+##### enPassant.js
+アンパッサンに冠する情報を管理
+
+##### downloadImage.js
+画像のダウンロード機能を実装
 
 #### json/
 json形式でゲームに必要なデータを記載
@@ -75,14 +96,17 @@ json形式でゲームに必要なデータを記載
 ##### canvasFont.json
 Canvas用のGoogleフォント情報
 
+##### gameSoft.json
+ゲームの起動情報
+
+##### games.json
+ゲームの種類に共通する駒情報や駒配置情報
+
 ##### boards.json
 ボードの構成情報
 
 ##### panels.json
 ボード中のマス情報
-
-##### games.json
-ゲームの種類に共通する駒情報や駒配置情報
 
 ##### pieces.json
 駒情報
@@ -111,17 +135,38 @@ SVGで将棋駒を描写しようとしたなにか
 ### dist/
 公開用のペーパークラフトデータ
 
+### README.md
+ペーパークラフトデータの使用方法等を記述
+
 ## work/
 作業ディレクトリ
+
+### shogiCross.ods
+ゲーム情報の取りまとめや駒のペーパークラフトデータを作成
+
+### board.ods
+ゲームボードのペーパークラフトデータを作成
+
+### boardMini.ods
+ゲームボードのペーパークラフトデータを作成(小)
 
 ## README.md
 プロジェクト全体のドキュメント
 
+## TODO.md
+開発方針をぼんやり定義したもの
+
+## package.json
+ライブラリのビルド設定、テスト環境の起動設定
+
+## buildAfter.js
+ビルド後のコードの最小化、ファイル移動・コピーを実行
+
+## img/
+汎用画像を配置
+
 ## LICENSE
 CC0、いわゆるパブリックドメイン
-
-## gff.sh
-getFontFilter.pyを簡易的なコマンド呼べるようにするだけのシェルスクリプト
 
 ## favion.ico
 ファビコン。htmlで使うやつ
