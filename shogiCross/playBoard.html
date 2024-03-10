@@ -34,8 +34,10 @@
 		<script type="module">
 		import {gameSoft, Board} from "./ShogiCross/lib.js";
 		const main = document.getElementsByTagName("main")[0];
+		const vMain = document.createDocumentFragment();
 
 		const gameSoftList = Object.entries(gameSoft);
+		const detailsMap = new Map();
 		for(const [gameName, option] of gameSoftList){
 			const {name, variant, desc, url, useStand} = option;
 			const div = document.createElement("div");
@@ -55,25 +57,27 @@
 
 			const canvas = document.createElement("canvas");
 			div.append(canvas);
-			Board.run(canvas, option);
+			setTimeout(()=>Board.run(canvas, option), 0);
 
 			if(name === variant){
 				const details = document.createElement("details");
 				div.append(details);
+				detailsMap.set(name, details)
 				details.id = name;
 				details.style.display = "none";
 				const summary = document.createElement("summary");
 				details.append(summary);
 				summary.style.cursor = "pointer";
 				summary.textContent = "バリエーション";
-				main.append(div);
+				vMain.append(div);
 			}
 			else{
-				const details = document.getElementById(variant);
+				const details = detailsMap.get(variant);
 				details.style.display = "";
 				details.append(div);
 			}
 		}
+		main.appendChild(vMain);
 		</script>
 	</body>
 </html>

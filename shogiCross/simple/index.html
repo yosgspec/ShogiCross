@@ -40,6 +40,7 @@
 		<script type="module">
 		import {gameSoft} from "./ShogiCross.js";
 		const ui = document.getElementById("simpleCollection");
+		const vUi = document.createDocumentFragment();
 
 		Object.entries(gameSoft).forEach(([key, {name}])=>{
 			if(["default", "cross"].includes(key)) return;
@@ -50,6 +51,7 @@
 			li.appendChild(a);
 			ui.appendChild(li);
 		});
+		ui.appendChild(vUi);
 		</script>
 	</body>
 </html>
