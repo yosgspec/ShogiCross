@@ -114,6 +114,7 @@ export class SelectControl{
 		select.pieceGame.forEach((pieceGame, i)=>{
 			pieceGame.addEventListener("change", updateCrossPiece(i));
 			pieceGame.addEventListener("change", value);
+			select.board.addEventListener("change", updateCrossPiece(i));
 			select.pieceSet[i].addEventListener("change", value);
 		})
 	}
