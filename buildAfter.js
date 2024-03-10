@@ -12,11 +12,12 @@ const fileNameExt = ext=>`${fileName}.${ext}`;
 await fs.rename(inputName, fileNameExt("js"));
 await fs.rmdir(srcDir);
 
-const cpFiles = ["ShogiCross/", "json/"];
+const cpFiles = ["ShogiCross/", "json/", "img/"];
 await Promise.all(
-	cpFiles.map(f=>{
+	cpFiles.map(async f=>{
 		const srcJson = path.join(baseDir, f);
 		const distJson = path.join(distDir, f);
+		await fs.rmdir(distJson, {recursive:true});
 		return fs.cp(srcJson, distJson, {recursive: true});
 	})
 );
