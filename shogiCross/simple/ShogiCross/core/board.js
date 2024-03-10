@@ -500,7 +500,11 @@ export class Board{
 	 */
 	get bodText(){
 		const {xLen, players, stand} = this;
-		if(players !== 2) throw Error(`players=${players}, players need 2.`);
+		if(players !== 2){
+			const err = `players=${players}, players need 2.`
+			console.error(err);
+			return err;
+		}
 
 		function bodCol(index){
 			const charI = "０１２３４５６７８９";

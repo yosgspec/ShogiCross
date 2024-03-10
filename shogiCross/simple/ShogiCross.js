@@ -1,9 +1,9 @@
 const G = "./json/ShogiCross/";
-async function E(f) {
+async function $(f) {
   return await fetch(`${G}${f}.json`).then(async (t) => await t.json()).catch(() => {
   });
 }
-const O = await E("canvasFont"), gt = await E("gameSoft"), J = await E("games"), _ = await E("boards"), B = await E("panels"), z = await E("pieces"), Q = await E("pieceRange"), Z = await E("pieceCost"), tt = () => [
+const O = await $("canvasFont"), gt = await $("gameSoft"), J = await $("games"), _ = await $("boards"), B = await $("panels"), z = await $("pieces"), Q = await $("pieceRange"), Z = await $("pieceCost"), tt = () => [
   .../* @__PURE__ */ new Set([
     ...Object.values(B).map(({ displayText: f }) => f).join("") + Object.values(z).map(({ display: f }) => f ? f.join("") : "").join("")
   ])
@@ -498,14 +498,14 @@ function lt(f, t, e, s) {
       for (const [R, { child: b = [] } = {}] of ht)
         for (let k = 0; k < d.length; k++)
           for (let x = 0; x < d[k].length; x++) {
-            const [j, $] = [x + e - m, k + s - S];
-            !a(j, $) || !h(v, j, $, u) || d[k][x] !== R || l(d, b, !1, m, S) || g(u, j, $);
+            const [j, E] = [x + e - m, k + s - S];
+            !a(j, E) || !h(v, j, E, u) || d[k][x] !== R || l(d, b, !1, m, S) || g(u, j, E);
           }
   }
   function w(d, [u, { isAttack: v }], { oX: m, oY: S, isOwn: C, offsetX: R, offsetY: b }) {
     if (!(!C && !h(!1, e + R, s + b)))
       for (const [k, { jmps: x = 0, moves: j = 0 } = {}] of K) {
-        const $ = !j || j === 0;
+        const E = !j || j === 0;
         for (let L = S - 1; L <= S + 1; L++)
           for (let A = m - 1; A <= m + 1; A++) {
             if (d[L][A] !== k || A === m && L === S)
@@ -515,7 +515,7 @@ function lt(f, t, e, s) {
             for (let X = e, H = s; ; ) {
               X += V, H += q;
               const P = X + R, T = H + b;
-              if (!a(P, T) || !$ && I === 0)
+              if (!a(P, T) || !E && I === 0)
                 break;
               const D = M === 0;
               D && h(v, P, T, u, D) ? (I--, g(u, P, T)) : x < 1 && I--;
@@ -811,9 +811,9 @@ class N {
     }), Object.assign(this, _[e]), ![2, 4].includes(s))
       throw Error(`players=${s}, players need 2 or 4.`);
     this.players = s, this.left = a, this.top = c, this.panelWidth = n, this.panelHeight = h, this.borderWidth = w, this.pieceSize = l, this.canvasBackgroundColor = u, this.field = this.field.map(
-      (x, j) => [...x].map(($, L) => {
+      (x, j) => [...x].map((E, L) => {
         const A = a + n * (L + 1), M = c + h * (j + 1);
-        return new ot(b, $, A, M, n, h, w, L, j);
+        return new ot(b, E, A, M, n, h, w, L, j);
       })
     ), this.xLen = this.field[0].length, this.yLen = this.field.length, this.width = this.panelWidth * (this.xLen + 1), this.height = this.panelHeight * (this.yLen + 1), this.right = a + this.width, this.bottom = c + this.height, this.stand = new F(this), t.width = i ?? (d ? this.stand.right : this.right) + 5, t.height = r ?? this.bottom + 5;
     const { style: k } = t;
@@ -1038,8 +1038,10 @@ class N {
    */
   get bodText() {
     const { xLen: t, players: e, stand: s } = this;
-    if (e !== 2)
-      throw Error(`players=${e}, players need 2.`);
+    if (e !== 2) {
+      const l = `players=${e}, players need 2.`;
+      return console.error(l), l;
+    }
     function i(l) {
       const g = "０１２３４５６７８９", p = "０⑩⑳㉚㊵㊿", w = l % 10, d = 0 | l / 10;
       return w === 0 ? p[d] : g[w];
