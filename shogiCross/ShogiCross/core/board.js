@@ -6,6 +6,7 @@ import {Stand} from "./stand.js";
 import {Panel} from "./panel.js";
 import {Piece} from "./piece.js";
 import {EnPassant} from "./enPassant.js";
+import {Bod} from "./bod.js";
 import {boards, games} from "./json.js";
 
 /** 盤の管理クラス */
@@ -506,23 +507,8 @@ export class Board{
 			return err;
 		}
 
-		function bodCol(index){
-			const charI = "０１２３４５６７８９";
-			const charX = "０⑩⑳㉚㊵㊿";
-			const i = index%10;
-			const x = 0|index/10;
-			return i===0? charX[x]: charI[i];
-		}
-
-		function bodRow(index){
-			const charI = "〇一二三四五六七八九";
-			const charX = "零十弐参肆伍";
-			const i = index%10;
-			const x = 0|index/10;
-			return i===0? charX[x]: charI[i];
-		}
 		let header =
-			` ${[...Array(xLen).keys()].map(i=>` ${bodCol(xLen-i)}`).join("")}\n`+
+			` ${[...Array(xLen).keys()].map(i=>` ${Bod.num2Col(xLen-i)}`).join("")}\n`+
 			`+${Array(xLen).fill("---").join("")}+\n`;
 		let footer = `\n+${Array(xLen).fill("---").join("")}+`;
 		let panelOuter = "|";
@@ -530,19 +516,19 @@ export class Board{
 		let rowSep = "\n";
 
 		return (
-			`${stand.getBod(180)}\n`+
+			`${stand.getBodText(180)}\n`+
 			header+
 			this.field.map((row, i)=>
 				panelOuter+
 				row.map(panel=>
-					panel.piece?.getBod()
-					?? panel.getBod()
+					panel.piece?.getBodText()
+					?? panel.getBodText()
 				).join(panelSep)+
 				panelOuter+
-				bodRow(i+1)
+				Bod.num2Row(i+1)
 			).join(rowSep)+
 			footer+
-			`\n${stand.getBod(0)}`
+			`\n${stand.getBodText(0)}`
 		);
 	}
 

@@ -1,5 +1,6 @@
 import {canvasFont} from "./canvasFontLoader.js";
 import {canvasImage} from "./canvasImageLoader.js";
+import {Bod} from "./bod.js";
 import {games, pieces, pieceRange, pieceCost} from "./json.js";
 
 /** 駒の管理クラス */
@@ -409,12 +410,8 @@ export class Piece{
 	/** BOD形式テキストを取得
 	 * @returns {string}
 	 */
-	getBod(){
-		const degBodChars = {
-			0: " ",
-			180: "v"
-		};
-		return degBodChars[this.deg] + this.char;
+	getBodText(){
+		return Bod.pieceDegChars[this.deg] + this.char;
 	}
 
 	/** 文字列形式で取得 */

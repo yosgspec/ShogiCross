@@ -1,4 +1,5 @@
 import {canvasFont} from "./canvasFontLoader.js";
+import {Bod} from "./bod.js";
 import {panels} from "./json.js";
 
 /** マス目の管理クラス */
@@ -152,8 +153,8 @@ export class Panel{
 	/** BOD形式テキストを取得
 	 * @returns {string}
 	 */
-	getBod(){
-		return " ・";
+	getBodText(){
+		return Bod.panelText;
 	}
 
 	/** 文字列形式で取得

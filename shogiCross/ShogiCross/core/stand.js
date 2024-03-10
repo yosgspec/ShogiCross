@@ -1,4 +1,5 @@
 import {Piece} from "./piece.js";
+import {Bod} from "./bod.js";
 
 /** 盤の管理クラス */
 export class Stand{
@@ -119,31 +120,16 @@ export class Stand{
 	/** BOD形式テキストを取得
 	 * @returns {string}
 	 */
-	getBod(deg=0){
-		// 持駒表示
-		const degBodChars = {
-			0: "先手の持駒：",
-			180: "後手の持駒："
-		};
-		// 漢数字を取得
-		function bodCount(index){
-			if(index<=1) return "";
-			const charI = ["","一","二","三","四","五","六","七","八","九"];
-			const charX = ["","十","二十","三十","四十","五十","六十","七十","八十","九十"];
-			const i = index%10;
-			const x = 0|index/10;
-			return charX[x]+charI[i];
-		}
+	getBodText(deg=0){
 		// 駒数カウント
 		const pieceMap = new Map();
 		this.stocks[Stand.degId[deg]].forEach(({char})=>{
 			if(!pieceMap.has(char)) pieceMap.set(char, 0);
 			pieceMap.set(char, pieceMap.get(char)+1);
 		});
-
-		return degBodChars[deg]+
+		return Bod.standDegChars[deg]+
 			[...pieceMap].map(([char, cnt])=>
-				char+bodCount(cnt)
+				char+Bod.num2Row(cnt)
 			).join(" ");
 	}
 

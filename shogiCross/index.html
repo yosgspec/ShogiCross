@@ -78,7 +78,7 @@
 			</details>
 			<details>
 				<summary style="cursor:pointer;">BOD形式表示</summary>
-				<textarea id="shogiCrossBod" style="font-family:monospace;width:300px;height:250px;" readonly></textarea>
+				<textarea id="shogiCrossBod" style="font-family:monospace; width:500px; height:20em;" readonly></textarea>
 			</details>
 		</div>
 		<div class="flex-col">
@@ -122,7 +122,6 @@
 			txtMini.style.height = `${0|fontSize*txtMiniSplit.length*1.2}px`;
 
 			bod.value = e.bodText;
-			const bodSplit = bod.value.split(/\n/);
 		};
 
 		/** テキスト更新イベント
