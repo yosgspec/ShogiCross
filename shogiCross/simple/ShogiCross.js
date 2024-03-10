@@ -32,7 +32,8 @@ Object.assign(O, {
           throw new Error("Not found font.");
         for (const h of n) {
           const l = new FontFace(`${s}${e}`, h);
-          await l.load(), document.fonts.add(l);
+          document.fonts.add(l), await l.load().catch(() => {
+          });
         }
       })
     ).then((s) => this.imported = !0);
