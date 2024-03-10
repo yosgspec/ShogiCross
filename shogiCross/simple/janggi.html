@@ -1,20 +1,21 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-		<meta name="viewport" content="width=device-width" />
-		<title>SimpleGame</title>
+		<title>ShogiCross</title>
 	</head>
 	<body>
-		<canvas id="simpleGame"></canvas>
-		<p><a href=".">RETURN</a></p>
+		<canvas id="shogiCross"></canvas>
 		<script type="module">
 		import {Board} from "./ShogiCross.js"
-		const canvas = document.getElementById("simpleGame");
-
-		const board = new Board(canvas, "チャンギ");
-		board.putStartPieces(0, "チャンギ");
-		board.putStartPieces(1, "チャンギ", "2p");
+		const canvas = document.getElementById("shogiCross");
+		const board = Board.run(canvas, {
+			"playBoard": "シャンチー",
+			"playPieces": [
+				{"gameName": "シャンチー", "pieceSet": "default"},
+				{"gameName": "シャンチー", "pieceSet": "2p"}
+			]
+		});
 		</script>
+		<p><a href=".">RETURN</a></p>
 	</body>
 </html>
