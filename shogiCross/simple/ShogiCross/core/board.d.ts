@@ -79,7 +79,7 @@ export class Board {
      * @param {number} displayPtn - 表示文字列を変更(1〜)
      * @param {boolean} isMoved - 初回移動済みか否か
      */
-    putNewPiece(piece: string, pX: number, pY: number, playeaIdOrDeg: number, { displayPtn, setDeg, isMoved }?: number): void;
+    putNewPiece(piece: string, pX: number, pY: number, playeaIdOrDeg: number, { displayPtn, isMoved }?: number): void;
     /** 文字列から駒を配置
      * {string} text - 駒配置を表す文字列
      */
@@ -136,6 +136,7 @@ export class Board {
      * @returns {Promise<void>}
      */
     downloadImage(fileName: string, ext: string): Promise<void>;
+    #private;
 }
 import { Stand } from "./stand.js";
 import { EnPassant } from "./enPassant.js";

@@ -29,7 +29,7 @@ declare class V {
      * @param {(Board)=>void} onDrawed - 描写イベント
      * @param {boolean} freeMode - フリーモード有効化/無効化
      */
-    constructor(t: any, e: any, { players: s, canvasWidth: i, canvasHeight: r, canvasFit: o, boardLeft: h, boardTop: a, panelWidth: n, panelHeight: c, pieceSize: l, useRankSize: p, isDrawShadow: w, borderWidth: v, useStand: d, backgroundColor: u, autoDrawing: k, onDrawed: g, freeMode: S }?: number);
+    constructor(t: any, e: any, { players: s, canvasWidth: i, canvasHeight: r, canvasFit: o, boardLeft: h, boardTop: c, panelWidth: n, panelHeight: a, pieceSize: l, useRankSize: p, isDrawShadow: w, borderWidth: v, useStand: d, backgroundColor: u, autoDrawing: k, onDrawed: g, freeMode: S }?: number);
     canvas: any;
     ctx: any;
     pieces: any;
@@ -76,7 +76,7 @@ declare class V {
      * @param {number} displayPtn - 表示文字列を変更(1〜)
      * @param {boolean} isMoved - 初回移動済みか否か
      */
-    putNewPiece(t: any, e: any, s: any, i: any, { displayPtn: r, setDeg: o, isMoved: h }?: number): void;
+    putNewPiece(t: any, e: any, s: any, i: any, { displayPtn: r, isMoved: o }?: number): void;
     /** 文字列から駒を配置
      * {string} text - 駒配置を表す文字列
      */
@@ -133,6 +133,7 @@ declare class V {
      * @returns {Promise<void>}
      */
     downloadImage(t: any, e: any): Promise<void>;
+    #private;
 }
 declare class y {
     /** 描写サイズ
@@ -183,7 +184,7 @@ declare class y {
      * @param {boolean} isDrawShadow - 駒の影の描写有無
      * @param {boolean} isMoved - 初回移動済みか否か
      */
-    constructor(t: any, e: any, { displayPtn: s, deg: i, size: r, useRankSize: o, isDrawShadow: h, isMoved: a }?: number);
+    constructor(t: any, e: any, { displayPtn: s, deg: i, size: r, useRankSize: o, isDrawShadow: h, isMoved: c }?: number);
     /** 駒の段階別価値を取得 */
     get rank(): "KR" | "SR" | "R" | "UC" | "C";
     /** 駒の角度(deg/rad)

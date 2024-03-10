@@ -81,7 +81,7 @@ export class Board{
 		autoDrawing=true,
 		onDrawed,
 		freeMode=false
-	}={}){
+	}=({})){
 		// 初期化
 		const canvasFontAsync = canvasFont.importAsync();
 		const canvasImageAsync = canvasImage.importAsync();
@@ -168,13 +168,24 @@ export class Board{
 		this.uiControl.removeEvent();
 	}
 
+	/** 角度を正規化
+	 * @param {number} playeaIdOrDeg - プレイヤー番号または角度
+	 * @returns {number}
+	 */
+	#degNormal(playeaIdOrDeg){
+		let deg = playeaIdOrDeg;
+		if(0 < deg && deg < 4) deg = 0|deg*360/this.players;
+		do{deg = (deg+360)%360} while(deg<0);
+		return deg;
+	}
+
 	/** 駒配置を回転
 	 * @param {number} deg - 回転角 (90の倍数)
 	 */
 	rotateField(deg){
 		const {xLen, yLen} = this;
 
-		do{deg = (deg+360)%360} while(deg<0);
+		deg = this.#degNormal(deg);
 		if(deg === 0) return;
 		if(![90, 180, 270].includes(deg)) throw Error(`deg=${deg}, deg need multiple of 90.`);
 		if([90, 270].includes(deg)){
@@ -203,7 +214,7 @@ export class Board{
 	putStartPieces(playerId, gameName, pieceSet="default"){
 		const {pieces} = this;
 
-		const deg = 0|playerId*360/this.players;
+		const deg = this.#degNormal(playerId);
 		this.rotateField(deg);
 		const pos = games[gameName].position[this.xLen][pieceSet];
 		if(!pos) throw Error(`games["${gameName}"].position["${this.xLen}"]["${pieceSet}"]is null.`);
@@ -231,10 +242,10 @@ export class Board{
 	 * @param {number} displayPtn - 表示文字列を変更(1〜)
 	 * @param {boolean} isMoved - 初回移動済みか否か
 	 */
-	putNewPiece(piece, pX, pY, playeaIdOrDeg, {displayPtn=0, setDeg=false, isMoved=false}={}){
+	putNewPiece(piece, pX, pY, playeaIdOrDeg, {displayPtn=0, isMoved=false}=({})){
 		const {pieces} = this;
 
-		const deg = !setDeg? playeaIdOrDeg*90: playeaIdOrDeg;
+		const deg = this.#degNormal(playeaIdOrDeg);
 		if(typeof piece === "string"){
 			piece = new Piece(this.ctx, pieces[piece], {displayPtn, deg, isMoved});
 		}
@@ -302,8 +313,8 @@ export class Board{
 	 */
 	getRow(pX, pY, deg, offsetDeg=0){
 		const {xLen, yLen} = this;
-		deg += offsetDeg;
-		do{deg = (deg+360)%360} while(deg<0);
+
+		deg = this.#degNormal(deg+offsetDeg);
 		return (
 			deg === 0? yLen-1-pY:
 			deg === 90? pX:
@@ -321,8 +332,8 @@ export class Board{
 	 */
 	getCol(pX, pY, deg, offsetDeg=0){
 		const {xLen, yLen} = this;
-		deg += offsetDeg;
-		do{deg = (deg+360)%360} while(deg<0);
+
+		deg = this.#degNormal(deg+offsetDeg);
 		return (
 			deg === 0? pX:
 			deg === 90? yLen-1-pY:
@@ -339,6 +350,7 @@ export class Board{
 		const {yLen} = this;
 		const {piece, pX, pY} = panel;
 		const {deg} = piece;
+
 		const [promoLine, forcePromoLine] = [
 			piece.game.promoLine,
 			piece.forcePromoLine
@@ -427,7 +439,7 @@ export class Board{
 	 * @param {Panel} fromPanel - 移動元のマス目
 	 * @param {string} end - オプション=成|不成|打
 	 */
-	addRecord(toPanel, {fromPanel, end=""}={}){
+	addRecord(toPanel, {fromPanel, end=""}=({})){
 		const {piece} = toPanel;
 		this.record.push({
 			to: {
