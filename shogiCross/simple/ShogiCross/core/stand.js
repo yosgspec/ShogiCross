@@ -129,7 +129,7 @@ export class Stand{
 		function bodCount(index){
 			if(index<=1) return "";
 			const charI = ["","一","二","三","四","五","六","七","八","九"];
-			const charX = ["","十","弐","参","肆","伍"];
+			const charX = ["","十","二十","三十","四十","五十","六十","七十","八十","九十"];
 			const i = index%10;
 			const x = 0|index/10;
 			return charX[x]+charI[i];
