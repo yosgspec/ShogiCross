@@ -17,8 +17,9 @@ await Promise.all(
 	cpFiles.map(async f=>{
 		const srcJson = path.join(baseDir, f);
 		const distJson = path.join(distDir, f);
-		await fs.rm(distJson, {recursive:true});
-		return fs.cp(srcJson, distJson, {recursive: true});
+		return fs.rm(distJson, {recursive:true})
+			.catch(()=>{})
+			.finally(()=>fs.cp(srcJson, distJson, {recursive: true}));
 	})
 );
 

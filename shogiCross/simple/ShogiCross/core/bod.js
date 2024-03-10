@@ -15,7 +15,8 @@ export class Bod{
 
 	/** 持駒の角度表示
 	 * @type {Object<string, string>}
-	 */	static standDegChars = {
+	 */
+	static standDegChars = {
 		0: "先手の持駒：",
 		180: "後手の持駒："
 	};

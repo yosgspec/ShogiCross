@@ -1,11 +1,6 @@
 # TODOリスト
 ## やる予定のこと
-* [x] BOD形式の盤面出力
-* [x] npmで動作する画像最適化ライブラリを導入
-* [ ] クロスゲームの駒セットがうまく切り替わらない問題を確認
 * [ ] 王駒の残数カウントを追加
-* [ ] 型定義ファイル(.d.ts)を生成してみる
-  * https://www.typescriptlang.org/ja/docs/handbook/declaration-files/dts-from-js.html
 * [ ] npmにライブラリとして公開してみる
   * https://deku.posstree.com/share/deploy-npm-library/
 
@@ -47,3 +42,8 @@
   * [x] ファイル差し替え
   * [x] 駒配置画像の差し替え
 * [x] index.htmlのゲームセレクトをメイン/バリエーションの2段階選択にする
+* [x] BOD形式の盤面出力
+* [x] npmで動作する画像最適化ライブラリを導入
+* [x] クロスゲームの駒セットがうまく切り替わらない問題を確認
+* [x] 型定義ファイル(.d.ts)を生成してみる
+  * https://www.typescriptlang.org/ja/docs/handbook/declaration-files/dts-from-js.html

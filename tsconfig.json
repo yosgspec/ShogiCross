@@ -1,0 +1,8 @@
+{
+	"include": ["./shogiCross/simple/"],
+	"compilerOptions": {
+		"allowJs": true,
+		"declaration": true,
+		"emitDeclarationOnly": true
+	}
+}
