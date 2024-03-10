@@ -55,9 +55,31 @@ export class Piece{
 		);
 	}
 
+	/**
+	 * @typedef {Object} PieceInitOptions - 駒の初期化オプション
+	 * @property {string} name - 駒の名前
+	 * @property {string[]} display - 駒に表示する文字列(1、2文字)の配列
+	 * @property {string} imgSrc - 駒として表示する画像パスの配列
+	 * @property {boolean}isRotateImg - 過画像を設定する場合回転するか
+	 * @property {string} alias - キーの別名として定める文字の集合表
+	 * @property {string} gameName - 駒に対応するゲーム名
+	 * @property {string} expansion - ゲーム名の細分類
+	 * @property {"兵"|"馬"|"象"|"車"|"臣"|"王"|"成"} unit - 駒の兵種
+	 * @property {number}forcePromoLine - 行きどころのない駒となる段
+	 * @property {Object} range - 駒の移動範囲
+	 * @property {string[]} range.default - 通常時の移動範囲
+	 * @property {string[]} range.attack - 駒取得時の移動範囲
+	 * @property {string[]} range.start - 初回のみの移動範囲
+	 * @property {string[]} range.castling - キャスリング時の移動範囲
+	 * @property {string[]} range.enPassant - アンパッサン時の移動範囲
+	 * @property {string[]} range.palaceSlash - 九宮内での移動範囲
+	 * @property {string} promo - プロモーション先の駒の一文字表記
+	 * @property {string[]} attr - 駒の機能のリスト
+	 */
+
 	/** 駒データを初期化
 	 * @param {any} ctx - Canvas描画コンテキスト
-	 * @param {Object<string, any>} options - 駒の初期化オプション
+	 * @param {Piece|PieceInitOptions} options - 駒の初期化オプション
 	 */
 	static getPieces(ctx, options={}){
 		const exPieces = new Map(Object.entries(JSON.parse(JSON.stringify(pieces))));
@@ -65,7 +87,7 @@ export class Piece{
 		/* データを補完 */
 		for(const [_, piece] of exPieces){
 			piece.attr ??= [];
-			if(piece.unit) piece.base = piece;
+			if(piece.unit && piece.unit === "成") piece.base = piece;
 		}
 		/* 成駒のデータを合成 */
 		for(const [_, piece] of exPieces){
@@ -102,7 +124,7 @@ export class Piece{
 	}
 
 	/** 文字列から駒を取得
-	 * @param {Object<string, Piece>} piece - 駒
+	 * @param {Piece|PieceInitOptions} piece - 駒
 	 * @param {string} text - 駒文字列
 	 */
 	static stringToPiece(pieces, text){
@@ -161,22 +183,24 @@ export class Piece{
 
 	/**
 	 * @param {any} ctx - Canvas描画コンテキスト
-	 * @param {Object<string, any>} piece - 駒
-	 * @param {number} displayPtn - 表示文字列を変更(1〜)
-	 * @param {number} deg - 駒の角度
-	 * @param {number} size - 駒の大きさ
-	 * @param {boolean} useRankSize - 駒の大きさを格の違いで変更するか
-	 * @param {boolean} isDrawShadow - 駒の影の描写有無
-	 * @param {boolean} isMoved - 初回移動済みか否か
+	 * @param {Piece|PieceInitOptions} piece - 駒
+	 * @param {Object} options - オプション
+	 * @param {number} options.displayPtn - 表示文字列を変更(1〜)
+	 * @param {number} options.deg - 駒の角度
+	 * @param {number} options.size - 駒の大きさ
+	 * @param {boolean} options.useRankSize - 駒の大きさを格の違いで変更するか
+	 * @param {boolean} options.isDrawShadow - 駒の影の描写有無
+	 * @param {boolean} options.isMoved - 初回移動済みか否か
 	 */
-	constructor(ctx, piece, {
-		displayPtn=0,
-		deg=0,
-		size=Piece.size,
-		useRankSize=Piece.useRankSize,
-		isDrawShadow=Piece.isDrawShadow,
-		isMoved=false
-	}={}){
+	constructor(ctx, piece, options={}){
+		const {
+			displayPtn=0,
+			deg=0,
+			size=Piece.size,
+			useRankSize=Piece.useRankSize,
+			isDrawShadow=Piece.isDrawShadow,
+			isMoved=false
+		} = options;
 		Object.assign(this, piece);
 		this.ctx = ctx;
 		this.display ??= [""];
@@ -234,11 +258,11 @@ export class Piece{
 	}
 
 	/** 属性の存在を確認
-	 * @param {string} attr - 属性
-	 * @returns boolean
+	 * @param {string} attrName - 属性名
+	 * @returns {boolean}
 	 */
-	hasAttr(attr){
-		return this.attr.includes(attr);
+	hasAttr(attrName){
+		return this.attr.includes(attrName);
 	}
 
 	/** 座標が駒に含まれるか判定
@@ -327,7 +351,9 @@ export class Piece{
 		ctx.restore();
 	}
 
-	/** 将棋駒の外形パスを作成 */
+	/** 将棋駒の外形パスを作成
+	 * @param {number} zoom - 駒の拡大率
+	 */
 	makePath(zoom){
 		const {ctx} = this;
 
@@ -344,8 +370,10 @@ export class Piece{
 		ctx.closePath();
 	}
 
-	/** 駒の影を描写 */
-	drawPieceShadow(zoom){
+	/** 駒の影を描写
+	* @param {number} zoom - 駒の拡大率
+	*/
+   drawPieceShadow(zoom){
 		if(!this.isDrawShadow) return;
 		const {ctx} = this;
 

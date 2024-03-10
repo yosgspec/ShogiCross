@@ -1,59 +1,197 @@
 /** 盤の管理クラス */
 export class Board {
+    /**
+     * @typedef {Object} BoardInitOptions - ボードの初期化オプション
+     * @property {number} canvasWidth - キャンバス幅
+     * @property {number} canvasHeight - キャンバス高さ
+     * @property {canvasFit} canvasFit - キャンバスサイズの自動調整
+     * @property {number} boardLeft - 描写するX座標
+     * @property {number} boardTop - 描写するY座標
+     * @property {number} panelWidth - マス目幅
+     * @property {number} panelHeight - マス目高さ
+     * @property {number} pieceSize - 駒の大きさ
+     * @property {boolean} useRankSize - 駒の大きさを格の違いで変更するか
+     * @property {boolean} isDrawShadow - 駒の影の描写有無
+     * @property {number} borderWidth - 枠線太さ
+     * @property {boolean} useStand - 駒台の使用有無
+     * @property {string} backgroundColor - 背景色(デフォルト無色)
+     * @property {boolean} autoDrawing - 描写の自動更新有無
+     * @property {(Board)=>void} onDrawed - 描写イベント
+     * @property {boolean} freeMode - フリーモード有効化/無効化
+    */
     /** ゲームを実行する
-     * @param {HTMLCanvasElement}} canvas
-     * @param {Object<string, any>} options - オプション
+     * @param {HTMLCanvasElement}} canvas - Canvas要素
+     * @param {BoardInitOptions} options - ボードの初期化オプション
+     * @param {string} options.playBoard - ボードタイプ
+     * @param {Object} options.playPieces - 駒セット
+     * @param {string} options.playPieces.gameName - ゲーム名(基準となる駒の配置セット)
+     * @param {string} options.playPieces.pieceSet - 駒の配置パターン
      * @returns Board
      */
     static run(canvas: any, options: {
-        [x: string]: any;
+        /**
+         * - キャンバス幅
+         */
+        canvasWidth: number;
+        /**
+         * - キャンバス高さ
+         */
+        canvasHeight: number;
+        /**
+         * - キャンバスサイズの自動調整
+         */
+        canvasFit: "overflow" | "horizontal" | "vertical" | "parentOverflow" | "parentHorizontal" | "parentVertical";
+        /**
+         * - 描写するX座標
+         */
+        boardLeft: number;
+        /**
+         * - 描写するY座標
+         */
+        boardTop: number;
+        /**
+         * - マス目幅
+         */
+        panelWidth: number;
+        /**
+         * - マス目高さ
+         */
+        panelHeight: number;
+        /**
+         * - 駒の大きさ
+         */
+        pieceSize: number;
+        /**
+         * - 駒の大きさを格の違いで変更するか
+         */
+        useRankSize: boolean;
+        /**
+         * - 駒の影の描写有無
+         */
+        isDrawShadow: boolean;
+        /**
+         * - 枠線太さ
+         */
+        borderWidth: number;
+        /**
+         * - 駒台の使用有無
+         */
+        useStand: boolean;
+        /**
+         * - 背景色(デフォルト無色)
+         */
+        backgroundColor: string;
+        /**
+         * - 描写の自動更新有無
+         */
+        autoDrawing: boolean;
+        /**
+         * - 描写イベント
+         */
+        onDrawed: (Board: any) => void;
+        /**
+         * - フリーモード有効化/無効化
+         */
+        freeMode: boolean;
     }): Board;
     /**
      * @typedef {"overflow"|"horizontal"|"vertical"|"parentOverflow"|"parentHorizontal"|"parentVertical"|null} canvasFit
      */
     /**
-     * @param {HTMLCanvasElement} canvas - キャンバス要素
+     * @param {HTMLCanvasElement} canvas - Canvas要素
      * @param {string} playBoard - ボードタイプ
      * @param {number} players - プレイヤー人数(2 or 4)
-     * @param {number} canvasWidth - キャンバス幅
-     * @param {number} canvasHeight - キャンバス高さ
-     * @param {canvasFit} canvasFit - キャンバスサイズの自動調整
-     * @param {number} boardLeft - 描写するX座標
-     * @param {number} boardTop - 描写するY座標
-     * @param {number} panelWidth - マス目幅
-     * @param {number} panelHeight - マス目高さ
-     * @param {number} pieceSize - 駒の大きさ
-     * @param {boolean} useRankSize - 駒の大きさを格の違いで変更するか
-     * @param {boolean} isDrawShadow - 駒の影の描写有無
-     * @panal {number} borderWidth - 枠線太さ
-     * @param {boolean} useStand - 駒台の使用有無
-     * @param {string} backgroundColor - 背景色(デフォルト無色)
-     * @param {boolean} autoDrawing - 描写の自動更新有無
-     * @param {(Board)=>void} onDrawed - 描写イベント
-     * @param {boolean} freeMode - フリーモード有効化/無効化
+     * @param {BoardInitOptions} options - ボードの初期化オプション
      */
-    constructor(canvas: HTMLCanvasElement, playBoard: string, { players, canvasWidth, canvasHeight, canvasFit, boardLeft, boardTop, panelWidth, panelHeight, pieceSize, useRankSize, isDrawShadow, borderWidth, useStand, backgroundColor, autoDrawing, onDrawed, freeMode }?: number);
+    constructor(canvas: HTMLCanvasElement, playBoard: string, options: {
+        /**
+         * - キャンバス幅
+         */
+        canvasWidth: number;
+        /**
+         * - キャンバス高さ
+         */
+        canvasHeight: number;
+        /**
+         * - キャンバスサイズの自動調整
+         */
+        canvasFit: "overflow" | "horizontal" | "vertical" | "parentOverflow" | "parentHorizontal" | "parentVertical";
+        /**
+         * - 描写するX座標
+         */
+        boardLeft: number;
+        /**
+         * - 描写するY座標
+         */
+        boardTop: number;
+        /**
+         * - マス目幅
+         */
+        panelWidth: number;
+        /**
+         * - マス目高さ
+         */
+        panelHeight: number;
+        /**
+         * - 駒の大きさ
+         */
+        pieceSize: number;
+        /**
+         * - 駒の大きさを格の違いで変更するか
+         */
+        useRankSize: boolean;
+        /**
+         * - 駒の影の描写有無
+         */
+        isDrawShadow: boolean;
+        /**
+         * - 枠線太さ
+         */
+        borderWidth: number;
+        /**
+         * - 駒台の使用有無
+         */
+        useStand: boolean;
+        /**
+         * - 背景色(デフォルト無色)
+         */
+        backgroundColor: string;
+        /**
+         * - 描写の自動更新有無
+         */
+        autoDrawing: boolean;
+        /**
+         * - 描写イベント
+         */
+        onDrawed: (Board: any) => void;
+        /**
+         * - フリーモード有効化/無効化
+         */
+        freeMode: boolean;
+    });
     canvas: HTMLCanvasElement;
     ctx: CanvasRenderingContext2D;
-    pieces: any;
+    pieces: {
+        [k: string]: any;
+    };
     players: any;
-    left: any;
-    top: any;
-    panelWidth: any;
-    panelHeight: any;
-    borderWidth: any;
-    pieceSize: any;
-    canvasBackgroundColor: any;
+    left: number;
+    top: number;
+    panelWidth: number;
+    panelHeight: number;
+    borderWidth: number;
+    pieceSize: number;
+    canvasBackgroundColor: string;
     field: any;
     xLen: any;
     yLen: any;
     width: number;
     height: number;
-    right: any;
-    bottom: any;
+    right: number;
+    bottom: number;
     stand: Stand;
-    autoDrawing: any;
-    freeMode: any;
+    autoDrawing: boolean;
+    freeMode: boolean;
     record: any[];
     uiControl: {
         removeEvent(): void;
@@ -66,20 +204,24 @@ export class Board {
      */
     rotateField(deg: number): void;
     /** 駒の初期配置
-     * {number} playerId - プレイヤー番号
-     * {string} gameName - 駒の配置セット
-     * {string} pieceSet - 駒の配置パターン変更
+     * @param {number} playerId - プレイヤー番号
+     * @param {string} gameName - ゲーム名(基準となる駒の配置セット)
+     * @param {string} pieceSet - 駒の配置パターン
      */
-    putStartPieces(playerId: any, gameName: any, pieceSet?: string): void;
+    putStartPieces(playerId: number, gameName: string, pieceSet?: string): void;
     /** 駒の配置
      * @param {string} piece - 駒の表現文字
      * @param {number} pX - X方向配置位置(マス目基準)
      * @param {number} pY - Y方向配置位置(マス目基準)
      * @param {number} playeaIdOrDeg - プレイヤー番号または駒の配置角
-     * @param {number} displayPtn - 表示文字列を変更(1〜)
-     * @param {boolean} isMoved - 初回移動済みか否か
+     * @param {Object} options - オプション
+     * @param {number} options.displayPtn - 表示文字列を変更(1〜)
+     * @param {boolean} options.isMoved - 初回移動済みか否か
      */
-    putNewPiece(piece: string, pX: number, pY: number, playeaIdOrDeg: number, { displayPtn, isMoved }?: number): void;
+    putNewPiece(piece: string, pX: number, pY: number, playeaIdOrDeg: number, options?: {
+        displayPtn: number;
+        isMoved: boolean;
+    }): void;
     /** 文字列から駒を配置
      * {string} text - 駒配置を表す文字列
      */
@@ -112,10 +254,14 @@ export class Board {
     movePiece(fromPanel: Panel, toPanel: Panel): void;
     /** 棋譜を追記
      * @param {Panel} toPanel - 移動先のマス目
-     * @param {Panel} fromPanel - 移動元のマス目
-     * @param {string} end - オプション=成|不成|打
+     * @param {Object} options - オプション
+     * @param {Panel} options.fromPanel - 移動元のマス目
+     * @param {string} options.end - オプション=成|不成|打
      */
-    addRecord(toPanel: Panel, { fromPanel, end }?: Panel): void;
+    addRecord(toPanel: Panel, options?: {
+        fromPanel: Panel;
+        end: string;
+    }): void;
     /** 棋譜をテキストで取得
      * @returns {string}
      */

@@ -10,15 +10,15 @@
 "name": "歩兵"
 ```
 
-## display(省略可) {string[]}
+### display(省略可) {string[]}
 駒に表示する文字列(1、2文字)の配列。  
 配列の2番目はaliasと対応させて駒の表示を行える。
 ```json
 "display": ["玉將", "王將", "玉将", "王将"]
 ```
 
-## imgSrc(省略可) {string}
-駒として表示する画像パス。  
+### imgSrc(省略可) {string}
+駒として表示する画像パスの配列。  
 相対パスとする場合は表示するhtmlを起点とする。  
 displayと同様に配列の2番目はaliasと対応させて駒の表示を行える。
 ```json
@@ -28,7 +28,7 @@ displayと同様に配列の2番目はaliasと対応させて駒の表示を行�
 ]
 ```
 
-## isRotateImg(省略可) {boolean}
+### isRotateImg(省略可) {boolean}
 過画像を設定する場合回転するかどうかを設定。  
 既定値はtrue。
 ```json
@@ -113,7 +113,7 @@ alias[n] = display[n+1]
 "promo": "と"
 ```
 
-## attr(省略可) {string[]}
+### attr(省略可) {string[]}
 駒の機能を属性として配列に記載。  
 主な属性値は下記。
 

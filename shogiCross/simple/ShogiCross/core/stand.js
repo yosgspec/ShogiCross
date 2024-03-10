@@ -3,6 +3,9 @@ import {Bod} from "./bod.js";
 
 /** 盤の管理クラス */
 export class Stand{
+	/** 角度からstockの添字を取得
+	 * @type {Object<string, number>}
+	 */
 	static degId = {
 		180: 0,
 		90: 1,
@@ -37,10 +40,12 @@ export class Stand{
 
 	/** 持ち駒からボード上に配置する
 	 * @param {Panal} toPanell - 配置先のパネル
-	 * @param {number} deg - 角度
-	 * @param {number} i - 配置する持ち駒のインデックス
+	 * @param {Object} options - オプション
+	 * @param {number} options.deg - 角度
+	 * @param {number} options.i - 配置する持ち駒のインデックス
 	 */
-	releasePiece(toPanel, {deg, i}){
+	releasePiece(toPanel, options={}){
+		const {deg, i} = options
 		const {board} = this;
 
 		const stock = this.stocks[deg];
@@ -64,6 +69,8 @@ export class Stand{
 	/** 駒を持ち駒にする
 	 * @param {Piece|null} winnerPiece - 移動する駒
 	 * @param {Piece} loserPiece - 捕縛される駒
+	 * @param {boolean} forceCapture - 属性を無視して捕縛する
+	 * @param {boolean} forceCantCapture - 属性を無視して捕縛しない
 	 */
 	capturePiece(winnerPiece, loserPiece, forceCapture=false, forceCantCapture=false){
 		if(forceCantCapture
@@ -118,6 +125,7 @@ export class Stand{
 	}
 
 	/** BOD形式テキストを取得
+	 * @param {number} deg - 角度
 	 * @returns {string}
 	 */
 	getBodText(deg=0){

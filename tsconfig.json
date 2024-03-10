@@ -1,6 +1,7 @@
 {
 	"include": ["./shogiCross/simple/"],
 	"compilerOptions": {
+		"target": "esnext",
 		"allowJs": true,
 		"declaration": true,
 		"emitDeclarationOnly": true

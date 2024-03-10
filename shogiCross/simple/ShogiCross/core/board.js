@@ -11,9 +11,33 @@ import {boards, games} from "./json.js";
 
 /** 盤の管理クラス */
 export class Board{
+	/**
+	 * @typedef {Object} BoardInitOptions - ボードの初期化オプション
+	 * @property {number} canvasWidth - キャンバス幅
+	 * @property {number} canvasHeight - キャンバス高さ
+	 * @property {canvasFit} canvasFit - キャンバスサイズの自動調整
+	 * @property {number} boardLeft - 描写するX座標
+	 * @property {number} boardTop - 描写するY座標
+	 * @property {number} panelWidth - マス目幅
+	 * @property {number} panelHeight - マス目高さ
+	 * @property {number} pieceSize - 駒の大きさ
+	 * @property {boolean} useRankSize - 駒の大きさを格の違いで変更するか
+	 * @property {boolean} isDrawShadow - 駒の影の描写有無
+	 * @property {number} borderWidth - 枠線太さ
+	 * @property {boolean} useStand - 駒台の使用有無
+	 * @property {string} backgroundColor - 背景色(デフォルト無色)
+	 * @property {boolean} autoDrawing - 描写の自動更新有無
+	 * @property {(Board)=>void} onDrawed - 描写イベント
+	 * @property {boolean} freeMode - フリーモード有効化/無効化
+	*/
+
 	/** ゲームを実行する
-	 * @param {HTMLCanvasElement}} canvas
-	 * @param {Object<string, any>} options - オプション
+	 * @param {HTMLCanvasElement}} canvas - Canvas要素
+	 * @param {BoardInitOptions} options - ボードの初期化オプション
+	 * @param {string} options.playBoard - ボードタイプ
+	 * @param {Object} options.playPieces - 駒セット
+	 * @param {string} options.playPieces.gameName - ゲーム名(基準となる駒の配置セット)
+	 * @param {string} options.playPieces.pieceSet - 駒の配置パターン
 	 * @returns Board
 	 */
 	static run(canvas, options){
@@ -43,45 +67,31 @@ export class Board{
 	 * @typedef {"overflow"|"horizontal"|"vertical"|"parentOverflow"|"parentHorizontal"|"parentVertical"|null} canvasFit
 	 */
 	/**
-	 * @param {HTMLCanvasElement} canvas - キャンバス要素
+	 * @param {HTMLCanvasElement} canvas - Canvas要素
 	 * @param {string} playBoard - ボードタイプ
 	 * @param {number} players - プレイヤー人数(2 or 4)
-	 * @param {number} canvasWidth - キャンバス幅
-	 * @param {number} canvasHeight - キャンバス高さ
-	 * @param {canvasFit} canvasFit - キャンバスサイズの自動調整
-	 * @param {number} boardLeft - 描写するX座標
-	 * @param {number} boardTop - 描写するY座標
-	 * @param {number} panelWidth - マス目幅
-	 * @param {number} panelHeight - マス目高さ
-	 * @param {number} pieceSize - 駒の大きさ
-	 * @param {boolean} useRankSize - 駒の大きさを格の違いで変更するか
-	 * @param {boolean} isDrawShadow - 駒の影の描写有無
-	 * @panal {number} borderWidth - 枠線太さ
-	 * @param {boolean} useStand - 駒台の使用有無
-	 * @param {string} backgroundColor - 背景色(デフォルト無色)
-	 * @param {boolean} autoDrawing - 描写の自動更新有無
-	 * @param {(Board)=>void} onDrawed - 描写イベント
-	 * @param {boolean} freeMode - フリーモード有効化/無効化
+	 * @param {BoardInitOptions} options - ボードの初期化オプション
 	 */
-	constructor(canvas, playBoard, {
-		players=2,
-		canvasWidth=undefined,
-		canvasHeight=undefined,
-		canvasFit="overflow",
-		boardLeft=5,
-		boardTop=5,
-		panelWidth=50,
-		panelHeight=0|panelWidth*1.1,
-		pieceSize=0|panelWidth*0.9,
-		useRankSize = true,
-		isDrawShadow = true,
-		borderWidth=Math.min(panelWidth, panelHeight)/30,
-		useStand=false,
-		backgroundColor="#00000000",
-		autoDrawing=true,
-		onDrawed,
-		freeMode=false
-	}=({})){
+	constructor(canvas, playBoard, options){
+		const {
+			players=2,
+			canvasWidth=undefined,
+			canvasHeight=undefined,
+			canvasFit="overflow",
+			boardLeft=5,
+			boardTop=5,
+			panelWidth=50,
+			panelHeight=0|panelWidth*1.1,
+			pieceSize=0|panelWidth*0.9,
+			useRankSize = true,
+			isDrawShadow = true,
+			borderWidth=Math.min(panelWidth, panelHeight)/30,
+			useStand=false,
+			backgroundColor="#00000000",
+			autoDrawing=true,
+			onDrawed,
+			freeMode=false
+		} = options;
 		// 初期化
 		const canvasFontAsync = canvasFont.importAsync();
 		const canvasImageAsync = canvasImage.importAsync();
@@ -207,9 +217,9 @@ export class Board{
 	}
 
 	/** 駒の初期配置
-	 * {number} playerId - プレイヤー番号
-	 * {string} gameName - 駒の配置セット
-	 * {string} pieceSet - 駒の配置パターン変更
+	 * @param {number} playerId - プレイヤー番号
+	 * @param {string} gameName - ゲーム名(基準となる駒の配置セット)
+	 * @param {string} pieceSet - 駒の配置パターン
 	 */
 	putStartPieces(playerId, gameName, pieceSet="default"){
 		const {pieces} = this;
@@ -239,10 +249,12 @@ export class Board{
 	 * @param {number} pX - X方向配置位置(マス目基準)
 	 * @param {number} pY - Y方向配置位置(マス目基準)
 	 * @param {number} playeaIdOrDeg - プレイヤー番号または駒の配置角
-	 * @param {number} displayPtn - 表示文字列を変更(1〜)
-	 * @param {boolean} isMoved - 初回移動済みか否か
+	 * @param {Object} options - オプション
+	 * @param {number} options.displayPtn - 表示文字列を変更(1〜)
+	 * @param {boolean} options.isMoved - 初回移動済みか否か
 	 */
-	putNewPiece(piece, pX, pY, playeaIdOrDeg, {displayPtn=0, isMoved=false}=({})){
+	putNewPiece(piece, pX, pY, playeaIdOrDeg, options={}){
+		const {displayPtn=0, isMoved=false} = options;
 		const {pieces} = this;
 
 		const deg = this.#degNormal(playeaIdOrDeg);
@@ -436,11 +448,14 @@ export class Board{
 
 	/** 棋譜を追記
 	 * @param {Panel} toPanel - 移動先のマス目
-	 * @param {Panel} fromPanel - 移動元のマス目
-	 * @param {string} end - オプション=成|不成|打
+	 * @param {Object} options - オプション
+	 * @param {Panel} options.fromPanel - 移動元のマス目
+	 * @param {string} options.end - オプション=成|不成|打
 	 */
-	addRecord(toPanel, {fromPanel, end=""}=({})){
+	addRecord(toPanel, options={}){
+		const {fromPanel, end=""} = options;
 		const {piece} = toPanel;
+
 		this.record.push({
 			to: {
 				pX: toPanel.pX,

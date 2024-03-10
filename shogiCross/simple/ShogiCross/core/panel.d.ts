@@ -32,10 +32,10 @@ export class Panel {
     get isSelected(): boolean;
     isTarget: boolean;
     /** 属性の存在を確認
-     * @param {string} attr - 属性
-     * @returns boolean
+     * @param {string} attrName - 属性名
+     * @returns {boolean}
      */
-    hasAttr(attr: string): any;
+    hasAttr(attrName: string): boolean;
     /** 座標がマス目に含まれるか判定
      * @param {number} x - X座標
      * @param {number} y - Y座標

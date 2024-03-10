@@ -50,13 +50,12 @@ export class Panel{
 	}
 
 	/** 属性の存在を確認
-	 * @param {string} attr - 属性
-	 * @returns boolean
+	 * @param {string} attrName - 属性名
+	 * @returns {boolean}
 	 */
-	hasAttr(attr){
-		return this.attr.includes(attr);
+	hasAttr(attrName){
+		return this.attr.includes(attrName);
 	}
-
 	/** 座標がマス目に含まれるか判定
 	 * @param {number} x - X座標
 	 * @param {number} y - Y座標
