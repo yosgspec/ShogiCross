@@ -1709,8 +1709,8 @@
 		"name": "てがきぽーん",
 		"display": ["♟"],
 		"imgSrc": [
-			"./img/handPawnWhite.png",
-			"./img/handPawnBlack.png"
+			"./img/ShogiCross/handPawnWhite.png",
+			"./img/ShogiCross/handPawnBlack.png"
 		],
 		"alias": "ポ",
 		"gameName": "チェス",
@@ -1730,8 +1730,8 @@
 		"name": "てがきないと",
 		"display": ["♞"],
 		"imgSrc": [
-			"./img/handKnightWhite.png",
-			"./img/handKnightBlack.png"
+			"./img/ShogiCross/handKnightWhite.png",
+			"./img/ShogiCross/handKnightBlack.png"
 		],
 		"alias": "ナ",
 		"gameName": "チェス",
@@ -1745,8 +1745,8 @@
 		"name": "てがきびしょっぷ",
 		"display": ["♝"],
 		"imgSrc": [
-			"./img/handBishopWhite.png",
-			"./img/handBishopBlack.png"
+			"./img/ShogiCross/handBishopWhite.png",
+			"./img/ShogiCross/handBishopBlack.png"
 		],
 		"alias": "ビ",
 		"gameName": "チェス",
@@ -1760,8 +1760,8 @@
 		"name": "てがきるーく",
 		"display": ["♜"],
 		"imgSrc": [
-			"./img/handRookWhite.png",
-			"./img/handRookBlack.png"
+			"./img/ShogiCross/handRookWhite.png",
+			"./img/ShogiCross/handRookBlack.png"
 		],
 		"alias": "ル",
 		"gameName": "チェス",
@@ -1777,8 +1777,8 @@
 		"name": "てがきくいーん",
 		"display": ["♛"],
 		"imgSrc": [
-			"./img/handQweenWhite.png",
-			"./img/handQweenBlack.png"
+			"./img/ShogiCross/handQweenWhite.png",
+			"./img/ShogiCross/handQweenBlack.png"
 		],
 		"alias": "ク",
 		"isRotateImg": false,
@@ -1790,8 +1790,8 @@
 		"name": "キング",
 		"display": ["♚"],
 		"imgSrc": [
-			"./img/handKingWhite.png",
-			"./img/handKingBlack.png"
+			"./img/ShogiCross/handKingWhite.png",
+			"./img/ShogiCross/handKingBlack.png"
 		],
 		"alias": "オ",
 		"gameName": "チェス",
