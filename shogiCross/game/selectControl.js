@@ -94,7 +94,7 @@ export class SelectControl{
 		return select.variant.value;
 	}
 
-	static get options(){
+	static get option(){
 		return {
 			playBoard: select.board.value,
 			useStand: JSON.parse(select.stand.value),

@@ -1,30 +1,11 @@
 declare class V {
-    /**
-     * @typedef {Object} BoardInitOptions - ボードの初期化オプション
-     * @property {number} canvasWidth - キャンバス幅
-     * @property {number} canvasHeight - キャンバス高さ
-     * @property {canvasFit} canvasFit - キャンバスサイズの自動調整
-     * @property {number} boardLeft - 描写するX座標
-     * @property {number} boardTop - 描写するY座標
-     * @property {number} panelWidth - マス目幅
-     * @property {number} panelHeight - マス目高さ
-     * @property {number} pieceSize - 駒の大きさ
-     * @property {boolean} useRankSize - 駒の大きさを格の違いで変更するか
-     * @property {boolean} isDrawShadow - 駒の影の描写有無
-     * @property {number} borderWidth - 枠線太さ
-     * @property {boolean} useStand - 駒台の使用有無
-     * @property {string} backgroundColor - 背景色(デフォルト無色)
-     * @property {boolean} autoDrawing - 描写の自動更新有無
-     * @property {(Board)=>void} onDrawed - 描写イベント
-     * @property {boolean} freeMode - フリーモード有効化/無効化
-    */
     /** ゲームを実行する
      * @param {HTMLCanvasElement}} canvas - Canvas要素
-     * @param {BoardInitOptions} options - ボードの初期化オプション
-     * @param {string} options.playBoard - ボードタイプ
-     * @param {Object} options.playPieces - 駒セット
-     * @param {string} options.playPieces.gameName - ゲーム名(基準となる駒の配置セット)
-     * @param {string} options.playPieces.pieceSet - 駒の配置パターン
+     * @param {BoardInitOption} option - ボードの初期化オプション
+     * @param {string} option.playBoard - ボードタイプ
+     * @param {Object} option.playPieces - 駒セット
+     * @param {string} option.playPieces.gameName - ゲーム名(基準となる駒の配置セット)
+     * @param {string} option.playPieces.pieceSet - 駒の配置パターン
      * @returns Board
      */
     static run(t: any, e: any): V;
@@ -35,7 +16,7 @@ declare class V {
      * @param {HTMLCanvasElement} canvas - Canvas要素
      * @param {string} playBoard - ボードタイプ
      * @param {number} players - プレイヤー人数(2 or 4)
-     * @param {BoardInitOptions} options - ボードの初期化オプション
+     * @param {BoardInitOption} option - ボードの初期化オプション
      */
     constructor(t: any, e: any, s: any);
     canvas: any;
@@ -60,6 +41,9 @@ declare class V {
     bottom: any;
     stand: W;
     autoDrawing: any;
+    onDrawed: any;
+    onGameOver: any;
+    gameAlives: Map<number, boolean>;
     freeMode: any;
     record: any[];
     uiControl: {
@@ -83,9 +67,9 @@ declare class V {
      * @param {number} pX - X方向配置位置(マス目基準)
      * @param {number} pY - Y方向配置位置(マス目基準)
      * @param {number} playeaIdOrDeg - プレイヤー番号または駒の配置角
-     * @param {Object} options - オプション
-     * @param {number} options.displayPtn - 表示文字列を変更(1〜)
-     * @param {boolean} options.isMoved - 初回移動済みか否か
+     * @param {Object} option - オプション
+     * @param {number} option.displayPtn - 表示文字列を変更(1〜)
+     * @param {boolean} option.isMoved - 初回移動済みか否か
      */
     putNewPiece(t: any, e: any, s: any, i: any, r?: {}): void;
     /** 文字列から駒を配置
@@ -120,9 +104,9 @@ declare class V {
     movePiece(t: any, e: any): void;
     /** 棋譜を追記
      * @param {Panel} toPanel - 移動先のマス目
-     * @param {Object} options - オプション
-     * @param {Panel} options.fromPanel - 移動元のマス目
-     * @param {string} options.end - オプション=成|不成|打
+     * @param {Object} option - オプション
+     * @param {Panel} option.fromPanel - 移動元のマス目
+     * @param {string} option.end - オプション=成|不成|打
      */
     addRecord(t: any, e?: {}): void;
     /** 棋譜をテキストで取得
@@ -147,7 +131,7 @@ declare class V {
     downloadImage(t: any, e: any): Promise<void>;
     #private;
 }
-declare class S {
+declare class y {
     /** 描写サイズ
      * @type {number}
      */
@@ -174,36 +158,15 @@ declare class S {
     static rankRatio: {
         [x: string]: number;
     };
-    /**
-     * @typedef {Object} PieceInitOptions - 駒の初期化オプション
-     * @property {string} name - 駒の名前
-     * @property {string[]} display - 駒に表示する文字列(1、2文字)の配列
-     * @property {string} imgSrc - 駒として表示する画像パスの配列
-     * @property {boolean}isRotateImg - 過画像を設定する場合回転するか
-     * @property {string} alias - キーの別名として定める文字の集合表
-     * @property {string} gameName - 駒に対応するゲーム名
-     * @property {string} expansion - ゲーム名の細分類
-     * @property {"兵"|"馬"|"象"|"車"|"臣"|"王"|"成"} unit - 駒の兵種
-     * @property {number}forcePromoLine - 行きどころのない駒となる段
-     * @property {Object} range - 駒の移動範囲
-     * @property {string[]} range.default - 通常時の移動範囲
-     * @property {string[]} range.attack - 駒取得時の移動範囲
-     * @property {string[]} range.start - 初回のみの移動範囲
-     * @property {string[]} range.castling - キャスリング時の移動範囲
-     * @property {string[]} range.enPassant - アンパッサン時の移動範囲
-     * @property {string[]} range.palaceSlash - 九宮内での移動範囲
-     * @property {string} promo - プロモーション先の駒の一文字表記
-     * @property {string[]} attr - 駒の機能のリスト
-     */
     /** 駒データを初期化
      * @param {any} ctx - Canvas描画コンテキスト
-     * @param {Piece|PieceInitOptions} options - 駒の初期化オプション
+     * @param {Piece|PieceInitOption} option - 駒の初期化オプション
      */
     static getPieces(t: any, e?: {}): {
         [k: string]: any;
     };
     /** 文字列から駒を取得
-     * @param {Piece|PieceInitOptions} piece - 駒
+     * @param {Piece|PieceInitOption} piece - 駒
      * @param {string} text - 駒文字列
      */
     static stringToPiece(t: any, e: any): any;
@@ -211,14 +174,14 @@ declare class S {
     static piecesToList(t: any): [string, any][];
     /**
      * @param {any} ctx - Canvas描画コンテキスト
-     * @param {Piece|PieceInitOptions} piece - 駒
-     * @param {Object} options - オプション
-     * @param {number} options.displayPtn - 表示文字列を変更(1〜)
-     * @param {number} options.deg - 駒の角度
-     * @param {number} options.size - 駒の大きさ
-     * @param {boolean} options.useRankSize - 駒の大きさを格の違いで変更するか
-     * @param {boolean} options.isDrawShadow - 駒の影の描写有無
-     * @param {boolean} options.isMoved - 初回移動済みか否か
+     * @param {Piece|PieceInitOption} piece - 駒
+     * @param {Object} option - オプション
+     * @param {number} option.displayPtn - 表示文字列を変更(1〜)
+     * @param {number} option.deg - 駒の角度
+     * @param {number} option.size - 駒の大きさ
+     * @param {boolean} option.useRankSize - 駒の大きさを格の違いで変更するか
+     * @param {boolean} option.isDrawShadow - 駒の影の描写有無
+     * @param {boolean} option.isMoved - 初回移動済みか否か
      */
     constructor(t: any, e: any, s?: {});
     /** 駒の段階別価値を取得 */
@@ -256,7 +219,7 @@ declare class S {
     /** 駒をクローン
      * @returns Piece
      */
-    clone(): S;
+    clone(): y;
     /** 駒を表返す */
     turnFront(): void;
     /** プロモーション
@@ -306,8 +269,8 @@ declare class S {
     toString(): string;
 }
 declare const Q: any;
-declare const A: any;
-declare namespace z {
+declare const T: any;
+declare namespace B {
     let imported: boolean;
     let images: {
         [x: string]: new (width?: number, height?: number) => HTMLImageElement;
@@ -346,9 +309,9 @@ declare class W {
     stocks: any[][];
     /** 持ち駒からボード上に配置する
      * @param {Panal} toPanell - 配置先のパネル
-     * @param {Object} options - オプション
-     * @param {number} options.deg - 角度
-     * @param {number} options.i - 配置する持ち駒のインデックス
+     * @param {Object} option - オプション
+     * @param {number} option.deg - 角度
+     * @param {number} option.i - 配置する持ち駒のインデックス
      */
     releasePiece(t: any, e?: {}): void;
     /** 駒台に追加する
@@ -396,4 +359,4 @@ declare class ut {
      */
     isTarget(t: any, e: any): boolean;
 }
-export { V as Board, S as Piece, Q as boards, A as canvasFont, z as canvasImage, pt as gameSoft, K as games };
+export { V as Board, y as Piece, Q as boards, T as canvasFont, B as canvasImage, pt as gameSoft, K as games };

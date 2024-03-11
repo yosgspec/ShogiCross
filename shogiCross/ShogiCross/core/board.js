@@ -1,3 +1,4 @@
+/** @typedef {import('./json').BoardInitOption} BoardInitOption */
 import {canvasFont} from "./canvasFontLoader.js";
 import {canvasImage} from "./canvasImageLoader.js";
 import {downloadImage} from "./downloadImage.js";
@@ -11,41 +12,23 @@ import {boards, games} from "./json.js";
 
 /** 盤の管理クラス */
 export class Board{
-	/**
-	 * @typedef {Object} BoardInitOptions - ボードの初期化オプション
-	 * @property {number} canvasWidth - キャンバス幅
-	 * @property {number} canvasHeight - キャンバス高さ
-	 * @property {canvasFit} canvasFit - キャンバスサイズの自動調整
-	 * @property {number} boardLeft - 描写するX座標
-	 * @property {number} boardTop - 描写するY座標
-	 * @property {number} panelWidth - マス目幅
-	 * @property {number} panelHeight - マス目高さ
-	 * @property {number} pieceSize - 駒の大きさ
-	 * @property {boolean} useRankSize - 駒の大きさを格の違いで変更するか
-	 * @property {boolean} isDrawShadow - 駒の影の描写有無
-	 * @property {number} borderWidth - 枠線太さ
-	 * @property {boolean} useStand - 駒台の使用有無
-	 * @property {string} backgroundColor - 背景色(デフォルト無色)
-	 * @property {boolean} autoDrawing - 描写の自動更新有無
-	 * @property {(Board)=>void} onDrawed - 描写イベント
-	 * @property {boolean} freeMode - フリーモード有効化/無効化
-	*/
+
 
 	/** ゲームを実行する
 	 * @param {HTMLCanvasElement}} canvas - Canvas要素
-	 * @param {BoardInitOptions} options - ボードの初期化オプション
-	 * @param {string} options.playBoard - ボードタイプ
-	 * @param {Object} options.playPieces - 駒セット
-	 * @param {string} options.playPieces.gameName - ゲーム名(基準となる駒の配置セット)
-	 * @param {string} options.playPieces.pieceSet - 駒の配置パターン
+	 * @param {BoardInitOption} option - ボードの初期化オプション
+	 * @param {string} option.playBoard - ボードタイプ
+	 * @param {Object} option.playPieces - 駒セット
+	 * @param {string} option.playPieces.gameName - ゲーム名(基準となる駒の配置セット)
+	 * @param {string} option.playPieces.pieceSet - 駒の配置パターン
 	 * @returns Board
 	 */
-	static run(canvas, options){
-		const {playBoard, playPieces, onDrawed} = options;
+	static run(canvas, option){
+		const {playBoard, playPieces, onDrawed} = option;
 		const players = playPieces.some(({gameName}, i)=>1 < i && gameName)? 4: 2;
 		// ボードを生成
 		const board = new Board(canvas, playBoard, {
-			...options,
+			...option,
 			players,
 			onDrawed
 		});
@@ -70,9 +53,9 @@ export class Board{
 	 * @param {HTMLCanvasElement} canvas - Canvas要素
 	 * @param {string} playBoard - ボードタイプ
 	 * @param {number} players - プレイヤー人数(2 or 4)
-	 * @param {BoardInitOptions} options - ボードの初期化オプション
+	 * @param {BoardInitOption} option - ボードの初期化オプション
 	 */
-	constructor(canvas, playBoard, options){
+	constructor(canvas, playBoard, option){
 		const {
 			players=2,
 			canvasWidth=undefined,
@@ -90,8 +73,9 @@ export class Board{
 			backgroundColor="#00000000",
 			autoDrawing=true,
 			onDrawed,
+			onGameOver=i=>alert(`プレイヤー${i+1}の敗北です。`),
 			freeMode=false
-		} = options;
+		} = option;
 		// 初期化
 		const canvasFontAsync = canvasFont.importAsync();
 		const canvasImageAsync = canvasImage.importAsync();
@@ -165,7 +149,13 @@ export class Board{
 			canvasImageAsync.then(()=>this.draw());
 			this.draw();
 		}
-		this.onDrawed ??= onDrawed;
+		this.onDrawed = onDrawed;
+		this.onGameOver = onGameOver;
+		/**  */
+		this.gameAlives = new Map(
+			[...Array(this.players).keys()]
+			.map(i=>[this.#degNormal(i), true])
+		);
 		this.freeMode = freeMode;
 
 		this.record = [];
@@ -249,12 +239,12 @@ export class Board{
 	 * @param {number} pX - X方向配置位置(マス目基準)
 	 * @param {number} pY - Y方向配置位置(マス目基準)
 	 * @param {number} playeaIdOrDeg - プレイヤー番号または駒の配置角
-	 * @param {Object} options - オプション
-	 * @param {number} options.displayPtn - 表示文字列を変更(1〜)
-	 * @param {boolean} options.isMoved - 初回移動済みか否か
+	 * @param {Object} option - オプション
+	 * @param {number} option.displayPtn - 表示文字列を変更(1〜)
+	 * @param {boolean} option.isMoved - 初回移動済みか否か
 	 */
-	putNewPiece(piece, pX, pY, playeaIdOrDeg, options={}){
-		const {displayPtn=0, isMoved=false} = options;
+	putNewPiece(piece, pX, pY, playeaIdOrDeg, option={}){
+		const {displayPtn=0, isMoved=false} = option;
 		const {pieces} = this;
 
 		const deg = this.#degNormal(playeaIdOrDeg);
@@ -388,6 +378,52 @@ export class Board{
 		};
 	}
 
+	/** 敗北したプレイヤーが存在するか確認し、イベントを発生させる */
+	#emitGameOver(){
+		[...this.gameAlives].forEach(([deg, gameAlive], i)=>{
+			if(!gameAlive) return;
+			if(this.field.some(row=>
+				row.some(({piece})=>
+					piece
+					&& piece.deg === deg
+					&& piece.hasAttr("king")
+				)
+			)) return;
+			this.gameAlives.set(deg, false);
+			this.onGameOver(i);
+		})
+	}
+
+	/** プロモーション処理
+	 * @param {Panel} fromPanel - 移動元のマス目
+	 * @param {Panel} toPanel - 選択中のマス目
+	 * @param {boolean} canPromo - 成ることができる
+	 * @param {boolean} forcePromo - 成りを強制する
+	 */
+	#promoDialog(fromPanel, toPanel, canPromo, forcePromo){
+		const {freeMode} = this;
+		const {piece} = toPanel;
+
+		// プロモーション処理
+		if(!piece.promo || piece.hasAttr("promoted") || !canPromo){
+			this.addRecord(toPanel, {fromPanel});
+			return;
+		}
+		do{
+			for(const [char, {name}] of Object.entries(piece.promo)){
+				if(confirm(`成りますか?
+	${piece.char}:${piece.name}
+	　↓
+	${char}:${name}`)){
+					this.addRecord(toPanel, {fromPanel, end:"成"});
+					piece.promotion(char);
+					return;
+				}
+			}
+		} while(!freeMode && forcePromo);
+		this.addRecord(toPanel, {fromPanel, end:"不成"});
+	}
+
 	/** 駒を移動
 	 * @param {Panel} fromPanel - 移動元のマス目
 	 * @param {Panel} toPanel - 選択中のマス目
@@ -427,33 +463,20 @@ export class Board{
 		enPassant.setMoved(toPanel);
 
 		// プロモーション処理
-		if(!piece.promo || piece.hasAttr("promoted") || !canPromo){
-			this.addRecord(toPanel, {fromPanel});
-			return
-		};
-		do{
-			for(const [char, {name}] of Object.entries(piece.promo)){
-				if(confirm(`成りますか?
-	${piece.char}:${piece.name}
-	　↓
-	${char}:${name}`)){
-					this.addRecord(toPanel, {fromPanel, end:"成"});
-					piece.promotion(char);
-					return;
-				}
-			}
-		} while(!freeMode && forcePromo);
-		this.addRecord(toPanel, {fromPanel, end:"不成"});
+		this.#promoDialog(fromPanel, toPanel, canPromo, forcePromo);
+
+		// プレイヤーのゲームオーバー判定
+		this.#emitGameOver();
 	}
 
 	/** 棋譜を追記
 	 * @param {Panel} toPanel - 移動先のマス目
-	 * @param {Object} options - オプション
-	 * @param {Panel} options.fromPanel - 移動元のマス目
-	 * @param {string} options.end - オプション=成|不成|打
+	 * @param {Object} option - オプション
+	 * @param {Panel} option.fromPanel - 移動元のマス目
+	 * @param {string} option.end - オプション=成|不成|打
 	 */
-	addRecord(toPanel, options={}){
-		const {fromPanel, end=""} = options;
+	addRecord(toPanel, option={}){
+		const {fromPanel, end=""} = option;
 		const {piece} = toPanel;
 
 		this.record.push({

@@ -26,11 +26,11 @@ export class Stand {
     stocks: any[][];
     /** 持ち駒からボード上に配置する
      * @param {Panal} toPanell - 配置先のパネル
-     * @param {Object} options - オプション
-     * @param {number} options.deg - 角度
-     * @param {number} options.i - 配置する持ち駒のインデックス
+     * @param {Object} option - オプション
+     * @param {number} option.deg - 角度
+     * @param {number} option.i - 配置する持ち駒のインデックス
      */
-    releasePiece(toPanel: any, options?: {
+    releasePiece(toPanel: any, option?: {
         deg: number;
         i: number;
     }): void;

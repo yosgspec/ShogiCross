@@ -41,9 +41,9 @@ const PlayGamesTop = {
 const PlayGamesBottom = {};
 
 Object.keys(gameSoft).forEach(key=>{
-	gameSoft[key].run = function(canvas, options){
+	gameSoft[key].run = function(canvas, option){
 		const xLen = boards[this.playBoard].field[0].length;
-		return Board.run(canvas, {...options, ...this, ...boardTemplate(xLen)});
+		return Board.run(canvas, {...option, ...this, ...boardTemplate(xLen)});
 	};
 })
 

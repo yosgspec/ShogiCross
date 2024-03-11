@@ -26,92 +26,15 @@ export class Piece {
     static rankRatio: {
         [x: string]: number;
     };
-    /**
-     * @typedef {Object} PieceInitOptions - 駒の初期化オプション
-     * @property {string} name - 駒の名前
-     * @property {string[]} display - 駒に表示する文字列(1、2文字)の配列
-     * @property {string} imgSrc - 駒として表示する画像パスの配列
-     * @property {boolean}isRotateImg - 過画像を設定する場合回転するか
-     * @property {string} alias - キーの別名として定める文字の集合表
-     * @property {string} gameName - 駒に対応するゲーム名
-     * @property {string} expansion - ゲーム名の細分類
-     * @property {"兵"|"馬"|"象"|"車"|"臣"|"王"|"成"} unit - 駒の兵種
-     * @property {number}forcePromoLine - 行きどころのない駒となる段
-     * @property {Object} range - 駒の移動範囲
-     * @property {string[]} range.default - 通常時の移動範囲
-     * @property {string[]} range.attack - 駒取得時の移動範囲
-     * @property {string[]} range.start - 初回のみの移動範囲
-     * @property {string[]} range.castling - キャスリング時の移動範囲
-     * @property {string[]} range.enPassant - アンパッサン時の移動範囲
-     * @property {string[]} range.palaceSlash - 九宮内での移動範囲
-     * @property {string} promo - プロモーション先の駒の一文字表記
-     * @property {string[]} attr - 駒の機能のリスト
-     */
     /** 駒データを初期化
      * @param {any} ctx - Canvas描画コンテキスト
-     * @param {Piece|PieceInitOptions} options - 駒の初期化オプション
+     * @param {Piece|PieceInitOption} option - 駒の初期化オプション
      */
-    static getPieces(ctx: any, options?: Piece | {
-        /**
-         * - 駒の名前
-         */
-        name: string;
-        /**
-         * - 駒に表示する文字列(1、2文字)の配列
-         */
-        display: string[];
-        /**
-         * - 駒として表示する画像パスの配列
-         */
-        imgSrc: string;
-        /**
-         * - 過画像を設定する場合回転するか
-         */
-        isRotateImg: boolean;
-        /**
-         * - キーの別名として定める文字の集合表
-         */
-        alias: string;
-        /**
-         * - 駒に対応するゲーム名
-         */
-        gameName: string;
-        /**
-         * - ゲーム名の細分類
-         */
-        expansion: string;
-        /**
-         * - 駒の兵種
-         */
-        unit: "兵" | "馬" | "象" | "車" | "臣" | "王" | "成";
-        /**
-         * - 行きどころのない駒となる段
-         */
-        forcePromoLine: number;
-        /**
-         * - 駒の移動範囲
-         */
-        range: {
-            default: string[];
-            attack: string[];
-            start: string[];
-            castling: string[];
-            enPassant: string[];
-            palaceSlash: string[];
-        };
-        /**
-         * - プロモーション先の駒の一文字表記
-         */
-        promo: string;
-        /**
-         * - 駒の機能のリスト
-         */
-        attr: string[];
-    }): {
+    static getPieces(ctx: any, option?: Piece | PieceInitOption): {
         [k: string]: any;
     };
     /** 文字列から駒を取得
-     * @param {Piece|PieceInitOptions} piece - 駒
+     * @param {Piece|PieceInitOption} piece - 駒
      * @param {string} text - 駒文字列
      */
     static stringToPiece(pieces: any, text: string): any;
@@ -119,72 +42,16 @@ export class Piece {
     static piecesToList(pieces: any): [string, any][];
     /**
      * @param {any} ctx - Canvas描画コンテキスト
-     * @param {Piece|PieceInitOptions} piece - 駒
-     * @param {Object} options - オプション
-     * @param {number} options.displayPtn - 表示文字列を変更(1〜)
-     * @param {number} options.deg - 駒の角度
-     * @param {number} options.size - 駒の大きさ
-     * @param {boolean} options.useRankSize - 駒の大きさを格の違いで変更するか
-     * @param {boolean} options.isDrawShadow - 駒の影の描写有無
-     * @param {boolean} options.isMoved - 初回移動済みか否か
+     * @param {Piece|PieceInitOption} piece - 駒
+     * @param {Object} option - オプション
+     * @param {number} option.displayPtn - 表示文字列を変更(1〜)
+     * @param {number} option.deg - 駒の角度
+     * @param {number} option.size - 駒の大きさ
+     * @param {boolean} option.useRankSize - 駒の大きさを格の違いで変更するか
+     * @param {boolean} option.isDrawShadow - 駒の影の描写有無
+     * @param {boolean} option.isMoved - 初回移動済みか否か
      */
-    constructor(ctx: any, piece: Piece | {
-        /**
-         * - 駒の名前
-         */
-        name: string;
-        /**
-         * - 駒に表示する文字列(1、2文字)の配列
-         */
-        display: string[];
-        /**
-         * - 駒として表示する画像パスの配列
-         */
-        imgSrc: string;
-        /**
-         * - 過画像を設定する場合回転するか
-         */
-        isRotateImg: boolean;
-        /**
-         * - キーの別名として定める文字の集合表
-         */
-        alias: string;
-        /**
-         * - 駒に対応するゲーム名
-         */
-        gameName: string;
-        /**
-         * - ゲーム名の細分類
-         */
-        expansion: string;
-        /**
-         * - 駒の兵種
-         */
-        unit: "兵" | "馬" | "象" | "車" | "臣" | "王" | "成";
-        /**
-         * - 行きどころのない駒となる段
-         */
-        forcePromoLine: number;
-        /**
-         * - 駒の移動範囲
-         */
-        range: {
-            default: string[];
-            attack: string[];
-            start: string[];
-            castling: string[];
-            enPassant: string[];
-            palaceSlash: string[];
-        };
-        /**
-         * - プロモーション先の駒の一文字表記
-         */
-        promo: string;
-        /**
-         * - 駒の機能のリスト
-         */
-        attr: string[];
-    }, options?: {
+    constructor(ctx: any, piece: Piece | PieceInitOption, option?: {
         displayPtn: number;
         deg: number;
         size: number;
@@ -215,8 +82,8 @@ export class Piece {
     ctx: any;
     alias: string[];
     displayPtn: number;
-    game: any;
-    cost: any;
+    game: import("./json.js").Game;
+    cost: number;
     center: number;
     middle: number;
     size: number;
@@ -276,3 +143,4 @@ export class Piece {
     /** 文字列形式で取得 */
     toString(): string;
 }
+export type PieceInitOption = import('./json').PieceInitOption;

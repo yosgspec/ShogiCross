@@ -52,7 +52,7 @@
 "promoLine": 3
 ```
 
-## position {Object<string, Object<string, string[]]>>}
+## position {Object<string, Object<string, string[]>>}
 駒の配置データ。辞書形式で記載。
 
 ### 1階層目(辞書)
