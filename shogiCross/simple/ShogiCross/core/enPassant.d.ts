@@ -6,21 +6,20 @@ export class EnPassant {
      */
     clear(deg: number): void;
     /** アンパッサン対象と成りうるマス情報を記録
-     * @param {string} rangeName - 移動範囲の定義名
      * @param {Panel} panel - アンパッサン対象と成りうるマス目
      * @param {Piece} piece - アンパッサン対象と成りうる駒
      */
-    setTarget(rangeName: string, panel: Panel, piece: Piece): void;
+    setTarget(panel: Panel, piece: Piece): void;
     /** アンパッサン対象と成りうる駒情報を記録
      * @param {Panel} toPanel - アンパッサン対象か確認するマス目
      */
     setMoved(toPanel: Panel): void;
     /** アンパッサン対象のマスか確認する
-     * @param {string} rangeName - 移動範囲の定義名
      * @param {Panel} panel - アンパッサン対象と成りうるマス目
+     * @param {Piece} piece - アンパッサン対象と成りうる駒
      * @returns {boolean}
      */
-    isTarget(rangeName: string, panel: Panel, piece: any): boolean;
+    isTarget(panel: Panel, piece: Piece): boolean;
 }
 import { Panel } from "./panel.js";
 import { Piece } from "./piece.js";

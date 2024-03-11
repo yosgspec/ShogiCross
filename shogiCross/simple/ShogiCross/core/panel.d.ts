@@ -30,7 +30,21 @@ export class Panel {
      */
     set isSelected(value: boolean);
     get isSelected(): boolean;
-    isTarget: boolean;
+    /** マス目の移動可能判定
+     * @param {boolean} value
+     */
+    get isTarget(): boolean;
+    /** マス目の移動先情報をクリア */
+    clearTarget(): void;
+    /** マス目の移動先情報を追加
+     * @param {string} rangeName - 移動先情報
+     */
+    addTarget(rangeName: string): void;
+    /** マス目が移動先情報を持っているか判定
+     * @param {string} rangeName - 移動先情報
+     * @returns {boolean}
+     */
+    hasTarget(rangeName: string): boolean;
     /** 属性の存在を確認
      * @param {string} attrName - 属性名
      * @returns {boolean}

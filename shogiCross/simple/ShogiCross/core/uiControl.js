@@ -112,7 +112,7 @@ export function uIControl(board){
 			panel=>{
 				if(panel.piece) panel.piece.isSelected = false;
 				panel.isSelected = false;
-				panel.isTarget = false;
+				panel.clearTarget();
 			},
 			()=>{
 				for(const [deg, stock] of Object.entries(board.stand.stocks)){

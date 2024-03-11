@@ -5,6 +5,7 @@ import {panels} from "./json.js";
 /** マス目の管理クラス */
 export class Panel{
 	#isSelected;
+	#targetRanges;
 
 	/**
 	 * @param {any} ctx - Canvas描画コンテキスト
@@ -35,7 +36,7 @@ export class Panel{
 		this.targetColor ??= "#00FF0066";
 		this.piece = null;
 		this.isSelected = false;
-		this.isTarget = false;
+		this.clearTarget();
 		this.attr ??= [];
 	}
 
@@ -47,6 +48,33 @@ export class Panel{
 	}
 	get isSelected(){
 		return this.#isSelected;
+	}
+
+	/** マス目の移動可能判定
+	 * @param {boolean} value
+	 */
+	get isTarget(){
+		return 0 < this.#targetRanges.length;
+	}
+
+	/** マス目の移動先情報をクリア */
+	clearTarget(){
+		this.#targetRanges = [];
+	}
+
+	/** マス目の移動先情報を追加
+	 * @param {string} rangeName - 移動先情報
+	 */
+   addTarget(rangeName){
+		this.#targetRanges.push(rangeName);
+	}
+
+	/** マス目が移動先情報を持っているか判定
+	 * @param {string} rangeName - 移動先情報
+	 * @returns {boolean}
+	 */
+	hasTarget(rangeName){
+		return this.#targetRanges.includes(rangeName);
 	}
 
 	/** 属性の存在を確認

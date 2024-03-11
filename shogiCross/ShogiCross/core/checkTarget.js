@@ -128,7 +128,7 @@ export function checkTarget(board, piece, pX, pY){
 		if(!panel) return false;
 		if(isVsPo(panel)) return false;
 		if(isAttackFromPao(panel)) return false;
-		if(!enPassant.isTarget(rangeName, panel, piece)) return false;
+		if(rangeName === "enPassant" && !enPassant.isTarget(panel, piece)) return false;
 		if(piece.hasAttr("inPalace") && !panel.hasAttr("palace")) return false;
 		if(rangeName.indexOf("palace") === 0 && !(panel.hasAttr(rangeName) && field[pY][pX].hasAttr(rangeName))) return false;
 		if(piece.hasAttr("unCrossRiver") && yLen-(0|yLen/2) <= board.getRow(x, y, piece.deg)) return false;
@@ -170,8 +170,8 @@ export function checkTarget(board, piece, pX, pY){
 	 */
 	function setTarget(rangeName, x, y){
 		const panel = field[y][x];
-		panel.isTarget = true;
-		enPassant.setTarget(rangeName, panel, piece);
+		panel.addTarget(rangeName);
+		enPassant.setTarget(panel, piece);
 	}
 
 	/** 点移動

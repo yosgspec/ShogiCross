@@ -65,7 +65,7 @@ declare class V {
     uiControl: {
         removeEvent(): void;
     };
-    enPassant: gt;
+    enPassant: ut;
     /** ボードを閉じる */
     close(): void;
     /** 駒配置を回転
@@ -306,7 +306,7 @@ declare class S {
     toString(): string;
 }
 declare const Q: any;
-declare const T: any;
+declare const A: any;
 declare namespace z {
     let imported: boolean;
     let images: {
@@ -374,27 +374,26 @@ declare class W {
      */
     toString(t?: boolean): string;
 }
-declare class gt {
+declare class ut {
     degs: {};
     /** アンパッサン情報をクリア
      * @param {number} deg - アンパッサンされうる陣営の角度
      */
     clear(t: any): void;
     /** アンパッサン対象と成りうるマス情報を記録
-     * @param {string} rangeName - 移動範囲の定義名
      * @param {Panel} panel - アンパッサン対象と成りうるマス目
      * @param {Piece} piece - アンパッサン対象と成りうる駒
      */
-    setTarget(t: any, e: any, s: any): void;
+    setTarget(t: any, e: any): void;
     /** アンパッサン対象と成りうる駒情報を記録
      * @param {Panel} toPanel - アンパッサン対象か確認するマス目
      */
     setMoved(t: any): void;
     /** アンパッサン対象のマスか確認する
-     * @param {string} rangeName - 移動範囲の定義名
      * @param {Panel} panel - アンパッサン対象と成りうるマス目
+     * @param {Piece} piece - アンパッサン対象と成りうる駒
      * @returns {boolean}
      */
-    isTarget(t: any, e: any, s: any): boolean;
+    isTarget(t: any, e: any): boolean;
 }
-export { V as Board, S as Piece, Q as boards, T as canvasFont, z as canvasImage, pt as gameSoft, K as games };
+export { V as Board, S as Piece, Q as boards, A as canvasFont, z as canvasImage, pt as gameSoft, K as games };

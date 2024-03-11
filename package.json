@@ -6,11 +6,11 @@
   "scripts": {
     "dev": "npx vite",
     "build": "run-s build:*",
-    "build:sharp": "npx sharp -i ./shogiCross/img/**/*.png -f png -o {dir} ",
     "build:vite": "npx vite build",
     "build:after": "node buildAfter.js ./dist/ShogiCross.js",
-    "build:api": "npx documentation build ./shogiCross/ShogiCross/lib.js -f html -o ./shogiCross/doc/api",
-    "build:dts": "npx tsc"
+    "build:dts": "npx tsc",
+    "build:sharp": "npx sharp -i ./shogiCross/img/**/*.png -f png -o {dir} ",
+    "build:api": "npx documentation build ./shogiCross/ShogiCross/lib.js -f html -o ./shogiCross/doc/api"
   },
   "dependencies": {
     "vite": "5.1.*"
