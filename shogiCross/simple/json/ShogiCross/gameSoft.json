@@ -111,7 +111,7 @@
 		"name": "Grant Acedrex",
 		"variant": "Grant Acedrex",
 		"url": "https://www.chessvariants.org/rules/grantacedrex",
-		"desc": "古のチェスの一種。特殊な動きをする駒が多い。プロモーション先は本来は敵陣の到着列の駒となる(未実装)。",
+		"desc": "古チェスの一種。特殊な動きをする駒が多い。プロモーション先は本来は敵陣の到着列の駒となる(未実装)。",
 		"playBoard": "チェス12x12",
 		"useStand": false,
 		"playPieces": [
@@ -123,7 +123,7 @@
 		"name": "クーリエチェス(定形配置)",
 		"variant": "クーリエチェス(定形配置)",
 		"url": "https://en.wikipedia.org/wiki/Courier_chess",
-		"desc": "古のチェスの一種。ビショップに等しい走り駒(クーリエ)が初めて使用された。",
+		"desc": "古チェスの一種。ビショップに等しい走り駒(クーリエ)が初めて使用された。",
 		"playBoard": "チェス12x8",
 		"useStand": false,
 		"playPieces": [
@@ -183,7 +183,7 @@
 		"name": "平安将棋(9x8)",
 		"variant": "将棋",
 		"url": "https://ja.wikipedia.org/wiki/%E5%B9%B3%E5%AE%89%E5%B0%86%E6%A3%8B",
-		"desc": "記録が残る最古の日本の将棋。盤の大きさに緒説ある。",
+		"desc": "9x8マスと想定した時の平安将棋。",
 		"playBoard": "古将棋9x8",
 		"useStand": false,
 		"playPieces": [
@@ -195,7 +195,7 @@
 		"name": "平安将棋(9x9)",
 		"variant": "将棋",
 		"url": "https://ja.wikipedia.org/wiki/%E5%B9%B3%E5%AE%89%E5%B0%86%E6%A3%8B",
-		"desc": "記録が残る最古の日本の将棋。盤の大きさに緒説ある。",
+		"desc": "9x9マスと想定した時の平安将棋。",
 		"playBoard": "古将棋9x9",
 		"useStand": false,
 		"playPieces": [
@@ -219,7 +219,7 @@
 		"name": "京将棋(右京配置)",
 		"variant": "将棋",
 		"url": "https://ja.wikipedia.org/wiki/%E4%BA%AC%E5%B0%86%E6%A3%8B",
-		"desc": "京翔と銅将を追加した将棋。左右の配置が存在。",
+		"desc": "京将棋の右側に京を置くパターン。",
 		"playBoard": "将棋10x10",
 		"useStand": true,
 		"playPieces": [
@@ -243,7 +243,7 @@
 		"name": "小京将棋(右置換)",
 		"variant": "将棋",
 		"url": "https://ja.wikipedia.org/wiki/%E4%BA%AC%E5%B0%86%E6%A3%8B",
-		"desc": "桂馬を京翔へ置き換えた本将棋。左右の配置が存在。",
+		"desc": "小京将棋の右置換パターン。",
 		"playBoard": "将棋",
 		"useStand": true,
 		"playPieces": [
@@ -267,7 +267,7 @@
 		"name": "山車将棋(右置換)",
 		"variant": "将棋",
 		"url": "https://ja.wikipedia.org/wiki/%E4%BA%AC%E5%B0%86%E6%A3%8B",
-		"desc": "香車を山車へ置き換えた本将棋。左右の配置が存在。",
+		"desc": "山車将棋の右置換パターン。",
 		"playBoard": "将棋",
 		"useStand": true,
 		"playPieces": [
@@ -291,7 +291,7 @@
 		"name": "銅将棋(右置換)",
 		"variant": "将棋",
 		"url": "https://ja.wikipedia.org/wiki/%E4%BA%AC%E5%B0%86%E6%A3%8B",
-		"desc": "銀将を銅将へ置き換えた本将棋。左右の配置が存在。",
+		"desc": "銅将棋の右置換パターン。",
 		"playBoard": "将棋",
 		"useStand": true,
 		"playPieces": [
@@ -315,7 +315,7 @@
 		"name": "金翅将棋(右置換)",
 		"variant": "将棋",
 		"url": "https://ja.wikipedia.org/wiki/%E4%BA%AC%E5%B0%86%E6%A3%8B",
-		"desc": "金将を金翅へ置き換えた本将棋。左右の配置が存在。",
+		"desc": "金翅将棋の右置換パターン。",
 		"playBoard": "将棋",
 		"useStand": true,
 		"playPieces": [
@@ -339,7 +339,7 @@
 		"name": "金斗将棋(右置換)",
 		"variant": "将棋",
 		"url": "https://ja.wikipedia.org/wiki/%E4%BA%AC%E5%B0%86%E6%A3%8B",
-		"desc": "金将を金翅へ置き換えた本将棋。左右の配置が存在。",
+		"desc": "金斗将棋の右置換パターン。",
 		"playBoard": "将棋",
 		"useStand": true,
 		"playPieces": [
@@ -363,7 +363,7 @@
 		"name": "将棋30++(右系フル置換)",
 		"variant": "将棋",
 		"url": "https://ja.wikipedia.org/wiki/%E4%BA%AC%E5%B0%86%E6%A3%8B",
-		"desc": "京将棋系の駒で複数置換した本将棋。左右の配置が存在。",
+		"desc": "将棋30++の右置換パターン。",
 		"playBoard": "将棋",
 		"useStand": true,
 		"playPieces": [
@@ -375,7 +375,7 @@
 		"name": "御妃将棋",
 		"variant": "将棋",
 		"url": "https://en.wikipedia.org/wiki/Okisaki_shogi",
-		"desc": "チェスの要素を取り入れた本将棋。香車はわざと反車として表示した。",
+		"desc": "チェスの要素を取り入れた本将棋。香車は意図して反車として表示した。",
 		"playBoard": "将棋10x10",
 		"useStand": true,
 		"playPieces": [
@@ -447,7 +447,7 @@
 		"name": "獅子将棋",
 		"variant": "中将棋",
 		"url": "https://drive.google.com/file/d/1emrOmE1Xh-sR8wApTOikEgXDGVaAYrrO/view",
-		"desc": "中将棋を遊びやすくするよう考案された将棋。",
+		"desc": "中将棋を遊びやすくするよう考案された将棋の一種。",
 		"playBoard": "古将棋9x9",
 		"useStand": false,
 		"playPieces": [
@@ -459,7 +459,7 @@
 		"name": "平成将棋",
 		"variant": "中将棋",
 		"url": "http://akasaka0x16.blog.fc2.com/blog-entry-130.html",
-		"desc": "中将棋を遊びやすくするよう考案された将棋。",
+		"desc": "中将棋を遊びやすくするよう考案された将棋の一種。",
 		"playBoard": "古将棋10x10",
 		"useStand": false,
 		"playPieces": [
@@ -537,7 +537,7 @@
 		"name": "チャトラジ",
 		"variant": "チャトランガ",
 		"url": "https://ja.wikipedia.org/wiki/%E3%83%81%E3%83%A3%E3%83%88%E3%83%A9%E3%82%B8",
-		"desc": "四人用のバリエーション。本来はダイスで動かす駒を決める。",
+		"desc": "チャトランガの4人用のバリエーション。ダイスで動かす駒を決めていた。",
 		"playBoard": "チェス",
 		"useStand": false,
 		"playPieces": [
