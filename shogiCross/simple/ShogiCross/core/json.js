@@ -47,9 +47,9 @@ export const games = await importJson("games");
 
 	/**
 	 * @typedef {Object} BoardInitOption - ボードの初期化オプション
-	 * @prop {number} canvasWidth - キャンバス幅
-	 * @prop {number} canvasHeight - キャンバス高さ
-	 * @prop {canvasFit} canvasFit - キャンバスサイズの自動調整
+	 * @prop {number} canvasWidth - Canvas幅
+	 * @prop {number} canvasHeight - Canvas高さ
+	 * @prop {canvasFit} canvasFit - Canvasサイズの自動調整
 	 * @prop {number} boardLeft - 描写するX座標
 	 * @prop {number} boardTop - 描写するY座標
 	 * @prop {number} panelWidth - マス目幅

@@ -20,7 +20,7 @@ const imgSrcs = [...new Set(
 	.concat(Object.values(pieces).flatMap(({imgSrc})=>imgSrc??[]))
 )];
 
-/** キャンバス用画像の管理 */
+/** Canvas用画像の管理 */
 export const canvasImage = {
 	/** 読み込み済みであるか? */
 	imported: false,

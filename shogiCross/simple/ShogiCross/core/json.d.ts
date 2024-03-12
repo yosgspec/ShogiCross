@@ -39,9 +39,9 @@ export const games: {
 };
 /**
  * @typedef {Object} BoardInitOption - ボードの初期化オプション
- * @prop {number} canvasWidth - キャンバス幅
- * @prop {number} canvasHeight - キャンバス高さ
- * @prop {canvasFit} canvasFit - キャンバスサイズの自動調整
+ * @prop {number} canvasWidth - Canvas幅
+ * @prop {number} canvasHeight - Canvas高さ
+ * @prop {canvasFit} canvasFit - Canvasサイズの自動調整
  * @prop {number} boardLeft - 描写するX座標
  * @prop {number} boardTop - 描写するY座標
  * @prop {number} panelWidth - マス目幅
@@ -204,15 +204,15 @@ export type Game = {
  */
 export type BoardInitOption = {
     /**
-     * - キャンバス幅
+     * - Canvas幅
      */
     canvasWidth: number;
     /**
-     * - キャンバス高さ
+     * - Canvas高さ
      */
     canvasHeight: number;
     /**
-     * - キャンバスサイズの自動調整
+     * - Canvasサイズの自動調整
      */
     canvasFit: canvasFit;
     /**

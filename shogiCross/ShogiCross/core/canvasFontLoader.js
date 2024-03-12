@@ -11,7 +11,7 @@ const getChars = () => [...
 	])
 ].sort().join("");
 
-/** キャンバス用フォント管理 */
+/** Canvas用フォント管理 */
 Object.assign(canvasFont, {
 	/** 読み込み済みであるか? */
 	imported: false,
