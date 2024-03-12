@@ -34,10 +34,11 @@
 	```html
 	<canvas id="shogiCross"></canvas>
 	<script type="module">
-	import {Board, gameSoft} from "./ShogiCross.js"
+	import {Board, gameSoft} from "./ShogiCross.js";
 	const board = Board.run(
-	document.getElementById("shogiCross"),
-	gameSoft.shogi);
+		document.getElementById("shogiCross"),
+		gameSoft.shogi
+	);
 	</script>
 	```
 	</details>

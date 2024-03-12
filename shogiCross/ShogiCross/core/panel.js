@@ -177,13 +177,6 @@ export class Panel{
 		ctx.fillRect(this.left, this.top, this.width, this.height);
 	}
 
-	/** BOD形式テキストを取得
-	 * @returns {string}
-	 */
-	getBodText(){
-		return Bod.panelText;
-	}
-
 	/** 文字列形式で取得
 	 * @param {string} - 簡易表示
 	 */

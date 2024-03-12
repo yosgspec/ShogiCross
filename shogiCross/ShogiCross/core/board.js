@@ -550,36 +550,7 @@ export class Board{
 	 * @returns {string}
 	 */
 	get bodText(){
-		const {xLen, players, stand} = this;
-		if(players !== 2){
-			const err = `players=${players}, players need 2.`
-			console.error(err);
-			return err;
-		}
-
-		let header =
-			` ${[...Array(xLen).keys()].map(i=>` ${Bod.num2Col(xLen-i)}`).join("")}\n`+
-			`+${Array(xLen).fill("---").join("")}+\n`;
-		let footer = `\n+${Array(xLen).fill("---").join("")}+`;
-		let panelOuter = "|";
-		let panelSep = "";
-		let rowSep = "\n";
-
-		return (
-			`${stand.getBodText(180)}\n`+
-			header+
-			this.field.map((row, i)=>
-				panelOuter+
-				row.map(panel=>
-					panel.piece?.getBodText()
-					?? panel.getBodText()
-				).join(panelSep)+
-				panelOuter+
-				Bod.num2Row(i+1)
-			).join(rowSep)+
-			footer+
-			`\n${stand.getBodText(0)}`
-		);
+		return Bod.getText(this);
 	}
 
 	/** 駒配置をテキストで取得

@@ -3,7 +3,7 @@ export class Stand {
     /** 駒台への角度ごとの表示順
      * @type {number[]}
      */
-    static "__#5@#degOrder": number[];
+    static "__#7@#degOrder": number[];
     /**
      * @param {Board} ボード
      */
@@ -45,11 +45,6 @@ export class Stand {
     capturePiece(winnerPiece: Piece | null, loserPiece: Piece, forceCapture?: boolean, forceCantCapture?: boolean): void;
     /** 盤を描写 */
     draw(): void;
-    /** BOD形式テキストを取得
-     * @param {number} deg - 角度
-     * @returns {string}
-     */
-    getBodText(deg?: number): string;
     /** 文字列形式で取得
      * @param {boolean} isMinimam - 簡易表示
      */

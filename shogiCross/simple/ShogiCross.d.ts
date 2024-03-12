@@ -1,4 +1,4 @@
-declare class V {
+declare class q {
     /** ゲームを実行する
      * @param {HTMLCanvasElement}} canvas - Canvas要素
      * @param {BoardInitOption} option - ボードの初期化オプション
@@ -8,7 +8,7 @@ declare class V {
      * @param {string} option.playPieces.pieceSet - 駒の配置パターン
      * @returns Board
      */
-    static run(t: any, e: any): V;
+    static run(t: any, e: any): q;
     /**
      * @typedef {"overflow"|"horizontal"|"vertical"|"parentOverflow"|"parentHorizontal"|"parentVertical"|null} canvasFit
      */
@@ -39,7 +39,7 @@ declare class V {
     height: number;
     right: any;
     bottom: any;
-    stand: X;
+    stand: U;
     autoDrawing: any;
     onDrawed: any;
     onGameOver: any;
@@ -131,7 +131,7 @@ declare class V {
     downloadImage(t: any, e: any): Promise<void>;
     #private;
 }
-declare class y {
+declare class S {
     /** 描写サイズ
      * @type {number}
      */
@@ -219,7 +219,7 @@ declare class y {
     /** 駒をクローン
      * @returns Piece
      */
-    clone(): y;
+    clone(): S;
     /** 駒を表返す */
     turnFront(): void;
     /** プロモーション
@@ -268,7 +268,7 @@ declare class y {
     /** 文字列形式で取得 */
     toString(): string;
 }
-declare const Q: any;
+declare const B: any;
 declare const T: any;
 declare namespace I {
     let imported: boolean;
@@ -281,12 +281,12 @@ declare namespace I {
     function importAsync(): Promise<void>;
 }
 declare const pt: any;
-declare const K: any;
-declare class X {
+declare const N: any;
+declare class U {
     /** 駒台への角度ごとの表示順
      * @type {number[]}
      */
-    static "__#2@#t": number[];
+    static "__#3@#t": number[];
     /**
      * @param {Board} ボード
      */
@@ -325,11 +325,6 @@ declare class X {
     capturePiece(t: any, e: any, s?: boolean, i?: boolean): void;
     /** 盤を描写 */
     draw(): void;
-    /** BOD形式テキストを取得
-     * @param {number} deg - 角度
-     * @returns {string}
-     */
-    getBodText(t?: number): string;
     /** 文字列形式で取得
      * @param {boolean} isMinimam - 簡易表示
      */
@@ -357,4 +352,4 @@ declare class ut {
      */
     isTarget(t: any, e: any): boolean;
 }
-export { V as Board, y as Piece, Q as boards, T as canvasFont, I as canvasImage, pt as gameSoft, K as games };
+export { q as Board, S as Piece, B as boards, T as canvasFont, I as canvasImage, pt as gameSoft, N as games };

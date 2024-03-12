@@ -118,23 +118,6 @@ export class Stand{
 		});
 	}
 
-	/** BOD形式テキストを取得
-	 * @param {number} deg - 角度
-	 * @returns {string}
-	 */
-	getBodText(deg=0){
-		// 駒数カウント
-		const pieceMap = new Map();
-		this.stocks.get(deg).forEach(({char})=>{
-			if(!pieceMap.has(char)) pieceMap.set(char, 0);
-			pieceMap.set(char, pieceMap.get(char)+1);
-		});
-		return Bod.standDegChars[deg]+
-			[...pieceMap].map(([char, cnt])=>
-				char+Bod.num2Row(cnt)
-			).join(" ");
-	}
-
 	/** 文字列形式で取得
 	 * @param {boolean} isMinimam - 簡易表示
 	 */
