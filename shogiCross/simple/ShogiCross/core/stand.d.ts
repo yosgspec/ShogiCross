@@ -1,11 +1,9 @@
 /** 盤の管理クラス */
 export class Stand {
-    /** 角度からstockの添字を取得
-     * @type {Object<string, number>}
+    /** 駒台への角度ごとの表示順
+     * @type {number[]}
      */
-    static degId: {
-        [x: string]: number;
-    };
+    static "__#5@#degOrder": number[];
     /**
      * @param {Board} ボード
      */
@@ -23,7 +21,7 @@ export class Stand {
     yLen: any;
     /** 駒台を初期化にする */
     clear(): void;
-    stocks: any[][];
+    stocks: Map<number, any[]>;
     /** 持ち駒からボード上に配置する
      * @param {Panal} toPanell - 配置先のパネル
      * @param {Object} option - オプション

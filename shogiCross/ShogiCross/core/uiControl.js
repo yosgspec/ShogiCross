@@ -67,7 +67,7 @@ export function uIControl(board){
 				}
 			},
 			(x, y)=>{
-				for(const [deg, stock] of Object.entries(board.stand.stocks)){
+				for(const [deg, stock] of board.stand.stocks){
 					for(let i=stock.length-1;0<=i;i--){
 						if(!stock[i].checkRangeMouse(x, y)) continue;
 						e.preventDefault();
@@ -115,7 +115,7 @@ export function uIControl(board){
 				panel.clearTarget();
 			},
 			()=>{
-				for(const [deg, stock] of Object.entries(board.stand.stocks)){
+				for(const [deg, stock] of board.stand.stocks){
 					for(let i=stock.length-1;0<=i;i--){
 						stock[i].isSelected = false;
 					}

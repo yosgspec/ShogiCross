@@ -3,15 +3,10 @@ import {Bod} from "./bod.js";
 
 /** 盤の管理クラス */
 export class Stand{
-	/** 角度からstockの添字を取得
-	 * @type {Object<string, number>}
+	/** 駒台への角度ごとの表示順
+	 * @type {number[]}
 	 */
-	static degId = {
-		180: 0,
-		90: 1,
-		270: 2,
-		0: 3
-	}
+	static #degOrder = [180, 90, 270, 0];
 
 	/**
 	 * @param {Board} ボード
@@ -35,7 +30,7 @@ export class Stand{
 
 	/** 駒台を初期化にする */
 	clear(){
-		this.stocks = [...Array(4)].map(_=>[]);
+		this.stocks = new Map(Stand.#degOrder.map(i=>[i,[]]));
 	}
 
 	/** 持ち駒からボード上に配置する
@@ -47,8 +42,7 @@ export class Stand{
 	releasePiece(toPanel, option={}){
 		const {deg, i} = option
 		const {board} = this;
-
-		const stock = this.stocks[deg];
+		const stock = this.stocks.get(deg);
 		toPanel.piece = stock[i];
 		stock[i].center = toPanel.center;
 		stock[i].middle = toPanel.middle;
@@ -60,7 +54,7 @@ export class Stand{
 	 * @param {Piece} piece - 追加する駒
 	 */
 	add(piece){
-		const stock = this.stocks[Stand.degId[piece.deg]];
+		const stock = this.stocks.get(piece.deg);
 		piece.turnFront();
 		stock.push(piece);
 		stock.sort((a,b)=>Math.sign(a.id-b.id));
@@ -106,7 +100,7 @@ export class Stand{
 			piece.center = -1000;
 			piece.middle = -1000;
 		});*/
-		this.stocks.forEach((stock, player)=>{
+		[...this.stocks.values()].forEach((stock, player)=>{
 			let i = 0;
 			// 溢れた場合は後方優先で表示
 			stock = stock.slice(-yLen/4*xLen);
@@ -131,7 +125,7 @@ export class Stand{
 	getBodText(deg=0){
 		// 駒数カウント
 		const pieceMap = new Map();
-		this.stocks[Stand.degId[deg]].forEach(({char})=>{
+		this.stocks.get(deg).forEach(({char})=>{
 			if(!pieceMap.has(char)) pieceMap.set(char, 0);
 			pieceMap.set(char, pieceMap.get(char)+1);
 		});
@@ -146,7 +140,7 @@ export class Stand{
 	 */
 	toString(isMinimam=false){
 		const {xLen} = this.board;
-		const stock = this.stocks.flat().filter(v=>v);
+		const stock = [...this.stocks.values()].flat().filter(v=>v);
 
 		let head = 0 < stock.length? "\n"+"―".repeat(xLen*2)+"\n": "";
 		let text = stock.map(o=>""+o).join("");

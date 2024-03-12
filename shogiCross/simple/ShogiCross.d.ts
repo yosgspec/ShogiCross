@@ -39,7 +39,7 @@ declare class V {
     height: number;
     right: any;
     bottom: any;
-    stand: W;
+    stand: X;
     autoDrawing: any;
     onDrawed: any;
     onGameOver: any;
@@ -270,7 +270,7 @@ declare class y {
 }
 declare const Q: any;
 declare const T: any;
-declare namespace B {
+declare namespace I {
     let imported: boolean;
     let images: {
         [x: string]: new (width?: number, height?: number) => HTMLImageElement;
@@ -282,13 +282,11 @@ declare namespace B {
 }
 declare const pt: any;
 declare const K: any;
-declare class W {
-    /** 角度からstockの添字を取得
-     * @type {Object<string, number>}
+declare class X {
+    /** 駒台への角度ごとの表示順
+     * @type {number[]}
      */
-    static degId: {
-        [x: string]: number;
-    };
+    static "__#2@#t": number[];
     /**
      * @param {Board} ボード
      */
@@ -306,7 +304,7 @@ declare class W {
     yLen: any;
     /** 駒台を初期化にする */
     clear(): void;
-    stocks: any[][];
+    stocks: Map<number, any[]>;
     /** 持ち駒からボード上に配置する
      * @param {Panal} toPanell - 配置先のパネル
      * @param {Object} option - オプション
@@ -359,4 +357,4 @@ declare class ut {
      */
     isTarget(t: any, e: any): boolean;
 }
-export { V as Board, y as Piece, Q as boards, T as canvasFont, B as canvasImage, pt as gameSoft, K as games };
+export { V as Board, y as Piece, Q as boards, T as canvasFont, I as canvasImage, pt as gameSoft, K as games };
