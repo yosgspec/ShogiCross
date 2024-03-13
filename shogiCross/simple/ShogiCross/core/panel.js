@@ -1,5 +1,5 @@
 import {canvasFont} from "./canvasFontLoader.js";
-import {Bod} from "./bod.js";
+import {canvasImage} from "./canvasImageLoader.js";
 import {panels} from "./json.js";
 
 /** マス目の管理クラス */
@@ -98,10 +98,28 @@ export class Panel{
 	/** マス目/マスク/駒を描写 */
 	draw(){
 		const {selectColor, targetColor} = this;
-		this.drawPanel();
+
+		if(this.imgSrc && canvasImage.imported)
+			this.drawImage();
+		else
+			this.drawPanel();
 		if(this.isSelected) this.drawMask(selectColor);
 		if(this.isTarget) this.drawMask(targetColor);
 		this.piece?.draw();
+	}
+
+	/** マス目画像を描写 */
+	drawImage(){
+		const {ctx} = this;
+
+		const src = this.imgSrc;
+		const image = canvasImage.images[src];
+		if(!image) return;
+
+		ctx.save();
+		ctx.translate(this.left, this.top);
+		ctx.drawImage(image, 0, 0, this.width, this.height);
+		ctx.restore();
 	}
 
 	/** マス目を描写 */

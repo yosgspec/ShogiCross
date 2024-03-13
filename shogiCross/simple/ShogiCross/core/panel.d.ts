@@ -57,6 +57,8 @@ export class Panel {
     checkRangeMouse(x: number, y: number): boolean;
     /** マス目/マスク/駒を描写 */
     draw(): void;
+    /** マス目画像を描写 */
+    drawImage(): void;
     /** マス目を描写 */
     drawPanel(): void;
     /** マス目にマスクを描写

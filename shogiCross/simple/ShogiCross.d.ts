@@ -261,16 +261,12 @@ declare class y {
      * @param {string} color - カラーエフェクトの色
      */
     drawMask(t: any): void;
-    /** BOD形式テキストを取得
-     * @returns {string}
-     */
-    getBodText(): string;
     /** 文字列形式で取得 */
     toString(): string;
 }
 declare const B: any;
-declare const A: any;
-declare namespace z {
+declare const T: any;
+declare namespace F {
     let imported: boolean;
     let images: {
         [x: string]: new (width?: number, height?: number) => HTMLImageElement;
@@ -352,4 +348,4 @@ declare class ut {
      */
     isTarget(t: any, e: any): boolean;
 }
-export { q as Board, y as Piece, B as boards, A as canvasFont, z as canvasImage, pt as gameSoft, K as games };
+export { q as Board, y as Piece, B as boards, T as canvasFont, F as canvasImage, pt as gameSoft, K as games };

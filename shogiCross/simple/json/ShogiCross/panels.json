@@ -148,6 +148,22 @@
 		"borderSlashRight": true,
 		"attr": ["palace", "palaceSlash"]
 	},
+	"^": {
+		"name": "てがきちぇす白",
+		"text": "　　",
+		"imgSrc": "./img/ShogiCross/handPanelWhite.png",
+		"backgroundColor": "#CCCCCC",
+		"borderColor": "#33333377",
+		"attr": []
+	},
+	"`": {
+		"name": "てがきちぇす黒",
+		"text": "　　",
+		"imgSrc": "./img/ShogiCross/handPanelBlack.png",
+		"backgroundColor": "#444444",
+		"borderColor": "#CCCCCC77",
+		"attr": []
+	},
 	".":{
 		"name": "立入禁止",
 		"text": "＃＃",

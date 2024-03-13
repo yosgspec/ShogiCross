@@ -261,6 +261,7 @@ export class Board{
 	 */
 	setTextPieces(text){
 		const {field, pieces, xLen, yLen} = this;
+
 		const standTitle = "持駒：";
 		// BOD形式
 		if(0<text.indexOf(standTitle)) text = Bod.convSetText(text);

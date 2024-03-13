@@ -552,7 +552,7 @@
 		"variant": "チェス",
 		"url": "https://ja.wikipedia.org/wiki/%E3%83%81%E3%82%A7%E3%82%B9",
 		"desc": "駒に画像を設定したチェス。",
-		"playBoard": "チェス",
+		"playBoard": "てがきちぇす",
 		"useStand": false,
 		"playPieces": [
 			{"gameName": "チェス", "pieceSet": "てがきちぇす"},

@@ -1,7 +1,6 @@
 /** @typedef {import('./json').PieceInitOption} PieceInitOption */
 import {canvasFont} from "./canvasFontLoader.js";
 import {canvasImage} from "./canvasImageLoader.js";
-import {Bod} from "./bod.js";
 import {games, pieces, pieceRange, pieceCost} from "./json.js";
 
 /** 駒の管理クラス */
@@ -294,6 +293,7 @@ export class Piece{
 	/** 駒画像を描写 */
 	drawImage(){
 		const {ctx, size} = this;
+
 		const src = this.imgSrc[this.displayPtn];
 		const image = canvasImage.images[src];
 		if(!image) return;
@@ -366,6 +366,7 @@ export class Piece{
 	/** 駒を描写 */
 	drawPiece(){
 		const {ctx, game, zoom} = this;
+
 		let fontColor, backgroundColor, borderColor;
 		if(this.hasAttr("promoted")){
 			fontColor = game.promoteFontColor ?? game.fontColor ?? "#000000";
@@ -413,13 +414,6 @@ export class Piece{
 		ctx.fill();
 
 		ctx.restore();
-	}
-
-	/** BOD形式テキストを取得
-	 * @returns {string}
-	 */
-	getBodText(){
-		return Bod.pieceDegChars[this.deg] + this.char;
 	}
 
 	/** 文字列形式で取得 */

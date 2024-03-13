@@ -14,6 +14,13 @@
 "text": "　　"
 ```
 
+### imgSrc(省略可) {string}
+駒として表示する画像パス。  
+相対パスとする場合は表示するhtmlを起点とする。
+```json
+"imgSrc": "./img/ShogiCross/handPanelBlack.png"
+```
+
 ## backgroundColor {string}
 マス目の色。
 ```json

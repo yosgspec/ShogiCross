@@ -136,10 +136,6 @@ export class Piece {
      * @param {string} color - カラーエフェクトの色
      */
     drawMask(color: string): void;
-    /** BOD形式テキストを取得
-     * @returns {string}
-     */
-    getBodText(): string;
     /** 文字列形式で取得 */
     toString(): string;
 }
