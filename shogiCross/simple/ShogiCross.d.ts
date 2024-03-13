@@ -75,7 +75,7 @@ declare class q {
     /** 文字列から駒を配置
      * {string} text - 駒配置を表す文字列
      */
-    inputPieces(t: any): void;
+    setTextPieces(t: any): void;
     /** 角度基準のマス目の行を取得する
      * @param {Panel} panel - マス目
      * @param {number} deg - 角度
@@ -131,7 +131,7 @@ declare class q {
     downloadImage(t: any, e: any): Promise<void>;
     #private;
 }
-declare class S {
+declare class y {
     /** 描写サイズ
      * @type {number}
      */
@@ -219,7 +219,7 @@ declare class S {
     /** 駒をクローン
      * @returns Piece
      */
-    clone(): S;
+    clone(): y;
     /** 駒を表返す */
     turnFront(): void;
     /** プロモーション
@@ -269,8 +269,8 @@ declare class S {
     toString(): string;
 }
 declare const B: any;
-declare const T: any;
-declare namespace I {
+declare const A: any;
+declare namespace z {
     let imported: boolean;
     let images: {
         [x: string]: new (width?: number, height?: number) => HTMLImageElement;
@@ -352,4 +352,4 @@ declare class ut {
      */
     isTarget(t: any, e: any): boolean;
 }
-export { q as Board, S as Piece, B as boards, T as canvasFont, I as canvasImage, pt as gameSoft, N as games };
+export { q as Board, y as Piece, B as boards, A as canvasFont, z as canvasImage, pt as gameSoft, N as games };

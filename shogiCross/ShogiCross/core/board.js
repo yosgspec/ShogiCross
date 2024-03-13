@@ -12,8 +12,6 @@ import {boards, games} from "./json.js";
 
 /** 盤の管理クラス */
 export class Board{
-
-
 	/** ゲームを実行する
 	 * @param {HTMLCanvasElement}} canvas - Canvas要素
 	 * @param {BoardInitOption} option - ボードの初期化オプション
@@ -261,18 +259,24 @@ export class Board{
 	/** 文字列から駒を配置
 	 * {string} text - 駒配置を表す文字列
 	 */
-	inputPieces(text){
+	setTextPieces(text){
 		const {field, pieces, xLen, yLen} = this;
+		const standTitle = "持駒：";
+		// BOD形式
+		if(0<text.indexOf(standTitle)) text = Bod.convSetText(text);
+
+		// 排除する記号
 		const noises = "┏━┯┓┗┷┛┃│┠─┼┨―";
+
 		// 配列変換
 		const texts = [text].concat(
 				[...noises],
-				Object.values(Piece.degChars).map(c=>"\n"+c+"持ち駒:")
+				Object.values(Piece.degChars).map(c=>"\n"+c+standTitle)
 			).reduce(
 				(text,char)=>
-					text.replace(new RegExp(char,"g"),"")
-			).replace(/\n\n/g,"\n")
-			.replace(/　/g,"・")
+					text.replace(new RegExp(char,"g"), "")
+			).replace(/\n\n/g, "\n")
+			.replace(/　/g, "・")
 			.trim()
 			.split(/\n/)
 			.map(

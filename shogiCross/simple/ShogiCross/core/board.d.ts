@@ -80,7 +80,7 @@ export class Board {
     /** 文字列から駒を配置
      * {string} text - 駒配置を表す文字列
      */
-    inputPieces(text: any): void;
+    setTextPieces(text: any): void;
     /** 角度基準のマス目の行を取得する
      * @param {Panel} panel - マス目
      * @param {number} deg - 角度

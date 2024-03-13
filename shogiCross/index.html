@@ -78,7 +78,7 @@
 			</details>
 			<details>
 				<summary style="cursor:pointer;">BOD形式表示</summary>
-				<textarea id="shogiCrossBod" style="font-family:monospace; width:500px; height:20em;" readonly></textarea>
+				<textarea id="shogiCrossBod" style="font-family:monospace; width:500px; height:20em;"></textarea>
 			</details>
 		</div>
 		<div class="flex-col">
@@ -127,8 +127,8 @@
 		/** テキスト更新イベント
 		 * {any} target - HTMLElement
 		 */
-		function txtOnChange({target}){
-			playingGame.inputPieces(target.value);
+		 function txtOnChange({target}){
+			playingGame.setTextPieces(target.value);
 		};
 
 		/** 画像を保存ボタン */
@@ -142,10 +142,11 @@
 		/** ゲームを実行 */
 		async function playGame(){
 			if(playingGame.close) playingGame.close();
-			playingGame = PlayGames[SelectControl.gameName].run(canvas, {onDrawed, ...SelectControl.options});
+			playingGame = PlayGames[SelectControl.gameName].run(canvas, {onDrawed, ...SelectControl.option});
 			downloadImage.onclick = downloadImageClick;
 			txt.onchange = txtOnChange;
 			txtMini.onchange = txtOnChange;
+			bod.onchange = txtOnChange;
 		};
 
 		(function(){
