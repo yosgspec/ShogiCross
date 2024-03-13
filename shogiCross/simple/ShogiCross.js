@@ -3,7 +3,7 @@ async function M(f) {
   return await fetch(`${Q}${f}.json`).then(async (t) => await t.json()).catch(() => {
   });
 }
-const A = await M("canvasFont"), pt = await M("gameSoft"), N = await M("games"), B = await M("boards"), H = await M("panels"), X = await M("pieces"), _ = await M("pieceRange"), tt = await M("pieceCost"), et = () => [
+const A = await M("canvasFont"), pt = await M("gameSoft"), K = await M("games"), B = await M("boards"), H = await M("panels"), X = await M("pieces"), _ = await M("pieceRange"), tt = await M("pieceCost"), et = () => [
   .../* @__PURE__ */ new Set([
     ...Object.values(H).map(({ displayText: f }) => f).join("") + Object.values(X).map(({ display: f }) => f ? f.join("") : "").join("")
   ])
@@ -148,7 +148,7 @@ class y {
     if (!e)
       return null;
     const [s, i] = [...e], r = y.charDegs[s];
-    if (!r)
+    if (!r || !t[i])
       return null;
     const n = t[i].clone();
     return n.deg = r, n;
@@ -209,7 +209,7 @@ class y {
       isDrawShadow: c = y.isDrawShadow,
       isMoved: h = !1
     } = s;
-    Object.assign(this, e), this.ctx = t, this.display ??= [""], this.imgSrc ??= null, this.alias = [...this.alias ?? ""], this.displayPtn = i, this.game = N[this.gameName], this.cost = tt[this.char] ?? 1, this.center = 0, this.middle = 0, this.deg = r, this.size = n, this.useRankSize = a, this.isDrawShadow = c, this.isRotateImg ??= !0, this.isMoved = h, this.isSelected = !1, this.attr ??= [];
+    Object.assign(this, e), this.ctx = t, this.display ??= [""], this.imgSrc ??= null, this.alias = [...this.alias ?? ""], this.displayPtn = i, this.game = K[this.gameName], this.cost = tt[this.char] ?? 1, this.center = 0, this.middle = 0, this.deg = r, this.size = n, this.useRankSize = a, this.isDrawShadow = c, this.isRotateImg ??= !0, this.isMoved = h, this.isSelected = !1, this.attr ??= [];
     try {
       Object.entries(this.range).forEach(([o, l]) => {
         Array.isArray(l) || (this.range[o] = _[l].map((g) => [...g]));
@@ -400,8 +400,10 @@ class w {
    * @returns {string}
    */
   static #h(t, e = !0) {
-    if (t === "")
+    if (e && t === "")
       return 1;
+    if (!isNaN(t))
+      return 0 | t;
     let s = w.#a.findIndex(
       (r) => r !== "" && new RegExp("^" + r).test(t)
     );
@@ -688,8 +690,8 @@ function dt(f, t, e, s) {
                 break;
               const I = O === 0;
               I && o(S, F, D, u, I) ? (P--, g(u, F, D)) : C < 1 && P--;
-              const G = i[D][F];
-              if (G.piece && (O--, I || c(G)))
+              const N = i[D][F];
+              if (N.piece && (O--, I || c(N)))
                 break;
             }
           }
@@ -847,19 +849,19 @@ ${n}持駒：${n}`);
     return i + r;
   }
 }
-const gt = Object.keys(y.degChars), K = () => ({
+const gt = Object.keys(y.degChars), G = () => ({
   panel: null,
   piece: null
 });
 class ut {
   constructor() {
-    this.degs = {}, gt.forEach((t) => this.degs[t] = K());
+    this.degs = {}, gt.forEach((t) => this.degs[t] = G());
   }
   /** アンパッサン情報をクリア
    * @param {number} deg - アンパッサンされうる陣営の角度
    */
   clear(t) {
-    this.degs[t] = K();
+    this.degs[t] = G();
   }
   /** アンパッサン対象と成りうるマス情報を記録
    * @param {Panel} panel - アンパッサン対象と成りうるマス目
@@ -1004,7 +1006,7 @@ class q {
   putStartPieces(t, e, s = "default") {
     const { pieces: i } = this, r = this.#t(t);
     this.rotateField(r);
-    const n = N[e].position[this.xLen][s];
+    const n = K[e].position[this.xLen][s];
     if (!n)
       throw Error(`games["${e}"].position["${this.xLen}"]["${s}"]is null.`);
     n.forEach((a, c) => {
@@ -1237,5 +1239,5 @@ export {
   A as canvasFont,
   z as canvasImage,
   pt as gameSoft,
-  N as games
+  K as games
 };

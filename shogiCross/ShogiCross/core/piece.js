@@ -111,7 +111,7 @@ export class Piece{
 		if (!text) return null;
 		const [degChar, pieceChar] = [...text];
 		const deg = Piece.charDegs[degChar];
-		if(!deg) return null;
+		if(!deg || !pieces[pieceChar]) return null;
 		const piece = pieces[pieceChar].clone();
 		piece.deg = deg;
 		return piece;

@@ -281,7 +281,7 @@ declare namespace z {
     function importAsync(): Promise<void>;
 }
 declare const pt: any;
-declare const N: any;
+declare const K: any;
 declare class U {
     /** 駒台への角度ごとの表示順
      * @type {number[]}
@@ -352,4 +352,4 @@ declare class ut {
      */
     isTarget(t: any, e: any): boolean;
 }
-export { q as Board, y as Piece, B as boards, A as canvasFont, z as canvasImage, pt as gameSoft, N as games };
+export { q as Board, y as Piece, B as boards, A as canvasFont, z as canvasImage, pt as gameSoft, K as games };

@@ -67,7 +67,8 @@ export class Bod{
 	 * @returns {string}
 	 */
 	static #kan2Num(kan, emptyOne=true){
-		if(kan === "") return 1;
+		if(emptyOne && kan === "") return 1;
+		if(!isNaN(kan)) return 0|kan;
 		let x = Bod.#kanX.findIndex(key=>
 			key !== "" && (new RegExp("^"+key)).test(kan)
 		);
