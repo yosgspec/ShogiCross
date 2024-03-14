@@ -1,0 +1,22 @@
+#!/usr/bin/env node
+"use strict";
+
+const path = require("path");
+const fs = require("fs/promises");
+
+(async function(){
+	const moduleDir = "./node_modules/shogicross";
+	const pack = JSON.parse(await fs.readFile("./package.json", "utf8"));
+	const entry = pack.main ?? "./";
+	const entryDir = path.dirname(entry);
+
+	const cpFiles = ["json/", "img/"];
+	await Promise.all(
+		cpFiles.map(async f=>{
+			const moduleFiles = path.join(moduleDir, f);
+			const entryFiles = path.join(entryDir, f);
+			return fs.cp(moduleFiles, entryFiles, {recursive: true})
+		})
+	);
+	console.log("ShogiCross init Success!");
+})();

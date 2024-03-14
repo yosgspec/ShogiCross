@@ -6,7 +6,19 @@
 http://tool.yosgspec.com/shogiCross/simple/  
 
 ## 必要ファイル
-[/shogiCross/simple/](/shogiCross/simple/)より該当ファイルを取得して配置。
+[/shogiCross/simple/](/shogiCross/simple/)より該当ファイルを取得して配置。  
+npmを使っての導入も可能。
+```sh
+npm install shogicross
+```
+基本ゲームデータについては次のコマンドで配置する。  
+package.jsのmainに設定されるパスへ配置される。
+```sh
+shogicross-init
+# または
+npx shogicross-init
+```
+
 
 ### ライブラリ本体(下記のいずれか必要)
 * ShogiCross.js
@@ -18,5 +30,6 @@ APIの仕様については[ドキュメント](http://tool.yosgspec.com/shogiCr
 
 ### ゲームデータファイル
 * jsonディレクトリ
+* imgディレクトリ
 
 記述内容は[ゲームデータ定義仕様書](/doc/json/README.md)を参照。

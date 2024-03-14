@@ -15,11 +15,11 @@ await fs.rm(srcDir, {recursive: true});
 const cpFiles = ["ShogiCross/", "json/", "img/", "ShogiCross.d.ts"];
 await Promise.all(
 	cpFiles.map(async f=>{
-		const srcJson = path.join(baseDir, f);
-		const distJson = path.join(distDir, f);
+		const srcFiles = path.join(baseDir, f);
+		const distFiles = path.join(distDir, f);
 		return fs.rm(distJson, {recursive: true})
 			.catch(()=>{})
-			.finally(()=>fs.cp(srcJson, distJson, {recursive: true}))
+			.finally(()=>fs.cp(srcFiles, distFiles, {recursive: true}))
 			.catch(()=>{});
 	})
 );

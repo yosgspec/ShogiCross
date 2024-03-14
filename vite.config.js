@@ -8,6 +8,7 @@ export default defineConfig({
 	},
 	build: {
 		target: "esnext",
+		sourcemap: "inline",
 		lib: {
 			entry: "./shogiCross/ShogiCross/lib.js",
 			name: "ShogiCross",
