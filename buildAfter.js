@@ -9,11 +9,11 @@ const distDir = path.join(baseDir, "dist");
 const fileName = path.join(distDir, path.parse(inputName).name);
 const fileNameExt = ext=>`${fileName}.${ext}`;
 
-// distからdistへビルドファイルを移動
+// ビルドファイルを移動
 await fs.rename(inputName, fileNameExt("js"));
 await fs.rm(srcDir, {recursive: true});
 
-// ライブラリ及び関連ファイルをdistフォルダへコピー
+// ライブラリ及び関連ファイルをコピー
 const cpFiles = ["ShogiCross/", "json/", "img/", "ShogiCross.d.ts"];
 await Promise.all(
 	cpFiles.map(async f=>{
