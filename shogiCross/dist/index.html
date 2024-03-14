@@ -7,13 +7,13 @@
 	<body>
 		<div class="flex-col">
 			<h1>単品ゲーム集【将棋クロス】</h1>
-			<ui id="simpleGames" class="flex-col"></ui>
+			<ui id="singleGames" class="flex-col"></ui>
 			<a href="..">RETURN</a>
 		</div>
 
 		<script type="module">
 		import {gameSoft} from "./ShogiCross.js";
-		const ui = document.getElementById("simpleGames");
+		const ui = document.getElementById("singleGames");
 		const vUi = document.createDocumentFragment();
 
 		Object.entries(gameSoft).forEach(([key, {name}])=>{
