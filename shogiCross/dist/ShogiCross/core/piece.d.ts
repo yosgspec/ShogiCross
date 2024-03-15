@@ -82,7 +82,7 @@ export class Piece {
     ctx: any;
     alias: string[];
     displayPtn: number;
-    game: import("./jsonFetch.js").Game;
+    game: import("./json/xhr.js").Game;
     cost: number;
     center: number;
     middle: number;

@@ -13,7 +13,7 @@ export default defineConfig({
 			entry: "./shogiCross/ShogiCross/lib.js",
 			name: "ShogiCross",
 			fileName: "ShogiCross",
-			formats: ["es"]
+			formats: ["es", "iife"]
 		},
 		outDir: "./dist"
 	}

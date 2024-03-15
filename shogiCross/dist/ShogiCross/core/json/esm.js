@@ -5,7 +5,7 @@
 /** Canvas用のGoogleフォント情報
  * @type {CanvasFont}
  */
-import canvasFont from "../../json/ShogiCross/canvasFont.json";
+import canvasFont from "../../../json/ShogiCross/canvasFont.json";
 
 /**
  * @typedef {Object} GameSoft
@@ -17,7 +17,7 @@ import canvasFont from "../../json/ShogiCross/canvasFont.json";
 /** ゲーム情報(ボード+駒)のプリセット
  * @type {Object<string, GameSoft>}
  */
-import gameSoft from "../../json/ShogiCross/gameSoft.json";
+import gameSoft from "../../../json/ShogiCross/gameSoft.json";
 
 /**
  * @typedef Game
@@ -34,7 +34,7 @@ import gameSoft from "../../json/ShogiCross/gameSoft.json";
 /** ゲームの種類に共通する駒情報や駒配置情報
  * @type {Object<string, Game>}
  */
-import games from "../../json/ShogiCross/games.json";
+import games from "../../../json/ShogiCross/games.json";
 
 	/**
 	 * @typedef {Object} BoardInitOption - ボードの初期化オプション
@@ -60,7 +60,7 @@ import games from "../../json/ShogiCross/games.json";
 	 * ボードの構成情報
 	 * @type {Object<string, BoardInitOption>}
 	 */
-import boards from "../../json/ShogiCross/boards.json";
+import boards from "../../../json/ShogiCross/boards.json";
 
 /**
  * @typedef {Object} PanelInitOption - マス目の初期化オプション
@@ -81,7 +81,7 @@ import boards from "../../json/ShogiCross/boards.json";
  * ボード中のマス目情報
  * @type {Object<string, PanelInitOption}
  */
-import panels from "../../json/ShogiCross/panels.json";
+import panels from "../../../json/ShogiCross/panels.json";
 
 /**
  * @typedef {Object} PieceInitOption - 駒の初期化オプション
@@ -108,7 +108,7 @@ import panels from "../../json/ShogiCross/panels.json";
  * 駒情報
  * @type {Object<string, PieceInitOption>}
  */
-import pieces from "../../json/ShogiCross/pieces.json";
+import pieces from "../../../json/ShogiCross/pieces.json";
 
 /**
  * @typedef {string[]} PieceRange 駒の移動範囲
@@ -117,12 +117,12 @@ import pieces from "../../json/ShogiCross/pieces.json";
  * 駒の移動範囲
  * @type{Object<string, PieceRange>}
  */
-import pieceRange from "../../json/ShogiCross/pieceRange.json";
+import pieceRange from "../../../json/ShogiCross/pieceRange.json";
 
 /**
  * 駒の価値
  * @type {Object<string, number>}
  */
-import pieceCost from "../../json/ShogiCross/pieceCost.json";
+import pieceCost from "../../../json/ShogiCross/pieceCost.json";
 
 export {canvasFont, gameSoft, games, boards, panels, pieces, pieceRange, pieceCost};

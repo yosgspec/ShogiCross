@@ -1,4 +1,4 @@
-declare class q {
+declare class V {
     /** ゲームを実行する
      * @param {HTMLCanvasElement}} canvas - Canvas要素
      * @param {BoardInitOption} option - ボードの初期化オプション
@@ -8,7 +8,7 @@ declare class q {
      * @param {string} option.playPieces.pieceSet - 駒の配置パターン
      * @returns Board
      */
-    static run(t: any, e: any): q;
+    static run(t: any, e: any): V;
     /**
      * @typedef {"overflow"|"horizontal"|"vertical"|"parentOverflow"|"parentHorizontal"|"parentVertical"|null} canvasFit
      */
@@ -131,7 +131,7 @@ declare class q {
     downloadImage(t: any, e: any): Promise<void>;
     #private;
 }
-declare class y {
+declare class x {
     /** 描写サイズ
      * @type {number}
      */
@@ -219,7 +219,7 @@ declare class y {
     /** 駒をクローン
      * @returns Piece
      */
-    clone(): y;
+    clone(): x;
     /** 駒を表返す */
     turnFront(): void;
     /** プロモーション
@@ -265,8 +265,8 @@ declare class y {
     toString(): string;
 }
 declare const B: any;
-declare const T: any;
-declare namespace F {
+declare const A: any;
+declare namespace P {
     let imported: boolean;
     let images: {
         [x: string]: new (width?: number, height?: number) => HTMLImageElement;
@@ -282,7 +282,7 @@ declare class U {
     /** 駒台への角度ごとの表示順
      * @type {number[]}
      */
-    static "__#3@#t": number[];
+    static "__#7@#t": number[];
     /**
      * @param {Board} ボード
      */
@@ -348,4 +348,4 @@ declare class ut {
      */
     isTarget(t: any, e: any): boolean;
 }
-export { q as Board, y as Piece, B as boards, T as canvasFont, F as canvasImage, pt as gameSoft, K as games };
+export { V as Board, x as Piece, B as boards, A as canvasFont, P as canvasImage, pt as gameSoft, K as games };

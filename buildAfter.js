@@ -3,6 +3,7 @@ import fs from "fs/promises";
 import querystring from "querystring";
 
 const inputName = process.argv[2];
+const inputNameExt = ext=>`${inputName}.${ext}`;
 const srcDir = path.dirname(inputName);
 const baseDir = path.join(".", "shogiCross");
 const distDir = path.join(baseDir, "dist");
@@ -10,11 +11,12 @@ const fileName = path.join(distDir, path.parse(inputName).name);
 const fileNameExt = ext=>`${fileName}.${ext}`;
 
 // ビルドファイルを移動
-await fs.rename(inputName, fileNameExt("js"));
+await fs.rename(inputNameExt("js"), fileNameExt("js"));
+await fs.rename(inputNameExt("iife.js"), fileNameExt("g.js"));
 await fs.rm(srcDir, {recursive: true});
 
 // ライブラリ及び関連ファイルをコピー
-const cpFiles = ["ShogiCross/", "json/", "img/", "ShogiCross.d.ts"];
+const cpFiles = ["ShogiCross/", "json/", "img/", "ShogiCross.d.ts", "ShogiCross.g.d.ts"];
 await Promise.all(
 	cpFiles.map(async f=>{
 		const srcFiles = path.join(baseDir, f);

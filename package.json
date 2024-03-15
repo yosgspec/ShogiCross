@@ -7,7 +7,7 @@
     "dev": "npx vite",
     "build": "run-s build:*",
     "build:vite": "npx vite build",
-    "build:after": "node buildAfter.js ./dist/ShogiCross.js",
+    "build:after": "node buildAfter.js ./dist/ShogiCross",
     "build:dts": "npx tsc",
     "build:sharp": "npx sharp -i ./shogiCross/img/**/*.png -f png -o {dir} ",
     "build:api": "npx documentation build ./shogiCross/ShogiCross/lib.js -f html -o ./shogiCross/doc/api"
