@@ -13,28 +13,16 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width" />
 		<title>将棋駒Viewer - ShogiCross</title>
-		<link rel=icon href="../favicon.ico">
-		<link href="../gspec24.css" rel="stylesheet">
+		<link rel=icon href="img/favicon.min.svg">
+		<link href="shogicross.css" rel="stylesheet">
 		<link rel="preconnect" href="https://fonts.googleapis.com">
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-		<link href="https://fonts.googleapis.com/css2?family=Kosugi&family=Noto+Serif+JP:wght@900&family=Noto+Serif+TC:wght@900&family=Noto+Serif:wght@900&display=swap" rel="stylesheet">
+		<link href="https://fonts.googleapis.com/css2?family=Kosugi&family=Noto+Serif+JP:wght@900&family=Noto+Serif+TC:wght@900&family=Noto+Serif:wght@900&family=Kosugi:wght@400&display=swap" rel="stylesheet">
 		<style>
-			body {
-				font-family:"Noto Serif JP","Noto Serif TC","Noto Serif",serif;
-				font-weight: 900;
-				line-height: 1.3em;
-			}
-			input, select, option, textarea {
-				font-family:"Noto Serif JP","Noto Serif TC","Noto Serif",serif;
-				line-height: 1em;
-			}
-			textarea {
-				font-family: "Kosugi",monospace;
-			}
-			.range{
-				width: 4em;
-				height: 8em;
-			}
+		.range{
+			width: 4em;
+			height: 8em;
+		}
 		</style>
 	</head>
 	<body>
@@ -51,18 +39,18 @@
 			Range:
 			<div class="flex-row">
 				<div class="flex-col">
-					Default<textarea id="pieceRangeDefault" class="range" readonly></textarea>
+					Default<textarea id="pieceRangeDefault" class="range mono" readonly></textarea>
 				</div>
 				<div class="flex-col">
-					Attack<textarea id="pieceRangeAttack" class="range" readonly></textarea>
+					Attack<textarea id="pieceRangeAttack" class="range mono" readonly></textarea>
 				</div>
 				<div class="flex-col">
 					Start
-					<textarea id="pieceRangeStart" class="range" readonly></textarea>
+					<textarea id="pieceRangeStart" class="range mono" readonly></textarea>
 				</div>
 				<div class="flex-col">
 					Palace
-					<textarea id="pieceRangePalaceSlash" class="range" readonly></textarea>
+					<textarea id="pieceRangePalaceSlash" class="range mono" readonly></textarea>
 				</div>
 			</div>
 			Unit:
@@ -71,9 +59,8 @@
 			<input id="pieceCost" style="width: 4em;" readonly>
 			Attr:
 			<input id="pieceAttr" readonly>
-			<a href="./">Game</a>
-			<a href="https://github.com/yosgspec/CrossChess">GitHub</a>
-			<a href="/">TOP</a>
+			<a href="https://github.com/yosgspec/ShogiCross">GitHub</a>
+			<a href="./">RETURN</a>
 		</div>
 		<script type="module">
 		import {canvasFont, Piece} from "./ShogiCross/lib.js";

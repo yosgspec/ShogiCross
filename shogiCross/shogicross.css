@@ -13,7 +13,9 @@ a:hover{
 }
 
 body{
-	font-family: "M+ 1mn";
+	font-family: "Noto Serif JP", serif;
+	font-weight: 900;
+	line-height: 1.3em;
 	color: #000099;
 	background-color: #3399FF;
 	scrollbar-3dlight-color: #000099;
@@ -25,25 +27,24 @@ body{
 	scrollbar-shadow-color: #3399FF;
 }
 
-hr{
-	border: none;
-	border-top: 5px solid #DDEEFF;
-	width: 100%;
+input, select, option, textarea {
+	font-family: "Noto Serif JP","Noto Serif TC","Noto Serif",serif;
+	overflow: auto;
+	border: solid 1px #3399FF;
+	font-size: 1em;
+	line-height: 1em;
 }
 
 input[type="text"],
 textarea{
-	font-family: "M+ 1mn",monospace;
 	background-color: #F0FFFF;
 	color: #000066;
-	border: none;
 	padding: 2px 5px;
 	height: 1.5em;
 }
 
-textarea{
-	overflow: auto;
-	font-size: 1em;
+textarea.mono {
+	font-family: "Kosugi",monospace;
 }
 
 ::placeholder{
@@ -52,7 +53,7 @@ textarea{
 
 button,
 input[type="button"]{
-	font-family: "M+ 1mn";
+	font-family: "Kosugi";
 	background-color: #DDFFFF;
 	height: 2em;
 	color: #000099;
@@ -65,7 +66,7 @@ button:hover,
 input[type="button"]:hover,
 select:hover,
 .datalist:hover{
-	background-color: #AAFFEE;
+	background-color: #CCFFEE;
 }
 
 input[type="checkbox"],
@@ -96,20 +97,11 @@ input[type="radio"]:checked+label:hover{
 }
 input[type="checkbox"]:checked+label,
 input[type="rabel"]:checked+label{
-	background-color: #AAEEFF;
+	background-color: #CCFFEE;
 }
 input[type="checkbox"]:disabled+label,
 input[type="rabel"]:disabled+label{
 	color: #AACCEE;
-}
-
-.datalist{
-	font-family: "M+ 1mn",monospace;
-	background-color: #DDFFFF;
-	color: #000066;
-	border-radius: 0 10px 10px 0;
-	border: none;
-	font-size: 90%;
 }
 
 label,summary{
@@ -118,18 +110,14 @@ label,summary{
 
 ul{
 	margin-top: 0px;
-	padding: 0px 0px 10px 25px;
-}
-li{
-	margin: 0px;
-	padding: 0px;
+	padding: 0px 0px 0px 25px;
 }
 
 img {
 	border: none;
 }
 
-body,button,input[type="text"],input[type="button"],textarea{
+button,input[type="text"],input[type="button"],textarea{
 	line-height: 1;
 }
 
