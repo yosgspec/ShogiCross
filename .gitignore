@@ -9,7 +9,7 @@ lerna-debug.log*
 
 node_modules
 dist
-!shogiCross/dist
+!src/dist
 dist-ssr
 *.mjs
 *.local

@@ -2,11 +2,11 @@
 将棋クロスはライブラリとして使用することも想定されている。  
 ライブラリとしての使用例は下記を参照。
 
-[/shogiCross/dist/](/shogiCross/dist/)  
+[/src/dist/](/src/dist/)  
 http://shogicross.yosgspec.comdist/  
 
 ## 必要ファイル
-[/shogiCross/dist/](/shogiCross/dist/)より該当ファイルを取得して配置。  
+[/src/dist/](/src/dist/)より該当ファイルを取得して配置。  
 npmを使っての導入も可能。
 ```sh
 npm install shogicross

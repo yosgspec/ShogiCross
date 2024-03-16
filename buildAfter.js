@@ -5,7 +5,7 @@ import querystring from "querystring";
 const inputName = process.argv[2];
 const inputNameExt = ext=>`${inputName}.${ext}`;
 const srcDir = path.dirname(inputName);
-const baseDir = path.join(".", "shogiCross");
+const baseDir = path.join(".", "src");
 const distDir = path.join(baseDir, "dist");
 const fileName = path.join(distDir, path.parse(inputName).name);
 const fileNameExt = ext=>`${fileName}.${ext}`;

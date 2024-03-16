@@ -1,5 +1,5 @@
 {
-	"include": ["./shogiCross/dist/"],
+	"include": ["./src/dist/"],
 	"compilerOptions": {
 		"target": "esnext",
 		"allowJs": true,

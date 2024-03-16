@@ -4,13 +4,13 @@ export default defineConfig({
 	root: ".",
 	publicDir: "json",
 	server: {
-		open: "./shogiCross/"
+		open: "./src/"
 	},
 	build: {
 		target: "esnext",
 		sourcemap: "inline",
 		lib: {
-			entry: "./shogiCross/ShogiCross/lib.js",
+			entry: "./src/ShogiCross/lib.js",
 			name: "ShogiCross",
 			fileName: "ShogiCross",
 			formats: ["es", "iife"]

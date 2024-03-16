@@ -32,11 +32,11 @@
 	<summary>サンプルコード</summary>
 
 	```html
-	<canvas id="shogiCross"></canvas>
+	<canvas id="src"></canvas>
 	<script type="module">
 	import {Board, gameSoft} from "./ShogiCross.js";
 	const board = Board.run(
-		document.getElementById("shogiCross"),
+		document.getElementById("src"),
 		gameSoft.shogi
 	);
 	</script>
