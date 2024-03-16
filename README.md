@@ -2,7 +2,7 @@
 ![](img/logo.min.svg)　<img src="img/all.png" height="200px">  
 様々な将棋類を将棋駒として実体化するプロジェクト。
 
-## [収録ゲーム](http://tool.yosgspec.com/shogiCross/playBoard.html)
+## [収録ゲーム](http://shogicross.yosgspec.complayBoard.html)
 * 将棋
 * チェス
 * シャンチー
@@ -19,8 +19,8 @@
 ### [駒情報](doc/pieces/README.md)
 実装済の駒の定義一覧。
 
-## [Webアプリ](http://tool.yosgspec.com/shogiCross/)
-様々な将棋類の駒を並べるだけの将棋盤のようなツール。
+## [Webアプリ](http://shogicross.yosgspec.com)
+様々な将棋類の駒を並べるだけの将棋盤のようなツール/ライブラリ
 
 ### 特徴
 * 様々な将棋類の表示に対応

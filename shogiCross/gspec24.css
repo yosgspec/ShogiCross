@@ -112,8 +112,17 @@ input[type="rabel"]:disabled+label{
 	font-size: 90%;
 }
 
-label{
+label,summary{
 	cursor: pointer;
+}
+
+ul{
+	margin-top: 0px;
+	padding: 0px 0px 10px 25px;
+}
+li{
+	margin: 0px;
+	padding: 0px;
 }
 
 img {

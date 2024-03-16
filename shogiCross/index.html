@@ -64,11 +64,11 @@
 				</div>
 			</div>
 			<details>
-				<summary style="cursor:pointer;">棋譜</summary>
+				<summary >棋譜</summary>
 				<textarea id="shogiCrossRecord" style="height:100px;overflow-y:scroll;" readonly></textarea>
 			</details>
 			<details>
-				<summary style="cursor:pointer;">テキスト形式表示</summary>
+				<summary>テキスト形式表示</summary>
 				テキストを直接書き換えて駒配置を直接編集できます。<br>
 				配置可能な駒は<a href="https://github.com/yosgspec/ShogiCross/blob/main/doc/pieces/README.md">駒情報表</a>を参照してください。<br>
 				<div class="flex-row">
@@ -77,7 +77,7 @@
 				</div>
 			</details>
 			<details>
-				<summary style="cursor:pointer;">BOD形式表示</summary>
+				<summary>BOD形式表示</summary>
 				<textarea id="shogiCrossBod" style="font-family:monospace; width:500px; height:20em;"></textarea>
 			</details>
 		</div>
@@ -86,7 +86,7 @@
 			<p>様々な将棋類の駒を並べるだけの将棋盤のようなツール/ライブラリ</p>
 			<img src="./img/logo.min.svg">
 			<h2>特徴</h2>
-			<lo>
+			<ul>
 				<li>様々な将棋類の表示に対応</li>
 				<li>オリジナルの駒配置を設定 (チェス対将棋も容易)</li>
 				<li>画像を用意せずに追加駒を設定</li>
@@ -97,14 +97,32 @@
 				<li>BOD形式での局面入出力機能</li>
 				<li>画像出力機能</li>
 				<li>レスポンシブ対応</li>
-			</lo>
+			</ul>
+			<h2>ライブラリを利用しているツール</h2>
+			<ul>
+				<li><a href="./pieceViewer.html">将棋駒Viewer</a></li>
+				<li><a href="./playBoard.html">将棋類紹介</a></li>
+				<li><a href="./dist/">ゲーム単品集</a></li>
+			</ul>
 			<h2>関連リンク</h2>
-			<a href="./pieceViewer.html">将棋駒Viewer</a>
-			<a href="./playBoard.html">将棋類紹介</a>
-			<a href="./dist/">ゲーム単品集</a>
-			<a href="https://github.com/yosgspec/ShogiCross">GitHub(ライブラリ配布、ペーパークラフト)</a>
-			<a href="http://yosgspec.blog103.fc2.com/blog-entry-2997.html">超棋(過去制作物)</a>
-			<a href="/">TOP</a>
+			<ul>
+				<li><a href="https://github.com/yosgspec/ShogiCross">GitHub</a>
+					<ul>
+						<li><a href="https://github.com/yosgspec/ShogiCross/blob/main/doc/lib/README.md">ライブラリ定義</a></li>
+						<li><a href="https://github.com/yosgspec/ShogiCross/blob/main/paper/README.md">ペーパークラフト</a></li>
+
+					</ul>
+				</li>
+				<li><a href="http://yosgspec.blog103.fc2.com/blog-entry-2997.html">超棋(過去制作物)</a></li>
+			</ul>
+			
+			<h2>作者・連絡先</h2>
+			<div>Author: <a href="http://yosgspec.blog103.fc2.com">YOS G-spec</a></div>
+			<div class="flex-row">
+			<a href="https://misskey.io/@yosgspec">■Misskey</a>　
+			<a href="https://twitter.com/yosgspec">■Twitter</a>　
+			<a href="https://potofu.me/yosgspec">■POTOFU</a>
+			</div>
 		</div>
 
 		<script type="module">

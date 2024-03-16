@@ -3,7 +3,7 @@
 ライブラリとしての使用例は下記を参照。
 
 [/shogiCross/dist/](/shogiCross/dist/)  
-http://tool.yosgspec.com/shogiCross/dist/  
+http://shogicross.yosgspec.comdist/  
 
 ## 必要ファイル
 [/shogiCross/dist/](/shogiCross/dist/)より該当ファイルを取得して配置。  
@@ -26,7 +26,7 @@ npx shogicross-init
 * ShogiCrossディレクトリ
   * エントリポイント: ShogiCross/lib.js
 
-APIの仕様については[ドキュメント](http://tool.yosgspec.com/shogiCross/doc/api/)を参照(自動生成のため見にくいけど)。
+APIの仕様については[ドキュメント](http://shogicross.yosgspec.comdoc/api/)を参照(自動生成のため見にくいけど)。
 
 ### ゲームデータファイル
 * jsonディレクトリ
