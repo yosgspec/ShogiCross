@@ -62,8 +62,9 @@
 			<a href="https://github.com/yosgspec/ShogiCross">GitHub</a>
 			<a href="./">RETURN</a>
 		</div>
-		<script type="module">
-		import {canvasFont, Piece} from "./ShogiCross/lib.js";
+		<script src="./dist/ShogiCross.g.js"></script>
+		<script>
+		const {canvasFont, Piece} = ShogiCross;
 
 		const canvas = document.getElementById("pieceViewer");
 		const pieceSelect = document.getElementById("pieceSelect");
