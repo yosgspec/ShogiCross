@@ -16,6 +16,7 @@ shogicross-*.tgz
 *.local
 package-lock.json
 */doc/api/*
+*/clitest/*
 
 # Editor directories and files
 .vscode/*

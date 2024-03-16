@@ -6,7 +6,7 @@
 http://shogicross.yosgspec.com/dist/  
 
 ## 必要ファイル
-[Webページ](http://shogicross.yosgspec.com/)より該当ファイルをダウンロード(ZIP形式)。  
+[Webページ](http://shogicross.yosgspec.com/)のダウンロードリンクから入手(ZIP形式)。  
 npmを使っての導入も可能。
 ```sh
 npm install shogicross

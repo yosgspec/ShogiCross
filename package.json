@@ -1,10 +1,10 @@
 {
   "name": "shogicross",
-  "version": "0.1.10",
+  "version": "0.1.14",
   "description": "様々な将棋類の駒を並べるだけの将棋盤のようなツール",
   "main": "./src/dist/ShogiCross.js",
   "bin": {
-    "shogicloss-init": "shogicloss-init"
+    "shogicloss-init": "cli/shogicloss-init"
   },
   "repository": {
     "type": "git",

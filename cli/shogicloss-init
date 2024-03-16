@@ -1,18 +1,20 @@
 #!/usr/bin/env node
 "use strict";
 
-const path = require("path");
-const fs = require("fs/promises");
+import path from "path";
+import fs from "fs/promises";
+//const path = require("path");
+//const fs = require("fs/promises");
 
 const basePath = "src/dist/";
 
 (async function(){
-	const moduleDir = "./node_modules/shogicross";
+	const moduleDir = "./node_modules/shogicross/src/dist";
 	const pack = JSON.parse(await fs.readFile("./package.json", "utf8"));
 	const entry = pack.main ?? "./";
 	const entryDir = path.dirname(entry);
 
-	const cpFiles = ["json/", "img/"].map(f=>path.join(basePath, f));
+	const cpFiles = ["json/", "img/"];
 	await Promise.all(
 		cpFiles.map(async f=>{
 			const moduleFiles = path.join(moduleDir, f);
