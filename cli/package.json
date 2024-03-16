@@ -9,6 +9,6 @@
   "author": "YOS G-spec",
   "license": "CC0-1.0",
   "dependencies": {
-    "shogicross": "^0.1.14"
+    "shogicross": "^0.1.16"
   }
 }

@@ -1,0 +1,106 @@
+#!/usr/bin/env node
+"use strict";
+
+(async function(){
+	const using = s=>import(s).catch(()=>require(s));
+	const path = await using("path");
+	const fs = await using("fs/promises");
+
+	const moduleDir = "./node_modules/shogicross/src/dist";
+	const pack = JSON.parse(await fs.readFile("./package.json", "utf8"));
+	const entry = pack.main ?? "./";
+	const entryDir = path.dirname(entry);
+	const regHtml = /\.html$/g;
+	const regIndex = /\^index/;
+
+	async function help(){
+		return (
+`${await version()}
+
+使用方法：
+$ shogicross {mode} {game}
+
+オプション：
+　mode：実行モード。下記から選択。
+　　・h,help - 本ヘルプを表示。
+　　・v,version - バージョンを表示。
+　　・i,init - デフォルトデータを配置。
+　　・l,ls,list - サンプルデータのリストを表示。
+　　・s,sample - {game}で指定したサンプルデータを取得。
+　game：ゲーム名を選択。デフォルトは"shogi"。"all"とすると全データを取得。
+`
+		);
+	}
+
+	async function version(){
+		const modPack = JSON.parse(await fs.readFile("./node_modules/shogicross/package.json", "utf8"));
+		return `ShogiCross Version ${modPack.version}`;
+	}
+
+	async function copy(files){
+		return await Promise.all(
+			files.map(async f=>{
+				const moduleFiles = path.join(moduleDir, f);
+				const entryFiles = path.join(entryDir, f);
+				return fs.cp(moduleFiles, entryFiles, {recursive: true})
+			})
+		);
+	}
+
+	async function init(){
+		const cpFiles = ["json/", "img/"];
+		await copy(cpFiles);
+		return "Initialized ShogiCross data!";
+	}
+
+	async function list(){
+		return (
+			(await fs.readdir(moduleDir))
+				.filter(f=>!regIndex.test(f) && regHtml.test(f))
+				.map(f=>f.replace(regHtml, ""))
+				.join("\n")
+		);
+	}
+
+	async function sample(game){
+		const cpFiles = [];
+		let result;
+		if(game === "all"){
+			cpFiles.push(
+				...(await fs.readdir(moduleDir))
+					.filter(f=>regHtml.test(f))
+			);
+			result = "Copied all samples!";
+		}
+		else{
+			await cpFiles.push(`${game}.html`);
+			result = `Copied ${game}.html!`;
+		}
+
+		return copy(cpFiles)
+			.then(()=>result)
+			.catch(()=>`${game} is not found...`);
+	}
+
+	const mode = process.argv[2];
+	const game = process.argv[3] ?? "shogi";
+	const modes = {
+		version: ["v", "version"],
+		init: ["i", "init"],
+		list: ["l", "ls", "list"],
+		sample: ["s", "sample"]
+	};
+
+	const result = await (
+		modes.version.includes(mode)?
+			version():
+		modes.init.includes(mode)?
+			init():
+		modes.list.includes(mode)?
+			list():
+		modes.sample.includes(mode)?
+			sample(game):
+			help()
+	);
+	console.log(result);
+})();

@@ -1,11 +1,11 @@
 # TODO
 ## やる予定のこと
-* [ ] package.jsonの整備
+* [x] package.jsonの整備
   * [x] 分裂しているpackage.jsonを統合する
-  * [ ] shogicross-cliを整備する
-    * [ ] init(json, imgコピー)以外をできるようにする
-    * [ ] サンプルファイルを取得する
-    * [ ] ヘルプを表示する
+  * [x] shogicross-cliを整備する
+    * [x] init(json, imgコピー)以外をできるようにする
+    * [x] サンプルファイルを取得する
+    * [x] ヘルプを表示する
 
 ## 検討中のこと
 * [ ] GitHub Workflowを設定する
