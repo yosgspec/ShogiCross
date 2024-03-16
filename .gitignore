@@ -12,6 +12,7 @@ dist
 !src/dist
 dist-ssr
 *.mjs
+shogicross-*.tgz
 *.local
 package-lock.json
 */doc/api/*

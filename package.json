@@ -1,7 +1,37 @@
 {
   "name": "shogicross",
-  "private": true,
-  "version": "0.0.0",
+  "version": "0.1.10",
+  "description": "様々な将棋類の駒を並べるだけの将棋盤のようなツール",
+  "main": "./src/dist/ShogiCross.js",
+  "bin": {
+    "shogicloss-init": "shogicloss-init"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yosgspec/ShogiCross.git"
+  },
+  "keywords": [
+    "HTML",
+    "Canvas",
+    "Shogi",
+    "Chess",
+    "Xiangqi",
+    "Janggi",
+    "Makruk"
+  ],
+  "files": [
+    "shogicross-init",
+    "src/dist/",
+    "!src/dist/ShogiCross/*",
+    "!src/dist/*.g.js",
+    "!src/dist/*.min.js"
+  ],
+  "author": "YOS G-spec",
+  "license": "CC0-1.0",
+  "bugs": {
+    "url": "https://github.com/yosgspec/ShogiCross/issues"
+  },
+  "homepage": "https://github.com/yosgspec/ShogiCross#readme",
   "type": "module",
   "scripts": {
     "dev": "npx vite",
@@ -11,8 +41,6 @@
     "build:dts": "npx tsc",
     "build:sharp": "npx sharp -i ./src/img/**/*.png -f png -o {dir} ",
     "build:api": "npx documentation build ./src/ShogiCross/lib.js -f html -o ./src/doc/api"
-  },
-  "dependencies": {
   },
   "devDependencies": {
     "adm-zip": "^0.5.12",
