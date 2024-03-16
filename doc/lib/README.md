@@ -3,10 +3,10 @@
 ライブラリとしての使用例は下記を参照。
 
 [/src/dist/](/src/dist/)  
-http://shogicross.yosgspec.comdist/  
+http://shogicross.yosgspec.com/dist/  
 
 ## 必要ファイル
-[/src/dist/](/src/dist/)より該当ファイルを取得して配置。  
+[Webページ](http://shogicross.yosgspec.com/)より該当ファイルをダウンロード(ZIP形式)。  
 npmを使っての導入も可能。
 ```sh
 npm install shogicross
@@ -19,17 +19,20 @@ shogicross-init
 npx shogicross-init
 ```
 
-
 ### ライブラリ本体(下記のいずれか必要)
-* ShogiCross.js
+* ShogiCross.js (標準)
 * ShogiCross.min.js (最小化)
+  * ES Moduleで読み込む
+* ShogiCross.g.js (グローバル版(iife))
+* ShogiCross.g.min.js (グローバル版(iife):最小化)
+  * グローバルモジュール(ShogiCross)として読み込む
 * ShogiCrossディレクトリ
   * エントリポイント: ShogiCross/lib.js
 
 APIの仕様については[ドキュメント](http://shogicross.yosgspec.comdoc/api/)を参照(自動生成のため見にくいけど)。
 
 ### ゲームデータファイル
-* jsonディレクトリ
-* imgディレクトリ
+* json/ShogiCrossディレクトリ
+* img/ShogiCrossディレクトリ
 
 記述内容は[ゲームデータ定義仕様書](/doc/json/README.md)を参照。
