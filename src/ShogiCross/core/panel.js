@@ -195,11 +195,11 @@ export class Panel{
 		ctx.fillRect(this.left, this.top, this.width, this.height);
 	}
 
-	/** 文字列形式で取得
-	 * @param {string} - 簡易表示
+	/** マス目をテキスト形式で取得
+	 * @param {boolean} isCompact - コンパクト表示
 	 */
-	toString(isMinimam=false){
-		return !isMinimam?
+	toString(isCompact=false){
+		return !isCompact?
 			this.text:
 			`｜${this.text.slice(-1).replace(/　/g, "・")}`;
 	}

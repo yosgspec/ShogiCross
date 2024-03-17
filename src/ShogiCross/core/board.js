@@ -551,17 +551,20 @@ export class Board{
 		if(this.onDrawed) this.onDrawed(this);
 	}
 
-	/** BOD形式テキストを取得
+	/** 駒配置をテキストで取得
+	 * @param {"default"|"compact"|"bod"} isCompact - テキスト形式
 	 * @returns {string}
 	 */
-	get bodText(){
-		return Bod.getText(this);
+	getText(mode="default"){
+		return mode === "bod"?
+			Bod.getText(this):
+			this.toString(mode === "compact");
 	}
 
 	/** 駒配置をテキストで取得
-	 * {boolean} isMinimam - 縮小表示
+	 * @param {boolean} isCompact - コンパクト表示
 	 */
-	toString(isMinimam=false){
+	toString(isCompact=false){
 		const {xLen} = this;
 
 		let header = "";
@@ -570,7 +573,7 @@ export class Board{
 		let panelSep = "";
 		let rowSep = "\n";
 
-		if(!isMinimam){
+		if(!isCompact){
 			header = `┏${Array(xLen).fill("━━").join("┯")}┓\n`;
 			footer = `\n┗${Array(xLen).fill("━━").join("┷")}┛`;
 			panelOuter = "┃";
@@ -583,12 +586,12 @@ export class Board{
 			this.field.map(row=>
 				panelOuter+
 				row.map(panel=>
-					""+(panel.piece ?? panel.toString(isMinimam))
+					""+(panel.piece ?? panel.toString(isCompact))
 				).join(panelSep)+
 				panelOuter
 			).join(rowSep)+
 			footer+
-			this.stand.toString(isMinimam)
+			this.stand.toString(isCompact)
 		);
 	}
 

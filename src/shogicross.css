@@ -15,6 +15,7 @@ a:hover{
 body{
 	font-family: "Noto Serif JP", serif;
 	font-weight: 900;
+	font-size: 1.2em;
 	line-height: 1.3em;
 	color: #000099;
 	background-color: #3399FF;
@@ -35,7 +36,7 @@ input, select, option, textarea {
 	line-height: 1em;
 }
 
-input[type="text"],
+input,
 textarea{
 	background-color: #F0FFFF;
 	color: #000066;
@@ -96,11 +97,11 @@ input[type="radio"]:checked+label:hover{
 	color: #339977;
 }
 input[type="checkbox"]:checked+label,
-input[type="rabel"]:checked+label{
+input[type="radio"]:checked+label{
 	background-color: #CCFFEE;
 }
 input[type="checkbox"]:disabled+label,
-input[type="rabel"]:disabled+label{
+input[type="radio"]:disabled+label{
 	color: #AACCEE;
 }
 

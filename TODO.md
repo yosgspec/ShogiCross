@@ -1,6 +1,5 @@
 # TODO
 ## やる予定のこと
-* [ ] テキストボックスの表示を調整
 * [ ] GitHub Workflowを設定する
   * [ ] GitHub Workflowへビルド処理を追加する
   * [ ] ステータスバッジを追加する
@@ -15,9 +14,11 @@
     * [x] init(json, imgコピー)以外をできるようにする
     * [x] サンプルファイルを取得する
     * [x] ヘルプを表示する
-* [x] js直リン(CDN)を用意する
+* [x] js直リン(CDNw)を用意する
   * https://www.jsdelivr.com/
   * https://cdn.jsdelivr.net/gh/yosgspec/ShogiCross@0.1.16/src/dist/ShogiCross.g.min.js
+* [x] ボードのテキストボックスの表示を調整
+  * [x] Textの取得処理を変更・整理
 
 ## 検討中のこと
 * [ ] ゲームとして成立するようにする

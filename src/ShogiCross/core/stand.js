@@ -118,16 +118,16 @@ export class Stand{
 		});
 	}
 
-	/** 文字列形式で取得
-	 * @param {boolean} isMinimam - 簡易表示
+	/** 駒台をテキスト形式で取得
+	 * @param {boolean} isCompact - コンパクト表示
 	 */
-	toString(isMinimam=false){
+	toString(isCompact=false){
 		const {xLen} = this.board;
 		const stock = [...this.stocks.values()].flat().filter(v=>v);
 
 		let head = 0 < stock.length? "\n"+"―".repeat(xLen*2)+"\n": "";
 		let text = stock.map(o=>""+o).join("");
-		if(!isMinimam){
+		if(!isCompact){
 			head = "";
 			for(const char of Object.values(Piece.degChars)){
 				text = text.replace(char, "\n"+`${char}持駒：${char}`);
