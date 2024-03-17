@@ -66,7 +66,7 @@ export class Piece{
 		/* データを補完 */
 		for(const [_, piece] of exPieces){
 			piece.attr ??= [];
-			if(piece.unit && piece.unit === "成") piece.base = piece;
+			if(piece.unit && piece.unit !== "成") piece.base = piece;
 		}
 		/* 成駒のデータを合成 */
 		for(const [_, piece] of exPieces){
