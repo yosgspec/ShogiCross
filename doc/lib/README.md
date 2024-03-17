@@ -28,7 +28,7 @@ npx shogicross init
 iife(グローバルモジュール版)が下記のURL直リンクで使用可能。  
 ゲームデータファイルについては別途用意が必要。
 ```html
-<script src="https://cdn.jsdelivr.net/gh/yosgspec/ShogiCross@0.1.16/src/dist/ShogiCross.g.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/yosgspec/ShogiCross@0.2.1/src/dist/ShogiCross.g.min.js"></script>
 ```
 
 #### ライブラリ本体(下記のいずれか必要)
