@@ -22,9 +22,9 @@ $ shogicross {mode} {game}
 　mode：実行モード。下記から選択。
 　　・h,help - 本ヘルプを表示。
 　　・v,version - バージョンを表示。
-　　・t,template - サンプルデフォルトデータを配置。
-　　・l,ls,list - サンプルデータのリストを表示。
-　　・s,sample - {game}で指定したサンプルデータを取得。
+　　・t,template - ゲームデータテンプレートを配置。
+　　・l,ls,list - サンプルhtmlのリストを表示。
+　　・s,sample - {game}で指定したサンプルhtmlを取得。
 　game：ゲーム名を選択。デフォルトは"shogi"。"all"とすると全データを取得。
 `
 		);
