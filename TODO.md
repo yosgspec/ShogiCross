@@ -8,17 +8,14 @@
   * パネルの座標情報が機能しなくなるため現状は保留
   * 回転するたびに座標の書き換えか、パネルに座標情報を持たさないようにする必要がある
   * 古の版では座標情報はボードに握らせていたため当時は問題とならなかった
-* [x] package.jsonの整備
-  * [x] 分裂しているpackage.jsonを統合する
-  * [x] shogicross-cliを整備する
-    * [x] init(json, imgコピー)以外をできるようにする
-    * [x] サンプルファイルを取得する
-    * [x] ヘルプを表示する
-* [x] js直リン(CDNw)を用意する
-  * https://www.jsdelivr.com/
-  * https://cdn.jsdelivr.net/gh/yosgspec/ShogiCross@0.1.16/src/dist/ShogiCross.g.min.js
-* [x] ボードのテキストボックスの表示を調整
-  * [x] Textの取得処理を変更・整理
+* [x] ゲームデータファイルが無くても動作できるようにする
+  * [x] デフォルトデータを設定する
+    * [x] デフォルトデータをjsファイルへ変更
+      * firefoxでassertに非対応のため
+  * [x] 拡張データに対応する
+    * [ ] データのディープマージを対応
+      * 言語機能にないため保留。外部ライブラリは一旦検討しない
+  * [x] 画像関連データを拡張データに移動
 
 ## 検討中のこと
 * [ ] ゲームとして成立するようにする
@@ -42,6 +39,17 @@
   * むやみに依存関係を増やすのはNG
 
 ## 対応済み
+* [x] package.jsonの整備
+  * [x] 分裂しているpackage.jsonを統合する
+  * [x] shogicross-cliを整備する
+    * [x] init(json, imgコピー)以外をできるようにする
+    * [x] サンプルファイルを取得する
+    * [x] ヘルプを表示する
+* [x] js直リン(CDN)を用意する
+  * https://www.jsdelivr.com/
+  * https://cdn.jsdelivr.net/gh/yosgspec/ShogiCross@0.1.16/src/dist/ShogiCross.g.min.js
+* [x] ボードのテキストボックスの表示を調整
+  * [x] Textの取得処理を変更・整理
 * [x] iife(Global Module)形式のライブラリ配布をできるようにする
   * [x] ビルド設定を行う
   * [x] コード最小化を行う

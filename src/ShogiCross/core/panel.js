@@ -34,10 +34,10 @@ export class Panel{
 		this.pY = pY;
 		this.selectColor ??= "#FF000066";
 		this.targetColor ??= "#00FF0066";
+		this.attr ??= [];
 		this.piece = null;
 		this.isSelected = false;
 		this.clearTarget();
-		this.attr ??= [];
 	}
 
 	/** マス目の選択状態

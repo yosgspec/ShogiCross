@@ -1,160 +1,10 @@
 {
-	"S": {
-		"name": "将棋",
-		"text": "　　",
-		"backgroundColor": "#EECC88",
-		"borderColor": "#333333",
-		"attr": []
-	},
-	"s": {
-		"name": "古将棋(持ち駒なし)",
-		"text": "　　",
-		"backgroundColor": "#EECC88",
-		"borderColor": "#333333",
-		"attr": ["cantCapture"]
-	},
-	"X": {
-		"name": "クロス用黒",
-		"text": "　　",
-		"backgroundColor": "#BB7744",
-		"borderColor": "#333333",
-		"attr": []
-	},
-	"M": {
-		"name": "マークルック",
-		"text": "　　",
-		"backgroundColor": "#775544",
-		"borderColor": "#CCCCCC",
-		"attr": []
-	},
-	"W": {
-		"name": "チェス白",
-		"text": "　　",
-		"backgroundColor": "#CCCCCC",
-		"borderColor": "#33333377",
-		"attr": []
-	},
-	"B": {
-		"name": "チェス黒",
-		"text": "　　",
-		"backgroundColor": "#444444",
-		"borderColor": "#CCCCCC77",
-		"attr": []
-	},
-	"w": {
-		"name": "チェス白(クレージーハウス)",
-		"text": "　　",
-		"backgroundColor": "#CCCCCC",
-		"borderColor": "#33333377",
-		"attr": ["capture"]
-	},
-	"b": {
-		"name": "チェス黒(持ち駒あり)",
-		"text": "　　",
-		"backgroundColor": "#444444",
-		"borderColor": "#CCCCCC77",
-		"attr": ["capture"]
-	},
-	"+": {
-		"name": "シャンチー(交点)",
-		"text": "　　",
-		"backgroundColor": "#EECC88",
-		"borderColor": "#333333",
-		"intersect": true,
-		"attr": []
-	},
-	"$": {
-		"name": "どうぶつしょうぎ地",
-		"text": "　　",
-		"backgroundColor": "#FFFFDD",
-		"borderColor": "#FFBB77",
-		"attr": []
-	},
-	"D": {
-		"name": "どうぶつしょうぎ空",
-		"text": "　　",
-		"backgroundColor": "#AADDFF",
-		"borderColor": "#FFBB77",
-		"attr": []
-	},
-	"4": {
-		"name": "どうぶつしょうぎ夕",
-		"text": "　　",
-		"backgroundColor": "#FFDDAA",
-		"borderColor": "#FFBB77",
-		"attr": []
-	},
-	"d": {
-		"name": "どうぶつしょうぎ森",
-		"text": "　　",
-		"backgroundColor": "#DDFFAA",
-		"borderColor": "#FFBB77",
-		"attr": []
-	},
-	"=": {
-		"name": "河界",
-		"text": "＝＝",
-		"backgroundColor": "#EECC88",
-		"borderColor": "#33221144",
-		"attr": []
-	},
-	"[": {
-		"name": "河界左字",
-		"text": "＝＝",
-		"backgroundColor": "#EECC88",
-		"borderColor": "#33221144",
-		"displayText": "河",
-		"textRotate": -90,
-		"attr": []
-	},
-	"]": {
-		"name": "河界右字",
-		"text": "＝＝",
-		"backgroundColor": "#EECC88",
-		"borderColor": "#33221144",
-		"displayText": "界",
-		"textRotate": 90,
-		"attr": []
-	},
-	"#": {
-		"name": "九宮",
-		"text": "　：",
-		"backgroundColor": "#CC9966",
-		"borderColor": "#333333",
-		"attr": ["palace"]
-	},
-	"<": {
-		"name": "九宮左",
-		"text": "　＼",
-		"backgroundColor": "#CC9966",
-		"borderColor": "#333333",
-		"borderSlashLeft": true,
-		"attr": ["palace", "palaceSlash"]
-	},
-	">": {
-		"name": "九宮右",
-		"text": "　／",
-		"backgroundColor": "#CC9966",
-		"borderColor": "#333333",
-		"borderSlashRight": true,
-		"attr": ["palace", "palaceSlash"]
-	},
-	"*": {
-		"name": "九宮中",
-		"text": "　※",
-		"backgroundColor": "#CC9966",
-		"borderColor": "#333333",
-		"borderSlashLeft": true,
-		"borderSlashRight": true,
-		"attr": ["palace", "palaceSlash"]
-	},
 	"^": {
 		"name": "てがきちぇす白",
 		"text": "　　",
 		"imgSrc": "./img/ShogiCross/handPanelWhite.png",
 		"backgroundColor": "#CCCCCC",
-		"borderColor": "#33333377",
-		"attr": []
+		"borderColor": "#33333377"
 	},
 	"`": {
 		"name": "てがきちぇす黒",
@@ -162,13 +12,13 @@
 		"imgSrc": "./img/ShogiCross/handPanelBlack.png",
 		"backgroundColor": "#444444",
 		"borderColor": "#CCCCCC77",
+		"selectColor": "#FF000066",
+		"targetColor": "#00FF0066",
+		"displayText": "",
+		"textRotate": 0,
+		"borderSlashLeft": false,
+		"borderSlashRight": false,
+		"intersect": false,
 		"attr": []
-	},
-	".":{
-		"name": "立入禁止",
-		"text": "＃＃",
-		"backgroundColor": "#00000000",
-		"borderColor": "#00000000",
-		"attr": ["keepOut"]
 	}
 }

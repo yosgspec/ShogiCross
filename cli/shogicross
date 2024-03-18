@@ -7,9 +7,7 @@
 	const fs = await using("fs/promises");
 
 	const moduleDir = "./node_modules/shogicross/src/dist";
-	const pack = JSON.parse(await fs.readFile("./package.json", "utf8"));
-	const entry = pack.main ?? "./";
-	const entryDir = path.dirname(entry);
+	const entryDir = "./";
 	const regHtml = /\.html$/g;
 	const regIndex = /\^index/;
 
@@ -24,7 +22,7 @@ $ shogicross {mode} {game}
 　mode：実行モード。下記から選択。
 　　・h,help - 本ヘルプを表示。
 　　・v,version - バージョンを表示。
-　　・i,init - デフォルトデータを配置。
+　　・t,template - サンプルデフォルトデータを配置。
 　　・l,ls,list - サンプルデータのリストを表示。
 　　・s,sample - {game}で指定したサンプルデータを取得。
 　game：ゲーム名を選択。デフォルトは"shogi"。"all"とすると全データを取得。
@@ -47,7 +45,7 @@ $ shogicross {mode} {game}
 		);
 	}
 
-	async function init(){
+	async function template(){
 		const cpFiles = ["json/", "img/"];
 		await copy(cpFiles);
 		return "Initialized ShogiCross data!";
@@ -62,7 +60,7 @@ $ shogicross {mode} {game}
 		);
 	}
 
-	async function sample(game){
+	async function sample(game="shogi"){
 		const cpFiles = [];
 		let result;
 		if(game === "all"){
@@ -77,16 +75,25 @@ $ shogicross {mode} {game}
 			result = `Copied ${game}.html!`;
 		}
 
-		return copy(cpFiles)
-			.then(()=>result)
-			.catch(()=>`${game} is not found...`);
+		return copy(cpFiles).then(async ()=>
+			Promise.all(
+				cpFiles.map(async f=>{
+					const file = path.join(entryDir, f);
+					let code = await fs.readFile(file, {encoding: "utf8"});
+					code = code.replace(
+						"./ShogiCross.js",
+						"./node_modules/shogicross/src/dist/ShogiCross.js");
+					return fs.writeFile(file, code, {encoding: "utf8"});
+				})
+			).then(()=>result)
+		).catch(()=>`${game} is not found...`);
 	}
 
 	const mode = process.argv[2];
-	const game = process.argv[3] ?? "shogi";
+	const game = process.argv[3];
 	const modes = {
 		version: ["v", "version"],
-		init: ["i", "init"],
+		template: ["t", "template"],
 		list: ["l", "ls", "list"],
 		sample: ["s", "sample"]
 	};
@@ -94,8 +101,8 @@ $ shogicross {mode} {game}
 	const result = await (
 		modes.version.includes(mode)?
 			version():
-		modes.init.includes(mode)?
-			init():
+		modes.template.includes(mode)?
+			template():
 		modes.list.includes(mode)?
 			list():
 		modes.sample.includes(mode)?
