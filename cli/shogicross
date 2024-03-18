@@ -54,7 +54,7 @@ $ shogicross {mode} {game}
 	async function list(){
 		return (
 			(await fs.readdir(moduleDir))
-				.filter(f=>!regIndex.test(f) && regHtml.test(f))
+				.filter(f=>f.search(regIndex)<0 && 0<=f.search(regHtml))
 				.map(f=>f.replace(regHtml, ""))
 				.join("\n")
 		);
@@ -66,7 +66,7 @@ $ shogicross {mode} {game}
 		if(game === "all"){
 			cpFiles.push(
 				...(await fs.readdir(moduleDir))
-					.filter(f=>regHtml.test(f))
+					.filter(f=>0<=f.search(regHtml))
 			);
 			result = "Copied all samples!";
 		}
