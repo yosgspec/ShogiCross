@@ -6,7 +6,7 @@
 http://shogicross.yosgspec.com/dist/  
 
 ## 必要ファイル
-下記のいずれかの方法で必要ファイルを準備する。
+下記のいずれかの方法でライブラリファイルを準備する。
 
 ### Webページ
 [Webページ](http://shogicross.yosgspec.com/)のダウンロードリンクから入手(ZIP形式)。  
@@ -16,17 +16,16 @@ http://shogicross.yosgspec.com/dist/
 ```sh
 npm install shogicross
 ```
-基本ゲームデータについては次のコマンドで配置。  
-配置パスはpackage.jsのmainに設定される値となる。
+ゲームデータのテンプレートファイルは次のコマンドで配置。  
+配置パスはプロジェクトのルートディレクトリとなる。
 ```sh
-shogicross
+shogicross template
 # または
-npx shogicross init
+npx shogicross template
 ```
 
 ### CDN
-iife(グローバルモジュール版)が下記のURL直リンクで使用可能。  
-ゲームデータファイルについては別途用意が必要。
+iife(グローバルモジュール版)が下記のURL直リンクで使用可能。
 ```html
 <script src="https://cdn.jsdelivr.net/gh/yosgspec/ShogiCross@0.2.1/src/dist/ShogiCross.g.min.js"></script>
 ```
@@ -43,7 +42,7 @@ iife(グローバルモジュール版)が下記のURL直リンクで使用可�
 
 APIの仕様については[ドキュメント](http://shogicross.yosgspec.comdoc/api/)を参照(自動生成のため見にくいけど)。
 
-#### ゲームデータファイル
+#### ゲームデータ拡張ファイル
 * [json/ShogiCrossディレクトリ](src/img)
 * [img/ShogiCrossディレクトリ](src/json)
 
