@@ -81,11 +81,14 @@ Webアプリの本体についてはVanilla.jsで実装。
 
 |ライブラリ|用途
 |:---------|:----
-|[Vite](https://ja.vitejs.dev)|コードの1ファイル化
+|[npm-run-all](https://github.com/mysticatea/npm-run-all)|npmビルド処理直列化
+|[Vite](https://ja.vitejs.dev)|コード1ファイル化
 |[Toptal Minifier Tool](https://www.toptal.com/developers/javascript-minifier)|コード最小化
 |[TypeScript](https://www.typescriptlang.org/ja/)|型定義ファイル(.d.ts)生成
+|[ADM-ZIP](https://github.com/cthackers/adm-zip/wiki/ADM-ZIP)|ZIPファイル生成
 |[sharp-cli](https://github.com/vseventer/sharp-cli)|画像ファイル最適化
 |[documentation.js](https://github.com/documentationjs/documentation)|JSDocドキュメント生成
+|[jsDelivr](https://www.jsdelivr.com/github)|CDNリンクの取得
 
 ## [ライセンス](LICENSE)
 CC0またはパブリックドメイン。

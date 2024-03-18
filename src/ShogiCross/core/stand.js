@@ -40,6 +40,7 @@ export class Stand{
 	 * @param {number} option.i - 配置する持ち駒のインデックス
 	 */
 	releasePiece(toPanel, option={}){
+		if(toPanel.hasAttr("keepOut")) return;
 		const {deg, i} = option
 		const {board} = this;
 		const stock = this.stocks.get(deg);
