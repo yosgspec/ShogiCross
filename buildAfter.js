@@ -13,8 +13,14 @@ const fileName = path.join(distDir, path.parse(inputName).name);
 const fileNameExt = ext=>`${fileName}.${ext}`;
 
 // Viteビルドファイルを移動
-await fs.rename(inputNameExt("js"), fileNameExt("js"));
-await fs.rename(inputNameExt("iife.js"), fileNameExt("g.js"));
+
+await Promise.all([
+		["js", "js"],
+		["js.map", "js.map"],
+		["iife.js", "g.js"],
+		["iife.js.map", "g.js.map"]
+	].map(([a, b])=>
+		fs.rename(inputNameExt(a), fileNameExt(b))));
 await fs.rm(srcDir, {recursive: true});
 
 // ライブラリ及び関連ファイルをコピー
