@@ -32,24 +32,23 @@
 	<summary>サンプルコード</summary>
 
 	```html
-	<canvas id="src"></canvas>
-	<script type="module">
-	import {Board, gameSoft} from "./ShogiCross.js";
-	const board = Board.run(
-		document.getElementById("src"),
-		gameSoft.shogi
-	);
+	<canvas id="shogi"></canvas>
+	<script src="https://cdn.jsdelivr.net/gh/yosgspec/ShogiCross@main/src/dist/ShogiCross.iife.min.js"></script>
+	<script>
+	var shogi = ShogiCross.Board.run(
+		document.getElementById("shogi"),
+		ShogiCross.gameSoft.shogi);
 	</script>
 	```
 	</details>
 * 4人用ルールの定義
-* BOD形式での局面入出力機能
+* BOD形式での局面入出力機能(独自拡張あり)
 * 画像出力機能
+* 「待った」「指し直し」機能
 * レスポンシブ対応
 
 ### 未対応
 * 盤面回転機能
-* 差し戻し機能
 * ゲームごとのルール
 * CPU
 

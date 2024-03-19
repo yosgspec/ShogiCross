@@ -5,7 +5,7 @@ import {checkTarget} from "./checkTarget.js";
 /** マウスコントロール
  * @param {Board} board - 盤
  */
-export function uIControl(board){
+export function uiControl(board){
 	let isClick = false;
 	let lastXY = [];
 	let selectPanel = null;

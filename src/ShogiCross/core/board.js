@@ -2,7 +2,7 @@
 import {canvasFont} from "./canvasFontLoader.js";
 import {canvasImage} from "./canvasImageLoader.js";
 import {downloadImage} from "./downloadImage.js";
-import {uIControl} from "./uiControl.js";
+import {uiControl} from "./uiControl.js";
 import {Stand} from "./stand.js";
 import {Panel} from "./panel.js";
 import {Piece} from "./piece.js";
@@ -178,7 +178,7 @@ export class Board{
 		 * @type {number}
 		 */
 		this.turn = 0;
-		this.uiControl = uIControl(this);
+		this.uiControl = uiControl(this);
 		this.enPassant = new EnPassant();
 	}
 
