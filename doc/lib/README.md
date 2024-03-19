@@ -27,15 +27,15 @@ npx shogicross template
 ### CDN
 iife(グローバルモジュール版)が下記のURL直リンクで使用可能。
 ```html
-<script src="https://cdn.jsdelivr.net/gh/yosgspec/ShogiCross@0.2.1/src/dist/ShogiCross.g.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/yosgspec/ShogiCross@main/src/dist/ShogiCross.iife.min.js"></script>
 ```
 
 #### ライブラリ本体(下記のいずれか必要)
 * ShogiCross.js (標準)
 * ShogiCross.min.js (最小化)
   * ES Moduleで読み込む
-* ShogiCross.g.js (グローバル版(iife))
-* ShogiCross.g.min.js (グローバル版(iife):最小化)
+* ShogiCross.iife.js (グローバル版(iife))
+* ShogiCross.iife.min.js (グローバル版(iife):最小化)
   * グローバルモジュール(ShogiCross)として読み込む
 * ShogiCrossディレクトリ
   * エントリポイント: ShogiCross/lib.js

@@ -15,16 +15,16 @@ const fileNameExt = ext=>`${fileName}.${ext}`;
 // Viteビルドファイルを移動
 
 await Promise.all([
-		["js", "js"],
-		["js.map", "js.map"],
-		["iife.js", "g.js"],
-		["iife.js.map", "g.js.map"]
-	].map(([a, b])=>
-		fs.rename(inputNameExt(a), fileNameExt(b))));
+		"js",
+		"js.map",
+		"iife.js",
+		"iife.js.map"
+	].map(ext=>
+		fs.rename(inputNameExt(ext), fileNameExt(ext))));
 await fs.rm(srcDir, {recursive: true});
 
 // ライブラリ及び関連ファイルをコピー
-const cpFiles = ["ShogiCross/", "json/", "img/", "ShogiCross.d.ts", "ShogiCross.g.d.ts"];
+const cpFiles = ["ShogiCross/", "json/", "img/", "ShogiCross.d.ts", "ShogiCross.iife.d.ts"];
 await Promise.all(
 	cpFiles.map(async f=>{
 		const srcFiles = path.join(baseDir, f);
@@ -37,7 +37,7 @@ await Promise.all(
 );
 
 // コード最小化
-const minFiles = [fileNameExt("js"), fileNameExt("g.js")];
+const minFiles = [fileNameExt("js"), fileNameExt("iife.js")];
 await Promise.all(minFiles.map(async file=>{
 	const code = await fs.readFile(file, {encoding: "utf8"});
 	const response = await fetch(

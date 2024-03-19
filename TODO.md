@@ -48,7 +48,7 @@
     * [x] ヘルプを表示する
 * [x] js直リン(CDN)を用意する
   * https://www.jsdelivr.com/
-  * https://cdn.jsdelivr.net/gh/yosgspec/ShogiCross@0.1.16/src/dist/ShogiCross.g.min.js
+  * https://cdn.jsdelivr.net/gh/yosgspec/ShogiCross@main/src/dist/ShogiCross.iife.min.js
 * [x] ボードのテキストボックスの表示を調整
   * [x] Textの取得処理を変更・整理
 * [x] iife(Global Module)形式のライブラリ配布をできるようにする

@@ -1,6 +1,6 @@
 {
   "name": "shogicross",
-  "version": "0.3.6",
+  "version": "0.3.8",
   "description": "様々な将棋類の駒を並べるだけの将棋盤のようなツール",
   "main": "./src/dist/ShogiCross.js",
   "bin": {
@@ -23,8 +23,8 @@
     "shogicross",
     "src/dist/",
     "!src/dist/ShogiCross/*",
-    "!src/dist/*.g.js",
-    "!src/dist/*.min.js"
+    "!src/dist/ShogiCross/*iife*.js",
+    "!src/dist/ShogiCross/*min.js"
   ],
   "author": "YOS G-spec",
   "license": "CC0-1.0",
