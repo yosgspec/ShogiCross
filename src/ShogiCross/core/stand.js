@@ -47,7 +47,7 @@ export class Stand{
 		toPanel.piece = stock[i];
 		stock[i].center = toPanel.center;
 		stock[i].middle = toPanel.middle;
-		board.addRecord(toPanel, {end: "打"});
+		board.addRecord({toPanel, end: "打"});
 		stock.splice(i,1);
 	}
 
@@ -121,13 +121,14 @@ export class Stand{
 
 	/** 駒台をテキスト形式で取得
 	 * @param {boolean} isCompact - コンパクト表示
+	 * @param {boolean} isAlias - エイリアス表示
 	 */
-	toString(isCompact=false){
+	toString(isCompact=false, isAlias=false){
 		const {xLen} = this.board;
 		const stock = [...this.stocks.values()].flat().filter(v=>v);
 
 		let head = 0 < stock.length? "\n"+"―".repeat(xLen*2)+"\n": "";
-		let text = stock.map(o=>""+o).join("");
+		let text = stock.map(p=>p.toString(isAlias)).join("");
 		if(!isCompact){
 			head = "";
 			for(const char of Object.values(Piece.degChars)){

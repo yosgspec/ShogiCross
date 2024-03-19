@@ -30,8 +30,12 @@ export class Piece{
 		270: "＜"
 	};
 
-	/** プレイヤー表示から角度を取得 */
-	static charDegs = {};
+	/** プレイヤー表示から角度を取得
+	* @type {Object<string, number>}
+	 */
+	static charDegs = Object.fromEntries(
+		Object.entries(Piece.degChars)
+			.map(([key, value])=>[value, key]));
 
 	/** サイズ変更設定値
 	 * @type {Object<string, number>}
@@ -78,7 +82,7 @@ export class Piece{
 				promo.attr.push("promoted");
 				promo.unit = "成";
 				piece.promo[key] = promo;
-				exPieces.set(key,{...piece, ...promo});
+				exPieces.set(key, {...piece, ...promo});
 			};
 		}
 		// 駒をクラスオブジェクトに変換
@@ -95,7 +99,6 @@ export class Piece{
 				const display = [...alias.display];
 				alias.displayPtn = i+1;
 				alias.display = display;
-				alias.alias[i] = key;
 				exPiecesObj[aliasKey] = alias;
 			});
 		}
@@ -416,14 +419,15 @@ export class Piece{
 		ctx.restore();
 	}
 
-	/** 文字列形式で取得 */
-	toString(){
-		return Piece.degChars[this.deg] + this.char;
+	/** 文字列形式で取得
+	 * @param {boolean} isAlias - エイリアス表示
+	 */
+	toString(isAlias=false){
+		const {displayPtn} = this;
+
+		const char = !isAlias || displayPtn === 0?
+			this.char:
+			this.alias[displayPtn-1];
+		return Piece.degChars[this.deg] + char;
 	}
 }
-
-// プレイヤー表示から角度を取得
-Object.entries(Piece.degChars)
-	.forEach(([key, value])=>{
-		Piece.charDegs[value] = key;
-	});

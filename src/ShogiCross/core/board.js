@@ -12,6 +12,21 @@ import {boards, games} from "./json.js";
 
 /** 盤の管理クラス */
 export class Board{
+	/** 盤面の記録
+	 * @typedef {Object} Record
+	 * @prop {Object} from
+	 * @prop {number} from.pX
+	 * @prop {number} from.pY
+	 * @prop {Object} to
+	 * @prop {number} to.pX
+	 * @prop {number} to.pY
+	 * @prop {number} deg
+	 * @prop {string} pieceChar
+	 * @prop {string} end
+	 * @prop {string} fieldText
+	 * @prop {string[][]} fieldMoved
+	 */
+
 	/** ゲームを実行する
 	 * @param {HTMLCanvasElement}} canvas - Canvas要素
 	 * @param {BoardInitOption} option - ボードの初期化オプション
@@ -149,14 +164,20 @@ export class Board{
 		}
 		this.onDrawed = onDrawed;
 		this.onGameOver = onGameOver;
-		/**  */
 		this.gameAlives = new Map(
 			[...Array(this.players).keys()]
 			.map(i=>[this.#degNormal(i), true])
 		);
 		this.freeMode = freeMode;
 
+		/** ゲームの記録
+		 * @type {Record[]}
+		 */
 		this.record = [];
+		/** ゲームのターン
+		 * @type {number}
+		 */
+		this.turn = 0;
 		this.uiControl = uIControl(this);
 		this.enPassant = new EnPassant();
 	}
@@ -411,22 +432,22 @@ export class Board{
 
 		// プロモーション処理
 		if(!piece.promo || piece.hasAttr("promoted") || !canPromo){
-			this.addRecord(toPanel, {fromPanel});
+			this.addRecord({fromPanel, toPanel});
 			return;
 		}
 		do{
 			for(const [char, {name}] of Object.entries(piece.promo)){
 				if(confirm(`成りますか?
-	${piece.char}:${piece.name}
-	　↓
-	${char}:${name}`)){
-					this.addRecord(toPanel, {fromPanel, end:"成"});
+${piece.char}:${piece.name}
+　↓
+${char}:${name}`)){
+					this.addRecord({fromPanel, toPanel, end:"成"});
 					piece.promotion(char);
 					return;
 				}
 			}
 		} while(!freeMode && forcePromo);
-		this.addRecord(toPanel, {fromPanel, end:"不成"});
+		this.addRecord({fromPanel, toPanel, end:"不成"});
 	}
 
 	/** 駒を移動
@@ -440,7 +461,7 @@ export class Board{
 			|| toPanel.hasAttr("keepOut")
 			|| toPanel.piece === fromPanel.piece
 			|| toPanel.piece?.deg === fromPanel.piece.deg
-			|| !this.freeMode && !toPanel.isTarget
+			|| !freeMode && !toPanel.isTarget
 		) return;
 
 		let {canPromo, forcePromo} = this.checkCanPromo(fromPanel);
@@ -480,23 +501,60 @@ export class Board{
 	 * @param {Panel} option.fromPanel - 移動元のマス目
 	 * @param {string} option.end - オプション=成|不成|打
 	 */
-	addRecord(toPanel, option={}){
-		const {fromPanel, end=""} = option;
-		const {piece} = toPanel;
+	addRecord(option={}){
+		const {record} = this;
+		const {fromPanel={}, toPanel={}, end="", inc=1} = option;
+		const {piece={}} = toPanel;
 
-		this.record.push({
+		this.turn += inc;
+		record[this.turn] = {
+			from: {
+				pX: fromPanel.pX,
+				pY: fromPanel.pY
+			},
 			to: {
 				pX: toPanel.pX,
 				pY: toPanel.pY,
 			},
-			from: {
-				pX: fromPanel?.pX,
-				pY: fromPanel?.pY
-			},
 			deg: piece.deg,
 			pieceChar: piece.char,
-			end
-		});
+			end,
+			fieldText: this.getText("compact", true),
+			fieldMoved: this.field.map(row=>
+				row.map(({piece})=>
+					piece?.isMoved
+				)
+			)
+		};
+		if(0 < inc) record.splice(this.turn+1);
+	}
+
+	/** 記録の参照手数を切り替える
+	 * @param {number} - 切り替えたい手数の差分
+	 */
+	#switchRecord(inc){
+		const {record} = this;
+		if(!record[this.turn+inc]) return;
+
+		this.turn += inc;
+		const {fieldText, fieldMoved} = record[this.turn];
+		this.setTextPieces(fieldText);
+		this.field.forEach((row, y)=>
+			row.forEach(({piece}, x)=>{
+				if(!piece) return;
+				piece.isMoved = fieldMoved[y][x];
+			})
+		);
+	}
+
+	/** 記録の手を戻す */
+	undoRecord(){
+		this.#switchRecord(-1);
+	}
+
+	/** 記録の手を進める */
+	redoRecord(){
+		this.#switchRecord(1);
 	}
 
 	/** 棋譜をテキストで取得
@@ -505,7 +563,7 @@ export class Board{
 	getTextRecord(){
 		const getPX = ({pX})=> pX==null? "*": (this.xLen-pX).toString(36);
 		const getPY = ({pY})=> pY==null? "*": (pY+1).toString(36);
-		return this.record.map(
+		return this.record.slice(1, this.turn+1).map(
 			({to, from, deg, pieceChar, end})=>`${
 				Piece.degChars[deg]}${
 				getPX(to)}${
@@ -520,6 +578,9 @@ export class Board{
 	/** 盤を描写 */
 	draw(){
 		const {ctx, canvas, left, top, width, height, panelWidth, panelHeight} = this;
+
+		//最初の記録
+		if(this.turn === 0) this.addRecord({inc: 0});
 
 		// 描写を初期化
 		ctx.restore();
@@ -553,18 +614,20 @@ export class Board{
 
 	/** 駒配置をテキストで取得
 	 * @param {"default"|"compact"|"bod"} isCompact - テキスト形式
+	 * @param {boolean} isAlias - エイリアス表示
 	 * @returns {string}
 	 */
-	getText(mode="default"){
+	getText(mode="default", isAlias=false){
 		return mode === "bod"?
 			Bod.getText(this):
-			this.toString(mode === "compact");
+			this.toString(mode === "compact", isAlias);
 	}
 
 	/** 駒配置をテキストで取得
 	 * @param {boolean} isCompact - コンパクト表示
+	 * @param {boolean} isAlias - エイリアス表示
 	 */
-	toString(isCompact=false){
+	toString(isCompact=false, isAlias=false){
 		const {xLen} = this;
 
 		let header = "";
@@ -586,7 +649,7 @@ export class Board{
 			this.field.map(row=>
 				panelOuter+
 				row.map(panel=>
-					""+(panel.piece ?? panel.toString(isCompact))
+					panel.piece?.toString(isAlias) ?? panel.toString(isCompact)
 				).join(panelSep)+
 				panelOuter
 			).join(rowSep)+
