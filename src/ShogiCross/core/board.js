@@ -561,10 +561,11 @@ ${char}:${name}`)){
 	 * @returns {string}
 	 */
 	getTextRecord(){
-		const getPX = ({pX})=> pX==null? "*": (this.xLen-pX).toString(36);
-		const getPY = ({pY})=> pY==null? "*": (pY+1).toString(36);
+		const getPX = ({pX})=> pX == null? "*": (this.xLen-pX).toString(36);
+		const getPY = ({pY})=> pY == null? "*": (pY+1).toString(36);
 		return this.record.slice(1, this.turn+1).map(
-			({to, from, deg, pieceChar, end})=>`${
+			({to, from, deg, pieceChar, end}, i)=>`${
+				i}: ${
 				Piece.degChars[deg]}${
 				getPX(to)}${
 				getPY(to)}${
