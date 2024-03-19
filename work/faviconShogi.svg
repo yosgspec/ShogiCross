@@ -26,15 +26,15 @@
      showgrid="true"
      showguides="true"
      inkscape:guide-bbox="true"
-     inkscape:zoom="3.6203867"
-     inkscape:cx="10.081796"
-     inkscape:cy="88.940775"
+     inkscape:zoom="2.8900221"
+     inkscape:cx="-1.2110634"
+     inkscape:cy="50.518645"
      inkscape:window-width="1920"
      inkscape:window-height="1015"
      inkscape:window-x="0"
      inkscape:window-y="0"
      inkscape:window-maximized="1"
-     inkscape:current-layer="g110154"
+     inkscape:current-layer="g298852"
      inkscape:snap-others="true"
      inkscape:snap-text-baseline="true"
      inkscape:snap-bbox="true"
@@ -147,36 +147,71 @@
      inkscape:label="将棋"
      style="display:inline"
      transform="translate(-92.239201,-136.63053)">
-    <path
-       style="display:inline;fill:#000000;fill-opacity:1;stroke:#777777;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       d="m 105,137 8.23394,2.84384 4.11697,25.5946 H 92.64909 l 4.11697,-25.5946 z"
-       id="path141971-0" />
-    <text
-       xml:space="preserve"
-       style="font-size:21.3942px;line-height:1.25;font-family:TKaisho-GT01;-inkscape-font-specification:TKaisho-GT01;writing-mode:tb-rl;stroke:none;stroke-width:1;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;fill:#ffffff;fill-opacity:1"
-       x="106.8806"
-       y="135.74521"
-       id="text112306-3"
-       transform="scale(0.98240464,1.0179105)"><tspan
-         sodipodi:role="line"
-         id="tspan112304-8"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.3942px;font-family:'noto emoji';-inkscape-font-specification:'noto emoji';stroke:none;stroke-width:1;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;fill:#ffffff;fill-opacity:1"
-         x="-28.821602"
-         y="271.44742">♟</tspan></text>
-    <text
-       xml:space="preserve"
-       style="font-size:7.76111px;line-height:1.25;font-family:TKaisho-GT01;-inkscape-font-specification:TKaisho-GT01;writing-mode:tb-rl;stroke-width:1;stroke-miterlimit:4;stroke-dasharray:none"
-       x="58.264248"
-       y="26.922001"
-       id="text271089-2"><tspan
-         sodipodi:role="line"
-         id="tspan271087-1"
-         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:7.76111px;font-family:'mgen+ 1p';-inkscape-font-specification:'mgen+ 1p, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;writing-mode:lr-tb;stroke-width:1;stroke-miterlimit:4;stroke-dasharray:none"
-         x="58.264248"
-         y="26.922001" /></text>
     <g
-       id="g299081-5"
-       style="display:inline;stroke-width:1;stroke-miterlimit:4;stroke-dasharray:none"
-       transform="translate(10,10)" />
+       id="g158243">
+      <text
+         xml:space="preserve"
+         style="font-size:7.76111px;line-height:1.25;font-family:TKaisho-GT01;-inkscape-font-specification:TKaisho-GT01;writing-mode:tb-rl;stroke-width:0.264583"
+         x="58.264248"
+         y="26.922001"
+         id="text271089-2"><tspan
+           sodipodi:role="line"
+           id="tspan271087-1"
+           style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:7.76111px;font-family:'mgen+ 1p';-inkscape-font-specification:'mgen+ 1p, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;writing-mode:lr-tb;stroke-width:0.264583"
+           x="58.264248"
+           y="26.922001" /></text>
+      <g
+         id="g299081-5"
+         style="display:inline"
+         transform="translate(10,10)" />
+      <g
+         id="g298852"
+         transform="translate(-25.15977,141.44519)">
+        <path
+           style="display:inline;fill:#ffddaa;fill-opacity:1;stroke:#000000;stroke-width:0.698451;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+           d="m 130.15977,-4.44519 8.23394,2.8438442 4.11697,25.5945978 h -24.70182 l 4.11697,-25.5945978 z"
+           id="path141971-0" />
+        <ellipse
+           style="display:inline;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.707103;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;paint-order:markers fill stroke"
+           id="path146167-2-8"
+           cx="130.13486"
+           cy="14.756751"
+           rx="4.0000005"
+           ry="2.5" />
+        <ellipse
+           style="fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1.22474;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;paint-order:markers fill stroke"
+           id="path146163-8"
+           cx="130.15977"
+           cy="6.55481"
+           rx="2.9999986"
+           ry="2" />
+        <ellipse
+           style="fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;paint-order:markers fill stroke"
+           id="path146165-8"
+           cx="130.15977"
+           cy="3.05481"
+           rx="2"
+           ry="2.5" />
+        <ellipse
+           style="fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1.1429;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;paint-order:markers fill stroke"
+           id="path146167-6"
+           cx="130.15977"
+           cy="16.80481"
+           rx="5.5000019"
+           ry="4.75" />
+        <text
+           xml:space="preserve"
+           style="font-size:21.3942px;line-height:1.25;font-family:TKaisho-GT01;-inkscape-font-specification:TKaisho-GT01;writing-mode:tb-rl;stroke:none;stroke-width:0.160632;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+           x="132.491"
+           y="-3.2112079"
+           id="text112306-3"
+           transform="scale(0.98240464,1.0179105)"><tspan
+             sodipodi:role="line"
+             id="tspan112304-8"
+             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:21.3942px;font-family:'noto emoji';-inkscape-font-specification:'noto emoji';stroke:none;stroke-width:0.160632;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+             x="-4.1936111"
+             y="133.4734">♟</tspan></text>
+      </g>
+    </g>
   </g>
 </svg>
