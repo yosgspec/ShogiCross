@@ -24,50 +24,52 @@
 		実際に動かして試すことができます。
 		<main></main>
 		<a href="./index.html">RETURN</a>
+
+		<template id="game">
+			<div>
+				<h3>
+					<a target="_blank"></a>
+				</h3>
+				<p></p>
+				<canvas></canvas>
+				<details style="display:none">
+					<summary style="cursor:pointer">バリエーション</summary>
+				</details>
+			</div>
+		</template>
+
 		<script type="module">
 		import {gameSoft, Board} from "./dist/ShogiCross.min.js";
 		const main = document.getElementsByTagName("main")[0];
 		const vMain = document.createDocumentFragment();
+		const vGame = document.getElementById("game").content.firstElementChild;
 
 		const gameSoftList = Object.entries(gameSoft);
 		const detailsMap = new Map();
 		for(const [gameName, option] of gameSoftList){
 			const {name, variant, desc, url, useStand} = option;
-			const div = document.createElement("div");
-			div.id = gameName;
-
-			const h = document.createElement(!variant? "h2": "h3");
-			div.append(h);
-			const a = document.createElement("a");
-			h.append(a);
+			const game = vGame.cloneNode(true);
+			game.id = gameName;
+			const a = game.getElementsByTagName("a")[0];
 			a.href = url;
-			a.target = "_blank";
 			a.textContent = name;
 
-			const p = document.createElement("p");
-			div.append(p);
+			const p = game.getElementsByTagName("p")[0];
 			p.textContent = `${desc}持ち駒${(useStand? "あり": "なし")}。`;
 
-			const canvas = document.createElement("canvas");
-			div.append(canvas);
+			const canvas = game.getElementsByTagName("canvas")[0];
 			setTimeout(()=>Board.run(canvas, option), 0);
 
 			if(name === variant){
-				const details = document.createElement("details");
-				div.append(details);
-				detailsMap.set(name, details)
+				const details = game.getElementsByTagName("details")[0];
+				detailsMap.set(name, details);
 				details.id = name;
-				details.style.display = "none";
-				const summary = document.createElement("summary");
-				details.append(summary);
-				summary.style.cursor = "pointer";
-				summary.textContent = "バリエーション";
-				vMain.append(div);
+				vMain.append(game);
 			}
 			else{
 				const details = detailsMap.get(variant);
 				details.style.display = "";
-				details.append(div);
+				details.append(game);
 			}
 		}
 		main.appendChild(vMain);
