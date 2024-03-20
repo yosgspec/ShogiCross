@@ -24,7 +24,7 @@ export class Board{
 	 * @prop {string} pieceChar
 	 * @prop {string} end
 	 * @prop {string} fieldText
-	 * @prop {string[][]} fieldMoved
+	 * @prop {number[][]} fieldMoved
 	 */
 
 	/** ゲームを実行する
@@ -526,7 +526,7 @@ ${char}:${name}`)){
 			fieldText: this.getText("compact", true),
 			fieldMoved: this.field.map(row=>
 				row.map(({piece})=>
-					piece?.isMoved
+					piece?.isMoved? 1: 0
 				)
 			)
 		};
@@ -546,7 +546,7 @@ ${char}:${name}`)){
 		this.field.forEach((row, pY)=>
 			row.forEach(({piece}, pX)=>{
 				if(!piece) return;
-				piece.isMoved = fieldMoved[pY][pX];
+				piece.isMoved = !!fieldMoved[pY][pX];
 			})
 		);
 	}
@@ -564,7 +564,7 @@ ${char}:${name}`)){
 	/** 棋譜をテキストで取得
 	 * @returns {string}
 	 */
-	getTextRecord(){
+	getRecordText(){
 		const getPX = ({pX})=> pX == null? "*": (this.xLen-pX).toString(36);
 		const getPY = ({pY})=> pY == null? "*": (pY+1).toString(36);
 		return this.record.slice(1, this.turn+1).map(
@@ -578,6 +578,22 @@ ${char}:${name}`)){
 				getPX(from)}${
 				getPY(from)})`
 		).join("\n");
+	}
+
+	/** 棋譜データを取得
+	 * @returns {string}
+	 */
+	getRecordJson(){
+		return JSON.stringify(this.record, null, "");
+	}
+
+	/** 棋譜データを入力
+	 * @param {string} record - 棋譜データ
+	 */
+	setRecordJson(record){
+		this.record = JSON.parse(record);
+		this.turn = this.record.length-1;
+		this.#switchRecord(0);
 	}
 
 	/** 盤を描写 */

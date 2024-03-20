@@ -60,7 +60,15 @@
 			</div>
 			<details open>
 				<summary >棋譜</summary>
-				<textarea id="shogiCrossRecord" style="height:100px;overflow-y:scroll;" readonly></textarea>
+				<div class="flex-col-fit">
+					<textarea id="recordText" style="height:100px; overflow-y:scroll;" readonly></textarea>
+					<div class="flex-row">
+						<input id="recordJson" placeholder="棋譜データ">
+						<button id="recordJsonInput">反映</button>
+						<button id="recordJsonOutput">取得</button>
+					</div>
+				</div>
+
 			</details>
 			<details>
 				<summary>テキスト/BOD形式表示</summary>
@@ -134,7 +142,10 @@
 		const rotateRight = document.getElementById("rotateRight");
 		const undoGame = document.getElementById("undoGame");
 		const redoGame = document.getElementById("redoGame");
-		const record = document.getElementById("shogiCrossRecord");
+		const recordText = document.getElementById("recordText");
+		const recordJson = document.getElementById("recordJson");
+		const recordJsonInput = document.getElementById("recordJsonInput");
+		const recordJsonOutput = document.getElementById("recordJsonOutput");
 		const selectBoardText = document.getElementsByName("selectBoardText")
 		const txt = document.getElementById("shogiCrossText");
 
@@ -142,8 +153,8 @@
 		 * @param {Board} e
 		 */
 		function onDrawed(e){
-			record.value = e.getTextRecord();
-			record.scrollTop = record.scrollHeight;
+			recordText.value = e.getRecordText();
+			recordText.scrollTop = recordText.scrollHeight;
 
 			for(const {checked, value:mode} of selectBoardText){
 				if(!checked) continue;
@@ -191,6 +202,8 @@
 			rotateRight.onclick = ()=>playingGame.rotate();
 			undoGame.onclick = ()=>playingGame.undoRecord();
 			redoGame.onclick = ()=>playingGame.redoRecord();
+			recordJsonInput.onclick = ()=>playingGame.setRecordJson(recordJson.value);
+			recordJsonOutput.onclick = ()=>recordJson.value = playingGame.getRecordJson();
 		};
 
 		(function(){
