@@ -8,7 +8,7 @@
 
 ### [5五将棋](https://ja.wikipedia.org/wiki/5%E4%BA%94%E5%B0%86%E6%A3%8B)
 簡略化された将棋。持ち駒あり。  
-![](img/e5Shogi.png)
+![](img/gogoShogi.png)
 
 ### [朝倉象棋](https://ja.wikipedia.org/wiki/%E5%B0%8F%E5%B0%86%E6%A3%8B#%E6%9C%9D%E5%80%89%E8%B1%A1%E6%A3%8B)
 持ち駒が使用できる小将棋。持ち駒あり。  
