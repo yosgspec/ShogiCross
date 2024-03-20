@@ -54,7 +54,7 @@ input.mono,textarea.mono {
 
 button,
 input[type="button"]{
-	font-family: "Kosugi";
+	font-family: "Kosugi","Noto Color Emoji";
 	font-size: 0.8em;
 	background-color: #DDFFFF;
 	height: 2em;
