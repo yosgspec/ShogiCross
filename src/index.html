@@ -26,11 +26,11 @@
 				<select id="selectGame"></select>
 				<select id="selectVariant"></select>
 				<div class="flex-row">
-					<button id="downloadImage">画像を保存</button>
-					<button id="rotateLeft">↪</button>
-					<button id="rotateRight">↩</button>
-					<button id="undoGame">&lt;&lt;</button>
-					<button id="redoGame">&gt;&gt;</button>
+					<button id="undoGame" title="一手戻る">&lt;&lt;</button>
+					<button id="redoGame" title="一手進む">&gt;&gt;</button>
+					<button id="rotateLeft" title="盤面を左回転">🔄</button>
+					<button id="rotateRight" title="盤面を右回転">🔁</button>
+					<button id="downloadImage" title="画像を保存">📷</button>
 				</div>
 			</div>
 			<div id="crossSelects" class="flex-row" style="display:none">
@@ -63,9 +63,10 @@
 				<div class="flex-col-fit">
 					<textarea id="recordText" style="height:100px; overflow-y:scroll;" readonly></textarea>
 					<div class="flex-row">
-						<input id="recordJson" placeholder="棋譜データ">
-						<button id="recordJsonInput">反映</button>
-						<button id="recordJsonOutput">取得</button>
+						<input id="recordJson" class="mono" placeholder="棋譜データを入出力">
+						<button id="recordJsonCopy" title="棋譜データをクリップボードへコピー">コピー</button>
+						<button id="recordJsonInput" title="棋譜データを盤面に反映">反映</button>
+						<button id="recordJsonOutput" title="棋譜データを盤面から取得">取得</button>
 					</div>
 				</div>
 
@@ -144,6 +145,7 @@
 		const redoGame = document.getElementById("redoGame");
 		const recordText = document.getElementById("recordText");
 		const recordJson = document.getElementById("recordJson");
+		const recordJsonCopy = document.getElementById("recordJsonCopy");
 		const recordJsonInput = document.getElementById("recordJsonInput");
 		const recordJsonOutput = document.getElementById("recordJsonOutput");
 		const selectBoardText = document.getElementsByName("selectBoardText")
@@ -202,6 +204,7 @@
 			rotateRight.onclick = ()=>playingGame.rotate();
 			undoGame.onclick = ()=>playingGame.undoRecord();
 			redoGame.onclick = ()=>playingGame.redoRecord();
+			recordJsonCopy.onclick = ()=>navigator.clipboard.writeText(recordJson.value).then(()=>recordJson.select());
 			recordJsonInput.onclick = ()=>playingGame.setRecordJson(recordJson.value);
 			recordJsonOutput.onclick = ()=>recordJson.value = playingGame.getRecordJson();
 		};

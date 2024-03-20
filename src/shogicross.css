@@ -44,7 +44,7 @@ textarea{
 	height: 1.5em;
 }
 
-textarea.mono {
+input.mono,textarea.mono {
 	font-family: "Kosugi",monospace;
 }
 
@@ -55,6 +55,7 @@ textarea.mono {
 button,
 input[type="button"]{
 	font-family: "Kosugi";
+	font-size: 0.8em;
 	background-color: #DDFFFF;
 	height: 2em;
 	color: #000099;
