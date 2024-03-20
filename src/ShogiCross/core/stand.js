@@ -80,6 +80,17 @@ export class Stand{
 		this.add(loserPiece);
 	}
 
+	/** 持ち駒の所有権を回転
+	 * @param {number} deg - 回転角 (90の倍数)
+	 */
+	rotate(deg){
+		[...this.stocks].forEach(([standDeg, stock])=>{
+			const pieceDeg = this.board.degNormal(standDeg+deg);
+			stock.forEach(piece=>piece.deg = pieceDeg);
+			this.stocks.set(pieceDeg, stock);
+		})
+	}
+
 	/** 盤を描写 */
 	draw(){
 		const {board, left, top, width, height, pitchWidth, pitchHeight} = this;
@@ -96,11 +107,6 @@ export class Stand{
 		ctx.strokeRect(0, 0, width, height);
 		ctx.restore();
 
-		// すべての駒を表示範囲外へ移動
-		/*this.stocks.flat().forEach(piece=>{
-			piece.center = -1000;
-			piece.middle = -1000;
-		});*/
 		[...this.stocks.values()].forEach((stock, player)=>{
 			let i = 0;
 			// 溢れた場合は後方優先で表示

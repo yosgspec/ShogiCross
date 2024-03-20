@@ -4,8 +4,22 @@ import {panels} from "./json.js";
 
 /** マス目の管理クラス */
 export class Panel{
+	#piece
 	#isSelected;
 	#targetRanges;
+
+	/** 駒オブジェクト
+	 * @returns {Piece}
+	 */
+	get piece(){
+		return this.#piece
+	}
+	set piece(piece){
+		this.#piece = piece;
+		if(!piece) return;
+		piece.center = this.center;
+		piece.middle = this.middle;
+	}
 
 	/**
 	 * @param {any} ctx - Canvas描画コンテキスト
@@ -14,11 +28,11 @@ export class Panel{
 	 * @param {number} middle - 描写するY座標(中心原点)
 	 * @param {number} width - マス目幅
 	 * @param {number} height - マス目高さ
-	 * @param {number} borderWidth - 枠線の太さ
 	 * @param {number} pX - ボード上のマス目の列
 	 * @param {number} pY - ボード上のマス目の行
+	 * @param {number} borderWidth - 枠線の太さ
 	 */
-	constructor(ctx, char, center, middle, width, height, borderWidth, pX, pY){
+	constructor(ctx, char, center, middle, width, height, pX, pY, borderWidth){
 		Object.assign(this, panels[char]);
 		this.ctx = ctx;
 		this.center = center;
@@ -29,9 +43,9 @@ export class Panel{
 		this.top = middle-height/2;
 		this.right = center+width/2;
 		this.bottom = middle+height/2;
-		this.borderWidth = borderWidth;
 		this.pX = pX;
 		this.pY = pY;
+		this.borderWidth = borderWidth;
 		this.selectColor ??= "#FF000066";
 		this.targetColor ??= "#00FF0066";
 		this.attr ??= [];

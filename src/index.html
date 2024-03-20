@@ -27,6 +27,8 @@
 				<select id="selectVariant"></select>
 				<div class="flex-row">
 					<button id="downloadImage">画像を保存</button>
+					<button id="rotateLeft">↪</button>
+					<button id="rotateRight">↩</button>
 					<button id="undoGame">&lt;&lt;</button>
 					<button id="redoGame">&gt;&gt;</button>
 				</div>
@@ -91,7 +93,9 @@
 				<li>Webページに簡単設置</li>
 				<li>サンプルコード</li>
 				<li>4人用ルールの定義</li>
-				<li>BOD形式での局面入出力機能</li>
+				<li>BOD形式での局面入出力機能(独自拡張あり)</li>
+				<li>「待った」「指し直し」機能</li>
+				<li>盤面回転機能(棋譜とは同期しない)</li>
 				<li>画像出力機能</li>
 				<li>レスポンシブ対応</li>
 			</ul>
@@ -126,6 +130,8 @@
 		import {SelectControl} from "./game/selectControl.js";
 		const canvas = document.getElementById("shogiCross");
 		const downloadImage = document.getElementById("downloadImage");
+		const rotateLeft = document.getElementById("rotateLeft");
+		const rotateRight = document.getElementById("rotateRight");
 		const undoGame = document.getElementById("undoGame");
 		const redoGame = document.getElementById("redoGame");
 		const record = document.getElementById("shogiCrossRecord");
@@ -181,6 +187,8 @@
 			playingGame = PlayGames[SelectControl.gameName].run(canvas, {onDrawed, ...SelectControl.option});
 			downloadImage.onclick = downloadImageClick;
 			txt.onchange = txtOnChange;
+			rotateLeft.onclick = ()=>playingGame.rotate(false);
+			rotateRight.onclick = ()=>playingGame.rotate();
 			undoGame.onclick = ()=>playingGame.undoRecord();
 			redoGame.onclick = ()=>playingGame.redoRecord();
 		};

@@ -120,7 +120,7 @@ export class Board{
 			[...row].map((char, pX)=>{
 				const center = boardLeft+panelWidth*(pX+1);
 				const middle = boardTop+panelHeight*(pY+1)
-				return new Panel(ctx, char, center, middle, panelWidth, panelHeight, borderWidth, pX, pY);
+				return new Panel(ctx, char, center, middle, panelWidth, panelHeight, pX, pY, borderWidth);
 			})
 		);
 		this.xLen = this.field[0].length;
@@ -166,7 +166,7 @@ export class Board{
 		this.onGameOver = onGameOver;
 		this.gameAlives = new Map(
 			[...Array(this.players).keys()]
-			.map(i=>[this.#degNormal(i), true])
+			.map(i=>[this.degNormal(i), true])
 		);
 		this.freeMode = freeMode;
 
@@ -191,38 +191,56 @@ export class Board{
 	 * @param {number} playeaIdOrDeg - プレイヤー番号または角度
 	 * @returns {number}
 	 */
-	#degNormal(playeaIdOrDeg){
+	degNormal(playeaIdOrDeg){
 		let deg = playeaIdOrDeg;
 		if(0 < deg && deg < 4) deg = 0|deg*360/this.players;
 		do{deg = (deg+360)%360} while(deg<0);
 		return deg;
 	}
 
+	/** 盤面を回転
+	 * @param {boolean} isRight - 回転方向
+	 */
+	rotate(isRight=true){
+		let deg = this.degNormal(1);
+		if(!isRight) deg = -deg;
+		this.#rotateField(deg);
+		this.stand.rotate(deg);
+		if(this.autoDrawing) this.draw();
+	}
+
 	/** 駒配置を回転
 	 * @param {number} deg - 回転角 (90の倍数)
 	 */
-	rotateField(deg){
-		const {xLen, yLen} = this;
+	#rotateField(deg){
+		const {field, xLen, yLen} = this;
 
-		deg = this.#degNormal(deg);
+		deg = this.degNormal(deg);
 		if(deg === 0) return;
 		if(![90, 180, 270].includes(deg)) throw Error(`deg=${deg}, deg need multiple of 90.`);
+
+		let fieldPieces = field.map(row=>row.map(({piece})=>piece));
 		if([90, 270].includes(deg)){
 			// 2次配列を転置
 			const transpose = a => a[0].map((_, c) => a.map(r => r[c]));
 			if(xLen !== yLen) throw Error(`cols=${xLen} != rows=${yLen}, Not rows = cols.`);
-			this.field = transpose(this.field);
+			fieldPieces = transpose(fieldPieces);
 		}
 		if([180, 270].includes(deg)){
-			this.field.reverse();
+			fieldPieces.reverse();
 		}
-		this.field.forEach(row=>{
-			row.forEach(panel=>{
-				if(!panel.piece) return;
-				panel.piece.deg += deg;
+		fieldPieces.forEach(row=>{
+			row.forEach(piece=>{
+				if(!piece) return;
+				piece.deg += deg;
 			});
 			if([90, 180].includes(deg)) row.reverse();
 		});
+		field.forEach((row, pY)=>
+			row.forEach((panel, pX)=>
+				panel.piece = fieldPieces[pY][pX]
+			)
+		);
 	}
 
 	/** 駒の初期配置
@@ -233,8 +251,8 @@ export class Board{
 	putStartPieces(playerId, gameName, pieceSet="default"){
 		const {pieces} = this;
 
-		const deg = this.#degNormal(playerId);
-		this.rotateField(deg);
+		const deg = this.degNormal(playerId);
+		this.#rotateField(deg);
 		const pos = games[gameName].position[this.xLen][pieceSet];
 		if(!pos) throw Error(`games["${gameName}"].position["${this.xLen}"]["${pieceSet}"]is null.`);
 		pos.forEach((row, i)=>{
@@ -242,14 +260,10 @@ export class Board{
 			const pY = i+this.yLen - pos.length;
 			[...row].forEach((char, pX)=>{
 				if(!pieces[char]) return;
-				const piece = pieces[char].clone();
-				const panel = this.field[pY][pX];
-				piece.center = panel.center;
-				piece.middle = panel.middle;
-				panel.piece = piece;
+				this.field[pY][pX].piece = pieces[char].clone();
 			});
 		});
-		this.rotateField(-deg);
+		this.#rotateField(-deg);
 		if(this.autoDrawing) this.draw();
 	}
 
@@ -266,14 +280,11 @@ export class Board{
 		const {displayPtn=0, isMoved=false} = option;
 		const {pieces} = this;
 
-		const deg = this.#degNormal(playeaIdOrDeg);
+		const deg = this.degNormal(playeaIdOrDeg);
 		if(typeof piece === "string"){
 			piece = new Piece(this.ctx, pieces[piece], {displayPtn, deg, isMoved});
 		}
-		const panel = this.field[pY][pX];
-		piece.center = panel.center;
-		piece.middle = panel.middle;
-		panel.piece = piece;
+		this.field[pY][pX].piece = piece;
 		if(this.autoDrawing) this.draw();
 	}
 
@@ -309,10 +320,7 @@ export class Board{
 			for(let pX=0;pX<xLen;pX++){
 				try{
 					const text = texts[pY][pX];
-					const piece = Piece.stringToPiece(pieces, text);
-					piece.center = field[pY][pX].center;
-					piece.middle = field[pY][pX].middle;
-					field[pY][pX].piece = piece;
+					field[pY][pX].piece = Piece.stringToPiece(pieces, text);
 				}
 				catch(ex){
 					field[pY][pX].piece = null;
@@ -342,7 +350,7 @@ export class Board{
 	getRow(pX, pY, deg, offsetDeg=0){
 		const {xLen, yLen} = this;
 
-		deg = this.#degNormal(deg+offsetDeg);
+		deg = this.degNormal(deg+offsetDeg);
 		return (
 			deg === 0? yLen-1-pY:
 			deg === 90? pX:
@@ -361,7 +369,7 @@ export class Board{
 	getCol(pX, pY, deg, offsetDeg=0){
 		const {xLen, yLen} = this;
 
-		deg = this.#degNormal(deg+offsetDeg);
+		deg = this.degNormal(deg+offsetDeg);
 		return (
 			deg === 0? pX:
 			deg === 90? yLen-1-pY:
@@ -474,12 +482,8 @@ ${char}:${name}`)){
 		);
 
 		toPanel.piece = fromPanel.piece;
+		toPanel.piece.isMoved = true;
 		fromPanel.piece = null;
-
-		const {piece} = toPanel;
-		piece.center = toPanel.center;
-		piece.middle = toPanel.middle;
-		piece.isMoved = true;
 
 		const afterPromo = this.checkCanPromo(toPanel);
 		canPromo ||= afterPromo.canPromo;
@@ -539,10 +543,10 @@ ${char}:${name}`)){
 		this.turn += inc;
 		const {fieldText, fieldMoved} = record[this.turn];
 		this.setTextPieces(fieldText);
-		this.field.forEach((row, y)=>
-			row.forEach(({piece}, x)=>{
+		this.field.forEach((row, pY)=>
+			row.forEach(({piece}, pX)=>{
 				if(!piece) return;
-				piece.isMoved = fieldMoved[y][x];
+				piece.isMoved = fieldMoved[pY][pX];
 			})
 		);
 	}
