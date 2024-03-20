@@ -27,7 +27,8 @@
 * オリジナルの駒配置を設定 (チェス対将棋も容易)
 * 画像を用意せずに追加駒を設定
 * 視覚的にわかりやすい駒データ定義
-* Webページに簡単設置
+* Webページに簡単設置([CodePen](https://codepen.io/yosgspec/pen/bGJqNJr))
+
   * <details>
 	<summary>サンプルコード</summary>
 
@@ -40,6 +41,7 @@
 		ShogiCross.gameSoft.shogi);
 	</script>
 	```
+	
 	</details>
 * 4人用ルールの定義
 * BOD形式での局面入出力機能(独自拡張あり)
