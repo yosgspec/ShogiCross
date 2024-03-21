@@ -41,7 +41,7 @@
 		<script type="module">
 		import {gameSoft, Board} from "./dist/ShogiCross.min.js";
 		const main = document.getElementsByTagName("main")[0];
-		const vMain = document.createDocumentFragment();
+		const vMain = main.cloneNode(false);
 		const vGame = document.getElementById("game").content.firstElementChild;
 
 		const gameSoftList = Object.entries(gameSoft);
@@ -72,7 +72,7 @@
 				details.append(game);
 			}
 		}
-		main.appendChild(vMain);
+		main.replaceWith(vMain);
 		</script>
 	</body>
 </html>
