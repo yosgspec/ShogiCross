@@ -30,47 +30,21 @@ export class Board{
 	/** ゲームを実行する
 	 * @param {HTMLCanvasElement}} canvas - Canvas要素
 	 * @param {BoardInitOption} option - ボードの初期化オプション
-	 * @param {string} option.playBoard - ボードタイプ
-	 * @param {Object} option.playPieces - 駒セット
-	 * @param {string} option.playPieces.gameName - ゲーム名(基準となる駒の配置セット)
-	 * @param {string} option.playPieces.pieceSet - 駒の配置パターン
 	 * @returns Board
 	 */
 	static run(canvas, option){
-		const {playBoard, playPieces, onDrawed} = option;
-		const players = playPieces.some(({gameName}, i)=>1 < i && gameName)? 4: 2;
-		// ボードを生成
-		const board = new Board(canvas, playBoard, {
-			...option,
-			players,
-			onDrawed
-		});
-		// 駒を配置
-		playPieces.forEach(({gameName, pieceSet}, i)=>{
-			if(!gameName) return;
-			pieceSet ??= "default";
-			try{
-				board.putStartPieces(i, gameName, pieceSet);
-			}
-			catch{}
-		});
-		// 描写イベントを設定
-		board.onDrawed = onDrawed;
-		return board;
+		return new Board(canvas, option);
 	}
 
 	/**
-	 * @typedef {"overflow"|"horizontal"|"vertical"|"parentOverflow"|"parentHorizontal"|"parentVertical"|null} canvasFit
-	 */
-	/**
 	 * @param {HTMLCanvasElement} canvas - Canvas要素
-	 * @param {string} playBoard - ボードタイプ
-	 * @param {number} players - プレイヤー人数(2 or 4)
 	 * @param {BoardInitOption} option - ボードの初期化オプション
 	 */
-	constructor(canvas, playBoard, option){
+	constructor(canvas, option){
 		const {
-			players=2,
+			playBoard,
+			playPieces=[],
+			players=playPieces.some(({gameName}, i)=>1 < i && gameName)? 4: 2,
 			canvasWidth=undefined,
 			canvasHeight=undefined,
 			canvasFit="overflow",
@@ -103,6 +77,15 @@ export class Board{
 			isDrawShadow
 		});
 
+		// 駒の初期配置
+		playPieces.forEach(({gameName, pieceSet="default"}, i)=>{
+			if(!gameName) return;
+			try{
+				board.putStartPieces(i, gameName, pieceSet);
+			}
+			catch{}
+		});
+
 		// ボード情報
 		Object.assign(this, boards[playBoard]);
 		if(![2, 4].includes(players)) throw Error(`players=${players}, players need 2 or 4.`);
@@ -132,7 +115,8 @@ export class Board{
 		this.stand = new Stand(this);
 		canvas.width = canvasWidth ?? (useStand? this.stand.right: this.right)+5;
 		canvas.height = canvasHeight ?? this.bottom+5;
-		// キャンバスサイズ調整
+
+		// キャンバスサイズ自動調整
 		const {style} = canvas;
 		if(canvasFit === "overflow"){
 			if(style.maxWidth === "") style.maxWidth = "97vw";
@@ -155,7 +139,7 @@ export class Board{
 			if(style.height === "") style.height = "100%";
 		}
 
-		// 描写更新設定
+		// 自動描写更新設定
 		this.autoDrawing = autoDrawing;
 		if(autoDrawing){
 			canvasFontAsync.then(()=>this.draw());

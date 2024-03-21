@@ -24,7 +24,8 @@ const PlayGamesTop = {
 				"▲釡▲虎▲碼▲竜▲奔▲獅▲石▲鉄▲猫▲瀧▲嗔▲丑▲狼"
 			].join("\n");
 
-			const board = new Board(canvas, playBoard, {
+			const board = Board.run(canvas, {
+				playBoard,
 				useStand,
 				...boardTemplate(12)
 			});
