@@ -280,7 +280,7 @@ export class Board{
 
 		const standTitle = "持駒：";
 		// BOD形式
-		if(0<text.indexOf(standTitle)) text = Bod.convSetText(text);
+		if(0<text.indexOf(standTitle)) text = Bod.convTextPieces(text);
 
 		// 排除する記号
 		const noises = "┏━┯┓┗┷┛┃│┠─┼┨―";
@@ -507,7 +507,7 @@ ${char}:${name}`)){
 			deg: piece.deg,
 			pieceChar: piece.char,
 			end,
-			fieldText: this.getText("compact", true),
+			fieldText: this.getTextPieces("compact", true),
 			fieldMoved: this.field.map(row=>
 				row.map(({piece})=>
 					piece?.isMoved? 1: 0
@@ -622,9 +622,9 @@ ${char}:${name}`)){
 	 * @param {boolean} isAlias - エイリアス表示
 	 * @returns {string}
 	 */
-	getText(mode="default", isAlias=false){
+	getTextPieces(mode="default", isAlias=false){
 		return mode === "bod"?
-			Bod.getText(this):
+			Bod.getTextPieces(this):
 			this.toString(mode === "compact", isAlias);
 	}
 

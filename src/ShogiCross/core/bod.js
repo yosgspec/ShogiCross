@@ -100,7 +100,7 @@ export class Bod{
 	 * @param {Piece} piece - 駒
 	 * @returns {string}
 	 */
-	static #getPieceText(piece){
+	static #getTextPiece(piece){
 		if(!piece) return Bod.#panelText;
 		return Bod.#deg2PieceChars.get(piece.deg)+piece.char;
 	}
@@ -110,7 +110,7 @@ export class Bod{
 	 * @param {number} deg - 角度
 	 * @returns {string}
 	 */
-	static #getStandText(stand, deg=0){
+	static #getTextStand(stand, deg=0){
 		// 駒数カウント
 		const counter = new Map();
 		stand.stocks.get(deg).forEach(({char})=>{
@@ -127,7 +127,7 @@ export class Bod{
 	 * @param {string} text - BOD形式のテキスト
 	 * @returns {string}
 	 */
-	static convSetText(text){
+	static convTextPieces(text){
 		const boardLines = [];
 		const standLines = [];
 		text.split(/\r|\n|\r\n/).forEach(line=>{
@@ -163,7 +163,7 @@ export class Bod{
 	/** BOD形式テキストを取得
 	 * @returns {string}
 	 */
-	static getText(board){
+	static getTextPieces(board){
 		const {field, xLen, players, stand} = board;
 
 		let header =
@@ -173,11 +173,11 @@ export class Bod{
 		let panelOuter = "|";
 		let panelSep = "";
 		let rowSep = "\n";
-		let standHeader = `${Bod.#getStandText(stand, 180)}\n`;
-		let standFooter = `${Bod.#getStandText(stand, 0)}`;
+		let standHeader = `${Bod.#getTextStand(stand, 180)}\n`;
+		let standFooter = `${Bod.#getTextStand(stand, 0)}`;
 		if(players !== 2){
-			standHeader = `${Bod.#getStandText(stand, 270)}\n`+standHeader;
-			standFooter = `${Bod.#getStandText(stand, 90)}\n`+standFooter;
+			standHeader = `${Bod.#getTextStand(stand, 270)}\n`+standHeader;
+			standFooter = `${Bod.#getTextStand(stand, 90)}\n`+standFooter;
 		}
 
 		return (
@@ -186,7 +186,7 @@ export class Bod{
 			field.map((row, i)=>
 				panelOuter+
 				row.map(panel=>
-					Bod.#getPieceText(panel.piece)
+					Bod.#getTextPiece(panel.piece)
 				).join(panelSep)+
 				panelOuter+
 				Bod.#num2Kan(i+1)

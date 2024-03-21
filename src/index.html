@@ -161,7 +161,7 @@
 			for(const {checked, value:mode} of selectBoardText){
 				if(!checked) continue;
 
-				txt.value = e.getText(mode);
+				txt.value = e.getTextPieces(mode);
 				const txtSplit = txt.value.split(/\n/);
 				const fontSize = parseFloat(window.getComputedStyle(txt, null).getPropertyValue('font-size'));
 				txt.style.height = `${0|fontSize*txtSplit.length*1.1}px`;
