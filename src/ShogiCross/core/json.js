@@ -28,6 +28,7 @@
  * @prop {string} playPieces.gameName - ゲーム名(基準となる駒の配置セット)
  * @prop {string} playPieces.pieceSet - 駒の配置パターン
  * @prop {2|4} players - プレイヤー人数(2 or 4)
+ * @prop {boolean} useStand - 駒台の使用有無
  * @prop {number} canvasWidth - Canvas幅
  * @prop {number} canvasHeight - Canvas高さ
  * @prop {"overflow"|"horizontal"|"vertical"|"parentOverflow"|"parentHorizontal"|"parentVertical"} canvasFit - Canvasサイズの自動調整
@@ -39,7 +40,6 @@
  * @prop {number} pieceSize - 駒の大きさ
  * @prop {boolean} useRankSize - 駒の大きさを格の違いで変更する
  * @prop {boolean} isDrawShadow - 駒の影の描写有無
- * @prop {boolean} useStand - 駒台の使用有無
  * @prop {string} backgroundColor - 背景色(デフォルト無色)
  * @prop {boolean} autoDrawing - 描写の自動更新有無
  * @prop {(Board)=>void} onDrawed - 描写イベント

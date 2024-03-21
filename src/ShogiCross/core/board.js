@@ -45,6 +45,7 @@ export class Board{
 			playBoard,
 			playPieces=[],
 			players=playPieces.some(({gameName}, i)=>1 < i && gameName)? 4: 2,
+			useStand=false,
 			canvasWidth=undefined,
 			canvasHeight=undefined,
 			canvasFit="overflow",
@@ -56,7 +57,6 @@ export class Board{
 			useRankSize = true,
 			isDrawShadow = true,
 			borderWidth=Math.min(panelWidth, panelHeight)/30,
-			useStand=false,
 			backgroundColor="#00000000",
 			autoDrawing=true,
 			onDrawed,
@@ -548,7 +548,7 @@ ${char}:${name}`)){
 	/** 棋譜をテキストで取得
 	 * @returns {string}
 	 */
-	getRecordText(){
+	getTextRecord(){
 		const getPX = ({pX})=> pX == null? "*": (this.xLen-pX).toString(36);
 		const getPY = ({pY})=> pY == null? "*": (pY+1).toString(36);
 		return this.record.slice(1, this.turn+1).map(
@@ -567,14 +567,14 @@ ${char}:${name}`)){
 	/** 棋譜データを取得
 	 * @returns {string}
 	 */
-	getRecordJson(){
+	getJsonRecord(){
 		return JSON.stringify(this.record, null, "");
 	}
 
 	/** 棋譜データを入力
 	 * @param {string} record - 棋譜データ
 	 */
-	setRecordJson(record){
+	setJsonRecord(record){
 		this.record = JSON.parse(record);
 		this.turn = this.record.length-1;
 		this.#switchRecord(0);

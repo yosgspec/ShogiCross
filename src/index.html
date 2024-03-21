@@ -155,7 +155,7 @@
 		 * @param {Board} e
 		 */
 		function onDrawed(e){
-			recordText.value = e.getRecordText();
+			recordText.value = e.getTextRecord();
 			recordText.scrollTop = recordText.scrollHeight;
 
 			for(const {checked, value:mode} of selectBoardText){
@@ -205,8 +205,8 @@
 			undoGame.onclick = ()=>playingGame.undoRecord();
 			redoGame.onclick = ()=>playingGame.redoRecord();
 			recordJsonCopy.onclick = ()=>navigator.clipboard.writeText(recordJson.value).then(()=>recordJson.select());
-			recordJsonInput.onclick = ()=>playingGame.setRecordJson(recordJson.value);
-			recordJsonOutput.onclick = ()=>recordJson.value = playingGame.getRecordJson();
+			recordJsonInput.onclick = ()=>playingGame.setJsonRecord(recordJson.value);
+			recordJsonOutput.onclick = ()=>recordJson.value = playingGame.getJsonRecord();
 		};
 
 		(function(){
