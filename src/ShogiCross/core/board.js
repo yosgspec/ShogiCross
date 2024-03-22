@@ -77,15 +77,6 @@ export class Board{
 			isDrawShadow
 		});
 
-		// 駒の初期配置
-		playPieces.forEach(({gameName, pieceSet="default"}, i)=>{
-			if(!gameName) return;
-			try{
-				board.putStartPieces(i, gameName, pieceSet);
-			}
-			catch{}
-		});
-
 		// ボード情報
 		Object.assign(this, boards[playBoard]);
 		if(![2, 4].includes(players)) throw Error(`players=${players}, players need 2 or 4.`);
@@ -108,6 +99,19 @@ export class Board{
 		);
 		this.xLen = this.field[0].length;
 		this.yLen = this.field.length;
+
+		// 駒の初期配置
+		playPieces.forEach(({gameName, pieceSet}, i)=>{
+			if(!gameName) return;
+			try{
+				this.putStartPieces(i, gameName, pieceSet);
+			}
+			catch(ex){
+				console.error(ex);
+			}
+		});
+
+		// 描写寸法を設定
 		this.width = this.panelWidth*(this.xLen+1);
 		this.height = this.panelHeight*(this.yLen+1);
 		this.right = boardLeft+this.width;
