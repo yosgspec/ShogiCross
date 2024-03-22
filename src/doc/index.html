@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<!-- Global site tag (gtag.js) - Google Analytics -->
+		<script async src="https://www.googletagmanager.com/gtag/js?id=UA-46760069-2"></script>
+		<script>
+			window.dataLayer = window.dataLayer || [];
+			function gtag(){dataLayer.push(arguments);}
+			gtag('js', new Date());
+			gtag('config', 'UA-46760069-2');
+		</script>
+
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width" />
+		<title>ShogiCrossドキュメント</title>
+		<link rel=icon href="../img/favicon.min.svg">
+		<link href="../shogicross.css" rel="stylesheet">
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@900&family=Kosugi:wght@400&family=Noto+Color+Emoji&display=swap" rel="stylesheet">
+	</head>
+	<body style="margin:0px; padding:0px;">
+		<div class="flex-row" style="flex-wrap:nowrap">
+			<menu style="min-width:250px; max-width:250px; height:100%; list-style:none; background-color:#66CCFF; margin:0px; padding:10px">
+				<a href="#"><img src="../img/logo.min.svg" style="width:90%;"></a>
+				<div id="list" class="flex-col"></div>
+			</menu>
+			<main style="padding:20px;position: relative;"></main>
+		</div>
+
+		<script type="module">
+		import menuHtml from "./pages/menu.js"
+		const menu = document.getElementById("list");
+		const vMenu = menu.cloneNode(false);
+		vMenu.innerHTML = menuHtml;
+		menu.replaceWith(vMenu);
+
+		async function router(e){
+			const main = document.getElementsByTagName("main")[0];
+			const vMain = main.cloneNode(false);
+			const hash = location.hash !== ""? location.hash.slice(1): "index";
+			let res = await fetch(`./pages/${hash}.html`);
+			if(res.status !== 200) res = await fetch("./pages/index.html");
+			const mainHtml = await res.text();
+			vMain.innerHTML = mainHtml;
+			main.replaceWith(vMain);
+		}
+		window.onhashchange = router;
+		router();
+		</script>
+	</body>
+</html>
