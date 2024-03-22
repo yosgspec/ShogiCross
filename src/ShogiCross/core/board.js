@@ -572,14 +572,14 @@ ${char}:${name}`)){
 	 * @returns {string}
 	 */
 	getJsonRecord(){
-		return JSON.stringify(this.record, null, "");
+		return encodeURI(JSON.stringify(this.record, null, ""));
 	}
 
 	/** 棋譜データを入力
 	 * @param {string} record - 棋譜データ
 	 */
 	setJsonRecord(record){
-		this.record = JSON.parse(record);
+		this.record = JSON.parse(decodeURI(record));
 		this.turn = this.record.length-1;
 		this.#switchRecord(0);
 	}
