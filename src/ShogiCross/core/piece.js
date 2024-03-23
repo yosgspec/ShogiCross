@@ -193,7 +193,7 @@ export class Piece{
 		this.cost = pieceCost[this.char] ?? 1;
 		this.center = 0;
 		this.middle = 0;
-		this.deg ??= deg;
+		this.deg ||= deg;
 		this.size ??= size;
 		this.useRankSize ??= useRankSize;
 		this.isDrawShadow ??= isDrawShadow;

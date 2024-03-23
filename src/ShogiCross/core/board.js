@@ -59,9 +59,9 @@ export class Board{
 			borderWidth=Math.min(panelWidth, panelHeight)/30,
 			backgroundColor="#00000000",
 			autoDrawing=true,
+			freeMode=false,
 			onDrawed,
-			onGameOver=i=>alert(`プレイヤー${i+1}の敗北です。`),
-			freeMode=false
+			onGameOver=i=>alert(`プレイヤー${i+1}の敗北です。`)
 		} = option;
 		// 初期化
 		const canvasFontAsync = canvasFont.importAsync();

@@ -42,9 +42,9 @@
  * @prop {boolean} isDrawShadow - 駒の影の描写有無
  * @prop {string} backgroundColor - 背景色(デフォルト無色)
  * @prop {boolean} autoDrawing - 描写の自動更新有無
+ * @prop {boolean} freeMode - フリーモード有効化/無効化
  * @prop {(Board)=>void} onDrawed - 描写イベント
  * @prop {(i)=>void} onGameOver - ゲームオーバーイベント
- * @prop {boolean} freeMode - フリーモード有効化/無効化
  */
 /**
  * @typedef {Object} PanelInitOption - マス目の初期化オプション
