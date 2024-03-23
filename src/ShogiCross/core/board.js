@@ -78,6 +78,7 @@ export class Board{
 		});
 
 		// ボード情報
+		if(!boards[playBoard]) throw Error(`playBoard=${playBoard}, Unknown board name.`);
 		Object.assign(this, boards[playBoard]);
 		if(![2, 4].includes(players)) throw Error(`players=${players}, players need 2 or 4.`);
 		this.players = players;
@@ -672,7 +673,7 @@ ${char}:${name}`)){
 	 * @param {string} ext - 拡張子
 	 * @returns {Promise<void>}
 	 */
-	async downloadImage(fileName, ext){
-		await downloadImage(this.canvas, fileName, ext);
+	async downloadImage(fileName="shogicross", ext, urlType){
+		await downloadImage(this.canvas, fileName, ext, urlType);
 	}
 }

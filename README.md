@@ -1,4 +1,4 @@
-# 将棋クロス【ShogiCross】
+# ShogiCross(将棋クロス)
 ![](img/logo.min.svg)　<img src="img/all.png" height="200px">  
 様々な将棋類を将棋駒として実体化するプロジェクト。
 
@@ -55,7 +55,7 @@
 * CPU
 
 ### [ライブラリ定義](doc/lib/README.md)
-将棋クロスを任意のページへ配置できる。  
+ShogiCrossを任意のページへ配置できる。  
 駒やボードの追加を行うことも可能。  
 
 ## [ペーパークラフト](paper/README.md)

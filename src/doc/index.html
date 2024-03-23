@@ -12,24 +12,45 @@
 
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width" />
-		<title>ShogiCrossドキュメント</title>
+		<title>ShogiCross ドキュメント</title>
 		<link rel=icon href="../img/favicon.min.svg">
 		<link href="../shogicross.css" rel="stylesheet">
 		<link rel="preconnect" href="https://fonts.googleapis.com">
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-		<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@900&family=Kosugi:wght@400&family=Noto+Color+Emoji&display=swap" rel="stylesheet">
+		<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400&family=Kosugi:wght@400&family=Noto+Color+Emoji&display=swap" rel="stylesheet">
+		<style>
+			body, html {
+				margin: 0;
+				padding: 0;
+				height: 100%;
+			}
+			menu {
+				min-width: 250px;
+				max-width: 250px;
+				overflow-y: auto;
+				background-color: #66CCFF;
+				margin: 0;
+				padding: 10px;
+			}
+			main {
+				padding: 20px;
+				width: 100%;
+				overflow-y: auto;
+			}
+		</style>
 	</head>
-	<body style="margin:0px; padding:0px;">
-		<div class="flex-row" style="flex-wrap:nowrap">
-			<menu style="min-width:250px; max-width:250px; height:100%; list-style:none; background-color:#66CCFF; margin:0px; padding:10px">
+	<body>
+		<div class="flex-row" style="flex-wrap:nowrap; height:100%;">
+			<menu>
 				<a href="#"><img src="../img/logo.min.svg" style="width:90%;"></a>
 				<div id="list" class="flex-col"></div>
 			</menu>
-			<main style="padding:20px;position: relative;"></main>
+			<main></main>
 		</div>
 
 		<script type="module">
-		import menuHtml from "./pages/menu.js"
+		import menuHtml from "./pages/menu.js";
+		const endTitle = " - ShogiCross(将棋クロス)";
 		const menu = document.getElementById("list");
 		const vMenu = menu.cloneNode(false);
 		vMenu.innerHTML = menuHtml;
@@ -43,7 +64,12 @@
 			if(res.status !== 200) res = await fetch("./pages/index.html");
 			const mainHtml = await res.text();
 			vMain.innerHTML = mainHtml;
+			const h1 = vMain.getElementsByTagName("h1")[0];
+			h1.textContent +=  endTitle;
 			main.replaceWith(vMain);
+			document.title = (
+				document.querySelector(`a[href="#${hash}"`)?.textContent ?? "ドキュメント")
+				+ endTitle;
 		}
 		window.onhashchange = router;
 		router();

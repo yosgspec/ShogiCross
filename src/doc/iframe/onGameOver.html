@@ -1,0 +1,23 @@
+<main style="display:flex;">
+<div style="height:95svh">
+    <canvas id="shogiCross"></canvas>
+    <label>生存するプレイヤー:<input id="turn" readonly value="1234"></label>
+</div>
+</main>
+
+<script type="module">
+    import {Board, gameSoft} from "https://cdn.jsdelivr.net/gh/yosgspec/ShogiCross@main/src/dist/ShogiCross.min.js";
+    const canvas = document.getElementById("shogiCross");
+    const board = Board.run(canvas, {
+        ...gameSoft.p4Shogi,
+        /** プレイヤー敗北時時イベント
+         * @param {Board} e - ボード
+         * @param {number} i - プレイヤーID
+         */
+        onGameOver(e, i){
+            alert(`敗北したプレイヤー: ${i}`);
+            document.getElementById("turn").value = document.getElementById("turn").value.replace(i, "");
+        }
+    });
+</script>
+<script src="codeViewer.js"></script>

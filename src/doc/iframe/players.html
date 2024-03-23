@@ -1,0 +1,19 @@
+<main style="display:flex;">
+<div style="height:97svh">
+    <canvas id="shogiCross"></canvas>
+</div>
+</main>
+
+<script type="module">
+    import {Board} from "https://cdn.jsdelivr.net/gh/yosgspec/ShogiCross@main/src/dist/ShogiCross.min.js";
+    const canvas = document.getElementById("shogiCross");
+    const board = Board.run(canvas, {
+        playBoard: "チェス",
+        playPieces: [
+            {gameName: "チャトランガ", pieceSet: "p4"},
+            {gameName: "チャトランガ", pieceSet: "p4"}
+        ],
+        players: 4
+    });
+</script>
+<script src="codeViewer.js"></script>

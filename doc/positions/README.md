@@ -1,4 +1,4 @@
-# 駒配置表【ShogiCross】
+# 駒配置表 - ShogiCross
 ## [将棋](https://ja.wikipedia.org/wiki/%E5%B0%86%E6%A3%8B)
 一般的な将棋。本将棋とも呼ばれる。持ち駒あり。  
 ![](img/shogi.png)

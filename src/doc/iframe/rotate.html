@@ -1,0 +1,26 @@
+<main style="display:flex;">
+<div style="height:95svh">
+    <canvas id="shogiCross"></canvas>
+    <button id="rotateLeft">左回転</button>
+    <button id="rotateRight">右回転</button>
+</div>
+</main>
+
+<script type="module">
+    import {Board} from "../../ShogiCross/lib.js";
+    const canvas = document.getElementById("shogiCross");
+    const board = Board.run(canvas, {
+        playBoard: "4人用クロス8列",
+        playPieces: [
+            {gameName: "将棋", pieceSet: "p4"},
+            {gameName: "シャンチー", pieceSet: "p4"},
+            {gameName: "チェス", pieceSet: "p4"},
+            {gameName: "マークルック", pieceSet: "p4"}
+        ],
+        canvasFit: "parentVertical"
+    });
+    // board.rotate(isRight=true);
+    document.getElementById("rotateLeft").onclick = ()=>board.rotate(false);
+    document.getElementById("rotateRight").onclick = ()=>board.rotate();
+</script>
+<script src="codeViewer.js"></script>

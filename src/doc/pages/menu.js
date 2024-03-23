@@ -1,23 +1,23 @@
 export default `
-<h3>ボード操作</h3>
-<div><a href="#board">ボードを作成する</a></div>
-<div><a href="#gameSoft">ゲームプリセットを指定</a></div>
+<h3>ボード設定</h3>
+<div><a href="#board">ボードを構成する</a></div>
+<div><a href="#gameSoft">ゲームをプリセットから起動</a></div>
 <div><a href="#playBoard">ボードタイプの変更</a></div>
 <div><a href="#useStand">駒台の使用有無</a></div>
+<div><a href="#playPieces">駒の初期配置</a></div>
 <div><a href="#players">ゲームの参加人数</a></div>
-<div><a href="#playPieces">ボードの初期配置</a></div>
-<div><a href="#canvasFit">キャンバスの寸法調整</a></div>
+<div><a href="#canvasFit">Canvasの寸法調整</a></div>
 <div><a href="#boardSizes">ボードの寸法を変更</a></div>
-<div><a href="#backGroundColor">背景色を変更</a></div>
-<div><a href="#useRankSize">駒の格で大きさを変更</a></div>
+<div><a href="#backgroundColor">背景色を変更</a></div>
+<div><a href="#useRankSize">駒の格で大きさを変更しない</a></div>
 <div><a href="#isDrawShadow">駒の影の描写を変更</a></div>
 <div><a href="#autoDrawing">描写の自動更新を変更</a></div>
-<div><a href="#onDrawed">描写時に任意の処理を行う</a></div>
-<div><a href="#onGameOver">ゲームオーバー時に任意の処理を行う</a></div>
 <div><a href="#freeMode">自由移動の有効化</a></div>
-<div><a href="#downloadImage">スクリーンショット</a></div>
-<div><a href="#rotate">ボードの回転</a></div>
-<div><a href="#close">ボードを破棄</a></div>
+<div><a href="#onDrawed">描写時に任意の処理を行う</a></div>
+<div><a href="#onGameOver">プレイヤーが敗北した時の処理を行う</a></div>
+<div><a href="#downloadImage">スクリーンショットを保存する</a></div>
+<div><a href="#rotate">盤面を回転する</a></div>
+<div><a href="#close">ゲームを終了する</a></div>
 
 <h3>駒の操作</h3>
 <div><a href="#putNewPiece">駒を任意のマスに配置する</a></div>

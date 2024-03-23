@@ -1,0 +1,21 @@
+<main style="display:flex;">
+<div style="height:95svh">
+    <canvas id="shogiCross"></canvas>
+    <label>手数:<input id="turn" readonly></label>
+</div>
+</main>
+
+<script type="module">
+    import {Board, gameSoft} from "https://cdn.jsdelivr.net/gh/yosgspec/ShogiCross@main/src/dist/ShogiCross.min.js";
+    const canvas = document.getElementById("shogiCross");
+    const board = Board.run(canvas, {
+        ...gameSoft.losAlamosChess,
+        /** 描写時イベント
+         * @param {Board} e - ボード
+         */
+        onDrawed(e){
+            document.getElementById("turn").value = e.turn;
+        }
+    });
+</script>
+<script src="codeViewer.js"></script>
