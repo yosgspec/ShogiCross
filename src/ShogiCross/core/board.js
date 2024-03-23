@@ -413,7 +413,7 @@ export class Board{
 				)
 			)) return;
 			this.gameAlives.set(deg, false);
-			this.onGameOver(this, i);
+			if(this.onGameOver) this.onGameOver(this, i);
 		})
 	}
 
