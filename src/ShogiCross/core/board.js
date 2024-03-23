@@ -61,7 +61,7 @@ export class Board{
 			autoDrawing=true,
 			freeMode=false,
 			onDrawed,
-			onGameOver=i=>alert(`プレイヤー${i+1}の敗北です。`)
+			onGameOver=(e,i)=>alert(`プレイヤー${i+1}の敗北です。`)
 		} = option;
 		// 初期化
 		const canvasFontAsync = canvasFont.importAsync();
@@ -412,7 +412,7 @@ export class Board{
 				)
 			)) return;
 			this.gameAlives.set(deg, false);
-			this.onGameOver(i);
+			this.onGameOver(this, i);
 		})
 	}
 
