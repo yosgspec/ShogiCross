@@ -1,6 +1,6 @@
 <main style="display:flex;">
-<div style="height:93svh">
-    <canvas id="shogiCross"></canvas>
+<div style="width:50svw; height:93svh;">
+    <canvas id="shogiCross" style="max-width: 50svw;"></canvas>
     <div>
         <button id="undoGame" title="一手戻る">&lt;&lt;</button>
         <button id="redoGame" title="一手進む">&gt;&gt;</button>
@@ -12,7 +12,7 @@
 </main>
 
 <script type="module">
-    import {Board} from "https://cdn.jsdelivr.net/gh/yosgspec/ShogiCross@main/src/dist/ShogiCross.min.js";
+    import {Board} from "../../ShogiCross/lib.js";
     const canvas = document.getElementById("shogiCross");
     const board = Board.run(canvas, {
         playBoard: "4人用クロス8列",

@@ -1,14 +1,16 @@
 <main style="display:flex;">
-<div style="height:95svh">
-    <canvas id="shogiCross"></canvas>
+<div style="width:50svw; height:95svh;">
+    <canvas id="shogiCross" style="max-width: 50svw;"></canvas>
     <button id="ss">スクリーンショット</button>
 </div>
 </main>
 
 <script type="module">
-    import {Board, gameSoft} from "https://cdn.jsdelivr.net/gh/yosgspec/ShogiCross@main/src/dist/ShogiCross.min.js";
+    import {Board, gameSoft} from "../../ShogiCross/lib.js";
     const canvas = document.getElementById("shogiCross");
     const board = Board.run(canvas, gameSoft.gogoShogi);
-    document.getElementById("ss").onclick = board.downloadImage("すくしょ");
+
+    // Board.downloadImage(fileName="shogicross", ext="png", urlType="base64")
+    document.getElementById("ss").onclick = ()=>board.downloadImage("すくしょ");
 </script>
 <script src="codeViewer.js"></script>

@@ -1,0 +1,21 @@
+<main style="display:flex;">
+<div style="width:50svw; height:97svh;">
+    <canvas id="shogiCross" style="max-width: 50svw;"></canvas>
+</div>
+</main>
+
+<script type="module">
+    import {Board} from "../../ShogiCross/lib.js";
+    const canvas = document.getElementById("shogiCross");
+    const board = Board.run(canvas, {playBoard: "将棋"});
+
+	/** 駒の初期配置
+	 * @param {number} playerId - プレイヤー番号
+	 * @param {string} gameName - ゲーム名(基準となる駒の配置セット)
+	 * @param {string} pieceSet - 駒の配置パターン
+	 */
+    // Board.putStartPieces(playerId, gameName, pieceSet="default")
+    board.putStartPieces(0, "将棋");
+    board.putStartPieces(1, "将棋", "2p");
+</script>
+<script src="codeViewer.js"></script>

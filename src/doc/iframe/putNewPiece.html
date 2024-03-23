@@ -8,7 +8,16 @@
     import {Board} from "../../ShogiCross/lib.js";
     const canvas = document.getElementById("shogiCross");
     const board = Board.run(canvas, {
-        playBoard: "チェス"
+        playBoard: "将棋",
+        players: 4,
+        onGameOver: null
     });
+
+    // board.putNewPiece(piece, pX, pY, playeaIdOrDeg, option={});
+    board.putNewPiece("歩", 2, 3, 0);
+    board.putNewPiece("兵", 5, 6, 1);
+    board.putNewPiece("炮", 8, 1, 2, {displayPtn: 1});
+    board.putNewPiece("相", 4, 0, 3);
+    board.putNewPiece("像", 0, 8, 90);
 </script>
 <script src="codeViewer.js"></script>

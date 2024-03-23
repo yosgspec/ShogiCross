@@ -1,11 +1,11 @@
 <main style="display:flex;">
-<div style="height:97svh">
-    <canvas id="shogiCross"></canvas>
+<div style="width:50svw; height:97svh;">
+    <canvas id="shogiCross" style="max-width: 50svw;"></canvas>
 </div>
 </main>
 
 <script type="module">
-    import {Board, gameSoft} from "https://cdn.jsdelivr.net/gh/yosgspec/ShogiCross@main/src/dist/ShogiCross.min.js";
+    import {Board, gameSoft} from "../../ShogiCross/lib.js";
     const canvas = document.getElementById("shogiCross");
     const board = Board.run(canvas, gameSoft.shogi);
 </script>

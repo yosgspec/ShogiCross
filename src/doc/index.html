@@ -37,13 +37,50 @@
 				width: 100%;
 				overflow-y: auto;
 			}
+			div#menuButton{
+				display: none;
+			}
+			@media (max-width: 799px){
+				menu{
+					z-index: 200;
+					position: fixed;
+					top: 0;
+					bottom: 0;
+				}
+				div#menuButton{
+					display: flex;
+					background-color: #6699CC;
+					color: #DDEEFF;
+					opacity: 0.8;
+
+					position: fixed;
+					z-index: 300;
+					top: 20px;
+					right: 20px;
+					justify-content: center;
+					align-items: center;
+
+					width: 50px;
+					height: 50px;
+					border-radius: 25px;
+					cursor: pointer;
+				}
+				div#menuButton span{
+					-moz-user-select: none;
+					-webkit-user-select: none;
+					-ms-user-select: none;
+					user-select: none;
+					font-size: 35px;
+				}
+			}
 		</style>
 	</head>
 	<body>
+		<div id="menuButton"><span>📂</span></div>
 		<div class="flex-row" style="flex-wrap:nowrap; height:100%;">
 			<menu>
 				<a href="#"><img src="../img/logo.min.svg" style="width:90%;"></a>
-				<div id="list" class="flex-col"></div>
+				<div id="menuList" class="flex-col"></div>
 			</menu>
 			<main></main>
 		</div>
@@ -51,20 +88,21 @@
 		<script type="module">
 		import menuHtml from "./pages/menu.js";
 		const endTitle = " - ShogiCross(将棋クロス)";
-		const menu = document.getElementById("list");
-		const vMenu = menu.cloneNode(false);
-		vMenu.innerHTML = menuHtml;
-		menu.replaceWith(vMenu);
+		const menu = document.querySelector("menu");
+		const menuList = menu.querySelector("#menuList");
+		const menuButton = document.getElementById("menuButton");
+		const menuButtonText = menuButton.firstElementChild;
+		menuList.innerHTML = menuHtml;
 
 		async function router(e){
-			const main = document.getElementsByTagName("main")[0];
+			const main = document.querySelector("main");
 			const vMain = main.cloneNode(false);
 			const hash = location.hash !== ""? location.hash.slice(1): "index";
 			let res = await fetch(`./pages/${hash}.html`);
 			if(res.status !== 200) res = await fetch("./pages/index.html");
 			const mainHtml = await res.text();
 			vMain.innerHTML = mainHtml;
-			const h1 = vMain.getElementsByTagName("h1")[0];
+			const h1 = vMain.querySelector("h1");
 			h1.textContent +=  endTitle;
 			main.replaceWith(vMain);
 			document.title = (
@@ -73,6 +111,17 @@
 		}
 		window.onhashchange = router;
 		router();
+
+		menuButton.onclick = function() {
+			if(menu.style.display !== "none"){
+				menu.style.display = "none";
+				menuButtonText.textContent = "📁";
+			}
+			else{
+				menu.style.display = "";
+				menuButtonText.textContent = "📂";
+			}
+		}
 		</script>
 	</body>
 </html>

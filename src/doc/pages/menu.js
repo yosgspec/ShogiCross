@@ -1,4 +1,6 @@
 export default `
+<h3><div><a href="#getStarted">はじめに</a></div></h3>
+
 <h3>ボード設定</h3>
 <div><a href="#board">ボードを構成する</a></div>
 <div><a href="#gameSoft">ゲームをプリセットから起動</a></div>
@@ -21,7 +23,7 @@ export default `
 
 <h3>駒の操作</h3>
 <div><a href="#putNewPiece">駒を任意のマスに配置する</a></div>
-<div><a href="#putStartPieces">駒の初期配置を行う</a></div>
+<div><a href="#putStartPieces">駒の初期配置(メソッド)</a></div>
 <div><a href="#setTextPieces">駒をテキスト形式で配置する</a></div>
 <div><a href="#getTextPieces">駒の配置をテキスト形式で取得</a></div>
 
@@ -30,4 +32,8 @@ export default `
 <div><a href="#getJsonRecord">棋譜データの取得</a></div>
 <div><a href="#setJsonRecord">棋譜データの反映</a></div>
 <div><a href="#switchRecord">手を進める・戻す</a></div>
+
+<h3><a href="https://github.com/yosgspec/ShogiCross/blob/main/doc/json/README.md">ゲームデータ仕様</a></h3>
+<h3><a href="./api/">APIドキュメント</a></h3>
+<h3><a href="../">【ShogiCross】</a></h3>
 `;

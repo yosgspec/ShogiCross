@@ -1,6 +1,6 @@
 <main style="display:flex;">
-<div style="height:95svh">
-    <canvas id="shogiCross"></canvas>
+<div style="width:50svw; height:95svh;">
+    <canvas id="shogiCross" style="max-width: 50svw;"></canvas>
     <button id="rotateLeft">左回転</button>
     <button id="rotateRight">右回転</button>
 </div>
@@ -19,6 +19,7 @@
         ],
         canvasFit: "parentVertical"
     });
+
     // board.rotate(isRight=true);
     document.getElementById("rotateLeft").onclick = ()=>board.rotate(false);
     document.getElementById("rotateRight").onclick = ()=>board.rotate();

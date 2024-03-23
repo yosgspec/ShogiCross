@@ -6,5 +6,5 @@
 	$.style.backgroundColor="#DDFFFF";
 	$.wrap="off";$.readonly="true";
 	$.textContent=document.body.innerHTML;
-	document.getElementsByTagName("main")[0].appendChild($);
+	document.querySelector("main").appendChild($);
 }
