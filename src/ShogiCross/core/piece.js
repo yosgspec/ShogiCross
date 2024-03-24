@@ -233,7 +233,7 @@ export class Piece{
 		const {promo} = this;
 
 		if(!promo) throw Error(`promo=${char}, Not plomote piece.`);
-		if(!promo in promo) throw Error(`promo=${char}, Plomote key is missing.`);
+		if(!promo[char]) throw Error(`promo=${char}, Plomote key is missing.`);
 		if(this.hasAttr("promoted")) throw Error(`promo=${char}, Promoted piece.`);
 		Object.assign(this, promo[char]);
 		this.char = char;

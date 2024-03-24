@@ -551,20 +551,23 @@ ${char}:${name}`)){
 	}
 
 	/** 棋譜をテキストで取得
+	 * @param {boolean} isNumOnly - 座標を数字で表現
 	 * @returns {string}
 	 */
-	getTextRecord(){
-		const getPX = ({pX})=> pX == null? "*": (this.xLen-pX).toString(36);
-		const getPY = ({pY})=> pY == null? "*": (pY+1).toString(36);
+	getTextRecord(isNumOnly=false){
+		const getPX = ({pX})=> pX == null? "*": (this.xLen-pX).toString(isNumOnly? 10: 36);
+		const getPY = ({pY})=> pY == null? "*": (pY+1).toString(isNumOnly? 10: 36);
 		return this.record.slice(1, this.turn+1).map(
 			({to, from, deg, pieceChar, end}, i)=>`${
-				i}: ${
+				i+1}: ${
 				Piece.degChars[deg]}${
 				getPX(to)}${
+				isNumOnly? ",": ""}${
 				getPY(to)}${
 				pieceChar}${
 				end} (${
 				getPX(from)}${
+				isNumOnly? ",": ""}${
 				getPY(from)})`
 		).join("\n");
 	}
