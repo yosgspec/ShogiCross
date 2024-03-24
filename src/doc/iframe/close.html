@@ -1,6 +1,6 @@
 <main style="display:flex;">
 <div style="width:50svw; height:97svh;">
-    <canvas id="shogiCross" style="max-width: 50svw;"></canvas>
+    <canvas id="shogiCross" style="max-width:50svw;"></canvas>
 </div>
 </main>
 
@@ -8,6 +8,8 @@
     import {Board, gameSoft} from "../../ShogiCross/lib.js";
     const canvas = document.getElementById("shogiCross");
     const board = Board.run(canvas, gameSoft.toriShogi);
+
+	/** ボードを閉じる */
     board.close();
 </script>
 <script src="codeViewer.js"></script>

@@ -623,7 +623,7 @@ ${char}:${name}`)){
 	}
 
 	/** 駒配置をテキストで取得
-	 * @param {"default"|"compact"|"bod"} isCompact - テキスト形式
+	 * @param {"default"|"compact"|"bod"} mode - テキスト形式
 	 * @param {boolean} isAlias - エイリアス表示
 	 * @returns {string}
 	 */

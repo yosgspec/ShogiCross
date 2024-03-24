@@ -1,5 +1,8 @@
 export default `
-<h3><div><a href="#getStarted">はじめに</a></div></h3>
+<h3>ライブラリについて</h3>
+<div><wa href="#getStarted">はじめに</a></div>
+<div><a href="https://github.com/yosgspec/ShogiCross/blob/main/doc/json/README.md">ゲームデータ仕様</a></div>
+<div><a href="./api/">APIドキュメント</a></div>
 
 <h3>ボード設定</h3>
 <div><a href="#board">ボードを構成する</a></div>
@@ -33,7 +36,19 @@ export default `
 <div><a href="#setJsonRecord">棋譜データの反映</a></div>
 <div><a href="#switchRecord">手を進める・戻す</a></div>
 
-<h3><a href="https://github.com/yosgspec/ShogiCross/blob/main/doc/json/README.md">ゲームデータ仕様</a></h3>
-<h3><a href="./api/">APIドキュメント</a></h3>
-<h3><a href="../">【ShogiCross】</a></h3>
+<h3>参考実装</h3>
+<div><a href="../">ShogiCross App</a></div>
+<div><a href="../dist/">単品ゲーム集</a></div>
+<div><a href="../playBoard.html">将棋類紹介</a></div>
+<div><a href="../pieceViewer.html">将棋駒Viewer</a></div>
+
+<h3>関連リンク</h3>
+<div><a href="https://github.com/yosgspec/ShogiCross/blob/main/paper/README.md">ペーパークラフト</a></div>
+<div><a href="http://yosgspec.blog103.fc2.com/blog-entry-2997.html">超棋(過去制作物)</a></div>
+
+<h3>連絡先</h3>
+<div><a href="http://yosgspec.blog103.fc2.com">ブログ</a></div>
+<div><a href="https://misskey.io/@yosgspec">Misskey</a></div>
+<div><a href="https://twitter.com/yosgspec">Twitter</a></div>
+<div><a href="https://potofu.me/yosgspec">POTOFU</a></div>
 `;

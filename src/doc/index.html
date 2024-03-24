@@ -12,7 +12,7 @@
 
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width" />
-		<title>ShogiCross ドキュメント</title>
+		<title>ShogiCross Lib ドキュメント</title>
 		<link rel=icon href="../img/favicon.min.svg">
 		<link href="../shogicross.css" rel="stylesheet">
 		<link rel="preconnect" href="https://fonts.googleapis.com">
@@ -24,6 +24,9 @@
 				padding: 0;
 				height: 100%;
 			}
+			div#menuButton{
+				display: none;
+			}
 			menu {
 				min-width: 250px;
 				max-width: 250px;
@@ -33,21 +36,23 @@
 				padding: 10px;
 			}
 			main {
-				padding: 20px;
+				padding: 0 0 0 20px;
 				width: 100%;
 				overflow-y: auto;
 			}
-			div#menuButton{
-				display: none;
+			iframe {
+				width: 100%;
+				height: 600px;
+				margin: 0;
 			}
 			@media (max-width: 799px){
-				menu{
+				menu {
 					z-index: 200;
 					position: fixed;
 					top: 0;
 					bottom: 0;
 				}
-				div#menuButton{
+				div#menuButton {
 					display: flex;
 					background-color: #6699CC;
 					color: #DDEEFF;
@@ -65,7 +70,7 @@
 					border-radius: 25px;
 					cursor: pointer;
 				}
-				div#menuButton span{
+				div#menuButton span {
 					-moz-user-select: none;
 					-webkit-user-select: none;
 					-ms-user-select: none;
@@ -76,7 +81,7 @@
 		</style>
 	</head>
 	<body>
-		<div id="menuButton"><span>📂</span></div>
+		<div id="menuButton"><span></span></div>
 		<div class="flex-row" style="flex-wrap:nowrap; height:100%;">
 			<menu>
 				<a href="#"><img src="../img/logo.min.svg" style="width:90%;"></a>
@@ -87,14 +92,33 @@
 
 		<script type="module">
 		import menuHtml from "./pages/menu.js";
-		const endTitle = " - ShogiCross(将棋クロス)";
+		const endTitle = " - ShogiCross Lib";
 		const menu = document.querySelector("menu");
 		const menuList = menu.querySelector("#menuList");
 		const menuButton = document.getElementById("menuButton");
 		const menuButtonText = menuButton.firstElementChild;
 		menuList.innerHTML = menuHtml;
 
-		async function router(e){
+		const switchMenu = function(){
+			const displays = new Map([
+				[true, {display: "none", text: "📁"}],
+				[false, {display: "", text: "📂"}]
+			]);
+			let isDisplay = true;
+
+			return setDisplay=>{
+				isDisplay = typeof(setDisplay) === "boolean"? !setDisplay: !isDisplay;
+				const d = displays.get(isDisplay);
+				menu.style.display = d.display;
+				menuButtonText.textContent = d.text;
+			};
+		}();
+
+		function setupMenu(){
+			switchMenu(800 <= window.innerWidth);
+		}
+
+		async function router(){
 			const main = document.querySelector("main");
 			const vMain = main.cloneNode(false);
 			const hash = location.hash !== ""? location.hash.slice(1): "index";
@@ -104,24 +128,17 @@
 			vMain.innerHTML = mainHtml;
 			const h1 = vMain.querySelector("h1");
 			h1.textContent +=  endTitle;
-			main.replaceWith(vMain);
 			document.title = (
 				document.querySelector(`a[href="#${hash}"`)?.textContent ?? "ドキュメント")
 				+ endTitle;
+			await main.replaceWith(vMain);
+			setupMenu();
 		}
+
+		menuButton.onclick = switchMenu;
+		window.onresize = setupMenu
 		window.onhashchange = router;
 		router();
-
-		menuButton.onclick = function() {
-			if(menu.style.display !== "none"){
-				menu.style.display = "none";
-				menuButtonText.textContent = "📁";
-			}
-			else{
-				menu.style.display = "";
-				menuButtonText.textContent = "📂";
-			}
-		}
-		</script>
+	</script>
 	</body>
 </html>

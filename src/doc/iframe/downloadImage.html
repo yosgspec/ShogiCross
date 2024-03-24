@@ -1,6 +1,7 @@
 <main style="display:flex;">
 <div style="width:50svw; height:95svh;">
-    <canvas id="shogiCross" style="max-width: 50svw;"></canvas>
+    <canvas id="shogiCross" style="max-width:50svw;"></canvas>
+
     <button id="ss">スクリーンショット</button>
 </div>
 </main>
@@ -10,6 +11,11 @@
     const canvas = document.getElementById("shogiCross");
     const board = Board.run(canvas, gameSoft.gogoShogi);
 
+	/** 画像を取得
+	 * @param {string} fileName - ファイル名
+	 * @param {string} ext - 拡張子
+	 * @returns {Promise<void>}
+	 */
     // Board.downloadImage(fileName="shogicross", ext="png", urlType="base64")
     document.getElementById("ss").onclick = ()=>board.downloadImage("すくしょ");
 </script>

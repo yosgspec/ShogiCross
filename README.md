@@ -54,9 +54,9 @@
 * ゲームごとのルール
 * CPU
 
-### [ライブラリ定義](doc/lib/README.md)
+### [ライブラリ](https://shogicross.yosgspec.com/doc/)
 ShogiCrossを任意のページへ配置できる。  
-駒やボードの追加を行うことも可能。  
+駒やボードの追加を行うことも可能。
 
 ## [ペーパークラフト](paper/README.md)
 様々な将棋類を紙の力で実体化。

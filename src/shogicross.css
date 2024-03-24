@@ -51,6 +51,16 @@ input.mono,textarea.mono {
 	color: #AACCCC;
 }
 
+div.cmd{
+	display:flex;
+	flex-wrap:nowrap;
+}
+
+div.cmd > input{
+	width: 100%;
+	font-family: "Kosugi",monospace;
+}
+
 button,
 input[type="button"]{
 	font-family: "Kosugi","Noto Color Emoji";
@@ -116,6 +126,10 @@ ul{
 
 img {
 	border: none;
+}
+
+pre{
+	background-color:#EEFFFF;
 }
 
 button,input[type="text"],input[type="button"],textarea{
