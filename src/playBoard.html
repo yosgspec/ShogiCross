@@ -40,7 +40,7 @@
 
 		<script type="module">
 		import {gameSoft, Board} from "./dist/ShogiCross.min.js";
-		const main = document.querySelectr("main");
+		const main = document.querySelector("main");
 		const vMain = main.cloneNode(false);
 		const vGame = document.getElementById("game").content.firstElementChild;
 
@@ -50,18 +50,18 @@
 			const {name, variant, desc, url, useStand} = option;
 			const game = vGame.cloneNode(true);
 			game.id = gameName;
-			const a = game.querySelectr("a");
+			const a = game.querySelector("a");
 			a.href = url;
 			a.textContent = name;
 
-			const p = game.querySelectr("p");
+			const p = game.querySelector("p");
 			p.textContent = `${desc}持ち駒${(useStand? "あり": "なし")}。`;
 
-			const canvas = game.querySelectr("canvas");
+			const canvas = game.querySelector("canvas");
 			setTimeout(()=>Board.run(canvas, option), 0);
 
 			if(name === variant){
-				const details = game.querySelectr("details");
+				const details = game.querySelector("details");
 				detailsMap.set(name, details);
 				details.id = name;
 				vMain.append(game);
