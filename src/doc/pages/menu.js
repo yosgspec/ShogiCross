@@ -1,6 +1,6 @@
 export default `
 <h3>ライブラリについて</h3>
-<div><wa href="#getStarted">はじめに</a></div>
+<div><a href="#getStarted">はじめに</a></div>
 <div><a href="https://github.com/yosgspec/ShogiCross/blob/main/doc/json/README.md">ゲームデータ仕様</a></div>
 <div><a href="./api/">APIドキュメント</a></div>
 
