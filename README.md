@@ -19,11 +19,26 @@
 ### [駒情報](doc/pieces/README.md)
 実装済の駒の定義一覧。
 
-## [Webアプリ](http://shogicross.yosgspec.com)
+## Webアプリ
 様々な将棋類の駒を並べるだけの将棋盤のようなツール/ライブラリ
+
+### 実装
+[ShogiCross App](http://shogicross.yosgspec.com)
+[単品ゲーム集](http://shogicross.yosgspec.com/dist)
+[将棋類紹介](http://shogicross.yosgspec.com/playBoard.html)
+[将棋駒Viewer](http://shogicross.yosgspec.com/pieceViewer.html)
+
+### ライブラリ
+
 
 ### 特徴
 * 様々な将棋類の表示に対応
+* 4人用ボード対応
+* 手を戻す、進める機能
+* 盤面回転機能(棋譜とは同期しない)
+* 画像出力機能
+* BOD形式での局面入出力機能(独自拡張あり)
+* レスポンシブ対応
 * オリジナルの駒配置を設定 (チェス対将棋も容易)
 * 画像を用意せずに追加駒を設定
 * 視覚的にわかりやすい駒データ定義
@@ -41,18 +56,7 @@
 		ShogiCross.gameSoft.shogi);
 	</script>
 	```
-
 	</details>
-* 4人用ルールの定義
-* BOD形式での局面入出力機能(独自拡張あり)
-* 手を戻す、進める機能
-* 盤面回転機能(棋譜とは同期しない)
-* 画像出力機能
-* レスポンシブ対応
-
-### 未対応
-* ゲームごとのルール
-* CPU
 
 ### [ライブラリ](https://shogicross.yosgspec.com/doc/)
 ShogiCrossを任意のページへ配置できる。  

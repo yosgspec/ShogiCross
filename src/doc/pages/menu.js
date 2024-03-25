@@ -1,6 +1,7 @@
 export default `
 <h3>ライブラリについて</h3>
 <div><a href="#getStarted">はじめに</a></div>
+<div><a href="https://github.com/yosgspec/ShogiCross">GitHub</a></div>
 <div><a href="https://github.com/yosgspec/ShogiCross/blob/main/doc/json/README.md">ゲームデータ仕様</a></div>
 <div><a href="./api/">APIドキュメント</a></div>
 
@@ -32,8 +33,8 @@ export default `
 
 <h3>棋譜の操作</h3>
 <div><a href="#getTextRecord">棋譜の取得</a></div>
-<div><a href="#getJsonRecord">棋譜データの取得</a></div>
-<div><a href="#setJsonRecord">棋譜データの反映</a></div>
+<div><a href="#getJsonRecord">棋譜データを取得</a></div>
+<div><a href="#setJsonRecord">棋譜データを反映</a></div>
 <div><a href="#switchRecord">手を進める・戻す</a></div>
 
 <h3>参考実装</h3>
