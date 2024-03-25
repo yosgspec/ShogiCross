@@ -29,7 +29,8 @@
 [将棋駒Viewer](http://shogicross.yosgspec.com/pieceViewer.html)
 
 ### ライブラリ
-
+任意のページへ設置。駒やボードの追加も対応。
+[将棋類紹介](http://shogicross.yosgspec.com/doc)
 
 ### 特徴
 * 様々な将棋類の表示に対応
@@ -57,10 +58,6 @@
 	</script>
 	```
 	</details>
-
-### [ライブラリ](https://shogicross.yosgspec.com/doc/)
-ShogiCrossを任意のページへ配置できる。  
-駒やボードの追加を行うことも可能。
 
 ## [ペーパークラフト](paper/README.md)
 様々な将棋類を紙の力で実体化。
@@ -96,7 +93,7 @@ Webアプリの本体についてはVanilla.jsで実装。
 |[jsDelivr](https://www.jsdelivr.com/github)|CDNリンクの取得
 
 ## [ライセンス](LICENSE)
-CC0またはパブリックドメイン。
+CC0 1.1。コードの引用再利用ご自由に。
 
 ## その他
 その他不足情報があれば、下記を参照。  
