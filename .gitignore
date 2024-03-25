@@ -15,7 +15,6 @@ dist-ssr
 shogicross-*.tgz
 *.local
 package-lock.json
-*/doc/api/*
 */clitest/*
 cli*
 !cli/package.json
