@@ -20,17 +20,18 @@
 実装済の駒の定義一覧。
 
 ## Webアプリ
-様々な将棋類の駒を並べるだけの将棋盤のようなツール/ライブラリ
+様々な将棋類の駒を並べるだけの将棋盤のようなツール
 
 ### 実装
-[ShogiCross App](http://shogicross.yosgspec.com)
-[単品ゲーム集](http://shogicross.yosgspec.com/dist)
-[将棋類紹介](http://shogicross.yosgspec.com/playBoard.html)
-[将棋駒Viewer](http://shogicross.yosgspec.com/pieceViewer.html)
+* [ShogiCross App](http://shogicross.yosgspec.com)
+* [単品ゲーム集](http://shogicross.yosgspec.com/dist)
+* [将棋類紹介](http://shogicross.yosgspec.com/playBoard.html)
+* [将棋駒Viewer](http://shogicross.yosgspec.com/pieceViewer.html)
 
 ### ライブラリ
 任意のページへ設置。駒やボードの追加も対応。
-[将棋類紹介](http://shogicross.yosgspec.com/doc)
+* [ドキュメント](http://shogicross.yosgspec.com/doc)
+* [ダウンロード](http://shogicross.yosgspec.com/doc/#getStarted)
 
 ### 特徴
 * 様々な将棋類の表示に対応
@@ -93,7 +94,7 @@ Webアプリの本体についてはVanilla.jsで実装。
 |[jsDelivr](https://www.jsdelivr.com/github)|CDNリンクの取得
 
 ## [ライセンス](LICENSE)
-CC0 1.1。コードの引用再利用ご自由に。
+CC0-1.0。コードの引用再利用ご自由に。
 
 ## その他
 その他不足情報があれば、下記を参照。  
