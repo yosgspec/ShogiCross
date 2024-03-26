@@ -1,0 +1,24 @@
+<main style="display:flex;">
+<div style="width:50svw; height:93svh;">
+    <canvas id="shogiCross" style="max-width:50svw;"></canvas>
+    <textarea id="textRecord" style="width:10rem; height:10rem; color:#000033; background-color:#EEFFFF"></textarea>
+</div>
+</main>
+
+<script type="module">
+    import {Board, gameSoft} from "https://cdn.jsdelivr.net/gh/yosgspec/ShogiCross@0.5/src/dist/ShogiCross.min.js";
+    const canvas = document.getElementById("shogiCross");
+    const textRecord = document.getElementById("textRecord");
+    const board = Board.run(canvas, {
+        ...gameSoft.gogoShogi,
+        onDrawed(e){
+            /** 棋譜をテキストで取得
+            * @param {boolean} isNumOnly - 座標を数字で表現
+            * @returns {string}
+            */
+            // board.getTextRecord(isNumOnly): boolean
+            textRecord.value = e.getTextRecord();
+        }
+    });
+</script>
+<script src="codeViewer.js"></script>

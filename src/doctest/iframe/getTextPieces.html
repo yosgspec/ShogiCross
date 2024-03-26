@@ -1,0 +1,30 @@
+<main style="display:flex;">
+<div style="width:50svw; height:93svh;">
+    <canvas id="shogiCross" style="max-width:50svw;"></canvas>
+    <textarea id="textPieces" style="width:10rem; height:10rem; color:#000033; background-color:#EEFFFF"></textarea>
+    <div>
+        <button id="textDefault">標準</button>
+        <button id="textCompact">コンパクト</button>
+        <button id="textBod">BOD形式</button>
+    </div>
+</div>
+</main>
+
+<script type="module">
+    import {Board, gameSoft} from "https://cdn.jsdelivr.net/gh/yosgspec/ShogiCross@0.5/src/dist/ShogiCross.min.js";
+    const canvas = document.getElementById("shogiCross");
+    const board = Board.run(canvas, gameSoft.dobutsuShogi);
+
+    const textPieces = document.getElementById("textPieces");
+
+    /** 駒配置をテキストで取得
+     * @param {"default"|"compact"|"bod"} mode - テキスト形式
+     * @param {boolean} isAlias - エイリアス表示
+     * @returns {string}
+     */
+    // board.getTextPieces(mode, isAlias)
+    document.getElementById("textDefault").onclick = ()=>textPieces.value = board.getTextPieces();
+    document.getElementById("textCompact").onclick = ()=>textPieces.value = board.getTextPieces("compact", true);
+    document.getElementById("textBod").onclick = ()=>textPieces.value = board.getTextPieces("bod");
+</script>
+<script src="codeViewer.js"></script>

@@ -1,0 +1,39 @@
+<h1>はじめに(ダウンロード)</h1>
+<h2>ライブラリ導入</h2>
+<h3><a href="../ShogiCross.zip">サイトから入手(ZIP形式)</a></h3>
+<h3>npmで入手</h3>
+<div class="cmd">$<input value="npm install shogicross" readonly></input></div>
+<div class="cmd">$<input value="shogicross help" readonly></input></div>
+<h3>Gitで入手</h3>
+<div class="cmd">$<input value="git clone https://github.com/yosgspec/ShogiCross.git"></input></div>
+<h3>CDNから使用する</h3>
+<h4>iife版</h4>
+html中にscriptタグを埋め込んで使用する場合、
+<pre style="background-color:#EEFFFF;"><code>&lt;script type="module">&lt;script src="https://cdn.jsdelivr.net/gh/yosgspec/ShogiCross@0.5/src/dist/ShogiCross.iife.js">&lt;/script>
+または
+&lt;script src="https://cdn.jsdelivr.net/gh/yosgspec/ShogiCross@0.5/src/dist/ShogiCross.iife.min.js">&lt;/script>
+&lt;script>
+    const {Board, gameSoft} = ShogiCross;
+    const board = Board.run(canvas, gameSoft.shogi);
+&lt;/script>
+</code></pre>
+<h4>ES Module版</h4>
+ES Moduleでimportして使用する場合、
+<pre style="background-color:#EEFFFF;"><code>&lt;script type="module">
+    import {Board, gameSoft} from "https://cdn.jsdelivr.net/gh/yosgspec/ShogiCross@0.5/src/dist/ShogiCross.js";
+    または
+    import {Board, gameSoft} from "https://cdn.jsdelivr.net/gh/yosgspec/ShogiCross@0.5/src/dist/ShogiCross.min.js";
+
+    const board = Board.run(canvas, gameSoft.shogi);
+&lt;/script>
+</code></pre>
+
+<h2>ゲームデータ拡張</h2>
+ボードやマス目についてゲームデータを拡張を行える。<br>
+サンプルデータはダウンロード(サイト、GitHub)またはnpmで用意できる。<br>
+配置パスは読み出すhtmlファイルのルートディレクトリとなる。
+<p>npmで取得する場合はローカルインストール後、下記コマンドを実行する。</p>
+<div class="cmd">$<input value="shogicross template"></input></div>
+または
+<div class="cmd">$<input value="npx shogicross template"></input></div>
+記述内容は<a href="https://github.com/yosgspec/ShogiCross/blob/main/doc/json/README.md">ゲームデータ定義仕様書</a>を参照。

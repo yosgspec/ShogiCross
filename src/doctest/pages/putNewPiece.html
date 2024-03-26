@@ -1,0 +1,24 @@
+<h1>駒を任意のマスに配置する</h1>
+<p>ボードの任意のマスに駒を配置する。<br>
+Board.putNewPiece()を用いて実行。</p>
+
+<iframe src="./iframe/putNewPiece.html" frameborder="no"></iframe>
+
+<h3>メソッド仕様</h3>
+<div style="font-family: monospace;">
+	Board.prototype.putNewPiece(piece, pX, pY, playeaIdOrDeg, {displayPtn, isMoved}): void
+	<ul>
+		<li>piece: string</li>
+		<ul><li>駒の表現文字</li></ul>
+		<li>pX: number</li>
+		<ul><li>X方向配置位置(マス目基準)</li></ul>
+		<li>pY: number</li>
+		<ul><li>Y方向配置位置(マス目基準)</li></ul>
+		<li>playeaIdOrDeg: number</li>
+		<ul><li>プレイヤー番号または駒の配置角</li></ul>
+		<li>displayPtn: number</li>
+		<ul><li>表示文字列を変更(1〜)</li></ul>
+		<li>isMoved: boolean</li>
+		<ul><li>初回移動済みか否か</li></ul>
+	</ul>
+</div>
