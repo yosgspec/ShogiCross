@@ -662,7 +662,7 @@ export default {
 		"english": "Chaturanga",
 		"fontColor": "#666666",
 		"backgroundColor": "#FFFFEE",
-		"promoLine": -1,
+		"promoLine": 1,
 		"position": {
 			"8": {
 				"default": [
@@ -712,7 +712,7 @@ export default {
 		"english": "DobutsuShogi",
 		"fontColor": "#666666",
 		"backgroundColor": "#DDCCFF",
-		"promoLine": -3,
+		"promoLine": 3,
 		"position": {
 			"3": {
 				"default": [
