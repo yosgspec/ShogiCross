@@ -1,3 +1,4 @@
+import {Stand} from "./stand.js";
 import {Piece} from "./piece.js";
 
 /** BOD形式のための関数定義など */
