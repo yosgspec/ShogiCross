@@ -20,8 +20,7 @@
 実装済の駒の定義一覧。
 
 ## Webアプリ
-様々な将棋類の駒を並べるだけの将棋盤のようなツール
-
+様々な将棋類の駒を並べるだけの将棋盤のようなツール。
 ### 実装
 * [ShogiCross App](http://shogicross.yosgspec.com)
 * [単品ゲーム集](http://shogicross.yosgspec.com/dist)
@@ -29,7 +28,7 @@
 * [将棋駒Viewer](http://shogicross.yosgspec.com/pieceViewer.html)
 
 ### ライブラリ
-任意のページへ設置。駒やボードの追加も対応。
+任意のページへ設置できる。駒やボードの追加も対応。
 * [ドキュメント](http://shogicross.yosgspec.com/doc)
 * [ダウンロード](http://shogicross.yosgspec.com/doc/#getStarted)
 
@@ -44,18 +43,17 @@
 * オリジナルの駒配置を設定 (チェス対将棋も容易)
 * 画像を用意せずに追加駒を設定
 * 視覚的にわかりやすい駒データ定義
-* Webページに簡単設置([CodePen](https://codepen.io/yosgspec/pen/bGJqNJr))
+* Webページに簡単設置([CodePen](https://codepen.io/yosgspec/pen/bGJqNJr)、[コード付サンプル](https://shogicross.yosgspec.com/doc/#gameSoft))
 
   * <details>
 	<summary>サンプルコード</summary>
 
 	```html
-	<canvas id="shogi"></canvas>
-	<script src="https://cdn.jsdelivr.net/gh/yosgspec/ShogiCross@main/src/dist/ShogiCross.iife.min.js"></script>
-	<script>
-	var shogi = ShogiCross.Board.run(
-		document.getElementById("shogi"),
-		ShogiCross.gameSoft.shogi);
+	<canvas id="shogiCross"></canvas>
+	<script type="module">
+		import {Board, gameSoft} from "https://cdn.jsdelivr.net/gh/yosgspec/ShogiCross@0.5/src/dist/ShogiCross.min.js";
+		const canvas = document.getElementById("shogiCross");
+		const board = Board.run(canvas, gameSoft.shogi);
 	</script>
 	```
 	</details>
@@ -80,7 +78,7 @@
 ## 使用ライブラリ
 Webアプリの本体についてはVanilla.jsで実装。
 
-ビルドツールとして下記を採用。いずれも最適化のためのもので必須ではない。
+ビルドツールとして下記を採用。いずれも最適化のためのもので使わなくても動く。
 
 |ライブラリ|用途
 |:---------|:----
@@ -91,7 +89,7 @@ Webアプリの本体についてはVanilla.jsで実装。
 |[TypeDoc](https://typedoc.org)|.d.ts(JSDoc)ドキュメント生成
 |[ADM-ZIP](https://github.com/cthackers/adm-zip/wiki/ADM-ZIP)|ZIPファイル生成
 |[sharp-cli](https://github.com/vseventer/sharp-cli)|画像ファイル最適化
-|[jsDelivr](https://www.jsdelivr.com/github)|CDNリンクの取得
+|[jsDelivr](https://www.jsdelivr.com/github)|CDNリンク取得
 
 ## [ライセンス](LICENSE)
 CC0-1.0。コードの引用再利用ご自由に。
