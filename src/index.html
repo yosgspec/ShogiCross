@@ -28,7 +28,6 @@
 				display: none;
 			}
 			menu {
-				visibility: hidden;
 				min-width: 260px;
 				max-width: 260px;
 				overflow-y: auto;
@@ -115,7 +114,6 @@
 				isDisplay = typeof(setDisplay) === "boolean"? !setDisplay: !isDisplay;
 				const d = displays.get(isDisplay);
 				menu.style.display = d.display;
-				menu.style.visibility = "visible";
 				menuButtonText.textContent = d.text;
 			};
 		}();
@@ -136,7 +134,7 @@
 			const h1 = vMain.querySelector("h1");
 			if(h1) h1.textContent +=  endTitle;
 			document.title = (
-				document.querySelector(`a[href="#${hash}"`)?.textContent ?? "ドキュメント")
+				document.querySelector(`a[href="#${hash}"`)?.textContent ?? "将棋クロス")
 				+ endTitle;
 			await main.replaceWith(vMain);
 			setupMenu();
