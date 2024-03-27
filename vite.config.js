@@ -15,6 +15,6 @@ export default defineConfig({
 			fileName: "ShogiCross",
 			formats: ["es", "iife"]
 		},
-		outDir: "./dist"
+		outDir: "./src/dist"
 	}
 });

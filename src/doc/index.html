@@ -45,6 +45,9 @@
 				height: 600px;
 				margin: 0;
 			}
+			table, td, th {
+				border: 1px #000099 solid;
+			}
 			@media (max-width: 799px){
 				menu {
 					z-index: 200;
@@ -122,12 +125,15 @@
 			const main = document.querySelector("main");
 			const vMain = main.cloneNode(false);
 			const hash = location.hash !== ""? location.hash.slice(1): "index";
-			let res = await fetch(`./pages/${hash}.html`);
-			if(res.status !== 200) res = await fetch("./pages/index.html");
+			let res = await fetch(
+				hash.match(/^md/)?
+					`./${""}${hash}.html`:
+					`./pages/${hash}.html`);
+			if(!res.ok) res = await fetch("./pages/index.html");
 			const mainHtml = await res.text();
 			vMain.innerHTML = mainHtml;
 			const h1 = vMain.querySelector("h1");
-			h1.textContent +=  endTitle;
+			if(h1) h1.textContent +=  endTitle;
 			document.title = (
 				document.querySelector(`a[href="#${hash}"`)?.textContent ?? "ドキュメント")
 				+ endTitle;

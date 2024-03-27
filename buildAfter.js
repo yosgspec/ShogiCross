@@ -2,63 +2,92 @@ import path from "path";
 import fs from "fs/promises";
 import querystring from "querystring";
 import admZip from "adm-zip";
+import markdownIt from "markdown-it";
+const md = markdownIt();
+
+// ライブラリ名
+const libName = "ShogiCross";
 
 // パス定義
-const inputName = process.argv[2];
-const inputNameExt = ext=>`${inputName}.${ext}`;
-const srcDir = path.dirname(inputName);
-const baseDir = path.join(".", "src");
-const distDir = path.join(baseDir, "dist");
-const fileName = path.join(distDir, path.parse(inputName).name);
-const fileNameExt = ext=>`${fileName}.${ext}`;
+const srcDir = "./src";
+const distDir = path.join(srcDir, "dist");
+const distLib = path.join(distDir, path.parse(libName).name);
+const distLibExt = ext=>`${distLib}.${ext}`;
+const paperDir = "./paper";
+const docDir = "./doc";
+const htmlDir = path.join(srcDir, "doc/md");
 
-// Viteビルドファイルを移動
+/** 出力ファイルを掃除 */
+async function clearDist(){
+	return (await fs.readdir(distDir, {recursive: true}))
+		.filter(f=>!f.match(/\.(js|html)$/))
+		.map(f=>{
+			const distFiles = path.join(distDir, f);
+			return fs.rm(distFiles, {recursive: true});
+		});
+}
 
-await Promise.all([
-		"js",
-		"js.map",
-		"iife.js",
-		"iife.js.map"
-	].map(ext=>
-		fs.rename(inputNameExt(ext), fileNameExt(ext))));
-await fs.rm(srcDir, {recursive: true});
-
-// ライブラリ及び関連ファイルをコピー
-const cpFiles = ["ShogiCross/", "json/", "img/", "ShogiCross.d.ts", "ShogiCross.iife.d.ts"];
-await Promise.all(
-	cpFiles.map(async f=>{
-		const srcFiles = path.join(baseDir, f);
+/** ライブラリ及び関連ファイルをコピー */
+async function copyLib(){
+	const cpFiles = ["ShogiCross/", "json/", "img/"];
+	return cpFiles.map(f=>{
+		const srcFiles = path.join(srcDir, f);
 		const distFiles = path.join(distDir, f);
-		return fs.rm(distFiles, {recursive: true})
-			.catch(()=>{})
-			.finally(()=>fs.cp(srcFiles, distFiles, {recursive: true}))
-			.catch(()=>{});
-	})
-);
+		return fs.cp(srcFiles, distFiles, {recursive: true});
+	});
+}
 
-// コード最小化
-const minFiles = [fileNameExt("js"), fileNameExt("iife.js")];
-await Promise.all(minFiles.map(async file=>{
-	const code = await fs.readFile(file, {encoding: "utf8"});
-	const response = await fetch(
-		"https://www.toptal.com/developers/javascript-minifier/api/raw",
-		{
+/** コード最小化 */
+async function minifyLib(){
+	const minFiles = [distLibExt("js"), distLibExt("iife.js")];
+	return minFiles.map(async f=>{
+		const code = await fs.readFile(f, {encoding: "utf8"});
+		const response = await fetch(
+			"https://www.toptal.com/developers/javascript-minifier/api/raw", {
 			method: "POST",
-			headers: {
-				"Content-Type": "application/x-www-form-urlencoded"
-			},
-			body: querystring.stringify({
-				input: code
-			})
+			headers: {"Content-Type": "application/x-www-form-urlencoded"},
+			body: querystring.stringify({input: code})
+		});
+		const minifyCode = await response.text();
+		await fs.writeFile(f.replace(/\.js$/, ".min.js"), minifyCode);
+	});
+}
+
+/** ZIPファイルを配置する */
+async function zipDist(){
+	const zipFiles = [
+		{in: distDir, out: libName},
+		{in: paperDir, out: "paper"}
+	];
+	return zipFiles.map(f=>{
+		const zip = new admZip();
+		zip.addLocalFolder(f.in);
+		return zip.writeZipPromise(`${srcDir}/${f.out}.zip`);
+	});
+}
+
+/** mdファイルへ変換 */
+async function convMd(){
+	return (await fs.readdir(docDir, {recursive: true}))
+		.filter(f=>f.match(/\.md$/))
+		.map(async f=>{
+			const code = await fs.readFile(path.join(docDir, f), {encoding: "utf8"});
+			const htmlCode = md.render(code);
+			const htmlName = f.replace(/\.md$/, ".html");
+			const htmlFile = path.join(htmlDir, htmlName);
+			await fs.mkdir(path.dirname(htmlFile), {recursive: true});
+			await fs.writeFile(htmlFile, htmlCode);
 		}
 	);
-	const minifyCode = await response.text();
-	await fs.writeFile(file.replace(/\.js$/, ".min.js"), minifyCode);
-}))
+}
 
-// ZIPファイルを配置する
-const zip = new admZip();
-zip.addLocalFolder(distDir);
-await zip.writeZipPromise(`${baseDir}/ShogiCross.zip`);
-
-console.log("Build After Success!");
+(async function main(){
+	await Promise.all(await clearDist());
+	await Promise.all([
+		await copyLib(),
+		await minifyLib(),
+		await zipDist(),
+		await convMd()
+	].flat());
+	console.log("Build After Success!");
+})();

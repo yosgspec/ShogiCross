@@ -1,0 +1,80 @@
+<h1>panels.json</h1>
+<p>ボード中のマス目情報。<br>
+マス目の名称をキーとして、辞書データの中の一項目として追加する。</p>
+<h2>name {string}</h2>
+<p>マス目の名前。</p>
+<pre><code class="language-json">&quot;name&quot;: &quot;将棋&quot;
+</code></pre>
+<h2>text {string}</h2>
+<p>ボードを文字列で表示する時の文字列。全角2文字であること。</p>
+<pre><code class="language-json">&quot;text&quot;: &quot;　　&quot;
+</code></pre>
+<h3>imgSrc(省略可) {string}</h3>
+<p>駒として表示する画像パス。<br>
+相対パスとする場合は表示するhtmlを起点とする。</p>
+<pre><code class="language-json">&quot;imgSrc&quot;: &quot;./img/ShogiCross/handPanelBlack.png&quot;
+</code></pre>
+<h2>backgroundColor {string}</h2>
+<p>マス目の色。</p>
+<pre><code class="language-json">&quot;backgroundColor&quot;: &quot;#EECC88&quot;
+</code></pre>
+<h2>borderColor {string}</h2>
+<p>マス目の枠色及びフォント色。</p>
+<pre><code class="language-json">&quot;borderColor&quot;: &quot;#333333&quot;
+</code></pre>
+<h2>selectColor(省略可) {string}</h2>
+<p>マス目を選択した時の色。</p>
+<pre><code class="language-json">&quot;selectColor&quot;: &quot;#FF000066&quot;
+</code></pre>
+<h2>targetColor(省略可) {string}</h2>
+<p>駒を選択した時の色。</p>
+<pre><code class="language-json">&quot;targetColor&quot;: &quot;#00FF0066&quot;
+</code></pre>
+<h2>displayText(省略可) {string}</h2>
+<p>マス目に表示する文字(1文字のみ)。</p>
+<pre><code class="language-json">&quot;displayText&quot;: &quot;界&quot;,
+</code></pre>
+<h2>textRotate(省略可) {number}</h2>
+<p>マス目に表示する文字の回転角(deg)。<br>
+値が正の場合は右回り、負の場合は左回りとなる。</p>
+<pre><code class="language-json">&quot;textRotate&quot;: 90
+</code></pre>
+<h2>borderSlashLeft(省略可) {boolean}</h2>
+<p>左斜線(＼)の有無。</p>
+<pre><code class="language-json">&quot;borderSlashLeft&quot;: true
+</code></pre>
+<h2>borderSlashRight(省略可) {boolean}</h2>
+<p>右斜線(／)の有無。</p>
+<pre><code class="language-json">&quot;borderSlashRight&quot;: true
+</code></pre>
+<h2>intersect(省略可) {boolean}</h2>
+<p>交点を中心とする。</p>
+<pre><code class="language-json">&quot;intersect&quot;: true
+</code></pre>
+<h2>attr(省略可) {string[]}</h2>
+<p>マス目の機能を属性として配列に記載。<br>
+主な属性値は下記。</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">属性値</th>
+<th style="text-align:left">詳細</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">palace</td>
+<td style="text-align:left">九宮</td>
+</tr>
+<tr>
+<td style="text-align:left">palaceSlash</td>
+<td style="text-align:left">九宮の斜線</td>
+</tr>
+<tr>
+<td style="text-align:left">keepOut</td>
+<td style="text-align:left">進入禁止</td>
+</tr>
+</tbody>
+</table>
+<pre><code class="language-json">&quot;attr&quot;: [&quot;palace&quot;, &quot;palaceSlish&quot;]
+</code></pre>

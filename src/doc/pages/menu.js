@@ -2,8 +2,8 @@ export default `
 <h3>ライブラリについて</h3>
 <div><a href="#getStarted">はじめに(ダウンロード)</a></div>
 <div><a href="https://github.com/yosgspec/ShogiCross">GitHub</a></div>
-<div><a href="https://github.com/yosgspec/ShogiCross/blob/main/doc/json/README.md">ゲームデータ仕様</a></div>
 <div><a href="./api/">APIドキュメント</a></div>
+<div><a href="#md/pieces/README">実装済み駒の一覧</a></div>
 
 <h3>ボード設定</h3>
 <div><a href="#board">ボードを構成する</a></div>
@@ -37,6 +37,17 @@ export default `
 <div><a href="#setJsonRecord">棋譜データを反映</a></div>
 <div><a href="#switchRecord">手を進める・戻す</a></div>
 
+<h3>ゲームデータ仕様</h3>
+<div><a href="#md/data/gameSoft">ゲーム用プリセット</a></div>
+<div><a href="#md/data/games">ゲーム種類・駒配置</a></div>
+<div><a href="#md/data/canvasFont">Canvas用フォント</a></div>
+<div><a href="#md/data/boards">ボードの構成</a></div>
+<div><a href="#md/data/panels">ボードのマス目</a></div>
+<div><a href="#md/data/pieces">駒の定義</a></div>
+<div><a href="#md/data/pieceRange">駒の移動範囲</a></div>
+<div><a href="#md/data/pieceCost">駒の価値情報</a></div>
+<div><a href="https://github.com/yosgspec/ShogiCross/blob/main/doc/json/README.md">ゲームデータ仕様(GitHub)</a></div>
+
 <h3>参考実装</h3>
 <div><a href="../">ShogiCross App</a></div>
 <div><a href="../dist/">単品ゲーム集</a></div>
@@ -45,7 +56,7 @@ export default `
 
 <h3>関連リンク</h3>
 <div><a href="https://github.com/yosgspec/ShogiCross/blob/main/paper/README.md">ペーパークラフト</a></div>
-<div><a href="http://yosgspec.blog103.fc2.com/blog-entry-2997.html">超棋(過去制作物)</a></div>
+<div><a href="#chogi">超棋(過去制作物)</a></div>
 
 <h3>連絡先</h3>
 <div><a href="http://yosgspec.blog103.fc2.com">ブログ</a></div>

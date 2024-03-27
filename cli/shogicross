@@ -54,7 +54,7 @@ $ shogicross {mode} {game}
 	async function list(){
 		return (
 			(await fs.readdir(moduleDir))
-				.filter(f=>f.search(regIndex)<0 && 0<=f.search(regHtml))
+				.filter(f=>!f.match(regIndex) && f.search(regHtml))
 				.map(f=>f.replace(regHtml, ""))
 				.join("\n")
 		);

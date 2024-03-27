@@ -1,0 +1,297 @@
+<h2>pieces.json</h2>
+<p>駒情報。<br>
+一文字表記の駒名、辞書データの中の一項目として追加する。<br>
+一文字表記の駒名はひらがな、カタカナ、JIS第2水準までに含まれる漢字で定めている。<br>
+(多くの環境でテキスト出力表示を崩さず表現できるよう考慮)</p>
+<h3>name {string}</h3>
+<p>駒の名前。</p>
+<pre><code class="language-json">&quot;name&quot;: &quot;歩兵&quot;
+</code></pre>
+<h3>display {string[]}</h3>
+<p>駒に表示する文字列(1、2文字)の配列。<br>
+配列の2番目はaliasと対応させて駒の表示を行える。</p>
+<pre><code class="language-json">&quot;display&quot;: [&quot;玉將&quot;, &quot;王將&quot;, &quot;玉将&quot;, &quot;王将&quot;]
+</code></pre>
+<h3>imgSrc(省略可) {string[]}</h3>
+<p>駒として表示する画像パスの配列。<br>
+相対パスとする場合は表示するhtmlを起点とする。<br>
+displayと同様に配列の2番目はaliasと対応させて駒の表示を行える。</p>
+<pre><code class="language-json">&quot;imgSrc&quot;: [
+	&quot;./img/handPawnWhite.png&quot;,
+	&quot;./img/handPawnBlack.png&quot;
+]
+</code></pre>
+<h3>isRotateImg(省略可) {boolean}</h3>
+<p>過画像を設定する場合回転するかどうかを設定。<br>
+既定値はtrue。</p>
+<pre><code class="language-json">&quot;isRotateImg&quot;: false
+</code></pre>
+<h3>alias(省略可) {string | char[]}</h3>
+<p>キーの別名として定める文字の集合(文字列)。<br>
+aliasに応じたdisplay/img表示を行う駒データを生成する。<br>
+alias[n] = display[n+1]<br>
+として対応する。</p>
+<pre><code class="language-json">&quot;alias&quot;: &quot;皇&quot;
+</code></pre>
+<h3>gameName {string}</h3>
+<p>駒に対応するゲーム名。<br>
+(ゲーム名 = games.jsonに列挙されるキー)<br>
+駒の外観、プロモーションラインを取得する。</p>
+<pre><code class="language-json">&quot;gameName&quot;: &quot;将棋&quot;
+</code></pre>
+<h3>expansion(省略可) {string}</h3>
+<p>ゲーム名の細分類。</p>
+<pre><code class="language-json">&quot;expansion&quot;: &quot;禽将棋&quot;
+</code></pre>
+<h3>unit {string}</h3>
+<p>駒の兵種。チャトランガの配置から由来し下記のように分類される。</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">兵種</th>
+<th style="text-align:left">例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">兵</td>
+<td style="text-align:left">歩, 兵, 卒, 卆, 貝, 燕, ...</td>
+</tr>
+<tr>
+<td style="text-align:left">馬</td>
+<td style="text-align:left">桂, 騎, 馮, 馭, 瑪, 雉, ,,,</td>
+</tr>
+<tr>
+<td style="text-align:left">象</td>
+<td style="text-align:left">銀, 聖, 相, 象, 根, 鶴, ...</td>
+</tr>
+<tr>
+<td style="text-align:left">車</td>
+<td style="text-align:left">香, 塔, 俥, 車, 船, 鶉, ...</td>
+</tr>
+<tr>
+<td style="text-align:left">臣</td>
+<td style="text-align:left">金, 后, 仕, 士, 種, 鷹, ...</td>
+</tr>
+<tr>
+<td style="text-align:left">王</td>
+<td style="text-align:left">玉, 王, 帥, 楚, 君, 鵬, ...</td>
+</tr>
+</tbody>
+</table>
+<pre><code class="language-json">&quot;unit&quot;: &quot;兵&quot;
+</code></pre>
+<h3>forcePromoLine(省略可) {number}</h3>
+<p>行きどころのない駒となる段を設定。
+ボードの奥からの段数を指定。</p>
+<pre><code class="language-json">&quot;forcePromoLine&quot;: 1
+</code></pre>
+<h3>range {Object&lt;string, Object&lt;string, string&gt;&gt;}</h3>
+<p>駒の移動範囲を定義。辞書形式で記載。<br>
+キーに設定する状況を次から指定。</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">移動範囲名</th>
+<th style="text-align:left">駒取得</th>
+<th style="text-align:left">ターン</th>
+<th style="text-align:left">詳細</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">default</td>
+<td style="text-align:left">なし/あり</td>
+<td style="text-align:left">任意</td>
+<td style="text-align:left">通常時の移動範囲</td>
+</tr>
+<tr>
+<td style="text-align:left">attack</td>
+<td style="text-align:left">あり</td>
+<td style="text-align:left">任意</td>
+<td style="text-align:left">駒取得時の移動範囲(通常時と異なる場合のみ)</td>
+</tr>
+<tr>
+<td style="text-align:left">start</td>
+<td style="text-align:left">なし</td>
+<td style="text-align:left">初回のみ</td>
+<td style="text-align:left">初回のみの移動範囲</td>
+</tr>
+<tr>
+<td style="text-align:left">castling</td>
+<td style="text-align:left">なし</td>
+<td style="text-align:left">初回のみ</td>
+<td style="text-align:left">キャスリング時の移動範囲</td>
+</tr>
+<tr>
+<td style="text-align:left">enPassant</td>
+<td style="text-align:left">なし</td>
+<td style="text-align:left">相手のポーンが2マス進めた直後</td>
+<td style="text-align:left">アンパッサン時の移動範囲</td>
+</tr>
+<tr>
+<td style="text-align:left">palaceSlash</td>
+<td style="text-align:left">なし/あり</td>
+<td style="text-align:left">任意</td>
+<td style="text-align:left">九宮内での移動範囲</td>
+</tr>
+</tbody>
+</table>
+<p>値は移動範囲を指定。<br>
+(移動範囲 = pieceRange.jsonに列居されるキー)</p>
+<pre><code class="language-json">&quot;range&quot;: {
+	&quot;default&quot;: &quot;歩&quot;,
+	&quot;start&quot;: &quot;二&quot;,
+	&quot;attack&quot;: &quot;兵&quot;,
+	&quot;enPassant&quot;: &quot;通&quot;
+}
+</code></pre>
+<h3>promo(省略可) {string}</h3>
+<p>プロモーション先の駒の一文字表記を記載。<br>
+(駒の一文字表記 = pieces.jsonに列挙されるキー)</p>
+<pre><code class="language-json">&quot;promo&quot;: &quot;と&quot;
+</code></pre>
+<h3>attr(省略可) {string[]}</h3>
+<p>駒の機能を属性として配列に記載。<br>
+主な属性値は下記。</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">属性名</th>
+<th style="text-align:left">属性名(和)</th>
+<th style="text-align:left">ゲーム例</th>
+<th style="text-align:left">詳細</th>
+<th style="text-align:left">実装</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">king</td>
+<td style="text-align:left">王</td>
+<td style="text-align:left">全</td>
+<td style="text-align:left">王駒。この属性を持つ駒が存在しなくなると負けとなる。また、捕縛されない。</td>
+<td style="text-align:left">部分的</td>
+</tr>
+<tr>
+<td style="text-align:left">promoted</td>
+<td style="text-align:left">成</td>
+<td style="text-align:left">全</td>
+<td style="text-align:left">成駒。駒が成った時に自動的に付与される。</td>
+<td style="text-align:left">実装済</td>
+</tr>
+<tr>
+<td style="text-align:left">capture</td>
+<td style="text-align:left">捕縛</td>
+<td style="text-align:left">将棋</td>
+<td style="text-align:left">駒を捕縛して持ち駒にする。</td>
+<td style="text-align:left">実装済</td>
+</tr>
+<tr>
+<td style="text-align:left">castlingKing</td>
+<td style="text-align:left">キャスリング王</td>
+<td style="text-align:left">チェス</td>
+<td style="text-align:left">条件を満たす時、キャスリングを行うことができる。</td>
+<td style="text-align:left">部分的</td>
+</tr>
+<tr>
+<td style="text-align:left">castlingRook</td>
+<td style="text-align:left">キャスリング塔</td>
+<td style="text-align:left">チェス</td>
+<td style="text-align:left">条件を満たす時、キャスリングを行うことができる。</td>
+<td style="text-align:left">部分的</td>
+</tr>
+<tr>
+<td style="text-align:left">enPassant</td>
+<td style="text-align:left">アンパッサン</td>
+<td style="text-align:left">チェス</td>
+<td style="text-align:left">アンパッサン。条件を満たす時、特殊な移動方法でポーンを取ることができる。</td>
+<td style="text-align:left">部分的</td>
+</tr>
+<tr>
+<td style="text-align:left">unCrossRiver</td>
+<td style="text-align:left">河越え禁止</td>
+<td style="text-align:left">シャンチー</td>
+<td style="text-align:left">ボードの半分(河)を越えて移動することはできない。</td>
+<td style="text-align:left">実装済</td>
+</tr>
+<tr>
+<td style="text-align:left">inPalace</td>
+<td style="text-align:left">九宮外禁止</td>
+<td style="text-align:left">シャンチー</td>
+<td style="text-align:left">九宮外へ移動することはできない。</td>
+<td style="text-align:left">実装済</td>
+</tr>
+<tr>
+<td style="text-align:left">cantSeeKing</td>
+<td style="text-align:left">王不見王</td>
+<td style="text-align:left">シャンチー</td>
+<td style="text-align:left">王駒同士が向かい合うことを許容しない。</td>
+<td style="text-align:left">未実装</td>
+</tr>
+<tr>
+<td style="text-align:left">pao</td>
+<td style="text-align:left">炮制限</td>
+<td style="text-align:left">オリジナル</td>
+<td style="text-align:left">初回移動時に初期位置かつ同等の価値を超える駒を取ることはできない。</td>
+<td style="text-align:left">未実装</td>
+</tr>
+<tr>
+<td style="text-align:left">po</td>
+<td style="text-align:left">包</td>
+<td style="text-align:left">チャンギ</td>
+<td style="text-align:left">包で包を越えること・取ることはできない。</td>
+<td style="text-align:left">未実装</td>
+</tr>
+<tr>
+<td style="text-align:left">swapHorseElephant</td>
+<td style="text-align:left">馬象交換</td>
+<td style="text-align:left">チャンギ</td>
+<td style="text-align:left">ゲームの開始時、馬駒と象駒の位置を入れ替えることができる。</td>
+<td style="text-align:left">未実装</td>
+</tr>
+<tr>
+<td style="text-align:left">usePass</td>
+<td style="text-align:left">パス使用可</td>
+<td style="text-align:left">チャンギ</td>
+<td style="text-align:left">パスを宣言できる。</td>
+<td style="text-align:left">未実装</td>
+</tr>
+<tr>
+<td style="text-align:left">bikjang</td>
+<td style="text-align:left">ピッチャングン</td>
+<td style="text-align:left">チャンギ</td>
+<td style="text-align:left">王駒同士が向かい合った場合は次の手番で避けることを強要する。</td>
+<td style="text-align:left">未実装</td>
+</tr>
+<tr>
+<td style="text-align:left">countingRules</td>
+<td style="text-align:left">引き分け既定</td>
+<td style="text-align:left">マークルック</td>
+<td style="text-align:left">引き分け既定を要求できる。</td>
+<td style="text-align:left">未実装</td>
+</tr>
+<tr>
+<td style="text-align:left">ruleThrough</td>
+<td style="text-align:left">ルール緩和</td>
+<td style="text-align:left">どうぶつしょうぎ</td>
+<td style="text-align:left">一部のルールを無視できる。二兵、行き場のない駒を許容する。</td>
+<td style="text-align:left">未実装</td>
+</tr>
+<tr>
+<td style="text-align:left">cantCapture</td>
+<td style="text-align:left">捕縛不可</td>
+<td style="text-align:left">朝倉象棋</td>
+<td style="text-align:left">捕縛されない。</td>
+<td style="text-align:left">実装済</td>
+</tr>
+<tr>
+<td style="text-align:left">twoSwallows</td>
+<td style="text-align:left">二燕</td>
+<td style="text-align:left">禽将棋</td>
+<td style="text-align:left">二兵を許容する。三兵は不可。</td>
+<td style="text-align:left">未実装</td>
+</tr>
+</tbody>
+</table>
+<pre><code class="language-json">&quot;attr&quot;: [&quot;capture&quot;]
+</code></pre>

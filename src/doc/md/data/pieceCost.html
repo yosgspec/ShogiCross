@@ -1,0 +1,22 @@
+<h1>pieceCost.json</h1>
+<p>駒の価値をリスト化したデータ。<br>
+駒の一文字をキーとした辞書。<br>
+(駒の一文字表記 = pieces.jsonに列挙されるキー)</p>
+<h2>駒の価値 {number}</h2>
+<p>駒の価値は整数で記載。<br>
+ルールとしておおよそ下記を定めている。</p>
+<ul>
+<li>捕縛属性を持つ駒は持たない駒と比較して1.5倍程度の価値となる。</li>
+<li>王駒は不利であるほど負数が増大する。</li>
+<li>実状として、盤の大きさによって走り駒の価値は変動するが固定値とする。</li>
+</ul>
+<pre><code class="language-json">&quot;仕&quot;:  4,
+&quot;卆&quot;:  4,
+&quot;歩&quot;:  3,
+&quot;兵&quot;:  3,
+&quot;ひ&quot;:  2,
+&quot;燕&quot;:  2,
+&quot;貝&quot;:  2,
+&quot;卒&quot;:  2,
+&quot;央&quot;:  2,
+</code></pre>
