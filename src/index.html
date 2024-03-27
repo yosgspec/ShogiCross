@@ -12,190 +12,140 @@
 
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width" />
-		<title>ShogiCross</title>
-		<link rel=icon href="img/favicon.min.svg">
-		<link href="shogicross.css" rel="stylesheet">
+		<title>ShogiCross Lib ドキュメント</title>
+		<link rel=icon href="./img/favicon.min.svg">
+		<link href="./shogicross.css" rel="stylesheet">
 		<link rel="preconnect" href="https://fonts.googleapis.com">
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-		<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@900&family=Kosugi:wght@400&family=Noto+Color+Emoji&display=swap" rel="stylesheet">
+		<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400&family=Kosugi:wght@400&family=Noto+Color+Emoji&display=swap" rel="stylesheet">
+		<style>
+			body, html {
+				margin: 0;
+				padding: 0;
+				height: 100%;
+			}
+			div#menuButton{
+				display: none;
+			}
+			menu {
+				visibility: hidden;
+				min-width: 260px;
+				max-width: 260px;
+				overflow-y: auto;
+				background-color: #66CCFF;
+				margin: 0;
+				padding: 10px;
+			}
+			main {
+				padding: 0 0 0 20px;
+				width: 100%;
+				overflow-y: auto;
+			}
+			iframe {
+				width: 100%;
+				height: 600px;
+				margin: 0;
+			}
+			table, td, th {
+				border: 1px #000099 solid;
+			}
+			@media (max-width: 799px){
+				menu {
+					z-index: 200;
+					position: fixed;
+					top: 0;
+					bottom: 0;
+					display: none;
+				}
+				div#menuButton {
+					display: flex;
+					background-color: #6699CC;
+					color: #DDEEFF;
+					opacity: 0.8;
+
+					position: fixed;
+					z-index: 300;
+					top: 20px;
+					right: 20px;
+					justify-content: center;
+					align-items: center;
+
+					width: 50px;
+					height: 50px;
+					border-radius: 25px;
+					cursor: pointer;
+				}
+				div#menuButton span {
+					-moz-user-select: none;
+					-webkit-user-select: none;
+					-ms-user-select: none;
+					user-select: none;
+					font-size: 35px;
+				}
+			}
+		</style>
 	</head>
 	<body>
-		<div class="flex-col">
-			<canvas id="shogiCross"></canvas>
-			<div class="flex-row">
-				<select id="selectGame"></select>
-				<select id="selectVariant"></select>
-				<div class="flex-row">
-					<button id="undoGame" title="一手戻る">&lt;&lt;</button>
-					<button id="redoGame" title="一手進む">&gt;&gt;</button>
-					<button id="rotateLeft" title="盤面を左回転">🔄</button>
-					<button id="rotateRight" title="盤面を右回転">🔁</button>
-					<button id="downloadImage" title="画像を保存">📷</button>
-				</div>
-			</div>
-			<div id="crossSelects" class="flex-row" style="display:none">
-				<div class="flex-col-fit">
-					<select id="selectBoard"></select>
-					<select id="selectStand">
-						<option value="true">駒台あり</option>
-						<option value="false">駒台なし</option>
-					</select>
-				</div>
-				<div class="flex-col-fit">
-					<select class="selectPieceGame"></select>
-					<select class="selectPieceSet"></select>
-				</div>
-				<div class="flex-col-fit">
-					<select class="selectPieceGame"></select>
-					<select class="selectPieceSet"></select>
-				</div>
-				<div class="flex-col-fit">
-					<select class="selectPieceGame"></select>
-					<select class="selectPieceSet"></select>
-				</div>
-				<div class="flex-col-fit">
-					<select class="selectPieceGame"></select>
-					<select class="selectPieceSet"></select>
-				</div>
-			</div>
-			<details open>
-				<summary >棋譜</summary>
-				<div class="flex-col-fit">
-					<textarea id="recordText" style="height:100px; overflow-y:scroll;" readonly></textarea>
-					<div class="flex-row">
-						<input id="recordJson" class="mono" placeholder="棋譜データを入出力">
-						<button id="recordJsonCopy" title="棋譜データをクリップボードへコピー">コピー</button>
-						<button id="recordJsonInput" title="棋譜データを盤面に反映">反映</button>
-						<button id="recordJsonOutput" title="棋譜データを盤面から取得">取得</button>
-					</div>
-				</div>
-
-			</details>
-			<details>
-				<summary>テキスト/BOD形式表示</summary>
-				テキストを直接書き換えて駒配置を直接編集できます。<br>
-				配置可能な駒は<a href="https://github.com/yosgspec/ShogiCross/blob/main/doc/pieces/README.md">駒情報表</a>を参照してください。<br>
-				<div class="flex-row">
-					<input type="radio" name="selectBoardText" value="default" checked id="selectBoardTextDefault">
-					<label for="selectBoardTextDefault">標準</label>
-					<input type="radio" name="selectBoardText" value="compact" id="selectBoardTextCompact">
-					<label for="selectBoardTextCompact">コンパクト</label>
-					<input type="radio" name="selectBoardText" value="bod" id="selectBoardTextBod">
-					<label for="selectBoardTextBod">BOD形式</label>
-				</div>
-				<textarea id="shogiCrossText"></textarea>
-			</details>
-		</div>
-		<div class="flex-col">
-			<h1>ShogiCross(将棋クロス)</h1>
-			<p>様々な将棋類の駒を並べるだけの将棋盤のようなツール</p>
-			<img src="./img/logo.min.svg"></div>
-
-			<h2>コンテンツ</h2>
-			<ul>
-				<li><a href="./pieceViewer.html">将棋駒Viewer</a></li>
-				<li><a href="./playBoard.html">将棋類紹介</a></li>
-				<li><a href="./dist/">ゲーム単品集</a></li>
-				<li><a href="https://github.com/yosgspec/ShogiCross">GitHub</a></li>
-				<li>ライブラリ</li>
-				<ul>
-					<li><a href="./doc/">ドキュメント</a></li>
-					<li><a href="https://shogicross.yosgspec.com/doc/#getStarted">ダウンロード</a></li>
-				</ul>
-				<li><a href="https://github.com/yosgspec/ShogiCross/blob/main/paper/README.md">ペーパークラフト</a></li>
-				<li><a href="http://yosgspec.blog103.fc2.com/blog-entry-2997.html">超棋(過去制作物)</a></li>
-			</ul>
-
-			<h2>連絡先</h2>
-			<div>Author: <a href="http://yosgspec.blog103.fc2.com">YOS G-spec</a></div>
-			<div class="flex-row">
-			<a href="https://misskey.io/@yosgspec">■Misskey</a>　
-			<a href="https://twitter.com/yosgspec">■Twitter</a>　
-			<a href="https://potofu.me/yosgspec">■POTOFU</a>
-			</div>
+		<div id="menuButton"><span></span></div>
+		<div class="flex-row" style="flex-wrap:nowrap; height:100%;">
+			<menu>
+				<a href="#"><img src="./img/logo.min.svg" style="width:90%;"></a>
+				<div id="menuList" class="flex-col"></div>
+			</menu>
+			<main></main>
 		</div>
 
 		<script type="module">
-		import {PlayGames} from "./game/playGame.js";
-		import {SelectControl} from "./game/selectControl.js";
-		const canvas = document.getElementById("shogiCross");
-		const downloadImage = document.getElementById("downloadImage");
-		const rotateLeft = document.getElementById("rotateLeft");
-		const rotateRight = document.getElementById("rotateRight");
-		const undoGame = document.getElementById("undoGame");
-		const redoGame = document.getElementById("redoGame");
-		const recordText = document.getElementById("recordText");
-		const recordJson = document.getElementById("recordJson");
-		const recordJsonCopy = document.getElementById("recordJsonCopy");
-		const recordJsonInput = document.getElementById("recordJsonInput");
-		const recordJsonOutput = document.getElementById("recordJsonOutput");
-		const selectBoardText = document.getElementsByName("selectBoardText")
-		const txt = document.getElementById("shogiCrossText");
+		import menuHtml from "./menu.js";
+		const endTitle = " - ShogiCross";
+		const menu = document.querySelector("menu");
+		const menuList = menu.querySelector("#menuList");
+		const menuButton = document.getElementById("menuButton");
+		const menuButtonText = menuButton.firstElementChild;
+		menuList.innerHTML = menuHtml;
 
-		/** 描写イベント
-		 * @param {Board} e
-		 */
-		function onDrawed(e){
-			recordText.value = e.getTextRecord();
-			recordText.scrollTop = recordText.scrollHeight;
+		const switchMenu = function(){
+			const displays = new Map([
+				[true, {display: "none", text: "📁"}],
+				[false, {display: "", text: "📂"}]
+			]);
+			let isDisplay = true;
 
-			for(const {checked, value:mode} of selectBoardText){
-				if(!checked) continue;
-
-				txt.value = e.getTextPieces(mode);
-				const txtSplit = txt.value.split(/\n/);
-				const fontSize = parseFloat(window.getComputedStyle(txt, null).getPropertyValue('font-size'));
-				txt.style.height = `${0|fontSize*txtSplit.length*1.1}px`;
-				if(mode!=="bod"){
-					txt.style.width = `${0|fontSize*txtSplit[0].length*1.15}px`;
-					txt.classList.remove("mono");
-				}
-				else{
-					txt.style.width = "500px";
-					txt.classList.add("mono");
-				}
-				break;
+			return setDisplay=>{
+				isDisplay = typeof(setDisplay) === "boolean"? !setDisplay: !isDisplay;
+				const d = displays.get(isDisplay);
+				menu.style.display = d.display;
+				menu.style.visibility = "visible";
+				menuButtonText.textContent = d.text;
 			};
-		};
+		}();
 
-		/** テキスト更新イベント
-		 * @param {HTMLElement} target
-		 */
-		 function txtOnChange({target}){
-			playingGame.setTextPieces(target.value);
-		};
-
-		/** 画像を保存ボタン */
-		 function downloadImageClick(){
-			playingGame.downloadImage(SelectControl.gameName);
+		function setupMenu(){
+			switchMenu(800 <= window.innerWidth);
 		}
 
-		/** 実行中のゲーム
-		 * @type {Board}
-		 */
-		let playingGame = {};
+		async function router(){
+			const main = document.querySelector("main");
+			const vMain = main.cloneNode(false);
+			const hash = location.hash !== ""? location.hash.slice(1): "index";
 
-		/** ゲームを実行 */
-		async function playGame(){
-			if(playingGame.close) playingGame.close();
-			playingGame = PlayGames[SelectControl.gameName].run(canvas, {onDrawed, ...SelectControl.option});
-			downloadImage.onclick = downloadImageClick;
-			txt.onchange = txtOnChange;
-			rotateLeft.onclick = ()=>playingGame.rotate(false);
-			rotateRight.onclick = ()=>playingGame.rotate();
-			undoGame.onclick = ()=>playingGame.undoRecord();
-			redoGame.onclick = ()=>playingGame.redoRecord();
-			recordJsonCopy.onclick = ()=>navigator.clipboard.writeText(recordJson.value).then(()=>recordJson.select());
-			recordJsonInput.onclick = ()=>playingGame.setJsonRecord(recordJson.value);
-			recordJsonOutput.onclick = ()=>recordJson.value = playingGame.getJsonRecord();
-		};
+			let res = await fetch(`./pages/${hash}.html`);
+			if(!res.ok) res = await fetch("./pages/main.html");
+			const mainHtml = await res.text();
+			vMain.innerHTML = mainHtml;
+			const h1 = vMain.querySelector("h1");
+			if(h1) h1.textContent +=  endTitle;
+			document.title = (
+				document.querySelector(`a[href="#${hash}"`)?.textContent ?? "ドキュメント")
+				+ endTitle;
+			await main.replaceWith(vMain);
+			setupMenu();
+		}
 
-		(function(){
-			playGame();
-			SelectControl.onchange = playGame;
-			[...selectBoardText].forEach(
-				e=>e.onchange=()=>onDrawed(playingGame))
-		})();
-		</script>
+		menuButton.onclick = switchMenu;
+		window.onresize = setupMenu
+		window.onhashchange = router;
+		router();
+	</script>
 	</body>
 </html>

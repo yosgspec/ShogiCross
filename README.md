@@ -90,6 +90,7 @@ Webアプリの本体についてはVanilla.jsで実装。
 |[ADM-ZIP](https://github.com/cthackers/adm-zip/wiki/ADM-ZIP)|ZIPファイル生成
 |[sharp-cli](https://github.com/vseventer/sharp-cli)|画像ファイル最適化
 |[jsDelivr](https://www.jsdelivr.com/github)|CDNリンク取得
+|[markdown-it](https://github.com/markdown-it/markdown-it)|Markdown⇒HTML変換
 
 ## [ライセンス](LICENSE)
 CC0-1.0。コードの引用再利用ご自由に。

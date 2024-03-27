@@ -15,12 +15,15 @@ const distLib = path.join(distDir, path.parse(libName).name);
 const distLibExt = ext=>`${distLib}.${ext}`;
 const paperDir = "./paper";
 const docDir = "./doc";
-const htmlDir = path.join(srcDir, "doc/md");
+const htmlDir = path.join(srcDir, "pages/md");
 
 /** 出力ファイルを掃除 */
 async function clearDist(){
 	return (await fs.readdir(distDir, {recursive: true}))
-		.filter(f=>!f.match(/\.(js|html)$/))
+		.filter(f=>
+			!f.match(/\.html$/)
+			&& !f.match(/\.js$/)
+			&& !f.match(/\.map$/))
 		.map(f=>{
 			const distFiles = path.join(distDir, f);
 			return fs.rm(distFiles, {recursive: true});

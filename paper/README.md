@@ -39,7 +39,7 @@
 
 |ゲーム                  |[駒ページ](dist/paperPiece.pdf)| ボード
 |:-----------------------|:---------|:--------------------
-|**将棋**                |1         |[board_shogi.pdf](dist//board_shogi.pdf)
+|**将棋**                |1         |[board_shogi.pdf](dist/board_shogi.pdf)
 |5五将棋                 |1         |[board_shogi5x5.pdf](dist/board_shogi5x5.pdf)
 |朝倉象棋                |1         |[board_shogi.pdf](dist/board_shogi.pdf)
 |京将棋                  |1         |[board_shogi10x10.pdf](dist/board_shogi10x10.pdf)

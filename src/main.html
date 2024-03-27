@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<!-- Global site tag (gtag.js) - Google Analytics -->
+		<script async src="https://www.googletagmanager.com/gtag/js?id=UA-46760069-2"></script>
+		<script>
+			window.dataLayer = window.dataLayer || [];
+			function gtag(){dataLayer.push(arguments);}
+			gtag('js', new Date());
+			gtag('config', 'UA-46760069-2');
+		</script>
+
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width" />
+		<title>ShogiCross</title>
+		<link rel=icon href="img/favicon.min.svg">
+		<link href="shogicross.css" rel="stylesheet">
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@900&family=Kosugi:wght@400&family=Noto+Color+Emoji&display=swap" rel="stylesheet">
+	</head>
+	<body>
+		<div class="flex-col">
+			<canvas id="shogiCross"></canvas>
+			<div class="flex-row">
+				<select id="selectGame"></select>
+				<select id="selectVariant"></select>
+				<div class="flex-row">
+					<button id="undoGame" title="一手戻る">&lt;&lt;</button>
+					<button id="redoGame" title="一手進む">&gt;&gt;</button>
+					<button id="rotateLeft" title="盤面を左回転">🔄</button>
+					<button id="rotateRight" title="盤面を右回転">🔁</button>
+					<button id="downloadImage" title="画像を保存">📷</button>
+				</div>
+			</div>
+			<div id="crossSelects" class="flex-row" style="display:none">
+				<div class="flex-col-fit">
+					<select id="selectBoard"></select>
+					<select id="selectStand">
+						<option value="true">駒台あり</option>
+						<option value="false">駒台なし</option>
+					</select>
+				</div>
+				<div class="flex-col-fit">
+					<select class="selectPieceGame"></select>
+					<select class="selectPieceSet"></select>
+				</div>
+				<div class="flex-col-fit">
+					<select class="selectPieceGame"></select>
+					<select class="selectPieceSet"></select>
+				</div>
+				<div class="flex-col-fit">
+					<select class="selectPieceGame"></select>
+					<select class="selectPieceSet"></select>
+				</div>
+				<div class="flex-col-fit">
+					<select class="selectPieceGame"></select>
+					<select class="selectPieceSet"></select>
+				</div>
+			</div>
+			<details open>
+				<summary >棋譜</summary>
+				<div class="flex-col-fit">
+					<textarea id="recordText" style="height:100px; overflow-y:scroll;" readonly></textarea>
+					<div class="flex-row">
+						<input id="recordJson" class="mono" placeholder="棋譜データを入出力">
+						<button id="recordJsonCopy" title="棋譜データをクリップボードへコピー">コピー</button>
+						<button id="recordJsonInput" title="棋譜データを盤面に反映">反映</button>
+						<button id="recordJsonOutput" title="棋譜データを盤面から取得">取得</button>
+					</div>
+				</div>
+
+			</details>
+			<details>
+				<summary>テキスト/BOD形式表示</summary>
+				テキストを直接書き換えて駒配置を直接編集できます。<br>
+				配置可能な駒は<a href="https://github.com/yosgspec/ShogiCross/blob/main/doc/pieces/README.md">駒情報表</a>を参照してください。<br>
+				<div class="flex-row">
+					<input type="radio" name="selectBoardText" value="default" checked id="selectBoardTextDefault">
+					<label for="selectBoardTextDefault">標準</label>
+					<input type="radio" name="selectBoardText" value="compact" id="selectBoardTextCompact">
+					<label for="selectBoardTextCompact">コンパクト</label>
+					<input type="radio" name="selectBoardText" value="bod" id="selectBoardTextBod">
+					<label for="selectBoardTextBod">BOD形式</label>
+				</div>
+				<textarea id="shogiCrossText"></textarea>
+			</details>
+		</div>
+		<div class="flex-col">
+			<h1>ShogiCross(将棋クロス)</h1>
+			<h2>コンテンツ</h2>
+			<p><a href="https://github.com/yosgspec/ShogiCross">GitHub</a></p>
+			<p><a href="#doc/index">ライブラリ</a></p>
+			<p><a href="#doc/getStarted">ライブラリダウンロード</a></p>
+			<p><a href="https://github.com/yosgspec/ShogiCross/blob/main/paper/README.md">ペーパークラフト</a></p>
+		</div>
+
+		<script type="module">
+		import {PlayGames} from "./game/playGame.js";
+		import {SelectControl} from "./game/selectControl.js";
+		const canvas = document.getElementById("shogiCross");
+		const downloadImage = document.getElementById("downloadImage");
+		const rotateLeft = document.getElementById("rotateLeft");
+		const rotateRight = document.getElementById("rotateRight");
+		const undoGame = document.getElementById("undoGame");
+		const redoGame = document.getElementById("redoGame");
+		const recordText = document.getElementById("recordText");
+		const recordJson = document.getElementById("recordJson");
+		const recordJsonCopy = document.getElementById("recordJsonCopy");
+		const recordJsonInput = document.getElementById("recordJsonInput");
+		const recordJsonOutput = document.getElementById("recordJsonOutput");
+		const selectBoardText = document.getElementsByName("selectBoardText")
+		const txt = document.getElementById("shogiCrossText");
+
+		/** 描写イベント
+		 * @param {Board} e
+		 */
+		function onDrawed(e){
+			recordText.value = e.getTextRecord();
+			recordText.scrollTop = recordText.scrollHeight;
+
+			for(const {checked, value:mode} of selectBoardText){
+				if(!checked) continue;
+
+				txt.value = e.getTextPieces(mode);
+				const txtSplit = txt.value.split(/\n/);
+				const fontSize = parseFloat(window.getComputedStyle(txt, null).getPropertyValue('font-size'));
+				txt.style.height = `${0|fontSize*txtSplit.length*1.1}px`;
+				if(mode!=="bod"){
+					txt.style.width = `${0|fontSize*txtSplit[0].length*1.15}px`;
+					txt.classList.remove("mono");
+				}
+				else{
+					txt.style.width = "500px";
+					txt.classList.add("mono");
+				}
+				break;
+			};
+		};
+
+		/** テキスト更新イベント
+		 * @param {HTMLElement} target
+		 */
+		 function txtOnChange({target}){
+			playingGame.setTextPieces(target.value);
+		};
+
+		/** 画像を保存ボタン */
+		 function downloadImageClick(){
+			playingGame.downloadImage(SelectControl.gameName);
+		}
+
+		/** 実行中のゲーム
+		 * @type {Board}
+		 */
+		let playingGame = {};
+
+		/** ゲームを実行 */
+		async function playGame(){
+			if(playingGame.close) playingGame.close();
+			playingGame = PlayGames[SelectControl.gameName].run(canvas, {onDrawed, ...SelectControl.option});
+			downloadImage.onclick = downloadImageClick;
+			txt.onchange = txtOnChange;
+			rotateLeft.onclick = ()=>playingGame.rotate(false);
+			rotateRight.onclick = ()=>playingGame.rotate();
+			undoGame.onclick = ()=>playingGame.undoRecord();
+			redoGame.onclick = ()=>playingGame.redoRecord();
+			recordJsonCopy.onclick = ()=>navigator.clipboard.writeText(recordJson.value).then(()=>recordJson.select());
+			recordJsonInput.onclick = ()=>playingGame.setJsonRecord(recordJson.value);
+			recordJsonOutput.onclick = ()=>recordJson.value = playingGame.getJsonRecord();
+		};
+
+		(function(){
+			playGame();
+			SelectControl.onchange = playGame;
+			[...selectBoardText].forEach(
+				e=>e.onchange=()=>onDrawed(playingGame))
+		})();
+		</script>
+	</body>
+</html>
