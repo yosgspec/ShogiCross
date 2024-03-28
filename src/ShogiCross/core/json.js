@@ -43,6 +43,7 @@
  * @prop {string} backgroundColor - 背景色(デフォルト無色)
  * @prop {boolean} autoDrawing - 描写の自動更新有無
  * @prop {boolean} freeMode - フリーモード有効化/無効化
+ * @prop {boolean} useDefaultPlayer - デフォルトのプレイヤーを使用する
  * @prop {(Board)=>void} onDrawed - 描写イベント
  * @prop {(i)=>void} onGameOver - ゲームオーバーイベント
  */

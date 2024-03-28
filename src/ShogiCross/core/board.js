@@ -3,6 +3,7 @@ import {canvasFont} from "./canvasFontLoader.js";
 import {canvasImage} from "./canvasImageLoader.js";
 import {downloadImage} from "./downloadImage.js";
 import {uiControl} from "./uiControl.js";
+import {RecordPlayer} from "./recordPlayer.js";
 import {Stand} from "./stand.js";
 import {Panel} from "./panel.js";
 import {Piece} from "./piece.js";
@@ -60,6 +61,7 @@ export class Board{
 			backgroundColor="#00000000",
 			autoDrawing=true,
 			freeMode=false,
+			useRecordPlayer=false,
 			onDrawed,
 			onGameOver=(e,i)=>alert(`プレイヤー${i+1}の敗北です。`)
 		} = option;
@@ -168,12 +170,17 @@ export class Board{
 		 */
 		this.turn = 0;
 		this.uiControl = uiControl(this);
+		if(useRecordPlayer){
+			this.recordPlayer = new RecordPlayer(this);
+			this.recordPlayer.add();
+		}
 		this.enPassant = new EnPassant();
 	}
 
 	/** ボードを閉じる */
 	close(){
 		this.uiControl.removeEvent();
+		this.recordPlayer?.remove();
 	}
 
 	/** 角度を正規化
@@ -585,9 +592,9 @@ ${char}:${name}`)){
 	 * @param {string} record - 棋譜データ
 	 * @param {number} turn - 手数
 	 */
-	setJsonRecord(record, turn=this.record.length-1){
+	setJsonRecord(record, turn){
 		this.record = JSON.parse(decodeURI(record));
-		this.turn = turn;
+		this.turn = turn ?? this.record.length-1;
 		this.#switchRecord(0);
 	}
 
