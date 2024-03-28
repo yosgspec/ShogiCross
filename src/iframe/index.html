@@ -22,7 +22,7 @@
         onDrawed
     });
 
-    board.setJsonRecord(record(), 0);
+    board.setJsonRecord(record());
     document.getElementById("undoGame").onclick = ()=>board.undoRecord();
     document.getElementById("redoGame").onclick = ()=>board.redoRecord();
     document.getElementById("rotateLeft").onclick = ()=>board.rotate(false);
