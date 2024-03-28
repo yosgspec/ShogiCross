@@ -10,9 +10,10 @@ const libName = "ShogiCross";
 
 // パス定義
 const srcDir = "./src";
+const viteDir = "./dist";
+const viteLib = ext=>`${path.join(viteDir, libName)}.${ext}`;
 const distDir = path.join(srcDir, "dist");
-const distLib = path.join(distDir, path.parse(libName).name);
-const distLibExt = ext=>`${distLib}.${ext}`;
+const distLib = ext=>`${path.join(distDir, libName)}.${ext}`;
 const paperDir = "./paper";
 const docDir = "./doc";
 const htmlDir = path.join(srcDir, "pages/md");
@@ -22,12 +23,24 @@ async function clearDist(){
 	return (await fs.readdir(distDir, {recursive: true}))
 		.filter(f=>
 			!f.match(/\.html$/)
-			&& !f.match(/\.js$/)
-			&& !f.match(/\.map$/))
-		.map(f=>{
+		).map(f=>{
 			const distFiles = path.join(distDir, f);
 			return fs.rm(distFiles, {recursive: true});
 		});
+}
+
+/** Viteのビルドファイルを移動 */
+async function moveVite(){
+	return Promise.all([
+		"js",
+		"js.map",
+		"iife.js",
+		"iife.js.map"
+	].map(ext=>
+		fs.rename(viteLib(ext), distLib(ext))
+	)).then(()=>
+		fs.rm(viteDir, {recursive: true})
+	);
 }
 
 /** ライブラリ及び関連ファイルをコピー */
@@ -42,7 +55,7 @@ async function copyLib(){
 
 /** コード最小化 */
 async function minifyLib(){
-	const minFiles = [distLibExt("js"), distLibExt("iife.js")];
+	const minFiles = [distLib("js"), distLib("iife.js")];
 	return minFiles.map(async f=>{
 		const code = await fs.readFile(f, {encoding: "utf8"});
 		const response = await fetch(
@@ -84,9 +97,11 @@ async function convMd(){
 	);
 }
 
+// メイン処理
 (async function main(){
 	await Promise.all(await clearDist());
 	await Promise.all([
+		await moveVite(),
 		await copyLib(),
 		await minifyLib(),
 		await zipDist(),
