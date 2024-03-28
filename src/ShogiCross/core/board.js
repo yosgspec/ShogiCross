@@ -573,18 +573,21 @@ ${char}:${name}`)){
 	}
 
 	/** 棋譜データを取得
+	 * @param {boolean} isEncode - エンコード有無
 	 * @returns {string}
 	 */
-	getJsonRecord(){
-		return encodeURI(JSON.stringify(this.record, null, ""));
+	getJsonRecord(isEncode=false){
+		const jsonRecord = JSON.stringify(this.record, null, "");
+		return isEncode? encodeURI(jsonRecord): jsonRecord;
 	}
 
 	/** 棋譜データを入力
 	 * @param {string} record - 棋譜データ
+	 * @param {number} turn - 手数
 	 */
-	setJsonRecord(record){
+	setJsonRecord(record, turn=this.record.length-1){
 		this.record = JSON.parse(decodeURI(record));
-		this.turn = this.record.length-1;
+		this.turn = turn;
 		this.#switchRecord(0);
 	}
 

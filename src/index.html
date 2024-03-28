@@ -54,7 +54,7 @@
 					position: fixed;
 					top: 0;
 					bottom: 0;
-					display: none;
+					visibility: hidden;
 				}
 				div#menuButton {
 					display: flex;
@@ -114,6 +114,8 @@
 				isDisplay = typeof(setDisplay) === "boolean"? !setDisplay: !isDisplay;
 				const d = displays.get(isDisplay);
 				menu.style.display = d.display;
+				menu.style.visibility = "visible";
+				console.log(menu)
 				menuButtonText.textContent = d.text;
 			};
 		}();
