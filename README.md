@@ -2,7 +2,7 @@
 ![](img/logo.min.svg)　<img src="img/all.png" height="200px">  
 様々な将棋類を将棋駒として実体化するプロジェクト。
 
-## [収録ゲーム](http://shogicross.yosgspec.complayBoard.html)
+## [収録ゲーム](http://shogicross.yosgspec.com/#playBoard)
 * 将棋
 * チェス
 * シャンチー
@@ -22,15 +22,15 @@
 ## Webアプリ
 様々な将棋類の駒を並べるだけの将棋盤のようなツール。
 ### 実装
-* [ShogiCross App](http://shogicross.yosgspec.com)
-* [単品ゲーム集](http://shogicross.yosgspec.com/dist)
-* [将棋類紹介](http://shogicross.yosgspec.com/playBoard.html)
-* [将棋駒Viewer](http://shogicross.yosgspec.com/pieceViewer.html)
+* [ShogiCross App](http://shogicross.yosgspec.com/#app)
+* [単品ゲーム集](http://shogicross.yosgspec.com/#dist)
+* [将棋類紹介](http://shogicross.yosgspec.com/#playBoard)
+* [将棋駒Viewer](http://shogicross.yosgspec.com/#pieceViewer)
 
 ### ライブラリ
 任意のページへ設置できる。駒やボードの追加も対応。
-* [ドキュメント](http://shogicross.yosgspec.com/doc)
-* [ダウンロード](http://shogicross.yosgspec.com/doc/#getStarted)
+* [ドキュメント](http://shogicross.yosgspec.com)
+* [ダウンロード](http://shogicross.yosgspec.com/#doc/getStarted)
 
 ### 特徴
 * 様々な将棋類の表示に対応
@@ -43,7 +43,7 @@
 * オリジナルの駒配置を設定 (チェス対将棋も容易)
 * 画像を用意せずに追加駒を設定
 * 視覚的にわかりやすい駒データ定義
-* Webページに簡単設置([CodePen](https://codepen.io/yosgspec/pen/bGJqNJr)、[コード付サンプル](https://shogicross.yosgspec.com/doc/#gameSoft))
+* Webページに簡単設置([CodePen](https://codepen.io/yosgspec/pen/bGJqNJr)、[コード付サンプル](https://shogicross.yosgspec.com/#doc/gameSoft))
 
   * <details>
 	<summary>サンプルコード</summary>

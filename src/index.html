@@ -12,7 +12,7 @@
 
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width" />
-		<title>ShogiCross Lib ドキュメント</title>
+		<title>ShogiCross</title>
 		<link rel=icon href="./img/favicon.min.svg">
 		<link href="./shogicross.css" rel="stylesheet">
 		<link rel="preconnect" href="https://fonts.googleapis.com">
@@ -34,11 +34,12 @@
 				background-color: #66CCFF;
 				margin: 0;
 				padding: 10px;
+				margin-right: 20px;
 			}
 			main {
-				padding: 0 0 0 20px;
 				width: 100%;
 				overflow-y: auto;
+				padding: 0;
 			}
 			iframe {
 				width: 100%;
@@ -115,7 +116,6 @@
 				const d = displays.get(isDisplay);
 				menu.style.display = d.display;
 				menu.style.visibility = "visible";
-				console.log(menu)
 				menuButtonText.textContent = d.text;
 			};
 		}();
@@ -130,7 +130,7 @@
 			const hash = location.hash !== ""? location.hash.slice(1): "index";
 
 			let res = await fetch(`./pages/${hash}.html`);
-			if(!res.ok) res = await fetch("./pages/main.html");
+			if(!res.ok) res = await fetch("./pages/.html");
 			const mainHtml = await res.text();
 			vMain.innerHTML = mainHtml;
 			const h1 = vMain.querySelector("h1");

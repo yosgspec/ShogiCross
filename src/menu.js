@@ -1,17 +1,16 @@
 export default `
 
 <h3>WebApp</h3>
-<div><a href="#">ShogiCross App</a></div>
+<div><a href="#app">ShogiCross App</a></div>
 <div><a href="#dist">単品ゲーム集</a></div>
 <div><a href="#playBoard">将棋類紹介</a></div>
 <div><a href="#pieceViewer">将棋駒Viewer</a></div>
 
 <h3>ライブラリ</h3>
-<div><a href="#doc/index">ライブラリについて</a></div>
 <div><a href="#doc/getStarted">はじめに(ダウンロード)</a></div>
 <div><a href="https://github.com/yosgspec/ShogiCross">GitHub</a></div>
 <div><a href="./doc/api/">APIドキュメント</a></div>
-<div><a href="#md/pieces/README">実装済み駒の一覧</a></div>
+<div><a href="https://github.com/yosgspec/ShogiCross/tree/main/doc/pieces">駒一覧</a></div>
 
 <h3>ボード設定</h3>
 <div><a href="#doc/board">ボードを構成する</a></div>

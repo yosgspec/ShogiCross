@@ -16,9 +16,10 @@
     const jsonRecord = document.getElementById("jsonRecord");
 
     /** 棋譜データを取得
+     * @param {}  - エンコード有無
      * @returns {string}
      */
-    // getJsonRecord(): string
+    // getJsonRecord(isEncode?: boolean): string
     document.getElementById("getJsonRecord").onclick = ()=>jsonRecord.value = board.getJsonRecord();
 </script>
 <script src="codeViewer.js"></script>
