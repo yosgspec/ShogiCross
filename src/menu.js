@@ -25,9 +25,12 @@ export default `
 <div><a href="#doc/useRankSize">駒の格で大きさを変更しない</a></div>
 <div><a href="#doc/isDrawShadow">駒の影の描写を変更</a></div>
 <div><a href="#doc/autoDrawing">描写の自動更新を変更</a></div>
-<div><a href="#doc/freeMode">自由移動の有効化</a></div>
+<div><a href="#doc/moveModeFree">自由移動の有効化</a></div>
+<div><a href="#doc/moveModeViewOnly">移動を無効化</a></div>
 <div><a href="#doc/onDrawed">描写時に任意の処理を行う</a></div>
 <div><a href="#doc/onGameOver">プレイヤーが敗北した時の処理を行う</a></div>
+<div><a href="#doc/usePlayerControl">操作パネル表示を変更する</a></div>
+<div><a href="#doc/makePlayerControl">操作パネル要素を取得</a></div>
 <div><a href="#doc/downloadImage">スクリーンショットを保存する</a></div>
 <div><a href="#doc/rotate">盤面を回転する</a></div>
 <div><a href="#doc/close">ゲームを終了する</a></div>

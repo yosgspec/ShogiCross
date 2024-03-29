@@ -38,7 +38,8 @@ export class PlayerControl{
 		}`;
 
 		for(const [id, {onclick}] of buttons){
-			if(!compList.includes(id)) return;
+			if(!compList.includes(id)) continue;
+			console.log(onclick)
 			this.component.querySelector(`#${id}${uuid}`).onclick = onclick;
 		}
 

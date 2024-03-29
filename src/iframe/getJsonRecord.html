@@ -9,7 +9,7 @@
 </main>
 
 <script type="module">
-    import {Board, gameSoft} from "https://cdn.jsdelivr.net/gh/yosgspec/ShogiCross@0.5/src/dist/ShogiCross.min.js";
+    import {Board, gameSoft} from "../ShogiCross/lib.js";
     const canvas = document.getElementById("shogiCross");
     const board = Board.run(canvas, gameSoft.gorogoroDobutsuShogi);
 

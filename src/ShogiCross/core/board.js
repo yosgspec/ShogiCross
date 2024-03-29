@@ -137,13 +137,13 @@ export class Board{
 		const {style} = canvas;
 		if(canvasFit === "overflow"){
 			if(style.maxWidth === "") style.maxWidth = "97vw";
-			if(style.maxHeight === "") style.maxHeight = "97vh";
+			if(style.maxHeight === "") style.maxHeight = "92vh";
 		}
 		else if(canvasFit === "horizontal"){
 			if(style.width === "") style.width = "97vw";
 		}
 		else if(canvasFit === "vertical"){
-			if(style.height === "") style.height = "97vh";
+			if(style.height === "") style.height = "92vh";
 		}
 		else if(canvasFit === "parentOverflow"){
 			if(style.maxWidth === "") style.maxWidth = "100%";
@@ -189,9 +189,11 @@ export class Board{
 
 	/** 操作パネルを構築
 	 * @param {string[]} compList - 表示するコントロールの一覧
+	 * @return {PlayerControl}
 	 */
 	makePlayerControl(compList){
-		return this.playerControl = new PlayerControl(this, compList);
+		this.playerControl = new PlayerControl(this, compList);
+		return this.playerControl;
 	}
 
 	/** ボードを閉じる */
@@ -601,7 +603,7 @@ ${char}:${name}`)){
 	 * @param {boolean} isEncode - エンコード有無
 	 * @returns {string}
 	 */
-	getJsonRecord(isEncode=false){
+	getJsonRecord(isEncode=true){
 		const jsonRecord = JSON.stringify(this.record, null, "");
 		return isEncode? encodeURI(jsonRecord): jsonRecord;
 	}

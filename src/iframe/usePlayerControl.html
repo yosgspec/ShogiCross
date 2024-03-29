@@ -1,5 +1,5 @@
 <main style="display:flex;">
-<div style="width:50svw; height:92svh;">
+<div style="width:50svw; height:95svh;">
     <canvas id="shogiCross" style="max-width:50svw;"></canvas>
 </div>
 </main>
@@ -9,7 +9,7 @@
     const canvas = document.getElementById("shogiCross");
     const board = Board.run(canvas, {
         ...gameSoft.shogi,
-        autoDrawing: false
+        usePlayerControl: false
     });
 </script>
 <script src="codeViewer.js"></script>

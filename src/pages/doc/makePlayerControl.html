@@ -1,0 +1,15 @@
+<h1>操作パネル要素を取得</h1>
+<p><a href="#doc/usePlayerControl">操作パネル表示変更</a>で使用されている要素を取得する。<br>
+表示するコントロールの種類を変更したり、表示位置を変更できる。<br>
+Board.makePlayerControl()を用いて実行。</p>
+
+<iframe src="./iframe/makePlayerControl.html" frameborder="no"></iframe>
+
+<h3>メソッド仕様</h3>
+<div style="font-family: monospace;">
+	<p>Board.prototype.makePlayerControl(compList): PlayerControl</p>
+	<ul>
+		<li>compList: string[] = ["undoRecord", "redoRecord", "rotateLeft", "rotateRight", "downloadImage", "textRecord"]</li>
+		<ul><li>表示するコントロールの一覧</li></ul>
+	</ul>
+</div>

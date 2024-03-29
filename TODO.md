@@ -1,8 +1,12 @@
 # TODO
 ## やる予定のこと
 * [ ] ドキュメントを修正
-  * [ ] freeModeを書き換える
-  * [ ] PlayerControlについて追記
+  * [x] freeModeを書き換える
+  * [x] PlayerControlについて追記
+  * [x] makePlayerControlについて追記
+  * [ ] encode
+* [ ] 操作パネルのフォント読み込み対応
+* [ ] 操作パネルの棋譜表示をセレクトボックスにする
 * [x] 駒を動かせないモードを用意する
 * [x] ボタンプリセットを配置する機能を追加
 * [ ] GitHub Workflowを設定する

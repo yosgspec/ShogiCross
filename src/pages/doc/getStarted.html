@@ -9,9 +9,9 @@
 <h3>CDNから使用する</h3>
 <h4>iife版</h4>
 html中にscriptタグを埋め込んで使用する場合、
-<pre style="background-color:#EEFFFF;"><code>&lt;script type="module">&lt;script src="https://cdn.jsdelivr.net/gh/yosgspec/ShogiCross@0.5/src/dist/ShogiCross.iife.js">&lt;/script>
+<pre style="background-color:#EEFFFF;"><code>&lt;script type="module">&lt;script src="https://cdn.jsdelivr.net/gh/yosgspec/ShogiCross@0.6/src/dist/ShogiCross.iife.js">&lt;/script>
 または
-&lt;script src="https://cdn.jsdelivr.net/gh/yosgspec/ShogiCross@0.5/src/dist/ShogiCross.iife.min.js">&lt;/script>
+&lt;script src="https://cdn.jsdelivr.net/gh/yosgspec/ShogiCross@0.6/src/dist/ShogiCross.iife.min.js">&lt;/script>
 &lt;script>
     const {Board, gameSoft} = ShogiCross;
     const board = Board.run(canvas, gameSoft.shogi);
@@ -20,9 +20,9 @@ html中にscriptタグを埋め込んで使用する場合、
 <h4>ES Module版</h4>
 ES Moduleでimportして使用する場合、
 <pre style="background-color:#EEFFFF;"><code>&lt;script type="module">
-    import {Board, gameSoft} from "https://cdn.jsdelivr.net/gh/yosgspec/ShogiCross@0.5/src/dist/ShogiCross.js";
+    import {Board, gameSoft} from "https://cdn.jsdelivr.net/gh/yosgspec/ShogiCross@0.6/src/dist/ShogiCross.js";
     または
-    import {Board, gameSoft} from "https://cdn.jsdelivr.net/gh/yosgspec/ShogiCross@0.5/src/dist/ShogiCross.min.js";
+    import {Board, gameSoft} from "https://cdn.jsdelivr.net/gh/yosgspec/ShogiCross@0.6/src/dist/ShogiCross.js";
 
     const board = Board.run(canvas, gameSoft.shogi);
 &lt;/script>

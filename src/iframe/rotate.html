@@ -9,7 +9,7 @@
 </main>
 
 <script type="module">
-    import {Board} from "https://cdn.jsdelivr.net/gh/yosgspec/ShogiCross@0.5/src/dist/ShogiCross.min.js";
+    import {Board} from "../ShogiCross/lib.js";
     const canvas = document.getElementById("shogiCross");
     const board = Board.run(canvas, {
         playBoard: "4人用クロス8列",
@@ -19,7 +19,8 @@
             {gameName: "チェス", pieceSet: "p4"},
             {gameName: "マークルック", pieceSet: "p4"}
         ],
-        canvasFit: "parentOverflow"
+        canvasFit: "parentOverflow",
+        usePlayerControl: false
     });
 
 	/** 盤面を回転

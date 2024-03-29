@@ -4,12 +4,13 @@ ShogiCrossで再生可能な形式(独自形式)のみ読込み可能。<br>
 Board.setJsonRecord()を用いて実行。</p>
 
 <iframe src="./iframe/setJsonRecord.html" frameborder="no"></iframe>
+
 <h3>メソッド仕様</h3>
 <div style="font-family: monospace;">
 	<ul>
 		<li>record: string</li>
 		<ul><li>棋譜データ</li></ul>
-		<li>turn: number</li>
+		<li>turn: number = lastTurn</li>
 		<ul><li>手数。デフォルトは最終手数</li></ul>
 	</ul>
 </div>
