@@ -1,16 +1,12 @@
 import {Board} from "./board.js"
 
-const defaultCompList = [
-	"undoRecord",
-	"redoRecord",
-	"rotateLeft",
-	"rotateRight",
-	"downloadImage",
-	"textRecord"
-];
-
-export class RecordPlayer{
-	constructor(board, compList=defaultCompList){
+/** 操作パネル */
+export class PlayerControl{
+	/**
+	 * @param {Board} board ボード
+	 * @param {string[]} compList 表示するコントロールの一覧
+	 */
+	constructor(board, compList){
 		this.board = board;
 
 		const buttons = new Map([
@@ -20,10 +16,16 @@ export class RecordPlayer{
 			["rotateRight", {title: "盤面を右回転", text: "🔁", onclick: ()=>board.rotate()}],
 			["downloadImage", {title: "画像を保存", text: "📷", onclick: ()=>board.downloadImage()}]
 		]);
+		compList ??= [...buttons.keys(), "textRecord"];
 		const uuid = crypto.randomUUID();
 
+		/** 操作パネル要素
+		 * @type {HTMLDivElement}
+		 */
 		this.component = document.createElement("div");
+		this.component.id = uuid;
 		this.component.style.display = "flex";
+		this.component.style.maxWidth = board.canvas.width;
 		this.component.innerHTML = `${
 			[...buttons]
 				.filter(([id])=>compList.includes(id))
@@ -32,7 +34,7 @@ export class RecordPlayer{
 			).join("")
 		}${
 			compList.includes("textRecord")?
-				`<input id="textRecord${uuid}" style="flex-grow:1;">}`: ""
+				`<input id="textRecord${uuid}" style="flex-grow:1;">`: ""
 		}`;
 
 		for(const [id, {onclick}] of buttons){
@@ -40,6 +42,7 @@ export class RecordPlayer{
 			this.component.querySelector(`#${id}${uuid}`).onclick = onclick;
 		}
 
+		if(!compList.includes("textRecord")) return;
 		const onDrawedBefore = board.onDrawed ?? (()=>{});
 		board.onDrawed = e =>{
 			onDrawedBefore(e);
@@ -47,12 +50,14 @@ export class RecordPlayer{
 		}
 	}
 
+	/** 操作パネルを追加 */
 	add(){
 		const {canvas} = this.board;
 		canvas.after(this.component);
 	}
 
+	/** 操作パネルを破棄 */
 	remove(){
-		this.player.remove();
+		this.component.remove();
 	}
 }

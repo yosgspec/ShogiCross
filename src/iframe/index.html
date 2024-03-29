@@ -9,10 +9,11 @@
     import {Board} from "../ShogiCross/lib.js";
     const canvas = document.getElementById("shogiCross");
     const board = Board.run(canvas, {
+        name: "ShogiCrossサンプル",
         playBoard: "4人用クロス8列",
         players: 4,
         canvasFit: "parentOverflow",
-        useRecordPlayer: true
+        usePlayerControl: true
     });
 
     board.setJsonRecord(record());

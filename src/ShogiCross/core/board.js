@@ -2,8 +2,8 @@
 import {canvasFont} from "./canvasFontLoader.js";
 import {canvasImage} from "./canvasImageLoader.js";
 import {downloadImage} from "./downloadImage.js";
-import {uiControl} from "./uiControl.js";
-import {RecordPlayer} from "./recordPlayer.js";
+import {mouseControl} from "./mouseControl.js";
+import {PlayerControl} from "./playerControl.js";
 import {Stand} from "./stand.js";
 import {Panel} from "./panel.js";
 import {Piece} from "./piece.js";
@@ -43,6 +43,10 @@ export class Board{
 	 */
 	constructor(canvas, option){
 		const {
+			name,
+			variant,
+			url,
+			desc,
 			playBoard,
 			playPieces=[],
 			players=playPieces.some(({gameName}, i)=>1 < i && gameName)? 4: 2,
@@ -61,10 +65,16 @@ export class Board{
 			backgroundColor="#00000000",
 			autoDrawing=true,
 			freeMode=false,
-			useRecordPlayer=false,
+			usePlayerControl=true,
 			onDrawed,
 			onGameOver=(e,i)=>alert(`プレイヤー${i+1}の敗北です。`)
 		} = option;
+
+		this.name = name;
+		this.variant = variant;
+		this.url = url;
+		this.desc = desc;
+
 		// 初期化
 		const canvasFontAsync = canvasFont.importAsync();
 		const canvasImageAsync = canvasImage.importAsync();
@@ -169,18 +179,25 @@ export class Board{
 		 * @type {number}
 		 */
 		this.turn = 0;
-		this.uiControl = uiControl(this);
-		if(useRecordPlayer){
-			this.recordPlayer = new RecordPlayer(this);
-			this.recordPlayer.add();
+		this.mouseControl = mouseControl(this);
+		if(usePlayerControl){
+			this.playerControl = this.makePlayerControl();
+			this.playerControl.add();
 		}
 		this.enPassant = new EnPassant();
 	}
 
+	/** 操作パネルを構築
+	 * @param {string[]} compList - 表示するコントロールの一覧
+	 */
+	makePlayerControl(compList){
+		return this.playerControl = new PlayerControl(this, compList);
+	}
+
 	/** ボードを閉じる */
 	close(){
-		this.uiControl.removeEvent();
-		this.recordPlayer?.remove();
+		this.mouseControl.removeEvent();
+		this.playerControl?.remove();
 	}
 
 	/** 角度を正規化
@@ -686,7 +703,7 @@ ${char}:${name}`)){
 	 * @param {string} ext - 拡張子
 	 * @returns {Promise<void>}
 	 */
-	async downloadImage(fileName="shogicross", ext, urlType){
-		await downloadImage(this.canvas, fileName, ext, urlType);
+	async downloadImage(fileName, ext, urlType){
+		await downloadImage(this.canvas, fileName ?? this.name ?? "shogicross", ext, urlType);
 	}
 }

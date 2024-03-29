@@ -78,8 +78,11 @@ Canvas用の画像ローダー
 ##### piece.js
 ボードに配置する駒を構成
 
-##### uiControl.js
+##### mouseControl.js
 マウスなどゲームの操作を構成
+
+##### playerControl.js
+操作パネルの操作を構成
 
 ##### checkTarget.js
 駒の移動範囲を取得
