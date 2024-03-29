@@ -42,7 +42,7 @@
  * @prop {boolean} isDrawShadow - 駒の影の描写有無
  * @prop {string} backgroundColor - 背景色(デフォルト無色)
  * @prop {boolean} autoDrawing - 描写の自動更新有無
- * @prop {boolean} freeMode - フリーモード有効化/無効化
+ * @prop {"normal"|"free"|"viewOnly"} moveMode - 移動モード
  * @prop {boolean} useDefaultPlayer - デフォルトのプレイヤーを使用する
  * @prop {(Board)=>void} onDrawed - 描写イベント
  * @prop {(i)=>void} onGameOver - ゲームオーバーイベント
@@ -72,7 +72,7 @@
  * @prop {string} gameName - 駒に対応するゲーム名
  * @prop {string} expansion - ゲーム名の細分類
  * @prop {"兵"|"馬"|"象"|"車"|"臣"|"王"|"成"} unit - 駒の兵種
- * @prop {number}forcePromoLine - 行きどころのない駒となる段
+ * @prop {number} forcePromoLine - 行きどころのない駒となる段
  * @prop {Object} range - 駒の移動範囲
  * @prop {string[]} range.default - 通常時の移動範囲
  * @prop {string[]} range.attack - 駒取得時の移動範囲

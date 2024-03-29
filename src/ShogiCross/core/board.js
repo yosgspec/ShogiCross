@@ -64,7 +64,7 @@ export class Board{
 			borderWidth=Math.min(panelWidth, panelHeight)/30,
 			backgroundColor="#00000000",
 			autoDrawing=true,
-			freeMode=false,
+			moveMode="normal",
 			usePlayerControl=true,
 			onDrawed,
 			onGameOver=(e,i)=>alert(`プレイヤー${i+1}の敗北です。`)
@@ -169,7 +169,7 @@ export class Board{
 			[...Array(this.players).keys()]
 			.map(i=>[this.degNormal(i), true])
 		);
-		this.freeMode = freeMode;
+		this.moveMode = moveMode;
 
 		/** ゲームの記録
 		 * @type {Record[]}
@@ -196,7 +196,7 @@ export class Board{
 
 	/** ボードを閉じる */
 	close(){
-		this.mouseControl.removeEvent();
+		this.mouseControl?.removeEvent();
 		this.playerControl?.remove();
 	}
 
@@ -448,7 +448,7 @@ export class Board{
 	 * @param {boolean} forcePromo - 成りを強制する
 	 */
 	#promoDialog(fromPanel, toPanel, canPromo, forcePromo){
-		const {freeMode} = this;
+		const {moveMode} = this;
 		const {piece} = toPanel;
 
 		// プロモーション処理
@@ -467,7 +467,7 @@ ${char}:${name}`)){
 					return;
 				}
 			}
-		} while(!freeMode && forcePromo);
+		} while(moveMode !== "free" && forcePromo);
 		this.addRecord({fromPanel, toPanel, end:"不成"});
 	}
 
@@ -476,13 +476,14 @@ ${char}:${name}`)){
 	 * @param {Panel} toPanel - 選択中のマス目
 	 */
 	movePiece(fromPanel, toPanel){
-		const {stand, freeMode, enPassant} = this;
+		const {stand, moveMode, enPassant} = this;
 
 		if(!fromPanel
+			|| moveMode === "viewOnly"
 			|| toPanel.hasAttr("keepOut")
 			|| toPanel.piece === fromPanel.piece
 			|| toPanel.piece?.deg === fromPanel.piece.deg
-			|| !freeMode && !toPanel.isTarget
+			|| moveMode !== "free" && !toPanel.isTarget
 		) return;
 
 		let {canPromo, forcePromo} = this.checkCanPromo(fromPanel);

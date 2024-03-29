@@ -1,5 +1,4 @@
 import {Piece} from "./piece.js";
-import {Bod} from "./bod.js";
 
 /** 盤の管理クラス */
 export class Stand{
@@ -40,9 +39,10 @@ export class Stand{
 	 * @param {number} option.i - 配置する持ち駒のインデックス
 	 */
 	releasePiece(toPanel, option={}){
-		if(toPanel.hasAttr("keepOut")) return;
-		const {deg, i} = option
 		const {board} = this;
+		if(board.moveMode === "viewOnly" || toPanel.hasAttr("keepOut")) return;
+
+		const {deg, i} = option
 		const stock = this.stocks.get(deg);
 		toPanel.piece = stock[i];
 		stock[i].center = toPanel.center;

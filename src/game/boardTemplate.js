@@ -1,6 +1,6 @@
 const template = {
 	// backgroundColor: "#DDEEFF",
-	freeMode: true,
+	moveMode: "free",
 	usePlayerControl: false
 }
 const getPanelWidth = col=>({
