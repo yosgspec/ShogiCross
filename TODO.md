@@ -1,12 +1,12 @@
 # TODO
 ## やる予定のこと
-* [ ] ドキュメントを修正
+* [x] ドキュメントを修正
   * [x] freeModeを書き換える
   * [x] PlayerControlについて追記
   * [x] makePlayerControlについて追記
   * [x] moveRecord
   * [x] record2String
-  * [ ] CDNへライブラリ差替え
+  * [x] ドキュメントのライブラリをCDNへ再差し替え
   * [x] iframe内のCSSを調整
 * [x] 駒を動かせないモードを用意する
 * [x] 操作パネルを実装
