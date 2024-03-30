@@ -1,4 +1,5 @@
 import {canvasFont, panels, pieces} from "./json.js";
+import {PlayerControl} from "./playerControl.js";
 export {canvasFont};
 
 /** 読み込む文字の一覧を取得
@@ -6,6 +7,7 @@ export {canvasFont};
  */
 const getChars = () => [...
 	new Set([...
+		PlayerControl.buttonTexts+
 		Object.values(panels).map(({displayText})=>displayText).join("")+
 		Object.values(pieces).map(({display})=>display? display.join(""): "").join("")
 	])
@@ -28,7 +30,7 @@ Object.assign(canvasFont, {
 		if(this.imported) return;
 		const googleUrl = "https://fonts.googleapis.com/css2?family=";
 		const chars = getChars();
-		const unique = new Date().getTime().toString();
+		const unique = Date.now().toString();
 		this.names = canvasFont.fonts.map(o=>`"${o[0]}${unique}"`).join(",")+",serif";
 		return Promise.all(
 			canvasFont.fonts.map(async ([fontName, fontWeight])=>{
