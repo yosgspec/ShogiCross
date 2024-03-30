@@ -37,20 +37,34 @@ export class PlayerControl{
 			).join("")
 		}${
 			compList.includes("textRecord")?
-				`<input id="textRecord${unique}" style="flex-grow:1; font-family:${canvasFont.names};">`: ""
+				`<select id="textRecord${unique}" style="flex-grow:1; font-family:${canvasFont.names};"><option></option></select>`: ""
 		}`;
 
 		for(const [id, {onclick}] of buttons){
-			if(!compList.includes(id)) continue;
-			console.log(onclick)
+			if(!compList.includes(id)) continue
 			this.component.querySelector(`#${id}${unique}`).onclick = onclick;
 		}
 
 		if(!compList.includes("textRecord")) return;
-		const onDrawedBefore = board.onDrawed ?? (()=>{});
-		board.onDrawed = e =>{
-			onDrawedBefore(e);
-			this.component.querySelector(`#textRecord${unique}`).value = e.getTextRecord().split(/\n/).pop();
+
+		// 元の描写イベントを退避
+		const onDrawedBase = board.onDrawed ?? (()=>{});
+		board.onDrawed = async e =>{
+			setTimeout(()=>{
+				const select = this.component.querySelector(`#textRecord${unique}`);
+				const option = select.querySelector("option");
+				const vSelect = select.cloneNode(false);
+				e.record.forEach((record, turn)=>{
+					const vOption = option.cloneNode(false);
+					vOption.textContent = board.record2String(record, turn);
+					if(turn === e.turn) vOption.selected = true;
+					vSelect.appendChild(vOption);
+				});
+				// セレクトボックス変更時、履歴を移動
+				vSelect.onchange = e=>board.moveRecord(e.target.selectedIndex);
+				select.replaceWith(vSelect);
+			});
+			onDrawedBase;
 		}
 	}
 
