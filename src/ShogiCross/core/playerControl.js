@@ -28,7 +28,7 @@ export class PlayerControl{
 		this.component = document.createElement("div");
 		this.component.id = unique;
 		this.component.style.display = "flex";
-		this.component.style.maxWidth = board.canvas.width;
+		this.component.style.maxWidth = board.canvas.width+"px";
 		this.component.innerHTML = `${
 			[...buttons]
 				.filter(([id])=>compList.includes(id))
