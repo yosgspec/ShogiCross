@@ -64,7 +64,7 @@ export class PlayerControl{
 				vSelect.onchange = e=>board.moveRecord(e.target.selectedIndex);
 				select.replaceWith(vSelect);
 			});
-			onDrawedBase;
+			onDrawedBase(e);
 		}
 	}
 
