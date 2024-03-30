@@ -65,6 +65,7 @@ async function minifyLib(){
 			body: querystring.stringify({input: code})
 		});
 		const minifyCode = await response.text();
+		if(minifyCode.match(/error/)) throw Error("minify error.");
 		await fs.writeFile(f.replace(/\.js$/, ".min.js"), minifyCode);
 	});
 }

@@ -7,7 +7,7 @@
   * [x] moveRecord
   * [x] record2String
   * [ ] CDNへライブラリ差替え
-  * [ ] iframe内のCSSを調整
+  * [x] iframe内のCSSを調整
 * [x] 駒を動かせないモードを用意する
 * [x] 操作パネルを実装
   * [x] 操作パネルのフォント読み込み対応
