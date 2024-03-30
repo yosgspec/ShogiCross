@@ -40,12 +40,14 @@ export default `
 <div><a href="#doc/putStartPieces">駒の初期配置(メソッド)</a></div>
 <div><a href="#doc/setTextPieces">駒をテキスト形式で配置する</a></div>
 <div><a href="#doc/getTextPieces">駒の配置をテキスト形式で取得</a></div>
+<div><a href="#doc/record2String">局面の記録を文字列に変換</a></div>
 
 <h3>棋譜の操作</h3>
 <div><a href="#doc/getTextRecord">棋譜の取得</a></div>
 <div><a href="#doc/getJsonRecord">棋譜データを取得</a></div>
 <div><a href="#doc/setJsonRecord">棋譜データを反映</a></div>
 <div><a href="#doc/switchRecord">手を進める・戻す</a></div>
+<div><a href="#doc/moveRecord">手数を移動する</a></div>
 
 <h3>ゲームデータ仕様</h3>
 <div><a href="#md/data/gameSoft">ゲーム用プリセット</a></div>

@@ -8,6 +8,7 @@
 <script type="module">
     import {Board, gameSoft} from "../ShogiCross/lib.js";
     const canvas = document.getElementById("shogiCross");
+    const turn = document.getElementById("turn")
     const board = Board.run(canvas, {
         ...gameSoft.p4Shogi,
         /** プレイヤー敗北時時イベント
@@ -16,7 +17,7 @@
          */
         onGameOver(e, i){
             alert(`敗北したプレイヤー: ${i}`);
-            document.getElementById("turn").value = document.getElementById("turn").value.replace(i, "");
+            turn.value = turn.value.replace(i, "");
         }
     });
 </script>

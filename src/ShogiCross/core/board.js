@@ -577,7 +577,7 @@ ${char}:${name}`)){
 		this.#switchRecord(1);
 	}
 
-	/** 記録の手を進める
+	/** 記録の手を移動
 	 * @param {number} turn - 手数
 	 */
 	moveRecord(turn){
@@ -585,7 +585,7 @@ ${char}:${name}`)){
 		this.#switchRecord(0);
 	}
 
-	/** 記録を文字列に変換
+	/** 局面の記録を文字列に変換
 	 * @param {Record} record - 局面の記録
 	 * @param {number} turn - 手数
 	 * @param {boolean} isNumOnly - 座標を数字で表現

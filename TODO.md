@@ -4,14 +4,15 @@
   * [x] freeModeを書き換える
   * [x] PlayerControlについて追記
   * [x] makePlayerControlについて追記
-  * [ ] moveRecord
-  * [ ] record2String
+  * [x] moveRecord
+  * [x] record2String
   * [ ] CDNへライブラリ差替え
-* [ ] iframe内のCSSを調整
-* [x] 操作パネルのフォント読み込み対応
-* [x] 操作パネルの棋譜表示をセレクトボックスにする
+  * [ ] iframe内のCSSを調整
 * [x] 駒を動かせないモードを用意する
-* [x] ボタンプリセットを配置する機能を追加
+* [x] 操作パネルを実装
+  * [x] 操作パネルのフォント読み込み対応
+  * [x] 操作パネルの棋譜表示をセレクトボックスにする
+  * [x] 操作パネルを配置する機能を追加
 * [ ] GitHub Workflowを設定する
   * [ ] GitHub Workflowへビルド処理を追加する
   * [ ] ステータスバッジを追加する

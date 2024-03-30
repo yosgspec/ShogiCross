@@ -22,7 +22,7 @@
      * @param {boolean} isAlias - エイリアス表示
      * @returns {string}
      */
-    // board.getTextPieces(mode, isAlias)
+    // Board.getTextPieces(mode, isAlias)
     document.getElementById("textDefault").onclick = ()=>textPieces.value = board.getTextPieces();
     document.getElementById("textCompact").onclick = ()=>textPieces.value = board.getTextPieces("compact", true);
     document.getElementById("textBod").onclick = ()=>textPieces.value = board.getTextPieces("bod");
