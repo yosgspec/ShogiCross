@@ -5,13 +5,19 @@ import {canvasFont}from "./canvasFontLoader.js";
 export class PlayerControl{
 	static buttonTexts = "<>🔄🔁📷";
 
+	/** 要素のサイズをCanvasに合わせて変更 */
+	#resize(){
+		const {canvas} = this.board;
+		const viewStyle = window.getComputedStyle(canvas);
+		this.component.style.maxWidth = parseFloat(viewStyle.width)+"px";
+	}
+
 	/**
 	 * @param {Board} board ボード
 	 * @param {string[]} compList 表示するコントロールの一覧
 	 */
 	constructor(board, compList){
 		this.board = board;
-
 		const buttons = new Map([
 			["undoRecord", {title: "一手戻る", text: "&lt;&lt;", onclick: ()=>board.undoRecord()}],
 			["redoRecord", {title: "一手進む", text: "&gt;&gt;", onclick: ()=>board.redoRecord()}],
@@ -28,7 +34,8 @@ export class PlayerControl{
 		this.component = document.createElement("div");
 		this.component.id = unique;
 		this.component.style.display = "flex";
-		this.component.style.maxWidth = board.canvas.width+"px";
+		this.#resize();
+		window.addEventListener("resize", ()=>this.#resize());
 		this.component.innerHTML = `${
 			[...buttons]
 				.filter(([id])=>compList.includes(id))
@@ -77,5 +84,6 @@ export class PlayerControl{
 	/** 操作パネルを破棄 */
 	remove(){
 		this.component.remove();
+		window.removeEventListener("resize", ()=>this.#resize);
 	}
 }
