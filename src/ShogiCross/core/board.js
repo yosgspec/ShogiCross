@@ -189,7 +189,6 @@ export class Board{
 
 	/** 操作パネルを構築
 	 * @param {string[]} compList - 表示するコントロールの一覧
-	 * @return {PlayerControl}
 	 */
 	makePlayerControl(compList){
 		this.playerControl = new PlayerControl(this, compList);

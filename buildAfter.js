@@ -57,6 +57,7 @@ async function copyLib(){
 async function minifyLib(){
 	const minFiles = [distLib("js"), distLib("iife.js")];
 	return minFiles.map(async f=>{
+		const minFile = f.replace(/\.js$/, ".min.js");
 		const code = await fs.readFile(f, {encoding: "utf8"});
 		const response = await fetch(
 			"https://www.toptal.com/developers/javascript-minifier/api/raw", {
@@ -64,9 +65,9 @@ async function minifyLib(){
 			headers: {"Content-Type": "application/x-www-form-urlencoded"},
 			body: querystring.stringify({input: code})
 		});
+		if(!response.ok) throw Error(`minify error. filename: ${minFile}`);
 		const minifyCode = await response.text();
-		if(minifyCode.match(/error/)) throw Error("minify error.");
-		await fs.writeFile(f.replace(/\.js$/, ".min.js"), minifyCode);
+		await fs.writeFile(minFile, minifyCode);
 	});
 }
 
