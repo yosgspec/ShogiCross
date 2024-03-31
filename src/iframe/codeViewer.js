@@ -1,5 +1,6 @@
 {
 	const $ = document.createElement("textarea");
+	$.id="codeViewer";
 	$.style.width="100%";
 	$.style.fontSize="14px";
 	$.style.color="#0000FF";

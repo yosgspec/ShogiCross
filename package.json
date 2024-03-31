@@ -1,6 +1,6 @@
 {
   "name": "shogicross",
-  "version": "0.6.6",
+  "version": "0.6.7",
   "description": "様々な将棋類の駒を並べるだけの将棋盤のようなツール",
   "main": "./src/dist/ShogiCross.js",
   "bin": {
@@ -37,6 +37,7 @@
     "dev": "npx vite",
     "build": "run-s build:*",
     "build:vite": "npx vite build",
+    "build:vitenojson": "npx vite build --mode nojson",
     "build:after": "node buildAfter.js",
     "build:dts": "npx tsc",
     "build:sharp": "npx sharp -i ./src/img/**/*.png -f png -o {dir} ",

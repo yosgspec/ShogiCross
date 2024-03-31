@@ -6,14 +6,12 @@ import markdownIt from "markdown-it";
 const md = markdownIt();
 
 // ライブラリ名
-const libName = "ShogiCross";
+const lib = "ShogiCross";
 
 // パス定義
 const srcDir = "./src";
 const viteDir = "./dist";
-const viteLib = ext=>`${path.join(viteDir, libName)}.${ext}`;
 const distDir = path.join(srcDir, "dist");
-const distLib = ext=>`${path.join(distDir, libName)}.${ext}`;
 const paperDir = "./paper";
 const docDir = "./doc";
 const htmlDir = path.join(srcDir, "pages/md");
@@ -21,9 +19,8 @@ const htmlDir = path.join(srcDir, "pages/md");
 /** 出力ファイルを掃除 */
 async function clearDist(){
 	return (await fs.readdir(distDir, {recursive: true}))
-		.filter(f=>
-			!f.match(/\.html$/)
-		).map(f=>{
+		.filter(f=>!f.match(/\.html$/))
+		.map(f=>{
 			const distFiles = path.join(distDir, f);
 			return fs.rm(distFiles, {recursive: true});
 		});
@@ -31,14 +28,13 @@ async function clearDist(){
 
 /** Viteのビルドファイルを移動 */
 async function moveVite(){
-	return Promise.all([
-		"js",
-		"js.map",
-		"iife.js",
-		"iife.js.map"
-	].map(ext=>
-		fs.rename(viteLib(ext), distLib(ext))
-	)).then(()=>
+	return Promise.all(
+		(await fs.readdir(viteDir, {recursive: true}))
+		.map(async f=>{
+			if(!(await fs.stat(path.join(viteDir, f))).isFile()) return;
+			return fs.rename(path.join(viteDir, f), path.join(distDir, path.basename(f)))
+		})
+	).then(()=>
 		fs.rm(viteDir, {recursive: true})
 	);
 }
@@ -55,10 +51,12 @@ async function copyLib(){
 
 /** コード最小化 */
 async function minifyLib(){
-	const minFiles = [distLib("js"), distLib("iife.js")];
+	const minFiles = (await fs.readdir(distDir))
+		.filter(f=>f.match(/\.js$/));
 	return minFiles.map(async f=>{
-		const minFile = f.replace(/\.js$/, ".min.js");
-		const code = await fs.readFile(f, {encoding: "utf8"});
+		const baseFile = path.join(distDir, f);
+		const minFile = baseFile.replace(/\.js$/, ".min.js");
+		const code = await fs.readFile(baseFile, {encoding: "utf8"});
 		const response = await fetch(
 			"https://www.toptal.com/developers/javascript-minifier/api/raw", {
 			method: "POST",
@@ -74,7 +72,7 @@ async function minifyLib(){
 /** ZIPファイルを配置する */
 async function zipDist(){
 	const zipFiles = [
-		{in: distDir, out: libName},
+		{in: distDir, out: lib},
 		{in: paperDir, out: "paper"}
 	];
 	return zipFiles.map(f=>{
@@ -102,8 +100,8 @@ async function convMd(){
 // メイン処理
 (async function main(){
 	await Promise.all(await clearDist());
+	await moveVite();
 	await Promise.all([
-		await moveVite(),
 		await copyLib(),
 		await minifyLib(),
 		await zipDist(),
