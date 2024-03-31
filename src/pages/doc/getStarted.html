@@ -9,7 +9,7 @@
 <h3>CDNから使用する</h3>
 <h4>iife版</h4>
 html中にscriptタグを埋め込んで使用する場合、
-<pre style="background-color:#EEFFFF;"><code>&lt;script type="module">&lt;script src="https://cdn.jsdelivr.net/gh/yosgspec/ShogiCross@0.6/src/dist/ShogiCross.iife.js">&lt;/script>
+<pre style="background-color:#EEFFFF;"><code>&lt;script src="https://cdn.jsdelivr.net/gh/yosgspec/ShogiCross@0.6/src/dist/ShogiCross.iife.js">&lt;/script>
 または
 &lt;script src="https://cdn.jsdelivr.net/gh/yosgspec/ShogiCross@0.6/src/dist/ShogiCross.iife.min.js">&lt;/script>
 &lt;script>
@@ -22,10 +22,20 @@ ES Moduleでimportして使用する場合、
 <pre style="background-color:#EEFFFF;"><code>&lt;script type="module">
     import {Board, gameSoft} from "https://cdn.jsdelivr.net/gh/yosgspec/ShogiCross@0.6/src/dist/ShogiCross.js";
     または
-    import {Board, gameSoft} from "https://cdn.jsdelivr.net/gh/yosgspec/ShogiCross@0.6/src/dist/ShogiCross.js";
+    import {Board, gameSoft} from "https://cdn.jsdelivr.net/gh/yosgspec/ShogiCross@0.6/src/dist/ShogiCross.min.js";
 
     const board = Board.run(canvas, gameSoft.shogi);
 &lt;/script>
+</code></pre>
+<h4>CPF対応版</h4>
+<a href="https://codepen.io/yosgspec/pen/rNbGRQb">CodePen</a>等CPF(セキュリティポリシー)の問題で外部ファイル読込みに制限がある場合、代わりに下記を指定する。
+<pre style="background-color:#EEFFFF;"><code>&lt;!--iife版-->
+&lt;script src="https://cdn.jsdelivr.net/gh/yosgspec/ShogiCross@0.6/src/dist/ShogiCross_nojson.iife.js">&lt;/script>
+&lt;script src="https://cdn.jsdelivr.net/gh/yosgspec/ShogiCross@0.6/src/dist/ShogiCross_nojson.iife.min.js">&lt;/script>
+</code></pre>
+<pre style="background-color:#EEFFFF;"><code>/* ES Module版 */
+import {Board, gameSoft} from "https://cdn.jsdelivr.net/gh/yosgspec/ShogiCross@0.6/src/dist/ShogiCross_nojson.js";
+import {Board, gameSoft} from "https://cdn.jsdelivr.net/gh/yosgspec/ShogiCross@0.6/src/dist/ShogiCross_nojson.min.js";
 </code></pre>
 
 <h2>ゲームデータ拡張</h2>
