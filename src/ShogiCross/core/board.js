@@ -605,7 +605,7 @@ ${char}:${name}`)){
 			getPY(to)}${
 			pieceChar}${
 			end}${
-			!from.pX? "": ` (${
+			from.pX === undefined? "": ` (${
 				getPX(from)}${
 				numSep}${
 				getPY(from)

@@ -1,0 +1,16 @@
+<main><div>
+    <canvas id="shogiCross"></canvas>
+</div></main>
+
+<script type="module">
+    import {Board, gameSoft} from "../ShogiCross/lib.js";
+    const canvas = document.getElementById("shogiCross");
+    const board = Board.run(canvas, {
+        ...gameSoft.shogi,
+        onDrawed(e){
+            console.log(e.getTextRecord());
+            console.log(e.record.map(r=>r.from));
+        }
+    });
+</script>
+<script src="codeViewer.js"></script>
