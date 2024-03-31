@@ -1,6 +1,5 @@
 <main><div>
     <canvas id="shogiCross"></canvas>
-
 </div></main>
 
 <script type="module">
@@ -9,6 +8,7 @@
     const board = Board.run(canvas, {
         name: "ShogiCrossサンプル",
         playBoard: "4人用クロス8列",
+        useStand: true,
         players: 4,
         canvasFit: "parentOverflow",
         usePlayerControl: true,
