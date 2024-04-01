@@ -1,4 +1,4 @@
-/** @typedef {import('./json').PieceInitOption} PieceInitOption */
+/** @typedef {import('./data').PieceInitOption} PieceInitOption */
 import {canvasFont} from "./canvasFontLoader.js";
 import {canvasImage} from "./canvasImageLoader.js";
 import {games, pieces, pieceRange, pieceCost} from "./data.js";

@@ -1,4 +1,4 @@
-/** @typedef {import('./json').BoardInitOption} BoardInitOption */
+/** @typedef {import('./data').BoardInitOption} BoardInitOption */
 import {canvasFont} from "./canvasFontLoader.js";
 import {canvasImage} from "./canvasImageLoader.js";
 import {downloadImage} from "./downloadImage.js";
