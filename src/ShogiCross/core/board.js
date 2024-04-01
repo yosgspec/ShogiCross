@@ -9,7 +9,7 @@ import {Panel} from "./panel.js";
 import {Piece} from "./piece.js";
 import {EnPassant} from "./enPassant.js";
 import {Bod} from "./bod.js";
-import {boards, games} from "./json.js";
+import {boards, games} from "./data.js";
 
 /** 盤の管理クラス */
 export class Board{

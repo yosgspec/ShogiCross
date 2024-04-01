@@ -144,11 +144,28 @@ export {
 	pieceCost
 }
 
-Object.assign(canvasFont, json.canvasFont);
-Object.assign(gameSoft, json.gameSoft);
-Object.assign(games, json.games);
-Object.assign(boards, json.boards);
-Object.assign(panels, json.panels);
-Object.assign(pieces, json.pieces);
-Object.assign(pieceRange, json.pieceRange);
-Object.assign(pieceCost, json.pieceCost);
+/**
+ * @typedef {Object} ShogiCrossData - ShogiCrossデータ
+ * @prop {CanvasFont} canvasFont - Canvas用のGoogleフォント情報
+ * @prop {Object<string, GameSoft>} gameSoft - ゲーム情報(ボード+駒)のプリセット
+ * @prop {Object<string, Game>} games - ゲームの種類に共通する駒情報や駒配置情報
+ * @prop {Object<string, BoardInitOption>} boards - ボードの構成情報
+ * @prop {Object<string, PanelInitOption} panels - ボード中のマス目情報
+ * @prop {Object<string, PieceInitOption>} pieces - 駒情報
+ * @prop {Object<string, PieceRange>} pieceRange - 駒の移動範囲
+ * @prop {Object<string, number>} pieceCost - 駒の価値
+ */
+/** ゲームデータを拡張する
+ * @param {ShogiCrossData} data - 拡張データ
+ */
+export function extendData(data){
+	Object.assign(canvasFont, data.canvasFont);
+	Object.assign(gameSoft, data.gameSoft);
+	Object.assign(games, data.games);
+	Object.assign(boards, data.boards);
+	Object.assign(panels, data.panels);
+	Object.assign(pieces, data.pieces);
+	Object.assign(pieceRange, data.pieceRange);
+	Object.assign(pieceCost, data.pieceCost);
+}
+extendData(json);

@@ -1,4 +1,4 @@
-import {panels, pieces} from "./json.js";
+import {panels, pieces} from "./data.js";
 
 /** 画像読み込み処理
  * @param {string} src - 画像パス

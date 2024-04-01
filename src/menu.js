@@ -33,6 +33,7 @@ export default `
 <div><a href="#doc/makePlayerControl">操作パネル要素を取得</a></div>
 <div><a href="#doc/downloadImage">スクリーンショットを保存する</a></div>
 <div><a href="#doc/rotate">盤面を回転する</a></div>
+<div><a href="#doc/extendData">ゲームデータを拡張する</a></div>
 <div><a href="#doc/close">ゲームを終了する</a></div>
 
 <h3>駒の操作</h3>

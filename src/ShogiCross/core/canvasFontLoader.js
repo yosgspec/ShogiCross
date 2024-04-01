@@ -1,4 +1,4 @@
-import {canvasFont, panels, pieces} from "./json.js";
+import {canvasFont, panels, pieces} from "./data.js";
 import {PlayerControl} from "./playerControl.js";
 export {canvasFont};
 

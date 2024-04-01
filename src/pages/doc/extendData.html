@@ -1,0 +1,31 @@
+<h1>ゲームデータを拡張する</h1>
+<p>JavaScriptを用いてゲームデータを拡張する。<br>
+ゲームデータの拡張はjsonファイルの配置でも行うことができる。<br>
+CPF対応版を使用する場合はjsonファイルの読み込みを行うことができないため、<br>
+この方法で拡張データを適用する。<br>
+extendData()または対応データのオブジェクトの値を直接書き換えて行う。</p>
+
+<iframe src="./iframe/extendData.html" frameborder="no"></iframe>
+
+<h3>メソッド仕様</h3>
+<div style="font-family: monospace;">
+    extendData({canvasFont, gameSoft, games, boards, panels, pieces, pieceRange, pieceCost}): void
+	<ul>
+		<li>canvasFont: CanvasFont</li>
+		<ul><li>Canvas用のGoogleフォント情報</li></ul>
+		<li>gameSoft: Object&lt;string, GameSoft></li>
+		<ul><li>ゲーム情報(ボード+駒)のプリセット</li></ul>
+		<li>games: Object&lt;string, Game></li>
+		<ul><li>ゲームの種類に共通する駒情報や駒配置情報</li></ul>
+		<li>boards: Object&lt;string, BoardInitOption></li>
+		<ul><li>ボードの構成情報</li></ul>
+		<li>panels: Object&lt;string, PanelInitOption</li>
+		<ul><li>ボード中のマス目情報</li></ul>
+		<li>pieces: Object&lt;string, PieceInitOption></li>
+		<ul><li>駒情報</li></ul>
+		<li>pieceRange: Object&lt;string, PieceRange></li>
+		<ul><li>駒の移動範囲</li></ul>
+		<li>pieceCost: Object&lt;string, number></li>
+		<ul><li>駒の価値</li></ul>
+	</ul>
+</div>

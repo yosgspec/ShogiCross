@@ -1,0 +1,39 @@
+<main><div>
+    <canvas id="shogiCross"></canvas>
+</div></main>
+
+<script type="module">
+    import {Board, gameSoft, extendData, boards} from "../ShogiCross/lib.js";
+
+    /** ゲームデータを拡張する
+     * @param {ShogiCrossData} data - 拡張データ
+     */
+    // extendData(data)
+    extendData({
+        games: {
+            "マイチェス": {
+                position: {
+                    8: {
+                        default: [
+                            "仲卒貝歩燕人卆兵",
+                            "炮雉象后王金駆飛"
+                        ]
+                    }
+                }
+            }
+        }
+    });
+
+    // ボードの背景色を変更する
+    boards["チェス"].backgroundColor = "#00FF00";
+
+    const canvas = document.getElementById("shogiCross");
+    const board = Board.run(canvas, {
+        playBoard: "チェス",
+        playPieces: [
+            {gameName: "マイチェス"},
+            {gameName: "マイチェス"}
+        ]
+    });
+</script>
+<script src="codeViewer.js"></script>

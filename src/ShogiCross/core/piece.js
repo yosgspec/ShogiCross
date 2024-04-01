@@ -1,7 +1,7 @@
 /** @typedef {import('./json').PieceInitOption} PieceInitOption */
 import {canvasFont} from "./canvasFontLoader.js";
 import {canvasImage} from "./canvasImageLoader.js";
-import {games, pieces, pieceRange, pieceCost} from "./json.js";
+import {games, pieces, pieceRange, pieceCost} from "./data.js";
 
 /** 駒の管理クラス */
 export class Piece{
@@ -95,6 +95,7 @@ export class Piece{
 		// エイリアスのデータを統合
 		for(const [key, piece] of exPieces){
 			piece.alias.forEach((aliasKey, i)=>{
+				if(exPiecesObj[aliasKey]) return;
 				const alias = piece.clone();
 				const display = [...alias.display];
 				alias.displayPtn = i+1;
