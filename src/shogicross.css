@@ -130,6 +130,8 @@ img {
 
 pre{
 	background-color:#EEFFFF;
+	font-size: 1.2em;
+	line-height: 1.2em;
 }
 
 button,input[type="text"],input[type="button"],textarea{
