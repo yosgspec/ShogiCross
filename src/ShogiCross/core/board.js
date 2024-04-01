@@ -592,7 +592,7 @@ ${char}:${name}`)){
 	 */
 	record2String(record, turn, isNumOnly=false){
 		const {to, from, deg, pieceChar, end} = record;
-		if(!pieceChar) return "";
+		if(turn === 0) return "0: 開始局面";
 
 		const getPX = ({pX})=> (this.xLen-pX).toString(isNumOnly? 10: 36);
 		const getPY = ({pY})=> (pY+1).toString(isNumOnly? 10: 36);
@@ -617,8 +617,8 @@ ${char}:${name}`)){
 	 * @returns {string}
 	 */
 	getTextRecord(isNumOnly=false){
-		return this.record.slice(1, this.turn+1).map((record, i)=>
-			this.record2String(record, i+1, isNumOnly)
+		return this.record.slice(0, this.turn+1).map((record, i)=>
+			this.record2String(record, i, isNumOnly)
 		).join("\n");
 	}
 
