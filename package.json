@@ -42,7 +42,7 @@
     "build:dts": "npx tsc",
     "build:sharp": "npx sharp -i ./src/img/**/*.png -f png -o {dir} ",
     "build:api": "npx typedoc --entryPointStrategy expand ./src/dist/ShogiCross --exclude **/*.js --out ./src/doc/api",
-    "build:publish": "npm publish"
+    "build:publish": "npm publish || true"
   },
   "devDependencies": {
     "adm-zip": "^0.5.12",
