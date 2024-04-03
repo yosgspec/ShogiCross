@@ -1,3 +1,4 @@
+
 # ShogiCross(将棋クロス)
 ![](img/logo.min.svg)　<img src="img/all.png" height="200px">  
 様々な将棋類を将棋駒として実体化するプロジェクト。
@@ -20,7 +21,11 @@
 実装済の駒の定義一覧。
 
 ## Webアプリ
+[![Build](https://github.com/yosgspec/ShogiCross/actions/workflows/build.yml/badge.svg)](https://github.com/yosgspec/ShogiCross/actions/workflows/build.yml)
+[![npm version](https://badge.fury.io/js/shogicross.svg)](https://badge.fury.io/js/shogicross)
+[![CC0-1.0](https://custom-icon-badges.herokuapp.com/badge/license-CC0%201.0-8BB80A.svg?logo=law&logoColor=white)]()  
 様々な将棋類の駒を並べるだけの将棋盤のようなツール。
+
 ### 実装
 * [ShogiCross App](http://shogicross.yosgspec.com/#app)
 * [単品ゲーム集](http://shogicross.yosgspec.com/#dist)
