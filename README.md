@@ -23,7 +23,7 @@
 ## Webアプリ
 [![Build](https://github.com/yosgspec/ShogiCross/actions/workflows/build.yml/badge.svg)](https://github.com/yosgspec/ShogiCross/actions/workflows/build.yml)
 [![npm version](https://badge.fury.io/js/shogicross.svg)](https://badge.fury.io/js/shogicross)
-[![CC0-1.0](https://custom-icon-badges.herokuapp.com/badge/license-CC0%201.0-8BB80A.svg?logo=law&logoColor=white)]()  
+[![CC0-1.0](https://custom-icon-badges.herokuapp.com/badge/license-CC0%201.0-8BB80A.svg?logo=law&logoColor=white)](LICENSE)  
 様々な将棋類の駒を並べるだけの将棋盤のようなツール。
 
 ### 実装
