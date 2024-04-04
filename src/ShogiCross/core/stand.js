@@ -47,8 +47,8 @@ export class Stand{
 		toPanel.piece = stock[i];
 		stock[i].center = toPanel.center;
 		stock[i].middle = toPanel.middle;
-		board.addRecord({toPanel, end: "打"});
 		stock.splice(i,1);
+		board.addRecord({toPanel, end: "打"});
 	}
 
 	/** 駒台に追加する
