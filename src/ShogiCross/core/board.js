@@ -26,6 +26,7 @@ export class Board{
 	 * @prop {string} end - 棋譜表示の末尾に記載する文字
 	 * @prop {string} fieldText - 駒配置のテキスト
 	 * @prop {number[][]} fieldMoved - 駒の移動済み判定
+	 * @prop {string|null} comment - 棋譜コメント
 	 */
 
 	/** ゲームを実行する
@@ -463,8 +464,8 @@ export class Board{
 ${piece.char}:${piece.name}
 　↓
 ${char}:${name}`)){
-					this.addRecord({fromPanel, toPanel, end:"成"});
 					piece.promotion(char);
+					this.addRecord({fromPanel, toPanel, end:"成"});
 					return;
 				}
 			}
@@ -546,6 +547,14 @@ ${char}:${name}`)){
 			)
 		};
 		if(0 < inc) record.splice(this.turn+1);
+	}
+
+	/** 棋譜コメントを追記
+	 * @param {string} comment - 棋譜コメント
+	 * @param {number} shiftTurn - ずらす手数
+	 */
+	addRecordComment(comment, shiftTurn=0){
+		this.record[this.turn+shiftTurn].comment = comment;
 	}
 
 	/** 記録の参照手数を切り替える
@@ -686,6 +695,14 @@ ${char}:${name}`)){
 		return mode === "bod"?
 			Bod.getTextPieces(this):
 			this.toString(mode === "compact", isAlias);
+	}
+
+	/** 棋譜コメントを取得
+	 * @param {number} shiftTurn - ずらす手数
+	 * @returns {string}
+	 */
+	getRecordComment(shiftTurn=0){
+		return this.record[this.turn+shiftTurn] ?? "";
 	}
 
 	/** 駒配置をテキストで取得
