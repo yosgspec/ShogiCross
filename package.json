@@ -1,6 +1,6 @@
 {
   "name": "shogicross",
-  "version": "0.6.11",
+  "version": "0.6.12",
   "description": "様々な将棋類の駒を並べるだけの将棋盤のようなツール",
   "main": "./src/dist/ShogiCross.js",
   "bin": {

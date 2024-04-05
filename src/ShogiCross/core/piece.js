@@ -191,7 +191,7 @@ export class Piece{
 		this.alias = [...this.alias ?? ""];
 		this.displayPtn ??= displayPtn;
 		this.game = games[this.gameName];
-		this.cost = pieceCost[this.char] ?? 1;
+		this.cost = pieceCost[this.char] ?? pieceCost[this.base.char] ?? 1;
 		this.center = 0;
 		this.middle = 0;
 		this.deg ||= deg;
