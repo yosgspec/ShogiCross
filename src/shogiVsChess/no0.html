@@ -3,10 +3,8 @@
 	<head>
 		<meta charset="utf-8">
 		<title>将棋とチェスが同じ盤で戦うスレ 棋譜再生</title>
-		<link href="./shogicross.css" rel="stylesheet">
 	</head>
 	<body>
-        <a href="https://web.archive.org/web/20060225234451/http://www.geocities.co.jp:80/Playtown-Toys/8188/kifu/2002001.html" target="_blank">将棋とチェスが同じ盤で戦うスレ第一局</a>
         <main><div>
             <canvas id="shogiCross"></canvas>
             <textarea id="textPieces" style="width:15rem; height:15rem; color:#000033; background-color:#EEFFFF"></textarea>
@@ -19,10 +17,10 @@
             const textPieces = document.getElementById("textPieces");
             const jsonRecord = document.getElementById("jsonRecord");
             const board = Board.run(canvas, {
-                name: "将棋とチェスが同じ盤で戦うスレ第一局",
+                name: "将棋とチェスが同じ盤で戦うスレ",
                 playBoard: "将棋",
                 useStand: true,
-                moveMode: "viewOnly",
+                moveMode: "free",
                 playPieces: [
                     {gameName: "将棋"},
                     {gameName: "チェス"}

@@ -5,6 +5,7 @@ export default `
 <div><a href="#dist">単品ゲーム集</a></div>
 <div><a href="#playBoard">将棋類紹介</a></div>
 <div><a href="#pieceViewer">将棋駒Viewer</a></div>
+<div><a href="#shogiVsChess">【2ch】将棋対チェススレ 棋譜再生</a></div>
 
 <h3>ライブラリ</h3>
 <div><a href="#doc/getStarted">はじめに(ダウンロード)</a></div>
