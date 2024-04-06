@@ -5,7 +5,12 @@ export default `
 <div><a href="#dist">単品ゲーム集</a></div>
 <div><a href="#playBoard">将棋類紹介</a></div>
 <div><a href="#pieceViewer">将棋駒Viewer</a></div>
-<div><a href="#shogiVsChess">【2ch】将棋対チェススレ 棋譜再生</a></div>
+<div><a href="#shogiVsChess">将棋対チェススレ 棋譜再生</a></div>
+
+<h3>ペーパークラフト</h3>
+<div><a href="https://github.com/yosgspec/ShogiCross/blob/main/paper/README.md">ペーパークラフト(GitHub)</a></div>
+<div><a href="./paper.zip">ペーパークラフトDL(ZIP)</a></div>
+<div><a href="#doc/chogi">超棋(過去制作物)</a></div>
 
 <h3>ライブラリ</h3>
 <div><a href="#doc/getStarted">はじめに(ダウンロード)</a></div>
@@ -61,11 +66,6 @@ export default `
 <div><a href="#md/data/pieceRange">駒の移動範囲</a></div>
 <div><a href="#md/data/pieceCost">駒の価値情報</a></div>
 <div><a href="https://github.com/yosgspec/ShogiCross/blob/main/doc/json/README.md">ゲームデータ仕様(GitHub)</a></div>
-
-<h3>ペーパークラフト</h3>
-<div><a href="https://github.com/yosgspec/ShogiCross/blob/main/paper/README.md">ペーパークラフト(GitHub)</a></div>
-<div><a href="./paper.zip">ペーパークラフトDL(ZIP)</a></div>
-<div><a href="#doc/chogi">超棋(過去制作物)</a></div>
 
 <h3>連絡先</h3>
 <div><a href="http://yosgspec.blog103.fc2.com">ブログ</a></div>
