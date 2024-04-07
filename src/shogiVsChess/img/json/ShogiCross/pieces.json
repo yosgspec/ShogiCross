@@ -1,0 +1,99 @@
+{
+	"兵": {
+		"name": "てがきぽーん",
+		"display": ["♟", "♙"],
+		"imgSrc": {
+			"0": ["./img/ShogiCross/handPawnWhite.png"],
+			"180": ["./img/ShogiCross/handPawnBlack.png"]
+		},
+		"gameName": "チェス",
+		"unit": "兵",
+		"attr": ["enPassant"],
+		"forcePromoLine": 1,
+		"isRotateImg": false,
+		"range": {
+			"default": "歩",
+			"start": "二",
+			"attack": "兵",
+			"enPassant": "通"
+		},
+		"promo": "后騎聖塔"
+	},
+	"騎": {
+		"name": "てがきないと",
+		"display": ["♞", "♘"],
+		"imgSrc": {
+			"0": ["./img/ShogiCross/handKnightWhite.png"],
+			"180": ["./img/ShogiCross/handKnightBlack.png"]
+		},
+		"alias": "騏",
+		"gameName": "チェス",
+		"unit": "馬",
+		"isRotateImg": false,
+		"range": {
+			"default": "騎"
+		}
+	},
+	"聖": {
+		"name": "てがきびしょっぷ",
+		"display": ["♝", "♗"],
+		"imgSrc": {
+			"0": ["./img/ShogiCross/handBishopWhite.png"],
+			"180": ["./img/ShogiCross/handBishopBlack.png"]
+		},
+		"alias": "僧",
+		"gameName": "チェス",
+		"unit": "象",
+		"isRotateImg": false,
+		"range": {
+			"default": "聖"
+		}
+	},
+	"塔": {
+		"name": "てがきるーく",
+		"display": ["♜", "♖"],
+		"imgSrc": {
+			"0": ["./img/ShogiCross/handRookWhite.png"],
+			"180": ["./img/ShogiCross/handRookBlack.png"]
+		},
+		"alias": "城",
+		"gameName": "チェス",
+		"unit": "車",
+		"attr": ["castlingRook"],
+		"isRotateImg": false,
+		"range": {
+			"default": "車",
+			"castling": "塔"
+		}
+	},
+	"后": {
+		"name": "てがきくいーん",
+		"display": ["♛", "♕"],
+		"imgSrc": {
+			"0": ["./img/ShogiCross/handQweenWhite.png"],
+			"180": ["./img/ShogiCross/handQweenBlack.png"]
+		},
+		"gameName": "チェス",
+		"isRotateImg": false,
+		"range": {
+			"default": "后"
+		}
+	},
+	"王": {
+		"name": "キング",
+		"display": ["♚", "♔"],
+		"imgSrc": {
+			"0": ["./img/ShogiCross/handKingWhite.png"],
+			"180": ["./img/ShogiCross/handKingBlack.png"]
+		},
+		"alias": "オ",
+		"gameName": "チェス",
+		"unit": "王",
+		"attr": ["king", "castlingKing"],
+		"isRotateImg": false,
+		"range": {
+			"default": "王",
+			"castling": "城"
+		}
+	}
+}
