@@ -12,14 +12,16 @@
 配列の2番目はaliasと対応させて駒の表示を行える。</p>
 <pre><code class="language-json">&quot;display&quot;: [&quot;玉將&quot;, &quot;王將&quot;, &quot;玉将&quot;, &quot;王将&quot;]
 </code></pre>
-<h3>imgSrc(省略可) {string[]}</h3>
-<p>駒として表示する画像パスの配列。<br>
-相対パスとする場合は表示するhtmlを起点とする。<br>
-displayと同様に配列の2番目はaliasと対応させて駒の表示を行える。</p>
-<pre><code class="language-json">&quot;imgSrc&quot;: [
-	&quot;./img/handPawnWhite.png&quot;,
-	&quot;./img/handPawnBlack.png&quot;
-]
+<h3>imgSrc(省略可) {Object&lt;string, string[]&gt;}</h3>
+<p>駒として表示する画像パスのオブジェクト。<br>
+オブジェクトのキーは角度ごとに設定する。<br>
+(角度ごとに画像指定がない場合は0度に指定のあるものを兼用する)<br>
+画像パスは各配列として保持し、相対パスとする場合は表示するhtmlを起点とする。<br>
+displayと同様に配列の2番目はaliasと対応させて駒の表示を変更できる。</p>
+<pre><code class="language-json">&quot;imgSrc&quot;: {
+	&quot;0&quot;: [&quot;./img/ShogiCross/handPawnWhite.png&quot;],
+	&quot;180&quot;: [&quot;./img/ShogiCross/handPawnBlack.png&quot;]
+}
 </code></pre>
 <h3>isRotateImg(省略可) {boolean}</h3>
 <p>過画像を設定する場合回転するかどうかを設定。<br>
