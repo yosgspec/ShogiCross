@@ -141,6 +141,22 @@ export default {
 			"BWBWBW"
 		]
 	},
+	"チェス9x9": {
+		"backgroundColor": "#444444",
+		"borderColor": "#000000",
+		"promoLineOffset": 2,
+		"field": [
+			"BWBWBWBWB",
+			"WBWBWBWBW",
+			"BWBWBWBWB",
+			"WBWBWBWBW",
+			"BWBWBWBWB",
+			"WBWBWBWBW",
+			"BWBWBWBWB",
+			"WBWBWBWBW",
+			"BWBWBWBWB"
+		]
+	},
 	"チェス10x8": {
 		"backgroundColor": "#444444",
 		"borderColor": "#000000",
