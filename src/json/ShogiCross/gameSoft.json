@@ -8,7 +8,19 @@
 		"useStand": false,
 		"playPieces": [
 			{"gameName": "てがきちぇす", "pieceSet": "てがきちぇす"},
-			{"gameName": "てがきちぇす", "pieceSet": "てがきちぇす2p"}
+			{"gameName": "てがきちぇす", "pieceSet": "てがきちぇす"}
+		]
+	},
+	"handCrazyHouse": {
+		"name": "駒画像転換テスト",
+		"variant": "チェス",
+		"url": "https://ja.wikipedia.org/wiki/%E3%83%81%E3%82%A7%E3%82%B9",
+		"desc": "持ち駒が使える駒に画像を設定したチェス。",
+		"playBoard": "クレージーハウス",
+		"useStand": true,
+		"playPieces": [
+			{"gameName": "てがきちぇす", "pieceSet": "てがきちぇす"},
+			{"gameName": "てがきちぇす", "pieceSet": "てがきちぇす"}
 		]
 	}
 }

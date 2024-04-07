@@ -296,9 +296,9 @@ export class Piece{
 
 	/** 駒画像を描写 */
 	drawImage(){
-		const {ctx, size} = this;
+		const {ctx, size, deg} = this;
 
-		const src = this.imgSrc[this.displayPtn];
+		const src = this.imgSrc[deg][this.displayPtn] ?? this.imgSrc[0][this.displayPtn];
 		const image = canvasImage.images[src];
 		if(!image) return;
 

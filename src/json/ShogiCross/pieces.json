@@ -2,10 +2,10 @@
 	"ぽ": {
 		"name": "てがきぽーん",
 		"display": ["♟", "♙"],
-		"imgSrc": [
-			"./img/ShogiCross/handPawnWhite.png",
-			"./img/ShogiCross/handPawnBlack.png"
-		],
+		"imgSrc": {
+			"0": ["./img/ShogiCross/handPawnWhite.png"],
+			"180": ["./img/ShogiCross/handPawnBlack.png"]
+		},
 		"alias": "ポ",
 		"gameName": "てがきちぇす",
 		"unit": "兵",
@@ -23,10 +23,10 @@
 	"な": {
 		"name": "てがきないと",
 		"display": ["♞", "♘"],
-		"imgSrc": [
-			"./img/ShogiCross/handKnightWhite.png",
-			"./img/ShogiCross/handKnightBlack.png"
-		],
+		"imgSrc": {
+			"0": ["./img/ShogiCross/handKnightWhite.png"],
+			"180": ["./img/ShogiCross/handKnightBlack.png"]
+		},
 		"alias": "ナ",
 		"gameName": "てがきちぇす",
 		"unit": "馬",
@@ -38,10 +38,10 @@
 	"び": {
 		"name": "てがきびしょっぷ",
 		"display": ["♝", "♗"],
-		"imgSrc": [
-			"./img/ShogiCross/handBishopWhite.png",
-			"./img/ShogiCross/handBishopBlack.png"
-		],
+		"imgSrc": {
+			"0": ["./img/ShogiCross/handBishopWhite.png"],
+			"180": ["./img/ShogiCross/handBishopBlack.png"]
+		},
 		"alias": "ビ",
 		"gameName": "てがきちぇす",
 		"unit": "象",
@@ -53,10 +53,10 @@
 	"る": {
 		"name": "てがきるーく",
 		"display": ["♜", "♖"],
-		"imgSrc": [
-			"./img/ShogiCross/handRookWhite.png",
-			"./img/ShogiCross/handRookBlack.png"
-		],
+		"imgSrc": {
+			"0": ["./img/ShogiCross/handRookWhite.png"],
+			"180": ["./img/ShogiCross/handRookBlack.png"]
+		},
 		"alias": "ル",
 		"gameName": "てがきちぇす",
 		"unit": "車",
@@ -70,10 +70,10 @@
 	"く": {
 		"name": "てがきくいーん",
 		"display": ["♛", "♕"],
-		"imgSrc": [
-			"./img/ShogiCross/handQweenWhite.png",
-			"./img/ShogiCross/handQweenBlack.png"
-		],
+		"imgSrc": {
+			"0": ["./img/ShogiCross/handQweenWhite.png"],
+			"180": ["./img/ShogiCross/handQweenBlack.png"]
+		},
 		"alias": "ク",
 		"gameName": "てがきちぇす",
 		"isRotateImg": false,
@@ -84,10 +84,10 @@
 	"お": {
 		"name": "キング",
 		"display": ["♚", "♔"],
-		"imgSrc": [
-			"./img/ShogiCross/handKingWhite.png",
-			"./img/ShogiCross/handKingBlack.png"
-		],
+		"imgSrc": {
+			"0": ["./img/ShogiCross/handKingWhite.png"],
+			"180": ["./img/ShogiCross/handKingBlack.png"]
+		},
 		"alias": "オ",
 		"gameName": "てがきちぇす",
 		"expansion": "てがきちぇす",

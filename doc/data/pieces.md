@@ -17,15 +17,17 @@
 "display": ["玉將", "王將", "玉将", "王将"]
 ```
 
-### imgSrc(省略可) {string[]}
-駒として表示する画像パスの配列。  
-相対パスとする場合は表示するhtmlを起点とする。  
-displayと同様に配列の2番目はaliasと対応させて駒の表示を行える。
+### imgSrc(省略可) {Object<string, string[]>}
+駒として表示する画像パスのオブジェクト。  
+オブジェクトのキーは角度ごとに設定する。  
+(角度ごとに画像指定がない場合は0度に指定のあるものを兼用する)  
+画像パスは各配列として保持し、相対パスとする場合は表示するhtmlを起点とする。  
+displayと同様に配列の2番目はaliasと対応させて駒の表示を変更できる。
 ```json
-"imgSrc": [
-	"./img/handPawnWhite.png",
-	"./img/handPawnBlack.png"
-]
+"imgSrc": {
+	"0": ["./img/ShogiCross/handPawnWhite.png"],
+	"180": ["./img/ShogiCross/handPawnBlack.png"]
+}
 ```
 
 ### isRotateImg(省略可) {boolean}

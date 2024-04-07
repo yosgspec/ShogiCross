@@ -17,7 +17,8 @@ function loadImage(src){
  */
 const imgSrcs = [...new Set(
 	Object.values(panels).flatMap(({imgSrc})=>imgSrc??[])
-	.concat(Object.values(pieces).flatMap(({imgSrc})=>imgSrc??[]))
+	.concat(Object.values(pieces).flatMap(({imgSrc})=>
+		imgSrc != null? Object.values(imgSrc): []).flat())
 )];
 
 /** Canvas用画像の管理 */
