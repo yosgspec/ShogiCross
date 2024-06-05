@@ -134,8 +134,9 @@ export function mouseControl(board){
 	canvas.addEventListener("touchmove", dragMove);
 	canvas.addEventListener("touchend", dragEnd);
 
-	/** イベントリスナーを破棄 */
+	
 	return {
+		/** イベントリスナーを破棄 */
 		removeEvent(){
 			canvas.removeEventListener("mousedown", dragStart);
 			canvas.removeEventListener("mousemove", dragMove);
