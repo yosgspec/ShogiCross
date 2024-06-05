@@ -23,7 +23,7 @@ export function mouseControl(board){
 	 *     x: number,
 	 *     y: number,
 	 * )=>void} fnAfter - 後処理のコールバック関数
-     */
+	 */
 	const fieldProc = (e, fnPanel, fnAfter=()=>{})=>{
 		const viewStyle = window.getComputedStyle(canvas);
 		const rect = e.target.getBoundingClientRect();
