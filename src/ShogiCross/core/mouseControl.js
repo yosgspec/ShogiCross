@@ -52,7 +52,7 @@ export function mouseControl(board){
 
 	/** ドラッグ開始
 	 * @param {Event} e - イベント引数
-     */
+	 */
 	const dragStart = e=>{
 		isClick = true;
 		fieldProc(e,
