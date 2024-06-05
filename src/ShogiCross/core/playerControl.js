@@ -1,5 +1,5 @@
 import {Board} from "./board.js";
-import {canvasFont}from "./canvasFontLoader.js";
+import {canvasFont} from "./canvasFontLoader.js";
 
 /** 操作パネル */
 export class PlayerControl{
