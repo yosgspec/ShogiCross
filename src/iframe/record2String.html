@@ -11,12 +11,12 @@
 
     const textPieces = document.getElementById("textPieces");
 
-	/** 局面の記録を文字列に変換
-	 * @param {Record} record - 局面の記録
-	 * @param {number} turn - 手数
-	 * @param {boolean} isNumOnly - 座標を数字で表現
-	 * @returns {string}
-	 */
+    /** 局面の記録を文字列に変換
+     * @param {Record} record - 局面の記録
+     * @param {number} turn - 手数
+     * @param {boolean} isNumOnly - 座標を数字で表現
+     * @returns {string}
+     */
     // Board.record2String(record, turn, isNumOnly=false): string
     document.getElementById("recordList").onclick = ()=>alert(
         board.record.map((record, i)=>board.record2String(record, i, false))
