@@ -13,6 +13,7 @@ import {boards, games} from "./data.js";
 
 /** 盤の管理クラス */
 export class Board{
+	/** @typedef {Object} Board */
 	#mouseControl
 	#playerControl
 

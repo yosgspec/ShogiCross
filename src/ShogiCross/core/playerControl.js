@@ -3,6 +3,7 @@ import {canvasFont} from "./canvasFontLoader.js";
 
 /** 操作パネル */
 export class PlayerControl{
+	/** @typedef {Object} PlayerControl */
 	static buttonTexts = "<>🔄🔁📷";
 
 	/** 要素のサイズをCanvasに合わせて変更 */

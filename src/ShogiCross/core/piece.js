@@ -5,6 +5,7 @@ import {games, pieces, pieceRange, pieceCost} from "./data.js";
 
 /** 駒の管理クラス */
 export class Piece{
+	/** @typedef {Object} Piece */
 	/** 描写サイズ
 	 * @type {number}
 	 */
@@ -267,7 +268,7 @@ export class Piece{
 	}
 
 	/** 移動範囲を回転して取得
-	 * @returns {Panel[][]}
+	 * @returns {string[][]}
 	 */
 	getRange(){
 		const deg = 0|this.deg;
