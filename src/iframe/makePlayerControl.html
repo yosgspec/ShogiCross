@@ -10,11 +10,11 @@
         usePlayerControl: false
     });
 
-	/** 操作パネルを構築
-	 * @param {string[]} compList - 表示するコントロールの一覧
-	 * @return {PlayerControl}
-	 */
-	// Board.prototype.makePlayerControl(compList)
+    /** 操作パネルを構築
+     * @param {string[]} compList - 表示するコントロールの一覧
+     * @return {PlayerControl}
+     */
+    // Board.prototype.makePlayerControl(compList)
     const playerControl = board.makePlayerControl(["undoRecord", "rotateRight", "downloadImage"]);
     board.canvas.before(playerControl.component);
 </script>
