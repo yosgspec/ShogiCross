@@ -133,11 +133,11 @@
 		/** 実行中のゲーム
 		 * @type {Board}
 		 */
-		let playingGame = {};
+		let playingGame;
 
 		/** ゲームを実行 */
 		async function playGame(){
-			if(playingGame.close) playingGame.close();
+			playingGame?.close();
 			playingGame = PlayGames[SelectControl.gameName].run(canvas, {onDrawed, ...SelectControl.option});
 			selectVariant.after(playingGame.makePlayerControl([
 				"undoRecord",

@@ -101,7 +101,8 @@ export class SelectControl{
 			playPieces: [...select.pieceGame].map((pieceGame, i)=>({
 				gameName: pieceGame.value,
 				pieceSet: select.pieceSet[i].value
-			}))
+			})),
+			usePlayerControl: false
 		}
 	}
 	static set onchange(value){

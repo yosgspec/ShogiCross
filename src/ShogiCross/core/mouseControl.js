@@ -4,6 +4,7 @@ import {checkTarget} from "./checkTarget.js";
 
 /** マウスコントロール
  * @param {Board} board - 盤
+ * @returns {()=>void}
  */
 export function mouseControl(board){
 	let isClick = false;
@@ -134,7 +135,7 @@ export function mouseControl(board){
 	canvas.addEventListener("touchmove", dragMove);
 	canvas.addEventListener("touchend", dragEnd);
 
-	
+
 	return {
 		/** イベントリスナーを破棄 */
 		removeEvent(){

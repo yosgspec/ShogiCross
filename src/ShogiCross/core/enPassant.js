@@ -10,6 +10,7 @@ const getInit = ()=>({
 /** アンパッサン情報の管理 */
 export class EnPassant{
 	constructor(){
+		/** @type {Object<string, {panel: Panel, piece: Piece}>} */
 		this.degs = {};
 		degs.forEach(deg=>this.degs[deg] = getInit());
 	}

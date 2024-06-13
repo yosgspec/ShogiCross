@@ -82,7 +82,6 @@ function getOrigin(range){
  * @param {Piece} piece - 駒
  * @param {number} pX - マス目の列
  * @param {number} pY - マス目の行
- * @returns
  */
 export function checkTarget(board, piece, pX, pY){
 	const {field, yLen, enPassant} = board;
@@ -98,6 +97,7 @@ export function checkTarget(board, piece, pX, pY){
 
 	/** 包同士であるか
 	 * @param {Panel} panel - マス目
+	 * @returns {boolean}
 	 */
 	function isVsPo(panel){
 		return panel.piece && piece.hasAttr("po") && panel.piece.hasAttr("po");
@@ -105,6 +105,7 @@ export function checkTarget(board, piece, pX, pY){
 
 	/** 対象駒が炮で取れるか
 	 * @param {Panel} panel - マス目
+	 * @returns {boolean}
 	 */
 	function isAttackFromPao(panel){
 		return panel.piece
@@ -120,7 +121,7 @@ export function checkTarget(board, piece, pX, pY){
 	 * @param {number} y - 判定するマス目の行
 	 * @param {string} rangeName - 移動範囲の定義名
 	 * @param {boolean} checkRivalDeg - 敵の駒のみを移動先とするか?
-	 * @returns boolean
+	 * @returns {boolean}
 	 */
 	function canMove(isAttack, x, y, rangeName="", checkRivalDeg=true){
 		if(!field[y] || !field[y][x]) return false;
@@ -144,7 +145,7 @@ export function checkTarget(board, piece, pX, pY){
 	 * @param {boolean} isAttack - 駒を取得対象に含むか?
 	 * @param {number} oX - 移動範囲情報の原点位置(行)
 	 * @param {number} oY - 移動範囲情報の原点位置(列)
-	 * @returns boolean
+	 * @returns {boolean}
 	 */
 	function existsChild(range, child, isAttack, oX, oY){
 		for(const char of child){

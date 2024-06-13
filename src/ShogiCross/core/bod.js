@@ -63,7 +63,7 @@ export class Bod{
 	}
 
 	/** 行/持駒用の数字表示(漢数字)
-	 * @param {number} num - 数字
+	 * @param {string} kan - 漢数字
 	 * @param {boolean} emptyOne - 空文字を1とする
 	 * @returns {string}
 	 */
