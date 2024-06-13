@@ -12,14 +12,14 @@
     });
 
     /** 駒の配置
-	 * @param {string} piece - 駒の表現文字
-	 * @param {number} pX - X方向配置位置(マス目基準)
-	 * @param {number} pY - Y方向配置位置(マス目基準)
-	 * @param {number} playeaIdOrDeg - プレイヤー番号または駒の配置角
-	 * @param {Object} option - オプション
-	 * @param {number} option.displayPtn - 表示文字列を変更(1〜)
-	 * @param {boolean} option.isMoved - 初回移動済みか否か
-	 */
+     * @param {string} piece - 駒の表現文字
+     * @param {number} pX - X方向配置位置(マス目基準)
+     * @param {number} pY - Y方向配置位置(マス目基準)
+     * @param {number} playeaIdOrDeg - プレイヤー番号または駒の配置角
+     * @param {Object} option - オプション
+     * @param {number} option.displayPtn - 表示文字列を変更(1〜)
+     * @param {boolean} option.isMoved - 初回移動済みか否か
+     */
     // Board.putNewPiece(piece, pX, pY, playeaIdOrDeg, option={});
     board.putNewPiece("歩", 2, 3, 0);
     board.putNewPiece("兵", 5, 6, 1);
