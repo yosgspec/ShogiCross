@@ -65,7 +65,7 @@ export default `
 <div><a href="#md/data/pieces">駒の定義</a></div>
 <div><a href="#md/data/pieceRange">駒の移動範囲</a></div>
 <div><a href="#md/data/pieceCost">駒の価値情報</a></div>
-<div><a href="https://github.com/yosgspec/ShogiCross/blob/main/doc/json/README.md">ゲームデータ仕様(GitHub)</a></div>
+<div><a href="https://github.com/yosgspec/ShogiCross/blob/main/doc/data/README.md">ゲームデータ仕様(GitHub)</a></div>
 
 <h3>連絡先</h3>
 <div><a href="http://yosgspec.blog103.fc2.com">ブログ</a></div>
