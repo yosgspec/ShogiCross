@@ -7,11 +7,11 @@
     const canvas = document.getElementById("shogiCross");
     const board = Board.run(canvas, {playBoard: "将棋"});
 
-	/** 駒の初期配置
-	 * @param {number} playerId - プレイヤー番号
-	 * @param {string} gameName - ゲーム名(基準となる駒の配置セット)
-	 * @param {string} pieceSet - 駒の配置パターン
-	 */
+    /** 駒の初期配置
+     * @param {number} playerId - プレイヤー番号
+     * @param {string} gameName - ゲーム名(基準となる駒の配置セット)
+     * @param {string} pieceSet - 駒の配置パターン
+     */
     // Board.putStartPieces(playerId, gameName, pieceSet="default")
     board.putStartPieces(0, "将棋");
     board.putStartPieces(1, "将棋", "2p");
