@@ -172,6 +172,6 @@
 <summary style=cursor:pointer>バリエーション</summary>
 
 ## [クーリエチェス(初期配置)](https://en.wikipedia.org/wiki/Courier_chess)
-ーリエチェスの定形移動を行わない配置。持ち駒なし。  
+クーリエチェスの定形移動を行わない配置。持ち駒なし。  
 ![](img/courierChess.png)
 </details>
