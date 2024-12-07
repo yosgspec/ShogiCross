@@ -569,7 +569,7 @@ ${char}:${name}`)){
 	}
 
 	/** 記録の参照手数を切り替える
-	 * @param {number} - 切り替えたい手数の差分
+	 * @param {number} inc - 切り替えたい手数の差分
 	 */
 	#switchRecord(inc){
 		const {record} = this;
