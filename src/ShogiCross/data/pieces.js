@@ -1406,7 +1406,9 @@ export default {
 		"gameName": "将棋",
 		"unit": "車",
 		"attr": ["promoted"],
-		"range": {}
+		"range": {
+			"default": "〇"
+		}
 	},
 	"右": {
 		"name": "右(鶉)",
@@ -1414,7 +1416,9 @@ export default {
 		"gameName": "将棋",
 		"unit": "車",
 		"attr": ["promoted"],
-		"range": {}
+		"range": {
+			"default": "〇"
+		}
 	},
 	"雕": {
 		"name": "鵰",
