@@ -11,9 +11,15 @@
 		<link href="https://fonts.googleapis.com/css2?family=Kosugi&family=Noto+Serif+JP:wght@900&family=Noto+Serif+TC:wght@900&family=Noto+Serif:wght@900&family=Kosugi:wght@400&display=swap" rel="stylesheet">
 	</head>
 	<body>
-		<h1>ShogiCross 将棋駒画像生成</h1>
-		<button onclick="makeImage()">画像生成</button><br>
-		<canvas id="pieceViewer"></canvas>
+			<h1>ShogiCross 将棋駒画像生成</h1>
+		<div class="flex-col">
+			Size:
+			<div class="flex-row">
+				<input id="pieceSize" style="width: 4em;" value="1000">px
+			</div>
+			<button onclick="makeImage()">画像生成</button>
+			<canvas id="pieceViewer"></canvas>
+		</div>
 		<script src="./dist/ShogiCross.iife.min.js"></script>
 		<script>
 		const getMime = (ext)=>
@@ -45,13 +51,16 @@
 		const {canvasFont, Piece} = ShogiCross;
 		const canvas = document.getElementById("pieceViewer");
 		const ctx = canvas.getContext("2d");
+		const pieceSize = document.getElementById("pieceSize");
 
 		const pieces = Piece.getPieces(ctx, {
-			size: 1000,
+			size: 100,
 			isDrawShadow: false
 		});
 		console.log(pieces);
 		async function makeImage(){
+			let size = +pieceSize.value;
+			if(isNaN(size) || !pieceSize.value) size = 1000;
 			await canvasFont.importAsync();
 			let i=0;
 			for(let [key ,piece] of Object.entries(pieces)){
