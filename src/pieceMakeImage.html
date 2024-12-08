@@ -65,7 +65,6 @@
 			let i=0;
 			for(let [key ,piece] of Object.entries(pieces)){
 				if(piece.gameName === "てがきちぇす") continue;
-				const {size} = piece;
 				canvas.width = size;
 				canvas.height = size;
 				ctx.clearRect(0, 0, size, size);
