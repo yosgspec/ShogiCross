@@ -67,7 +67,7 @@
  * @prop {string} name - 駒の名前
  * @prop {string[]} display - 駒に表示する文字列(1、2文字)の配列
  * @prop {string} imgSrc - 駒として表示する画像パスの配列
- * @prop {boolean}isRotateImg - 過画像を設定する場合回転するか
+ * @prop {boolean} isRotateImg - 過画像を設定する場合回転するか
  * @prop {string} alias - キーの別名として定める文字の集合表
  * @prop {string} gameName - 駒に対応するゲーム名
  * @prop {string} expansion - ゲーム名の細分類
