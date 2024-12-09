@@ -62,19 +62,33 @@
 			let size = +pieceSize.value;
 			if(isNaN(size) || !pieceSize.value) size = 1000;
 			await canvasFont.importAsync();
-			let i=0;
-			for(let [key ,piece] of Object.entries(pieces)){
+			canvas.width = size;
+			canvas.height = size;
+			let i = 0;
+			for(let [key ,piece] of Object.entries(pieces).sort(([_, a], [__, b])=>a.id-b.id)){
 				if(piece.gameName === "てがきちぇす") continue;
-				canvas.width = size;
-				canvas.height = size;
-				ctx.clearRect(0, 0, size, size);
-				piece.center = size/2;
-				piece.middle = size/2;
-				piece.size = size*0.9;
-				piece.attr = [];
-				piece.draw();
-				await downloadImage(canvas, `${i++}${key}`, "png", "blob");
-				await new Promise(res=>setTimeout(res, 500));
+				if(piece.hasAttr("promoted")) continue;
+				console.log(key);
+				console.log(piece);
+				const promoKeys = Object.keys(piece?.promo ?? {"": ({})});
+				for(const promoKey of promoKeys){
+					const makeImage = async function(piece, side){
+						ctx.clearRect(0, 0, size, size);
+						piece.center = size/2;
+						piece.middle = size/2;
+						piece.size = size*0.9;
+						piece.attr = [];
+						piece.draw();
+						await downloadImage(canvas, `${i}${key}${promoKey}${side}`, "png", "blob");
+						await new Promise(res=>setTimeout(res, 500));
+					};
+					await makeImage(piece, "A");
+					const promo = piece.clone();
+					if(promoKey) promo.promotion(promoKey);
+					else promo.display[promo.displayPtn] = "";
+					await makeImage(promo, "B");
+					i++;
+				}
 			}
 		};
 		</script>
