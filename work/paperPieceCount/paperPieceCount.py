@@ -20,12 +20,13 @@ with open(file_path, mode="r", encoding="utf-8") as file:
 		row=row[DATA_COL:]
 		for i,cnt in enumerate(row):
 			game=f"{i:02}_{games[i]}"
-			game_dir = path.join(dist_path, game)
-			if not path.exists(game_dir):
-				makedirs(game_dir)
+
 			imgs=glob.glob(f"{src_path}/*{piece}*", recursive=True)
 			for j in range(int(cnt)):
-				for img in imgs:
+				for side, img in enumerate(imgs):
+					game_dir = path.join(dist_path, src_path, game, str(side))
+					if not path.exists(game_dir):
+						makedirs(game_dir)
 					output_file = (path
 						.join(game_dir, path.basename(img))
 						.replace("A.", f"{j}A.")
