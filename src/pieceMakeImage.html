@@ -17,7 +17,7 @@
 			<div class="flex-row">
 				<input id="pieceSize" style="width: 4em;" value="1000">px
 			</div>
-			<button onclick="makeImage()">画像生成</button>
+			<button id="makeImageButton">画像生成</button>
 			<canvas id="pieceViewer"></canvas>
 		</div>
 		<script src="./dist/ShogiCross.iife.min.js"></script>
@@ -47,8 +47,9 @@
 			if(urlType === "blob") URL.revokeObjectURL(a.href);
 		}
 		</script>
-		<script>
-		const {canvasFont, Piece} = ShogiCross;
+		<script type="module">
+		import {canvasFont, Piece} from "./ShogiCross/lib.js";
+		const makeImageButton = document.getElementById("makeImageButton");
 		const canvas = document.getElementById("pieceViewer");
 		const ctx = canvas.getContext("2d");
 		const pieceSize = document.getElementById("pieceSize");
@@ -58,7 +59,7 @@
 			isDrawShadow: false
 		});
 		console.log(pieces);
-		async function makeImage(){
+		makeImageButton.addEventListener("click", async()=>{
 			let size = +pieceSize.value;
 			if(isNaN(size) || !pieceSize.value) size = 1000;
 			await canvasFont.importAsync();
@@ -90,7 +91,7 @@
 					i++;
 				}
 			}
-		};
+		});
 		</script>
 	</body>
 </html>
