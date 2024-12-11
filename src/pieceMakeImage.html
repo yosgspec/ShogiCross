@@ -13,9 +13,10 @@
 	<body>
 			<h1>ShogiCross 将棋駒画像生成</h1>
 		<div class="flex-col">
-			Size:
 			<div class="flex-row">
+				Size:
 				<input id="pieceSize" style="width: 4em;" value="1000">px
+				<input type="checkbox" id="removeBorder"><label for="removeBorder">枠線を非表示</label>
 			</div>
 			<button id="makeImageButton">画像生成</button>
 			<canvas id="pieceViewer"></canvas>
@@ -48,8 +49,9 @@
 		}
 		</script>
 		<script type="module">
-		import {canvasFont, Piece} from "./ShogiCross/lib.js";
+		import {canvasFont, Piece, games} from "./ShogiCross/lib.js";
 		const makeImageButton = document.getElementById("makeImageButton");
+		const removeBorder = document.getElementById("removeBorder");
 		const canvas = document.getElementById("pieceViewer");
 		const ctx = canvas.getContext("2d");
 		const pieceSize = document.getElementById("pieceSize");
@@ -59,7 +61,12 @@
 			isDrawShadow: false
 		});
 		console.log(pieces);
+		const gamesDefault = JSON.parse(JSON.stringify(games))
 		makeImageButton.addEventListener("click", async()=>{
+			for(const name in games)
+				games[name].borderColor = removeBorder.checked?
+					"#00000000":
+					gamesDefault[name].borderColor;
 			let size = +pieceSize.value;
 			if(isNaN(size) || !pieceSize.value) size = 1000;
 			await canvasFont.importAsync();
