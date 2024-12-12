@@ -87,7 +87,7 @@
 						piece.size = size*0.9;
 						piece.attr = [];
 						piece.draw();
-						await downloadImage(canvas, `${i}${key}${promoKey}${side}`, "png", "blob");
+						await downloadImage(canvas, `${i.padStart(3, "0")}${key}${promoKey}${side}`, "png", "blob");
 						await new Promise(res=>setTimeout(res, 500));
 					};
 					await makeImage(piece, "A");
