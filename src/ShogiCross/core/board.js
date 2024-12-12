@@ -465,7 +465,7 @@ export class Board{
 		const {piece} = toPanel;
 
 		// プロモーション処理
-		if(!piece.promo || piece.hasAttr("promoted") || !canPromo){
+		if(!piece.promo || piece.hasAttr("promoted") || piece.hasAttr("cantPromotion") || !canPromo){
 			this.addRecord({fromPanel, toPanel});
 			return;
 		}

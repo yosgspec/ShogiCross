@@ -552,10 +552,11 @@ export default {
 		"gameName": "将棋",
 		"expansion": "禽将棋",
 		"unit": "車",
-		"attr": ["capture"],
+		"attr": ["capture", "cantPromotion"],
 		"range": {
 			"default": "鶉"
-		}
+		},
+		"promo": "左"
 	},
 	"享": {
 		"name": "鶉(右)",
@@ -563,10 +564,11 @@ export default {
 		"gameName": "将棋",
 		"expansion": "禽将棋",
 		"unit": "車",
-		"attr": ["capture"],
+		"attr": ["capture", "cantPromotion"],
 		"range": {
 			"default": "享"
-		}
+		},
+		"promo": "右"
 	},
 	"鷹": {
 		"name": "鷹",
