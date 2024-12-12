@@ -3,7 +3,7 @@ import glob
 import shutil
 from os import path, makedirs
 
-src_path="svg"
+src_path="png"
 dist_path="games"
 file_path="paperPieceCount.csv"
 
