@@ -1699,7 +1699,7 @@ export default {
 	},
 	"鵺": {
 		"name": "Pアンカ",
-		"display": ["🦅鴻"],
+		"display": ["🦅鵺"],
 		"range": {
 			"default": "鴻"
 		}
