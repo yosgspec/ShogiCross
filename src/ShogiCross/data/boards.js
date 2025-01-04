@@ -491,6 +491,26 @@ export default {
 			"XSXSX>#<BWBWB"
 		]
 	},
+	"クロス14x14": {
+		"backgroundColor": "#EECC88",
+		"borderColor": "#333333",
+		"field": [
+			"WBWBWB<#>XSXSX",
+			"BWBWBW#*#SXSXS",
+			"WBWBWB>#<XSXSX",
+			"SSSSSSSSSSSSSS",
+			"SSSSSSSSSSSSSS",
+			"SSSSSSSSSSSSSS",
+			"=[==========]=",
+			"=[==========]=",
+			"SSSSSSSSSSSSSS",
+			"SSSSSSSSSSSSSS",
+			"SSSSSSSSSSSSSS",
+			"XSXSX<#>BWBWBW",
+			"SXSXS#*#WBWBWB",
+			"XSXSX>#<BWBWBW"
+		]
+	},
 	"4人用クロス8列": {
 		"backgroundColor": "#444444",
 		"borderColor": "#000000",
