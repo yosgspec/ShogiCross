@@ -280,7 +280,6 @@ export default {
 	"古将棋10x10": {
 		"backgroundColor": "#EECC88",
 		"borderColor": "#333333",
-		"promoLineOffset": 1,
 		"field": [
 			"ssssssssss",
 			"ssssssssss",
@@ -292,6 +291,23 @@ export default {
 			"ssssssssss",
 			"ssssssssss",
 			"ssssssssss"
+		]
+	},
+	"古将棋11x11": {
+		"backgroundColor": "#EECC88",
+		"borderColor": "#333333",
+		"field": [
+			"sssssssssss",
+			"sssssssssss",
+			"sssssssssss",
+			"sssssssssss",
+			"sssssssssss",
+			"sssssssssss",
+			"sssssssssss",
+			"sssssssssss",
+			"sssssssssss",
+			"sssssssssss",
+			"sssssssssss"
 		]
 	},
 	"古将棋12x12": {

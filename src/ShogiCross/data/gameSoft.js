@@ -87,7 +87,7 @@ export default {
 		"name": "禽将棋",
 		"variant": "禽将棋",
 		"url": "https://ja.wikipedia.org/wiki/%E7%A6%BD%E5%B0%86%E6%A3%8B",
-		"desc": "鳥の名の駒を使用する将棋。特殊な動きをする駒が多い。",
+		"desc": "鳥の名の駒を使用する古将棋。特殊な動きをする駒が多い。",
 		"playBoard": "将棋7x7",
 		"useStand": true,
 		"playPieces": [
@@ -105,6 +105,18 @@ export default {
 		"playPieces": [
 			{"gameName": "将棋", "pieceSet": "中将棋"},
 			{"gameName": "将棋", "pieceSet": "中将棋2p"}
+		]
+	},
+	"waShogi": {
+		"name": "和将棋",
+		"variant": "和将棋",
+		"url": "https://ja.wikipedia.org/wiki/%E5%92%8C%E5%B0%86%E6%A3%8B",
+		"desc": "全ての駒に動物の名前を使用した古将棋の一種。",
+		"playBoard": "古将棋11x11",
+		"useStand": false,
+		"playPieces": [
+			{"gameName": "将棋", "pieceSet": "和将棋"},
+			{"gameName": "将棋", "pieceSet": "和将棋"}
 		]
 	},
 	"grantAcedrex": {
