@@ -1859,14 +1859,14 @@ export default {
 	},
 	"鳶": {
 		"name": "烏飛鷹",
-		"display": ["飛鳶"],
+		"display": ["烏鷹"],
 		"range": {
 			"default": "鷙"
 		}
 	},
 	"曇": {
 		"name": "鴟雲鷲",
-		"display": ["曇鷲"],
+		"display": ["鴟鷲"],
 		"range": {
 			"default": "雲"
 		}
@@ -1880,7 +1880,7 @@ export default {
 	},
 	"狛": {
 		"name": "犬猛狼",
-		"display": ["猛狛"],
+		"display": ["犬狼"],
 		"range": {
 			"default": "金"
 		}
@@ -1922,21 +1922,21 @@ export default {
 	},
 	"瓜": {
 		"name": "兎隠狐",
-		"display": ["隠瓜"],
+		"display": ["兎狐"],
 		"range": {
 			"default": "狐"
 		}
 	},
 	"麈": {
 		"name": "猿猛鹿",
-		"display": ["猛麈"],
+		"display": ["猿鹿"],
 		"range": {
 			"default": "銀"
 		}
 	},
 	"羽": {
 		"name": "鳫燕羽",
-		"display": ["燕羽"],
+		"display": ["鳫燕"],
 		"range": {
 			"default": "横"
 		}
