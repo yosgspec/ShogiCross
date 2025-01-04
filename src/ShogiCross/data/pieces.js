@@ -1096,6 +1096,194 @@ export default {
 		},
 		"promo": "狂"
 	},
+	"雀": {
+		"name": "萑歩",
+		"display": ["萑歩"],
+		"gameName": "将棋",
+		"expansion": "和将棋",
+		"unit": "兵",
+		"forcePromoLine": 1,
+		"range": {
+			"default": "歩"
+		},
+		"promo": "錐"
+	},
+	"烏": {
+		"name": "烏行",
+		"display": ["烏行"],
+		"gameName": "将棋",
+		"expansion": "和将棋",
+		"unit": "馬",
+		"range": {
+			"default": "烏"
+		},
+		"promo": "鳶"
+	},
+	"鴟": {
+		"name": "鴟行",
+		"display": ["鴟行"],
+		"gameName": "将棋",
+		"expansion": "和将棋",
+		"unit": "馬",
+		"range": {
+			"default": "烏"
+		},
+		"promo": "曇"
+	},
+	"鶏": {
+		"name": "鶏飛",
+		"display": ["鶏飛"],
+		"gameName": "将棋",
+		"expansion": "和将棋",
+		"unit": "象",
+		"range": {
+			"default": "鶏"
+		},
+		"promo": "延"
+	},
+	"犬": {
+		"name": "盲犬",
+		"display": ["盲犬"],
+		"gameName": "将棋",
+		"expansion": "和将棋",
+		"unit": "象",
+		"range": {
+			"default": "犬"
+		},
+		"promo": "狛"
+	},
+	"麁": {
+		"name": "猛鹿",
+		"display": ["猛鹿"],
+		"gameName": "将棋",
+		"expansion": "和将棋",
+		"unit": "象",
+		"range": {
+			"default": "銀"
+		},
+		"promo": "豬"
+	},
+	"鷙": {
+		"name": "飛鷹",
+		"display": ["飛鷹"],
+		"gameName": "将棋",
+		"expansion": "和将棋",
+		"unit": "象",
+		"range": {
+			"default": "鷙"
+		},
+		"promo": "鷄"
+	},
+	"犇": {
+		"name": "牛車",
+		"display": ["牛車"],
+		"gameName": "将棋",
+		"expansion": "和将棋",
+		"unit": "車",
+		"forcePromoLine": 1,
+		"range": {
+			"default": "香"
+		},
+		"promo": "前"
+	},
+	"風": {
+		"name": "風馬",
+		"display": ["風馬"],
+		"gameName": "将棋",
+		"expansion": "和将棋",
+		"unit": "車",
+		"range": {
+			"default": "風"
+		},
+		"promo": "騰"
+	},
+	"羽": {
+		"name": "燕羽",
+		"display": ["燕羽"],
+		"gameName": "将棋",
+		"expansion": "和将棋",
+		"unit": "車",
+		"range": {
+			"default": "横"
+		},
+		"promo": "行"
+	},
+	"兎": {
+		"name": "走兎",
+		"display": ["走兎"],
+		"gameName": "将棋",
+		"expansion": "和将棋",
+		"unit": "車",
+		"range": {
+			"default": "兎"
+		},
+		"promo": "瓜"
+	},
+	"猿": {
+		"name": "登猿",
+		"display": ["登猿"],
+		"gameName": "将棋",
+		"expansion": "和将棋",
+		"unit": "臣",
+		"range": {
+			"default": "銅"
+		},
+		"promo": "麈"
+	},
+	"鳫": {
+		"name": "鳫飛",
+		"display": ["鳫飛"],
+		"gameName": "将棋",
+		"expansion": "和将棋",
+		"unit": "臣",
+		"range": {
+			"default": "銅"
+		},
+		"promo": "羽"
+	},
+	"狽": {
+		"name": "猛狼",
+		"display": ["猛狼"],
+		"gameName": "将棋",
+		"expansion": "和将棋",
+		"unit": "臣",
+		"range": {
+			"default": "金"
+		},
+		"promo": "熊"
+	},
+	"狐": {
+		"name": "隠狐",
+		"display": ["隠狐"],
+		"gameName": "将棋",
+		"expansion": "和将棋",
+		"unit": "臣",
+		"range": {
+			"default": "狐"
+		}
+	},
+	"雲": {
+		"name": "雲鷲",
+		"display": ["雲鷲"],
+		"gameName": "将棋",
+		"expansion": "和将棋",
+		"unit": "臣",
+		"range": {
+			"default": "雲"
+		}
+	},
+	"霍": {
+		"name": "靏玉",
+		"display": ["靏玉"],
+		"alias": "皇",
+		"gameName": "将棋",
+		"expansion": "和将棋",
+		"unit": "王",
+		"attr": ["king"],
+		"range": {
+			"default": "王"
+		}
+	},
 	"梹": {
 		"name": "ポーン",
 		"display": ["♟兵", "♙兵", "♟梹", "♙梹"],
@@ -1660,6 +1848,104 @@ export default {
 		"display": ["狼金"],
 		"range": {
 			"default": "金"
+		}
+	},
+	"錐": {
+		"name": "金鳥",
+		"display": ["金鳥"],
+		"range": {
+			"default": "金"
+		}
+	},
+	"鳶": {
+		"name": "烏飛鷹",
+		"display": ["飛鳶"],
+		"range": {
+			"default": "鷙"
+		}
+	},
+	"曇": {
+		"name": "鴟雲鷲",
+		"display": ["曇鷲"],
+		"range": {
+			"default": "雲"
+		}
+	},
+	"延": {
+		"name": "延鷹",
+		"display": ["延鷹"],
+		"range": {
+			"default": "延"
+		}
+	},
+	"狛": {
+		"name": "犬猛狼",
+		"display": ["猛狛"],
+		"range": {
+			"default": "金"
+		}
+	},
+	"豬": {
+		"name": "行猪",
+		"display": ["行猪"],
+		"range": {
+			"default": "醉"
+		}
+	},
+	"鷄": {
+		"name": "鷄鷹",
+		"display": ["鷄鷹"],
+		"range": {
+			"default": "鷄"
+		}
+	},
+	"前": {
+		"name": "歬牛",
+		"display": ["歬牛"],
+		"range": {
+			"default": "王"
+		}
+	},
+	"騰": {
+		"name": "天馬",
+		"display": ["天馬"],
+		"range": {
+			"default": "騰"
+		}
+	},
+	"行": {
+		"name": "燕行",
+		"display": ["燕行"],
+		"range": {
+			"default": "車"
+		}
+	},
+	"瓜": {
+		"name": "兎隠狐",
+		"display": ["隠瓜"],
+		"range": {
+			"default": "狐"
+		}
+	},
+	"麈": {
+		"name": "猿猛鹿",
+		"display": ["猛麈"],
+		"range": {
+			"default": "銀"
+		}
+	},
+	"羽": {
+		"name": "鳫燕羽",
+		"display": ["燕羽"],
+		"range": {
+			"default": "横"
+		}
+	},
+	"熊": {
+		"name": "熊眼",
+		"display": ["熊眼"],
+		"range": {
+			"default": "王"
 		}
 	},
 	"篩": {
