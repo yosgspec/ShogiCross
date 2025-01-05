@@ -160,6 +160,10 @@
 ![](img/heiseiShogi.png)
 </details>
 
+## [和将棋](https://ja.wikipedia.org/wiki/%E5%92%8C%E5%B0%86%E6%A3%8B)
+全ての駒に動物の名前を使用した古将棋の一種。持ち駒なし。  
+![](img/waShogi.png)
+
 ## [Grant Acedrex](https://www.chessvariants.org/rules/grantacedrex)
 古のチェスの一種。特殊な動きをする駒が多い。プロモーション先は本来は敵陣の到着列の駒となる(未実装)。持ち駒なし。  
 ![](img/grantAcedrex.png)
