@@ -78,7 +78,16 @@
 * [Noto Serif Black](https://fonts.google.com/noto/specimen/Noto+Serif?noto.query=serif)
 * [Noto Serif TC Black](https://fonts.google.com/noto/specimen/Noto+Serif+TC?noto.query=serif+tc)
 
-本来は楷書体が適切だと考えるが文字の網羅性と扱いやすさからNotoフォントで統一。
+楷書体は使用せず、文字の網羅性が高くGoogle Fontsで使用できることからからNotoフォントで統一している。
+
+## 将棋駒の角度・寸法
+将棋駒は以下寸法とした。
+![](img/piece.png)
+参考資料を基に寸法ができるだけ単純になるように設定している。
+
+### 参考資料
+* [将棋駒の寸法をしっかり計算したお - 生き抜くぜ21世紀](https://rskmoi.hatenablog.com/entry/2018/01/21/104029)
+* [駒のサイズ](http://kijishi.html.xdomain.jp/komanosize.htm)
 
 ## 使用ライブラリ
 Webアプリの本体についてはVanilla.jsで実装。
