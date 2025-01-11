@@ -25,9 +25,9 @@
      showgrid="true"
      showguides="true"
      inkscape:guide-bbox="true"
-     inkscape:zoom="0.85922207"
-     inkscape:cx="538.27761"
-     inkscape:cy="612.18167"
+     inkscape:zoom="3.4368883"
+     inkscape:cx="388.28728"
+     inkscape:cy="779.77512"
      inkscape:window-width="1920"
      inkscape:window-height="1015"
      inkscape:window-x="0"
@@ -391,6 +391,53 @@
   </g>
   <g
      inkscape:groupmode="layer"
+     id="layer5"
+     inkscape:label="和将棋"
+     style="display:inline">
+    <g
+       id="g158328-0"
+       style="display:inline">
+      <text
+         xml:space="preserve"
+         style="font-size:27.5167px;line-height:1.25;font-family:TKaisho-GT01;-inkscape-font-specification:TKaisho-GT01;writing-mode:tb-rl;display:inline;stroke-width:0.3;stroke-miterlimit:4;stroke-dasharray:none"
+         x="106"
+         y="148"
+         id="text158318-9"><tspan
+           sodipodi:role="line"
+           id="tspan158314-2"
+           style="font-size:21.8722px;stroke:#000000;stroke-width:0.3;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+           x="148"
+           y="106">歩</tspan><tspan
+           sodipodi:role="line"
+           style="font-size:27.5167px;stroke:#000000;stroke-width:0.3;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+           x="148"
+           y="71.604126"
+           id="tspan158316-5" /></text>
+      <path
+         style="display:inline;fill:none;stroke:#000000;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         d="m 105,130 12,4 6,36 H 87 l 5.999998,-36 z"
+         id="path158320-4" />
+      <text
+         xml:space="preserve"
+         style="font-size:18.8987px;line-height:1.25;font-family:TKaisho-GT01;-inkscape-font-specification:TKaisho-GT01;writing-mode:tb-rl;display:inline;stroke-width:0.3;stroke-miterlimit:4;stroke-dasharray:none"
+         x="104.95345"
+         y="117.90971"
+         id="text158326-0"
+         transform="scale(1.0011591,0.99884222)"><tspan
+           sodipodi:role="line"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:18.8987px;font-family:KaiTi;-inkscape-font-specification:KaiTi;stroke:#000000;stroke-width:0.3;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+           x="118.22903"
+           y="104.63413"
+           id="tspan12554">萑</tspan><tspan
+           sodipodi:role="line"
+           style="font-size:18.8987px;stroke:#000000;stroke-width:0.3;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+           x="118.22903"
+           y="80.815895"
+           id="tspan158324-9" /></text>
+    </g>
+  </g>
+  <g
+     inkscape:groupmode="layer"
      id="g158330"
      inkscape:label="中将棋"
      style="display:none">
@@ -612,7 +659,7 @@
      inkscape:groupmode="layer"
      id="g110154"
      inkscape:label="将棋"
-     style="display:inline">
+     style="display:none">
     <g
        id="g158243">
       <text

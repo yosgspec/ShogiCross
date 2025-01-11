@@ -26,8 +26,9 @@
 不要なマスについては折り込むか紙などを当てて隠すこと。
 
 ### 駒箱
-#### [toolBox.pdf](dist/toolBox.pdf)
-必要な箱のページのみ印刷する。  
+#### [toolBox_〇〇.pdf](#コンポーネント構成早見表)
+必要な箱のみ印刷する。  
+`toolBox_option`と`toolBox_setting`は部品・予備等の汎用として使用する。  
 2ページで1組になる。
 
 ### アクセサリ
@@ -37,33 +38,35 @@
 
 ### コンポーネント構成早見表
 
-|ゲーム                  |[駒ページ](dist/paperPiece.pdf)| ボード
-|:-----------------------|:---------|:--------------------
-|**将棋**                |1         |[board_shogi.pdf](dist/board_shogi.pdf)
-|5五将棋                 |1         |[board_shogi5x5.pdf](dist/board_shogi5x5.pdf)
-|朝倉象棋                |1         |[board_shogi.pdf](dist/board_shogi.pdf)
-|京将棋                  |1         |[board_shogi10x10.pdf](dist/board_shogi10x10.pdf)
-|四人将棋                |1         |[board_shogi.pdf](dist/board_shogi.pdf)
-|四神将棋                |1         |[board_some15x15.pdf](dist/board_some15x15.pdf)
-|**チェス**              |2         |[board_chess.pdf](dist/board_chess.pdf)
-|クレージーハウス        |2         |[board_chess.pdf](dist/board_chess.pdf)
-|ロスアラモスチェス      |2         |[board_chess6x6.pdf](dist/board_chess6x6.pdf)
-|カパブランカチェス      |2         |[board_chess10x8.pdf](dist/board_chess10x8.pdf)
-|グランドチェス          |2         |[board_chess10x10.pdf](dist/board_chess10x10.pdf)
-|4人チェス               |2         |[board_some15x15.pdf](dist/board_some15x15.pdf)
-|**シャンチー**          |3         |[board_xiangqi.pdf](dist/board_xiangqi.pdf)
-|**チャンギ**            |4         |[board_janngi.pdf](dist/board_janngi.pdf)
-|**マークルック**        |5         |[board_makruk.pdf](dist/board_makruk.pdf)
-|**チャトランガ**        |6         |[board_chess.pdf](dist/board_chess.pdf)
-|チャトラジ              |6         |[board_chess.pdf](dist/board_chess.pdf)
-|**どうぶつしょうぎ**    |5         |[board_dobutsu.pdf](dist/board_dobutsu.pdf)
-|ごろごろどうぶつしょうぎ|5         |[board_dobutsu5x6.pdf](dist/board_dobutsu5x6.pdf)
-|**禽将棋**              |6         |[board_shogi7x7.pdf](dist/board_shogi7x7.pdf)
-|**中将棋**              |1,7       |[board_shogi12x12.pdf](dist/board_shogi12x12.pdf)
-|大将棋                  |1,3,4,7,8 |[board_shogi15x15.pdf](dist/board_shogi15x15.pdf)
-|獅子将棋                |1,7       |[board_shogi.pdf](dist/board_shogi.pdf)
-|**Grant Acedrex**       |9         |[board_shogi12x12.pdf](dist/board_shogi12x12.pdf)
-|**クーリエチェス**      |10        |[board_shogi12x12.pdf](dist/board_shogi12x12.pdf)
+|ゲーム                  |[駒ページ](dist/paperPiece.pdf)| ボード | 駒箱
+|:-----------------------|:---------|:--------------------------------------------------|:----
+|**将棋**                |1         |[board_shogi.pdf](dist/board_shogi.pdf)            |[toolBox_shogi.pdf](dist/toolBox_shogi.pdf)
+|5五将棋                 |1         |[board_shogi5x5.pdf](dist/board_shogi5x5.pdf)      |―
+|朝倉象棋                |1         |[board_shogi.pdf](dist/board_shogi.pdf)            |―
+|京将棋                  |1         |[board_shogi10x10.pdf](dist/board_shogi10x10.pdf)  |―
+|四人将棋                |1         |[board_shogi.pdf](dist/board_shogi.pdf)            |―
+|四神将棋                |1         |[board_4shogi15x15.pdf](dist/board_4shogi15x15.pdf)|―
+|**チェス**              |2         |[board_chess.pdf](dist/board_chess.pdf)            |[toolBox_chess.pdf](dist/toolBox_chess.pdf)
+|クレージーハウス        |2         |[board_chess.pdf](dist/board_chess.pdf)            |―
+|ロスアラモスチェス      |2         |[board_chess6x6.pdf](dist/board_chess6x6.pdf)      |―
+|カパブランカチェス      |2         |[board_chess10x8.pdf](dist/board_chess10x8.pdf)    |―
+|グランドチェス          |2         |[board_chess10x10.pdf](dist/board_chess10x10.pdf)  |―
+|4人チェス               |2         |[board_4chess14x14.pdf](dist/board_4chess14x14.pdf)|―
+|**シャンチー**          |3         |[board_xiangqi.pdf](dist/board_xiangqi.pdf)        |[toolBox_xiangqi.pdf](dist/toolBox_xiangqi.pdf)
+|**チャンギ**            |4         |[board_janngi.pdf](dist/board_janngi.pdf)          |[toolBox_janngi.pdf](dist/toolBox_janngi.pdf)
+|**マークルック**        |5         |[board_makruk.pdf](dist/board_makruk.pdf)          |[toolBox_makruk.pdf](dist/toolBox_makruk.pdf)
+|**チャトランガ**        |6         |[board_chess.pdf](dist/board_chess.pdf)            |[toolBox_chaturanga.pdf](dist/toolBox_chaturanga.pdf)
+|チャトラジ              |6         |[board_chess.pdf](dist/board_chess.pdf)            |―
+|**どうぶつしょうぎ**    |5         |[board_dobutsu.pdf](dist/board_dobutsu.pdf)        |[toolBox_dobutsuShogi.pdf](dist/toolBox_dobutsuShogi.pdf)
+|ごろごろどうぶつしょうぎ|5         |[board_dobutsu5x6.pdf](dist/board_dobutsu5x6.pdf)  |―
+|**禽将棋**              |6         |[board_shogi7x7.pdf](dist/board_shogi7x7.pdf)      |[toolBox_toriShogi.pdf](dist/toolBox_toriShogi.pdf)
+|**中将棋**              |1,7       |[board_shogi12x12.pdf](dist/board_shogi12x12.pdf)  |[toolBox_chuShogi.pdf](dist/toolBox_chuShogi.pdf)
+|大将棋                  |1,3,4,7,8 |[board_shogi15x15.pdf](dist/board_shogi15x15.pdf)  |[toolBox_daiShogi.pdf](dist/toolBox_daiShogi.pdf)
+|獅子将棋                |1,7       |[board_shogi.pdf](dist/board_shogi.pdf)            |―
+|**和将棋**              |11        |[board_shogi11x11.pdf](dist/board_shogi11x11.pdf)  |[toolBox_waShogi.pdf](dist/toolBox_waShogi.pdf)
+|**Grant Acedrex**       |9         |[board_chess12x12.pdf](dist/board_chess12x12.pdf)  |[toolBox_grantAcedrex.pdf](dist/toolBox_grantAcedrex.pdf)
+|**クーリエチェス**      |10        |[board_chess12x12.pdf](dist/board_chess12x12.pdf)  |[toolBox_courierChess.pdf](dist/toolBox_courierChess.pdf)
+|**汎用**                |―        |[board_any10x10.pdf](dist/board_any10x10.pdf)<br>[board_any15x15.pdf](dist/board_any15x15.pdf)|[toolBox.pdf](dist/toolBox.pdf)<br>[toolBox_option.pdf](dist/toolBox_option.pdf)<br>[toolBox_setting.pdf](dist/toolBox_setting.pdf)
 
 ## おすすめ商品
 印刷や組み立てに使用材料としておすすめする商品など。
