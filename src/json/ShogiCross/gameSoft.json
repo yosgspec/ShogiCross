@@ -6,7 +6,7 @@
 		"desc": "駒に画像を設定したチェス。",
 		"playBoard": "てがきちぇす",
 		"useStand": false,
-		"playPieces": [
+		"playersOption": [
 			{"gameName": "てがきちぇす", "pieceSet": "てがきちぇす"},
 			{"gameName": "てがきちぇす", "pieceSet": "てがきちぇす"}
 		]
@@ -18,7 +18,7 @@
 		"desc": "持ち駒が使える駒に画像を設定したチェス。",
 		"playBoard": "クレージーハウス",
 		"useStand": true,
-		"playPieces": [
+		"playersOption": [
 			{"gameName": "てがきちぇす", "pieceSet": "てがきちぇす"},
 			{"gameName": "てがきちぇす", "pieceSet": "てがきちぇす"}
 		]
