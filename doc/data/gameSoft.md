@@ -39,8 +39,19 @@ new Board()及びBoard.run()に与えるとそのまま実行が行える。
 "useStand": true
 ```
 
-## playPieces {{gameName: string, pieceSet: string}[]}
-駒の配置データ。配列形式でプレイヤー分記載。
+## playersOption {{gameName: string, pieceSet: string, cpuEngine: string?}[]}
+プレイヤー設定。配列形式でプレイヤー分記載。  
+gameName: 配置する駒のゲーム名  
+pieceSet: 駒の配置バリエーション  
+cpuEngine: CPUエンジン。現行パラメータは下記。
+
+|パラメータ|詳細
+|:----|:----
+|未指定|CPUを使用しない。手動操作。
+|random|ランダム移動を行うCPU
+|greedy|Greedy法で実装されたCPU
+|minimax|Minimax法で実装されたCPU
+
 
 ### gameName {string}
 分類上のゲーム名 = games.jsonに列挙されるキー。

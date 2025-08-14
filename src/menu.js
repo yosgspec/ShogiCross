@@ -7,6 +7,7 @@ export default `
 <div><a href="#pieceViewer">将棋駒Viewer</a></div>
 <div><a href="#pieceMakeImage">将棋駒画像生成</a></div>
 <div><a href="#shogiVsChess">将棋対チェススレ 棋譜再生</a></div>
+<div><a href="#cpuTest">CPU実装テスト</a></div>
 
 <h3>ペーパークラフト</h3>
 <div><a href="https://github.com/yosgspec/ShogiCross/blob/main/paper/README.md">ペーパークラフト(GitHub)</a></div>
@@ -24,7 +25,7 @@ export default `
 <div><a href="#doc/gameSoft">ゲームをプリセットから起動</a></div>
 <div><a href="#doc/playBoard">ボードタイプの変更</a></div>
 <div><a href="#doc/useStand">駒台の使用有無</a></div>
-<div><a href="#doc/playPieces">駒の初期配置</a></div>
+<div><a href="#doc/playersOption">プレイヤー設定/駒の初期配置</a></div>
 <div><a href="#doc/players">ゲームの参加人数</a></div>
 <div><a href="#doc/canvasFit">Canvasの寸法調整</a></div>
 <div><a href="#doc/boardSizes">ボードの寸法を変更</a></div>
