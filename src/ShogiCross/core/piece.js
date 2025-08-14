@@ -116,7 +116,7 @@ export class Piece{
 	 * @returns {Piece}
 	 */
 	static stringToPiece(pieces, text){
-		if (!text) return null;
+		if(!text) return null;
 		const [degChar, pieceChar] = [...text];
 		const deg = Piece.charDegs[degChar];
 		if(!deg || !pieces[pieceChar]) return null;
@@ -293,6 +293,7 @@ export class Piece{
 
 	/** 駒/マスクを描写 */
 	async draw(){
+		if(!this.ctx) return;
 		const selectColor = "#FF000055";
 		if(this.imgSrc && canvasImage.imported){
 			this.drawImage();
@@ -306,6 +307,7 @@ export class Piece{
 
 	/** 駒画像を描写 */
 	drawImage(){
+		if(!this.ctx) return;
 		const {ctx, size, deg} = this;
 
 		const src = this.imgSrc[deg][this.displayPtn] ?? this.imgSrc[0][this.displayPtn];
@@ -333,6 +335,7 @@ export class Piece{
 	 * @param {string} color - カラーエフェクトの色
 	 */
 	drawMaskImage(color){
+		if(!this.ctx) return;
 		const {ctx, size} = this;
 
 		ctx.fillStyle = color;
@@ -379,6 +382,7 @@ export class Piece{
 
 	/** 駒を描写 */
 	drawPiece(){
+		if(!this.ctx) return;
 		const {ctx, game, zoom} = this;
 
 		let fontColor, backgroundColor, borderColor;
@@ -420,6 +424,7 @@ export class Piece{
 	 * @param {string} color - カラーエフェクトの色
 	 */
 	drawMask(color){
+		if(!this.ctx) return;
 		const {ctx, zoom} = this;
 
 		ctx.fillStyle = color;

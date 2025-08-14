@@ -6,7 +6,7 @@ export default {
 		"desc": "一般的な将棋。本将棋とも呼ばれる。",
 		"playBoard": "将棋",
 		"useStand": true,
-		"playPieces": [
+		"playersOption": [
 			{"gameName": "将棋", "pieceSet": "default"},
 			{"gameName": "将棋", "pieceSet": "2p"}
 		]
@@ -18,7 +18,7 @@ export default {
 		"desc": "西洋の将棋類。西洋将棋とも呼ばれる。",
 		"playBoard": "チェス",
 		"useStand": false,
-		"playPieces": [
+		"playersOption": [
 			{"gameName": "チェス", "pieceSet": "default"},
 			{"gameName": "チェス", "pieceSet": "2p"}
 		]
@@ -30,7 +30,7 @@ export default {
 		"desc": "中国の将棋類。象棋、中国将棋とも呼ばれる。",
 		"playBoard": "シャンチー",
 		"useStand": false,
-		"playPieces": [
+		"playersOption": [
 			{"gameName": "シャンチー", "pieceSet": "default"},
 			{"gameName": "シャンチー", "pieceSet": "2p"}
 		]
@@ -42,7 +42,7 @@ export default {
 		"desc": "朝鮮半島の将棋類。朝鮮将棋とも呼ばれる。",
 		"playBoard": "チャンギ",
 		"useStand": false,
-		"playPieces": [
+		"playersOption": [
 			{"gameName": "チャンギ", "pieceSet": "default"},
 			{"gameName": "チャンギ", "pieceSet": "2p"}
 		]
@@ -54,7 +54,7 @@ export default {
 		"desc": "タイの将棋類。タイ将棋とも呼ばれる。",
 		"playBoard": "マークルック",
 		"useStand": false,
-		"playPieces": [
+		"playersOption": [
 			{"gameName": "マークルック", "pieceSet": "default"},
 			{"gameName": "マークルック", "pieceSet": "2p"}
 		]
@@ -66,7 +66,7 @@ export default {
 		"desc": "原初の将棋類。詳細なルールは失われている。",
 		"playBoard": "チェス",
 		"useStand": false,
-		"playPieces": [
+		"playersOption": [
 			{"gameName": "チャトランガ", "pieceSet": "default"},
 			{"gameName": "チャトランガ", "pieceSet": "2p"}
 		]
@@ -78,7 +78,7 @@ export default {
 		"desc": "入門用として考案された将棋。",
 		"playBoard": "どうぶつしょうぎ",
 		"useStand": true,
-		"playPieces": [
+		"playersOption": [
 			{"gameName": "どうぶつしょうぎ", "pieceSet": "default"},
 			{"gameName": "どうぶつしょうぎ", "pieceSet": "default"}
 		]
@@ -90,7 +90,7 @@ export default {
 		"desc": "鳥の名の駒を使用する古将棋。特殊な動きをする駒が多い。",
 		"playBoard": "将棋7x7",
 		"useStand": true,
-		"playPieces": [
+		"playersOption": [
 			{"gameName": "将棋", "pieceSet": "禽将棋"},
 			{"gameName": "将棋", "pieceSet": "禽将棋"}
 		]
@@ -102,7 +102,7 @@ export default {
 		"desc": "現在でもプレイされることのある古将棋の一種。",
 		"playBoard": "古将棋12x12",
 		"useStand": false,
-		"playPieces": [
+		"playersOption": [
 			{"gameName": "将棋", "pieceSet": "中将棋"},
 			{"gameName": "将棋", "pieceSet": "中将棋2p"}
 		]
@@ -114,7 +114,7 @@ export default {
 		"desc": "全ての駒に動物の名前を使用した古将棋の一種。",
 		"playBoard": "古将棋11x11",
 		"useStand": false,
-		"playPieces": [
+		"playersOption": [
 			{"gameName": "将棋", "pieceSet": "和将棋"},
 			{"gameName": "将棋", "pieceSet": "和将棋"}
 		]
@@ -126,7 +126,7 @@ export default {
 		"desc": "古チェスの一種。特殊な動きをする駒が多い。プロモーション先は本来は敵陣の到着列の駒となる(未実装)。",
 		"playBoard": "チェス12x12",
 		"useStand": false,
-		"playPieces": [
+		"playersOption": [
 			{"gameName": "チェス", "pieceSet": "GrantAcedrex"},
 			{"gameName": "チェス", "pieceSet": "GrantAcedrex2p"}
 		]
@@ -138,7 +138,7 @@ export default {
 		"desc": "古チェスの一種。ビショップに等しい走り駒(クーリエ)が初めて使用された。",
 		"playBoard": "チェス12x8",
 		"useStand": false,
-		"playPieces": [
+		"playersOption": [
 			{"gameName": "チェス", "pieceSet": "クーリエチェス(定形配置)"},
 			{"gameName": "チェス", "pieceSet": "クーリエチェス(定形配置)2p"}
 		]
@@ -150,7 +150,7 @@ export default {
 		"desc": "簡略化された将棋。",
 		"playBoard": "将棋5x5",
 		"useStand": true,
-		"playPieces": [
+		"playersOption": [
 			{"gameName": "将棋", "pieceSet": "default"},
 			{"gameName": "将棋", "pieceSet": "2p"}
 		]
@@ -162,7 +162,7 @@ export default {
 		"desc": "持ち駒が使用できる小将棋。",
 		"playBoard": "将棋",
 		"useStand": true,
-		"playPieces": [
+		"playersOption": [
 			{"gameName": "将棋", "pieceSet": "小将棋"},
 			{"gameName": "将棋", "pieceSet": "小将棋2p"}
 		]
@@ -174,7 +174,7 @@ export default {
 		"desc": "中将棋から駒を取り入れて原点回帰した平安将棋。",
 		"playBoard": "将棋",
 		"useStand": false,
-		"playPieces": [
+		"playersOption": [
 			{"gameName": "将棋", "pieceSet": "小将棋"},
 			{"gameName": "将棋", "pieceSet": "小将棋2p"}
 		]
@@ -186,7 +186,7 @@ export default {
 		"desc": "記録が残る最古の日本の将棋。盤の大きさに緒説ある。",
 		"playBoard": "古将棋8x8",
 		"useStand": false,
-		"playPieces": [
+		"playersOption": [
 			{"gameName": "将棋", "pieceSet": "平安将棋"},
 			{"gameName": "将棋", "pieceSet": "平安将棋"}
 		]
@@ -198,7 +198,7 @@ export default {
 		"desc": "9x8マスと想定した時の平安将棋。",
 		"playBoard": "古将棋9x8",
 		"useStand": false,
-		"playPieces": [
+		"playersOption": [
 			{"gameName": "将棋", "pieceSet": "平安将棋"},
 			{"gameName": "将棋", "pieceSet": "平安将棋"}
 		]
@@ -210,7 +210,7 @@ export default {
 		"desc": "9x9マスと想定した時の平安将棋。",
 		"playBoard": "古将棋9x9",
 		"useStand": false,
-		"playPieces": [
+		"playersOption": [
 			{"gameName": "将棋", "pieceSet": "平安将棋"},
 			{"gameName": "将棋", "pieceSet": "平安将棋"}
 		]
@@ -222,7 +222,7 @@ export default {
 		"desc": "京翔と銅将を追加した将棋。左右の配置が存在。",
 		"playBoard": "将棋10x10",
 		"useStand": true,
-		"playPieces": [
+		"playersOption": [
 			{"gameName": "将棋", "pieceSet": "京将棋(左京配置)"},
 			{"gameName": "将棋", "pieceSet": "京将棋(左京配置)2p"}
 		]
@@ -234,7 +234,7 @@ export default {
 		"desc": "京将棋の右側に京を置くパターン。",
 		"playBoard": "将棋10x10",
 		"useStand": true,
-		"playPieces": [
+		"playersOption": [
 			{"gameName": "将棋", "pieceSet": "京将棋(右京配置)"},
 			{"gameName": "将棋", "pieceSet": "京将棋(右京配置)2p"}
 		]
@@ -246,7 +246,7 @@ export default {
 		"desc": "桂馬を京翔へ置き換えた本将棋。左右の配置が存在。",
 		"playBoard": "将棋",
 		"useStand": true,
-		"playPieces": [
+		"playersOption": [
 			{"gameName": "将棋", "pieceSet": "小京将棋(左置換)"},
 			{"gameName": "将棋", "pieceSet": "小京将棋(左置換)2p"}
 		]
@@ -258,7 +258,7 @@ export default {
 		"desc": "小京将棋の右置換パターン。",
 		"playBoard": "将棋",
 		"useStand": true,
-		"playPieces": [
+		"playersOption": [
 			{"gameName": "将棋", "pieceSet": "小京将棋(右置換)"},
 			{"gameName": "将棋", "pieceSet": "小京将棋(右置換)2p"}
 		]
@@ -270,7 +270,7 @@ export default {
 		"desc": "香車を山車へ置き換えた本将棋。左右の配置が存在。",
 		"playBoard": "将棋",
 		"useStand": true,
-		"playPieces": [
+		"playersOption": [
 			{"gameName": "将棋", "pieceSet": "山車将棋(左置換)"},
 			{"gameName": "将棋", "pieceSet": "山車将棋(左置換)2p"}
 		]
@@ -282,7 +282,7 @@ export default {
 		"desc": "山車将棋の右置換パターン。",
 		"playBoard": "将棋",
 		"useStand": true,
-		"playPieces": [
+		"playersOption": [
 			{"gameName": "将棋", "pieceSet": "山車将棋(右置換)"},
 			{"gameName": "将棋", "pieceSet": "山車将棋(右置換)2p"}
 		]
@@ -294,7 +294,7 @@ export default {
 		"desc": "銀将を銅将へ置き換えた本将棋。左右の配置が存在。",
 		"playBoard": "将棋",
 		"useStand": true,
-		"playPieces": [
+		"playersOption": [
 			{"gameName": "将棋", "pieceSet": "銅将棋(左置換)"},
 			{"gameName": "将棋", "pieceSet": "銅将棋(左置換)2p"}
 		]
@@ -306,7 +306,7 @@ export default {
 		"desc": "銅将棋の右置換パターン。",
 		"playBoard": "将棋",
 		"useStand": true,
-		"playPieces": [
+		"playersOption": [
 			{"gameName": "将棋", "pieceSet": "銅将棋(右置換)"},
 			{"gameName": "将棋", "pieceSet": "銅将棋(右置換)2p"}
 		]
@@ -318,7 +318,7 @@ export default {
 		"desc": "金将を金翅へ置き換えた本将棋。左右の配置が存在。",
 		"playBoard": "将棋",
 		"useStand": true,
-		"playPieces": [
+		"playersOption": [
 			{"gameName": "将棋", "pieceSet": "金翅将棋(左置換)"},
 			{"gameName": "将棋", "pieceSet": "金翅将棋(左置換)2p"}
 		]
@@ -330,7 +330,7 @@ export default {
 		"desc": "金翅将棋の右置換パターン。",
 		"playBoard": "将棋",
 		"useStand": true,
-		"playPieces": [
+		"playersOption": [
 			{"gameName": "将棋", "pieceSet": "金翅将棋(右置換)"},
 			{"gameName": "将棋", "pieceSet": "金翅将棋(右置換)2p"}
 		]
@@ -342,7 +342,7 @@ export default {
 		"desc": "金将を金翅へ置き換えた本将棋。左右の配置が存在。",
 		"playBoard": "将棋",
 		"useStand": true,
-		"playPieces": [
+		"playersOption": [
 			{"gameName": "将棋", "pieceSet": "金斗将棋(左置換)"},
 			{"gameName": "将棋", "pieceSet": "金斗将棋(左置換)2p"}
 		]
@@ -354,7 +354,7 @@ export default {
 		"desc": "金斗将棋の右置換パターン。",
 		"playBoard": "将棋",
 		"useStand": true,
-		"playPieces": [
+		"playersOption": [
 			{"gameName": "将棋", "pieceSet": "金斗将棋(右置換)"},
 			{"gameName": "将棋", "pieceSet": "金斗将棋(右置換)2p"}
 		]
@@ -366,7 +366,7 @@ export default {
 		"desc": "京将棋系の駒で複数置換した本将棋。左右の配置が存在。",
 		"playBoard": "将棋",
 		"useStand": true,
-		"playPieces": [
+		"playersOption": [
 			{"gameName": "将棋", "pieceSet": "将棋30++(左系フル置換)"},
 			{"gameName": "将棋", "pieceSet": "将棋30++(左系フル置換)2p"}
 		]
@@ -378,7 +378,7 @@ export default {
 		"desc": "将棋30++の右置換パターン。",
 		"playBoard": "将棋",
 		"useStand": true,
-		"playPieces": [
+		"playersOption": [
 			{"gameName": "将棋", "pieceSet": "将棋30++(右系フル置換)"},
 			{"gameName": "将棋", "pieceSet": "将棋30++(右系フル置換)2p"}
 		]
@@ -390,7 +390,7 @@ export default {
 		"desc": "チェスの要素を取り入れた本将棋。香車は意図して反車として表示した。",
 		"playBoard": "将棋10x10",
 		"useStand": true,
-		"playPieces": [
+		"playersOption": [
 			{"gameName": "将棋", "pieceSet": "御妃将棋"},
 			{"gameName": "将棋", "pieceSet": "御妃将棋2p"}
 		]
@@ -402,7 +402,7 @@ export default {
 		"desc": "持ち駒が使用できるチェス。",
 		"playBoard": "クレージーハウス",
 		"useStand": true,
-		"playPieces": [
+		"playersOption": [
 			{"gameName": "チェス", "pieceSet": "default"},
 			{"gameName": "チェス", "pieceSet": "2p"}
 		]
@@ -414,7 +414,7 @@ export default {
 		"desc": "簡略化されたチェス。",
 		"playBoard": "チェス6x6",
 		"useStand": false,
-		"playPieces": [
+		"playersOption": [
 			{"gameName": "チェス", "pieceSet": "default"},
 			{"gameName": "チェス", "pieceSet": "2p"}
 		]
@@ -426,7 +426,7 @@ export default {
 		"desc": "マーシャル(エンプレス)、カーディナル(プリンセス)を追加したチェス。",
 		"playBoard": "チェス10x8",
 		"useStand": false,
-		"playPieces": [
+		"playersOption": [
 			{"gameName": "チェス", "pieceSet": "カパブランカチェス"},
 			{"gameName": "チェス", "pieceSet": "カパブランカチェス2p"}
 		]
@@ -438,7 +438,7 @@ export default {
 		"desc": "カパブランカチェスと同様の駒を使用するが配置が異なる。",
 		"playBoard": "チェス10x10",
 		"useStand": false,
-		"playPieces": [
+		"playersOption": [
 			{"gameName": "チェス", "pieceSet": "グランドチェス"},
 			{"gameName": "チェス", "pieceSet": "グランドチェス2p"}
 		]
@@ -450,7 +450,7 @@ export default {
 		"desc": "「きりん」と「ぞう」の代わりに「いぬ」(金将)と「ねこ」(銀将)を追加したどうぶつしょうぎ。5656将棋のどうぶつしょうぎ版。",
 		"playBoard": "ごろごろどうぶつしょうぎ",
 		"useStand": true,
-		"playPieces": [
+		"playersOption": [
 			{"gameName": "どうぶつしょうぎ", "pieceSet": "default"},
 			{"gameName": "どうぶつしょうぎ", "pieceSet": "default"}
 		]
@@ -462,7 +462,7 @@ export default {
 		"desc": "中将棋を遊びやすくするよう考案された将棋の一種。",
 		"playBoard": "古将棋9x9",
 		"useStand": false,
-		"playPieces": [
+		"playersOption": [
 			{"gameName": "将棋", "pieceSet": "獅子将棋"},
 			{"gameName": "将棋", "pieceSet": "獅子将棋2p"}
 		]
@@ -474,7 +474,7 @@ export default {
 		"desc": "中将棋を遊びやすくするよう考案された将棋の一種。",
 		"playBoard": "古将棋10x10",
 		"useStand": false,
-		"playPieces": [
+		"playersOption": [
 			{"gameName": "将棋", "pieceSet": "平成将棋"},
 			{"gameName": "将棋", "pieceSet": "平成将棋2p"}
 		]
@@ -486,7 +486,7 @@ export default {
 		"desc": "中将棋の祖先とされる古将棋。",
 		"playBoard": "古将棋15x15",
 		"useStand": false,
-		"playPieces": [
+		"playersOption": [
 			{"gameName": "将棋", "pieceSet": "大将棋"},
 			{"gameName": "将棋", "pieceSet": "大将棋2p"}
 		]
@@ -498,7 +498,7 @@ export default {
 		"desc": "クーリエチェスの定形移動を行わない配置。",
 		"playBoard": "チェス12x8",
 		"useStand": false,
-		"playPieces": [
+		"playersOption": [
 			{"gameName": "チェス", "pieceSet": "クーリエチェス(初期配置)"},
 			{"gameName": "チェス", "pieceSet": "クーリエチェス(初期配置)2p"}
 		]
@@ -510,7 +510,7 @@ export default {
 		"desc": "4人用の将棋。",
 		"playBoard": "将棋",
 		"useStand": true,
-		"playPieces": [
+		"playersOption": [
 			{"gameName": "将棋", "pieceSet": "p4"},
 			{"gameName": "将棋", "pieceSet": "p4"},
 			{"gameName": "将棋", "pieceSet": "p4"},
@@ -524,7 +524,7 @@ export default {
 		"desc": "4人用のチェス。",
 		"playBoard": "4人チェス",
 		"useStand": false,
-		"playPieces": [
+		"playersOption": [
 			{"gameName": "チェス", "pieceSet": "p4"},
 			{"gameName": "チェス", "pieceSet": "p4"},
 			{"gameName": "チェス", "pieceSet": "p4"},
@@ -538,7 +538,7 @@ export default {
 		"desc": "テレビ用の企画として考案された4人用の将棋。",
 		"playBoard": "四神将棋",
 		"useStand": true,
-		"playPieces": [
+		"playersOption": [
 			{"gameName": "将棋", "pieceSet": "p4"},
 			{"gameName": "将棋", "pieceSet": "p4"},
 			{"gameName": "将棋", "pieceSet": "p4"},
@@ -552,7 +552,7 @@ export default {
 		"desc": "チャトランガの4人用のバリエーション。ダイスで動かす駒を決めていた。",
 		"playBoard": "チェス",
 		"useStand": false,
-		"playPieces": [
+		"playersOption": [
 			{"gameName": "チャトランガ", "pieceSet": "p4"},
 			{"gameName": "チャトランガ", "pieceSet": "p4"},
 			{"gameName": "チャトランガ", "pieceSet": "p4"},

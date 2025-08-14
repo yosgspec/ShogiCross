@@ -10,12 +10,14 @@ import {Piece} from "./piece.js";
 import {EnPassant} from "./enPassant.js";
 import {Bod} from "./bod.js";
 import {boards, games} from "./data.js";
+import {CpuEngine} from "./cpu.js";
 
 /** 盤の管理クラス */
 export class Board{
 	/** @typedef {Object} Board */
 	#mouseControl
 	#playerControl
+	#option
 
 	/**
 	 * @typedef {Object} Record - 局面の記録
@@ -53,8 +55,8 @@ export class Board{
 			url,
 			desc,
 			playBoard,
-			playPieces=[],
-			players=playPieces.some(({gameName}, i)=>1 < i && gameName)? 4: 2,
+			playersOption=[],
+			players=playersOption.some(({gameName}, i)=>1 < i && gameName)? 4: 2,
 			useStand=false,
 			canvasWidth=undefined,
 			canvasHeight=undefined,
@@ -68,27 +70,35 @@ export class Board{
 			isDrawShadow = true,
 			borderWidth=Math.min(panelWidth, panelHeight)/30,
 			backgroundColor="#00000000",
-			autoDrawing=true,
+			isHeadless=false,
+			autoDrawing=!isHeadless,
 			moveMode="normal",
-			usePlayerControl=true,
+			usePlayerControl=!isHeadless,
 			onDrawed,
 			onGameOver=(e,i)=>alert(`プレイヤー${i+1}の敗北です。`)
 		} = option;
 
+		this.#option = option;
+		this.isHeadless = isHeadless;
 		this.name = name;
 		this.variant = variant;
 		this.url = url;
 		this.desc = desc;
 
 		// 初期化
-		const canvasFontAsync = canvasFont.importAsync();
-		const canvasImageAsync = canvasImage.importAsync();
-		this.canvas = canvas;
-		const ctx = canvas.getContext("2d");
-		ctx.clearRect(0, 0, canvas.width, canvas.height);
-		this.ctx = ctx;
+		this.ctx = null;
+		this.canvas = null;
+		let canvasFontAsync = null;
+		let canvasImageAsync = null;
+		if(!isHeadless){
+			canvasFontAsync = canvasFont.importAsync();
+			canvasImageAsync = canvasImage.importAsync();
+			this.canvas = canvas;
+			this.ctx = canvas.getContext("2d");
+			this.ctx.clearRect(0, 0, canvas.width, canvas.height);
+		}
 
-		this.pieces = Piece.getPieces(ctx, {
+		this.pieces = Piece.getPieces(this.ctx, {
 			size: pieceSize,
 			useRankSize,
 			isDrawShadow
@@ -112,14 +122,19 @@ export class Board{
 			[...row].map((char, pX)=>{
 				const center = boardLeft+panelWidth*(pX+1);
 				const middle = boardTop+panelHeight*(pY+1)
-				return new Panel(ctx, char, center, middle, panelWidth, panelHeight, pX, pY, borderWidth);
+				return new Panel(this.ctx, char, center, middle, panelWidth, panelHeight, pX, pY, borderWidth);
 			})
 		);
 		this.xLen = this.field[0].length;
 		this.yLen = this.field.length;
 
-		// 駒の初期配置
-		playPieces.forEach(({gameName, pieceSet}, i)=>{
+		this.cpuEngines = [];
+		// プレイヤーオプション
+		playersOption.forEach((option, i)=>{
+			const {gameName, pieceSet, cpuEngine} = option;
+			// CPUエンジンの初期化
+			this.cpuEngines.push(new CpuEngine(this, i, cpuEngine));
+			// 駒の初期配置
 			if(!gameName) return;
 			try{
 				this.putStartPieces(i, gameName, pieceSet);
@@ -135,30 +150,32 @@ export class Board{
 		this.right = boardLeft+this.width;
 		this.bottom = boardTop+this.height;
 		this.stand = new Stand(this);
-		canvas.width = canvasWidth ?? (useStand? this.stand.right: this.right)+5;
-		canvas.height = canvasHeight ?? this.bottom+5;
+		if(!isHeadless){
+			canvas.width = canvasWidth ?? (useStand? this.stand.right: this.right)+5;
+			canvas.height = canvasHeight ?? this.bottom+5;
 
-		// キャンバスサイズ自動調整
-		const {style} = canvas;
-		if(canvasFit === "overflow"){
-			if(style.maxWidth === "") style.maxWidth = "97vw";
-			if(style.maxHeight === "") style.maxHeight = "92vh";
-		}
-		else if(canvasFit === "horizontal"){
-			if(style.width === "") style.width = "97vw";
-		}
-		else if(canvasFit === "vertical"){
-			if(style.height === "") style.height = "92vh";
-		}
-		else if(canvasFit === "parentOverflow"){
-			if(style.maxWidth === "") style.maxWidth = "100%";
-			if(style.maxHeight === "") style.maxHeight = "100%";
-		}
-		else if(canvasFit === "parentHorizontal"){
-			if(style.width === "") style.width = "100%";
-		}
-		else if(canvasFit === "parentVertical"){
-			if(style.height === "") style.height = "100%";
+			// キャンバスサイズ自動調整
+			const {style} = canvas;
+			if(canvasFit === "overflow"){
+				if(style.maxWidth === "") style.maxWidth = "97vw";
+				if(style.maxHeight === "") style.maxHeight = "92vh";
+			}
+			else if(canvasFit === "horizontal"){
+				if(style.width === "") style.width = "97vw";
+			}
+			else if(canvasFit === "vertical"){
+				if(style.height === "") style.height = "92vh";
+			}
+			else if(canvasFit === "parentOverflow"){
+				if(style.maxWidth === "") style.maxWidth = "100%";
+				if(style.maxHeight === "") style.maxHeight = "100%";
+			}
+			else if(canvasFit === "parentHorizontal"){
+				if(style.width === "") style.width = "100%";
+			}
+			else if(canvasFit === "parentVertical"){
+				if(style.height === "") style.height = "100%";
+			}
 		}
 
 		// 自動描写更新設定
@@ -184,7 +201,7 @@ export class Board{
 		 * @type {number}
 		 */
 		this.turn = 0;
-		this.#mouseControl = mouseControl(this);
+		if(!isHeadless) this.#mouseControl = mouseControl(this);
 		if(usePlayerControl){
 			this.#playerControl = this.makePlayerControl();
 			this.#playerControl.add();
@@ -403,7 +420,7 @@ export class Board{
 
 	/** プロモーションエリア内であるか判別
 	 * @param {Panel} panel - マス目
-	 * @returns {{
+	 * @returns {{ 
 	 * 		canPromo: boolean,
 	 * 		forcePromo: boolean
 	 * }}
@@ -459,8 +476,9 @@ export class Board{
 	 * @param {Panel} toPanel - 選択中のマス目
 	 * @param {boolean} canPromo - 成ることができる
 	 * @param {boolean} forcePromo - 成りを強制する
+	 * @param {boolean} isCpuMove - CPUによる移動か
 	 */
-	#promoDialog(fromPanel, toPanel, canPromo, forcePromo){
+	#promoDialog(fromPanel, toPanel, canPromo, forcePromo, isCpuMove=false){
 		const {moveMode} = this;
 		const {piece} = toPanel;
 
@@ -469,6 +487,20 @@ export class Board{
 			this.addRecord({fromPanel, toPanel});
 			return;
 		}
+
+		if(this.isHeadless || isCpuMove){
+			if(canPromo){
+				const promoChar = Object.keys(piece.promo)[0];
+				piece.promotion(promoChar);
+				this.addRecord({fromPanel, toPanel, end:"成"});
+				return;
+			}
+			else{
+				this.addRecord({fromPanel, toPanel});
+				return;
+			}
+		}
+
 		do{
 			for(const [char, {name}] of Object.entries(piece.promo)){
 				if(confirm(`成りますか?
@@ -487,8 +519,9 @@ ${char}:${name}`)){
 	/** 駒を移動
 	 * @param {Panel} fromPanel - 移動元のマス目
 	 * @param {Panel} toPanel - 選択中のマス目
+	 * @param {boolean} isCpuMove - CPUによる移動か
 	 */
-	movePiece(fromPanel, toPanel){
+	movePiece(fromPanel, toPanel, isCpuMove=false){
 		const {stand, moveMode, enPassant} = this;
 
 		if(!fromPanel
@@ -520,7 +553,7 @@ ${char}:${name}`)){
 		enPassant.setMoved(toPanel);
 
 		// プロモーション処理
-		this.#promoDialog(fromPanel, toPanel, canPromo, forcePromo);
+		this.#promoDialog(fromPanel, toPanel, canPromo, forcePromo, isCpuMove);
 
 		// プレイヤーのゲームオーバー判定
 		this.#emitGameOver();
@@ -533,7 +566,7 @@ ${char}:${name}`)){
 	 * @param {string} option.end - オプション=成|不成|打
 	 */
 	addRecord(option={}){
-		const {record} = this;
+		const {record, cpuEngines} = this;
 		const {fromPanel={}, toPanel={}, end="", inc=1} = option;
 		const {piece={}} = toPanel;
 
@@ -558,6 +591,8 @@ ${char}:${name}`)){
 			)
 		};
 		if(0 < inc) record.splice(this.turn+1);
+		// CPUのターンを進める
+		if(0 < this.turn) cpuEngines[this.turn%this.players].playTurn();
 	}
 
 	/** 棋譜コメントを追記
@@ -617,17 +652,17 @@ ${char}:${name}`)){
 		const getPX = ({pX})=> (this.xLen-pX).toString(isNumOnly? 10: 36);
 		const getPY = ({pY})=> (pY+1).toString(isNumOnly? 10: 36);
 		const numSep = isNumOnly? ",": "";
-		return `${
-			turn}: ${
-			Piece.degChars[deg]}${
-			getPX(to)}${
-			numSep}${
-			getPY(to)}${
-			pieceChar}${
-			end}${
-			from.pX === undefined? "": ` (${
-				getPX(from)}${
-				numSep}${
+		return `${ 
+			turn}: ${ 
+			Piece.degChars[deg]}${ 
+			getPX(to)}${ 
+			numSep}${ 
+			getPY(to)}${ 
+			pieceChar}${ 
+			end}${ 
+			from.pX === undefined? "": ` (${ 
+				getPX(from)}${ 
+				numSep}${ 
 				getPY(from)
 			})`}`;
 	}
@@ -662,6 +697,7 @@ ${char}:${name}`)){
 
 	/** 盤を描写 */
 	draw(){
+		if(this.isHeadless) return;
 		const {ctx, canvas, left, top, width, height, panelWidth, panelHeight} = this;
 
 		//最初の記録
@@ -758,5 +794,44 @@ ${char}:${name}`)){
 	 */
 	async downloadImage(fileName, ext, urlType){
 		await downloadImage(this.canvas, fileName ?? this.name ?? "shogicross", ext, urlType);
+	}
+
+	/** 盤面をクローン
+	 * @returns {Board}
+	 */
+	clone(){
+		// クローン用の新しいオプションオブジェクトを作成
+		const cloneOption = {...this.#option, isHeadless: true};
+
+		// 修正したオプションで新しいBoardインスタンスを作成
+		const newBoard = new Board(null, cloneOption);
+
+		// 盤上の駒をコピー
+		for(let y=0;y<this.yLen;y++){
+			for(let x=0;x<this.xLen;x++){
+				const originalPanel = this.field[y][x];
+				const newPanel = newBoard.field[y][x]; // 既にPanelオブジェクトは生成されている
+				if(originalPanel.piece){
+					newPanel.piece = originalPanel.piece.clone();
+				}
+				else{
+					newPanel.piece = null;
+				}
+			}
+		}
+
+		// 持ち駒をコピー
+		newBoard.stand.clear(); // まずクリア
+		for(const [deg, pieces] of this.stand.stocks){ // this.stand.stocks を使用
+			for(const piece of pieces){
+				newBoard.stand.add(piece.clone());
+			}
+		}
+
+		// その他の状態をコピー
+		newBoard.turn = this.turn;
+		newBoard.record = JSON.parse(JSON.stringify(this.record)); // 記録もディープコピー
+
+		return newBoard;
 	}
 }
