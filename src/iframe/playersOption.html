@@ -7,9 +7,9 @@
     const canvas = document.getElementById("shogiCross");
     const board = Board.run(canvas, {
         playBoard: "シャンチー",
-        playPieces: [
+        playersOption: [
             {gameName: "将棋"},
-            {gameName: "チェス", pieceSet: "2p"}
+            {gameName: "チェス", pieceSet: "2p", cpuEngine: "minimax"}
         ]
     });
 </script>

@@ -26,7 +26,7 @@ function updateSelectVariant(){
 	select.variant.innerHTML = "";
 	Object.entries(PlayGames).forEach(([key, {name, variant}])=>{
 		const selectedName = select.game[select.game.selectedIndex].textContent;
-		if(selectedName === variant || variant == null && selectedName === name) {
+		if(selectedName === variant || variant == null && selectedName === name){
 			const opt = document.createElement("option");
 			opt.value = key;
 			if(selectedName === name){
@@ -98,7 +98,7 @@ export class SelectControl{
 		return {
 			playBoard: select.board.value,
 			useStand: JSON.parse(select.stand.value),
-			playPieces: [...select.pieceGame].map((pieceGame, i)=>({
+			playersOption: [...select.pieceGame].map((pieceGame, i)=>({
 				gameName: pieceGame.value,
 				pieceSet: select.pieceSet[i].value
 			})),

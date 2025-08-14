@@ -26,8 +26,22 @@ new Board()及びBoard.run()に与えるとそのまま実行が行える。<br>
 <p>駒台の使用有無。</p>
 <pre><code class="language-json">&quot;useStand&quot;: true
 </code></pre>
-<h2>playPieces {{gameName: string, pieceSet: string}[]}</h2>
-<p>駒の配置データ。配列形式でプレイヤー分記載。</p>
+<h2>playersOption {{gameName: string, pieceSet: string, cpuEngine: string?}[]}</h2>
+<p>プレイヤー設定。配列形式でプレイヤー分記載。<br>
+gameName: 配置する駒のゲーム名<br>
+pieceSet: 駒の配置バリエーション<br>
+cpuEngine: CPUエンジン。現行パラメータは下記。</p>
+<table>
+  <thead>
+    <tr><th>パラメータ</th><th>詳細</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>未指定</td><td>CPUを使用しない。手動操作。</td></tr>
+    <tr><td>random</td><td>ランダム移動を行うCPU</td></tr>
+    <tr><td>greedy</td><td>Greedy法で実装されたCPU</td></tr>
+    <tr><td>minimax</td><td>Minimax法で実装されたCPU</td></tr>
+  </tbody>
+</table>
 <h3>gameName {string}</h3>
 <p>分類上のゲーム名 = games.jsonに列挙されるキー。</p>
 <h3>pieceSet(省略可) {string}</h3>
