@@ -42,7 +42,7 @@ Object.assign(canvasFont, {
 				const matchUrls = css.match(/url\(.+?\)/g);
 				if(!matchUrls) throw new Error("Not found font.");
 
-				for (const url of matchUrls) {
+				for(const url of matchUrls){
 					const fontFace = new FontFace(`${fontName}${unique}`, url);
 					document.fonts.add(fontFace);
 					await fontFace.load().catch(()=>{});
