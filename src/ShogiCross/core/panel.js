@@ -113,6 +113,7 @@ export class Panel{
 
 	/** マス目/マスク/駒を描写 */
 	draw(){
+		if(!this.ctx) return;
 		const {selectColor, targetColor} = this;
 
 		if(this.imgSrc && canvasImage.imported)
@@ -126,6 +127,7 @@ export class Panel{
 
 	/** マス目画像を描写 */
 	drawImage(){
+		if(!this.ctx) return;
 		const {ctx} = this;
 
 		const src = this.imgSrc;
@@ -140,6 +142,7 @@ export class Panel{
 
 	/** マス目を描写 */
 	drawPanel(){
+		if(!this.ctx) return;
 		const {ctx, left, top, center, middle, width, height, displayText, textRotate} = this;
 
 		ctx.fillStyle = this.backgroundColor;
@@ -203,6 +206,7 @@ export class Panel{
 	 * @param {string} color - カラーエフェクトの色
 	 */
 	drawMask(color){
+		if(!this.ctx) return;
 		const {ctx} = this;
 
 		ctx.fillStyle = color;

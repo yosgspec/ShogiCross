@@ -84,6 +84,7 @@ function getOrigin(range){
  * @param {number} pY - マス目の行
  */
 export function checkTarget(board, piece, pX, pY){
+	const possibleMoves = [];
 	const {field, yLen, enPassant} = board;
 
 	/** マス目座標がボード範囲内か判定
@@ -173,6 +174,7 @@ export function checkTarget(board, piece, pX, pY){
 		const panel = field[y][x];
 		panel.addTarget(rangeName);
 		enPassant.setTarget(panel, piece);
+		possibleMoves.push(panel);
 	}
 
 	/** 点移動
@@ -260,4 +262,95 @@ export function checkTarget(board, piece, pX, pY){
 			}
 		}
 	})();
+	return possibleMoves;
+}
+
+/**
+ * 指定されたプレイヤーの王が王手されているかを確認します。
+ * @param {Board} board - 盤面
+ * @param {number} playerDeg - 確認するプレイヤーの角度
+ * @returns {boolean} 王手されている場合はtrue、そうでない場合はfalse
+ */
+export function isKingInCheck(board, playerDeg){
+	let kingPanel = null;
+	// 王の駒を見つける
+	board.field.forEach(row=>{
+		row.forEach(panel=>{
+			if(panel.piece && panel.piece.deg === playerDeg && panel.piece.cost <= 0){
+				kingPanel = panel;
+			}
+		});
+	});
+
+	if(!kingPanel) return false; // 王がいない場合は王手ではない
+
+	// 相手の駒が王を攻撃しているか確認
+	for(let y=0;y<board.yLen;y++){
+		for(let x=0;x<board.xLen;x++){
+			const panel = board.field[y][x];
+			if(panel.piece && panel.piece.deg !== playerDeg){
+				// 相手の駒の移動可能マスを取得
+				const opponentPossibleMoves = checkTarget(board, panel.piece, panel.pX, panel.pY);
+				// 相手の駒の移動可能マスに王のマスが含まれているか確認
+				if(opponentPossibleMoves.some(move=>move.pX === kingPanel.pX && move.pY === kingPanel.pY)){
+					return true; // 王手されている
+				}
+			}
+		}
+	}
+	return false; // 王手されていない
+}
+
+/**
+ * 指定されたプレイヤーに合法手があるかを確認します。
+ * @param {Board} board - 盤面
+ * @param {number} playerDeg - 確認するプレイヤーの角度
+ * @returns {boolean} 合法手がある場合はtrue、そうでない場合はfalse
+ */
+export function hasLegalMoves(board, playerDeg){
+	for(let y=0;y<board.yLen;y++){
+		for(let x=0;x<board.xLen;x++){
+			const fromPanel = board.field[y][x];
+			if(fromPanel.piece && fromPanel.piece.deg === playerDeg){
+				const possibleMoves = checkTarget(board, fromPanel.piece, fromPanel.pX, fromPanel.pY);
+				for(const toPanel of possibleMoves){
+					const boardClone = board.clone();
+					boardClone.isHeadless = true; // シミュレーションモード
+
+					const fromPanelClone = boardClone.field[fromPanel.pY][fromPanel.pX];
+					const toPanelClone = boardClone.field[toPanel.pY][toPanel.pX];
+
+					// movePieceはUI依存の確認ダイアログを出す可能性があるので、直接駒を動かす
+					// ただし、プロモーションの自動処理は必要
+					const originalPiece = fromPanelClone.piece;
+					const capturedPiece = toPanelClone.piece;
+
+					toPanelClone.piece = originalPiece;
+					fromPanelClone.piece = null;
+
+					// プロモーションの自動処理 (Greedyエンジンと同じロジック)
+					let canPromo = boardClone.checkCanPromo(toPanelClone).canPromo;
+					if(canPromo && originalPiece.promo){
+						originalPiece.promotion(Object.keys(originalPiece.promo)[0]);
+					}
+
+					// 移動後に王が王手されていないか確認
+					if(!isKingInCheck(boardClone, playerDeg)){
+						return true; // 合法手が見つかった
+					}
+				}
+			}
+		}
+	}
+	return false; // 合法手が見つからなかった
+}
+
+/**
+ * 指定されたプレイヤーが詰んでいるかを確認します。
+ * @param {Board} board - 盤面
+ * @param {number} playerDeg - 確認するプレイヤーの角度
+ * @returns {boolean} 詰んでいる場合はtrue、そうでない場合はfalse
+ */
+export function isCheckmate(board, playerDeg){
+	return isKingInCheck(board, playerDeg) && !hasLegalMoves(board, playerDeg);
 }
