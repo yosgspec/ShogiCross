@@ -6,7 +6,7 @@ declare namespace _default {
         let desc: string;
         let playBoard: string;
         let useStand: boolean;
-        let playPieces: {
+        let playersOption: {
             gameName: string;
             pieceSet: string;
         }[];
@@ -24,11 +24,11 @@ declare namespace _default {
         export { playBoard_1 as playBoard };
         let useStand_1: boolean;
         export { useStand_1 as useStand };
-        let playPieces_1: {
+        let playersOption_1: {
             gameName: string;
             pieceSet: string;
         }[];
-        export { playPieces_1 as playPieces };
+        export { playersOption_1 as playersOption };
     }
     namespace xiangq {
         let name_2: string;
@@ -43,11 +43,11 @@ declare namespace _default {
         export { playBoard_2 as playBoard };
         let useStand_2: boolean;
         export { useStand_2 as useStand };
-        let playPieces_2: {
+        let playersOption_2: {
             gameName: string;
             pieceSet: string;
         }[];
-        export { playPieces_2 as playPieces };
+        export { playersOption_2 as playersOption };
     }
     namespace janggi {
         let name_3: string;
@@ -62,11 +62,11 @@ declare namespace _default {
         export { playBoard_3 as playBoard };
         let useStand_3: boolean;
         export { useStand_3 as useStand };
-        let playPieces_3: {
+        let playersOption_3: {
             gameName: string;
             pieceSet: string;
         }[];
-        export { playPieces_3 as playPieces };
+        export { playersOption_3 as playersOption };
     }
     namespace makruk {
         let name_4: string;
@@ -81,11 +81,11 @@ declare namespace _default {
         export { playBoard_4 as playBoard };
         let useStand_4: boolean;
         export { useStand_4 as useStand };
-        let playPieces_4: {
+        let playersOption_4: {
             gameName: string;
             pieceSet: string;
         }[];
-        export { playPieces_4 as playPieces };
+        export { playersOption_4 as playersOption };
     }
     namespace chaturanga {
         let name_5: string;
@@ -100,11 +100,11 @@ declare namespace _default {
         export { playBoard_5 as playBoard };
         let useStand_5: boolean;
         export { useStand_5 as useStand };
-        let playPieces_5: {
+        let playersOption_5: {
             gameName: string;
             pieceSet: string;
         }[];
-        export { playPieces_5 as playPieces };
+        export { playersOption_5 as playersOption };
     }
     namespace dobutsuShogi {
         let name_6: string;
@@ -119,11 +119,11 @@ declare namespace _default {
         export { playBoard_6 as playBoard };
         let useStand_6: boolean;
         export { useStand_6 as useStand };
-        let playPieces_6: {
+        let playersOption_6: {
             gameName: string;
             pieceSet: string;
         }[];
-        export { playPieces_6 as playPieces };
+        export { playersOption_6 as playersOption };
     }
     namespace toriShogi {
         let name_7: string;
@@ -138,11 +138,11 @@ declare namespace _default {
         export { playBoard_7 as playBoard };
         let useStand_7: boolean;
         export { useStand_7 as useStand };
-        let playPieces_7: {
+        let playersOption_7: {
             gameName: string;
             pieceSet: string;
         }[];
-        export { playPieces_7 as playPieces };
+        export { playersOption_7 as playersOption };
     }
     namespace chuShogi {
         let name_8: string;
@@ -157,11 +157,11 @@ declare namespace _default {
         export { playBoard_8 as playBoard };
         let useStand_8: boolean;
         export { useStand_8 as useStand };
-        let playPieces_8: {
+        let playersOption_8: {
             gameName: string;
             pieceSet: string;
         }[];
-        export { playPieces_8 as playPieces };
+        export { playersOption_8 as playersOption };
     }
     namespace waShogi {
         let name_9: string;
@@ -176,11 +176,11 @@ declare namespace _default {
         export { playBoard_9 as playBoard };
         let useStand_9: boolean;
         export { useStand_9 as useStand };
-        let playPieces_9: {
+        let playersOption_9: {
             gameName: string;
             pieceSet: string;
         }[];
-        export { playPieces_9 as playPieces };
+        export { playersOption_9 as playersOption };
     }
     namespace grantAcedrex {
         let name_10: string;
@@ -195,11 +195,11 @@ declare namespace _default {
         export { playBoard_10 as playBoard };
         let useStand_10: boolean;
         export { useStand_10 as useStand };
-        let playPieces_10: {
+        let playersOption_10: {
             gameName: string;
             pieceSet: string;
         }[];
-        export { playPieces_10 as playPieces };
+        export { playersOption_10 as playersOption };
     }
     namespace courierChessAdvanced {
         let name_11: string;
@@ -214,11 +214,11 @@ declare namespace _default {
         export { playBoard_11 as playBoard };
         let useStand_11: boolean;
         export { useStand_11 as useStand };
-        let playPieces_11: {
+        let playersOption_11: {
             gameName: string;
             pieceSet: string;
         }[];
-        export { playPieces_11 as playPieces };
+        export { playersOption_11 as playersOption };
     }
     namespace gogoShogi {
         let name_12: string;
@@ -233,11 +233,11 @@ declare namespace _default {
         export { playBoard_12 as playBoard };
         let useStand_12: boolean;
         export { useStand_12 as useStand };
-        let playPieces_12: {
+        let playersOption_12: {
             gameName: string;
             pieceSet: string;
         }[];
-        export { playPieces_12 as playPieces };
+        export { playersOption_12 as playersOption };
     }
     namespace asakuraShogi {
         let name_13: string;
@@ -252,11 +252,11 @@ declare namespace _default {
         export { playBoard_13 as playBoard };
         let useStand_13: boolean;
         export { useStand_13 as useStand };
-        let playPieces_13: {
+        let playersOption_13: {
             gameName: string;
             pieceSet: string;
         }[];
-        export { playPieces_13 as playPieces };
+        export { playersOption_13 as playersOption };
     }
     namespace shoShogi {
         let name_14: string;
@@ -271,11 +271,11 @@ declare namespace _default {
         export { playBoard_14 as playBoard };
         let useStand_14: boolean;
         export { useStand_14 as useStand };
-        let playPieces_14: {
+        let playersOption_14: {
             gameName: string;
             pieceSet: string;
         }[];
-        export { playPieces_14 as playPieces };
+        export { playersOption_14 as playersOption };
     }
     namespace heianShogi8x8 {
         let name_15: string;
@@ -290,11 +290,11 @@ declare namespace _default {
         export { playBoard_15 as playBoard };
         let useStand_15: boolean;
         export { useStand_15 as useStand };
-        let playPieces_15: {
+        let playersOption_15: {
             gameName: string;
             pieceSet: string;
         }[];
-        export { playPieces_15 as playPieces };
+        export { playersOption_15 as playersOption };
     }
     namespace heianShogi9x8 {
         let name_16: string;
@@ -309,11 +309,11 @@ declare namespace _default {
         export { playBoard_16 as playBoard };
         let useStand_16: boolean;
         export { useStand_16 as useStand };
-        let playPieces_16: {
+        let playersOption_16: {
             gameName: string;
             pieceSet: string;
         }[];
-        export { playPieces_16 as playPieces };
+        export { playersOption_16 as playersOption };
     }
     namespace heianShogi9x9 {
         let name_17: string;
@@ -328,11 +328,11 @@ declare namespace _default {
         export { playBoard_17 as playBoard };
         let useStand_17: boolean;
         export { useStand_17 as useStand };
-        let playPieces_17: {
+        let playersOption_17: {
             gameName: string;
             pieceSet: string;
         }[];
-        export { playPieces_17 as playPieces };
+        export { playersOption_17 as playersOption };
     }
     namespace kyoShogiLeft {
         let name_18: string;
@@ -347,11 +347,11 @@ declare namespace _default {
         export { playBoard_18 as playBoard };
         let useStand_18: boolean;
         export { useStand_18 as useStand };
-        let playPieces_18: {
+        let playersOption_18: {
             gameName: string;
             pieceSet: string;
         }[];
-        export { playPieces_18 as playPieces };
+        export { playersOption_18 as playersOption };
     }
     namespace kyoShogiRight {
         let name_19: string;
@@ -366,11 +366,11 @@ declare namespace _default {
         export { playBoard_19 as playBoard };
         let useStand_19: boolean;
         export { useStand_19 as useStand };
-        let playPieces_19: {
+        let playersOption_19: {
             gameName: string;
             pieceSet: string;
         }[];
-        export { playPieces_19 as playPieces };
+        export { playersOption_19 as playersOption };
     }
     namespace shoKyoShogiLeft {
         let name_20: string;
@@ -385,11 +385,11 @@ declare namespace _default {
         export { playBoard_20 as playBoard };
         let useStand_20: boolean;
         export { useStand_20 as useStand };
-        let playPieces_20: {
+        let playersOption_20: {
             gameName: string;
             pieceSet: string;
         }[];
-        export { playPieces_20 as playPieces };
+        export { playersOption_20 as playersOption };
     }
     namespace shoKyoShogiRight {
         let name_21: string;
@@ -404,11 +404,11 @@ declare namespace _default {
         export { playBoard_21 as playBoard };
         let useStand_21: boolean;
         export { useStand_21 as useStand };
-        let playPieces_21: {
+        let playersOption_21: {
             gameName: string;
             pieceSet: string;
         }[];
-        export { playPieces_21 as playPieces };
+        export { playersOption_21 as playersOption };
     }
     namespace sanshaShogiLeft {
         let name_22: string;
@@ -423,11 +423,11 @@ declare namespace _default {
         export { playBoard_22 as playBoard };
         let useStand_22: boolean;
         export { useStand_22 as useStand };
-        let playPieces_22: {
+        let playersOption_22: {
             gameName: string;
             pieceSet: string;
         }[];
-        export { playPieces_22 as playPieces };
+        export { playersOption_22 as playersOption };
     }
     namespace sanshaShogiRight {
         let name_23: string;
@@ -442,11 +442,11 @@ declare namespace _default {
         export { playBoard_23 as playBoard };
         let useStand_23: boolean;
         export { useStand_23 as useStand };
-        let playPieces_23: {
+        let playersOption_23: {
             gameName: string;
             pieceSet: string;
         }[];
-        export { playPieces_23 as playPieces };
+        export { playersOption_23 as playersOption };
     }
     namespace doShogiLeft {
         let name_24: string;
@@ -461,11 +461,11 @@ declare namespace _default {
         export { playBoard_24 as playBoard };
         let useStand_24: boolean;
         export { useStand_24 as useStand };
-        let playPieces_24: {
+        let playersOption_24: {
             gameName: string;
             pieceSet: string;
         }[];
-        export { playPieces_24 as playPieces };
+        export { playersOption_24 as playersOption };
     }
     namespace doShogiRight {
         let name_25: string;
@@ -480,11 +480,11 @@ declare namespace _default {
         export { playBoard_25 as playBoard };
         let useStand_25: boolean;
         export { useStand_25 as useStand };
-        let playPieces_25: {
+        let playersOption_25: {
             gameName: string;
             pieceSet: string;
         }[];
-        export { playPieces_25 as playPieces };
+        export { playersOption_25 as playersOption };
     }
     namespace kinshiShogiLeft {
         let name_26: string;
@@ -499,11 +499,11 @@ declare namespace _default {
         export { playBoard_26 as playBoard };
         let useStand_26: boolean;
         export { useStand_26 as useStand };
-        let playPieces_26: {
+        let playersOption_26: {
             gameName: string;
             pieceSet: string;
         }[];
-        export { playPieces_26 as playPieces };
+        export { playersOption_26 as playersOption };
     }
     namespace kinshiShogiRight {
         let name_27: string;
@@ -518,11 +518,11 @@ declare namespace _default {
         export { playBoard_27 as playBoard };
         let useStand_27: boolean;
         export { useStand_27 as useStand };
-        let playPieces_27: {
+        let playersOption_27: {
             gameName: string;
             pieceSet: string;
         }[];
-        export { playPieces_27 as playPieces };
+        export { playersOption_27 as playersOption };
     }
     namespace kintoShogiLeft {
         let name_28: string;
@@ -537,11 +537,11 @@ declare namespace _default {
         export { playBoard_28 as playBoard };
         let useStand_28: boolean;
         export { useStand_28 as useStand };
-        let playPieces_28: {
+        let playersOption_28: {
             gameName: string;
             pieceSet: string;
         }[];
-        export { playPieces_28 as playPieces };
+        export { playersOption_28 as playersOption };
     }
     namespace kintoShogiRight {
         let name_29: string;
@@ -556,11 +556,11 @@ declare namespace _default {
         export { playBoard_29 as playBoard };
         let useStand_29: boolean;
         export { useStand_29 as useStand };
-        let playPieces_29: {
+        let playersOption_29: {
             gameName: string;
             pieceSet: string;
         }[];
-        export { playPieces_29 as playPieces };
+        export { playersOption_29 as playersOption };
     }
     namespace shogi30AllLeft {
         let name_30: string;
@@ -575,11 +575,11 @@ declare namespace _default {
         export { playBoard_30 as playBoard };
         let useStand_30: boolean;
         export { useStand_30 as useStand };
-        let playPieces_30: {
+        let playersOption_30: {
             gameName: string;
             pieceSet: string;
         }[];
-        export { playPieces_30 as playPieces };
+        export { playersOption_30 as playersOption };
     }
     namespace shogi30AllRight {
         let name_31: string;
@@ -594,11 +594,11 @@ declare namespace _default {
         export { playBoard_31 as playBoard };
         let useStand_31: boolean;
         export { useStand_31 as useStand };
-        let playPieces_31: {
+        let playersOption_31: {
             gameName: string;
             pieceSet: string;
         }[];
-        export { playPieces_31 as playPieces };
+        export { playersOption_31 as playersOption };
     }
     namespace okisakiShogi {
         let name_32: string;
@@ -613,11 +613,11 @@ declare namespace _default {
         export { playBoard_32 as playBoard };
         let useStand_32: boolean;
         export { useStand_32 as useStand };
-        let playPieces_32: {
+        let playersOption_32: {
             gameName: string;
             pieceSet: string;
         }[];
-        export { playPieces_32 as playPieces };
+        export { playersOption_32 as playersOption };
     }
     namespace crazyHouse {
         let name_33: string;
@@ -632,11 +632,11 @@ declare namespace _default {
         export { playBoard_33 as playBoard };
         let useStand_33: boolean;
         export { useStand_33 as useStand };
-        let playPieces_33: {
+        let playersOption_33: {
             gameName: string;
             pieceSet: string;
         }[];
-        export { playPieces_33 as playPieces };
+        export { playersOption_33 as playersOption };
     }
     namespace losAlamosChess {
         let name_34: string;
@@ -651,11 +651,11 @@ declare namespace _default {
         export { playBoard_34 as playBoard };
         let useStand_34: boolean;
         export { useStand_34 as useStand };
-        let playPieces_34: {
+        let playersOption_34: {
             gameName: string;
             pieceSet: string;
         }[];
-        export { playPieces_34 as playPieces };
+        export { playersOption_34 as playersOption };
     }
     namespace capablancaChess {
         let name_35: string;
@@ -670,11 +670,11 @@ declare namespace _default {
         export { playBoard_35 as playBoard };
         let useStand_35: boolean;
         export { useStand_35 as useStand };
-        let playPieces_35: {
+        let playersOption_35: {
             gameName: string;
             pieceSet: string;
         }[];
-        export { playPieces_35 as playPieces };
+        export { playersOption_35 as playersOption };
     }
     namespace grandChess {
         let name_36: string;
@@ -689,11 +689,11 @@ declare namespace _default {
         export { playBoard_36 as playBoard };
         let useStand_36: boolean;
         export { useStand_36 as useStand };
-        let playPieces_36: {
+        let playersOption_36: {
             gameName: string;
             pieceSet: string;
         }[];
-        export { playPieces_36 as playPieces };
+        export { playersOption_36 as playersOption };
     }
     namespace gorogoroDobutsuShogi {
         let name_37: string;
@@ -708,11 +708,11 @@ declare namespace _default {
         export { playBoard_37 as playBoard };
         let useStand_37: boolean;
         export { useStand_37 as useStand };
-        let playPieces_37: {
+        let playersOption_37: {
             gameName: string;
             pieceSet: string;
         }[];
-        export { playPieces_37 as playPieces };
+        export { playersOption_37 as playersOption };
     }
     namespace shishiShogi {
         let name_38: string;
@@ -727,11 +727,11 @@ declare namespace _default {
         export { playBoard_38 as playBoard };
         let useStand_38: boolean;
         export { useStand_38 as useStand };
-        let playPieces_38: {
+        let playersOption_38: {
             gameName: string;
             pieceSet: string;
         }[];
-        export { playPieces_38 as playPieces };
+        export { playersOption_38 as playersOption };
     }
     namespace heiseiShogi {
         let name_39: string;
@@ -746,11 +746,11 @@ declare namespace _default {
         export { playBoard_39 as playBoard };
         let useStand_39: boolean;
         export { useStand_39 as useStand };
-        let playPieces_39: {
+        let playersOption_39: {
             gameName: string;
             pieceSet: string;
         }[];
-        export { playPieces_39 as playPieces };
+        export { playersOption_39 as playersOption };
     }
     namespace daiShogi {
         let name_40: string;
@@ -765,11 +765,11 @@ declare namespace _default {
         export { playBoard_40 as playBoard };
         let useStand_40: boolean;
         export { useStand_40 as useStand };
-        let playPieces_40: {
+        let playersOption_40: {
             gameName: string;
             pieceSet: string;
         }[];
-        export { playPieces_40 as playPieces };
+        export { playersOption_40 as playersOption };
     }
     namespace courierChess {
         let name_41: string;
@@ -784,11 +784,11 @@ declare namespace _default {
         export { playBoard_41 as playBoard };
         let useStand_41: boolean;
         export { useStand_41 as useStand };
-        let playPieces_41: {
+        let playersOption_41: {
             gameName: string;
             pieceSet: string;
         }[];
-        export { playPieces_41 as playPieces };
+        export { playersOption_41 as playersOption };
     }
     namespace p4Shogi {
         let name_42: string;
@@ -803,11 +803,11 @@ declare namespace _default {
         export { playBoard_42 as playBoard };
         let useStand_42: boolean;
         export { useStand_42 as useStand };
-        let playPieces_42: {
+        let playersOption_42: {
             gameName: string;
             pieceSet: string;
         }[];
-        export { playPieces_42 as playPieces };
+        export { playersOption_42 as playersOption };
     }
     namespace p4Chess {
         let name_43: string;
@@ -822,11 +822,11 @@ declare namespace _default {
         export { playBoard_43 as playBoard };
         let useStand_43: boolean;
         export { useStand_43 as useStand };
-        let playPieces_43: {
+        let playersOption_43: {
             gameName: string;
             pieceSet: string;
         }[];
-        export { playPieces_43 as playPieces };
+        export { playersOption_43 as playersOption };
     }
     namespace g4Shogi {
         let name_44: string;
@@ -841,11 +841,11 @@ declare namespace _default {
         export { playBoard_44 as playBoard };
         let useStand_44: boolean;
         export { useStand_44 as useStand };
-        let playPieces_44: {
+        let playersOption_44: {
             gameName: string;
             pieceSet: string;
         }[];
-        export { playPieces_44 as playPieces };
+        export { playersOption_44 as playersOption };
     }
     namespace chaturaji {
         let name_45: string;
@@ -860,11 +860,11 @@ declare namespace _default {
         export { playBoard_45 as playBoard };
         let useStand_45: boolean;
         export { useStand_45 as useStand };
-        let playPieces_45: {
+        let playersOption_45: {
             gameName: string;
             pieceSet: string;
         }[];
-        export { playPieces_45 as playPieces };
+        export { playersOption_45 as playersOption };
     }
 }
 export default _default;

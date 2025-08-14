@@ -7,7 +7,7 @@
  * @prop {string} name - ゲーム名
  * @prop {string} playBoard - 使用するボード名
  * @prop {boolean} useStand - 駒台の使用有無
- * @prop {{gameName: string, pieceSet: string}[]} playPieces - {gameName: ゲーム名, pieceSet: 駒セットの名称}
+ * @prop {{gameName: string, pieceSet: string}[]} playersOption - {gameName: ゲーム名, pieceSet: 駒セットの名称}
  */
 /**
  * @typedef Game
@@ -24,9 +24,10 @@
 /**
  * @typedef {Object} BoardInitOption - ボードの初期化オプション
  * @prop {string} playBoard - ボードタイプ
- * @prop {Object} playPieces - 駒セット
- * @prop {string} playPieces.gameName - ゲーム名(基準となる駒の配置セット)
- * @prop {string} playPieces.pieceSet - 駒の配置パターン
+ * @prop {Object} playersOption - プレイヤー設定
+ * @prop {string} playersOption.gameName - ゲーム名(基準となる駒の配置セット)
+ * @prop {string} playersOption.pieceSet - 駒の配置パターン
+ * @prop {string} playersOption.cpuEngine - CPUエンジン名
  * @prop {2|4} players - プレイヤー人数(2 or 4)
  * @prop {boolean} useStand - 駒台の使用有無
  * @prop {number} canvasWidth - Canvas幅
@@ -41,6 +42,7 @@
  * @prop {boolean} useRankSize - 駒の大きさを格の違いで変更する
  * @prop {boolean} isDrawShadow - 駒の影の描写有無
  * @prop {string} backgroundColor - 背景色(デフォルト無色)
+ * @prop {boolean} isHeadless - ヘッドレスモード（Canvas非描画・自動操作用）
  * @prop {boolean} autoDrawing - 描写の自動更新有無
  * @prop {"normal"|"free"|"viewOnly"} moveMode - 移動モード
  * @prop {boolean} useDefaultPlayer - デフォルトのプレイヤーを使用する

@@ -1,4 +1,4 @@
-declare class Q {
+declare class V {
     /**
      * @typedef {Object} Record - 局面の記録
      * @prop {Object} from
@@ -19,18 +19,19 @@ declare class Q {
      * @param {BoardInitOption} option - ボードの初期化オプション
      * @returns {Board}
      */
-    static run(e: any, a: any): any;
+    static run(e: any, t: any): any;
     /**
      * @param {HTMLCanvasElement} canvas - Canvas要素
      * @param {BoardInitOption} option - ボードの初期化オプション
      */
-    constructor(e: any, a: any);
+    constructor(e: any, t: any);
+    isHeadless: any;
     name: any;
     variant: any;
     url: any;
     desc: any;
-    canvas: any;
     ctx: any;
+    canvas: any;
     pieces: {
         [k: string]: any;
     };
@@ -45,11 +46,12 @@ declare class Q {
     field: any;
     xLen: any;
     yLen: any;
+    cpuEngines: any[];
     width: number;
     height: number;
     right: any;
     bottom: any;
-    stand: Y;
+    stand: Q;
     autoDrawing: any;
     onDrawed: any;
     onGameOver: any;
@@ -57,7 +59,7 @@ declare class Q {
     moveMode: any;
     record: any[];
     turn: number;
-    enPassant: ue;
+    enPassant: Ae;
     /** 操作パネルを構築
      * @param {string[]} compList - 表示するコントロールの一覧
      * @returns {PlayerControl}
@@ -79,7 +81,7 @@ declare class Q {
      * @param {string} gameName - ゲーム名(基準となる駒の配置セット)
      * @param {string} pieceSet - 駒の配置パターン
      */
-    putStartPieces(e: any, a: any, t?: string): void;
+    putStartPieces(e: any, t: any, a?: string): void;
     /** 駒の配置
      * @param {string} piece - 駒の表現文字
      * @param {number} pX - X方向配置位置(マス目基準)
@@ -89,7 +91,7 @@ declare class Q {
      * @param {number} option.displayPtn - 表示文字列を変更(1〜)
      * @param {boolean} option.isMoved - 初回移動済みか否か
      */
-    putNewPiece(e: any, a: any, t: any, s: any, r?: {}): void;
+    putNewPiece(e: any, t: any, a: any, i: any, s?: {}): void;
     /** 文字列から駒を配置
      * {string} text - 駒配置を表す文字列
      */
@@ -101,7 +103,7 @@ declare class Q {
      * @param {number} offsetDeg - 補正角度
      * @returns {number}
      */
-    getRow(e: any, a: any, t: any, s?: number): number;
+    getRow(e: any, t: any, a: any, i?: number): number;
     /** 角度基準のマス目の列を取得する
      * @param {number} pX - マス目の列
      * @param {number} pY - マス目の行
@@ -109,7 +111,7 @@ declare class Q {
      * @param {number} offsetDeg - 補正角度
      * @returns {number}
      */
-    getCol(e: any, a: any, t: any, s?: number): number;
+    getCol(e: any, t: any, a: any, i?: number): number;
     /** プロモーションエリア内であるか判別
      * @param {Panel} panel - マス目
      * @returns {{
@@ -124,8 +126,9 @@ declare class Q {
     /** 駒を移動
      * @param {Panel} fromPanel - 移動元のマス目
      * @param {Panel} toPanel - 選択中のマス目
+     * @param {boolean} isCpuMove - CPUによる移動か
      */
-    movePiece(e: any, a: any): void;
+    movePiece(e: any, t: any, a?: boolean): void;
     /** 棋譜を追記
      * @param {Panel} toPanel - 移動先のマス目
      * @param {Object} option - オプション
@@ -137,7 +140,7 @@ declare class Q {
      * @param {string} comment - 棋譜コメント
      * @param {number} shiftTurn - ずらす手数
      */
-    addRecordComment(e: any, a?: number): void;
+    addRecordComment(e: any, t?: number): void;
     /** 記録の手を戻す */
     undoRecord(): void;
     /** 記録の手を進める */
@@ -152,7 +155,7 @@ declare class Q {
      * @param {boolean} isNumOnly - 座標を数字で表現
      * @returns {string}
      */
-    record2String(e: any, a: any, t?: boolean): string;
+    record2String(e: any, t: any, a?: boolean): string;
     /** 表示用の棋譜を取得
      * @param {boolean} isNumOnly - 座標を数字で表現
      * @returns {string}
@@ -167,7 +170,7 @@ declare class Q {
      * @param {string} record - 棋譜データ
      * @param {number} turn - 手数
      */
-    setJsonRecord(e: any, a: any): void;
+    setJsonRecord(e: any, t: any): void;
     /** 盤を描写 */
     draw(): void;
     /** 駒配置をテキストで取得
@@ -175,7 +178,7 @@ declare class Q {
      * @param {boolean} isAlias - エイリアス表示
      * @returns {string}
      */
-    getTextPieces(e?: string, a?: boolean): string;
+    getTextPieces(e?: string, t?: boolean): string;
     /** 棋譜コメントを取得
      * @param {number} shiftTurn - ずらす手数
      * @returns {string}
@@ -185,16 +188,20 @@ declare class Q {
      * @param {boolean} isCompact - コンパクト表示
      * @param {boolean} isAlias - エイリアス表示
      */
-    toString(e?: boolean, a?: boolean): string;
+    toString(e?: boolean, t?: boolean): string;
     /** 画像を取得
      * @param {string} fileName - ファイル名
      * @param {string} ext - 拡張子
      * @returns {Promise<void>}
      */
-    downloadImage(e: any, a: any, t: any): Promise<void>;
+    downloadImage(e: any, t: any, a: any): Promise<void>;
+    /** 盤面をクローン
+     * @returns {Board}
+     */
+    clone(): any;
     #private;
 }
-declare class A {
+declare class C {
     /** @typedef {Object} Piece */
     /** 描写サイズ
      * @type {number}
@@ -231,7 +238,7 @@ declare class A {
      * @param {Piece|PieceInitOption} option - 駒の初期化オプション
      * @retuens {Object<string, Piece>}
      */
-    static getPieces(e: any, a?: {}): {
+    static getPieces(e: any, t?: {}): {
         [k: string]: any;
     };
     /** 文字列から駒を取得
@@ -239,7 +246,7 @@ declare class A {
      * @param {string} text - 駒文字列
      * @returns {Piece}
      */
-    static stringToPiece(e: any, a: any): any;
+    static stringToPiece(e: any, t: any): any;
     /** 駒の一覧をリストで取得
      * @returns {Piece[]}
      */
@@ -255,7 +262,7 @@ declare class A {
      * @param {boolean} option.isDrawShadow - 駒の影の描写有無
      * @param {boolean} option.isMoved - 初回移動済みか否か
      */
-    constructor(e: any, a: any, t?: {});
+    constructor(e: any, t: any, a?: {});
     /** 駒の段階別価値を取得
      * @returns {string}
      */
@@ -307,7 +314,7 @@ declare class A {
      * @param {number} y - Y座標
      * @returns {boolean}
      */
-    checkRangeMouse(e: any, a: any): boolean;
+    checkRangeMouse(e: any, t: any): boolean;
     /** 移動範囲を回転して取得
      * @returns {string[][]}
      */
@@ -339,7 +346,7 @@ declare class A {
      */
     toString(e?: boolean): string;
 }
-declare const H: {
+declare const K: {
     将棋: {
         backgroundColor: string;
         borderColor: string;
@@ -534,7 +541,7 @@ declare const H: {
 declare namespace O {
     let fonts: (string | number)[][];
 }
-declare namespace T {
+declare namespace I {
     let imported: boolean;
     let images: {
         [x: string]: new (width?: number, height?: number) => HTMLImageElement;
@@ -544,8 +551,8 @@ declare namespace T {
      */
     function importAsync(): Promise<void>;
 }
-declare function te(c: any): void;
-declare namespace ee {
+declare function le(S: any): void;
+declare namespace re {
     namespace shogi {
         let name: string;
         let variant: string;
@@ -553,7 +560,7 @@ declare namespace ee {
         let desc: string;
         let playBoard: string;
         let useStand: boolean;
-        let playPieces: {
+        let playersOption: {
             gameName: string;
             pieceSet: string;
         }[];
@@ -571,11 +578,11 @@ declare namespace ee {
         export { playBoard_1 as playBoard };
         let useStand_1: boolean;
         export { useStand_1 as useStand };
-        let playPieces_1: {
+        let playersOption_1: {
             gameName: string;
             pieceSet: string;
         }[];
-        export { playPieces_1 as playPieces };
+        export { playersOption_1 as playersOption };
     }
     namespace xiangq {
         let name_2: string;
@@ -590,11 +597,11 @@ declare namespace ee {
         export { playBoard_2 as playBoard };
         let useStand_2: boolean;
         export { useStand_2 as useStand };
-        let playPieces_2: {
+        let playersOption_2: {
             gameName: string;
             pieceSet: string;
         }[];
-        export { playPieces_2 as playPieces };
+        export { playersOption_2 as playersOption };
     }
     namespace janggi {
         let name_3: string;
@@ -609,11 +616,11 @@ declare namespace ee {
         export { playBoard_3 as playBoard };
         let useStand_3: boolean;
         export { useStand_3 as useStand };
-        let playPieces_3: {
+        let playersOption_3: {
             gameName: string;
             pieceSet: string;
         }[];
-        export { playPieces_3 as playPieces };
+        export { playersOption_3 as playersOption };
     }
     namespace makruk {
         let name_4: string;
@@ -628,11 +635,11 @@ declare namespace ee {
         export { playBoard_4 as playBoard };
         let useStand_4: boolean;
         export { useStand_4 as useStand };
-        let playPieces_4: {
+        let playersOption_4: {
             gameName: string;
             pieceSet: string;
         }[];
-        export { playPieces_4 as playPieces };
+        export { playersOption_4 as playersOption };
     }
     namespace chaturanga {
         let name_5: string;
@@ -647,11 +654,11 @@ declare namespace ee {
         export { playBoard_5 as playBoard };
         let useStand_5: boolean;
         export { useStand_5 as useStand };
-        let playPieces_5: {
+        let playersOption_5: {
             gameName: string;
             pieceSet: string;
         }[];
-        export { playPieces_5 as playPieces };
+        export { playersOption_5 as playersOption };
     }
     namespace dobutsuShogi {
         let name_6: string;
@@ -666,11 +673,11 @@ declare namespace ee {
         export { playBoard_6 as playBoard };
         let useStand_6: boolean;
         export { useStand_6 as useStand };
-        let playPieces_6: {
+        let playersOption_6: {
             gameName: string;
             pieceSet: string;
         }[];
-        export { playPieces_6 as playPieces };
+        export { playersOption_6 as playersOption };
     }
     namespace toriShogi {
         let name_7: string;
@@ -685,11 +692,11 @@ declare namespace ee {
         export { playBoard_7 as playBoard };
         let useStand_7: boolean;
         export { useStand_7 as useStand };
-        let playPieces_7: {
+        let playersOption_7: {
             gameName: string;
             pieceSet: string;
         }[];
-        export { playPieces_7 as playPieces };
+        export { playersOption_7 as playersOption };
     }
     namespace chuShogi {
         let name_8: string;
@@ -704,11 +711,11 @@ declare namespace ee {
         export { playBoard_8 as playBoard };
         let useStand_8: boolean;
         export { useStand_8 as useStand };
-        let playPieces_8: {
+        let playersOption_8: {
             gameName: string;
             pieceSet: string;
         }[];
-        export { playPieces_8 as playPieces };
+        export { playersOption_8 as playersOption };
     }
     namespace waShogi {
         let name_9: string;
@@ -723,11 +730,11 @@ declare namespace ee {
         export { playBoard_9 as playBoard };
         let useStand_9: boolean;
         export { useStand_9 as useStand };
-        let playPieces_9: {
+        let playersOption_9: {
             gameName: string;
             pieceSet: string;
         }[];
-        export { playPieces_9 as playPieces };
+        export { playersOption_9 as playersOption };
     }
     namespace grantAcedrex {
         let name_10: string;
@@ -742,11 +749,11 @@ declare namespace ee {
         export { playBoard_10 as playBoard };
         let useStand_10: boolean;
         export { useStand_10 as useStand };
-        let playPieces_10: {
+        let playersOption_10: {
             gameName: string;
             pieceSet: string;
         }[];
-        export { playPieces_10 as playPieces };
+        export { playersOption_10 as playersOption };
     }
     namespace courierChessAdvanced {
         let name_11: string;
@@ -761,11 +768,11 @@ declare namespace ee {
         export { playBoard_11 as playBoard };
         let useStand_11: boolean;
         export { useStand_11 as useStand };
-        let playPieces_11: {
+        let playersOption_11: {
             gameName: string;
             pieceSet: string;
         }[];
-        export { playPieces_11 as playPieces };
+        export { playersOption_11 as playersOption };
     }
     namespace gogoShogi {
         let name_12: string;
@@ -780,11 +787,11 @@ declare namespace ee {
         export { playBoard_12 as playBoard };
         let useStand_12: boolean;
         export { useStand_12 as useStand };
-        let playPieces_12: {
+        let playersOption_12: {
             gameName: string;
             pieceSet: string;
         }[];
-        export { playPieces_12 as playPieces };
+        export { playersOption_12 as playersOption };
     }
     namespace asakuraShogi {
         let name_13: string;
@@ -799,11 +806,11 @@ declare namespace ee {
         export { playBoard_13 as playBoard };
         let useStand_13: boolean;
         export { useStand_13 as useStand };
-        let playPieces_13: {
+        let playersOption_13: {
             gameName: string;
             pieceSet: string;
         }[];
-        export { playPieces_13 as playPieces };
+        export { playersOption_13 as playersOption };
     }
     namespace shoShogi {
         let name_14: string;
@@ -818,11 +825,11 @@ declare namespace ee {
         export { playBoard_14 as playBoard };
         let useStand_14: boolean;
         export { useStand_14 as useStand };
-        let playPieces_14: {
+        let playersOption_14: {
             gameName: string;
             pieceSet: string;
         }[];
-        export { playPieces_14 as playPieces };
+        export { playersOption_14 as playersOption };
     }
     namespace heianShogi8x8 {
         let name_15: string;
@@ -837,11 +844,11 @@ declare namespace ee {
         export { playBoard_15 as playBoard };
         let useStand_15: boolean;
         export { useStand_15 as useStand };
-        let playPieces_15: {
+        let playersOption_15: {
             gameName: string;
             pieceSet: string;
         }[];
-        export { playPieces_15 as playPieces };
+        export { playersOption_15 as playersOption };
     }
     namespace heianShogi9x8 {
         let name_16: string;
@@ -856,11 +863,11 @@ declare namespace ee {
         export { playBoard_16 as playBoard };
         let useStand_16: boolean;
         export { useStand_16 as useStand };
-        let playPieces_16: {
+        let playersOption_16: {
             gameName: string;
             pieceSet: string;
         }[];
-        export { playPieces_16 as playPieces };
+        export { playersOption_16 as playersOption };
     }
     namespace heianShogi9x9 {
         let name_17: string;
@@ -875,11 +882,11 @@ declare namespace ee {
         export { playBoard_17 as playBoard };
         let useStand_17: boolean;
         export { useStand_17 as useStand };
-        let playPieces_17: {
+        let playersOption_17: {
             gameName: string;
             pieceSet: string;
         }[];
-        export { playPieces_17 as playPieces };
+        export { playersOption_17 as playersOption };
     }
     namespace kyoShogiLeft {
         let name_18: string;
@@ -894,11 +901,11 @@ declare namespace ee {
         export { playBoard_18 as playBoard };
         let useStand_18: boolean;
         export { useStand_18 as useStand };
-        let playPieces_18: {
+        let playersOption_18: {
             gameName: string;
             pieceSet: string;
         }[];
-        export { playPieces_18 as playPieces };
+        export { playersOption_18 as playersOption };
     }
     namespace kyoShogiRight {
         let name_19: string;
@@ -913,11 +920,11 @@ declare namespace ee {
         export { playBoard_19 as playBoard };
         let useStand_19: boolean;
         export { useStand_19 as useStand };
-        let playPieces_19: {
+        let playersOption_19: {
             gameName: string;
             pieceSet: string;
         }[];
-        export { playPieces_19 as playPieces };
+        export { playersOption_19 as playersOption };
     }
     namespace shoKyoShogiLeft {
         let name_20: string;
@@ -932,11 +939,11 @@ declare namespace ee {
         export { playBoard_20 as playBoard };
         let useStand_20: boolean;
         export { useStand_20 as useStand };
-        let playPieces_20: {
+        let playersOption_20: {
             gameName: string;
             pieceSet: string;
         }[];
-        export { playPieces_20 as playPieces };
+        export { playersOption_20 as playersOption };
     }
     namespace shoKyoShogiRight {
         let name_21: string;
@@ -951,11 +958,11 @@ declare namespace ee {
         export { playBoard_21 as playBoard };
         let useStand_21: boolean;
         export { useStand_21 as useStand };
-        let playPieces_21: {
+        let playersOption_21: {
             gameName: string;
             pieceSet: string;
         }[];
-        export { playPieces_21 as playPieces };
+        export { playersOption_21 as playersOption };
     }
     namespace sanshaShogiLeft {
         let name_22: string;
@@ -970,11 +977,11 @@ declare namespace ee {
         export { playBoard_22 as playBoard };
         let useStand_22: boolean;
         export { useStand_22 as useStand };
-        let playPieces_22: {
+        let playersOption_22: {
             gameName: string;
             pieceSet: string;
         }[];
-        export { playPieces_22 as playPieces };
+        export { playersOption_22 as playersOption };
     }
     namespace sanshaShogiRight {
         let name_23: string;
@@ -989,11 +996,11 @@ declare namespace ee {
         export { playBoard_23 as playBoard };
         let useStand_23: boolean;
         export { useStand_23 as useStand };
-        let playPieces_23: {
+        let playersOption_23: {
             gameName: string;
             pieceSet: string;
         }[];
-        export { playPieces_23 as playPieces };
+        export { playersOption_23 as playersOption };
     }
     namespace doShogiLeft {
         let name_24: string;
@@ -1008,11 +1015,11 @@ declare namespace ee {
         export { playBoard_24 as playBoard };
         let useStand_24: boolean;
         export { useStand_24 as useStand };
-        let playPieces_24: {
+        let playersOption_24: {
             gameName: string;
             pieceSet: string;
         }[];
-        export { playPieces_24 as playPieces };
+        export { playersOption_24 as playersOption };
     }
     namespace doShogiRight {
         let name_25: string;
@@ -1027,11 +1034,11 @@ declare namespace ee {
         export { playBoard_25 as playBoard };
         let useStand_25: boolean;
         export { useStand_25 as useStand };
-        let playPieces_25: {
+        let playersOption_25: {
             gameName: string;
             pieceSet: string;
         }[];
-        export { playPieces_25 as playPieces };
+        export { playersOption_25 as playersOption };
     }
     namespace kinshiShogiLeft {
         let name_26: string;
@@ -1046,11 +1053,11 @@ declare namespace ee {
         export { playBoard_26 as playBoard };
         let useStand_26: boolean;
         export { useStand_26 as useStand };
-        let playPieces_26: {
+        let playersOption_26: {
             gameName: string;
             pieceSet: string;
         }[];
-        export { playPieces_26 as playPieces };
+        export { playersOption_26 as playersOption };
     }
     namespace kinshiShogiRight {
         let name_27: string;
@@ -1065,11 +1072,11 @@ declare namespace ee {
         export { playBoard_27 as playBoard };
         let useStand_27: boolean;
         export { useStand_27 as useStand };
-        let playPieces_27: {
+        let playersOption_27: {
             gameName: string;
             pieceSet: string;
         }[];
-        export { playPieces_27 as playPieces };
+        export { playersOption_27 as playersOption };
     }
     namespace kintoShogiLeft {
         let name_28: string;
@@ -1084,11 +1091,11 @@ declare namespace ee {
         export { playBoard_28 as playBoard };
         let useStand_28: boolean;
         export { useStand_28 as useStand };
-        let playPieces_28: {
+        let playersOption_28: {
             gameName: string;
             pieceSet: string;
         }[];
-        export { playPieces_28 as playPieces };
+        export { playersOption_28 as playersOption };
     }
     namespace kintoShogiRight {
         let name_29: string;
@@ -1103,11 +1110,11 @@ declare namespace ee {
         export { playBoard_29 as playBoard };
         let useStand_29: boolean;
         export { useStand_29 as useStand };
-        let playPieces_29: {
+        let playersOption_29: {
             gameName: string;
             pieceSet: string;
         }[];
-        export { playPieces_29 as playPieces };
+        export { playersOption_29 as playersOption };
     }
     namespace shogi30AllLeft {
         let name_30: string;
@@ -1122,11 +1129,11 @@ declare namespace ee {
         export { playBoard_30 as playBoard };
         let useStand_30: boolean;
         export { useStand_30 as useStand };
-        let playPieces_30: {
+        let playersOption_30: {
             gameName: string;
             pieceSet: string;
         }[];
-        export { playPieces_30 as playPieces };
+        export { playersOption_30 as playersOption };
     }
     namespace shogi30AllRight {
         let name_31: string;
@@ -1141,11 +1148,11 @@ declare namespace ee {
         export { playBoard_31 as playBoard };
         let useStand_31: boolean;
         export { useStand_31 as useStand };
-        let playPieces_31: {
+        let playersOption_31: {
             gameName: string;
             pieceSet: string;
         }[];
-        export { playPieces_31 as playPieces };
+        export { playersOption_31 as playersOption };
     }
     namespace okisakiShogi {
         let name_32: string;
@@ -1160,11 +1167,11 @@ declare namespace ee {
         export { playBoard_32 as playBoard };
         let useStand_32: boolean;
         export { useStand_32 as useStand };
-        let playPieces_32: {
+        let playersOption_32: {
             gameName: string;
             pieceSet: string;
         }[];
-        export { playPieces_32 as playPieces };
+        export { playersOption_32 as playersOption };
     }
     namespace crazyHouse {
         let name_33: string;
@@ -1179,11 +1186,11 @@ declare namespace ee {
         export { playBoard_33 as playBoard };
         let useStand_33: boolean;
         export { useStand_33 as useStand };
-        let playPieces_33: {
+        let playersOption_33: {
             gameName: string;
             pieceSet: string;
         }[];
-        export { playPieces_33 as playPieces };
+        export { playersOption_33 as playersOption };
     }
     namespace losAlamosChess {
         let name_34: string;
@@ -1198,11 +1205,11 @@ declare namespace ee {
         export { playBoard_34 as playBoard };
         let useStand_34: boolean;
         export { useStand_34 as useStand };
-        let playPieces_34: {
+        let playersOption_34: {
             gameName: string;
             pieceSet: string;
         }[];
-        export { playPieces_34 as playPieces };
+        export { playersOption_34 as playersOption };
     }
     namespace capablancaChess {
         let name_35: string;
@@ -1217,11 +1224,11 @@ declare namespace ee {
         export { playBoard_35 as playBoard };
         let useStand_35: boolean;
         export { useStand_35 as useStand };
-        let playPieces_35: {
+        let playersOption_35: {
             gameName: string;
             pieceSet: string;
         }[];
-        export { playPieces_35 as playPieces };
+        export { playersOption_35 as playersOption };
     }
     namespace grandChess {
         let name_36: string;
@@ -1236,11 +1243,11 @@ declare namespace ee {
         export { playBoard_36 as playBoard };
         let useStand_36: boolean;
         export { useStand_36 as useStand };
-        let playPieces_36: {
+        let playersOption_36: {
             gameName: string;
             pieceSet: string;
         }[];
-        export { playPieces_36 as playPieces };
+        export { playersOption_36 as playersOption };
     }
     namespace gorogoroDobutsuShogi {
         let name_37: string;
@@ -1255,11 +1262,11 @@ declare namespace ee {
         export { playBoard_37 as playBoard };
         let useStand_37: boolean;
         export { useStand_37 as useStand };
-        let playPieces_37: {
+        let playersOption_37: {
             gameName: string;
             pieceSet: string;
         }[];
-        export { playPieces_37 as playPieces };
+        export { playersOption_37 as playersOption };
     }
     namespace shishiShogi {
         let name_38: string;
@@ -1274,11 +1281,11 @@ declare namespace ee {
         export { playBoard_38 as playBoard };
         let useStand_38: boolean;
         export { useStand_38 as useStand };
-        let playPieces_38: {
+        let playersOption_38: {
             gameName: string;
             pieceSet: string;
         }[];
-        export { playPieces_38 as playPieces };
+        export { playersOption_38 as playersOption };
     }
     namespace heiseiShogi {
         let name_39: string;
@@ -1293,11 +1300,11 @@ declare namespace ee {
         export { playBoard_39 as playBoard };
         let useStand_39: boolean;
         export { useStand_39 as useStand };
-        let playPieces_39: {
+        let playersOption_39: {
             gameName: string;
             pieceSet: string;
         }[];
-        export { playPieces_39 as playPieces };
+        export { playersOption_39 as playersOption };
     }
     namespace daiShogi {
         let name_40: string;
@@ -1312,11 +1319,11 @@ declare namespace ee {
         export { playBoard_40 as playBoard };
         let useStand_40: boolean;
         export { useStand_40 as useStand };
-        let playPieces_40: {
+        let playersOption_40: {
             gameName: string;
             pieceSet: string;
         }[];
-        export { playPieces_40 as playPieces };
+        export { playersOption_40 as playersOption };
     }
     namespace courierChess {
         let name_41: string;
@@ -1331,11 +1338,11 @@ declare namespace ee {
         export { playBoard_41 as playBoard };
         let useStand_41: boolean;
         export { useStand_41 as useStand };
-        let playPieces_41: {
+        let playersOption_41: {
             gameName: string;
             pieceSet: string;
         }[];
-        export { playPieces_41 as playPieces };
+        export { playersOption_41 as playersOption };
     }
     namespace p4Shogi {
         let name_42: string;
@@ -1350,11 +1357,11 @@ declare namespace ee {
         export { playBoard_42 as playBoard };
         let useStand_42: boolean;
         export { useStand_42 as useStand };
-        let playPieces_42: {
+        let playersOption_42: {
             gameName: string;
             pieceSet: string;
         }[];
-        export { playPieces_42 as playPieces };
+        export { playersOption_42 as playersOption };
     }
     namespace p4Chess {
         let name_43: string;
@@ -1369,11 +1376,11 @@ declare namespace ee {
         export { playBoard_43 as playBoard };
         let useStand_43: boolean;
         export { useStand_43 as useStand };
-        let playPieces_43: {
+        let playersOption_43: {
             gameName: string;
             pieceSet: string;
         }[];
-        export { playPieces_43 as playPieces };
+        export { playersOption_43 as playersOption };
     }
     namespace g4Shogi {
         let name_44: string;
@@ -1388,11 +1395,11 @@ declare namespace ee {
         export { playBoard_44 as playBoard };
         let useStand_44: boolean;
         export { useStand_44 as useStand };
-        let playPieces_44: {
+        let playersOption_44: {
             gameName: string;
             pieceSet: string;
         }[];
-        export { playPieces_44 as playPieces };
+        export { playersOption_44 as playersOption };
     }
     namespace chaturaji {
         let name_45: string;
@@ -1407,14 +1414,14 @@ declare namespace ee {
         export { playBoard_45 as playBoard };
         let useStand_45: boolean;
         export { useStand_45 as useStand };
-        let playPieces_45: {
+        let playersOption_45: {
             gameName: string;
             pieceSet: string;
         }[];
-        export { playPieces_45 as playPieces };
+        export { playersOption_45 as playersOption };
     }
 }
-declare namespace U {
+declare namespace Z {
     namespace 将棋 {
         let english: string;
         let fontColor: string;
@@ -1697,7 +1704,7 @@ declare namespace U {
         export { position_6 as position };
     }
 }
-declare const z: {
+declare const H: {
     S: {
         name: string;
         text: string;
@@ -1842,7 +1849,7 @@ declare const z: {
         attr: string[];
     };
 };
-declare namespace J {
+declare namespace q {
     let 女: number;
     let 獅: number;
     let 后: number;
@@ -1975,7 +1982,7 @@ declare namespace J {
     let 楚: number;
     let 帥: number;
 }
-declare namespace V {
+declare namespace te {
     export let 〇: string[];
     let 歩_1: string[];
     export { 歩_1 as 歩 };
@@ -5624,7 +5631,7 @@ declare namespace G {
         export { range_205 as range };
     }
 }
-declare class Y {
+declare class Q {
     /** 駒台への角度ごとの表示順
      * @type {number[]}
      */
@@ -5653,7 +5660,7 @@ declare class Y {
      * @param {number} option.deg - 角度
      * @param {number} option.i - 配置する持ち駒のインデックス
      */
-    releasePiece(e: any, a?: {}): void;
+    releasePiece(e: any, t?: {}): void;
     /** 駒台に追加する
      * @param {Piece} piece - 追加する駒
      */
@@ -5664,7 +5671,7 @@ declare class Y {
      * @param {boolean} forceCapture - 属性を無視して捕縛する
      * @param {boolean} forceCantCapture - 属性を無視して捕縛しない
      */
-    capturePiece(e: any, a: any, t?: boolean, s?: boolean): void;
+    capturePiece(e: any, t: any, a?: boolean, i?: boolean): void;
     /** 持ち駒の所有権を回転
      * @param {number} deg - 回転角 (90の倍数)
      */
@@ -5675,9 +5682,9 @@ declare class Y {
      * @param {boolean} isCompact - コンパクト表示
      * @param {boolean} isAlias - エイリアス表示
      */
-    toString(e?: boolean, a?: boolean): string;
+    toString(e?: boolean, t?: boolean): string;
 }
-declare class ue {
+declare class Ae {
     degs: {};
     /** アンパッサン情報をクリア
      * @param {number} deg - アンパッサンされうる陣営の角度
@@ -5687,7 +5694,7 @@ declare class ue {
      * @param {Panel} panel - アンパッサン対象と成りうるマス目
      * @param {Piece} piece - アンパッサン対象と成りうる駒
      */
-    setTarget(e: any, a: any): void;
+    setTarget(e: any, t: any): void;
     /** アンパッサン対象と成りうる駒情報を記録
      * @param {Panel} toPanel - アンパッサン対象か確認するマス目
      */
@@ -5697,6 +5704,6 @@ declare class ue {
      * @param {Piece} piece - アンパッサン対象と成りうる駒
      * @returns {boolean}
      */
-    isTarget(e: any, a: any): boolean;
+    isTarget(e: any, t: any): boolean;
 }
-export { Q as Board, A as Piece, H as boards, O as canvasFont, T as canvasImage, te as extendData, ee as gameSoft, U as games, z as panels, J as pieceCost, V as pieceRange, G as pieces };
+export { V as Board, C as Piece, K as boards, O as canvasFont, I as canvasImage, le as extendData, re as gameSoft, Z as games, H as panels, q as pieceCost, te as pieceRange, G as pieces };

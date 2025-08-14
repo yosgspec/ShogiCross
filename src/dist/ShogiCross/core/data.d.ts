@@ -89,7 +89,7 @@ export type GameSoft = {
     /**
      * - {gameName: ゲーム名, pieceSet: 駒セットの名称}
      */
-    playPieces: {
+    playersOption: {
         gameName: string;
         pieceSet: string;
     }[];
@@ -141,11 +141,12 @@ export type BoardInitOption = {
      */
     playBoard: string;
     /**
-     * - 駒セット
+     * - プレイヤー設定
      */
-    playPieces: {
+    playersOption: {
         gameName: string;
         pieceSet: string;
+        cpuEngine: string;
     };
     /**
      * - プレイヤー人数(2 or 4)
@@ -204,6 +205,10 @@ export type BoardInitOption = {
      */
     backgroundColor: string;
     /**
+     * - ヘッドレスモード（Canvas非描画・自動操作用）
+     */
+    isHeadless: boolean;
+    /**
      * - 描写の自動更新有無
      */
     autoDrawing: boolean;
@@ -218,11 +223,11 @@ export type BoardInitOption = {
     /**
      * - 描写イベント
      */
-    onDrawed: (Board: any) => void;
+    onDrawed: (Board) => void;
     /**
      * - ゲームオーバーイベント
      */
-    onGameOver: (i: any) => void;
+    onGameOver: (i) => void;
 };
 /**
  * - マス目の初期化オプション

@@ -26,12 +26,13 @@ export class Board {
      * @param {BoardInitOption} option - ボードの初期化オプション
      */
     constructor(canvas: HTMLCanvasElement, option: BoardInitOption);
+    isHeadless: boolean;
     name: any;
     variant: any;
     url: any;
     desc: any;
-    canvas: HTMLCanvasElement;
     ctx: CanvasRenderingContext2D;
+    canvas: HTMLCanvasElement;
     pieces: {
         [k: string]: any;
     };
@@ -46,6 +47,7 @@ export class Board {
     field: any;
     xLen: any;
     yLen: any;
+    cpuEngines: any[];
     width: number;
     height: number;
     right: number;
@@ -167,8 +169,9 @@ export class Board {
     /** 駒を移動
      * @param {Panel} fromPanel - 移動元のマス目
      * @param {Panel} toPanel - 選択中のマス目
+     * @param {boolean} isCpuMove - CPUによる移動か
      */
-    movePiece(fromPanel: Panel, toPanel: Panel): void;
+    movePiece(fromPanel: Panel, toPanel: Panel, isCpuMove?: boolean): void;
     /** 棋譜を追記
      * @param {Panel} toPanel - 移動先のマス目
      * @param {Object} option - オプション
@@ -271,6 +274,10 @@ export class Board {
      * @returns {Promise<void>}
      */
     downloadImage(fileName: string, ext: string, urlType: any): Promise<void>;
+    /** 盤面をクローン
+     * @returns {Board}
+     */
+    clone(): any;
     #private;
 }
 export type BoardInitOption = import('./data').BoardInitOption;
