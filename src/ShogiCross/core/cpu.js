@@ -1,83 +1,85 @@
+/** @typedef {import('./data').PlayerInfo} PlayerInfo */
 import {Board} from "./board.js";
 import {checkTarget, isCheckmate, hasLegalMoves} from "./checkTarget.js";
 
-/** 手動操作のエンジン */
-class Manual{
+/** 基底CPUエンジン(手動操作用) */
+export class CpuEngineBase{
 	/**
 	 * @param {Board} board - 対象のボード
-	 * @param {string} playerId - プレイヤーID
+	 * @param {PlayerInfo} player - プレイヤー情報
 	 */
-	constructor(board, playerId){
+	constructor(board, player){
 		this.board = board;
-		this.playerId = playerId;
+		this.player = player;
 	}
 	/** 手番操作 */
 	playTurn(){
-		// 手動操作なので何もしない
+		// 操作なし
 	}
 
 	/**
 	 * 盤面を評価します。
-	 * @param {Board} board - 評価対象の盤面
-	 * @param {number} playerDeg - 評価するプレイヤーの角度
 	 * @returns {number} 盤面の評価値
 	 */
-	evaluate(board, playerDeg){
+	evaluate(){
+		const {board, player} = this;
 		const KING_VALUE = 10000; // 王の価値
 		let my_score = 0;
 		let opponent_score = 0;
 
 		// 盤上の駒を評価
-		board.field.forEach(row => {
-			row.forEach(panel => {
-				if(panel.piece){
-					const is_king = panel.piece.cost <= 0;
-					const value = is_king ? KING_VALUE : panel.piece.cost;
-					if(panel.piece.deg === playerDeg){
-						my_score += value;
-					} else {
-						opponent_score += value;
-					}
+		board.field.flat().forEach(panel=>{
+			if(panel.piece){
+				const is_king = panel.piece.cost <= 0;
+				const value = is_king ? KING_VALUE : panel.piece.cost;
+				if(panel.piece.deg === player.deg){
+					my_score += value;
 				}
-			});
-		});
-
-		// 持ち駒を評価
-		board.stand.stocks.forEach((pieces, deg) => {
-			const hand_value = pieces.reduce((acc, piece) => acc + piece.cost, 0); // 王は持ち駒にならない
-			if(deg === playerDeg){
-				my_score += hand_value;
-			} else {
-				opponent_score += hand_value;
+				else{
+					opponent_score += value;
+				}
 			}
 		});
 
+
+		// 持ち駒を評価
+		board.stand.stocks.forEach((pieces, deg)=>{
+			const hand_value = pieces.reduce((acc, piece)=>acc + piece.cost, 0); // 王は持ち駒にならない
+			if(deg === player.deg){
+				my_score += hand_value;
+			}
+			else{
+				opponent_score += hand_value;
+			}
+		});
 		return my_score - opponent_score;
 	}
 }
 
 /** CPUエンジン */
-const engines = {};
+export const CpuEngines = {};
 
 /** ランダムで手を打つエンジン */
-engines["random"] = class Random extends Manual{
+CpuEngines.random = class Random extends CpuEngineBase{
+	constructor(board, player){
+		super(board, player);
+	}
+
 	playTurn(){
-		const {board, playerId} = this;
-		const playerDeg = board.degNormal(playerId);
+		const {board, player} = this;
 
 		// 1. 現在のプレイヤーが動かせる駒をすべて取得
 		const movablePieces = [];
-		board.field.forEach(row=>{
-			row.forEach(panel=>{
-				if(panel.piece && panel.piece.deg === playerDeg){
-					const fromPanel = panel;
-					const toPanels = checkTarget(board, fromPanel.piece, fromPanel.pX, fromPanel.pY);
-					if(toPanels.length > 0){
-						movablePieces.push({from: fromPanel, tos: toPanels});
-					}
+		board.field.flat().forEach(panel=>{
+			if(panel.piece && panel.piece.deg === player.deg){
+				const fromPanel = panel;
+				const toPanels = checkTarget(board, fromPanel.piece, fromPanel.pX, fromPanel.pY);
+				if(toPanels.length > 0){
+					movablePieces.push({from: fromPanel, tos: toPanels});
 				}
-			});
+			}
 		});
+
 
 		// 2. すべての可能な手のリストを作成
 		const allPossibleMoves = [];
@@ -101,25 +103,26 @@ engines["random"] = class Random extends Manual{
 }
 
 /** 貪欲法エンジン (1手読み) */
-engines["greedy"] = class Greedy extends Manual {
+CpuEngines.greedy = class Greedy extends CpuEngineBase{
+	constructor(board, player){
+		super(board, player);
+	}
+
 	/**
 	 * 手番を処理します。
 	 */
 	playTurn(){
-		const {board, playerId} = this;
-		const playerDeg = board.degNormal(playerId);
+		const {board, player} = this;
 
 		const movablePieces = [];
-		board.field.forEach(row=>{
-			row.forEach(panel=>{
-				if(panel.piece && panel.piece.deg === playerDeg){
-					const fromPanel = panel;
-					const toPanels = checkTarget(board, fromPanel.piece, fromPanel.pX, fromPanel.pY);
-					if(toPanels.length > 0){
-						movablePieces.push({from: fromPanel, tos: toPanels});
-					}
+		board.field.flat().forEach(panel=>{
+			if(panel.piece && panel.piece.deg === player.deg){
+				const fromPanel = panel;
+				const toPanels = checkTarget(board, fromPanel.piece, fromPanel.pX, fromPanel.pY);
+				if(toPanels.length > 0){
+					movablePieces.push({from: fromPanel, tos: toPanels});
 				}
-			});
+			}
 		});
 
 		const allPossibleMoves = [];
@@ -144,7 +147,7 @@ engines["greedy"] = class Greedy extends Manual {
 			const fromPanelClone = boardClone.field[move.from.pY][move.from.pX];
 			const toPanelClone = boardClone.field[move.to.pY][move.to.pX];
 			boardClone.movePiece(fromPanelClone, toPanelClone);
-			const score = this.evaluate(boardClone, playerDeg);
+			const score = this.evaluate();
 			if(score > bestScore){
 				bestScore = score;
 				bestMove = move;
@@ -163,9 +166,9 @@ engines["greedy"] = class Greedy extends Manual {
 }
 
 /** ミニマックスエンジン (アルファベータ枝刈り付き) */
-engines["minimax"] = class Minimax extends Manual {
-	constructor(board, playerId){
-		super(board, playerId);
+CpuEngines.minimax = class Minimax extends CpuEngineBase {
+	constructor(board, player){
+		super(board, player);
 		this.searchDepth = 3; // 探索の深さ
 	}
 
@@ -179,40 +182,33 @@ engines["minimax"] = class Minimax extends Manual {
 	 * @returns {number} 評価値
 	 */
 	minimax(board, depth, alpha, beta, isMaximizingPlayer){
-		// 現在のプレイヤーの角度を決定
-		const currentPlayerDeg = isMaximizingPlayer ? board.degNormal(this.playerId) : board.degNormal(this.playerId + 180);
+		const {player} = this;
 
 		// 探索の終了条件
-		if(depth === 0){
-			return this.evaluate(board, currentPlayerDeg);
-		}
+		if(depth === 0) return this.evaluate();
 
 		// 詰み/ステールメイトの判定
-		if(isCheckmate(board, currentPlayerDeg)){
+		if(isCheckmate(board, player.deg))
 			return isMaximizingPlayer ? -Infinity : Infinity; // 詰みは最大化プレイヤーにとって非常に悪い状態
-		}
-		if(!hasLegalMoves(board, currentPlayerDeg)){
+		if(!hasLegalMoves(board, player.deg))
 			return 0; // ステールメイト（合法手がないが王手ではない）
-		}
 
 		// 合法手の生成
 		const movablePieces = [];
-		board.field.forEach(row => {
-			row.forEach(panel => {
-				if(panel.piece && panel.piece.deg === currentPlayerDeg){
-					const fromPanel = panel;
-					const toPanels = checkTarget(board, fromPanel.piece, fromPanel.pX, fromPanel.pY);
-					if(toPanels.length > 0){
-						movablePieces.push({ from: fromPanel, tos: toPanels });
-					}
+		board.field.flat().forEach(panel=>{
+			if(panel.piece && panel.piece.deg === player.deg){
+				const fromPanel = panel;
+				const toPanels = checkTarget(board, fromPanel.piece, fromPanel.pX, fromPanel.pY);
+				if(toPanels.length > 0){
+					movablePieces.push({from: fromPanel, tos: toPanels});
 				}
-			});
+			}
 		});
 
 		const allPossibleMoves = [];
-		movablePieces.forEach(({ from, tos }) => {
-			tos.forEach(to => {
-				allPossibleMoves.push({ from, to });
+		movablePieces.forEach(({from, tos})=>{
+			tos.forEach(to=>{
+				allPossibleMoves.push({from, to});
 			});
 		});
 
@@ -228,12 +224,11 @@ engines["minimax"] = class Minimax extends Manual {
 				const minimaxEval = this.minimax(boardClone, depth - 1, alpha, beta, false);
 				maxEval = Math.max(maxEval, minimaxEval);
 				alpha = Math.max(alpha, minimaxEval);
-				if(beta <= alpha){
-					break; // アルファベータ枝刈り
-				}
+				if(beta <= alpha) break; // アルファベータ枝刈り
 			}
 			return maxEval;
-		} else { // 最小化プレイヤー
+		}
+		else{ // 最小化プレイヤー
 			let minEval = Infinity;
 			for(const move of allPossibleMoves){
 				const boardClone = board.clone();
@@ -245,9 +240,7 @@ engines["minimax"] = class Minimax extends Manual {
 				const minimaxEval = this.minimax(boardClone, depth - 1, alpha, beta, true);
 				minEval = Math.min(minEval, minimaxEval);
 				beta = Math.min(beta, minimaxEval);
-				if(beta <= alpha){
-					break; // アルファベータ枝刈り
-				}
+				if(beta <= alpha) break; // アルファベータ枝刈り
 			}
 			return minEval;
 		}
@@ -257,30 +250,27 @@ engines["minimax"] = class Minimax extends Manual {
 	 * 手番を処理します。
 	 */
 	playTurn(){
-		const { board, playerId } = this;
-		const playerDeg = board.degNormal(playerId);
+		const {board, player} = this;
 
 		let bestMove = null;
 		let bestScore = -Infinity;
 
 		// 合法手の生成
 		const movablePieces = [];
-		board.field.forEach(row => {
-			row.forEach(panel => {
-				if(panel.piece && panel.piece.deg === playerDeg){
-					const fromPanel = panel;
-					const toPanels = checkTarget(board, fromPanel.piece, fromPanel.pX, fromPanel.pY);
-					if(toPanels.length > 0){
-						movablePieces.push({ from: fromPanel, tos: toPanels });
-					}
+		board.field.flat().forEach(panel => {
+			if(panel.piece && panel.piece.deg === player.deg){
+				const fromPanel = panel;
+				const toPanels = checkTarget(board, fromPanel.piece, fromPanel.pX, fromPanel.pY);
+				if(toPanels.length > 0){
+					movablePieces.push({from: fromPanel, tos: toPanels});
 				}
-			});
+			}
 		});
 
 		const allPossibleMoves = [];
-		movablePieces.forEach(({ from, tos }) => {
-			tos.forEach(to => {
-				allPossibleMoves.push({ from, to });
+		movablePieces.forEach(({from, tos})=>{
+			tos.forEach(to=>{
+				allPossibleMoves.push({from, to});
 			});
 		});
 
@@ -314,27 +304,30 @@ engines["minimax"] = class Minimax extends Manual {
 		if(bestMove){
 			board.movePiece(bestMove.from, bestMove.to, true);
 			console.log(`CPU(Minimax): (${bestMove.from.pX}, ${bestMove.from.pY}) から (${bestMove.to.pX}, ${bestMove.to.pY}) へ移動 (評価値: ${bestScore})`);
-		} else {
+		}
+		else{
 			console.log("CPU(Minimax): 最善手が見つかりませんでした。");
 		}
 	}
 }
 
 /** CPUエンジンの管理クラス */
-export class CpuEngine{
+export class CpuEngine extends CpuEngineBase {
 	/**
 	 * @param {Board} board - 対象のボード
-	 * @param {string} playerId - プレイヤーID
-	 * @param {string} engineName - エンジン名
+	 * @param {PlayerInfo} player - プレイヤー情報
 	 */
-	constructor(board, playerId, engineName){
+	constructor(board, player){
+		super(board, player);
+		const engineName = player.cpuEngine?.toLowerCase();
 		this.engine = engineName==null?
-			new Manual(board, playerId):
-			new engines[engineName](board, playerId);
+			new CpuEngineBase(board, player):
+			new CpuEngines[engineName](board, player);
 		if(!this.engine) throw new Error(`Engine "${engineName}" not found.`);
 	}
 	/** 手番操作 */
 	playTurn(){
+		if(this.board.turn === 0) return;
 		this.engine.playTurn();
 	}
 }

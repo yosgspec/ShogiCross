@@ -13,7 +13,7 @@
 		    const board = Board.run(canvas, {
 				playBoard: "将棋",
 				useStand: true,
-				playersOption: [
+				playerOptions: [
 					{"gameName": "将棋", "pieceSet": "default"},
 					// {"gameName": "チェス", "pieceSet": "default", "cpuEngine": "random"},
 					// {"gameName": "チェス", "pieceSet": "default", "cpuEngine": "greedy"},
@@ -22,7 +22,6 @@
 				onDrawed: board => {
 					if(turn < board.turn){
 						turn = board.turn;
-						console.log("turn:", turn);
 						//console.log(board.getTextPieces("bod"));
 						try{console.log(board.record2String(board.record[turn-1], turn-1, true))}catch(ex){}
 						console.log(board.record2String(board.record[turn], turn, true))
