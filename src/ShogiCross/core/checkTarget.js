@@ -1,4 +1,5 @@
 import {Board} from "./board.js";
+import {Panel} from "./panel.js";
 import {Piece} from "./piece.js";
 
 // 移動範囲オプション
@@ -22,7 +23,7 @@ const centerChars = [
 /** 点移動オプション
  * @type {Object<key: string, {child: string[]}>[]}
  * @param key - 移動範囲を定義する文字
- * @param {number} moves- 進行可能なマス数
+ * @param {number} moves 進行可能なマス数
  */
 const pointChars = [
 	["o"],
@@ -55,7 +56,7 @@ for(let i=1;i<=9;i++)
 	linerChars.push([""+i, {moves: i}]);
 
 /** rangeの原点座標を取得
- * @param {string[]} range - 移動範囲情報
+ * @param {string[]} range 移動範囲情報
  */
 function getOrigin(range){
 	const oList = [];
@@ -82,9 +83,10 @@ function getOrigin(range){
  * @param {Piece} piece - 駒
  * @param {number} pX - マス目の列
  * @param {number} pY - マス目の行
+ * @returns {Panel[]} 移動可能なマス目の配列
  */
 export function checkTarget(board, piece, pX, pY){
-	const possibleMoves = [];
+	const canMovePanels = [];
 	const {field, yLen, enPassant} = board;
 
 	/** マス目座標がボード範囲内か判定
@@ -174,7 +176,7 @@ export function checkTarget(board, piece, pX, pY){
 		const panel = field[y][x];
 		panel.addTarget(rangeName);
 		enPassant.setTarget(panel, piece);
-		possibleMoves.push(panel);
+		canMovePanels.push(panel);
 	}
 
 	/** 点移動
@@ -215,26 +217,26 @@ export function checkTarget(board, piece, pX, pY){
 			for(let rY=oY-1;rY<=oY+1;rY++){
 				for(let rX=oX-1;rX<=oX+1;rX++){
 					if(range[rY][rX] !== char || rX === oX && rY === oY) continue;
-					let jmpCnt = jmps? jmps: 0;
-					let moveCnt = moves? moves: 0;
+					let jmpLen = jmps? jmps: 0;
+					let moveLen = moves? moves: 0;
 					const [incX, incY] = [rX-oX, rY-oY];
 					for(let _x=pX,_y=pY;;){
 						_x+=incX;
 						_y+=incY;
 						const x=_x+offsetX;
 						const y=_y+offsetY;
-						if(!inField(x, y) || !isMoveInf && moveCnt === 0) break;
-						const isJumped = 0 === jmpCnt;
+						if(!inField(x, y) || !isMoveInf && moveLen === 0) break;
+						const isJumped = 0 === jmpLen;
 						if(isJumped && canMove(isAttack, x, y, rangeName, isJumped)){
-							moveCnt--;
+							moveLen--;
 							setTarget(rangeName, x, y);
 						}
 						else if(jmps<1){
-							moveCnt--;
+							moveLen--;
 						}
 						const panel = field[y][x];
 						if(panel.piece){
-							jmpCnt--;
+							jmpLen--;
 							if(isJumped || isVsPo(panel)) break;
 						}
 					}
@@ -262,7 +264,7 @@ export function checkTarget(board, piece, pX, pY){
 			}
 		}
 	})();
-	return possibleMoves;
+	return canMovePanels;
 }
 
 /**
@@ -272,30 +274,24 @@ export function checkTarget(board, piece, pX, pY){
  * @returns {boolean} 王手されている場合はtrue、そうでない場合はfalse
  */
 export function isKingInCheck(board, playerDeg){
-	let kingPanel = null;
-	// 王の駒を見つける
-	board.field.forEach(row=>{
-		row.forEach(panel=>{
-			if(panel.piece && panel.piece.deg === playerDeg && panel.piece.cost <= 0){
-				kingPanel = panel;
-			}
-		});
-	});
+	// 王の位置を取得
+	let kingPanels = board.field.flat().filter(panel=>
+		panel.piece?.deg === playerDeg
+		&& panel.piece.hasAttr("king")
+	);
+	if(kingPanels.length !== 1) return false;
+	const kingPanel = kingPanels[0];
 
-	if(!kingPanel) return false; // 王がいない場合は王手ではない
-
-	// 相手の駒が王を攻撃しているか確認
-	for(let y=0;y<board.yLen;y++){
-		for(let x=0;x<board.xLen;x++){
-			const panel = board.field[y][x];
-			if(panel.piece && panel.piece.deg !== playerDeg){
-				// 相手の駒の移動可能マスを取得
-				const opponentPossibleMoves = checkTarget(board, panel.piece, panel.pX, panel.pY);
-				// 相手の駒の移動可能マスに王のマスが含まれているか確認
-				if(opponentPossibleMoves.some(move=>move.pX === kingPanel.pX && move.pY === kingPanel.pY)){
-					return true; // 王手されている
-				}
-			}
+	// 相手の駒の攻撃範囲に王が存在するか?
+	for(const row of board.field){
+		for(const panel of row){
+			// 駒のないマス、または自プレイヤーの駒はスキップ
+			if(!panel.piece || panel.piece.deg === playerDeg) continue;
+			// 相手の駒の移動可能マスを取得
+			const enemyMovePanels = checkTarget(board, panel.piece, panel.pX, panel.pY);
+			if(enemyMovePanels.some(({pX, pY})=>
+				pX === kingPanel.pX && pY === kingPanel.pY
+			)) return true; // 王手されている
 		}
 	}
 	return false; // 王手されていない
@@ -308,37 +304,20 @@ export function isKingInCheck(board, playerDeg){
  * @returns {boolean} 合法手がある場合はtrue、そうでない場合はfalse
  */
 export function hasLegalMoves(board, playerDeg){
-	for(let y=0;y<board.yLen;y++){
-		for(let x=0;x<board.xLen;x++){
-			const fromPanel = board.field[y][x];
-			if(fromPanel.piece && fromPanel.piece.deg === playerDeg){
-				const possibleMoves = checkTarget(board, fromPanel.piece, fromPanel.pX, fromPanel.pY);
-				for(const toPanel of possibleMoves){
-					const boardClone = board.clone();
-					boardClone.isHeadless = true; // シミュレーションモード
-
-					const fromPanelClone = boardClone.field[fromPanel.pY][fromPanel.pX];
-					const toPanelClone = boardClone.field[toPanel.pY][toPanel.pX];
-
-					// movePieceはUI依存の確認ダイアログを出す可能性があるので、直接駒を動かす
-					// ただし、プロモーションの自動処理は必要
-					const originalPiece = fromPanelClone.piece;
-					const capturedPiece = toPanelClone.piece;
-
-					toPanelClone.piece = originalPiece;
-					fromPanelClone.piece = null;
-
-					// プロモーションの自動処理 (Greedyエンジンと同じロジック)
-					let canPromo = boardClone.checkCanPromo(toPanelClone).canPromo;
-					if(canPromo && originalPiece.promo){
-						originalPiece.promotion(Object.keys(originalPiece.promo)[0]);
-					}
-
-					// 移動後に王が王手されていないか確認
-					if(!isKingInCheck(boardClone, playerDeg)){
-						return true; // 合法手が見つかった
-					}
-				}
+	// ボードを複製して、合法手の確認を行うためにヘッドレスモードに設定
+	const boardClone = board.clone();
+	boardClone.isHeadless = true;
+	boardClone.onGameOver = null;
+	for(const row of boardClone.field){
+		for(const fromPanel of row){
+			// 駒のないマス、または自プレイヤーの駒はスキップ
+			if(!fromPanel.piece || fromPanel.piece.deg !== playerDeg) continue;
+			const canMovePanels = checkTarget(boardClone, fromPanel.piece, fromPanel.pX, fromPanel.pY);
+			for(const toPanel of canMovePanels){
+				boardClone.movePiece(fromPanel, toPanel, true);
+				// 移動後に王が王手されていないか確認
+				if(!isKingInCheck(boardClone, playerDeg)) return true;
+				boardClone.undoRecord();
 			}
 		}
 	}
@@ -352,5 +331,6 @@ export function hasLegalMoves(board, playerDeg){
  * @returns {boolean} 詰んでいる場合はtrue、そうでない場合はfalse
  */
 export function isCheckmate(board, playerDeg){
-	return isKingInCheck(board, playerDeg) && !hasLegalMoves(board, playerDeg);
+	return isKingInCheck(board, playerDeg)
+		&& !hasLegalMoves(board, playerDeg);
 }

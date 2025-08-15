@@ -7,7 +7,7 @@
  * @prop {string} name - ゲーム名
  * @prop {string} playBoard - 使用するボード名
  * @prop {boolean} useStand - 駒台の使用有無
- * @prop {{gameName: string, pieceSet: string}[]} playersOption - {gameName: ゲーム名, pieceSet: 駒セットの名称}
+ * @prop {{gameName: string, pieceSet: string}[]} playerOptions - {gameName: ゲーム名, pieceSet: 駒セットの名称}
  */
 /**
  * @typedef Game
@@ -22,12 +22,18 @@
  * @prop {Object<string, Object<string, string[]>>} position - 駒の配置データ
  */
 /**
+ * @typedef {Object} PlayerOption - ボードの初期化オプション
+ * @property {string} gameName ゲーム名
+ * @property {string} pieceSet 駒セット名
+ * @property {string} cpuEngine CPUエンジン名
+ */
+/**
  * @typedef {Object} BoardInitOption - ボードの初期化オプション
  * @prop {string} playBoard - ボードタイプ
- * @prop {Object} playersOption - プレイヤー設定
- * @prop {string} playersOption.gameName - ゲーム名(基準となる駒の配置セット)
- * @prop {string} playersOption.pieceSet - 駒の配置パターン
- * @prop {string} playersOption.cpuEngine - CPUエンジン名
+ * @prop {PlayerOption[]} playerOptions - プレイヤー設定
+ * @prop {string} playerOptions.gameName - ゲーム名(基準となる駒の配置セット)
+ * @prop {string} playerOptions.pieceSet - 駒の配置パターン
+ * @prop {string} playerOptions.cpuEngine - CPUエンジン名
  * @prop {2|4} players - プレイヤー人数(2 or 4)
  * @prop {boolean} useStand - 駒台の使用有無
  * @prop {number} canvasWidth - Canvas幅
@@ -85,7 +91,17 @@
  * @prop {string} promo - プロモーション先の駒の一文字表記
  * @prop {string[]} attr - 駒の機能のリスト
  */
-
+/**
+ * @typedef {Object} PlayerInfo - プレイヤー情報
+ * @property {number} id - プレイヤー番号
+ * @property {number} deg - プレイヤーの角度
+ * @property {string} degChar - プレイヤーを識別する角度文字
+ * @property {boolean} alive - 生存状態
+ * @property {string} cpuEngine - CPUエンジン名
+ * @property {CpuEngine} cpu - CPUエンジンのインスタンス
+ * @property {string} gameName - ゲーム名
+ * @property {string} pieceSet - 駒セット名
+ */
 import canvasFont from "../data/canvasFont.js";
 import gameSoft from "../data/gameSoft.js";
 import games from "../data/games.js";
@@ -95,6 +111,7 @@ import pieces from "../data/pieces.js";
 import pieceRange from "../data/pieceRange.js";
 import pieceCost from "../data/pieceCost.js";
 import {json} from "./json/xhr.js";
+import {CpuEngine} from "./cpu.js";
 
 export {
 	/** Canvas用のGoogleフォント情報
