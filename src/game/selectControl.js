@@ -98,7 +98,7 @@ export class SelectControl{
 		return {
 			playBoard: select.board.value,
 			useStand: JSON.parse(select.stand.value),
-			playersOption: [...select.pieceGame].map((pieceGame, i)=>({
+			playerOptions: [...select.pieceGame].map((pieceGame, i)=>({
 				gameName: pieceGame.value,
 				pieceSet: select.pieceSet[i].value
 			})),
