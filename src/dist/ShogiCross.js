@@ -15,7 +15,7 @@ const O = {
     desc: "一般的な将棋。本将棋とも呼ばれる。",
     playBoard: "将棋",
     useStand: !0,
-    playersOption: [
+    playerOptions: [
       { gameName: "将棋", pieceSet: "default" },
       { gameName: "将棋", pieceSet: "2p" }
     ]
@@ -27,7 +27,7 @@ const O = {
     desc: "西洋の将棋類。西洋将棋とも呼ばれる。",
     playBoard: "チェス",
     useStand: !1,
-    playersOption: [
+    playerOptions: [
       { gameName: "チェス", pieceSet: "default" },
       { gameName: "チェス", pieceSet: "2p" }
     ]
@@ -39,7 +39,7 @@ const O = {
     desc: "中国の将棋類。象棋、中国将棋とも呼ばれる。",
     playBoard: "シャンチー",
     useStand: !1,
-    playersOption: [
+    playerOptions: [
       { gameName: "シャンチー", pieceSet: "default" },
       { gameName: "シャンチー", pieceSet: "2p" }
     ]
@@ -51,7 +51,7 @@ const O = {
     desc: "朝鮮半島の将棋類。朝鮮将棋とも呼ばれる。",
     playBoard: "チャンギ",
     useStand: !1,
-    playersOption: [
+    playerOptions: [
       { gameName: "チャンギ", pieceSet: "default" },
       { gameName: "チャンギ", pieceSet: "2p" }
     ]
@@ -63,7 +63,7 @@ const O = {
     desc: "タイの将棋類。タイ将棋とも呼ばれる。",
     playBoard: "マークルック",
     useStand: !1,
-    playersOption: [
+    playerOptions: [
       { gameName: "マークルック", pieceSet: "default" },
       { gameName: "マークルック", pieceSet: "2p" }
     ]
@@ -75,7 +75,7 @@ const O = {
     desc: "原初の将棋類。詳細なルールは失われている。",
     playBoard: "チェス",
     useStand: !1,
-    playersOption: [
+    playerOptions: [
       { gameName: "チャトランガ", pieceSet: "default" },
       { gameName: "チャトランガ", pieceSet: "2p" }
     ]
@@ -87,7 +87,7 @@ const O = {
     desc: "入門用として考案された将棋。",
     playBoard: "どうぶつしょうぎ",
     useStand: !0,
-    playersOption: [
+    playerOptions: [
       { gameName: "どうぶつしょうぎ", pieceSet: "default" },
       { gameName: "どうぶつしょうぎ", pieceSet: "default" }
     ]
@@ -99,7 +99,7 @@ const O = {
     desc: "鳥の名の駒を使用する古将棋。特殊な動きをする駒が多い。",
     playBoard: "将棋7x7",
     useStand: !0,
-    playersOption: [
+    playerOptions: [
       { gameName: "将棋", pieceSet: "禽将棋" },
       { gameName: "将棋", pieceSet: "禽将棋" }
     ]
@@ -111,7 +111,7 @@ const O = {
     desc: "現在でもプレイされることのある古将棋の一種。",
     playBoard: "古将棋12x12",
     useStand: !1,
-    playersOption: [
+    playerOptions: [
       { gameName: "将棋", pieceSet: "中将棋" },
       { gameName: "将棋", pieceSet: "中将棋2p" }
     ]
@@ -123,7 +123,7 @@ const O = {
     desc: "全ての駒に動物の名前を使用した古将棋の一種。",
     playBoard: "古将棋11x11",
     useStand: !1,
-    playersOption: [
+    playerOptions: [
       { gameName: "将棋", pieceSet: "和将棋" },
       { gameName: "将棋", pieceSet: "和将棋" }
     ]
@@ -135,7 +135,7 @@ const O = {
     desc: "古チェスの一種。特殊な動きをする駒が多い。プロモーション先は本来は敵陣の到着列の駒となる(未実装)。",
     playBoard: "チェス12x12",
     useStand: !1,
-    playersOption: [
+    playerOptions: [
       { gameName: "チェス", pieceSet: "GrantAcedrex" },
       { gameName: "チェス", pieceSet: "GrantAcedrex2p" }
     ]
@@ -147,7 +147,7 @@ const O = {
     desc: "古チェスの一種。ビショップに等しい走り駒(クーリエ)が初めて使用された。",
     playBoard: "チェス12x8",
     useStand: !1,
-    playersOption: [
+    playerOptions: [
       { gameName: "チェス", pieceSet: "クーリエチェス(定形配置)" },
       { gameName: "チェス", pieceSet: "クーリエチェス(定形配置)2p" }
     ]
@@ -159,7 +159,7 @@ const O = {
     desc: "簡略化された将棋。",
     playBoard: "将棋5x5",
     useStand: !0,
-    playersOption: [
+    playerOptions: [
       { gameName: "将棋", pieceSet: "default" },
       { gameName: "将棋", pieceSet: "2p" }
     ]
@@ -171,7 +171,7 @@ const O = {
     desc: "持ち駒が使用できる小将棋。",
     playBoard: "将棋",
     useStand: !0,
-    playersOption: [
+    playerOptions: [
       { gameName: "将棋", pieceSet: "小将棋" },
       { gameName: "将棋", pieceSet: "小将棋2p" }
     ]
@@ -183,7 +183,7 @@ const O = {
     desc: "中将棋から駒を取り入れて原点回帰した平安将棋。",
     playBoard: "将棋",
     useStand: !1,
-    playersOption: [
+    playerOptions: [
       { gameName: "将棋", pieceSet: "小将棋" },
       { gameName: "将棋", pieceSet: "小将棋2p" }
     ]
@@ -195,7 +195,7 @@ const O = {
     desc: "記録が残る最古の日本の将棋。盤の大きさに緒説ある。",
     playBoard: "古将棋8x8",
     useStand: !1,
-    playersOption: [
+    playerOptions: [
       { gameName: "将棋", pieceSet: "平安将棋" },
       { gameName: "将棋", pieceSet: "平安将棋" }
     ]
@@ -207,7 +207,7 @@ const O = {
     desc: "9x8マスと想定した時の平安将棋。",
     playBoard: "古将棋9x8",
     useStand: !1,
-    playersOption: [
+    playerOptions: [
       { gameName: "将棋", pieceSet: "平安将棋" },
       { gameName: "将棋", pieceSet: "平安将棋" }
     ]
@@ -219,7 +219,7 @@ const O = {
     desc: "9x9マスと想定した時の平安将棋。",
     playBoard: "古将棋9x9",
     useStand: !1,
-    playersOption: [
+    playerOptions: [
       { gameName: "将棋", pieceSet: "平安将棋" },
       { gameName: "将棋", pieceSet: "平安将棋" }
     ]
@@ -231,7 +231,7 @@ const O = {
     desc: "京翔と銅将を追加した将棋。左右の配置が存在。",
     playBoard: "将棋10x10",
     useStand: !0,
-    playersOption: [
+    playerOptions: [
       { gameName: "将棋", pieceSet: "京将棋(左京配置)" },
       { gameName: "将棋", pieceSet: "京将棋(左京配置)2p" }
     ]
@@ -243,7 +243,7 @@ const O = {
     desc: "京将棋の右側に京を置くパターン。",
     playBoard: "将棋10x10",
     useStand: !0,
-    playersOption: [
+    playerOptions: [
       { gameName: "将棋", pieceSet: "京将棋(右京配置)" },
       { gameName: "将棋", pieceSet: "京将棋(右京配置)2p" }
     ]
@@ -255,7 +255,7 @@ const O = {
     desc: "桂馬を京翔へ置き換えた本将棋。左右の配置が存在。",
     playBoard: "将棋",
     useStand: !0,
-    playersOption: [
+    playerOptions: [
       { gameName: "将棋", pieceSet: "小京将棋(左置換)" },
       { gameName: "将棋", pieceSet: "小京将棋(左置換)2p" }
     ]
@@ -267,7 +267,7 @@ const O = {
     desc: "小京将棋の右置換パターン。",
     playBoard: "将棋",
     useStand: !0,
-    playersOption: [
+    playerOptions: [
       { gameName: "将棋", pieceSet: "小京将棋(右置換)" },
       { gameName: "将棋", pieceSet: "小京将棋(右置換)2p" }
     ]
@@ -279,7 +279,7 @@ const O = {
     desc: "香車を山車へ置き換えた本将棋。左右の配置が存在。",
     playBoard: "将棋",
     useStand: !0,
-    playersOption: [
+    playerOptions: [
       { gameName: "将棋", pieceSet: "山車将棋(左置換)" },
       { gameName: "将棋", pieceSet: "山車将棋(左置換)2p" }
     ]
@@ -291,7 +291,7 @@ const O = {
     desc: "山車将棋の右置換パターン。",
     playBoard: "将棋",
     useStand: !0,
-    playersOption: [
+    playerOptions: [
       { gameName: "将棋", pieceSet: "山車将棋(右置換)" },
       { gameName: "将棋", pieceSet: "山車将棋(右置換)2p" }
     ]
@@ -303,7 +303,7 @@ const O = {
     desc: "銀将を銅将へ置き換えた本将棋。左右の配置が存在。",
     playBoard: "将棋",
     useStand: !0,
-    playersOption: [
+    playerOptions: [
       { gameName: "将棋", pieceSet: "銅将棋(左置換)" },
       { gameName: "将棋", pieceSet: "銅将棋(左置換)2p" }
     ]
@@ -315,7 +315,7 @@ const O = {
     desc: "銅将棋の右置換パターン。",
     playBoard: "将棋",
     useStand: !0,
-    playersOption: [
+    playerOptions: [
       { gameName: "将棋", pieceSet: "銅将棋(右置換)" },
       { gameName: "将棋", pieceSet: "銅将棋(右置換)2p" }
     ]
@@ -327,7 +327,7 @@ const O = {
     desc: "金将を金翅へ置き換えた本将棋。左右の配置が存在。",
     playBoard: "将棋",
     useStand: !0,
-    playersOption: [
+    playerOptions: [
       { gameName: "将棋", pieceSet: "金翅将棋(左置換)" },
       { gameName: "将棋", pieceSet: "金翅将棋(左置換)2p" }
     ]
@@ -339,7 +339,7 @@ const O = {
     desc: "金翅将棋の右置換パターン。",
     playBoard: "将棋",
     useStand: !0,
-    playersOption: [
+    playerOptions: [
       { gameName: "将棋", pieceSet: "金翅将棋(右置換)" },
       { gameName: "将棋", pieceSet: "金翅将棋(右置換)2p" }
     ]
@@ -351,7 +351,7 @@ const O = {
     desc: "金将を金翅へ置き換えた本将棋。左右の配置が存在。",
     playBoard: "将棋",
     useStand: !0,
-    playersOption: [
+    playerOptions: [
       { gameName: "将棋", pieceSet: "金斗将棋(左置換)" },
       { gameName: "将棋", pieceSet: "金斗将棋(左置換)2p" }
     ]
@@ -363,7 +363,7 @@ const O = {
     desc: "金斗将棋の右置換パターン。",
     playBoard: "将棋",
     useStand: !0,
-    playersOption: [
+    playerOptions: [
       { gameName: "将棋", pieceSet: "金斗将棋(右置換)" },
       { gameName: "将棋", pieceSet: "金斗将棋(右置換)2p" }
     ]
@@ -375,7 +375,7 @@ const O = {
     desc: "京将棋系の駒で複数置換した本将棋。左右の配置が存在。",
     playBoard: "将棋",
     useStand: !0,
-    playersOption: [
+    playerOptions: [
       { gameName: "将棋", pieceSet: "将棋30++(左系フル置換)" },
       { gameName: "将棋", pieceSet: "将棋30++(左系フル置換)2p" }
     ]
@@ -387,7 +387,7 @@ const O = {
     desc: "将棋30++の右置換パターン。",
     playBoard: "将棋",
     useStand: !0,
-    playersOption: [
+    playerOptions: [
       { gameName: "将棋", pieceSet: "将棋30++(右系フル置換)" },
       { gameName: "将棋", pieceSet: "将棋30++(右系フル置換)2p" }
     ]
@@ -399,7 +399,7 @@ const O = {
     desc: "チェスの要素を取り入れた本将棋。香車は意図して反車として表示した。",
     playBoard: "将棋10x10",
     useStand: !0,
-    playersOption: [
+    playerOptions: [
       { gameName: "将棋", pieceSet: "御妃将棋" },
       { gameName: "将棋", pieceSet: "御妃将棋2p" }
     ]
@@ -411,7 +411,7 @@ const O = {
     desc: "持ち駒が使用できるチェス。",
     playBoard: "クレージーハウス",
     useStand: !0,
-    playersOption: [
+    playerOptions: [
       { gameName: "チェス", pieceSet: "default" },
       { gameName: "チェス", pieceSet: "2p" }
     ]
@@ -423,7 +423,7 @@ const O = {
     desc: "簡略化されたチェス。",
     playBoard: "チェス6x6",
     useStand: !1,
-    playersOption: [
+    playerOptions: [
       { gameName: "チェス", pieceSet: "default" },
       { gameName: "チェス", pieceSet: "2p" }
     ]
@@ -435,7 +435,7 @@ const O = {
     desc: "マーシャル(エンプレス)、カーディナル(プリンセス)を追加したチェス。",
     playBoard: "チェス10x8",
     useStand: !1,
-    playersOption: [
+    playerOptions: [
       { gameName: "チェス", pieceSet: "カパブランカチェス" },
       { gameName: "チェス", pieceSet: "カパブランカチェス2p" }
     ]
@@ -447,7 +447,7 @@ const O = {
     desc: "カパブランカチェスと同様の駒を使用するが配置が異なる。",
     playBoard: "チェス10x10",
     useStand: !1,
-    playersOption: [
+    playerOptions: [
       { gameName: "チェス", pieceSet: "グランドチェス" },
       { gameName: "チェス", pieceSet: "グランドチェス2p" }
     ]
@@ -459,7 +459,7 @@ const O = {
     desc: "「きりん」と「ぞう」の代わりに「いぬ」(金将)と「ねこ」(銀将)を追加したどうぶつしょうぎ。5656将棋のどうぶつしょうぎ版。",
     playBoard: "ごろごろどうぶつしょうぎ",
     useStand: !0,
-    playersOption: [
+    playerOptions: [
       { gameName: "どうぶつしょうぎ", pieceSet: "default" },
       { gameName: "どうぶつしょうぎ", pieceSet: "default" }
     ]
@@ -471,7 +471,7 @@ const O = {
     desc: "中将棋を遊びやすくするよう考案された将棋の一種。",
     playBoard: "古将棋9x9",
     useStand: !1,
-    playersOption: [
+    playerOptions: [
       { gameName: "将棋", pieceSet: "獅子将棋" },
       { gameName: "将棋", pieceSet: "獅子将棋2p" }
     ]
@@ -483,7 +483,7 @@ const O = {
     desc: "中将棋を遊びやすくするよう考案された将棋の一種。",
     playBoard: "古将棋10x10",
     useStand: !1,
-    playersOption: [
+    playerOptions: [
       { gameName: "将棋", pieceSet: "平成将棋" },
       { gameName: "将棋", pieceSet: "平成将棋2p" }
     ]
@@ -495,7 +495,7 @@ const O = {
     desc: "中将棋の祖先とされる古将棋。",
     playBoard: "古将棋15x15",
     useStand: !1,
-    playersOption: [
+    playerOptions: [
       { gameName: "将棋", pieceSet: "大将棋" },
       { gameName: "将棋", pieceSet: "大将棋2p" }
     ]
@@ -507,7 +507,7 @@ const O = {
     desc: "クーリエチェスの定形移動を行わない配置。",
     playBoard: "チェス12x8",
     useStand: !1,
-    playersOption: [
+    playerOptions: [
       { gameName: "チェス", pieceSet: "クーリエチェス(初期配置)" },
       { gameName: "チェス", pieceSet: "クーリエチェス(初期配置)2p" }
     ]
@@ -519,7 +519,7 @@ const O = {
     desc: "4人用の将棋。",
     playBoard: "将棋",
     useStand: !0,
-    playersOption: [
+    playerOptions: [
       { gameName: "将棋", pieceSet: "p4" },
       { gameName: "将棋", pieceSet: "p4" },
       { gameName: "将棋", pieceSet: "p4" },
@@ -533,7 +533,7 @@ const O = {
     desc: "4人用のチェス。",
     playBoard: "4人チェス",
     useStand: !1,
-    playersOption: [
+    playerOptions: [
       { gameName: "チェス", pieceSet: "p4" },
       { gameName: "チェス", pieceSet: "p4" },
       { gameName: "チェス", pieceSet: "p4" },
@@ -547,7 +547,7 @@ const O = {
     desc: "テレビ用の企画として考案された4人用の将棋。",
     playBoard: "四神将棋",
     useStand: !0,
-    playersOption: [
+    playerOptions: [
       { gameName: "将棋", pieceSet: "p4" },
       { gameName: "将棋", pieceSet: "p4" },
       { gameName: "将棋", pieceSet: "p4" },
@@ -561,7 +561,7 @@ const O = {
     desc: "チャトランガの4人用のバリエーション。ダイスで動かす駒を決めていた。",
     playBoard: "チェス",
     useStand: !1,
-    playersOption: [
+    playerOptions: [
       { gameName: "チャトランガ", pieceSet: "p4" },
       { gameName: "チャトランガ", pieceSet: "p4" },
       { gameName: "チャトランガ", pieceSet: "p4" },
@@ -1885,7 +1885,7 @@ const O = {
       "....XSX>#<XSX...."
     ]
   }
-}, G = {
+}, z = {
   S: {
     name: "将棋",
     text: "　　",
@@ -2029,7 +2029,7 @@ const O = {
     borderColor: "#00000000",
     attr: ["keepOut"]
   }
-}, z = {
+}, U = {
   歩: {
     name: "歩兵",
     display: ["歩兵"],
@@ -4879,17 +4879,13 @@ const de = {
   pieceCost: L("pieceCost")
 };
 function ce(S) {
-  Object.assign(O, S.canvasFont), Object.assign(oe, S.gameSoft), Object.assign(Q, S.games), Object.assign(q, S.boards), Object.assign(G, S.panels), Object.assign(z, S.pieces), Object.assign(ae, S.pieceRange), Object.assign(V, S.pieceCost);
-}
-ce(de);
-function Se(S) {
   return new Promise((e) => {
     const t = new Image();
     t.src = S, t.onload = () => e(t);
   });
 }
-const pe = [...new Set(
-  Object.values(G).flatMap(({ imgSrc: S }) => S ?? []).concat(Object.values(z).flatMap(({ imgSrc: S }) => S != null ? Object.values(S) : []).flat())
+const Se = [...new Set(
+  Object.values(z).flatMap(({ imgSrc: S }) => S ?? []).concat(Object.values(U).flatMap(({ imgSrc: S }) => S != null ? Object.values(S) : []).flat())
 )], Y = {
   /** 読み込み済みであるか? */
   imported: !1,
@@ -4903,14 +4899,14 @@ const pe = [...new Set(
   async importAsync() {
     if (!this.imported)
       return Promise.all(
-        pe.map(async (S) => {
-          this.images[S] = await Se(S);
+        Se.map(async (S) => {
+          this.images[S] = await ce(S);
         })
       ).then((S) => this.imported = !0);
   }
-}, me = (S) => "image/" + S.replace("jpg", "jpeg");
-async function ue(S, e = "image", t = "png", a = "base64") {
-  const i = me(t), s = document.createElement("a");
+}, pe = (S) => "image/" + S.replace("jpg", "jpeg");
+async function me(S, e = "image", t = "png", a = "base64") {
+  const i = pe(t), s = document.createElement("a");
   let n;
   a === "blob" ? n = URL.createObjectURL(
     await new Promise((r) => S.toBlob(r), i)
@@ -4967,7 +4963,7 @@ class C {
    * @retuens {Object<string, Piece>}
    */
   static getPieces(e, t = {}) {
-    const a = new Map(Object.entries(JSON.parse(JSON.stringify(z))));
+    const a = new Map(Object.entries(JSON.parse(JSON.stringify(U))));
     for (const [s, n] of a)
       n.attr ??= [], n.unit && n.unit !== "成" && (n.base = n);
     for (const [s, n] of a) {
@@ -5064,7 +5060,7 @@ class C {
     Object.assign(this, t), this.ctx = e, this.display ??= [""], this.imgSrc ??= null, this.alias = [...this.alias ?? ""], this.displayPtn ??= i, this.game = Q[this.gameName], this.cost = V[this.char] ?? V[this.base.char] ?? 1, this.center = 0, this.middle = 0, this.deg ||= s, this.size ??= n, this.useRankSize ??= r, this.isDrawShadow ??= o, this.isRotateImg ??= !0, this.isMoved = d, this.isSelected = !1, this.attr ??= [];
     try {
       Object.entries(this.range).forEach(([l, c]) => {
-        Array.isArray(c) || (this.range[l] = ae[c].map((p) => [...p]));
+        Array.isArray(c) || (this.range[l] = ae[c].map((m) => [...m]));
       });
     } catch (l) {
       throw console.error(l), t;
@@ -5192,7 +5188,7 @@ class C {
     return C.degChars[this.deg] + a;
   }
 }
-class ge {
+class ue {
   #e;
   #t;
   #a;
@@ -5217,7 +5213,7 @@ class ge {
    * @param {number} borderWidth - 枠線の太さ
    */
   constructor(e, t, a, i, s, n, r, o, d) {
-    Object.assign(this, G[t]), this.ctx = e, this.center = a, this.middle = i, this.width = s, this.height = n, this.left = a - s / 2, this.top = i - n / 2, this.right = a + s / 2, this.bottom = i + n / 2, this.pX = r, this.pY = o, this.borderWidth = d, this.selectColor ??= "#FF000066", this.targetColor ??= "#00FF0066", this.attr ??= [], this.piece = null, this.isSelected = !1, this.clearTarget();
+    Object.assign(this, z[t]), this.ctx = e, this.center = a, this.middle = i, this.width = s, this.height = n, this.left = a - s / 2, this.top = i - n / 2, this.right = a + s / 2, this.bottom = i + n / 2, this.pX = r, this.pY = o, this.borderWidth = d, this.selectColor ??= "#FF000066", this.targetColor ??= "#00FF0066", this.attr ??= [], this.piece = null, this.isSelected = !1, this.clearTarget();
   }
   /** マス目の選択状態
    * @param {boolean} value
@@ -5288,8 +5284,8 @@ class ge {
       e.rotate(l);
       const c = Math.min(this.width, this.height) * 0.6;
       e.font = `${c}px ${O.names}`;
-      const p = e.measureText(o).width, u = c / 2 * 0.8;
-      e.fillText(o, -p / 2, u), e.restore();
+      const m = e.measureText(o).width, u = c / 2 * 0.8;
+      e.fillText(o, -m / 2, u), e.restore();
     }
   }
   /** マス目にマスクを描写
@@ -5307,7 +5303,7 @@ class ge {
     return e ? `｜${this.text.slice(-1).replace(/　/g, "・")}` : this.text;
   }
 }
-const he = [
+const ge = [
   ["default", { isAttack: !1 }],
   ["attack", { isAttack: !0 }],
   ["start", { isAttack: !1 }],
@@ -5315,10 +5311,10 @@ const he = [
   ["enPassant", { isAttack: !0 }],
   ["palaceSlash", { isAttack: !1 }],
   ["palaceSlash", { isAttack: !0 }]
-], fe = [
+], he = [
   ["O", { isOwn: !0 }],
   ["o", {}]
-], Be = [
+], fe = [
   ["o"],
   ["A", { child: ["a"] }],
   ["B", { child: ["b"] }],
@@ -5339,72 +5335,72 @@ const he = [
 ];
 for (let S = 1; S <= 9; S++)
   se.push(["" + S, { moves: S }]);
-function We(S) {
+function Be(S) {
   const e = [];
   let t, a;
   for (let i = 0; i < S.length; i++)
     for (let s = 0; s < S[i].length; s++) {
       const n = S[i][s];
-      for (let [r, { isOwn: o }] of fe)
+      for (let [r, { isOwn: o }] of he)
         n === r && (e.push({ isOwn: o, oX: s, oY: i }), o && ([t, a] = [s, i]));
     }
   return e.map((i) => (i.offsetX = i.oX - t, i.offsetY = i.oY - a, i));
 }
 function $(S, e, t, a) {
   const i = [], { field: s, yLen: n, enPassant: r } = S;
-  function o(m, g) {
-    return s[g] && s[g][m] && !s[g][m].hasAttr("keepOut");
+  function o(p, g) {
+    return s[g] && s[g][p] && !s[g][p].hasAttr("keepOut");
   }
-  function d(m) {
-    return m.piece && e.hasAttr("po") && m.piece.hasAttr("po");
+  function d(p) {
+    return p.piece && e.hasAttr("po") && p.piece.hasAttr("po");
   }
-  function l(m) {
-    return m.piece && !e.isMoved && !m.piece.isMoved && e.hasAttr("pao") && e.cost < m.piece.cost;
+  function l(p) {
+    return p.piece && !e.isMoved && !p.piece.isMoved && e.hasAttr("pao") && e.cost < p.piece.cost;
   }
-  function c(m, g, B, W = "", w = !0) {
+  function c(p, g, B, W = "", w = !0) {
     if (!s[B] || !s[B][g]) return !1;
     const k = s[B][g];
-    return !k || d(k) || l(k) || W === "enPassant" && !r.isTarget(k, e) || e.hasAttr("inPalace") && !k.hasAttr("palace") || W.indexOf("palace") === 0 && !(k.hasAttr(W) && s[a][t].hasAttr(W)) || e.hasAttr("unCrossRiver") && n - (0 | n / 2) <= S.getRow(g, B, e.deg) ? !1 : m ? s[B][g].piece ? w ? e.deg !== s[B][g].piece.deg : !0 : !1 : !s[B][g].piece;
+    return !k || d(k) || l(k) || W === "enPassant" && !r.isTarget(k, e) || e.hasAttr("inPalace") && !k.hasAttr("palace") || W.indexOf("palace") === 0 && !(k.hasAttr(W) && s[a][t].hasAttr(W)) || e.hasAttr("unCrossRiver") && n - (0 | n / 2) <= S.getRow(g, B, e.deg) ? !1 : p ? s[B][g].piece ? w ? e.deg !== s[B][g].piece.deg : !0 : !1 : !s[B][g].piece;
   }
-  function p(m, g, B, W, w) {
+  function m(p, g, B, W, w) {
     for (const k of g)
-      for (let N = 0; N < m.length; N++)
-        for (let x = 0; x < m[N].length; x++) {
+      for (let N = 0; N < p.length; N++)
+        for (let x = 0; x < p[N].length; x++) {
           const [E, b] = [x + t - W, N + a - w];
-          if (!(!o(E, b) || c(B, 0 | E, 0 | b, "", !1) || m[N][x] !== k))
+          if (!(!o(E, b) || c(B, 0 | E, 0 | b, "", !1) || p[N][x] !== k))
             return !0;
         }
     return !1;
   }
-  function u(m, g, B) {
+  function u(p, g, B) {
     const W = s[B][g];
-    W.addTarget(m), r.setTarget(W, e), i.push(W);
+    W.addTarget(p), r.setTarget(W, e), i.push(W);
   }
-  function h(m, [g, { isAttack: B }], { oX: W, oY: w, isOwn: k }) {
+  function h(p, [g, { isAttack: B }], { oX: W, oY: w, isOwn: k }) {
     if (k)
-      for (const [N, { child: x = [] } = {}] of Be)
-        for (let E = 0; E < m.length; E++)
-          for (let b = 0; b < m[E].length; b++) {
+      for (const [N, { child: x = [] } = {}] of fe)
+        for (let E = 0; E < p.length; E++)
+          for (let b = 0; b < p[E].length; b++) {
             const [v, R] = [b + t - W, E + a - w];
-            !o(v, R) || !c(B, v, R, g) || m[E][b] !== N || p(m, x, !1, W, w) || u(g, v, R);
+            !o(v, R) || !c(B, v, R, g) || p[E][b] !== N || m(p, x, !1, W, w) || u(g, v, R);
           }
   }
-  function y(m, [g, { isAttack: B }], { oX: W, oY: w, isOwn: k, offsetX: N, offsetY: x }) {
+  function A(p, [g, { isAttack: B }], { oX: W, oY: w, isOwn: k, offsetX: N, offsetY: x }) {
     if (!(!k && !c(!1, t + N, a + x)))
       for (const [E, { jmps: b = 0, moves: v = 0 } = {}] of se) {
         const R = !v || v === 0;
         for (let j = w - 1; j <= w + 1; j++)
           for (let P = W - 1; P <= W + 1; P++) {
-            if (m[j][P] !== E || P === W && j === w) continue;
+            if (p[j][P] !== E || P === W && j === w) continue;
             let I = b || 0, f = v || 0;
             const [X, T] = [P - W, j - w];
             for (let F = t, D = a; ; ) {
               F += X, D += T;
-              const M = F + N, H = D + x;
-              if (!o(M, H) || !R && f === 0) break;
+              const M = F + N, G = D + x;
+              if (!o(M, G) || !R && f === 0) break;
               const K = I === 0;
-              K && c(B, M, H, g, K) ? (f--, u(g, M, H)) : b < 1 && f--;
-              const ee = s[H][M];
+              K && c(B, M, G, g, K) ? (f--, u(g, M, G)) : b < 1 && f--;
+              const ee = s[G][M];
               if (ee.piece && (I--, K || d(ee)))
                 break;
             }
@@ -5412,79 +5408,76 @@ function $(S, e, t, a) {
       }
   }
   return (function() {
-    const m = e.getRange();
-    m.attack ??= m.default;
-    for (const g of he) {
+    const p = e.getRange();
+    p.attack ??= p.default;
+    for (const g of ge) {
       const B = g[0];
       if (e.isMoved && ["start", "castling"].includes(B)) continue;
-      const W = m[B];
+      const W = p[B];
       if (W)
-        for (const w of We(W))
-          h(W, g, w), y(W, g, w);
+        for (const w of Be(W))
+          h(W, g, w), A(W, g, w);
     }
   })(), i;
 }
 function ie(S, e) {
-  let t = null;
-  if (S.field.forEach((a) => {
-    a.forEach((i) => {
-      i.piece && i.piece.deg === e && i.piece.cost <= 0 && (t = i);
-    });
-  }), !t) return !1;
-  for (let a = 0; a < S.yLen; a++)
-    for (let i = 0; i < S.xLen; i++) {
-      const s = S.field[a][i];
-      if (s.piece && s.piece.deg !== e && $(S, s.piece, s.pX, s.pY).some((r) => r.pX === t.pX && r.pY === t.pY))
-        return !0;
+  let t = S.field.flat().filter(
+    (i) => i.piece?.deg === e && i.piece.hasAttr("king")
+  );
+  if (t.length !== 1) return !1;
+  const a = t[0];
+  for (const i of S.field)
+    for (const s of i) {
+      if (!s.piece || s.piece.deg === e) continue;
+      if ($(S, s.piece, s.pX, s.pY).some(
+        ({ pX: r, pY: o }) => r === a.pX && o === a.pY
+      )) return !0;
     }
   return !1;
 }
 function ne(S, e) {
-  for (let t = 0; t < S.yLen; t++)
-    for (let a = 0; a < S.xLen; a++) {
-      const i = S.field[t][a];
-      if (i.piece && i.piece.deg === e) {
-        const s = $(S, i.piece, i.pX, i.pY);
-        for (const n of s) {
-          const r = S.clone();
-          r.isHeadless = !0;
-          const o = r.field[i.pY][i.pX], d = r.field[n.pY][n.pX], l = o.piece;
-          if (d.piece, d.piece = l, o.piece = null, r.checkCanPromo(d).canPromo && l.promo && l.promotion(Object.keys(l.promo)[0]), !ie(r, e))
-            return !0;
-        }
+  const t = S.clone();
+  t.isHeadless = !0, t.onGameOver = null;
+  for (const a of t.field)
+    for (const i of a) {
+      if (!i.piece || i.piece.deg !== e) continue;
+      const s = $(t, i.piece, i.pX, i.pY);
+      for (const n of s) {
+        if (t.movePiece(i, n, !0), !ie(t, e)) return !0;
+        t.undoRecord();
       }
     }
   return !1;
 }
-function ye(S, e) {
+function We(S, e) {
   return ie(S, e) && !ne(S, e);
 }
 function Ae(S) {
   let e = !1, t = [], a = null, i = null;
-  const { canvas: s } = S, n = (l, c, p = () => {
+  const { canvas: s } = S, n = (l, c, m = () => {
   }) => {
     const u = window.getComputedStyle(s), h = l.target.getBoundingClientRect();
-    let y = s.width / parseFloat(u.width), m = s.height / parseFloat(u.height);
+    let A = s.width / parseFloat(u.width), p = s.height / parseFloat(u.height);
     if (l.clientX)
-      y *= l.clientX - h.left, m *= l.clientY - h.top;
+      A *= l.clientX - h.left, p *= l.clientY - h.top;
     else if (0 < l.touches.length) {
       if (1 < l.touches.length) return;
-      y *= l.touches[0].clientX - h.left, m *= l.touches[0].clientY - h.top;
+      A *= l.touches[0].clientX - h.left, p *= l.touches[0].clientY - h.top;
     } else
-      l.preventDefault(), [y, m] = t;
-    S.field.forEach((g, B) => g.forEach((W, w) => c(W, y, m, w, B))), p(y, m), S.draw(), t = [y, m];
+      l.preventDefault(), [A, p] = t;
+    S.field.forEach((g, B) => g.forEach((W, w) => c(W, A, p, w, B))), m(A, p), S.draw(), t = [A, p];
   }, r = (l) => {
     e = !0, n(
       l,
-      (c, p, u) => {
-        const { piece: h, pX: y, pY: m } = c;
-        h && c.checkRangeMouse(p, u) && (l.preventDefault(), h.isSelected = !0, a = c, $(S, h, y, m));
+      (c, m, u) => {
+        const { piece: h, pX: A, pY: p } = c;
+        h && c.checkRangeMouse(m, u) && (l.preventDefault(), h.isSelected = !0, a = c, $(S, h, A, p));
       },
-      (c, p) => {
+      (c, m) => {
         for (const [u, h] of S.stand.stocks)
-          for (let y = h.length - 1; 0 <= y; y--)
-            if (h[y].checkRangeMouse(c, p)) {
-              l.preventDefault(), h[y].isSelected = !0, i = { deg: u, i: y };
+          for (let A = h.length - 1; 0 <= A; A--)
+            if (h[A].checkRangeMouse(c, m)) {
+              l.preventDefault(), h[A].isSelected = !0, i = { deg: u, i: A };
               return;
             }
       }
@@ -5492,15 +5485,15 @@ function Ae(S) {
   }, o = (l) => {
     !e || !(a || i) || n(
       l,
-      (c, p, u) => {
-        c.isSelected = c.checkRangeMouse(p, u);
+      (c, m, u) => {
+        c.isSelected = c.checkRangeMouse(m, u);
       }
     );
   }, d = (l) => {
     e = !1, n(
       l,
-      (c, p, u) => {
-        c.checkRangeMouse(p, u) && (a && S.movePiece(a, c), i && !c.piece && S.stand.releasePiece(c, i));
+      (c, m, u) => {
+        c.checkRangeMouse(m, u) && (a && S.movePiece(a, c), i && !c.piece && S.stand.releasePiece(c, i));
       }
     ), n(
       l,
@@ -5508,9 +5501,9 @@ function Ae(S) {
         c.piece && (c.piece.isSelected = !1), c.isSelected = !1, c.clearTarget();
       },
       () => {
-        for (const [c, p] of S.stand.stocks)
-          for (let u = p.length - 1; 0 <= u; u--)
-            p[u].isSelected = !1;
+        for (const [c, m] of S.stand.stocks)
+          for (let u = m.length - 1; 0 <= u; u--)
+            m[u].isSelected = !1;
         a = null, i = null;
       }
     );
@@ -5521,6 +5514,57 @@ function Ae(S) {
       s.removeEventListener("mousedown", r), s.removeEventListener("mousemove", o), s.removeEventListener("mouseup", d), s.removeEventListener("touchstart", r), s.removeEventListener("touchmove", o), s.removeEventListener("touchend", d);
     }
   };
+}
+class re {
+  /** @typedef {Object} PlayerControl */
+  static buttonTexts = "<>🔄🔁📷";
+  /** 要素のサイズをCanvasに合わせて変更 */
+  #e() {
+    const { canvas: e } = this.board, t = window.getComputedStyle(e);
+    this.component.style.maxWidth = parseFloat(t.width) + "px";
+  }
+  /**
+   * @param {Board} board ボード
+   * @param {string[]} compList 表示するコントロールの一覧
+   */
+  constructor(e, t) {
+    this.board = e;
+    const a = /* @__PURE__ */ new Map([
+      ["undoRecord", { title: "一手戻る", text: "&lt;&lt;", onclick: () => e.undoRecord() }],
+      ["redoRecord", { title: "一手進む", text: "&gt;&gt;", onclick: () => e.redoRecord() }],
+      ["rotateLeft", { title: "盤面を左回転", text: "🔄", onclick: () => e.rotate(!1) }],
+      ["rotateRight", { title: "盤面を右回転", text: "🔁", onclick: () => e.rotate() }],
+      ["downloadImage", { title: "画像を保存", text: "📷", onclick: () => e.downloadImage() }]
+    ]);
+    t ??= [...a.keys(), "textRecord"];
+    const i = Date.now().toString();
+    this.component = document.createElement("div"), this.component.id = i, this.component.style.display = "flex", this.#e(), window.addEventListener("resize", () => this.#e()), this.component.innerHTML = `${[...a].filter(([n]) => t.includes(n)).map(
+      ([n, { title: r, text: o }]) => `<button id="${n}${i}" title="${r}" style="font-family:${O.names};">${o}</button>`
+    ).join("")}${t.includes("textRecord") ? `<select id="textRecord${i}" style="flex-grow:1; font-family:${O.names};"><option></option></select>` : ""}`;
+    for (const [n, { onclick: r }] of a)
+      t.includes(n) && (this.component.querySelector(`#${n}${i}`).onclick = r);
+    if (!t.includes("textRecord")) return;
+    const s = e.onDrawed ?? (() => {
+    });
+    e.onDrawed = async (n) => {
+      setTimeout(() => {
+        const r = this.component.querySelector(`#textRecord${i}`), o = r.querySelector("option"), d = r.cloneNode(!1);
+        n.record.forEach((l, c) => {
+          const m = o.cloneNode(!1);
+          m.textContent = e.record2String(l, c), c === n.turn && (m.selected = !0), d.appendChild(m);
+        }), d.onchange = (l) => e.moveRecord(l.target.selectedIndex), r.replaceWith(d);
+      }), s(n);
+    };
+  }
+  /** 操作パネルを追加 */
+  add() {
+    const { canvas: e } = this.board;
+    e.after(this.component);
+  }
+  /** 操作パネルを破棄 */
+  remove() {
+    this.component.remove(), window.removeEventListener("resize", () => this.#e);
+  }
 }
 class _ {
   /** 駒台への角度ごとの表示順
@@ -5579,14 +5623,14 @@ class _ {
   /** 盤を描写 */
   draw() {
     const { board: e, left: t, top: a, width: i, height: s, pitchWidth: n, pitchHeight: r } = this, { ctx: o, xLen: d, yLen: l } = e;
-    o.fillStyle = e.backgroundColor, o.strokeStyle = e.borderColor, o.lineWidth = e.borderWidth, o.save(), o.translate(t, a), o.fillRect(0, 0, i, s), o.strokeRect(0, 0, i, s), o.restore(), [...this.stocks.values()].forEach((c, p) => {
+    o.fillStyle = e.backgroundColor, o.strokeStyle = e.borderColor, o.lineWidth = e.borderWidth, o.save(), o.translate(t, a), o.fillRect(0, 0, i, s), o.strokeRect(0, 0, i, s), o.restore(), [...this.stocks.values()].forEach((c, m) => {
       let u = 0;
       c = c.slice(-l / 4 * d);
-      for (let h = 0 | l / 4 * p; h < l / 4 * (p + 1); h++)
-        for (let y = 0; y < d; y++) {
-          const m = t + n * (y + 1), g = a + r * (h + 1), B = c[u++];
+      for (let h = 0 | l / 4 * m; h < l / 4 * (m + 1); h++)
+        for (let A = 0; A < d; A++) {
+          const p = t + n * (A + 1), g = a + r * (h + 1), B = c[u++];
           if (B == null) break;
-          B.center = m, B.middle = g, B.draw();
+          B.center = p, B.middle = g, B.draw();
         }
     });
   }
@@ -5608,13 +5652,13 @@ ${r}持駒：${r}`);
     return s + n;
   }
 }
-const Ce = Object.keys(C.degChars), te = () => ({
+const ye = Object.keys(C.degChars), te = () => ({
   panel: null,
   piece: null
 });
-class we {
+class Ce {
   constructor() {
-    this.degs = {}, Ce.forEach((e) => this.degs[e] = te());
+    this.degs = {}, ye.forEach((e) => this.degs[e] = te());
   }
   /** アンパッサン情報をクリア
    * @param {number} deg - アンパッサンされうる陣営の角度
@@ -5645,7 +5689,7 @@ class we {
     return !e || !e.piece ? !0 : e.piece.hasAttr("enPassant") ? e.piece === this.degs[e.piece.deg].piece : !1;
   }
 }
-class A {
+class y {
   /** 角度から駒の文字表示
    * @type {Map<number, string>}
    */
@@ -5659,13 +5703,13 @@ class A {
    * @type {Map<number, string>}
    */
   static #t = new Map(
-    [...A.#e].map(([e, t]) => [e, new RegExp(t, "g")])
+    [...y.#e].map(([e, t]) => [e, new RegExp(t, "g")])
   );
   /** 駒の文字から角度表示
    * @type {Map<string, number>}
    */
   static #a = new Map(
-    [...A.#e].map(([e, t]) => [t, e])
+    [...y.#e].map(([e, t]) => [t, e])
   );
   /** 角度から持駒の表題表示
    * @type {Map<number, string>}
@@ -5680,7 +5724,7 @@ class A {
    * @type {Map<string, number>}
    */
   static #n = new Map(
-    [...A.#s].map(([e, t]) => [t, e])
+    [...y.#s].map(([e, t]) => [t, e])
   );
   static #r = ["", "一", "二", "三", "四", "五", "六", "七", "八", "九"];
   static #i = ["", "十", "二十", "三十", "四十", "五十", "六十", "七十", "八十", "九十"];
@@ -5692,7 +5736,7 @@ class A {
   static #l(e, t = !0) {
     if (!t && e <= 1) return "";
     const a = e % 10, i = 0 | e / 10;
-    return A.#i[i] + A.#r[a];
+    return y.#i[i] + y.#r[a];
   }
   /** 行/持駒用の数字表示(漢数字)
    * @param {string} kan - 漢数字
@@ -5702,11 +5746,11 @@ class A {
   static #d(e, t = !0) {
     if (t && e === "") return 1;
     if (!isNaN(e)) return 0 | e;
-    let a = A.#i.findIndex(
+    let a = y.#i.findIndex(
       (s) => s !== "" && new RegExp("^" + s).test(e)
     );
     a < 0 && (a = 0);
-    let i = A.#r.findIndex(
+    let i = y.#r.findIndex(
       (s) => s !== "" && new RegExp(s + "$").test(e)
     );
     return i < 0 && (i = 0), a * 10 + i;
@@ -5729,7 +5773,7 @@ class A {
    * @returns {string}
    */
   static #p(e) {
-    return e ? A.#e.get(e.deg) + e.char : A.#S;
+    return e ? y.#e.get(e.deg) + e.char : y.#S;
   }
   /** 駒台のBOD表記
    * @param {Stand} stand - 駒台
@@ -5740,8 +5784,8 @@ class A {
     const a = /* @__PURE__ */ new Map();
     return e.stocks.get(t).forEach(({ char: i }) => {
       a.has(i) || a.set(i, 0), a.set(i, a.get(i) + 1);
-    }), A.#s.get(t) + "：" + [...a].map(
-      ([i, s]) => i + A.#l(s, !1)
+    }), y.#s.get(t) + "：" + [...a].map(
+      ([i, s]) => i + y.#l(s, !1)
     ).join(" ");
   }
   /** BOD形式のテキストをボードで扱えるよう変換
@@ -5751,20 +5795,20 @@ class A {
   static convTextPieces(e) {
     const t = [], a = [];
     e.split(/\r|\n|\r\n/).forEach((n) => {
-      [...A.#n.keys()].some((r) => new RegExp(`^${r}`).test(n)) ? a.push(n) : t.push(n.slice(1));
+      [...y.#n.keys()].some((r) => new RegExp(`^${r}`).test(n)) ? a.push(n) : t.push(n.slice(1));
     });
     let i = t.slice(2, -1).join(`
 `);
-    A.#t.forEach((n, r) => {
+    y.#t.forEach((n, r) => {
       i = i.replace(n, C.degChars[r]);
     });
     const s = a.flatMap((n) => {
       const [r, o] = n.split(/：/);
       if (o === "") return "";
-      const d = A.#n.get(r), l = C.degChars[d];
-      return o.split(/\s/).map((p) => {
-        const u = p[0], h = p.slice(1);
-        return (l + u).repeat(A.#d(h));
+      const d = y.#n.get(r), l = C.degChars[d];
+      return o.split(/\s/).map((m) => {
+        const u = m[0], h = m.slice(1);
+        return (l + u).repeat(y.#d(h));
       });
     }).join("");
     return `${i}
@@ -5774,221 +5818,21 @@ ${s}`;
    * @returns {string}
    */
   static getTextPieces(e) {
-    const { field: t, xLen: a, players: i, stand: s } = e;
-    let n = ` ${[...Array(a).keys()].map((u) => ` ${A.#c(a - u)}`).join("")}
+    const { field: t, xLen: a, playerLen: i, stand: s } = e;
+    let n = ` ${[...Array(a).keys()].map((u) => ` ${y.#c(a - u)}`).join("")}
 +${Array(a).fill("---").join("")}+
 `, r = `
 +${Array(a).fill("---").join("")}+`, o = "|", d = "", l = `
-`, c = `${A.#o(s, 180)}
-`, p = `${A.#o(s, 0)}`;
-    return i !== 2 && (c = `${A.#o(s, 270)}
-` + c, p = `${A.#o(s, 90)}
-` + p), c + n + t.map(
+`, c = `${y.#o(s, 180)}
+`, m = `${y.#o(s, 0)}`;
+    return i !== 2 && (c = `${y.#o(s, 270)}
+` + c, m = `${y.#o(s, 90)}
+` + m), c + n + t.map(
       (u, h) => o + u.map(
-        (y) => A.#p(y.piece)
-      ).join(d) + o + A.#l(h + 1)
+        (A) => y.#p(A.piece)
+      ).join(d) + o + y.#l(h + 1)
     ).join(l) + r + `
-` + p;
-  }
-}
-class U {
-  /**
-   * @param {Board} board - 対象のボード
-   * @param {string} playerId - プレイヤーID
-   */
-  constructor(e, t) {
-    this.board = e, this.playerId = t;
-  }
-  /** 手番操作 */
-  playTurn() {
-  }
-  /**
-   * 盤面を評価します。
-   * @param {Board} board - 評価対象の盤面
-   * @param {number} playerDeg - 評価するプレイヤーの角度
-   * @returns {number} 盤面の評価値
-   */
-  evaluate(e, t) {
-    let i = 0, s = 0;
-    return e.field.forEach((n) => {
-      n.forEach((r) => {
-        if (r.piece) {
-          const d = r.piece.cost <= 0 ? 1e4 : r.piece.cost;
-          r.piece.deg === t ? i += d : s += d;
-        }
-      });
-    }), e.stand.stocks.forEach((n, r) => {
-      const o = n.reduce((d, l) => d + l.cost, 0);
-      r === t ? i += o : s += o;
-    }), i - s;
-  }
-}
-const J = {};
-J.random = class extends U {
-  playTurn() {
-    const { board: e, playerId: t } = this, a = e.degNormal(t), i = [];
-    e.field.forEach((n) => {
-      n.forEach((r) => {
-        if (r.piece && r.piece.deg === a) {
-          const o = r, d = $(e, o.piece, o.pX, o.pY);
-          d.length > 0 && i.push({ from: o, tos: d });
-        }
-      });
-    });
-    const s = [];
-    if (i.forEach(({ from: n, tos: r }) => {
-      r.forEach((o) => {
-        s.push({ from: n, to: o });
-      });
-    }), s.length > 0) {
-      const n = s[Math.floor(Math.random() * s.length)];
-      e.movePiece(n.from, n.to, !0), console.log(`CPU(Random): (${n.from.pX}, ${n.from.pY}) から (${n.to.pX}, ${n.to.pY}) へ移動`);
-    } else
-      console.log("CPU(Random): 指し手がありません。");
-  }
-};
-J.greedy = class extends U {
-  /**
-   * 手番を処理します。
-   */
-  playTurn() {
-    const { board: e, playerId: t } = this, a = e.degNormal(t), i = [];
-    e.field.forEach((o) => {
-      o.forEach((d) => {
-        if (d.piece && d.piece.deg === a) {
-          const l = d, c = $(e, l.piece, l.pX, l.pY);
-          c.length > 0 && i.push({ from: l, tos: c });
-        }
-      });
-    });
-    const s = [];
-    if (i.forEach(({ from: o, tos: d }) => {
-      d.forEach((l) => {
-        s.push({ from: o, to: l });
-      });
-    }), s.length === 0) {
-      console.log("CPU(Greedy): 指し手がありません。");
-      return;
-    }
-    let n = null, r = -1 / 0;
-    s.forEach((o) => {
-      const d = e.clone();
-      d.isHeadless = !0;
-      const l = d.field[o.from.pY][o.from.pX], c = d.field[o.to.pY][o.to.pX];
-      d.movePiece(l, c);
-      const p = this.evaluate(d, a);
-      p > r && (r = p, n = o);
-    }), n ? (e.movePiece(n.from, n.to, !0), console.log(`CPU(Greedy): (${n.from.pX}, ${n.from.pY}) から (${n.to.pX}, ${n.to.pY}) へ移動 (評価値: ${r})`)) : console.log("CPU(Greedy): 最善手が見つかりませんでした。");
-  }
-};
-J.minimax = class extends U {
-  constructor(e, t) {
-    super(e, t), this.searchDepth = 3;
-  }
-  /**
-   * ミニマックス法（アルファベータ枝刈り付き）を実行します。
-   * @param {Board} board - 現在の盤面
-   * @param {number} depth - 残りの探索深さ
-   * @param {number} alpha - アルファ値
-   * @param {number} beta - ベータ値
-   * @param {boolean} isMaximizingPlayer - 現在のプレイヤーが最大化プレイヤーかどうか
-   * @returns {number} 評価値
-   */
-  minimax(e, t, a, i, s) {
-    const n = s ? e.degNormal(this.playerId) : e.degNormal(this.playerId + 180);
-    if (t === 0)
-      return this.evaluate(e, n);
-    if (ye(e, n))
-      return s ? -1 / 0 : 1 / 0;
-    if (!ne(e, n))
-      return 0;
-    const r = [];
-    e.field.forEach((d) => {
-      d.forEach((l) => {
-        if (l.piece && l.piece.deg === n) {
-          const c = l, p = $(e, c.piece, c.pX, c.pY);
-          p.length > 0 && r.push({ from: c, tos: p });
-        }
-      });
-    });
-    const o = [];
-    if (r.forEach(({ from: d, tos: l }) => {
-      l.forEach((c) => {
-        o.push({ from: d, to: c });
-      });
-    }), s) {
-      let d = -1 / 0;
-      for (const l of o) {
-        const c = e.clone();
-        c.isHeadless = !0;
-        const p = c.field[l.from.pY][l.from.pX], u = c.field[l.to.pY][l.to.pX];
-        c.movePiece(p, u);
-        const h = this.minimax(c, t - 1, a, i, !1);
-        if (d = Math.max(d, h), a = Math.max(a, h), i <= a)
-          break;
-      }
-      return d;
-    } else {
-      let d = 1 / 0;
-      for (const l of o) {
-        const c = e.clone();
-        c.isHeadless = !0;
-        const p = c.field[l.from.pY][l.from.pX], u = c.field[l.to.pY][l.to.pX];
-        c.movePiece(p, u);
-        const h = this.minimax(c, t - 1, a, i, !0);
-        if (d = Math.min(d, h), i = Math.min(i, h), i <= a)
-          break;
-      }
-      return d;
-    }
-  }
-  /**
-   * 手番を処理します。
-   */
-  playTurn() {
-    const { board: e, playerId: t } = this, a = e.degNormal(t);
-    let i = null, s = -1 / 0;
-    const n = [];
-    e.field.forEach((o) => {
-      o.forEach((d) => {
-        if (d.piece && d.piece.deg === a) {
-          const l = d, c = $(e, l.piece, l.pX, l.pY);
-          c.length > 0 && n.push({ from: l, tos: c });
-        }
-      });
-    });
-    const r = [];
-    if (n.forEach(({ from: o, tos: d }) => {
-      d.forEach((l) => {
-        r.push({ from: o, to: l });
-      });
-    }), r.length === 0) {
-      console.log("CPU(Minimax): 指し手がありません。");
-      return;
-    }
-    for (const o of r) {
-      const d = e.clone();
-      d.isHeadless = !0;
-      const l = d.field[o.from.pY][o.from.pX], c = d.field[o.to.pY][o.to.pX];
-      d.movePiece(l, c);
-      const p = this.minimax(d, this.searchDepth - 1, -1 / 0, 1 / 0, !1);
-      p > s ? (s = p, i = o) : p === s && Math.random() < 0.5 && (i = o);
-    }
-    i ? (e.movePiece(i.from, i.to, !0), console.log(`CPU(Minimax): (${i.from.pX}, ${i.from.pY}) から (${i.to.pX}, ${i.to.pY}) へ移動 (評価値: ${s})`)) : console.log("CPU(Minimax): 最善手が見つかりませんでした。");
-  }
-};
-class xe {
-  /**
-   * @param {Board} board - 対象のボード
-   * @param {string} playerId - プレイヤーID
-   * @param {string} engineName - エンジン名
-   */
-  constructor(e, t, a) {
-    if (this.engine = a == null ? new U(e, t) : new J[a](e, t), !this.engine) throw new Error(`Engine "${a}" not found.`);
-  }
-  /** 手番操作 */
-  playTurn() {
-    this.engine.playTurn();
+` + m;
   }
 }
 class Z {
@@ -6034,16 +5878,16 @@ class Z {
       players: d = o.some(({ gameName: f }, X) => 1 < X && f) ? 4 : 2,
       useStand: l = !1,
       canvasWidth: c = void 0,
-      canvasHeight: p = void 0,
+      canvasHeight: m = void 0,
       canvasFit: u = "overflow",
       boardLeft: h = 5,
-      boardTop: y = 5,
-      panelWidth: m = 50,
-      panelHeight: g = 0 | m * 1.1,
-      pieceSize: B = 0 | m * 0.9,
+      boardTop: A = 5,
+      panelWidth: p = 50,
+      panelHeight: g = 0 | p * 1.1,
+      pieceSize: B = 0 | p * 0.9,
       useRankSize: W = !0,
       isDrawShadow: w = !0,
-      borderWidth: k = Math.min(m, g) / 30,
+      borderWidth: k = Math.min(p, g) / 30,
       backgroundColor: N = "#00000000",
       isHeadless: x = !1,
       autoDrawing: E = !x,
@@ -6060,27 +5904,27 @@ class Z {
       isDrawShadow: w
     }), !q[r]) throw Error(`playBoard=${r}, Unknown board name.`);
     if (Object.assign(this, q[r]), ![2, 4].includes(d)) throw Error(`players=${d}, players need 2 or 4.`);
-    if (this.players = d, this.left = h, this.top = y, this.panelWidth = m, this.panelHeight = g, this.borderWidth = k, this.pieceSize = B, this.canvasBackgroundColor = N, this.field = this.field.map(
+    if (this.players = d, this.left = h, this.top = A, this.panelWidth = p, this.panelHeight = g, this.borderWidth = k, this.pieceSize = B, this.canvasBackgroundColor = N, this.field = this.field.map(
       (f, X) => [...f].map((T, F) => {
-        const D = h + m * (F + 1), M = y + g * (X + 1);
-        return new ge(this.ctx, T, D, M, m, g, F, X, k);
+        const D = h + p * (F + 1), M = A + g * (X + 1);
+        return new ue(this.ctx, T, D, M, p, g, F, X, k);
       })
     ), this.xLen = this.field[0].length, this.yLen = this.field.length, this.cpuEngines = [], o.forEach((f, X) => {
       const { gameName: T, pieceSet: F, cpuEngine: D } = f;
-      if (this.cpuEngines.push(new xe(this, X, D)), !!T)
+      if (this.cpuEngines.push(new we(this, X, D)), !!T)
         try {
           this.putStartPieces(X, T, F);
         } catch (M) {
           console.error(M);
         }
-    }), this.width = this.panelWidth * (this.xLen + 1), this.height = this.panelHeight * (this.yLen + 1), this.right = h + this.width, this.bottom = y + this.height, this.stand = new _(this), !x) {
-      e.width = c ?? (l ? this.stand.right : this.right) + 5, e.height = p ?? this.bottom + 5;
+    }), this.width = this.panelWidth * (this.xLen + 1), this.height = this.panelHeight * (this.yLen + 1), this.right = h + this.width, this.bottom = A + this.height, this.stand = new _(this), !x) {
+      e.width = c ?? (l ? this.stand.right : this.right) + 5, e.height = m ?? this.bottom + 5;
       const { style: f } = e;
       u === "overflow" ? (f.maxWidth === "" && (f.maxWidth = "97vw"), f.maxHeight === "" && (f.maxHeight = "92vh")) : u === "horizontal" ? f.width === "" && (f.width = "97vw") : u === "vertical" ? f.height === "" && (f.height = "92vh") : u === "parentOverflow" ? (f.maxWidth === "" && (f.maxWidth = "100%"), f.maxHeight === "" && (f.maxHeight = "100%")) : u === "parentHorizontal" ? f.width === "" && (f.width = "100%") : u === "parentVertical" && f.height === "" && (f.height = "100%");
     }
     this.autoDrawing = E, E && (P.then(() => this.draw()), I.then(() => this.draw()), this.draw()), this.onDrawed = R, this.onGameOver = j, this.gameAlives = new Map(
       [...Array(this.players).keys()].map((f) => [this.degNormal(f), !0])
-    ), this.moveMode = b, this.record = [], this.turn = 0, x || (this.#e = Ae(this)), v && (this.#t = this.makePlayerControl(), this.#t.add()), this.enPassant = new we();
+    ), this.moveMode = b, this.record = [], this.turn = 0, x || (this.#e = Ae(this)), v && (this.#t = this.makePlayerControl(), this.#t.add()), this.enPassant = new Ce();
   }
   /** 操作パネルを構築
    * @param {string[]} compList - 表示するコントロールの一覧
@@ -6171,7 +6015,7 @@ class Z {
    */
   setTextPieces(e) {
     const { field: t, pieces: a, xLen: i, yLen: s } = this, n = "持駒：";
-    0 < e.indexOf(n) && (e = A.convTextPieces(e));
+    0 < e.indexOf(n) && (e = y.convTextPieces(e));
     const o = [e].concat(
       [..."┏━┯┓┗┷┛┃│┠─┼┨―"],
       Object.values(C.degChars).map((l) => `
@@ -6185,8 +6029,8 @@ class Z {
     for (let l = 0; l < s; l++)
       for (let c = 0; c < i; c++)
         try {
-          const p = o[l][c];
-          t[l][c].piece = C.stringToPiece(a, p);
+          const m = o[l][c];
+          t[l][c].piece = C.stringToPiece(a, m);
         } catch {
           t[l][c].piece = null;
         }
@@ -6375,7 +6219,7 @@ ${o}:${d}`)) {
   record2String(e, t, a = !1) {
     const { to: i, from: s, deg: n, pieceChar: r, end: o } = e;
     if (t === 0) return "0: 開始局面";
-    const d = ({ pX: p }) => (this.xLen - p).toString(a ? 10 : 36), l = ({ pY: p }) => (p + 1).toString(a ? 10 : 36), c = a ? "," : "";
+    const d = ({ pX: m }) => (this.xLen - m).toString(a ? 10 : 36), l = ({ pY: m }) => (m + 1).toString(a ? 10 : 36), c = a ? "," : "";
     return `${t}: ${C.degChars[n]}${d(i)}${c}${l(i)}${r}${o}${s.pX === void 0 ? "" : ` (${d(s)}${c}${l(s)})`}`;
   }
   /** 表示用の棋譜を取得
@@ -6419,7 +6263,7 @@ ${o}:${d}`)) {
    * @returns {string}
    */
   getTextPieces(e = "default", t = !1) {
-    return e === "bod" ? A.getTextPieces(this) : this.toString(e === "compact", t);
+    return e === "bod" ? y.getTextPieces(this) : this.toString(e === "compact", t);
   }
   /** 棋譜コメントを取得
    * @param {number} shiftTurn - ずらす手数
@@ -6452,7 +6296,7 @@ ${o}:${d}`)) {
    * @returns {Promise<void>}
    */
   async downloadImage(e, t, a) {
-    await ue(this.canvas, e ?? this.name ?? "shogicross", t, a);
+    await me(this.canvas, e ?? this.name ?? "shogicross", t, a);
   }
   /** 盤面をクローン
    * @returns {Board}
@@ -6471,60 +6315,206 @@ ${o}:${d}`)) {
     return t.turn = this.turn, t.record = JSON.parse(JSON.stringify(this.record)), t;
   }
 }
-class re {
-  /** @typedef {Object} PlayerControl */
-  static buttonTexts = "<>🔄🔁📷";
-  /** 要素のサイズをCanvasに合わせて変更 */
-  #e() {
-    const { canvas: e } = this.board, t = window.getComputedStyle(e);
-    this.component.style.maxWidth = parseFloat(t.width) + "px";
-  }
+class H {
   /**
-   * @param {Board} board ボード
-   * @param {string[]} compList 表示するコントロールの一覧
+   * @param {Board} board - 対象のボード
+   * @param {PlayerInfo} player - プレイヤー情報
    */
   constructor(e, t) {
-    this.board = e;
-    const a = /* @__PURE__ */ new Map([
-      ["undoRecord", { title: "一手戻る", text: "&lt;&lt;", onclick: () => e.undoRecord() }],
-      ["redoRecord", { title: "一手進む", text: "&gt;&gt;", onclick: () => e.redoRecord() }],
-      ["rotateLeft", { title: "盤面を左回転", text: "🔄", onclick: () => e.rotate(!1) }],
-      ["rotateRight", { title: "盤面を右回転", text: "🔁", onclick: () => e.rotate() }],
-      ["downloadImage", { title: "画像を保存", text: "📷", onclick: () => e.downloadImage() }]
-    ]);
-    t ??= [...a.keys(), "textRecord"];
-    const i = Date.now().toString();
-    this.component = document.createElement("div"), this.component.id = i, this.component.style.display = "flex", this.#e(), window.addEventListener("resize", () => this.#e()), this.component.innerHTML = `${[...a].filter(([n]) => t.includes(n)).map(
-      ([n, { title: r, text: o }]) => `<button id="${n}${i}" title="${r}" style="font-family:${O.names};">${o}</button>`
-    ).join("")}${t.includes("textRecord") ? `<select id="textRecord${i}" style="flex-grow:1; font-family:${O.names};"><option></option></select>` : ""}`;
-    for (const [n, { onclick: r }] of a)
-      t.includes(n) && (this.component.querySelector(`#${n}${i}`).onclick = r);
-    if (!t.includes("textRecord")) return;
-    const s = e.onDrawed ?? (() => {
-    });
-    e.onDrawed = async (n) => {
-      setTimeout(() => {
-        const r = this.component.querySelector(`#textRecord${i}`), o = r.querySelector("option"), d = r.cloneNode(!1);
-        n.record.forEach((l, c) => {
-          const p = o.cloneNode(!1);
-          p.textContent = e.record2String(l, c), c === n.turn && (p.selected = !0), d.appendChild(p);
-        }), d.onchange = (l) => e.moveRecord(l.target.selectedIndex), r.replaceWith(d);
-      }), s(n);
-    };
+    this.board = e, this.player = t;
   }
-  /** 操作パネルを追加 */
-  add() {
-    const { canvas: e } = this.board;
-    e.after(this.component);
+  /** 手番操作 */
+  playTurn() {
   }
-  /** 操作パネルを破棄 */
-  remove() {
-    this.component.remove(), window.removeEventListener("resize", () => this.#e);
+  /**
+   * 盤面を評価します。
+   * @returns {number} 盤面の評価値
+   */
+  evaluate() {
+    const { board: e, player: t } = this, a = 1e4;
+    let i = 0, s = 0;
+    return e.field.flat().forEach((n) => {
+      if (n.piece) {
+        const o = n.piece.cost <= 0 ? a : n.piece.cost;
+        n.piece.deg === t.deg ? i += o : s += o;
+      }
+    }), e.stand.stocks.forEach((n, r) => {
+      const o = n.reduce((d, l) => d + l.cost, 0);
+      r === t.deg ? i += o : s += o;
+    }), i - s;
   }
 }
+const J = {};
+J.random = class extends H {
+  constructor(e, t) {
+    super(e, t);
+  }
+  playTurn() {
+    const { board: e, player: t } = this, a = [];
+    e.field.flat().forEach((s) => {
+      if (s.piece && s.piece.deg === t.deg) {
+        const n = s, r = $(e, n.piece, n.pX, n.pY);
+        r.length > 0 && a.push({ from: n, tos: r });
+      }
+    });
+    const i = [];
+    if (a.forEach(({ from: s, tos: n }) => {
+      n.forEach((r) => {
+        i.push({ from: s, to: r });
+      });
+    }), i.length > 0) {
+      const s = i[Math.floor(Math.random() * i.length)];
+      e.movePiece(s.from, s.to, !0), console.log(`CPU(Random): (${s.from.pX}, ${s.from.pY}) から (${s.to.pX}, ${s.to.pY}) へ移動`);
+    } else
+      console.log("CPU(Random): 指し手がありません。");
+  }
+};
+J.greedy = class extends H {
+  constructor(e, t) {
+    super(e, t);
+  }
+  /**
+   * 手番を処理します。
+   */
+  playTurn() {
+    const { board: e, player: t } = this, a = [];
+    e.field.flat().forEach((r) => {
+      if (r.piece && r.piece.deg === t.deg) {
+        const o = r, d = $(e, o.piece, o.pX, o.pY);
+        d.length > 0 && a.push({ from: o, tos: d });
+      }
+    });
+    const i = [];
+    if (a.forEach(({ from: r, tos: o }) => {
+      o.forEach((d) => {
+        i.push({ from: r, to: d });
+      });
+    }), i.length === 0) {
+      console.log("CPU(Greedy): 指し手がありません。");
+      return;
+    }
+    let s = null, n = -1 / 0;
+    i.forEach((r) => {
+      const o = e.clone();
+      o.isHeadless = !0;
+      const d = o.field[r.from.pY][r.from.pX], l = o.field[r.to.pY][r.to.pX];
+      o.movePiece(d, l);
+      const c = this.evaluate();
+      c > n && (n = c, s = r);
+    }), s ? (e.movePiece(s.from, s.to, !0), console.log(`CPU(Greedy): (${s.from.pX}, ${s.from.pY}) から (${s.to.pX}, ${s.to.pY}) へ移動 (評価値: ${n})`)) : console.log("CPU(Greedy): 最善手が見つかりませんでした。");
+  }
+};
+J.minimax = class extends H {
+  constructor(e, t) {
+    super(e, t), this.searchDepth = 3;
+  }
+  /**
+   * ミニマックス法（アルファベータ枝刈り付き）を実行します。
+   * @param {Board} board - 現在の盤面
+   * @param {number} depth - 残りの探索深さ
+   * @param {number} alpha - アルファ値
+   * @param {number} beta - ベータ値
+   * @param {boolean} isMaximizingPlayer - 現在のプレイヤーが最大化プレイヤーかどうか
+   * @returns {number} 評価値
+   */
+  minimax(e, t, a, i, s) {
+    const { player: n } = this;
+    if (t === 0) return this.evaluate();
+    if (We(e, n.deg))
+      return s ? -1 / 0 : 1 / 0;
+    if (!ne(e, n.deg))
+      return 0;
+    const r = [];
+    e.field.flat().forEach((d) => {
+      if (d.piece && d.piece.deg === n.deg) {
+        const l = d, c = $(e, l.piece, l.pX, l.pY);
+        c.length > 0 && r.push({ from: l, tos: c });
+      }
+    });
+    const o = [];
+    if (r.forEach(({ from: d, tos: l }) => {
+      l.forEach((c) => {
+        o.push({ from: d, to: c });
+      });
+    }), s) {
+      let d = -1 / 0;
+      for (const l of o) {
+        const c = e.clone();
+        c.isHeadless = !0;
+        const m = c.field[l.from.pY][l.from.pX], u = c.field[l.to.pY][l.to.pX];
+        c.movePiece(m, u);
+        const h = this.minimax(c, t - 1, a, i, !1);
+        if (d = Math.max(d, h), a = Math.max(a, h), i <= a) break;
+      }
+      return d;
+    } else {
+      let d = 1 / 0;
+      for (const l of o) {
+        const c = e.clone();
+        c.isHeadless = !0;
+        const m = c.field[l.from.pY][l.from.pX], u = c.field[l.to.pY][l.to.pX];
+        c.movePiece(m, u);
+        const h = this.minimax(c, t - 1, a, i, !0);
+        if (d = Math.min(d, h), i = Math.min(i, h), i <= a) break;
+      }
+      return d;
+    }
+  }
+  /**
+   * 手番を処理します。
+   */
+  playTurn() {
+    const { board: e, player: t } = this;
+    let a = null, i = -1 / 0;
+    const s = [];
+    e.field.flat().forEach((r) => {
+      if (r.piece && r.piece.deg === t.deg) {
+        const o = r, d = $(e, o.piece, o.pX, o.pY);
+        d.length > 0 && s.push({ from: o, tos: d });
+      }
+    });
+    const n = [];
+    if (s.forEach(({ from: r, tos: o }) => {
+      o.forEach((d) => {
+        n.push({ from: r, to: d });
+      });
+    }), n.length === 0) {
+      console.log("CPU(Minimax): 指し手がありません。");
+      return;
+    }
+    for (const r of n) {
+      const o = e.clone();
+      o.isHeadless = !0;
+      const d = o.field[r.from.pY][r.from.pX], l = o.field[r.to.pY][r.to.pX];
+      o.movePiece(d, l);
+      const c = this.minimax(o, this.searchDepth - 1, -1 / 0, 1 / 0, !1);
+      c > i ? (i = c, a = r) : c === i && Math.random() < 0.5 && (a = r);
+    }
+    a ? (e.movePiece(a.from, a.to, !0), console.log(`CPU(Minimax): (${a.from.pX}, ${a.from.pY}) から (${a.to.pX}, ${a.to.pY}) へ移動 (評価値: ${i})`)) : console.log("CPU(Minimax): 最善手が見つかりませんでした。");
+  }
+};
+class we extends H {
+  /**
+   * @param {Board} board - 対象のボード
+   * @param {PlayerInfo} player - プレイヤー情報
+   */
+  constructor(e, t) {
+    super(e, t);
+    const a = t.cpuEngine?.toLowerCase();
+    if (this.engine = a == null ? new H(e, t) : new J[a](e, t), !this.engine) throw new Error(`Engine "${a}" not found.`);
+  }
+  /** 手番操作 */
+  playTurn() {
+    this.board.turn !== 0 && this.engine.playTurn();
+  }
+}
+function xe(S) {
+  Object.assign(O, S.canvasFont), Object.assign(oe, S.gameSoft), Object.assign(Q, S.games), Object.assign(q, S.boards), Object.assign(z, S.panels), Object.assign(U, S.pieces), Object.assign(ae, S.pieceRange), Object.assign(V, S.pieceCost);
+}
+xe(de);
 const ke = () => [
   .../* @__PURE__ */ new Set([
-    ...re.buttonTexts + Object.values(G).map(({ displayText: S }) => S).join("") + Object.values(z).map(({ display: S }) => S ? S.join("") : "").join("")
+    ...re.buttonTexts + Object.values(z).map(({ displayText: S }) => S).join("") + Object.values(U).map(({ display: S }) => S ? S.join("") : "").join("")
   ])
 ].sort().join("");
 Object.assign(O, {
@@ -6557,16 +6547,19 @@ Object.assign(O, {
 });
 export {
   Z as Board,
+  we as CpuEngine,
+  H as CpuEngineBase,
+  J as CpuEngines,
   C as Piece,
   q as boards,
   O as canvasFont,
   Y as canvasImage,
-  ce as extendData,
+  xe as extendData,
   oe as gameSoft,
   Q as games,
-  G as panels,
+  z as panels,
   V as pieceCost,
   ae as pieceRange,
-  z as pieces
+  U as pieces
 };
 //# sourceMappingURL=ShogiCross.js.map

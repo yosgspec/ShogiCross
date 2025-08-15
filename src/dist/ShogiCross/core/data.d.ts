@@ -89,7 +89,7 @@ export type GameSoft = {
     /**
      * - {gameName: ゲーム名, pieceSet: 駒セットの名称}
      */
-    playersOption: {
+    playerOptions: {
         gameName: string;
         pieceSet: string;
     }[];
@@ -135,6 +135,23 @@ export type Game = {
 /**
  * - ボードの初期化オプション
  */
+export type PlayerOption = {
+    /**
+     * ゲーム名
+     */
+    gameName: string;
+    /**
+     * 駒セット名
+     */
+    pieceSet: string;
+    /**
+     * CPUエンジン名
+     */
+    cpuEngine: string;
+};
+/**
+ * - ボードの初期化オプション
+ */
 export type BoardInitOption = {
     /**
      * - ボードタイプ
@@ -143,11 +160,19 @@ export type BoardInitOption = {
     /**
      * - プレイヤー設定
      */
-    playersOption: {
-        gameName: string;
-        pieceSet: string;
-        cpuEngine: string;
-    };
+    playerOptions: PlayerOption[];
+    /**
+     * - ゲーム名(基準となる駒の配置セット)
+     */
+    gameName: string;
+    /**
+     * - 駒の配置パターン
+     */
+    pieceSet: string;
+    /**
+     * - CPUエンジン名
+     */
+    cpuEngine: string;
     /**
      * - プレイヤー人数(2 or 4)
      */
@@ -343,6 +368,43 @@ export type PieceInitOption = {
     attr: string[];
 };
 /**
+ * - プレイヤー情報
+ */
+export type PlayerInfo = {
+    /**
+     * - プレイヤー番号
+     */
+    id: number;
+    /**
+     * - プレイヤーの角度
+     */
+    deg: number;
+    /**
+     * - プレイヤーを識別する角度文字
+     */
+    degChar: string;
+    /**
+     * - 生存状態
+     */
+    alive: boolean;
+    /**
+     * - CPUエンジン名
+     */
+    cpuEngine: string;
+    /**
+     * - CPUエンジンのインスタンス
+     */
+    cpu: CpuEngine;
+    /**
+     * - ゲーム名
+     */
+    gameName: string;
+    /**
+     * - 駒セット名
+     */
+    pieceSet: string;
+};
+/**
  * 駒の移動範囲
  */
 export type PieceRange = string[];
@@ -354,4 +416,5 @@ import panels from "../data/panels.js";
 import pieces from "../data/pieces.js";
 import pieceRange from "../data/pieceRange.js";
 import pieceCost from "../data/pieceCost.js";
+import { CpuEngine } from "./cpu.js";
 export { canvasFont, gameSoft, games, boards, panels, pieces, pieceRange, pieceCost };

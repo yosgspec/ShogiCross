@@ -165,7 +165,7 @@ export class Bod{
 	 * @returns {string}
 	 */
 	static getTextPieces(board){
-		const {field, xLen, players, stand} = board;
+		const {field, xLen, playerLen, stand} = board;
 
 		let header =
 			` ${[...Array(xLen).keys()].map(i=>` ${Bod.#num2Zen(xLen-i)}`).join("")}\n`+
@@ -176,7 +176,7 @@ export class Bod{
 		let rowSep = "\n";
 		let standHeader = `${Bod.#getTextStand(stand, 180)}\n`;
 		let standFooter = `${Bod.#getTextStand(stand, 0)}`;
-		if(players !== 2){
+		if(playerLen !== 2){
 			standHeader = `${Bod.#getTextStand(stand, 270)}\n`+standHeader;
 			standFooter = `${Bod.#getTextStand(stand, 90)}\n`+standFooter;
 		}

@@ -3,8 +3,9 @@
  * @param {Piece} piece - 駒
  * @param {number} pX - マス目の列
  * @param {number} pY - マス目の行
+ * @returns {Panel[]} 移動可能なマス目の配列
  */
-export function checkTarget(board: Board, piece: Piece, pX: number, pY: number): any[];
+export function checkTarget(board: Board, piece: Piece, pX: number, pY: number): Panel[];
 /**
  * 指定されたプレイヤーの王が王手されているかを確認します。
  * @param {Board} board - 盤面
@@ -28,3 +29,4 @@ export function hasLegalMoves(board: Board, playerDeg: number): boolean;
 export function isCheckmate(board: Board, playerDeg: number): boolean;
 import { Board } from "./board.js";
 import { Piece } from "./piece.js";
+import { Panel } from "./panel.js";

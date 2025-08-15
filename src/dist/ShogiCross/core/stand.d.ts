@@ -3,7 +3,7 @@ export class Stand {
     /** 駒台への角度ごとの表示順
      * @type {number[]}
      */
-    static "__#22@#degOrder": number[];
+    static "__#23@#degOrder": number[];
     /**
      * @param {Board} ボード
      */

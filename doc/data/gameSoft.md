@@ -39,7 +39,7 @@ new Board()及びBoard.run()に与えるとそのまま実行が行える。
 "useStand": true
 ```
 
-## playersOption {{gameName: string, pieceSet: string, cpuEngine: string?}[]}
+## playerOptions {{gameName: string, pieceSet: string, cpuEngine: string?}[]}
 プレイヤー設定。配列形式でプレイヤー分記載。  
 gameName: 配置する駒のゲーム名  
 pieceSet: 駒の配置バリエーション  
