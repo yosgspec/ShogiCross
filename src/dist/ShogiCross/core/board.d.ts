@@ -36,7 +36,7 @@ export class Board {
     pieces: {
         [k: string]: any;
     };
-    players: 2 | 4;
+    playerLen: 2 | 4;
     left: number;
     top: number;
     panelWidth: number;
@@ -47,7 +47,7 @@ export class Board {
     field: any;
     xLen: any;
     yLen: any;
-    cpuEngines: any[];
+    players: Map<any, any>;
     width: number;
     height: number;
     right: number;
@@ -56,7 +56,6 @@ export class Board {
     autoDrawing: boolean;
     onDrawed: (Board: any) => void;
     onGameOver: (e: any, i: any) => void;
-    gameAlives: Map<number, boolean>;
     moveMode: "normal" | "viewOnly" | "free";
     /** ゲームの記録
      * @type {Record[]}
@@ -107,6 +106,14 @@ export class Board {
     makePlayerControl(compList: string[]): PlayerControl;
     /** ボードを閉じる */
     close(): void;
+    /** 現在の手番のプレイヤー情報を取得
+     * @returns {{[k:string]:{v:any}}|"PlayerInfo"} - 現在のプレイヤー情報
+     */
+    getActivePlayer(): {
+        [k: string]: {
+            v: any;
+        };
+    } | "PlayerInfo";
     /** 角度を正規化
      * @param {number} playeaIdOrDeg - プレイヤー番号または角度
      * @returns {number}
@@ -281,6 +288,7 @@ export class Board {
     #private;
 }
 export type BoardInitOption = import('./data').BoardInitOption;
+export type PlayerInfo = import('./data').PlayerInfo;
 import { Stand } from "./stand.js";
 import { EnPassant } from "./enPassant.js";
 import { PlayerControl } from "./playerControl.js";

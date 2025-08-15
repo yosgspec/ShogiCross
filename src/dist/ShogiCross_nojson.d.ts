@@ -35,7 +35,7 @@ declare class V {
     pieces: {
         [k: string]: any;
     };
-    players: any;
+    playerLen: any;
     left: any;
     top: any;
     panelWidth: any;
@@ -46,7 +46,7 @@ declare class V {
     field: any;
     xLen: any;
     yLen: any;
-    cpuEngines: any[];
+    players: Map<any, any>;
     width: number;
     height: number;
     right: any;
@@ -55,11 +55,10 @@ declare class V {
     autoDrawing: any;
     onDrawed: any;
     onGameOver: any;
-    gameAlives: Map<number, boolean>;
     moveMode: any;
     record: any[];
     turn: number;
-    enPassant: Ae;
+    enPassant: ye;
     /** 操作パネルを構築
      * @param {string[]} compList - 表示するコントロールの一覧
      * @returns {PlayerControl}
@@ -67,6 +66,14 @@ declare class V {
     makePlayerControl(e: any): any;
     /** ボードを閉じる */
     close(): void;
+    /** 現在の手番のプレイヤー情報を取得
+     * @returns {{[k:string]:{v:any}}|"PlayerInfo"} - 現在のプレイヤー情報
+     */
+    getActivePlayer(): {
+        [k: string]: {
+            v: any;
+        };
+    } | "PlayerInfo";
     /** 角度を正規化
      * @param {number} playeaIdOrDeg - プレイヤー番号または角度
      * @returns {number}
@@ -201,10 +208,10 @@ declare class V {
     clone(): any;
     #private;
 }
-declare class ye extends Y {
+declare class Ae extends I {
     engine: any;
 }
-declare class Y {
+declare class I {
     /**
      * @param {Board} board - 対象のボード
      * @param {PlayerInfo} player - プレイヤー情報
@@ -562,10 +569,10 @@ declare const K: {
         field: string[];
     };
 };
-declare namespace O {
+declare namespace P {
     let fonts: (string | number)[][];
 }
-declare namespace I {
+declare namespace D {
     let imported: boolean;
     let images: {
         [x: string]: new (width?: number, height?: number) => HTMLImageElement;
@@ -5708,7 +5715,7 @@ declare class Q {
      */
     toString(e?: boolean, t?: boolean): string;
 }
-declare class Ae {
+declare class ye {
     degs: {};
     /** アンパッサン情報をクリア
      * @param {number} deg - アンパッサンされうる陣営の角度
@@ -5730,13 +5737,13 @@ declare class Ae {
      */
     isTarget(e: any, t: any): boolean;
 }
-declare class random extends Y {
+declare class random extends I {
     constructor(e: any, t: any);
 }
-declare class greedy extends Y {
+declare class greedy extends I {
     constructor(e: any, t: any);
 }
-declare class minimax extends Y {
+declare class minimax extends I {
     constructor(e: any, t: any);
     searchDepth: number;
     /**
@@ -5750,4 +5757,4 @@ declare class minimax extends Y {
      */
     minimax(e: any, t: any, a: any, i: any, s: any): number;
 }
-export { V as Board, ye as CpuEngine, Y as CpuEngineBase, U as CpuEngines, C as Piece, K as boards, O as canvasFont, I as canvasImage, Ce as extendData, re as gameSoft, Z as games, G as panels, q as pieceCost, te as pieceRange, z as pieces };
+export { V as Board, Ae as CpuEngine, I as CpuEngineBase, U as CpuEngines, C as Piece, K as boards, P as canvasFont, D as canvasImage, Ce as extendData, re as gameSoft, Z as games, G as panels, q as pieceCost, te as pieceRange, z as pieces };

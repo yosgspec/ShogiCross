@@ -1,4 +1,5 @@
 /** @typedef {import('./data').BoardInitOption} BoardInitOption */
+/** @typedef {import('./data').PlayerInfo} PlayerInfo */
 import {canvasFont} from "./canvasFontLoader.js";
 import {canvasImage} from "./canvasImageLoader.js";
 import {downloadImage} from "./downloadImage.js";
@@ -55,8 +56,8 @@ export class Board{
 			url,
 			desc,
 			playBoard,
-			playersOption=[],
-			players=playersOption.some(({gameName}, i)=>1 < i && gameName)? 4: 2,
+			playerOptions=[],
+			players=playerOptions.some(({gameName}, i)=>1 < i && gameName)? 4: 2,
 			useStand=false,
 			canvasWidth=undefined,
 			canvasHeight=undefined,
@@ -108,7 +109,7 @@ export class Board{
 		if(!boards[playBoard]) throw Error(`playBoard=${playBoard}, Unknown board name.`);
 		Object.assign(this, boards[playBoard]);
 		if(![2, 4].includes(players)) throw Error(`players=${players}, players need 2 or 4.`);
-		this.players = players;
+		this.playerLen = players;
 		this.left = boardLeft;
 		this.top = boardTop;
 		this.panelWidth = panelWidth;
@@ -128,21 +129,29 @@ export class Board{
 		this.xLen = this.field[0].length;
 		this.yLen = this.field.length;
 
-		this.cpuEngines = [];
-		// プレイヤーオプション
-		playersOption.forEach((option, i)=>{
-			const {gameName, pieceSet, cpuEngine} = option;
+		// プレイヤー設定
+		this.players = new Map();
+		for(let id=0;id<players;id++){
+			const deg = this.degNormal(id)
+			const status = {
+				...playerOptions[id],
+				id,
+				deg,
+				degChar: Piece.degChars[deg],
+				alive: true,
+			};
 			// CPUエンジンの初期化
-			this.cpuEngines.push(new CpuEngine(this, i, cpuEngine));
+			status.cpu = new CpuEngine(this, status),
+			this.players.set(deg, status);
 			// 駒の初期配置
-			if(!gameName) return;
+			if(!status.gameName) return;
 			try{
-				this.putStartPieces(i, gameName, pieceSet);
+				this.putStartPieces(id, status.gameName, status.pieceSet);
 			}
 			catch(ex){
 				console.error(ex);
 			}
-		});
+		}
 
 		// 描写寸法を設定
 		this.width = this.panelWidth*(this.xLen+1);
@@ -187,10 +196,6 @@ export class Board{
 		}
 		this.onDrawed = onDrawed;
 		this.onGameOver = onGameOver;
-		this.gameAlives = new Map(
-			[...Array(this.players).keys()]
-			.map(i=>[this.degNormal(i), true])
-		);
 		this.moveMode = moveMode;
 
 		/** ゲームの記録
@@ -224,13 +229,20 @@ export class Board{
 		this.#playerControl?.remove();
 	}
 
+	/** 現在の手番のプレイヤー情報を取得
+	 * @returns {{[k:string]:{v:any}}|"PlayerInfo"} - 現在のプレイヤー情報
+	 */
+	getActivePlayer(){
+		return [...this.players.values()][this.turn%this.playerLen];
+	}
+
 	/** 角度を正規化
 	 * @param {number} playeaIdOrDeg - プレイヤー番号または角度
 	 * @returns {number}
 	 */
 	degNormal(playeaIdOrDeg){
 		let deg = playeaIdOrDeg;
-		if(0 < deg && deg < 4) deg = 0|deg*360/this.players;
+		if(0 < deg && deg < 4) deg = 0|deg*360/this.playerLen;
 		do{deg = (deg+360)%360} while(deg<0);
 		return deg;
 	}
@@ -457,18 +469,17 @@ export class Board{
 
 	/** 敗北したプレイヤーが存在するか確認し、イベントを発生させる */
 	#emitGameOver(){
-		[...this.gameAlives].forEach(([deg, gameAlive], i)=>{
-			if(!gameAlive) return;
-			if(this.field.some(row=>
-				row.some(({piece})=>
-					piece
-					&& piece.deg === deg
+		this.players.forEach((player, deg)=>{
+			if(!player.alive) return;
+			if(this.field.flat().some(
+				({piece})=>
+					piece?.deg === deg
 					&& piece.hasAttr("king")
 				)
-			)) return;
-			this.gameAlives.set(deg, false);
-			if(this.onGameOver) this.onGameOver(this, i);
-		})
+			) return;
+			player.alive = false;
+			this.onGameOver?.(this, player.id);
+		});
 	}
 
 	/** プロモーション処理
@@ -530,6 +541,7 @@ ${char}:${name}`)){
 			|| toPanel.piece === fromPanel.piece
 			|| toPanel.piece?.deg === fromPanel.piece.deg
 			|| moveMode !== "free" && !toPanel.isTarget
+			|| !isCpuMove && this.getActivePlayer().cpuEngine
 		) return;
 
 		let {canPromo, forcePromo} = this.checkCanPromo(fromPanel);
@@ -566,7 +578,7 @@ ${char}:${name}`)){
 	 * @param {string} option.end - オプション=成|不成|打
 	 */
 	addRecord(option={}){
-		const {record, cpuEngines} = this;
+		const {record} = this;
 		const {fromPanel={}, toPanel={}, end="", inc=1} = option;
 		const {piece={}} = toPanel;
 
@@ -592,7 +604,7 @@ ${char}:${name}`)){
 		};
 		if(0 < inc) record.splice(this.turn+1);
 		// CPUのターンを進める
-		if(0 < this.turn) cpuEngines[this.turn%this.players].playTurn();
+		this.getActivePlayer().cpu.playTurn();
 	}
 
 	/** 棋譜コメントを追記

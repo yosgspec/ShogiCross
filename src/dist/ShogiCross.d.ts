@@ -35,7 +35,7 @@ declare class Z {
     pieces: {
         [k: string]: any;
     };
-    players: any;
+    playerLen: any;
     left: any;
     top: any;
     panelWidth: any;
@@ -46,7 +46,7 @@ declare class Z {
     field: any;
     xLen: any;
     yLen: any;
-    cpuEngines: any[];
+    players: Map<any, any>;
     width: number;
     height: number;
     right: any;
@@ -55,7 +55,6 @@ declare class Z {
     autoDrawing: any;
     onDrawed: any;
     onGameOver: any;
-    gameAlives: Map<number, boolean>;
     moveMode: any;
     record: any[];
     turn: number;
@@ -67,6 +66,14 @@ declare class Z {
     makePlayerControl(e: any): any;
     /** ボードを閉じる */
     close(): void;
+    /** 現在の手番のプレイヤー情報を取得
+     * @returns {{[k:string]:{v:any}}|"PlayerInfo"} - 現在のプレイヤー情報
+     */
+    getActivePlayer(): {
+        [k: string]: {
+            v: any;
+        };
+    } | "PlayerInfo";
     /** 角度を正規化
      * @param {number} playeaIdOrDeg - プレイヤー番号または角度
      * @returns {number}
@@ -201,10 +208,10 @@ declare class Z {
     clone(): any;
     #private;
 }
-declare class we extends H {
+declare class we extends Y {
     engine: any;
 }
-declare class H {
+declare class Y {
     /**
      * @param {Board} board - 対象のボード
      * @param {PlayerInfo} player - プレイヤー情報
@@ -562,10 +569,10 @@ declare const q: {
         field: string[];
     };
 };
-declare namespace O {
+declare namespace P {
     let fonts: (string | number)[][];
 }
-declare namespace Y {
+declare namespace I {
     let imported: boolean;
     let images: {
         [x: string]: new (width?: number, height?: number) => HTMLImageElement;
@@ -5730,13 +5737,13 @@ declare class Ce {
      */
     isTarget(e: any, t: any): boolean;
 }
-declare class random extends H {
+declare class random extends Y {
     constructor(e: any, t: any);
 }
-declare class greedy extends H {
+declare class greedy extends Y {
     constructor(e: any, t: any);
 }
-declare class minimax extends H {
+declare class minimax extends Y {
     constructor(e: any, t: any);
     searchDepth: number;
     /**
@@ -5750,4 +5757,4 @@ declare class minimax extends H {
      */
     minimax(e: any, t: any, a: any, i: any, s: any): number;
 }
-export { Z as Board, we as CpuEngine, H as CpuEngineBase, J as CpuEngines, C as Piece, q as boards, O as canvasFont, Y as canvasImage, xe as extendData, oe as gameSoft, Q as games, z as panels, V as pieceCost, ae as pieceRange, U as pieces };
+export { Z as Board, we as CpuEngine, Y as CpuEngineBase, J as CpuEngines, C as Piece, q as boards, P as canvasFont, I as canvasImage, xe as extendData, oe as gameSoft, Q as games, z as panels, V as pieceCost, ae as pieceRange, U as pieces };
