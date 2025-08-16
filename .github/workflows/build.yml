@@ -4,6 +4,11 @@ on:
   push:
     tags:
       - "v*.*.*"
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'ライブラリバージョン'
+        required: false
 
 jobs:
   build:
@@ -19,43 +24,37 @@ jobs:
           node-version: 20
           registry-url: https://registry.npmjs.org/
 
-      - name: Install dependencies
+      - name: npm認証
+        run: echo "//registry.npmjs.org/:_authToken=${{secrets.NPM_TOKEN}}" > ~/.npmrc
+
+      - name: npm install
         run: npm ci
 
-      - name: Vite build (production)
+      - name: モジュールバンドラー(Vite)
         run: npm run build:vite
 
-      - name: Vite build (nojson mode)
+      - name: モジュールバンドラー(Vite:JSON拡張なし)
         run: npm run build:vitenojson
 
-      - name: Run Build After script
+      - name: BuildAfter実行(ファイル整理/コード最適化/ZIP生成/MarkDown⇒HTML変換)
         run: node buildAfter.js
 
-      - name: Generate TypeScript declarations
+      - name: 型定義生成(TypeScript)
         run: npm run build:dts
 
-      - name: Generate API docs (Typedoc)
-        run: npm run build:api   # Typedoc エラーがあれば CI 失敗
+      - name: APIドキュメント生成(Typedoc)
+        run: npm run build:api
 
-      - name: Publish to npm (optional)
-        run: npm run build:publish || true   # 成否は無視
+      - name: npmパッケージ公開
+        run: npm run build:publish || true
+        # 成否を無視して続行
 
-      - name: Upload dist folder as artifact
+      - name: アーティファクトをアップロード
         uses: actions/upload-artifact@v4
         with:
-          name: shogicross-dist
-          path: src/dist/
-
-      - name: Upload zip files as artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: shogicross-zip
+          name: shogicross-all
           path: |
+            src/dist/
             src/ShogiCross.zip
             src/paper.zip
-
-      - name: Upload HTML docs (md → HTML)
-        uses: actions/upload-artifact@v4
-        with:
-          name: shogicross-html-doc
-          path: src/pages/md/
+            src/pages/md/
