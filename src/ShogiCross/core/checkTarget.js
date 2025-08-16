@@ -118,6 +118,53 @@ export function checkTarget(board, piece, pX, pY){
 			&& piece.cost < panel.piece.cost;
 	}
 
+	/** 王不見王となるか?
+	 * @param {Panel} panel - マス目
+	 * @returns {boolean}
+	 */
+	function isSeeKing(panel){
+		/*
+		// 王不見王の駒が存在しない場合は判定不要
+		if(!board.field.flat().some(p=>
+			p.piece?.hasAttr("cantSeeKing")
+		)) return false;
+		// 王が向き合っているかシミュレーション
+		const boardClone = board.clone();
+		boardClone.isHeadless = true;
+		boardClone.onGameOver = null;
+		// 今の駒が動いたとして、
+		boardClone.movePiece(
+			boardClone.field[pY][pX],
+			boardClone.field[panel.pY][panel.pX]
+		);
+		let kingPanels = boardClone.field.flat().filter(({piece})=>piece?.hasAttr("king"));
+		nextKing:
+		for(const a of kingPanels){
+			for(const b of kingPanels){
+				if(
+					a.pX === b.pX && a.pY === b.pY // 同じマス目
+					|| a.piece.deg === b.piece.deg // 同じ陣営
+					// 王不見王の駒が存在しない
+					|| !a.piece.hasAttr("cantSeeKing") && !b.piece.hasAttr("cantSeeKing")
+				) continue;
+				// 間に駒が存在するか?
+				if(a.pX === b.pX){ // 同じ列
+					const rng = [a.pY, b.pY];
+					for(let y=Math.min(...rng)+1;y<Math.max(...rng);y++)
+						if(boardClone.field[y][a.pX].piece) continue nextKing;
+					return true;
+				}
+				else if(a.pY === b.pY){ // 同じ行
+					const rng = [a.pY, b.pY];
+					for(let x=Math.min(...rng)+1;x<Math.max(...rng);x++)
+						if(boardClone.field[a.pY][x].piece) continue nextKing;
+					return true;
+				}
+			}
+		}*/
+		return false;
+	}
+
 	/** 移動可能か判定
 	 * @param {boolean} isAttack - 駒を取得対象に含むか?
 	 * @param {number} x - 判定するマス目の列
@@ -132,6 +179,7 @@ export function checkTarget(board, piece, pX, pY){
 		if(!panel) return false;
 		if(isVsPo(panel)) return false;
 		if(isAttackFromPao(panel)) return false;
+		if(isSeeKing(panel)) return false;
 		if(rangeName === "enPassant" && !enPassant.isTarget(panel, piece)) return false;
 		if(piece.hasAttr("inPalace") && !panel.hasAttr("palace")) return false;
 		if(rangeName.indexOf("palace") === 0 && !(panel.hasAttr(rangeName) && field[pY][pX].hasAttr(rangeName))) return false;
@@ -305,20 +353,17 @@ export function isKingInCheck(board, playerDeg){
  */
 export function hasLegalMoves(board, playerDeg){
 	// ボードを複製して、合法手の確認を行うためにヘッドレスモードに設定
-	const boardClone = board.clone();
-	boardClone.isHeadless = true;
-	boardClone.onGameOver = null;
-	for(const row of boardClone.field){
-		for(const fromPanel of row){
-			// 駒のないマス、または自プレイヤーの駒はスキップ
-			if(!fromPanel.piece || fromPanel.piece.deg !== playerDeg) continue;
-			const canMovePanels = checkTarget(boardClone, fromPanel.piece, fromPanel.pX, fromPanel.pY);
-			for(const toPanel of canMovePanels){
-				boardClone.movePiece(fromPanel, toPanel, true);
-				// 移動後に王が王手されていないか確認
-				if(!isKingInCheck(boardClone, playerDeg)) return true;
-				boardClone.undoRecord();
-			}
+	for(const fromPanel of board.field.flat()){
+		const boardClone = board.clone();
+		boardClone.isHeadless = true;
+		boardClone.onGameOver = null;
+		// 駒のないマス、または自プレイヤーの駒はスキップ
+		if(!fromPanel.piece || fromPanel.piece.deg !== playerDeg) continue;
+		const canMovePanels = checkTarget(boardClone, fromPanel.piece, fromPanel.pX, fromPanel.pY);
+		for(const toPanel of canMovePanels){
+			boardClone.movePiece(fromPanel, toPanel, true);
+			// 移動後に王が王手されていないか確認
+			if(!isKingInCheck(boardClone, playerDeg)) return true;
 		}
 	}
 	return false; // 合法手が見つからなかった

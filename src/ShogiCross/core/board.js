@@ -582,6 +582,7 @@ ${char}:${name}`)){
 	 * @param {string} option.end - オプション=成|不成|打
 	 */
 	addRecord(option={}){
+		if(this.isHeadless) return;
 		const {record} = this;
 		const {fromPanel={}, toPanel={}, end="", inc=1} = option;
 		const {piece={}} = toPanel;
