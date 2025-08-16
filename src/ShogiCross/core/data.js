@@ -27,7 +27,7 @@
  * @prop {string} pieceSet - 駒セット名
  * @prop {string} cpuEngine - CPUエンジン名
  */
-/** @typedef {import('./core').Board} Board */
+/** @typedef {Object} Board */
 /**
  * @typedef {Object} BoardInitOption - ボードの初期化オプション
  * @prop {string} playBoard - ボードタイプ
@@ -104,9 +104,7 @@
  * @prop {string} gameName - ゲーム名
  * @prop {string} pieceSet - 駒セット名
  */
-/**
- * @typedef {string[]} PieceRange 駒の移動範囲
- */
+/** @typedef {string[]} PieceRange 駒の移動範囲 */
 import canvasFont from "../data/canvasFont.js";
 import gameSoft from "../data/gameSoft.js";
 import games from "../data/games.js";
