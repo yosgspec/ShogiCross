@@ -54,8 +54,9 @@ export class Board {
     bottom: number;
     stand: Stand;
     autoDrawing: boolean;
-    onDrawed: (Board: any) => void;
-    onGameOver: (e: any, i: any) => void;
+    onDrawed: (e: any) => void;
+    onTurnEnd: any;
+    onGameOver: (e: any, i: number) => void;
     moveMode: "normal" | "viewOnly" | "free";
     /** ゲームの記録
      * @type {Record[]}
@@ -107,12 +108,10 @@ export class Board {
     /** ボードを閉じる */
     close(): void;
     /** 現在の手番のプレイヤー情報を取得
-     * @returns {{[k:string]:{v:any}}|"PlayerInfo"} - 現在のプレイヤー情報
+     * @returns {Object<string, any>|"PlayerInfo"} - 現在のプレイヤー情報
      */
     getActivePlayer(): {
-        [k: string]: {
-            v: any;
-        };
+        [x: string]: any;
     } | "PlayerInfo";
     /** 角度を正規化
      * @param {number} playeaIdOrDeg - プレイヤー番号または角度

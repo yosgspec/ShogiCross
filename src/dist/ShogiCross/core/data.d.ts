@@ -149,6 +149,7 @@ export type PlayerOption = {
      */
     cpuEngine: string;
 };
+export type Board = any;
 /**
  * - ボードの初期化オプション
  */
@@ -248,11 +249,11 @@ export type BoardInitOption = {
     /**
      * - 描写イベント
      */
-    onDrawed: (Board) => void;
+    onDrawed: (e: Board) => void;
     /**
      * - ゲームオーバーイベント
      */
-    onGameOver: (i) => void;
+    onGameOver: (e: Board, playerId: number) => void;
 };
 /**
  * - マス目の初期化オプション

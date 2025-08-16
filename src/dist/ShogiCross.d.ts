@@ -54,6 +54,7 @@ declare class Z {
     stand: _;
     autoDrawing: any;
     onDrawed: any;
+    onTurnEnd: any;
     onGameOver: any;
     moveMode: any;
     record: any[];
@@ -67,12 +68,10 @@ declare class Z {
     /** ボードを閉じる */
     close(): void;
     /** 現在の手番のプレイヤー情報を取得
-     * @returns {{[k:string]:{v:any}}|"PlayerInfo"} - 現在のプレイヤー情報
+     * @returns {Object<string, any>|"PlayerInfo"} - 現在のプレイヤー情報
      */
     getActivePlayer(): {
-        [k: string]: {
-            v: any;
-        };
+        [x: string]: any;
     } | "PlayerInfo";
     /** 角度を正規化
      * @param {number} playeaIdOrDeg - プレイヤー番号または角度
@@ -208,10 +207,10 @@ declare class Z {
     clone(): any;
     #private;
 }
-declare class we extends Y {
+declare class we extends G {
     engine: any;
 }
-declare class Y {
+declare class G {
     /**
      * @param {Board} board - 対象のボード
      * @param {PlayerInfo} player - プレイヤー情報
@@ -572,7 +571,7 @@ declare const q: {
 declare namespace P {
     let fonts: (string | number)[][];
 }
-declare namespace I {
+declare namespace Y {
     let imported: boolean;
     let images: {
         [x: string]: new (width?: number, height?: number) => HTMLImageElement;
@@ -5737,13 +5736,13 @@ declare class Ce {
      */
     isTarget(e: any, t: any): boolean;
 }
-declare class random extends Y {
+declare class random extends G {
     constructor(e: any, t: any);
 }
-declare class greedy extends Y {
+declare class greedy extends G {
     constructor(e: any, t: any);
 }
-declare class minimax extends Y {
+declare class minimax extends G {
     constructor(e: any, t: any);
     searchDepth: number;
     /**
@@ -5757,4 +5756,4 @@ declare class minimax extends Y {
      */
     minimax(e: any, t: any, a: any, i: any, s: any): number;
 }
-export { Z as Board, we as CpuEngine, Y as CpuEngineBase, J as CpuEngines, C as Piece, q as boards, P as canvasFont, I as canvasImage, xe as extendData, oe as gameSoft, Q as games, z as panels, V as pieceCost, ae as pieceRange, U as pieces };
+export { Z as Board, we as CpuEngine, G as CpuEngineBase, J as CpuEngines, C as Piece, q as boards, P as canvasFont, Y as canvasImage, xe as extendData, oe as gameSoft, Q as games, z as panels, V as pieceCost, ae as pieceRange, U as pieces };

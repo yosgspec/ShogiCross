@@ -27,6 +27,7 @@
  * @property {string} pieceSet 駒セット名
  * @property {string} cpuEngine CPUエンジン名
  */
+/** @typedef {import('./core').Board} Board */
 /**
  * @typedef {Object} BoardInitOption - ボードの初期化オプション
  * @prop {string} playBoard - ボードタイプ
@@ -52,8 +53,9 @@
  * @prop {boolean} autoDrawing - 描写の自動更新有無
  * @prop {"normal"|"free"|"viewOnly"} moveMode - 移動モード
  * @prop {boolean} useDefaultPlayer - デフォルトのプレイヤーを使用する
- * @prop {(Board)=>void} onDrawed - 描写イベント
- * @prop {(i)=>void} onGameOver - ゲームオーバーイベント
+ * @prop {(e:Board)=>void} onDrawed - 描写イベント
+ * @prop {(e:Board,turn:number)=>void} onDrawed - 描写イベント
+ * @prop {(e:Board,playerId:number)=>void} onGameOver - ゲームオーバーイベント
  */
 /**
  * @typedef {Object} PanelInitOption - マス目の初期化オプション
