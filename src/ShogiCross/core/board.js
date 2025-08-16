@@ -381,6 +381,8 @@ export class Board{
 			}
 		}
 
+		// 駒台の読み込みを待機
+		while(!this.stand){}
 		// 持ち駒を配置
 		this.stand.clear();
 		const standTexts = texts[yLen];
