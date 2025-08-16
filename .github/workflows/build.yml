@@ -44,15 +44,10 @@ jobs:
         run: npm run build:api
 
       - name: npmパッケージ公開(タグ設定時のみ)
-        shell: bash
-        run: |
-          echo "GITHUB_REF=$GITHUB_REF"
-          if echo "$GITHUB_REF" | grep -Eq '^refs/tags/[0-9]+\.[0-9]+\.[0-9]+$'; then
-            echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > ~/.npmrc
-            npm publish
-          else
-            echo "npm publish skipped: not a tag push"
-          fi
+        if: startsWith(github.ref, 'refs/tags/')
+        run: npm publish --provenance --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
       - name: ビルド成果物(モジュール)
         uses: actions/upload-artifact@v4
         with:
