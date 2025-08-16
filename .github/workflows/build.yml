@@ -44,6 +44,7 @@ jobs:
       - name: npmパッケージ公開(タグ設定時のみ)
         shell: bash
         run: |
+          echo "GITHUB_REF=$GITHUB_REF"
           if echo "$GITHUB_REF" | grep -Eq '^refs/tags/[0-9]+\.[0-9]+\.[0-9]+$'; then
             echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > ~/.npmrc
             npm publish
