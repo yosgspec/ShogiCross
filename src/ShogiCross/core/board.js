@@ -19,6 +19,7 @@ export class Board{
 	#mouseControl
 	#playerControl
 	#option
+	#beforeTurn
 
 	/**
 	 * @typedef {Object} Record - 局面の記録
@@ -75,7 +76,8 @@ export class Board{
 			autoDrawing=!isHeadless,
 			moveMode="normal",
 			usePlayerControl=!isHeadless,
-			onDrawed,
+			onDrawed=e=>{},
+			onTurnEnd=(e,turn)=>{},
 			onGameOver=(e,i)=>alert(`プレイヤー${i+1}の敗北です。`)
 		} = option;
 
@@ -194,7 +196,9 @@ export class Board{
 			canvasImageAsync.then(()=>this.draw());
 			this.draw();
 		}
+
 		this.onDrawed = onDrawed;
+		this.onTurnEnd = onTurnEnd;
 		this.onGameOver = onGameOver;
 		this.moveMode = moveMode;
 
@@ -230,7 +234,7 @@ export class Board{
 	}
 
 	/** 現在の手番のプレイヤー情報を取得
-	 * @returns {{[k:string]:{v:any}}|"PlayerInfo"} - 現在のプレイヤー情報
+	 * @returns {Object<string, any>|"PlayerInfo"} - 現在のプレイヤー情報
 	 */
 	getActivePlayer(){
 		return [...this.players.values()][this.turn%this.playerLen];
@@ -603,8 +607,15 @@ ${char}:${name}`)){
 			)
 		};
 		if(0 < inc) record.splice(this.turn+1);
-		// CPUのターンを進める
-		this.getActivePlayer().cpu.playTurn();
+		// ターンが変わった
+		if(this.#beforeTurn !== this.turn){
+			this.#beforeTurn = this.turn;
+			// ターンエンドイベント
+			this.onTurnEnd?.(this, this.turn);
+			// CPUのターンを進める
+			this.getActivePlayer().cpu.playTurn();
+		}
+
 	}
 
 	/** 棋譜コメントを追記
