@@ -52,8 +52,9 @@
  * @prop {boolean} autoDrawing - 描写の自動更新有無
  * @prop {"normal"|"free"|"viewOnly"} moveMode - 移動モード
  * @prop {boolean} useDefaultPlayer - デフォルトのプレイヤーを使用する
- * @prop {(Board)=>void} onDrawed - 描写イベント
- * @prop {(i)=>void} onGameOver - ゲームオーバーイベント
+ * @prop {(e:Board)=>void} onDrawed - 描写イベント
+ * @prop {(e:Board,turn:number)=>void} onDrawed - 描写イベント
+ * @prop {(e:Board,playerId:number)=>void} onGameOver - ゲームオーバーイベント
  */
 /**
  * @typedef {Object} PanelInitOption - マス目の初期化オプション
