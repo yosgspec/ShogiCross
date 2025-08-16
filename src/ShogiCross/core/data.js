@@ -27,6 +27,7 @@
  * @property {string} pieceSet 駒セット名
  * @property {string} cpuEngine CPUエンジン名
  */
+/** @typedef {import('./core').Board} Board */
 /**
  * @typedef {Object} BoardInitOption - ボードの初期化オプション
  * @prop {string} playBoard - ボードタイプ
