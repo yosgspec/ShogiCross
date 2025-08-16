@@ -10,22 +10,22 @@
  * @prop {{gameName: string, pieceSet: string}[]} playerOptions - {gameName: ゲーム名, pieceSet: 駒セットの名称}
  */
 /**
- * @typedef Game
+ * @typedef {Object} Game
  * @prop {string} english - 英語名
  * @prop {string} fontColor - 駒のフォント色
  * @prop {string} promoteFontColor - 成駒のフォント色
  * @prop {string} backgroundColor - 駒の色
  * @prop {string} promoteBackgroundColor - 成駒の色
  * @prop {string} borderColor - 駒の枠色
- * @prop {string} promoteBackgroundColor - 成駒の枠色
+ * @prop {string} promoteBorderColor - 成駒の枠色   // ← 修正
  * @prop {number} promoLine - プロモーションライン(成りの段)
  * @prop {Object<string, Object<string, string[]>>} position - 駒の配置データ
  */
 /**
  * @typedef {Object} PlayerOption - ボードの初期化オプション
- * @property {string} gameName ゲーム名
- * @property {string} pieceSet 駒セット名
- * @property {string} cpuEngine CPUエンジン名
+ * @prop {string} gameName - ゲーム名
+ * @prop {string} pieceSet - 駒セット名
+ * @prop {string} cpuEngine - CPUエンジン名
  */
 /** @typedef {import('./core').Board} Board */
 /**
@@ -95,14 +95,17 @@
  */
 /**
  * @typedef {Object} PlayerInfo - プレイヤー情報
- * @property {number} id - プレイヤー番号
- * @property {number} deg - プレイヤーの角度
- * @property {string} degChar - プレイヤーを識別する角度文字
- * @property {boolean} alive - 生存状態
- * @property {string} cpuEngine - CPUエンジン名
- * @property {CpuEngine} cpu - CPUエンジンのインスタンス
- * @property {string} gameName - ゲーム名
- * @property {string} pieceSet - 駒セット名
+ * @prop {number} id - プレイヤー番号
+ * @prop {number} deg - プレイヤーの角度
+ * @prop {string} degChar - プレイヤーを識別する角度文字
+ * @prop {boolean} alive - 生存状態
+ * @prop {string} cpuEngine - CPUエンジン名
+ * @prop {CpuEngine} cpu - CPUエンジンのインスタンス
+ * @prop {string} gameName - ゲーム名
+ * @prop {string} pieceSet - 駒セット名
+ */
+/**
+ * @typedef {string[]} PieceRange 駒の移動範囲
  */
 import canvasFont from "../data/canvasFont.js";
 import gameSoft from "../data/gameSoft.js";
@@ -139,7 +142,7 @@ export {
 
 	/**
 	 * ボード中のマス目情報
-	 * @type {Object<string, PanelInitOption}
+	 * @type {Object<string, PanelInitOption>}
 	 */
 	panels,
 
@@ -149,9 +152,6 @@ export {
 	 */
 	pieces,
 
-	/**
-	 * @typedef {string[]} PieceRange 駒の移動範囲
-	 */
 	/**
 	 * 駒の移動範囲
 	 * @type{Object<string, PieceRange>}
@@ -171,7 +171,7 @@ export {
  * @prop {Object<string, GameSoft>} gameSoft - ゲーム情報(ボード+駒)のプリセット
  * @prop {Object<string, Game>} games - ゲームの種類に共通する駒情報や駒配置情報
  * @prop {Object<string, BoardInitOption>} boards - ボードの構成情報
- * @prop {Object<string, PanelInitOption} panels - ボード中のマス目情報
+ * @prop {Object<string, PanelInitOption>} panels - ボード中のマス目情報
  * @prop {Object<string, PieceInitOption>} pieces - 駒情報
  * @prop {Object<string, PieceRange>} pieceRange - 駒の移動範囲
  * @prop {Object<string, number>} pieceCost - 駒の価値
