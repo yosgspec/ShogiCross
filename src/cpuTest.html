@@ -19,13 +19,10 @@
 					// {"gameName": "チェス", "pieceSet": "default", "cpuEngine": "greedy"},
 					{"gameName": "チェス", "pieceSet": "default", "cpuEngine": "minimax"},
 				],
-				onDrawed: board => {
-					if(turn < board.turn){
-						turn = board.turn;
-						//console.log(board.getTextPieces("bod"));
-						try{console.log(board.record2String(board.record[turn-1], turn-1, true))}catch(ex){}
-						console.log(board.record2String(board.record[turn], turn, true))
-					}
+				
+				onTurnEnd: (board, turn) => {
+					console.log("ターン終了", board.turn);
+					console.log(board.record2String(board.record[turn], turn, true));
 				}
 		});
 		</script>
