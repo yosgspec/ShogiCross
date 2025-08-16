@@ -56,7 +56,7 @@ export class PlayerControl{
 		if(!compList.includes("textRecord")) return;
 
 		// 元の描写イベントを退避
-		const onDrawedBase = board.onDrawed ?? (()=>{});
+		const onDrawedBase = board.onDrawed;
 		board.onDrawed = async e =>{
 			setTimeout(()=>{
 				const select = this.component.querySelector(`#textRecord${unique}`);
@@ -72,7 +72,7 @@ export class PlayerControl{
 				vSelect.onchange = e=>board.moveRecord(e.target.selectedIndex);
 				select.replaceWith(vSelect);
 			});
-			onDrawedBase(e);
+			onDrawedBase?.(e);
 		}
 	}
 

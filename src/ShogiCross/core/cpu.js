@@ -327,7 +327,6 @@ export class CpuEngine extends CpuEngineBase {
 	}
 	/** 手番操作 */
 	playTurn(){
-		if(this.board.turn === 0) return;
 		this.engine.playTurn();
 	}
 }
