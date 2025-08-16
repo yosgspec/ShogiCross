@@ -146,7 +146,7 @@ export class Board{
 			status.cpu = new CpuEngine(this, status),
 			this.players.set(deg, status);
 			// 駒の初期配置
-			if(!status.gameName) break;
+			if(!status.gameName) continue;
 			try{
 				this.putStartPieces(id, status.gameName, status.pieceSet);
 			}
