@@ -44,21 +44,22 @@ jobs:
       - name: npmパッケージ公開(タグ設定時のみ)
         shell: bash
         run: |
-          if [[ $GITHUB_REF =~ refs/tags/[0-9]+\.[0-9]+\.[0-9]+ ]]; then
+          if echo "$GITHUB_REF" | grep -Eq '^refs/tags/[0-9]+\.[0-9]+\.[0-9]+$'; then
             echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > ~/.npmrc
             npm publish
+          else
+            echo "npm publish skipped: not a tag push"
           fi
-
       - name: ビルド成果物(モジュール)
         uses: actions/upload-artifact@v4
         with:
-          name: shogicross-all
+          name: ShogiCross
           path: src/dist/
 
       - name: ビルド成果物(ドキュメント)
         uses: actions/upload-artifact@v4
         with:
-          name: shogicross-all
+          name: ShogiCrossDoc
           path: |
             doc/
             src/doc/api
