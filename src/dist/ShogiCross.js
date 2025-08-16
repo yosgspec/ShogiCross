@@ -5917,7 +5917,7 @@ class Z {
         degChar: C.degChars[N],
         alive: !0
       };
-      if (v.cpu = new we(this, v), this.players.set(N, v), !v.gameName) return;
+      if (v.cpu = new we(this, v), this.players.set(N, v), !v.gameName) break;
       try {
         this.putStartPieces(f, v.gameName, v.pieceSet);
       } catch (F) {
