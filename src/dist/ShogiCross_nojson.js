@@ -4870,9 +4870,12 @@ function le(S) {
     t.src = S, t.onload = () => e(t);
   });
 }
-const de = [...new Set(
-  Object.values(G).flatMap(({ imgSrc: S }) => S ?? []).concat(Object.values(z).flatMap(({ imgSrc: S }) => S != null ? Object.values(S) : []).flat())
-)], Y = {
+function de() {
+  return [...new Set(
+    Object.values(G).flatMap(({ imgSrc: S }) => S ?? []).concat(Object.values(z).flatMap(({ imgSrc: S }) => S != null ? Object.values(S) : []).flat())
+  )];
+}
+const Y = {
   /** 読み込み済みであるか? */
   imported: !1,
   /** 読み込んだ画像データ
@@ -4885,7 +4888,7 @@ const de = [...new Set(
   async importAsync() {
     if (!this.imported)
       return Promise.all(
-        de.map(async (S) => {
+        de().map(async (S) => {
           this.images[S] = await le(S);
         })
       ).then((S) => this.imported = !0);
@@ -6031,6 +6034,8 @@ class V {
         } catch {
           t[d][c].piece = null;
         }
+    for (; !this.stand; )
+      ;
     this.stand.clear();
     const l = o[s];
     l && l.forEach((d) => {

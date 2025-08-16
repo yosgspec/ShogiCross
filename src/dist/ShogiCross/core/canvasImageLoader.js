@@ -15,11 +15,13 @@ function loadImage(src){
 /** 読み込む画像パスの一覧
  * @type {string[]}
  */
-const imgSrcs = [...new Set(
-	Object.values(panels).flatMap(({imgSrc})=>imgSrc??[])
-	.concat(Object.values(pieces).flatMap(({imgSrc})=>
-		imgSrc != null? Object.values(imgSrc): []).flat())
-)];
+function getImgSrcs(){
+	return [...new Set(
+		Object.values(panels).flatMap(({imgSrc})=>imgSrc??[])
+		.concat(Object.values(pieces).flatMap(({imgSrc})=>
+			imgSrc != null? Object.values(imgSrc): []).flat())
+	)];
+};
 
 /** Canvas用画像の管理 */
 export const canvasImage = {
@@ -37,7 +39,7 @@ export const canvasImage = {
 	async importAsync(){
 		if(this.imported) return;
 		return Promise.all(
-			imgSrcs.map(async src=>{
+			getImgSrcs().map(async src=>{
 				this.images[src] = await loadImage(src);
 			})
 		).then(_=>this.imported = true)

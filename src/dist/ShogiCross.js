@@ -4884,9 +4884,12 @@ function ce(S) {
     t.src = S, t.onload = () => e(t);
   });
 }
-const Se = [...new Set(
-  Object.values(z).flatMap(({ imgSrc: S }) => S ?? []).concat(Object.values(U).flatMap(({ imgSrc: S }) => S != null ? Object.values(S) : []).flat())
-)], Y = {
+function Se() {
+  return [...new Set(
+    Object.values(z).flatMap(({ imgSrc: S }) => S ?? []).concat(Object.values(U).flatMap(({ imgSrc: S }) => S != null ? Object.values(S) : []).flat())
+  )];
+}
+const Y = {
   /** 読み込み済みであるか? */
   imported: !1,
   /** 読み込んだ画像データ
@@ -4899,7 +4902,7 @@ const Se = [...new Set(
   async importAsync() {
     if (!this.imported)
       return Promise.all(
-        Se.map(async (S) => {
+        Se().map(async (S) => {
           this.images[S] = await ce(S);
         })
       ).then((S) => this.imported = !0);
@@ -6045,6 +6048,8 @@ class Z {
         } catch {
           t[d][c].piece = null;
         }
+    for (; !this.stand; )
+      ;
     this.stand.clear();
     const l = o[s];
     l && l.forEach((d) => {
