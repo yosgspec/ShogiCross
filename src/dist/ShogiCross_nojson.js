@@ -5903,12 +5903,12 @@ class V {
         degChar: C.degChars[N],
         alive: !0
       };
-      if (v.cpu = new Ae(this, v), this.players.set(N, v), !v.gameName) break;
-      try {
-        this.putStartPieces(f, v.gameName, v.pieceSet);
-      } catch (j) {
-        console.error(j);
-      }
+      if (v.cpu = new Ae(this, v), this.players.set(N, v), !!v.gameName)
+        try {
+          this.putStartPieces(f, v.gameName, v.pieceSet);
+        } catch (j) {
+          console.error(j);
+        }
     }
     if (this.width = this.panelWidth * (this.xLen + 1), this.height = this.panelHeight * (this.yLen + 1), this.right = h + this.width, this.bottom = y + this.height, this.stand = new Q(this), !k) {
       e.width = c ?? (d ? this.stand.right : this.right) + 5, e.height = m ?? this.bottom + 5;
