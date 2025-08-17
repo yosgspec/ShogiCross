@@ -20,8 +20,9 @@ async function minifyLib(targetDir){
 			if(!response.ok) throw Error(`minify error. filename: ${minFile}`);
 			const minifyCode = await response.text();
 			await fs.writeFile(minFile, minifyCode);
+			console.log(`Minified: ${f} to ${path.basename(minFile)}`);
 		})
 	);
-	console.log(`Minified ${minFiles.length} files in ${targetDir}`);
+	console.log(`Minification completed in: ${targetDir}`);
 }
 minifyLib(...process.argv.slice(2));
