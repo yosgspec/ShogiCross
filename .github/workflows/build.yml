@@ -5,15 +5,15 @@ on:
     branches:
       - main
     tags:
-      - "*.*.*"
+      - *.*.*
   workflow_dispatch:
     inputs:
       version:
-        description: 'ライブラリバージョン'
+        description: ライブラリバージョン
         required: false
 
 jobs:
-  build:
+  Build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -25,37 +25,41 @@ jobs:
           node-version: 20
           registry-url: https://registry.npmjs.org/
 
-      - name: npm install
+      - name: Setup NPM Modules
         run: npm install
 
-      - name: モジュールバンドラー(Vite)
-        run: npm run build:vite
+      - name: Setup ShogiCross Module
+        run: npm run setup
 
-      - name: モジュールバンドラー(Vite:JSON拡張なし)
-        run: npm run build:vitenojson
+      - name: Build ShogiCross Module
+        run: npm run building
 
-      - name: BuildAfter実行(ファイル整理/コード最適化/ZIP生成/MarkDown⇒HTML変換)
-        run: node buildAfter.js
+      - name: Minify ShogiCross Module
+        run: npm run minify
 
-      - name: 型定義生成(TypeScript)
-        run: npm run build:dts
+      - name: Post-process ShogiCross Module
+        run: npm run post
 
-      - name: APIドキュメント生成(Typedoc)
-        run: npm run build:api
-
-      - name: npmパッケージ公開(タグ設定時のみ)
-        if: startsWith(github.ref, 'refs/tags/')
-        run: npm publish --access public
+      - name: Deploy ShogiCross Module
+        run: npm run deploy
+  
+  DeployPublish:
+    runs-on: ubuntu-latest
+    needs: Build
+    if: startsWith(github.ref, 'refs/tags/')
+      - name: Publish NPM
+        run: npm publish --access public || true
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
 
-      - name: ビルド成果物(モジュール)
-        uses: actions/upload-artifact@v4
-        with:
-          name: ShogiCross
-          path: src/dist/
+  DeployDocument:
+    runs-on: ubuntu-latest
+    needs: Build
+    steps:
+      - name: Deploy API Document
+        run: npm run deploy:doc-api
 
-      - name: ビルド成果物(ドキュメント)
+      - name: Deploy Document Artifact
         uses: actions/upload-artifact@v4
         with:
           name: ShogiCrossDoc
@@ -64,3 +68,12 @@ jobs:
             src/doc/api
             src/pages/md
 
+  DeployModule:
+    runs-on: ubuntu-latest
+    needs: Build
+    steps:
+      - name: Deploy Module Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ShogiCross
+          path: src/dist/

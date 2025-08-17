@@ -22,7 +22,7 @@ export default defineConfig(({mode})=>{
 				fileName: env.VITE_NAME,
 				formats: ["es", "iife"]
 			},
-			outDir: "./dist/"+env.VITE_NAME
+			outDir: "./src/dist/"+env.VITE_NAME
 		}
 	}
 });
