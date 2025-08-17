@@ -15,6 +15,8 @@ on:
 jobs:
   Build:
     runs-on: ubuntu-latest
+    defaults:
+      run: working-directory: ${{ github.workspace }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -41,8 +43,10 @@ jobs:
         run: npm run post
 
   DeployPublish:
-    runs-on: ubuntu-latest
     needs: Build
+    runs-on: ubuntu-latest
+    defaults:
+      run: working-directory: ${{ github.workspace }}
     if: startsWith(github.ref, 'refs/tags/')
     steps:
       - name: Publish NPM
@@ -51,11 +55,14 @@ jobs:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
 
   DeployDocument:
-    runs-on: ubuntu-latest
     needs: Build
+    runs-on: ubuntu-latest
+    defaults:
+      run: working-directory: ${{ github.workspace }}
     steps:
       - name: Deploy API Document
         run: npm run deploy:doc-api
+        working-directory: ${{ github.workspace }}
 
       - name: Deploy Document Artifact
         uses: actions/upload-artifact@v4
@@ -67,8 +74,10 @@ jobs:
             src/pages/md
 
   DeployModule:
-    runs-on: ubuntu-latest
     needs: Build
+    runs-on: ubuntu-latest
+    defaults:
+      run: working-directory: ${{ github.workspace }}
     steps:
       - name: Deploy Module Artifact
         uses: actions/upload-artifact@v4
