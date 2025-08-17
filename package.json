@@ -35,7 +35,7 @@
   "type": "module",
   "scripts": {
     "dev": "npx vite",
-    "build": "run-s setup building minify post deploy built",
+    "build": "run-s setup building mvvite minify post deploy built",
     "setup": "run-p setup:*",
     "setup:crean": "npx shx rm -rf ./src/dist",
     "setup:sharp": "npx sharp -i ./src/sample/img/**/*.png -f png -o {dir} ",
@@ -46,6 +46,7 @@
     "building:vite-nojson": "npx vite build --mode nojson",
     "building:copy-sample": "npx shx cp -r ./src/sample ./src/dist",
     "building:copy-source": "npx shx cp -r ./src/ShogiCross ./src/dist/",
+    "mvvite": "node run/moveVite.js ./dist ./src/dist",
     "minify": "node run/minifyLib.js ./src/dist",
     "post": "run-p post:*",
     "post:zip-dist": "node run/zip.js ./src/dist ./src/ShogiCross.zip",
