@@ -25,7 +25,7 @@ export function mouseControl(board){
 	 *     y: number,
 	 * )=>void} fnAfter - 後処理のコールバック関数
 	 */
-	const fieldProc = (e, fnPanel, fnAfter=()=>{})=>{
+	const fieldProc = async (e, fnPanel, fnAfter=()=>{})=>{
 		const viewStyle = window.getComputedStyle(canvas);
 		const rect = e.target.getBoundingClientRect();
 		let x = canvas.width/parseFloat(viewStyle.width);
@@ -44,9 +44,9 @@ export function mouseControl(board){
 			[x, y] = lastXY;
 		}
 		board.field.forEach((row, pY) =>
-			row.forEach((panel, pX) =>
-				fnPanel(panel, x, y, pX, pY)));
-		fnAfter(x, y);
+			row.forEach(async (panel, pX) =>
+				await fnPanel(panel, x, y, pX, pY)));
+		await fnAfter(x, y);
 		board.draw();
 		lastXY = [x, y];
 	};
@@ -54,9 +54,9 @@ export function mouseControl(board){
 	/** ドラッグ開始
 	 * @param {Event} e - イベント引数
 	 */
-	const dragStart = e=>{
+	const dragStart = async e=>{
 		isClick = true;
-		fieldProc(e,
+		await fieldProc(e,
 			(panel, x, y)=>{
 				const {piece, pX, pY} = panel;
 
@@ -84,32 +84,33 @@ export function mouseControl(board){
 	/** ドラッグ中
 	 * @param {any} e - イベント引数
 	 */
-	const dragMove = e=>{
+	const dragMove = async e=>{
 		if(!isClick || !(selectPanel || selectStand)) return;
-		fieldProc(e,
+		await fieldProc(e,
 			(panel, x, y)=>{
 				panel.isSelected = panel.checkRangeMouse(x, y);
 			}
 		);
 	}
 
+
 	/** ドラッグ終了
 	 * @param {Event} e - イベント引数
 	 */
-	const dragEnd = e=>{
+	const dragEnd = async e=>{
 		isClick = false;
-		fieldProc(e,
-			(panel, x, y)=>{
+		await fieldProc(e,
+			async (panel, x, y)=>{
 				if(!panel.checkRangeMouse(x, y)) return;
 				if(selectPanel){
-					board.movePiece(selectPanel, panel);
+					await board.movePiece(selectPanel, panel);
 				}
 				if(selectStand && !panel.piece){
 					board.stand.releasePiece(panel, selectStand);
 				}
 			}
 		);
-		fieldProc(e,
+		await fieldProc(e,
 			panel=>{
 				if(panel.piece) panel.piece.isSelected = false;
 				panel.isSelected = false;
@@ -127,6 +128,23 @@ export function mouseControl(board){
 		);
 	};
 
+	/** パネルの選択状態をリセット */
+	const resetSelect =()=>{
+		for(const panel of board.field.flat()){
+			if(panel.piece) panel.piece.isSelected = false;
+			panel.isSelected = false;
+			panel.clearTarget();
+		}
+		for(const [deg, stock] of board.stand.stocks){
+			for(let i=stock.length-1;0<=i;i--){
+				stock[i].isSelected = false;
+			}
+		}
+		selectPanel = null;
+		selectStand = null;
+		board.draw();
+	}
+
 	// イベントリスナーを作成
 	canvas.addEventListener("mousedown", dragStart);
 	canvas.addEventListener("mousemove", dragMove);
@@ -135,8 +153,8 @@ export function mouseControl(board){
 	canvas.addEventListener("touchmove", dragMove);
 	canvas.addEventListener("touchend", dragEnd);
 
-
 	return {
+		resetSelect,
 		/** イベントリスナーを破棄 */
 		removeEvent(){
 			canvas.removeEventListener("mousedown", dragStart);
