@@ -1,4 +1,4 @@
-name: Build ShogiCross
+name: Build and Deploy ShogiCross
 
 on:
   push:
@@ -11,6 +11,17 @@ on:
       version:
         description: ライブラリバージョン
         required: false
+
+# GitHub Pagesデプロイ権限
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# 同時実行制御：GitHub Pagesのデプロイが重複しないように
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
 
 jobs:
   Build:
@@ -46,23 +57,62 @@ jobs:
       - name: Deploy API Document
         run: npm run deploy:doc-api
 
-      - name: Deploy NPM Publish
-        if: startsWith(github.ref, 'refs/tags/')
+      - name: Upload Source Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: src
+          path: src
+
+  DeployPublish:
+    needs: Build
+    runs-on: ubuntu-latest
+    if: startsWith(github.ref, "refs/tags/")
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          registry-url: https://registry.npmjs.org/
+
+      - name: Download Module Artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: src
+          path: src
+
+      - name: Publish NPM
         run: npm publish --access public || true
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
 
-      - name: Deploy Document Artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: ShogiCrossDoc
-          path: |
-            doc/
-            src/doc/api
-            src/pages/md
+  DeployPages:
+    needs: Build
+    runs-on: ubuntu-latest
+    if: startsWith(github.ref, "refs/heads/")
+    environment:
+      name: github-pages
+      url: ${{steps.deployment.outputs.page_url}}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
 
-      - name: Deploy Module Artifact
-        uses: actions/upload-artifact@v4
+      - name: Setup GitHub Pages
+        uses: actions/configure-pages@v4
+
+      - name: Download Source Artifact
+        uses: actions/download-artifact@v4
         with:
-          name: ShogiCross
-          path: src/dist/
+          name: src
+          path: src
+
+      - name: Upload GitHub Pages Artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: src
+
+      - name: Deploy GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
