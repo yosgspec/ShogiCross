@@ -66,7 +66,7 @@ jobs:
   DeployPublish:
     needs: Build
     runs-on: ubuntu-latest
-    if: startsWith(github.ref, "refs/tags/")
+    if: startsWith(github.ref, 'refs/tags/')
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -91,7 +91,7 @@ jobs:
   DeployPages:
     needs: Build
     runs-on: ubuntu-latest
-    if: startsWith(github.ref, "refs/heads/")
+    if: startsWith(github.ref, 'refs/heads/')
     environment:
       name: github-pages
       url: ${{steps.deployment.outputs.page_url}}
