@@ -45,8 +45,8 @@ jobs:
       - name: Build ShogiCross Module
         run: npm run building
 
-      - name: Move ShogiCross Module
-        run: npm run mvvite
+      - name: Collect ShogiCross Module
+        run: npm run collect
 
       - name: Minify ShogiCross Module
         run: npm run minify
