@@ -1,4 +1,4 @@
-name: Build and Deploy ShogiCross
+name: Build and Deploy
 
 on:
   push:
@@ -55,8 +55,12 @@ jobs:
         run: npm run post
 
       - name: Deploy API Document
-        if: startsWith(github.ref, 'refs/heads/')
-        run: npm run deploy:doc-api
+        uses: nick-fields/retry@v3
+        with:
+          timeout_minutes: 10
+          max_attempts: 5
+          retry_on: error
+          command: npm run deploy:doc-api
 
       - name: Upload Source Artifact
         uses: actions/upload-artifact@v4
