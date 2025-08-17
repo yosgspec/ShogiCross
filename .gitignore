@@ -10,7 +10,10 @@ gh_pages*
 
 node_modules
 dist
-!src/dist
+src/dist
+src/doc/api
+src/ShogiCross.zip
+src/paper.zip
 dist-ssr
 *.mjs
 shogicross-*.tgz

@@ -1,0 +1,20 @@
+{
+	"てがきちぇす": {
+		"english": "HandChess",
+		"fontColor": "#FFFFFF",
+		"backgroundColor": "#000000",
+		"promoteFontColor": "#FFFFFF",
+		"promoteBackgroundColor": "#000000",
+		"borderColor": "#777777",
+		"promoteBorderColor": "#FF3300",
+		"promoLine": 1,
+		"position": {
+			"8": {
+				"てがきちぇす": [
+					"ぽぽぽぽぽぽぽぽ",
+					"るなびくおびなる"
+				]
+			}
+		}
+	}
+}

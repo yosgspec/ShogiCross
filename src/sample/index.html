@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>単品ゲーム集 - ShogiCross</title>
+	</head>
+	<body>
+		<div class="flex-col">
+			<h1>単品ゲーム集【将棋クロス】</h1>
+			<ui id="singleGames" class="flex-col"></ui>
+			<a href=".." target="_parent">RETURN</a>
+		</div>
+
+		<template id="gameLink">
+			<li><a></a></li>
+		</template>
+
+		<script type="module">
+		import {gameSoft} from "./ShogiCross.js";
+		const ui = document.getElementById("singleGames");
+		const vUi = ui.cloneNode(false);
+		const vLi = document.getElementById("gameLink").content.firstElementChild;
+
+		Object.entries(gameSoft).forEach(([key, {name}])=>{
+			if(["default", "cross"].includes(key)) return;
+			const li = vLi.cloneNode(true);
+			const a = li.firstElementChild;
+			a.href = `./${key}.html`;
+			a.textContent = name;
+			vUi.appendChild(li);
+		});
+		ui.replaceWith(vUi);
+		</script>
+	</body>
+</html>

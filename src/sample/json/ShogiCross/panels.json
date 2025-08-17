@@ -1,0 +1,24 @@
+{
+	"^": {
+		"name": "てがきちぇす白",
+		"text": "　　",
+		"imgSrc": "./img/ShogiCross/handPanelWhite.png",
+		"backgroundColor": "#CCCCCC",
+		"borderColor": "#33333377"
+	},
+	"`": {
+		"name": "てがきちぇす黒",
+		"text": "　　",
+		"imgSrc": "./img/ShogiCross/handPanelBlack.png",
+		"backgroundColor": "#444444",
+		"borderColor": "#CCCCCC77",
+		"selectColor": "#FF000066",
+		"targetColor": "#00FF0066",
+		"displayText": "",
+		"textRotate": 0,
+		"borderSlashLeft": false,
+		"borderSlashRight": false,
+		"intersect": false,
+		"attr": []
+	}
+}
