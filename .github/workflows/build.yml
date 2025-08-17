@@ -55,6 +55,7 @@ jobs:
         run: npm run post
 
       - name: Deploy API Document
+        if: startsWith(github.ref, 'refs/heads/')
         run: npm run deploy:doc-api
 
       - name: Upload Source Artifact
