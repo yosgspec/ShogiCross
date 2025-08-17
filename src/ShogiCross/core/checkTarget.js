@@ -133,7 +133,7 @@ export function checkTarget(board, piece, pX, pY){
 		boardClone.isHeadless = true;
 		boardClone.onGameOver = null;
 		// 今の駒が動いたとして、
-		boardClone.movePiece(
+		boardClone.simpleMovePiece(
 			boardClone.field[pY][pX],
 			boardClone.field[panel.pY][panel.pX]
 		);
@@ -331,16 +331,14 @@ export function isKingInCheck(board, playerDeg){
 	const kingPanel = kingPanels[0];
 
 	// 相手の駒の攻撃範囲に王が存在するか?
-	for(const row of board.field){
-		for(const panel of row){
-			// 駒のないマス、または自プレイヤーの駒はスキップ
-			if(!panel.piece || panel.piece.deg === playerDeg) continue;
-			// 相手の駒の移動可能マスを取得
-			const enemyMovePanels = checkTarget(board, panel.piece, panel.pX, panel.pY);
-			if(enemyMovePanels.some(({pX, pY})=>
-				pX === kingPanel.pX && pY === kingPanel.pY
-			)) return true; // 王手されている
-		}
+	for(const panel of board.field.flat()){
+		// 駒のないマス、または自プレイヤーの駒はスキップ
+		if(!panel.piece || panel.piece.deg === playerDeg) continue;
+		// 相手の駒の移動可能マスを取得
+		const enemyMovePanels = checkTarget(board, panel.piece, panel.pX, panel.pY);
+		if(enemyMovePanels.some(({pX, pY})=>
+			pX === kingPanel.pX && pY === kingPanel.pY
+		)) return true; // 王手されている
 	}
 	return false; // 王手されていない
 }
@@ -361,7 +359,11 @@ export function hasLegalMoves(board, playerDeg){
 		if(!fromPanel.piece || fromPanel.piece.deg !== playerDeg) continue;
 		const canMovePanels = checkTarget(boardClone, fromPanel.piece, fromPanel.pX, fromPanel.pY);
 		for(const toPanel of canMovePanels){
-			boardClone.movePiece(fromPanel, toPanel, true);
+			// 駒を移動
+			boardClone.simpleMovePiece(
+				boardClone.field[pY][pX],
+				boardClone.field[panel.pY][panel.pX]
+			);
 			// 移動後に王が王手されていないか確認
 			if(!isKingInCheck(boardClone, playerDeg)) return true;
 		}
