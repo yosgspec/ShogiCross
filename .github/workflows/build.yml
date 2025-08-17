@@ -15,9 +15,6 @@ on:
 jobs:
   Build:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ${{ github.workspace }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -37,34 +34,23 @@ jobs:
       - name: Build ShogiCross Module
         run: npm run building
 
+      - name: Move ShogiCross Module
+        run: npm run mvvite
+
       - name: Minify ShogiCross Module
         run: npm run minify
 
-      - name: Post-process ShogiCross Module
+      - name: Post ShogiCross Module
         run: npm run post
 
-  DeployPublish:
-    needs: Build
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ${{ github.workspace }}
-    if: startsWith(github.ref, 'refs/tags/')
-    steps:
-      - name: Publish NPM
+      - name: Deploy API Document
+        run: npm run deploy:doc-api
+
+      - name: Deploy NPM Publish
+        if: startsWith(github.ref, 'refs/tags/')
         run: npm publish --access public || true
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
-
-  DeployDocument:
-    needs: Build
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ${{ github.workspace }}
-    steps:
-      - name: Deploy API Document
-        run: npm run deploy:doc-api
 
       - name: Deploy Document Artifact
         uses: actions/upload-artifact@v4
@@ -75,13 +61,6 @@ jobs:
             src/doc/api
             src/pages/md
 
-  DeployModule:
-    needs: Build
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ${{ github.workspace }}
-    steps:
       - name: Deploy Module Artifact
         uses: actions/upload-artifact@v4
         with:
