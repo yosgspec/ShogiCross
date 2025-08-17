@@ -3,6 +3,7 @@
 import {canvasFont} from "./canvasFontLoader.js";
 import {canvasImage} from "./canvasImageLoader.js";
 import {downloadImage} from "./downloadImage.js";
+import {Dialog} from "./dialog.js";
 import {mouseControl} from "./mouseControl.js";
 import {PlayerControl} from "./playerControl.js";
 import {Stand} from "./stand.js";
@@ -20,6 +21,7 @@ export class Board{
 	#playerControl
 	#option
 	#beforeTurn
+	#dialog
 
 	/**
 	 * @typedef {Object} Record - 局面の記録
@@ -87,7 +89,6 @@ export class Board{
 		this.variant = variant;
 		this.url = url;
 		this.desc = desc;
-
 		// 初期化
 		this.ctx = null;
 		this.canvas = null;
@@ -99,6 +100,7 @@ export class Board{
 			this.canvas = canvas;
 			this.ctx = canvas.getContext("2d");
 			this.ctx.clearRect(0, 0, canvas.width, canvas.height);
+			this.#dialog = new Dialog();
 		}
 
 		this.pieces = Piece.getPieces(this.ctx, {
@@ -495,9 +497,16 @@ export class Board{
 	 * @param {boolean} forcePromo - 成りを強制する
 	 * @param {boolean} isCpuMove - CPUによる移動か
 	 */
-	#promoDialog(fromPanel, toPanel, canPromo, forcePromo, isCpuMove=false){
+	async #promoPiece(fromPanel, toPanel, canPromo, forcePromo, isCpuMove=false){
 		const {moveMode} = this;
 		const {piece} = toPanel;
+		const promo = char=>{
+			piece.promotion(char);
+			this.addRecord({fromPanel, toPanel, end:"成"});
+		};
+		const notPromo = ()=>{
+			this.addRecord({fromPanel, toPanel, end:"不成"});
+		};
 
 		// プロモーション処理
 		if(!piece.promo || piece.hasAttr("promoted") || piece.hasAttr("cantPromotion") || !canPromo){
@@ -506,31 +515,34 @@ export class Board{
 		}
 
 		if(this.isHeadless || isCpuMove){
-			if(canPromo){
-				const promoChar = Object.keys(piece.promo)[0];
-				piece.promotion(promoChar);
-				this.addRecord({fromPanel, toPanel, end:"成"});
-				return;
-			}
-			else{
-				this.addRecord({fromPanel, toPanel});
-				return;
-			}
+			if(canPromo)
+				promo(Object.keys(piece.promo)[0]);
+			else
+				notPromo();
+			return;
 		}
 
-		do{
-			for(const [char, {name}] of Object.entries(piece.promo)){
-				if(confirm(`成りますか?
-${piece.char}:${piece.name}
-　↓
-${char}:${name}`)){
-					piece.promotion(char);
-					this.addRecord({fromPanel, toPanel, end:"成"});
-					return;
-				}
-			}
-		} while(moveMode !== "free" && forcePromo);
-		this.addRecord({fromPanel, toPanel, end:"不成"});
+		let promoList = [];
+		for(const [char, {name}] of Object.entries(piece.promo))
+			promoList.push({label: `${char}:${name}`, value: char});
+		if(moveMode === "free" || !forcePromo)
+			promoList.push({label: "不成", value: null});
+
+		const promoChar = await this.#dialog.show("",
+			"成りますか?\n"+
+			`${piece.char}:${piece.name}`,
+			promoList
+		);
+		if(promoChar)
+			promo(promoChar);
+		else
+			notPromo();		
+	}
+
+	simpleMovePiece(fromPanel, toPanel){
+		toPanel.piece = fromPanel.piece;
+		toPanel.piece.isMoved = true;
+		fromPanel.piece = null;
 	}
 
 	/** 駒を移動
@@ -538,7 +550,7 @@ ${char}:${name}`)){
 	 * @param {Panel} toPanel - 選択中のマス目
 	 * @param {boolean} isCpuMove - CPUによる移動か
 	 */
-	movePiece(fromPanel, toPanel, isCpuMove=false){
+	async movePiece(fromPanel, toPanel, isCpuMove=false){
 		const {stand, moveMode, enPassant} = this;
 
 		if(!fromPanel
@@ -559,9 +571,7 @@ ${char}:${name}`)){
 			toPanel.hasAttr("cantCapture")
 		);
 
-		toPanel.piece = fromPanel.piece;
-		toPanel.piece.isMoved = true;
-		fromPanel.piece = null;
+		this.simpleMovePiece(fromPanel, toPanel);
 
 		const afterPromo = this.checkCanPromo(toPanel);
 		canPromo ||= afterPromo.canPromo;
@@ -571,7 +581,8 @@ ${char}:${name}`)){
 		enPassant.setMoved(toPanel);
 
 		// プロモーション処理
-		this.#promoDialog(fromPanel, toPanel, canPromo, forcePromo, isCpuMove);
+		await this.#promoPiece(fromPanel, toPanel, canPromo, forcePromo, isCpuMove);
+		this.#mouseControl.resetSelect();
 
 		// プレイヤーのゲームオーバー判定
 		this.#emitGameOver();
@@ -618,7 +629,6 @@ ${char}:${name}`)){
 			// CPUのターンを進める
 			this.getActivePlayer().cpu.playTurn();
 		}
-
 	}
 
 	/** 棋譜コメントを追記
