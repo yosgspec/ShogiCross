@@ -1,0 +1,102 @@
+{
+	"ぽ": {
+		"name": "てがきぽーん",
+		"display": ["♟", "♙"],
+		"imgSrc": {
+			"0": ["./img/ShogiCross/handPawnWhite.png"],
+			"180": ["./img/ShogiCross/handPawnBlack.png"]
+		},
+		"alias": "ポ",
+		"gameName": "てがきちぇす",
+		"unit": "兵",
+		"attr": ["enPassant"],
+		"forcePromoLine": 1,
+		"isRotateImg": false,
+		"range": {
+			"default": "歩",
+			"start": "二",
+			"attack": "兵",
+			"enPassant": "通"
+		},
+		"promo": "く"
+	},
+	"な": {
+		"name": "てがきないと",
+		"display": ["♞", "♘"],
+		"imgSrc": {
+			"0": ["./img/ShogiCross/handKnightWhite.png"],
+			"180": ["./img/ShogiCross/handKnightBlack.png"]
+		},
+		"alias": "ナ",
+		"gameName": "てがきちぇす",
+		"unit": "馬",
+		"isRotateImg": false,
+		"range": {
+			"default": "騎"
+		}
+	},
+	"び": {
+		"name": "てがきびしょっぷ",
+		"display": ["♝", "♗"],
+		"imgSrc": {
+			"0": ["./img/ShogiCross/handBishopWhite.png"],
+			"180": ["./img/ShogiCross/handBishopBlack.png"]
+		},
+		"alias": "ビ",
+		"gameName": "てがきちぇす",
+		"unit": "象",
+		"isRotateImg": false,
+		"range": {
+			"default": "聖"
+		}
+	},
+	"る": {
+		"name": "てがきるーく",
+		"display": ["♜", "♖"],
+		"imgSrc": {
+			"0": ["./img/ShogiCross/handRookWhite.png"],
+			"180": ["./img/ShogiCross/handRookBlack.png"]
+		},
+		"alias": "ル",
+		"gameName": "てがきちぇす",
+		"unit": "車",
+		"attr": ["castlingRook"],
+		"isRotateImg": false,
+		"range": {
+			"default": "車",
+			"castling": "塔"
+		}
+	},
+	"く": {
+		"name": "てがきくいーん",
+		"display": ["♛", "♕"],
+		"imgSrc": {
+			"0": ["./img/ShogiCross/handQweenWhite.png"],
+			"180": ["./img/ShogiCross/handQweenBlack.png"]
+		},
+		"alias": "ク",
+		"gameName": "てがきちぇす",
+		"isRotateImg": false,
+		"range": {
+			"default": "后"
+		}
+	},
+	"お": {
+		"name": "キング",
+		"display": ["♚", "♔"],
+		"imgSrc": {
+			"0": ["./img/ShogiCross/handKingWhite.png"],
+			"180": ["./img/ShogiCross/handKingBlack.png"]
+		},
+		"alias": "オ",
+		"gameName": "てがきちぇす",
+		"expansion": "てがきちぇす",
+		"unit": "王",
+		"attr": ["king", "castlingKing"],
+		"isRotateImg": false,
+		"range": {
+			"default": "王",
+			"castling": "城"
+		}
+	}
+}
