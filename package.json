@@ -1,6 +1,6 @@
 {
   "name": "shogicross",
-  "version": "0.10.0",
+  "version": "0.0.0",
   "description": "様々な将棋類の駒を並べるだけの将棋盤のようなツール",
   "main": "./src/dist/ShogiCross.js",
   "bin": {
@@ -35,10 +35,10 @@
   "type": "module",
   "scripts": {
     "dev": "npx vite",
+    "sharp-all": "npx sharp -i ./**/*.png -f png -o {dir} ",
     "build": "run-s setup building collect minify post deploy built",
     "setup": "run-p setup:*",
     "setup:crean": "npx shx rm -rf ./src/dist",
-    "setup:sharp": "npx sharp -i ./src/sample/img/**/*.png -f png -o {dir} ",
     "setup:doc-md2html": "node run/md2html.js ./doc ./src/pages/md",
     "setup:zip-paper": "node run/zip.js ./paper ./src/paper.zip",
     "building": "run-p building:*",
@@ -48,7 +48,9 @@
     "collect:copy-sample": "npx shx cp -r ./src/sample/* ./src/dist/",
     "collect:copy-source": "npx shx cp -r ./src/ShogiCross ./src/dist/",
     "collect:move-vite": "node run/moveVite.js ./dist ./src/dist",
-    "minify": "node run/minifyLib.js ./src/dist",
+    "minify": "run-p minify:*",
+    "minify:module": "node run/minifyLib.js ./src/dist",
+    "minify:sharp": "npx sharp -i ./src/dist/img/**/*.png -f png -o {dir} ",
     "post": "run-p post:*",
     "post:zip-dist": "node run/zip.js ./src/dist ./src/ShogiCross.zip",
     "post:dts": "npx tsc",
