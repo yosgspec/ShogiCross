@@ -8,6 +8,7 @@ export class PlayerControl{
 
 	/** 要素のサイズをCanvasに合わせて変更 */
 	#resize(){
+		if(this.board.isHeadless) return;
 		const {canvas} = this.board;
 		const viewStyle = window.getComputedStyle(canvas);
 		this.component.style.maxWidth = parseFloat(viewStyle.width)+"px";
@@ -78,12 +79,14 @@ export class PlayerControl{
 
 	/** 操作パネルを追加 */
 	add(){
+		if(this.board.isHeadless) return;
 		const {canvas} = this.board;
 		canvas.after(this.component);
 	}
 
 	/** 操作パネルを破棄 */
 	remove(){
+		if(this.board.isHeadless) return;
 		this.component.remove();
 		window.removeEventListener("resize", ()=>this.#resize);
 	}
