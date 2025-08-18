@@ -359,7 +359,6 @@ export function hasLegalMoves(board, playerDeg){
 			const boardClone = board.clone();
 			boardClone.isHeadless = true;
 			boardClone.onGameOver = null;
-			console.log(boardClone.onGameOver)
 			// 駒を移動
 			boardClone.simpleMovePiece(
 				boardClone.field[fromPanel.pY][fromPanel.pX],
