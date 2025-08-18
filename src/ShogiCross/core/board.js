@@ -201,7 +201,10 @@ export class Board{
 		// 自動描写更新設定
 		this.autoDrawing = autoDrawing;
 		if(autoDrawing){
-			canvasFontAsync.then(()=>this.draw());
+			canvasFontAsync.then(()=>{
+				this.draw();
+				this.#dialog.setFontFamily(canvasFont.names);
+			});
 			canvasImageAsync.then(()=>this.draw());
 			this.draw();
 		}

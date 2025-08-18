@@ -38,7 +38,7 @@ export class Dialog{
 	#btnContainer;
 	#styles;
 
-	constructor(styles={}) {
+	constructor(styles={}){
 		this.#styles = {...defaultStyles, ...styles};
 
 		this.dialog = document.createElement("dialog");
@@ -59,17 +59,17 @@ export class Dialog{
 		this.isModal = false;
 	}
 
-	#onClick(btn) {
+	#onClick(btn){
 		this.dialog.close();
 		this.dialog.style.display = "none";
 		return btn.value;
 	}
 
-	async show(title, message, buttons) {
+	async show(title, message, buttons){
 		this.#title.textContent = title;
 		this.#message.innerHTML = message.replace(/\r|\n|\r\n/g,"<br>");
 		this.#btnContainer.innerHTML = "";
-		return new Promise(resolve => {
+		return new Promise(resolve=>{
 			for(const btn of buttons){
 				const b = document.createElement("button");
 				this.#btnContainer.appendChild(b);
@@ -84,4 +84,16 @@ export class Dialog{
 			this.dialog.showModal();
 		});
 	}
+
+	/**
+	 * ダイアログのフォントを設定します。
+	 * @param {string} fontFamily - 設定するフォントファミリー名
+	 */
+	setFontFamily(fontFamily){
+		if(this.dialog){
+			this.dialog.style.fontFamily = fontFamily;
+				// ボタンのフォントも設定
+				this.#styles.button.fontFamily = fontFamily;
+			}
+		}
 }
