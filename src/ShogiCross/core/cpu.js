@@ -22,22 +22,22 @@ export class CpuEngineBase{
 	 * @param {Board} board - 評価対象の盤面
 	 * @returns {number} 盤面の評価値
 	 */
-	evaluate(board = this.board) {
-		const { player } = this;
+	evaluate(board=this.board){
+		const {player} = this;
 		const KING_VALUE = 10000; // 王の価値
 		let my_score = 0;
 
 		// 盤上の駒を評価
-		board.field.flat().forEach(panel => {
-			if (panel.piece && panel.piece.deg === player.deg) {
+		board.field.flat().forEach(panel=>{
+			if(panel.piece && panel.piece.deg === player.deg){
 				const is_king = panel.piece.cost <= 0;
 				my_score += is_king ? KING_VALUE : panel.piece.cost;
 			}
 		});
 
 		// 持ち駒を評価
-		board.stand.stocks.forEach((pieces, deg) => {
-			if (deg === player.deg) {
+		board.stand.stocks.forEach((pieces, deg)=>{
+			if(deg === player.deg){
 				const hand_value = pieces.reduce((acc, piece) => acc + piece.cost, 0);
 				my_score += hand_value;
 			}
@@ -134,6 +134,7 @@ CpuEngines.greedy = class Greedy extends CpuEngineBase{
 		for(const move of allPossibleMoves){
 			const boardClone = board.clone();
 			boardClone.isHeadless = true;
+			boardClone.onGameOver = null;
 			// クローン盤上のパネルを取得
 			const fromPanelClone = boardClone.field[move.from.pY][move.from.pX];
 			const toPanelClone = boardClone.field[move.to.pY][move.to.pX];
@@ -157,7 +158,7 @@ CpuEngines.greedy = class Greedy extends CpuEngineBase{
 }
 
 /** ミニマックスエンジン (アルファベータ枝刈り付き) */
-CpuEngines.minimax = class Minimax extends CpuEngineBase {
+CpuEngines.minimax = class Minimax extends CpuEngineBase{
 	constructor(board, player){
 		super(board, player);
 		this.searchDepth = 3; // 探索の深さ
@@ -207,6 +208,8 @@ CpuEngines.minimax = class Minimax extends CpuEngineBase {
 			let maxEval = -Infinity;
 			for(const move of allPossibleMoves){
 				const boardClone = board.clone();
+				boardClone.isHeadless = true;
+				boardClone.onGameOver = null;
 				const fromPanelClone = boardClone.field[move.from.pY][move.from.pX];
 				const toPanelClone = boardClone.field[move.to.pY][move.to.pX];
 				await boardClone.movePiece(fromPanelClone, toPanelClone, true);
@@ -222,6 +225,8 @@ CpuEngines.minimax = class Minimax extends CpuEngineBase {
 			let minEval = Infinity;
 			for(const move of allPossibleMoves){
 				const boardClone = board.clone();
+				boardClone.isHeadless = true;
+				boardClone.onGameOver = null;
 				const fromPanelClone = boardClone.field[move.from.pY][move.from.pX];
 				const toPanelClone = boardClone.field[move.to.pY][move.to.pX];
 				await boardClone.movePiece(fromPanelClone, toPanelClone, true);
@@ -246,7 +251,7 @@ CpuEngines.minimax = class Minimax extends CpuEngineBase {
 
 		// 合法手の生成
 		const movablePieces = [];
-		board.field.flat().forEach(panel => {
+		board.field.flat().forEach(panel=>{
 			if(panel.piece && panel.piece.deg === player.deg){
 				const fromPanel = panel;
 				const toPanels = checkTarget(board, fromPanel.piece, fromPanel.pX, fromPanel.pY);
@@ -272,6 +277,7 @@ CpuEngines.minimax = class Minimax extends CpuEngineBase {
 		for(const move of allPossibleMoves){
 			const boardClone = board.clone();
 			boardClone.isHeadless = true;
+			boardClone.onGameOver = null;
 			const fromPanelClone = boardClone.field[move.from.pY][move.from.pX];
 			const toPanelClone = boardClone.field[move.to.pY][move.to.pX];
 			await boardClone.movePiece(fromPanelClone, toPanelClone, true);
@@ -315,7 +321,7 @@ export class CpuEngine extends CpuEngineBase {
 		if(!this.engine) throw new Error(`Engine "${engineName}" not found.`);
 	}
 	/** 手番操作 */
-	async playTurn() {
+	async playTurn(){
 		// ターン開始時に盤面を再描写
 		if(this.board.autoDrawing) this.board.draw();
 
