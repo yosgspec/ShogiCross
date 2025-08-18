@@ -3,7 +3,7 @@ name: Create and Push Tag from package.json (if-conditional)
 on:
   push:
     branc
-      - act:
+      - act
   tag-and-push:
     runs-on: ubuntu-latest
     permissions:
