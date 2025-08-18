@@ -1,6 +1,6 @@
 /**
  * @typedef {object} OverlayOptions
- * @property {boolean} useDimOverlay - スピナー表示時に画面を暗転させるか
+ * @property {boolean} useDimOverlay - 画面を暗転させるか
  * @property {boolean} showSpinner - スピナーを表示するか
  * @property {number} radius - スピナーの半径
  * @property {number} lineWidth - スピナーの線の太さ
@@ -9,9 +9,9 @@
  */
 
 /**
- * スピナーを描写・管理するクラス
+ * オーバーレイを描写・管理するクラス
  */
-export class Spinner{
+export class Overlay{
     /**
      * @param {HTMLCanvasElement} canvas - Canvas要素
      * @param {OverlayOptions} options - スピナーのオプション
@@ -32,7 +32,7 @@ export class Spinner{
     }
 
     /**
-     * スピナーのアニメーションを開始します。
+     * オーバーレイを開始します。
      */
     start() {
         this.#active = true;
@@ -45,7 +45,7 @@ export class Spinner{
     }
 
     /**
-     * スピナーのアニメーションを停止します。
+     * オーバーレイを停止します。
      */
     stop() {
         this.#active = false;
