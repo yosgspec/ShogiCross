@@ -109,7 +109,7 @@ jobs:
 
       - name: Get ShogiCross Version
         id: PROJECT_VERSION
-        run: echo "value=$(node -p \"require('./package.json').version\")" >> $GITHUB_OUTPUT
+        run: echo "value=$(node -p "require('./package.json').version")" >> $GITHUB_OUTPUT
 
       - name: Try Exist Tag
         id: TRY_EXISTS_TAG
