@@ -361,8 +361,8 @@ export function hasLegalMoves(board, playerDeg){
 		for(const toPanel of canMovePanels){
 			// 駒を移動
 			boardClone.simpleMovePiece(
-				boardClone.field[pY][pX],
-				boardClone.field[panel.pY][panel.pX]
+				boardClone.field[fromPanel.pY][fromPanel.pX],
+				boardClone.field[toPanel.pY][toPanel.pX]
 			);
 			// 移動後に王が王手されていないか確認
 			if(!isKingInCheck(boardClone, playerDeg)) return true;

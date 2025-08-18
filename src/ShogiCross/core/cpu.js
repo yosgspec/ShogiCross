@@ -140,7 +140,7 @@ CpuEngines.greedy = class Greedy extends CpuEngineBase{
 		let bestMove = null;
 		let bestScore = -Infinity;
 
-		for(move of allPossibleMoves){
+		for(const move of allPossibleMoves){
 			const boardClone = board.clone();
 			boardClone.isHeadless = true;
 			// クローン盤上のパネルを取得
