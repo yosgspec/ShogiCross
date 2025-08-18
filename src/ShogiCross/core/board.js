@@ -558,7 +558,7 @@ export class Board{
 			|| toPanel.hasAttr("keepOut")
 			|| toPanel.piece === fromPanel.piece
 			|| toPanel.piece?.deg === fromPanel.piece.deg
-			|| moveMode !== "free" && !toPanel.isTarget
+			|| !isCpuMove && moveMode !== "free" && !toPanel.isTarget
 			|| !isCpuMove && this.getActivePlayer().cpuEngine
 		) return;
 
@@ -582,7 +582,7 @@ export class Board{
 
 		// プロモーション処理
 		await this.#promoPiece(fromPanel, toPanel, canPromo, forcePromo, isCpuMove);
-		this.#mouseControl.resetSelect();
+		if(this.#mouseControl) this.#mouseControl.resetSelect();
 
 		// プレイヤーのゲームオーバー判定
 		this.#emitGameOver();
@@ -595,12 +595,14 @@ export class Board{
 	 * @param {string} option.end - オプション=成|不成|打
 	 */
 	addRecord(option={}){
-		if(this.isHeadless) return;
 		const {record} = this;
 		const {fromPanel={}, toPanel={}, end="", inc=1} = option;
 		const {piece={}} = toPanel;
 
 		this.turn += inc;
+
+		if (this.isHeadless) return; // Stop here for simulations
+
 		record[this.turn] = {
 			from: {
 				pX: fromPanel.pX,
