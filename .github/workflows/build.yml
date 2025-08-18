@@ -39,10 +39,6 @@ jobs:
       - name: Setup NPM Modules
         run: npm install
 
-      - name: Update package.json Version
-        if: startsWith(github.ref, 'refs/tags/')
-        run: npm version --no-git-tag-version ${GITHUB_REF#refs/tags/}
-
       - name: Setup ShogiCross Module
         run: npm run setup
 
@@ -91,6 +87,9 @@ jobs:
         with:
           name: src
           path: src
+
+      - name: Update package.json Version
+        run: npm version --no-git-tag-version ${GITHUB_REF#refs/tags/}
 
       - name: Publish NPM
         run: npm publish --access public
