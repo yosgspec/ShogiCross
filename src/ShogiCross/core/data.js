@@ -51,6 +51,7 @@
  * @prop {string} backgroundColor - 背景色(デフォルト無色)
  * @prop {boolean} isHeadless - ヘッドレスモード（Canvas非描画・自動操作用）
  * @prop {boolean} autoDrawing - 描写の自動更新有無
+ * @prop {boolean} useDimOverlay - CPU思考中に画面を暗転させるか
  * @prop {"normal"|"free"|"viewOnly"} moveMode - 移動モード
  * @prop {boolean} useDefaultPlayer - デフォルトのプレイヤーを使用する
  * @prop {(e:Board)=>void} onDrawed - 描写イベント
