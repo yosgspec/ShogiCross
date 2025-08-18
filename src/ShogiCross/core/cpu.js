@@ -317,12 +317,12 @@ export class CpuEngine extends CpuEngineBase {
 	/** 手番操作 */
 	async playTurn() {
 		// ターン開始時に盤面を再描写
-		if (this.board.autoDrawing) this.board.draw();
+		if(this.board.autoDrawing) this.board.draw();
 
 		// 思考中であることを示すため、画面を暗転してウェイトを入れる
 		const delay = this.player.cpuDelay ?? 0;
-		if (delay > 0) {
-			if (this.board.useDimOverlay) {
+		if(0 < delay){
+			if(this.board.useDimOverlay){
 				this.board.drawOverlay("rgba(0, 0, 0, 0.3)");
 			}
 			await new Promise(resolve => setTimeout(resolve, delay));
