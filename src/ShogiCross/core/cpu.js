@@ -337,7 +337,7 @@ export class CpuEngine extends CpuEngineBase {
 		// 思考中であることを示すため、画面を暗転してウェイトを入れる
 		const delay = this.player.cpuDelay ?? 0;
 		if(0 < delay){
-			this.board.startSpinner();
+			this.board.startOverlay();
 			await new Promise(resolve=>setTimeout(resolve, delay));
 		}
 
@@ -345,7 +345,7 @@ export class CpuEngine extends CpuEngineBase {
 		await this.engine.playTurn();
 
 		// 処理が完了したら、必ず盤面を再描写して暗転を解除する
-		this.board.stopSpinner();
+		this.board.stopOverlay();
 		if (this.board.autoDrawing) this.board.draw();
 	}
 }

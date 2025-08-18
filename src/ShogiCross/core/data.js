@@ -28,7 +28,7 @@
  * @prop {string} cpuEngine - CPUエンジン名
  */
 /** @typedef {Object} Board */
-/** @typedef {import('./spinner').SpinnerOptions} SpinnerOptions */
+/** @typedef {import('./spinner').OverlayOptions} OverlayOptions */
 /**
  * @typedef {Object} BoardInitOption - ボードの初期化オプション
  * @prop {string} playBoard - ボードタイプ
@@ -52,7 +52,7 @@
  * @prop {string} backgroundColor - 背景色(デフォルト無色)
  * @prop {boolean} isHeadless - ヘッドレスモード（Canvas非描画・自動操作用）
  * @prop {boolean} autoDrawing - 描写の自動更新有無
- * @prop {SpinnerOptions} [spinnerOptions] - スピナーのオプション
+ * @prop {OverlayOptions} [OverlayOptions] - スピナーのオプション
  * @prop {"normal"|"free"|"viewOnly"} moveMode - 移動モード
  * @prop {boolean} useDefaultPlayer - デフォルトのプレイヤーを使用する
  * @prop {(e:Board)=>void} onDrawed - 描写イベント
