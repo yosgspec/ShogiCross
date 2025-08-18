@@ -10,18 +10,17 @@
 		import {Board, gameSoft} from "./ShogiCross/lib.js"
 		let turn = -1;
 		const canvas = document.getElementById("shogiCross");
-		    const board = Board.run(canvas, {
-				playBoard: "将棋",
+			const board = Board.run(canvas, {
+				playBoard: "4人用クロス8列",
 				useStand: true,
+				usePlayerControl: true,
 				playerOptions: [
-					{"gameName": "将棋", "pieceSet": "default"},
-					// {"gameName": "チェス", "pieceSet": "default", "cpuEngine": "random"},
-					// {"gameName": "チェス", "pieceSet": "default", "cpuEngine": "greedy"},
-					{"gameName": "チェス", "pieceSet": "default", "cpuEngine": "minimax"},
+					{"gameName": "将棋", "pieceSet": "p4"},
+					{"gameName": "マークルック", "pieceSet": "p4", "cpuEngine": "random"},
+					{"gameName": "チェス", "pieceSet": "p4", "cpuEngine": "random"},
+					{"gameName": "シャンチー", "pieceSet": "p4", "cpuEngine": "minimax"},
 				],
-				
 				onTurnEnd: (board, turn) => {
-					console.log("ターン終了", board.turn);
 					console.log(board.record2String(board.record[turn], turn, true));
 				}
 		});
