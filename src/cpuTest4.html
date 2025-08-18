@@ -19,11 +19,10 @@
 					{"gameName": "将棋", "pieceSet": "p4", "cpuEngine": "greedy"},
 					{"gameName": "将棋", "pieceSet": "p4", "cpuEngine": "random"},
 				],
-				onTurnEnd: (board, turn) => {
-					console.log("ターン終了", board.turn);
+				onTurnEnd: (board, turn)=>{
 					console.log(board.record2String(board.record[turn], turn, true));
 				}
-			});	
+			});
 			/*const board = Board.run(canvas, {
 				playBoard: "4人用クロス8列",
 				useStand: true,

@@ -13,6 +13,7 @@ import {EnPassant} from "./enPassant.js";
 import {Bod} from "./bod.js";
 import {boards, games} from "./data.js";
 import {CpuEngine} from "./cpu.js";
+import {Spinner} from "./spinner.js";
 
 /** 盤の管理クラス */
 export class Board{
@@ -22,6 +23,7 @@ export class Board{
 	#option
 	#beforeTurn
 	#dialog
+	#spinner
 
 	/**
 	 * @typedef {Object} Record - 局面の記録
@@ -76,7 +78,7 @@ export class Board{
 			backgroundColor="#00000000",
 			isHeadless=false,
 			autoDrawing=!isHeadless,
-			useDimOverlay=true,
+			spinnerOptions = {useDimOverlay: true},
 			moveMode="normal",
 			usePlayerControl=!isHeadless,
 			onDrawed=e=>{},
@@ -90,7 +92,7 @@ export class Board{
 		this.variant = variant;
 		this.url = url;
 		this.desc = desc;
-		this.useDimOverlay = useDimOverlay;
+
 		// 初期化
 		this.ctx = null;
 		this.canvas = null;
@@ -103,6 +105,7 @@ export class Board{
 			this.ctx = canvas.getContext("2d");
 			this.ctx.clearRect(0, 0, canvas.width, canvas.height);
 			this.#dialog = new Dialog();
+			this.#spinner = new Spinner(this.canvas, spinnerOptions);
 		}
 
 		this.pieces = Piece.getPieces(this.ctx, {
@@ -201,9 +204,6 @@ export class Board{
 			canvasImageAsync.then(()=>this.draw());
 			this.draw();
 		}
-
-		// CPU操作暗転設定
-		this.useDimOverlay = useDimOverlay;
 
 		this.onDrawed = onDrawed;
 		this.onTurnEnd = onTurnEnd;
@@ -831,16 +831,6 @@ export class Board{
 		);
 	}
 
-	/** オーバーレイを描写
-	 * @param {string} color - オーバーレイの色
-	 */
-	drawOverlay(color = "rgba(0, 0, 0, 0.5)") {
-		if (this.isHeadless) return;
-		const { ctx, canvas } = this;
-		ctx.fillStyle = color;
-		ctx.fillRect(0, 0, canvas.width, canvas.height);
-	}
-
 	/** 画像を取得
 	 * @param {string} fileName - ファイル名
 	 * @param {string} ext - 拡張子
@@ -848,6 +838,20 @@ export class Board{
 	 */
 	async downloadImage(fileName, ext, urlType){
 		await downloadImage(this.canvas, fileName ?? this.name ?? "shogicross", ext, urlType);
+	}
+
+	/** スピナーの表示を開始します。 */
+	startSpinner() {
+		if (!this.#spinner) return;
+		this.#spinner.updatePosition(); // Update position before showing
+		this.#spinner.start();
+	}
+
+	/** スピナーの表示を停止します。 */
+	stopSpinner() {
+		if (!this.#spinner) return;
+		this.#spinner.stop();
+		this.draw(); // Keep draw() if it's needed for other board updates after spinner stops
 	}
 
 	/** 盤面をクローン
