@@ -19,40 +19,31 @@ export class CpuEngineBase{
 
 	/**
 	 * 盤面を評価します。
+	 * @param {Board} board - 評価対象の盤面
 	 * @returns {number} 盤面の評価値
 	 */
-	evaluate(){
-		const {board, player} = this;
+	evaluate(board = this.board) {
+		const { player } = this;
 		const KING_VALUE = 10000; // 王の価値
 		let my_score = 0;
-		let opponent_score = 0;
 
 		// 盤上の駒を評価
-		board.field.flat().forEach(panel=>{
-			if(panel.piece){
+		board.field.flat().forEach(panel => {
+			if (panel.piece && panel.piece.deg === player.deg) {
 				const is_king = panel.piece.cost <= 0;
-				const value = is_king ? KING_VALUE : panel.piece.cost;
-				if(panel.piece.deg === player.deg){
-					my_score += value;
-				}
-				else{
-					opponent_score += value;
-				}
+				my_score += is_king ? KING_VALUE : panel.piece.cost;
 			}
 		});
-
 
 		// 持ち駒を評価
-		board.stand.stocks.forEach((pieces, deg)=>{
-			const hand_value = pieces.reduce((acc, piece)=>acc + piece.cost, 0); // 王は持ち駒にならない
-			if(deg === player.deg){
+		board.stand.stocks.forEach((pieces, deg) => {
+			if (deg === player.deg) {
+				const hand_value = pieces.reduce((acc, piece) => acc + piece.cost, 0);
 				my_score += hand_value;
 			}
-			else{
-				opponent_score += hand_value;
-			}
 		});
-		return my_score - opponent_score;
+
+		return my_score;
 	}
 }
 
@@ -147,7 +138,7 @@ CpuEngines.greedy = class Greedy extends CpuEngineBase{
 			const fromPanelClone = boardClone.field[move.from.pY][move.from.pX];
 			const toPanelClone = boardClone.field[move.to.pY][move.to.pX];
 			await boardClone.movePiece(fromPanelClone, toPanelClone);
-			const score = this.evaluate();
+			const score = this.evaluate(boardClone);
 			if(score > bestScore){
 				bestScore = score;
 				bestMove = move;
@@ -182,21 +173,21 @@ CpuEngines.minimax = class Minimax extends CpuEngineBase {
 	 * @returns {number} 評価値
 	 */
 	async minimax(board, depth, alpha, beta, isMaximizingPlayer){
-		const {player} = this;
+		const activePlayer = board.getActivePlayer();
 
 		// 探索の終了条件
-		if(depth === 0) return this.evaluate();
+		if(depth === 0) return this.evaluate(board);
 
 		// 詰み/ステールメイトの判定
-		if(isCheckmate(board, player.deg))
+		if(isCheckmate(board, activePlayer.deg))
 			return isMaximizingPlayer ? -Infinity : Infinity; // 詰みは最大化プレイヤーにとって非常に悪い状態
-		if(!hasLegalMoves(board, player.deg))
+		if(!hasLegalMoves(board, activePlayer.deg))
 			return 0; // ステールメイト（合法手がないが王手ではない）
 
 		// 合法手の生成
 		const movablePieces = [];
 		board.field.flat().forEach(panel=>{
-			if(panel.piece && panel.piece.deg === player.deg){
+			if(panel.piece && panel.piece.deg === activePlayer.deg){
 				const fromPanel = panel;
 				const toPanels = checkTarget(board, fromPanel.piece, fromPanel.pX, fromPanel.pY);
 				if(toPanels.length > 0){
@@ -216,12 +207,11 @@ CpuEngines.minimax = class Minimax extends CpuEngineBase {
 			let maxEval = -Infinity;
 			for(const move of allPossibleMoves){
 				const boardClone = board.clone();
-				boardClone.isHeadless = true;
 				const fromPanelClone = boardClone.field[move.from.pY][move.from.pX];
 				const toPanelClone = boardClone.field[move.to.pY][move.to.pX];
-				await boardClone.movePiece(fromPanelClone, toPanelClone);
+				await boardClone.movePiece(fromPanelClone, toPanelClone, true);
 
-				const minimaxEval = await this.minimax(boardClone, depth - 1, alpha, beta, false);
+				const minimaxEval = await this.minimax(boardClone, depth - 1, alpha, beta, !isMaximizingPlayer);
 				maxEval = Math.max(maxEval, minimaxEval);
 				alpha = Math.max(alpha, minimaxEval);
 				if(beta <= alpha) break; // アルファベータ枝刈り
@@ -232,12 +222,11 @@ CpuEngines.minimax = class Minimax extends CpuEngineBase {
 			let minEval = Infinity;
 			for(const move of allPossibleMoves){
 				const boardClone = board.clone();
-				boardClone.isHeadless = true;
 				const fromPanelClone = boardClone.field[move.from.pY][move.from.pX];
 				const toPanelClone = boardClone.field[move.to.pY][move.to.pX];
-				await boardClone.movePiece(fromPanelClone, toPanelClone);
+				await boardClone.movePiece(fromPanelClone, toPanelClone, true);
 
-				const minimaxEval = await this.minimax(boardClone, depth - 1, alpha, beta, true);
+				const minimaxEval = await this.minimax(boardClone, depth - 1, alpha, beta, !isMaximizingPlayer);
 				minEval = Math.min(minEval, minimaxEval);
 				beta = Math.min(beta, minimaxEval);
 				if(beta <= alpha) break; // アルファベータ枝刈り
@@ -285,7 +274,7 @@ CpuEngines.minimax = class Minimax extends CpuEngineBase {
 			boardClone.isHeadless = true;
 			const fromPanelClone = boardClone.field[move.from.pY][move.from.pX];
 			const toPanelClone = boardClone.field[move.to.pY][move.to.pX];
-			await boardClone.movePiece(fromPanelClone, toPanelClone);
+			await boardClone.movePiece(fromPanelClone, toPanelClone, true);
 
 			// ミニマックス探索を開始 (相手の番なのでisMaximizingPlayerはfalse)
 			const score = await this.minimax(boardClone, this.searchDepth - 1, -Infinity, Infinity, false);
