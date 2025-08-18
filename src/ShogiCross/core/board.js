@@ -84,6 +84,7 @@ export class Board{
 			onDrawed=e=>{},
 			onTurnEnd=(e,turn)=>{},
 			onGameOver=(e,i)=>alert(`プレイヤー${i+1}の敗北です。`),
+			onGameEnd=(e,i)=>e.addRecord({end: `対戦終了 勝者${[...e.players.values()][i].degChar}`}),
 		} = option;
 
 		this.#option = option;
@@ -205,9 +206,11 @@ export class Board{
 			this.draw();
 		}
 
+		this.isGameEnd = false;
 		this.onDrawed = onDrawed;
 		this.onTurnEnd = onTurnEnd;
 		this.onGameOver = onGameOver;
+		this.onGameEnd = onGameEnd;
 		this.moveMode = moveMode;
 
 		/** ゲームの記録
@@ -494,6 +497,13 @@ export class Board{
 			player.alive = false;
 			this.onGameOver?.(this, player.id);
 		});
+
+		// 生存プレイヤーが1人になったら対戦終了
+		const alivePlayers = [...this.players.values()].filter(p => p.alive);
+		if(alivePlayers.length <= 1){
+			this.onGameEnd?.(this, alivePlayers[0].id);
+			this.isGameEnd = true;
+		}
 	}
 
 	/** プロモーション処理
@@ -594,6 +604,13 @@ export class Board{
 		this.#emitGameOver();
 	}
 
+	/** パスして手番を進める
+	 * @param {PlayerInfo} player - プレイヤー情報
+	*/
+	passTurn(player){
+		this.addRecord({end: `${player.degChar}パス`});
+	}
+
 	/** 棋譜を追記
 	 * @param {Panel} toPanel - 移動先のマス目
 	 * @param {Object} option - オプション
@@ -635,7 +652,7 @@ export class Board{
 			// ターンエンドイベント
 			this.onTurnEnd?.(this, this.turn);
 			// CPUのターンを進める
-			setTimeout(() => this.getActivePlayer().cpu.playTurn(), 0);
+			setTimeout(()=>this.getActivePlayer().cpu.playTurn(), 0);
 		}
 	}
 
@@ -691,22 +708,22 @@ export class Board{
 	 */
 	record2String(record, turn, isNumOnly=false){
 		const {to, from, deg, pieceChar, end} = record;
-		if(turn === 0) return "0: 開始局面";
+		if(to.pX == null) return `${turn}: ${end}`;
 
 		const getPX = ({pX})=> (this.xLen-pX).toString(isNumOnly? 10: 36);
 		const getPY = ({pY})=> (pY+1).toString(isNumOnly? 10: 36);
 		const numSep = isNumOnly? ",": "";
-		return `${ 
-			turn}: ${ 
-			Piece.degChars[deg]}${ 
-			getPX(to)}${ 
-			numSep}${ 
-			getPY(to)}${ 
-			pieceChar}${ 
-			end}${ 
-			from.pX === undefined? "": ` (${ 
-				getPX(from)}${ 
-				numSep}${ 
+		return `${
+			turn}: ${
+			Piece.degChars[deg]}${
+			getPX(to)}${
+			numSep}${
+			getPY(to)}${
+			pieceChar}${
+			end}${
+			from.pX === undefined? "": ` (${
+				getPX(from)}${
+				numSep}${
 				getPY(from)
 			})`}`;
 	}
@@ -745,7 +762,7 @@ export class Board{
 		const {ctx, canvas, left, top, width, height, panelWidth, panelHeight} = this;
 
 		//最初の記録
-		if(this.turn === 0) this.addRecord({inc: 0});
+		if(this.turn === 0) this.addRecord({inc: 0, end: "開始局面"});
 
 		// 描写を初期化
 		ctx.restore();

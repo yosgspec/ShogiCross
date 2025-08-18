@@ -22,7 +22,7 @@
  * @prop {Object<string, Object<string, string[]>>} position - 駒の配置データ
  */
 /**
- * @typedef {Object} PlayerOption - ボードの初期化オプション
+ * @typedef {Object} PlayerInitOption - ボードの初期化オプション
  * @prop {string} gameName - ゲーム名
  * @prop {string} pieceSet - 駒セット名
  * @prop {string} cpuEngine - CPUエンジン名
@@ -32,7 +32,7 @@
 /**
  * @typedef {Object} BoardInitOption - ボードの初期化オプション
  * @prop {string} playBoard - ボードタイプ
- * @prop {PlayerOption[]} playerOptions - プレイヤー設定
+ * @prop {PlayerOption[]} PlayerInitOption - プレイヤーの初期化設定
  * @prop {string} playerOptions.gameName - ゲーム名(基準となる駒の配置セット)
  * @prop {string} playerOptions.pieceSet - 駒の配置パターン
  * @prop {string} playerOptions.cpuEngine - CPUエンジン名
@@ -58,6 +58,7 @@
  * @prop {(e:Board)=>void} onDrawed - 描写イベント
  * @prop {(e:Board,turn:number)=>void} onDrawed - 描写イベント
  * @prop {(e:Board,playerId:number)=>void} onGameOver - ゲームオーバーイベント
+ * @prop {(e:Board)=>void} onGameEnd - 投了イベント
  */
 /**
  * @typedef {Object} PanelInitOption - マス目の初期化オプション
