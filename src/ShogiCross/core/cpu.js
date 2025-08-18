@@ -322,16 +322,15 @@ export class CpuEngine extends CpuEngineBase {
 		// 思考中であることを示すため、画面を暗転してウェイトを入れる
 		const delay = this.player.cpuDelay ?? 0;
 		if(0 < delay){
-			if(this.board.useDimOverlay){
-				this.board.drawOverlay("rgba(0, 0, 0, 0.3)");
-			}
-			await new Promise(resolve => setTimeout(resolve, delay));
+			this.board.startSpinner();
+			await new Promise(resolve=>setTimeout(resolve, delay));
 		}
-		
+
 		// 実際の思考・実行部分を呼び出す
 		await this.engine.playTurn();
 
 		// 処理が完了したら、必ず盤面を再描写して暗転を解除する
+		this.board.stopSpinner();
 		if (this.board.autoDrawing) this.board.draw();
 	}
 }
