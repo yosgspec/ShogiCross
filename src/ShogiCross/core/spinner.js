@@ -15,6 +15,7 @@ export class Spinner{
      * @param {HTMLCanvasElement} canvas - Canvas要素
      * @param {SpinnerOptions} options - スピナーのオプション
      */
+    #active = false;
     #dimOverlay = null; // 暗転用オーバーレイ要素
     #spinnerElement = null; // HTMLスピナー要素
     #useDimOverlay; // Options

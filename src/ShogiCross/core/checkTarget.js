@@ -352,13 +352,14 @@ export function isKingInCheck(board, playerDeg){
 export function hasLegalMoves(board, playerDeg){
 	// ボードを複製して、合法手の確認を行うためにヘッドレスモードに設定
 	for(const fromPanel of board.field.flat()){
-		const boardClone = board.clone();
-		boardClone.isHeadless = true;
-		boardClone.onGameOver = null;
 		// 駒のないマス、または自プレイヤーの駒はスキップ
 		if(!fromPanel.piece || fromPanel.piece.deg !== playerDeg) continue;
-		const canMovePanels = checkTarget(boardClone, fromPanel.piece, fromPanel.pX, fromPanel.pY);
+		const canMovePanels = checkTarget(board, fromPanel.piece, fromPanel.pX, fromPanel.pY);
 		for(const toPanel of canMovePanels){
+			const boardClone = board.clone();
+			boardClone.isHeadless = true;
+			boardClone.onGameOver = null;
+			console.log(boardClone.onGameOver)
 			// 駒を移動
 			boardClone.simpleMovePiece(
 				boardClone.field[fromPanel.pY][fromPanel.pX],

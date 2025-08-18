@@ -542,7 +542,7 @@ export class Board{
 		if(promoChar)
 			promo(promoChar);
 		else
-			notPromo();		
+			notPromo();
 	}
 
 	simpleMovePiece(fromPanel, toPanel){
@@ -860,31 +860,20 @@ export class Board{
 	clone(){
 		// クローン用の新しいオプションオブジェクトを作成
 		const cloneOption = {...this.#option, isHeadless: true};
-
-		// 修正したオプションで新しいBoardインスタンスを作成
 		const newBoard = new Board(null, cloneOption);
 
-		// 盤上の駒をコピー
-		for(let y=0;y<this.yLen;y++){
-			for(let x=0;x<this.xLen;x++){
-				const originalPanel = this.field[y][x];
-				const newPanel = newBoard.field[y][x]; // 既にPanelオブジェクトは生成されている
-				if(originalPanel.piece){
-					newPanel.piece = originalPanel.piece.clone();
-				}
-				else{
-					newPanel.piece = null;
-				}
-			}
-		}
+		// 盤面の駒をコピー
+		this.field.flat().forEach(({piece, pX, pY})=>{
+			if(!piece) return;
+			const newPanel = newBoard.field[pY][pX];
+			newPanel.piece = piece.clone();
+		});
 
 		// 持ち駒をコピー
 		newBoard.stand.clear(); // まずクリア
-		for(const [deg, pieces] of this.stand.stocks){ // this.stand.stocks を使用
-			for(const piece of pieces){
-				newBoard.stand.add(piece.clone());
-			}
-		}
+		[...this.stand.stocks.values()].flat().forEach(piece=>{
+			newBoard.stand.add(piece.clone());
+		});
 
 		// その他の状態をコピー
 		newBoard.turn = this.turn;
