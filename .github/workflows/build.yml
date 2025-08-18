@@ -117,7 +117,7 @@ jobs:
         run: |
           TAG_NAME="${{steps.PROJECT_VERSION.outputs.value}}"
           echo "Checking for tag ${TAG_NAME}..."
-          git ls-remote --exit-code --tags origin "refs/tags/${TAG_NAME}"
+          git ls-remote --tags origin | grep -q "refs/tags/${TAG_NAME}"
 
   PublishNPM:
     needs: [CheckVersion, Build]
