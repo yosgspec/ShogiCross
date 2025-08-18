@@ -55,6 +55,7 @@
     "post:zip-dist": "node run/zip.js ./src/dist ./src/ShogiCross.zip",
     "post:dts": "npx tsc",
     "deploy": "run-p deploy:*",
+    "deploy:cdn": "npx shx cp src/dist/*.{js,ts,map} cdn/",
     "deploy:doc-api": "npx typedoc --entryPointStrategy expand ./src/dist/ShogiCross --exclude **/*.js --out ./src/doc/api",
     "deploy:publish": "node run/npmPublish.js",
     "built": "echo Build completed successfully!"
