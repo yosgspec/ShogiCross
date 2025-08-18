@@ -13,7 +13,7 @@ import {EnPassant} from "./enPassant.js";
 import {Bod} from "./bod.js";
 import {boards, games} from "./data.js";
 import {CpuEngine} from "./cpu.js";
-import {Spinner} from "./spinner.js";
+import {Overlay} from "./overlay.js";
 
 /** 盤の管理クラス */
 export class Board{
@@ -23,7 +23,7 @@ export class Board{
 	#option
 	#beforeTurn
 	#dialog
-	#spinner
+	#overlay
 
 	/**
 	 * @typedef {Object} Record - 局面の記録
@@ -78,7 +78,7 @@ export class Board{
 			backgroundColor="#00000000",
 			isHeadless=false,
 			autoDrawing=!isHeadless,
-			spinnerOptions = {useDimOverlay: true},
+			OverlayOptions = {useDimOverlay: true},
 			moveMode="normal",
 			usePlayerControl=!isHeadless,
 			onDrawed=e=>{},
@@ -106,7 +106,7 @@ export class Board{
 			this.ctx = canvas.getContext("2d");
 			this.ctx.clearRect(0, 0, canvas.width, canvas.height);
 			this.#dialog = new Dialog();
-			this.#spinner = new Spinner(this.canvas, spinnerOptions);
+			this.#overlay = new Overlay(this.canvas, OverlayOptions);
 		}
 
 		this.pieces = Piece.getPieces(this.ctx, {
@@ -857,17 +857,17 @@ export class Board{
 		await downloadImage(this.canvas, fileName ?? this.name ?? "shogicross", ext, urlType);
 	}
 
-	/** スピナーの表示を開始します。 */
-	startSpinner() {
-		if (!this.#spinner) return;
-		this.#spinner.updatePosition(); // Update position before showing
-		this.#spinner.start();
+	/** オーバーレイの表示を開始します。 */
+	startOverlay() {
+		if (!this.#overlay) return;
+		this.#overlay.updatePosition(); // Update position before showing
+		this.#overlay.start();
 	}
 
-	/** スピナーの表示を停止します。 */
-	stopSpinner() {
-		if (!this.#spinner) return;
-		this.#spinner.stop();
+	/** オーバーレイの表示を停止します。 */
+	stopOverlay() {
+		if (!this.#overlay) return;
+		this.#overlay.stop();
 		this.draw(); // Keep draw() if it's needed for other board updates after spinner stops
 	}
 
