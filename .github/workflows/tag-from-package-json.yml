@@ -24,22 +24,17 @@ jobs:
         run: echo "value=$(node -p "require('./package.json').version")" >> $GITHUB_OUTPUT
 
       # 4. リモートリポジトリにタグが存在するかチェックするステップ
-      - name: Get Tag Exists
-        id: EXISTS_TAG
+      - name: Check if tag exists
+        id: TRY_EXISTS_TAG
+        continue-on-error: true
         run: |
           TAG_NAME="${{steps.PROJECT_VERSION.outputs.value}}"
           echo "Checking for tag ${TAG_NAME}..."
-          if git ls-remote --tags origin | grep -q "refs/tags/${TAG_NAME}"; then
-             echo "Tag ${TAG_NAME} already exists."
-            echo "value=true" >> $GITHUB_OUTPUT
-          else
-            echo "Tag ${TAG_NAME} does not exist. Ready to create."
-            echo "value=false" >> $GITHUB_OUTPUT
-          fi
+          git ls-remote --tags origin | grep -q "refs/tags/${TAG_NAME}"
 
-    # 5. タグが存在しない場合 (check_tagが失敗した場合) にタグを作成
+      # 5. タグが存在しない場合 (check_tagが失敗した場合) にタグを作成
       - name: Create and Push Tag
-        if: steps.EXISTS_TAG.output.value == 'true'
+        if: steps.TRY_EXISTS_TAG.outcome != 'success'
         run: |
           TAG_NAME="${{steps.PROJECT_VERSION.outputs.value}}"
           echo "Tag does not exist. Creating and pushing tag ${TAG_NAME}."
@@ -50,7 +45,7 @@ jobs:
 
       # 6. タグが既に存在する場合 (check_tagが成功した場合) にメッセージを表示
       - name: Log that tag already exists
-        if: steps.EXISTS_TAG.output.value == 'false'
+        if: steps.TRY_EXISTS_TAG.outcome == 'success'
         run: |
           TAG_NAME="${{ steps.PROJECT_VERSION.outputs.value }}"
           echo "Tag ${TAG_NAME} already exists. Skipping creation."
