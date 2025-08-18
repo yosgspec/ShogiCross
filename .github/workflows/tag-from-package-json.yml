@@ -38,6 +38,7 @@ jobs:
         run: |
           TAG_NAME="${{steps.PROJECT_VERSION.outputs.value}}"
           echo "Tag does not exist. Creating and pushing tag ${TAG_NAME}."
+          echo "Debug: steps.TRY_EXISTS_TAG.outcome is ${{ steps.TRY_EXISTS_TAG.outcome }}"
           # git config --global user.name 'github-actions[bot]'
           # git config --global user.email 'github-actions[bot]@users.noreply.github.com'
           # git tag $TAG_NAME
