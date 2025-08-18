@@ -3,14 +3,7 @@ name: Build and Deploy
 on:
   push:
     branches:
-      - main
-    tags:
-      - "*.*.*"
-  workflow_dispatch:
-    inputs:
-      version:
-        description: ライブラリバージョン
-        required: false
+      - act
 
 # 同時実行制御：GitHub Pagesのデプロイが重複しないように
 concurrency:
@@ -62,43 +55,19 @@ jobs:
           name: src
           path: src
 
-  DeployPublish:
-    needs: Build
-    runs-on: ubuntu-latest
-    if: startsWith(github.ref, 'refs/tags/')
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+      - name: Upload CDN Artifact
+        uses: actions/upload-artifact@v4
         with:
-          node-version: 20
-          registry-url: https://registry.npmjs.org/
-
-      - name: Download Module Artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: src
-          path: src
-
-      - name: Update package.json Version
-        run: npm version --no-git-tag-version ${GITHUB_REF#refs/tags/}
-
-      - name: Publish NPM
-        run: npm publish --access public
-        env:
-          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
+          name: cdn
+          path: cdn
 
   DeployPages:
     needs: Build
     runs-on: ubuntu-latest
-    # GitHub Pagesデプロイ権限
     permissions:
       contents: read
       pages: write
       id-token: write
-    if: startsWith(github.ref, 'refs/heads/')
     environment:
       name: github-pages
       url: ${{steps.deployment.outputs.page_url}}
@@ -123,3 +92,89 @@ jobs:
       - name: Deploy GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+
+  CheckVersion:
+    runs-on: ubuntu-latest
+    outputs:
+      PROJECT_VERSION: ${{steps.PROJECT_VERSION.outputs.value}}
+      IS_NEW_VERSION: ${{steps.TRY_EXISTS_TAG.outcome == 'failure'}}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Get ShogiCross Version
+        id: PROJECT_VERSION
+        run: echo "value=$(node -p \"require('./package.json').version\")" >> $GITHUB_OUTPUT
+
+      - name: Try Exist Tag
+        id: TRY_EXISTS_TAG
+        continue-on-error: true
+        run: |
+          TAG_NAME="${{steps.PROJECT_VERSION.outputs.value}}"
+          echo "Checking for tag ${TAG_NAME}..."
+          git ls-remote --exit-code --tags origin "refs/tags/${TAG_NAME}"
+
+  PublishNPM:
+    needs: [CheckVersion, Build]
+    runs-on: ubuntu-latest
+    if: needs.CheckVersion.outputs.IS_NEW_VERSION == 'true'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          registry-url: https://registry.npmjs.org/
+
+      - name: Download Module Artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: src
+          path: src
+
+      - name: Publish NPM
+        run: npm publish --access public
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
+
+  ReleaseCDN:
+    runs-on: ubuntu-latest
+    needs: [CheckVersion, Build]
+    if: needs.CheckVersion.outputs.IS_NEW_VERSION == 'true'
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Download CDN Artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: cdn
+          path: cdn
+
+      - name: Push CDN And Version Tag
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          git add ./cdn
+          if git diff --staged --quiet; then
+            echo "No changes to CDN to commit."
+          else
+            git commit -m "Update CDN artifacts for version ${{ needs.CheckVersion.outputs.PROJECT_VERSION }} [skip ci]"
+            git push
+          fi
+          git tag ${{ needs.CheckVersion.outputs.PROJECT_VERSION }}
+          git push origin ${{ needs.CheckVersion.outputs.PROJECT_VERSION }}
+
+      - name: Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ needs.CheckVersion.outputs.PROJECT_VERSION }}
