@@ -315,7 +315,23 @@ export class CpuEngine extends CpuEngineBase {
 		if(!this.engine) throw new Error(`Engine "${engineName}" not found.`);
 	}
 	/** 手番操作 */
-	playTurn(){
-		return this.engine.playTurn();
+	async playTurn() {
+		// ターン開始時に盤面を再描写
+		if (this.board.autoDrawing) this.board.draw();
+
+		// 思考中であることを示すため、画面を暗転してウェイトを入れる
+		const delay = this.player.cpuDelay ?? 0;
+		if (delay > 0) {
+			if (this.board.useDimOverlay) {
+				this.board.drawOverlay("rgba(0, 0, 0, 0.3)");
+			}
+			await new Promise(resolve => setTimeout(resolve, delay));
+		}
+		
+		// 実際の思考・実行部分を呼び出す
+		await this.engine.playTurn();
+
+		// 処理が完了したら、必ず盤面を再描写して暗転を解除する
+		if (this.board.autoDrawing) this.board.draw();
 	}
 }

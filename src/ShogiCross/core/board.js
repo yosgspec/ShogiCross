@@ -76,11 +76,12 @@ export class Board{
 			backgroundColor="#00000000",
 			isHeadless=false,
 			autoDrawing=!isHeadless,
+			useDimOverlay=true,
 			moveMode="normal",
 			usePlayerControl=!isHeadless,
 			onDrawed=e=>{},
 			onTurnEnd=(e,turn)=>{},
-			onGameOver=(e,i)=>alert(`プレイヤー${i+1}の敗北です。`)
+			onGameOver=(e,i)=>alert(`プレイヤー${i+1}の敗北です。`),
 		} = option;
 
 		this.#option = option;
@@ -89,6 +90,7 @@ export class Board{
 		this.variant = variant;
 		this.url = url;
 		this.desc = desc;
+		this.useDimOverlay = useDimOverlay;
 		// 初期化
 		this.ctx = null;
 		this.canvas = null;
@@ -143,6 +145,7 @@ export class Board{
 				deg,
 				degChar: Piece.degChars[deg],
 				alive: true,
+				cpuDelay: playerOptions[id]?.cpuDelay ?? 500, // CPUの遅延時間
 			};
 			// CPUエンジンの初期化
 			status.cpu = new CpuEngine(this, status),
@@ -198,6 +201,9 @@ export class Board{
 			canvasImageAsync.then(()=>this.draw());
 			this.draw();
 		}
+
+		// CPU操作暗転設定
+		this.useDimOverlay = useDimOverlay;
 
 		this.onDrawed = onDrawed;
 		this.onTurnEnd = onTurnEnd;
@@ -629,7 +635,7 @@ export class Board{
 			// ターンエンドイベント
 			this.onTurnEnd?.(this, this.turn);
 			// CPUのターンを進める
-			this.getActivePlayer().cpu.playTurn();
+			setTimeout(() => this.getActivePlayer().cpu.playTurn(), 0);
 		}
 	}
 
@@ -823,6 +829,16 @@ export class Board{
 			footer+
 			this.stand.toString(isCompact)
 		);
+	}
+
+	/** オーバーレイを描写
+	 * @param {string} color - オーバーレイの色
+	 */
+	drawOverlay(color = "rgba(0, 0, 0, 0.5)") {
+		if (this.isHeadless) return;
+		const { ctx, canvas } = this;
+		ctx.fillStyle = color;
+		ctx.fillRect(0, 0, canvas.width, canvas.height);
 	}
 
 	/** 画像を取得
