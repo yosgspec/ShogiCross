@@ -511,6 +511,21 @@ export default {
 			"XSXSX>#<BWBWBW"
 		]
 	},
+	"4人用9x9": {
+		"backgroundColor": "#EECC88",
+		"borderColor": "#333333",
+		"field": [
+			"BWB<#>BWB",
+			"WBW#*#WBW",
+			"BWB>#<BWB",
+			"<#>==]<#>",
+			"#*#===#*#",
+			">#<[==>#<",
+			"BWB<#>BWB",
+			"WBW#*#WBW",
+			"BWB>#<BWB"
+		]
+	},
 	"4人用クロス8列": {
 		"backgroundColor": "#444444",
 		"borderColor": "#000000",

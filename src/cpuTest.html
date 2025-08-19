@@ -19,7 +19,6 @@
 					// {"gameName": "チェス", "pieceSet": "default", "cpuEngine": "greedy"},
 					{"gameName": "チェス", "pieceSet": "default", "cpuEngine": "minimax"},
 				],
-				
 				onTurnEnd: (board, turn) => {
 					console.log("ターン終了", board.turn);
 					console.log(board.record2String(board.record[turn], turn, true));
