@@ -59,7 +59,7 @@ export class Dialog{
 		this.isModal = false;
 	}
 
-	#onClick(btn){
+	#close(btn){
 		this.dialog.close();
 		this.dialog.style.display = "none";
 		return btn.value;
@@ -78,7 +78,7 @@ export class Dialog{
 				b.textContent = btn.label;
 				b.addEventListener("mouseover", ()=>Object.assign(b.style, this.#styles.btnHover));
 				b.addEventListener("mouseout", ()=>Object.assign(b.style, this.#styles.button));
-				b.addEventListener("click", ()=>resolve(this.#onClick(btn)));
+				b.addEventListener("click", ()=>resolve(this.#close(btn)));
 			}
 			this.dialog.style.display = "block";
 			this.dialog.showModal();

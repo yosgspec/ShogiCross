@@ -12,9 +12,25 @@ export class CpuEngineBase{
 		this.board = board;
 		this.player = player;
 	}
+
 	/** 手番操作 */
 	async playTurn(){
-		// 操作なし
+	}
+
+	/** CPU操作の待機開始 */
+	async delayStart(){
+		// 思考中であることを示すため、画面を暗転
+		this.board.overlay.start();
+		return new Promise(res=>setTimeout(res, this.player.cpuDelay));
+	}
+
+	/** CPU操作の待機終了
+	 * @param {Promise<void>} timer
+	 */
+	async delayEnd(timer){
+		await timer;
+		// 画面の暗転を終了
+		this.board.overlay.stop();
 	}
 
 	/**
@@ -58,6 +74,7 @@ CpuEngines.random = class Random extends CpuEngineBase{
 
 	async playTurn(){
 		const {board, player} = this;
+		const timer = this.delayStart();
 
 		// 1. 現在のプレイヤーが動かせる駒をすべて取得
 		const movablePieces = [];
@@ -83,6 +100,7 @@ CpuEngines.random = class Random extends CpuEngineBase{
 		// 3. 指し手が存在する場合、ランダムに1つ選んで指す
 		if(allPossibleMoves.length > 0){
 			const randomMove = allPossibleMoves[Math.floor(Math.random() * allPossibleMoves.length)];
+			await this.delayEnd(timer);
 			await board.movePiece(randomMove.from, randomMove.to, true);
 			console.log(`CPU(Random): (${randomMove.from.pX}, ${randomMove.from.pY}) から (${randomMove.to.pX}, ${randomMove.to.pY}) へ移動`);
 		}
@@ -104,6 +122,7 @@ CpuEngines.greedy = class Greedy extends CpuEngineBase{
 	 */
 	async playTurn(){
 		const {board, player} = this;
+		const timer = this.delayStart();
 
 		const movablePieces = [];
 		board.field.flat().forEach(panel=>{
@@ -147,6 +166,7 @@ CpuEngines.greedy = class Greedy extends CpuEngineBase{
 		}
 
 		if(bestMove){
+			await this.delayEnd(timer);
 			await board.movePiece(bestMove.from, bestMove.to,true);
 			console.log(`CPU(Greedy): (${bestMove.from.pX}, ${bestMove.from.pY}) から (${bestMove.to.pX}, ${bestMove.to.pY}) へ移動 (評価値: ${bestScore})`);
 		}
@@ -245,6 +265,7 @@ CpuEngines.minimax = class Minimax extends CpuEngineBase{
 	 */
 	async playTurn(){
 		const {board, player} = this;
+		const timer = this.delayStart();
 
 		let bestMove = null;
 		let bestScore = -Infinity;
@@ -297,6 +318,7 @@ CpuEngines.minimax = class Minimax extends CpuEngineBase{
 		}
 
 		if(bestMove){
+			await this.delayEnd(timer);
 			await board.movePiece(bestMove.from, bestMove.to, true);
 			console.log(`CPU(Minimax): (${bestMove.from.pX}, ${bestMove.from.pY}) から (${bestMove.to.pX}, ${bestMove.to.pY}) へ移動 (評価値: ${bestScore})`);
 		}
@@ -316,36 +338,21 @@ export class CpuEngine extends CpuEngineBase {
 		super(board, player);
 		const engineName = player.cpuEngine?.toLowerCase();
 		this.engine = engineName==null?
-			new CpuEngineBase(board, player):
+			null:
 			new CpuEngines[engineName](board, player);
-		if(!this.engine) throw new Error(`Engine "${engineName}" not found.`);
 	}
 	/** 手番操作 */
 	async playTurn(){
 		// 対戦終了
 		if(this.board.isGameEnd) return;
-
 		// プレイヤーが敗北していたらパス扱い
 		if(!this.player.alive){
 			this.board.passTurn(this.player);
 			return;
 		}
-
-		// ターン開始時に盤面を再描写
-		if(this.board.autoDrawing) this.board.draw();
-
-		// 思考中であることを示すため、画面を暗転してウェイトを入れる
-		const delay = this.player.cpuDelay ?? 0;
-		if(0 < delay){
-			this.board.startOverlay();
-			await new Promise(resolve=>setTimeout(resolve, delay));
-		}
-
-		// 実際の思考・実行部分を呼び出す
+		// エンジンが未指定の場合は何もしない
+		if(!this.engine) return;
+		// ターン操作
 		await this.engine.playTurn();
-
-		// 処理が完了したら、必ず盤面を再描写して暗転を解除する
-		this.board.stopOverlay();
-		if (this.board.autoDrawing) this.board.draw();
 	}
 }
