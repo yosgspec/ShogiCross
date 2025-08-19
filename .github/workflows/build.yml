@@ -41,6 +41,9 @@ jobs:
       - name: Post ShogiCross Module
         run: npm run post
 
+      - name: Deploy CDN
+        run: npm run deploy:cdn
+
       - name: Deploy API Document
         uses: nick-fields/retry@v3
         with:
