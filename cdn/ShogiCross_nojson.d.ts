@@ -228,8 +228,10 @@ declare class J {
     player: any;
     /** 手番操作 */
     playTurn(): Promise<void>;
-    /** CPU操作の待機開始 */
-    delayStart(): Promise<any>;
+    /** CPU操作の待機開始
+     * @return {()=>Promise<void>} timer
+     */
+    delayStart(): () => Promise<void>;
     /** CPU操作の待機終了
      * @param {Promise<void>} timer
      */
