@@ -32,6 +32,7 @@ declare class Z {
     desc: any;
     ctx: any;
     canvas: any;
+    overlay: be;
     pieces: {
         [k: string]: any;
     };
@@ -61,7 +62,7 @@ declare class Z {
     moveMode: any;
     record: any[];
     turn: number;
-    enPassant: Ce;
+    enPassant: we;
     /** 操作パネルを構築
      * @param {string[]} compList - 表示するコントロールの一覧
      * @returns {PlayerControl}
@@ -99,7 +100,7 @@ declare class Z {
      * @param {number} option.displayPtn - 表示文字列を変更(1〜)
      * @param {boolean} option.isMoved - 初回移動済みか否か
      */
-    putNewPiece(e: any, t: any, a: any, i: any, s?: {}): void;
+    putNewPiece(e: any, t: any, a: any, n: any, s?: {}): void;
     /** 文字列から駒を配置
      * {string} text - 駒配置を表す文字列
      */
@@ -111,7 +112,7 @@ declare class Z {
      * @param {number} offsetDeg - 補正角度
      * @returns {number}
      */
-    getRow(e: any, t: any, a: any, i?: number): number;
+    getRow(e: any, t: any, a: any, n?: number): number;
     /** 角度基準のマス目の列を取得する
      * @param {number} pX - マス目の列
      * @param {number} pY - マス目の行
@@ -119,7 +120,7 @@ declare class Z {
      * @param {number} offsetDeg - 補正角度
      * @returns {number}
      */
-    getCol(e: any, t: any, a: any, i?: number): number;
+    getCol(e: any, t: any, a: any, n?: number): number;
     /** プロモーションエリア内であるか判別
      * @param {Panel} panel - マス目
      * @returns {{
@@ -208,20 +209,16 @@ declare class Z {
      * @returns {Promise<void>}
      */
     downloadImage(e: any, t: any, a: any): Promise<void>;
-    /** オーバーレイの表示を開始します。 */
-    startOverlay(): void;
-    /** オーバーレイの表示を停止します。 */
-    stopOverlay(): void;
     /** 盤面をクローン
      * @returns {Board}
      */
     clone(): any;
     #private;
 }
-declare class xe extends I {
+declare class ke extends J {
     engine: any;
 }
-declare class I {
+declare class J {
     /**
      * @param {Board} board - 対象のボード
      * @param {PlayerInfo} player - プレイヤー情報
@@ -231,6 +228,12 @@ declare class I {
     player: any;
     /** 手番操作 */
     playTurn(): Promise<void>;
+    /** CPU操作の待機開始 */
+    delayStart(): Promise<any>;
+    /** CPU操作の待機終了
+     * @param {Promise<void>} timer
+     */
+    delayEnd(e: any): Promise<void>;
     /**
      * 盤面を評価します。
      * @param {Board} board - 評価対象の盤面
@@ -593,8 +596,8 @@ declare namespace D {
      */
     function importAsync(): Promise<void>;
 }
-declare function be(p: any): void;
-declare namespace re {
+declare function Ee(p: any): void;
+declare namespace oe {
     namespace shogi {
         let name: string;
         let variant: string;
@@ -1746,7 +1749,7 @@ declare namespace Q {
         export { position_6 as position };
     }
 }
-declare const U: {
+declare const z: {
     S: {
         name: string;
         text: string;
@@ -2162,7 +2165,7 @@ declare namespace te {
     let 呈_1: string[];
     export { 呈_1 as 呈 };
 }
-declare namespace J {
+declare namespace U {
     export namespace 歩_2 {
         let name_46: string;
         export { name_46 as name };
@@ -5673,11 +5676,28 @@ declare namespace J {
         export { range_205 as range };
     }
 }
+declare class be {
+    constructor(e: any, t?: {});
+    canvas: any;
+    /**
+     * オーバーレイを開始します。
+     */
+    start(): Promise<void>;
+    /**
+     * オーバーレイを停止します。
+     */
+    stop(): void;
+    /**
+     * スピナーとオーバーレイの位置とサイズを更新します。
+     */
+    updatePosition(): void;
+    #private;
+}
 declare class _ {
     /** 駒台への角度ごとの表示順
      * @type {number[]}
      */
-    static "__#25@#t": number[];
+    static "__#25@#e": number[];
     /**
      * @param {Board} ボード
      */
@@ -5713,7 +5733,7 @@ declare class _ {
      * @param {boolean} forceCapture - 属性を無視して捕縛する
      * @param {boolean} forceCantCapture - 属性を無視して捕縛しない
      */
-    capturePiece(e: any, t: any, a?: boolean, i?: boolean): void;
+    capturePiece(e: any, t: any, a?: boolean, n?: boolean): void;
     /** 持ち駒の所有権を回転
      * @param {number} deg - 回転角 (90の倍数)
      */
@@ -5726,7 +5746,7 @@ declare class _ {
      */
     toString(e?: boolean, t?: boolean): string;
 }
-declare class Ce {
+declare class we {
     degs: {};
     /** アンパッサン情報をクリア
      * @param {number} deg - アンパッサンされうる陣営の角度
@@ -5748,13 +5768,13 @@ declare class Ce {
      */
     isTarget(e: any, t: any): boolean;
 }
-declare class random extends I {
+declare class random extends J {
     constructor(e: any, t: any);
 }
-declare class greedy extends I {
+declare class greedy extends J {
     constructor(e: any, t: any);
 }
-declare class minimax extends I {
+declare class minimax extends J {
     constructor(e: any, t: any);
     searchDepth: number;
     /**
@@ -5766,6 +5786,6 @@ declare class minimax extends I {
      * @param {boolean} isMaximizingPlayer - 現在のプレイヤーが最大化プレイヤーかどうか
      * @returns {number} 評価値
      */
-    minimax(e: any, t: any, a: any, i: any, s: any): number;
+    minimax(e: any, t: any, a: any, n: any, s: any): number;
 }
-export { Z as Board, xe as CpuEngine, I as CpuEngineBase, K as CpuEngines, C as Piece, q as boards, P as canvasFont, D as canvasImage, be as extendData, re as gameSoft, Q as games, U as panels, V as pieceCost, te as pieceRange, J as pieces };
+export { Z as Board, ke as CpuEngine, J as CpuEngineBase, K as CpuEngines, C as Piece, q as boards, P as canvasFont, D as canvasImage, Ee as extendData, oe as gameSoft, Q as games, z as panels, V as pieceCost, te as pieceRange, U as pieces };
