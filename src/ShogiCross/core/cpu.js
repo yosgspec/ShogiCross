@@ -17,11 +17,15 @@ export class CpuEngineBase{
 	async playTurn(){
 	}
 
-	/** CPU操作の待機開始 */
-	async delayStart(){
+	/** CPU操作の待機開始
+	 * @return {()=>Promise<void>} timer
+	 */
+	delayStart(){
 		// 思考中であることを示すため、画面を暗転
 		this.board.overlay.start();
-		return new Promise(res=>setTimeout(res, this.player.cpuDelay));
+		// オーバーレイの描写を待機
+		return new Promise(res=>setTimeout(res, 50)).
+			then(()=>()=>new Promise(res=>setTimeout(res, this.player.cpuDelay)));
 	}
 
 	/** CPU操作の待機終了
@@ -74,7 +78,7 @@ CpuEngines.random = class Random extends CpuEngineBase{
 
 	async playTurn(){
 		const {board, player} = this;
-		const timer = this.delayStart();
+		const timer = (await this.delayStart())();
 
 		// 1. 現在のプレイヤーが動かせる駒をすべて取得
 		const movablePieces = [];
@@ -122,8 +126,7 @@ CpuEngines.greedy = class Greedy extends CpuEngineBase{
 	 */
 	async playTurn(){
 		const {board, player} = this;
-		const timer = this.delayStart();
-
+		const timer = (await this.delayStart())();
 		const movablePieces = [];
 		board.field.flat().forEach(panel=>{
 			if(panel.piece && panel.piece.deg === player.deg){
@@ -265,8 +268,7 @@ CpuEngines.minimax = class Minimax extends CpuEngineBase{
 	 */
 	async playTurn(){
 		const {board, player} = this;
-		const timer = this.delayStart();
-
+		const timer = (await this.delayStart())();
 		let bestMove = null;
 		let bestScore = -Infinity;
 
