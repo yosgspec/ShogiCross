@@ -6528,9 +6528,11 @@ class J {
   /** 手番操作 */
   async playTurn() {
   }
-  /** CPU操作の待機開始 */
-  async delayStart() {
-    return this.board.overlay.start(), new Promise((e) => setTimeout(e, this.player.cpuDelay));
+  /** CPU操作の待機開始
+   * @return {()=>Promise<void>} timer
+   */
+  delayStart() {
+    return this.board.overlay.start(), new Promise((e) => setTimeout(e, 50)).then(() => () => new Promise((e) => setTimeout(e, this.player.cpuDelay)));
   }
   /** CPU操作の待機終了
    * @param {Promise<void>} timer
@@ -6565,7 +6567,7 @@ K.random = class extends J {
     super(e, t);
   }
   async playTurn() {
-    const { board: e, player: t } = this, a = this.delayStart(), n = [];
+    const { board: e, player: t } = this, a = (await this.delayStart())(), n = [];
     e.field.flat().forEach((i) => {
       if (i.piece && i.piece.deg === t.deg) {
         const r = i, o = $(e, r.piece, r.pX, r.pY);
@@ -6592,7 +6594,7 @@ K.greedy = class extends J {
    * 手番を処理します。
    */
   async playTurn() {
-    const { board: e, player: t } = this, a = this.delayStart(), n = [];
+    const { board: e, player: t } = this, a = (await this.delayStart())(), n = [];
     e.field.flat().forEach((o) => {
       if (o.piece && o.piece.deg === t.deg) {
         const l = o, d = $(e, l.piece, l.pX, l.pY);
@@ -6680,7 +6682,7 @@ K.minimax = class extends J {
    * 手番を処理します。
    */
   async playTurn() {
-    const { board: e, player: t } = this, a = this.delayStart();
+    const { board: e, player: t } = this, a = (await this.delayStart())();
     let n = null, s = -1 / 0;
     const i = [];
     e.field.flat().forEach((o) => {
