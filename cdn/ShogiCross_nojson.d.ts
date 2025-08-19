@@ -566,6 +566,11 @@ declare const q: {
         borderColor: string;
         field: string[];
     };
+    "4\u4EBA\u75289x9": {
+        backgroundColor: string;
+        borderColor: string;
+        field: string[];
+    };
     "4\u4EBA\u7528\u30AF\u30ED\u30B98\u5217": {
         backgroundColor: string;
         borderColor: string;
@@ -1519,8 +1524,8 @@ declare namespace Q {
                 獅子将棋: string[];
                 獅子将棋2p: string[];
                 禽将棋: string[];
-                p4: string[];
                 平安将棋: string[];
+                p4: string[];
             };
             10: {
                 "\u4EAC\u5C06\u68CB(\u5DE6\u4EAC\u914D\u7F6E)": string[];
@@ -1573,6 +1578,7 @@ declare namespace Q {
             9: {
                 default: string[];
                 "2p": string[];
+                p4: string[];
             };
             10: {
                 カパブランカチェス: string[];
@@ -1617,6 +1623,7 @@ declare namespace Q {
             9: {
                 default: string[];
                 "2p": string[];
+                p4: string[];
             };
             14: {
                 p4: string[];
@@ -1657,6 +1664,7 @@ declare namespace Q {
                 右象配置2p: string[];
                 外象配置: string[];
                 外象配置2p: string[];
+                p4: string[];
             };
             14: {
                 p4: string[];
@@ -1687,6 +1695,7 @@ declare namespace Q {
             9: {
                 default: string[];
                 "2p": string[];
+                p4: string[];
             };
             14: {
                 p4: string[];
@@ -1718,6 +1727,7 @@ declare namespace Q {
             9: {
                 default: string[];
                 "2p": string[];
+                p4: string[];
             };
             14: {
                 p4: string[];
