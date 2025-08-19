@@ -1,5 +1,5 @@
-/** @typedef {import('./data').BoardInitOption} BoardInitOption */
-/** @typedef {import('./data').PlayerInfo} PlayerInfo */
+/** @typedef {import("./data").BoardInitOption} BoardInitOption */
+/** @typedef {import("./data").PlayerInfo} PlayerInfo */
 import {canvasFont} from "./canvasFontLoader.js";
 import {canvasImage} from "./canvasImageLoader.js";
 import {downloadImage} from "./downloadImage.js";
@@ -626,8 +626,7 @@ export class Board{
 		const {piece={}} = toPanel;
 
 		this.turn += inc;
-
-		if (this.isHeadless) return; // Stop here for simulations
+		if(this.isHeadless) return;
 
 		record[this.turn] = {
 			from: {
@@ -861,17 +860,17 @@ export class Board{
 	}
 
 	/** オーバーレイの表示を開始します。 */
-	startOverlay() {
-		if (!this.#overlay) return;
-		this.#overlay.updatePosition(); // Update position before showing
+	startOverlay(){
+		if(!this.#overlay) return;
+		this.#overlay.updatePosition();
 		this.#overlay.start();
 	}
 
 	/** オーバーレイの表示を停止します。 */
-	stopOverlay() {
-		if (!this.#overlay) return;
+	stopOverlay(){
+		if(!this.#overlay) return;
 		this.#overlay.stop();
-		this.draw(); // Keep draw() if it's needed for other board updates after spinner stops
+		this.draw(); // Keep draw() if it"s needed for other board updates after spinner stops
 	}
 
 	/** 盤面をクローン

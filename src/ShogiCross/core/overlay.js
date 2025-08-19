@@ -22,7 +22,7 @@ export class Overlay{
     #useDimOverlay; // Options
 	#showSpinner; // Options
 
-    constructor(canvas, options={}) {
+    constructor(canvas, options={}){
         this.canvas = canvas;
         this.#useDimOverlay = options.useDimOverlay ?? true;
 		this.#showSpinner = options.showSpinner ?? true;
@@ -34,25 +34,25 @@ export class Overlay{
     /**
      * オーバーレイを開始します。
      */
-    start() {
+    start(){
         this.#active = true;
-        if (this.#useDimOverlay) {
-            this.#dimOverlay.style.display = 'block';
+        if(this.#useDimOverlay){
+            this.#dimOverlay.style.display = "block";
         }
-		if (this.#showSpinner) {
-			this.#spinnerElement.style.display = 'block';
+		if(this.#showSpinner){
+			this.#spinnerElement.style.display = "block";
 		}
     }
 
     /**
      * オーバーレイを停止します。
      */
-    stop() {
+    stop(){
         this.#active = false;
-        if (this.#useDimOverlay) {
-            this.#dimOverlay.style.display = 'none';
+        if(this.#useDimOverlay){
+            this.#dimOverlay.style.display = "none";
         }
-        this.#spinnerElement.style.display = 'none';
+        this.#spinnerElement.style.display = "none";
     }
 
     /**
@@ -60,16 +60,16 @@ export class Overlay{
      * @private
      */
     #createSpinnerElement(){
-        if (!this.#spinnerElement) {
-            this.#spinnerElement = document.createElement('div');
-            this.#spinnerElement.className = 'html-spinner';
+        if(!this.#spinnerElement){
+            this.#spinnerElement = document.createElement("div");
+            this.#spinnerElement.className = "html-spinner";
             this.#spinnerElement.innerHTML = `<div class="html-spinner-inner"></div>`; // Simplified spinner structure
             document.body.appendChild(this.#spinnerElement); // Append to document.body
 
             // Inject CSS for the HTML spinner
-            if (!document.getElementById('html-spinner-styles')) {
-                const style = document.createElement('style');
-                style.id = 'html-spinner-styles';
+            if(!document.getElementById("html-spinner-styles")){
+                const style = document.createElement("style");
+                style.id = "html-spinner-styles";
                 style.textContent = `
                     .html-spinner {
                         position: fixed; /* Changed to fixed */
@@ -102,15 +102,15 @@ export class Overlay{
      * @private
      */
     #createDimOverlay(){
-        if (!this.#dimOverlay) {
-            this.#dimOverlay = document.createElement('div');
-            this.#dimOverlay.className = 'html-spinner-overlay';
+        if(!this.#dimOverlay){
+            this.#dimOverlay = document.createElement("div");
+            this.#dimOverlay.className = "html-spinner-overlay";
             document.body.appendChild(this.#dimOverlay); // Append to document.body
 
             // Inject CSS for the overlay
-            if (!document.getElementById('html-spinner-overlay-styles')) {
-                const style = document.createElement('style');
-                style.id = 'html-spinner-overlay-styles';
+            if(!document.getElementById("html-spinner-overlay-styles")){
+                const style = document.createElement("style");
+                style.id = "html-spinner-overlay-styles";
                 style.textContent = `
                     .html-spinner-overlay {
                         position: fixed; /* Changed to fixed */
