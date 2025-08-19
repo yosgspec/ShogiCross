@@ -21,7 +21,7 @@ export class Board{
 	#mouseControl
 	#playerControl
 	#option
-	#beforeTurn
+	#beforeTurn = 0;
 	#dialog
 	#overlay
 
@@ -105,8 +105,8 @@ export class Board{
 			this.canvas = canvas;
 			this.ctx = canvas.getContext("2d");
 			this.ctx.clearRect(0, 0, canvas.width, canvas.height);
+			this.overlay = new Overlay(this.canvas, OverlayOptions);
 			this.#dialog = new Dialog();
-			this.#overlay = new Overlay(this.canvas, OverlayOptions);
 		}
 
 		this.pieces = Piece.getPieces(this.ctx, {
@@ -857,20 +857,6 @@ export class Board{
 	 */
 	async downloadImage(fileName, ext, urlType){
 		await downloadImage(this.canvas, fileName ?? this.name ?? "shogicross", ext, urlType);
-	}
-
-	/** オーバーレイの表示を開始します。 */
-	startOverlay(){
-		if(!this.#overlay) return;
-		this.#overlay.updatePosition();
-		this.#overlay.start();
-	}
-
-	/** オーバーレイの表示を停止します。 */
-	stopOverlay(){
-		if(!this.#overlay) return;
-		this.#overlay.stop();
-		this.draw(); // Keep draw() if it"s needed for other board updates after spinner stops
 	}
 
 	/** 盤面をクローン

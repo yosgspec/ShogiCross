@@ -26,9 +26,10 @@
  * @prop {string} gameName - ゲーム名
  * @prop {string} pieceSet - 駒セット名
  * @prop {string} cpuEngine - CPUエンジン名
+ * @prop {string} cpuDelay - CPU保証待機時間
  */
 /** @typedef {Object} Board */
-/** @typedef {import("./spinner").OverlayOptions} OverlayOptions */
+/** @typedef {import("./overlay").OverlayOptions} OverlayOptions */
 /**
  * @typedef {Object} BoardInitOption - ボードの初期化オプション
  * @prop {string} playBoard - ボードタイプ
@@ -100,6 +101,7 @@
  * @prop {string} degChar - プレイヤーを識別する角度文字
  * @prop {boolean} alive - 生存状態
  * @prop {string} cpuEngine - CPUエンジン名
+ * @prop {string} cpuDelay - CPU保証待機時間
  * @prop {CpuEngine} cpu - CPUエンジンのインスタンス
  * @prop {string} gameName - ゲーム名
  * @prop {string} pieceSet - 駒セット名
