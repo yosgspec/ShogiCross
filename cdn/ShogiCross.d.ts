@@ -32,6 +32,7 @@ declare class Q {
     desc: any;
     ctx: any;
     canvas: any;
+    overlay: Ee;
     pieces: {
         [k: string]: any;
     };
@@ -61,7 +62,7 @@ declare class Q {
     moveMode: any;
     record: any[];
     turn: number;
-    enPassant: xe;
+    enPassant: be;
     /** 操作パネルを構築
      * @param {string[]} compList - 表示するコントロールの一覧
      * @returns {PlayerControl}
@@ -99,7 +100,7 @@ declare class Q {
      * @param {number} option.displayPtn - 表示文字列を変更(1〜)
      * @param {boolean} option.isMoved - 初回移動済みか否か
      */
-    putNewPiece(e: any, t: any, a: any, i: any, s?: {}): void;
+    putNewPiece(e: any, t: any, a: any, n: any, s?: {}): void;
     /** 文字列から駒を配置
      * {string} text - 駒配置を表す文字列
      */
@@ -111,7 +112,7 @@ declare class Q {
      * @param {number} offsetDeg - 補正角度
      * @returns {number}
      */
-    getRow(e: any, t: any, a: any, i?: number): number;
+    getRow(e: any, t: any, a: any, n?: number): number;
     /** 角度基準のマス目の列を取得する
      * @param {number} pX - マス目の列
      * @param {number} pY - マス目の行
@@ -119,7 +120,7 @@ declare class Q {
      * @param {number} offsetDeg - 補正角度
      * @returns {number}
      */
-    getCol(e: any, t: any, a: any, i?: number): number;
+    getCol(e: any, t: any, a: any, n?: number): number;
     /** プロモーションエリア内であるか判別
      * @param {Panel} panel - マス目
      * @returns {{
@@ -208,20 +209,16 @@ declare class Q {
      * @returns {Promise<void>}
      */
     downloadImage(e: any, t: any, a: any): Promise<void>;
-    /** オーバーレイの表示を開始します。 */
-    startOverlay(): void;
-    /** オーバーレイの表示を停止します。 */
-    stopOverlay(): void;
     /** 盤面をクローン
      * @returns {Board}
      */
     clone(): any;
     #private;
 }
-declare class ke extends I {
+declare class ve extends K {
     engine: any;
 }
-declare class I {
+declare class K {
     /**
      * @param {Board} board - 対象のボード
      * @param {PlayerInfo} player - プレイヤー情報
@@ -231,6 +228,12 @@ declare class I {
     player: any;
     /** 手番操作 */
     playTurn(): Promise<void>;
+    /** CPU操作の待機開始 */
+    delayStart(): Promise<any>;
+    /** CPU操作の待機終了
+     * @param {Promise<void>} timer
+     */
+    delayEnd(e: any): Promise<void>;
     /**
      * 盤面を評価します。
      * @param {Board} board - 評価対象の盤面
@@ -583,7 +586,7 @@ declare const V: {
 declare namespace P {
     let fonts: (string | number)[][];
 }
-declare namespace H {
+declare namespace I {
     let imported: boolean;
     let images: {
         [x: string]: new (width?: number, height?: number) => HTMLImageElement;
@@ -593,8 +596,8 @@ declare namespace H {
      */
     function importAsync(): Promise<void>;
 }
-declare function Ee(p: any): void;
-declare namespace oe {
+declare function Ne(p: any): void;
+declare namespace le {
     namespace shogi {
         let name: string;
         let variant: string;
@@ -1746,7 +1749,7 @@ declare namespace _ {
         export { position_6 as position };
     }
 }
-declare const J: {
+declare const U: {
     S: {
         name: string;
         text: string;
@@ -2162,7 +2165,7 @@ declare namespace ae {
     let 呈_1: string[];
     export { 呈_1 as 呈 };
 }
-declare namespace K {
+declare namespace J {
     export namespace 歩_2 {
         let name_46: string;
         export { name_46 as name };
@@ -5673,11 +5676,28 @@ declare namespace K {
         export { range_205 as range };
     }
 }
+declare class Ee {
+    constructor(e: any, t?: {});
+    canvas: any;
+    /**
+     * オーバーレイを開始します。
+     */
+    start(): Promise<void>;
+    /**
+     * オーバーレイを停止します。
+     */
+    stop(): void;
+    /**
+     * スピナーとオーバーレイの位置とサイズを更新します。
+     */
+    updatePosition(): void;
+    #private;
+}
 declare class ee {
     /** 駒台への角度ごとの表示順
      * @type {number[]}
      */
-    static "__#11@#t": number[];
+    static "__#11@#e": number[];
     /**
      * @param {Board} ボード
      */
@@ -5713,7 +5733,7 @@ declare class ee {
      * @param {boolean} forceCapture - 属性を無視して捕縛する
      * @param {boolean} forceCantCapture - 属性を無視して捕縛しない
      */
-    capturePiece(e: any, t: any, a?: boolean, i?: boolean): void;
+    capturePiece(e: any, t: any, a?: boolean, n?: boolean): void;
     /** 持ち駒の所有権を回転
      * @param {number} deg - 回転角 (90の倍数)
      */
@@ -5726,7 +5746,7 @@ declare class ee {
      */
     toString(e?: boolean, t?: boolean): string;
 }
-declare class xe {
+declare class be {
     degs: {};
     /** アンパッサン情報をクリア
      * @param {number} deg - アンパッサンされうる陣営の角度
@@ -5748,13 +5768,13 @@ declare class xe {
      */
     isTarget(e: any, t: any): boolean;
 }
-declare class random extends I {
+declare class random extends K {
     constructor(e: any, t: any);
 }
-declare class greedy extends I {
+declare class greedy extends K {
     constructor(e: any, t: any);
 }
-declare class minimax extends I {
+declare class minimax extends K {
     constructor(e: any, t: any);
     searchDepth: number;
     /**
@@ -5766,6 +5786,6 @@ declare class minimax extends I {
      * @param {boolean} isMaximizingPlayer - 現在のプレイヤーが最大化プレイヤーかどうか
      * @returns {number} 評価値
      */
-    minimax(e: any, t: any, a: any, i: any, s: any): number;
+    minimax(e: any, t: any, a: any, n: any, s: any): number;
 }
-export { Q as Board, ke as CpuEngine, I as CpuEngineBase, q as CpuEngines, C as Piece, V as boards, P as canvasFont, H as canvasImage, Ee as extendData, oe as gameSoft, _ as games, J as panels, Z as pieceCost, ae as pieceRange, K as pieces };
+export { Q as Board, ve as CpuEngine, K as CpuEngineBase, q as CpuEngines, C as Piece, V as boards, P as canvasFont, I as canvasImage, Ne as extendData, le as gameSoft, _ as games, U as panels, Z as pieceCost, ae as pieceRange, J as pieces };
