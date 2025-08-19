@@ -319,7 +319,7 @@ export class Board{
 		const {pieces} = this;
 
 		const deg = this.degNormal(playerId);
-		this.#rotateField(deg);
+		this.#rotateField(-deg);
 		const pos = games[gameName].position[this.xLen][pieceSet];
 		if(!pos) throw Error(`games["${gameName}"].position["${this.xLen}"]["${pieceSet}"]is null.`);
 		pos.forEach((row, i)=>{
@@ -330,7 +330,7 @@ export class Board{
 				this.field[pY][pX].piece = pieces[char].clone();
 			});
 		});
-		this.#rotateField(-deg);
+		this.#rotateField(deg);
 		if(this.autoDrawing) this.draw();
 	}
 
@@ -452,7 +452,7 @@ export class Board{
 
 	/** プロモーションエリア内であるか判別
 	 * @param {Panel} panel - マス目
-	 * @returns {{ 
+	 * @returns {{
 	 * 		canPromo: boolean,
 	 * 		forcePromo: boolean
 	 * }}
