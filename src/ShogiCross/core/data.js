@@ -28,7 +28,7 @@
  * @prop {string} cpuEngine - CPUエンジン名
  */
 /** @typedef {Object} Board */
-/** @typedef {import('./spinner').OverlayOptions} OverlayOptions */
+/** @typedef {import("./spinner").OverlayOptions} OverlayOptions */
 /**
  * @typedef {Object} BoardInitOption - ボードの初期化オプション
  * @prop {string} playBoard - ボードタイプ

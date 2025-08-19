@@ -1,4 +1,4 @@
-const base = './json/ShogiCross/';
+const base = "./json/ShogiCross/";
 async function importJson(name){
 	return await fetch(`${base}${name}.json`)
 		.then(async res=>{

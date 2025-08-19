@@ -1,4 +1,4 @@
-/** @typedef {import('./data').PlayerInfo} PlayerInfo */
+/** @typedef {import("./data").PlayerInfo} PlayerInfo */
 import {Board} from "./board.js";
 import {checkTarget, isCheckmate, hasLegalMoves} from "./checkTarget.js";
 
