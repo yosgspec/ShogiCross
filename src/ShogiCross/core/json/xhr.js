@@ -1,4 +1,4 @@
-const base = './json/ShogiCross/';
+const base = "./json/ShogiCross/";
 function importJson(name){
 	const xhr = new XMLHttpRequest();
 	xhr.open("GET", `${base}${name}.json`, false);
