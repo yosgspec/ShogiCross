@@ -185,7 +185,7 @@ export class Board{
 						case 'move':
 							const fromPanel = this.field[message.from.pY][message.from.pX];
 							const toPanel = this.field[message.to.pY][message.to.pX];
-							this.applyRemoteMove(fromPanel, toPanel);
+							this.applyRemoteMove(fromPanel, toPanel, message.playerDeg);
 							break;
 						case 'playerAssignment':
 							const myPlayer = [...this.players.values()].find(p=>p.id === message.playerId);

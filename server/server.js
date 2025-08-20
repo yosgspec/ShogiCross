@@ -28,13 +28,16 @@ wss.on('connection', (ws) => {
         games[gameId] = game;
 
         // Assign players and start the game
-        game.players.forEach((playerWs, i) => {
-            playerWs.gameId = gameId;
-            playerWs.send(JSON.stringify({
-                type: 'playerAssignment',
-                playerId: i // Player 0 or 1
-            }));
-        });
+		game.players.forEach((playerWs, i) => {
+			playerWs.gameId = gameId;
+			const playerDeg = (i * 360 / game.players.length) % 360; // Assuming game.players.length is playerLen
+			playerWs.playerDeg = playerDeg; // Store deg on the WebSocket object
+			playerWs.send(JSON.stringify({
+				type: 'playerAssignment',
+				playerId: i, // Player 0 or 1
+				playerDeg: playerDeg // Send deg to client as well
+			}));
+		});
 
         console.log(`Game ${gameId} started between ${game.players[0].clientId} and ${game.players[1].clientId}`);
         waitingPlayer = null;
@@ -55,10 +58,12 @@ wss.on('connection', (ws) => {
             const opponent = game.players.find(p => p.clientId !== ws.clientId);
 
             if (data.type === 'move' && opponent) {
-                console.log(`Move from ${ws.clientId} in game ${ws.gameId}:`, data);
-                // Broadcast the move to the opponent
-                opponent.send(JSON.stringify(data));
-            }
+					console.log(`Move from ${ws.clientId} in game ${ws.gameId}:`, data);
+					// Add playerDeg to the message
+					data.playerDeg = ws.playerDeg; // Get deg from the sender's WebSocket object
+					// Broadcast the move to the opponent
+					opponent.send(JSON.stringify(data));
+				}
             // Handle other message types like 'join' if needed
             else if (data.type === 'join') {
                  console.log(`Join message from ${ws.clientId} for game: ${data.gameName}`);
