@@ -622,6 +622,7 @@ export class Board{
 	 */
 	async #executeMove(fromPanel, toPanel, deg=0){
 		this.#rotateField(-deg);
+		this.stand.rotate(-deg);
 		this.stand.capturePiece(
 			fromPanel.piece,
 			toPanel.piece,
@@ -643,6 +644,7 @@ export class Board{
 		}
 		piece.deg -= this.degNormal(deg + this.viewingAngle);
 		this.#rotateField(deg);
+		this.stand.rotate(deg);
 		if (this.autoDrawing) this.draw();
 		this.#emitGameOver();
 		if(this.#mouseControl) this.#mouseControl.resetSelect();
