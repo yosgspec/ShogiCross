@@ -21,6 +21,7 @@
 	</head>
 	<body>
 		<h1>将棋類紹介 - ShogiCross</h1>
+		<button id="online-btn" style="margin-left: 20px; padding: 5px 10px; cursor: pointer;">オンライン対戦を始める</button>
 		実際に動かして試すことができます。
 		<main></main>
 		<a href="./" target="_parent">RETURN</a>
@@ -39,7 +40,7 @@
 		</template>
 
 		<script type="module">
-		import {gameSoft, Board} from "./dist/ShogiCross.min.js";
+		import {gameSoft, Board} from "./ShogiCross/lib.js";
 		const main = document.querySelector("main");
 		const vMain = main.cloneNode(false);
 		const vGame = document.getElementById("game").content.firstElementChild;
@@ -73,6 +74,50 @@
 			}
 		}
 		main.replaceWith(vMain);
+
+		const onlineBtn = document.getElementById('online-btn');
+		onlineBtn.addEventListener('click', () => {
+			// Find the main shogi game option
+			const shogiOption = gameSoft['shogi'];
+			if (!shogiOption) {
+				alert('標準将棋が見つかりません。');
+				return;
+			}
+
+			// Clear the main area and create a new canvas for the online game
+			const mainNode = document.querySelector("main") || vMain;
+			mainNode.innerHTML = '';
+			const game = vGame.cloneNode(true);
+			const canvas = game.querySelector("canvas");
+			game.querySelector("h3 a").textContent = "オンライン対戦";
+			const statusP = game.querySelector("p");
+			statusP.textContent = "マッチング待機中...";
+			mainNode.append(game);
+
+			// Create options for an online game
+			const onlineGameOptions = {
+				...shogiOption, // Base options from standard Shogi
+				playerOptions: [
+					{ gameName: '将棋', isOnline: true, pieceSet: "default" },
+					{ gameName: '将棋', isOnline: true, pieceSet: "default" }
+				]
+			};
+
+			// Run the board with online options
+			const board = Board.run(canvas, onlineGameOptions);
+			
+			// A bit of a hack to update the status message from the client
+			const originalOnMessage = board.ws.onmessage;
+			board.ws.onmessage = (event) => {
+				if(originalOnMessage) originalOnMessage(event);
+				try {
+					const message = JSON.parse(event.data);
+					if (message.type === 'playerAssignment') {
+						statusP.textContent = `対戦開始！ あなたはプレイヤー${message.playerId + 1}です。`;
+					}
+				} catch(e){}
+			};
+		});
 		</script>
 	</body>
 </html>

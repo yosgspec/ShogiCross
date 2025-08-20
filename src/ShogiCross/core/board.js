@@ -96,6 +96,7 @@ export class Board{
 
 		// 初期化
 		this.ctx = null;
+		this.ws = null;
 		this.canvas = null;
 		let canvasFontAsync = null;
 		let canvasImageAsync = null;
@@ -150,9 +151,11 @@ export class Board{
 				degChar: Piece.degChars[deg],
 				alive: true,
 				cpuDelay: playerOptions[id]?.cpuDelay ?? 500, // CPUの遅延時間
+				isOnline: playerOptions[id]?.isOnline ?? false, // オンラインプレイヤーか
+				isLocal: false, // このクライアントが操作するプレイヤーか
 			};
 			// CPUエンジンの初期化
-			status.cpu = new CpuEngine(this, status),
+			status.cpu = new CpuEngine(this, status);
 			this.players.set(deg, status);
 			// 駒の初期配置
 			if(!status.gameName) continue;
@@ -162,6 +165,57 @@ export class Board{
 			catch(ex){
 				console.error(ex);
 			}
+		}
+
+		// WebSocket Setup for Online Play
+		this.isOnlineGame = playerOptions.some(p => p.isOnline);
+		if(this.isOnlineGame){
+			this.ws = new WebSocket("ws://localhost:3000");
+
+			this.ws.onopen = () => {
+				console.log("WebSocket connection established.");
+				this.ws.send(JSON.stringify({ type: 'join', gameName: this.name }));
+			};
+
+			this.ws.onmessage = (event) => {
+				console.log("Received message from server:", event.data);
+				try {
+					const message = JSON.parse(event.data);
+					switch (message.type) {
+						case 'move':
+							const fromPanel = this.field[message.from.pY][message.from.pX];
+							const toPanel = this.field[message.to.pY][message.to.pX];
+							this.applyRemoteMove(fromPanel, toPanel);
+							break;
+						case 'playerAssignment':
+							const myPlayer = [...this.players.values()].find(p=>p.id === message.playerId);
+							if(myPlayer) {
+								myPlayer.isLocal = true;
+								// If I am player 1 (180 degrees), rotate the board to my view.
+								if (myPlayer.deg === 180) {
+									const rotationAmount = 180 - this.viewingAngle;
+									this.#rotateField(rotationAmount);
+									this.stand.rotate(rotationAmount);
+									this.viewingAngle = 180;
+									if (this.autoDrawing) this.draw();
+								}
+							}
+							break;
+					}
+				} catch (error) {
+					console.error("Error parsing message from server:", error);
+				}
+			};
+
+			this.ws.onclose = () => {
+				console.log("WebSocket connection closed.");
+				this.#dialog?.show("接続エラー", "サーバーとの接続が切れました。", [{label: "OK"}]);
+			};
+
+			this.ws.onerror = (error) => {
+				console.error("WebSocket error:", error);
+				this.#dialog?.show("接続エラー", "サーバーとの接続でエラーが発生しました。", [{label: "OK"}]);
+			};
 		}
 
 		// 描写寸法を設定
@@ -174,7 +228,6 @@ export class Board{
 			canvas.width = canvasWidth ?? (useStand? this.stand.right: this.right)+5;
 			canvas.height = canvasHeight ?? this.bottom+5;
 
-			// キャンバスサイズ自動調整
 			const {style} = canvas;
 			if(canvasFit === "overflow"){
 				if(style.maxWidth === "") style.maxWidth = "97vw";
@@ -215,6 +268,7 @@ export class Board{
 		this.onGameOver = onGameOver;
 		this.onGameEnd = onGameEnd;
 		this.moveMode = moveMode;
+		this.viewingAngle = 0;
 
 		/** ゲームの記録
 		 * @type {Record[]}
@@ -564,6 +618,44 @@ export class Board{
 		fromPanel.piece = null;
 	}
 
+	/**
+	 * 駒の移動を実行する内部メソッド
+	 * @param {Panel} fromPanel - 移動元のマス目
+	 * @param {Panel} toPanel - 選択中のマス目
+	 */
+	async #executeMove(fromPanel, toPanel){
+		this.stand.capturePiece(
+			fromPanel.piece,
+			toPanel.piece,
+			toPanel.hasAttr("capture"),
+			toPanel.hasAttr("cantCapture")
+		);
+
+		this.simpleMovePiece(fromPanel, toPanel);
+
+		const {canPromo, forcePromo} = this.checkCanPromo(toPanel);
+		if (canPromo && toPanel.piece.promo) {
+			const promoChar = Object.keys(toPanel.piece.promo)[0];
+			toPanel.piece.promotion(promoChar);
+			this.addRecord({fromPanel, toPanel, end:"成"});
+		} else {
+			this.addRecord({fromPanel, toPanel});
+		}
+
+		if (this.autoDrawing) this.draw();
+		this.#emitGameOver();
+		if(this.#mouseControl) this.#mouseControl.resetSelect();
+	}
+
+	/**
+	 * サーバーから受信した駒の移動を適用
+	 * @param {Panel} fromPanel - 移動元のマス目
+	 * @param {Panel} toPanel - 選択中のマス目
+	 */
+	applyRemoteMove(fromPanel, toPanel) {
+		this.#executeMove(fromPanel, toPanel);
+	}
+
 	/** 駒を移動
 	 * @param {Panel} fromPanel - 移動元のマス目
 	 * @param {Panel} toPanel - 選択中のマス目
@@ -571,6 +663,20 @@ export class Board{
 	 */
 	async movePiece(fromPanel, toPanel, isCpuMove=false){
 		const {stand, moveMode, enPassant} = this;
+		const activePlayer = this.getActivePlayer();
+
+		if (activePlayer.isOnline && activePlayer.isLocal) {
+			if (toPanel.isTarget) {
+				const moveData = {
+					type: 'move',
+					from: { pX: fromPanel.pX, pY: fromPanel.pY },
+					to: { pX: toPanel.pX, pY: toPanel.pY },
+				};
+				this.ws.send(JSON.stringify(moveData));
+				this.#executeMove(fromPanel, toPanel);
+			}
+			return;
+		}
 
 		if(!fromPanel
 			|| moveMode === "viewOnly"
@@ -653,8 +759,23 @@ export class Board{
 			this.#beforeTurn = this.turn;
 			// ターンエンドイベント
 			this.onTurnEnd?.(this, this.turn);
-			// CPUのターンを進める
-			setTimeout(()=>this.getActivePlayer().cpu.playTurn(), 0);
+			const activePlayer = this.getActivePlayer();
+
+			// For local hot-seat games, rotate the board to the active player's view
+			if (!this.isOnlineGame && !activePlayer.cpu) {
+				const targetAngle = activePlayer.deg;
+				const rotationAmount = this.degNormal(targetAngle - this.viewingAngle);
+				if (rotationAmount !== 0) {
+					this.#rotateField(rotationAmount);
+					this.stand.rotate(rotationAmount);
+					this.viewingAngle = targetAngle;
+					if (this.autoDrawing) this.draw();
+				}
+			}
+
+			if (!activePlayer.isOnline) {
+				setTimeout(()=>activePlayer.cpu.playTurn(), 0);
+			}
 		}
 	}
 
