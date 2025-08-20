@@ -14,6 +14,7 @@ import {Bod} from "./bod.js";
 import {boards, games} from "./data.js";
 import {CpuEngine} from "./cpu.js";
 import {Overlay} from "./overlay.js";
+import {OnlineGameManager} from "./onlineGameManager.js";
 
 /** 盤の管理クラス */
 export class Board{
@@ -23,7 +24,6 @@ export class Board{
 	#option
 	#beforeTurn = 0;
 	#dialog
-	#overlay
 
 	/**
 	 * @typedef {Object} Record - 局面の記録
@@ -54,7 +54,7 @@ export class Board{
 	 * @param {HTMLCanvasElement} canvas - Canvas要素
 	 * @param {BoardInitOption} option - ボードの初期化オプション
 	 */
-	constructor(canvas, option){
+	    constructor(canvas, option){
 		const {
 			name,
 			variant,
@@ -85,6 +85,7 @@ export class Board{
 			onTurnEnd=(e,turn)=>{},
 			onGameOver=(e,i)=>alert(`プレイヤー${i+1}の敗北です。`),
 			onGameEnd=(e,i)=>e.addRecord({end: `対戦終了 勝者${[...e.players.values()][i].degChar}`}),
+			isOnline=false,
 		} = option;
 
 		this.#option = option;
@@ -96,7 +97,6 @@ export class Board{
 
 		// 初期化
 		this.ctx = null;
-		this.ws = null;
 		this.canvas = null;
 		let canvasFontAsync = null;
 		let canvasImageAsync = null;
@@ -109,7 +109,7 @@ export class Board{
 			this.overlay = new Overlay(this.canvas, OverlayOptions);
 			this.#dialog = new Dialog();
 		}
-
+		this.server = isOnline? new OnlineGameManager(this): null;
 		this.pieces = Piece.getPieces(this.ctx, {
 			size: pieceSize,
 			useRankSize,
@@ -151,8 +151,6 @@ export class Board{
 				degChar: Piece.degChars[deg],
 				alive: true,
 				cpuDelay: playerOptions[id]?.cpuDelay ?? 500, // CPUの遅延時間
-				isOnline: playerOptions[id]?.isOnline ?? false, // オンラインプレイヤーか
-				isLocal: false, // このクライアントが操作するプレイヤーか
 			};
 			// CPUエンジンの初期化
 			status.cpu = new CpuEngine(this, status);
@@ -165,54 +163,6 @@ export class Board{
 			catch(ex){
 				console.error(ex);
 			}
-		}
-
-		// WebSocket Setup for Online Play
-		this.isOnlineGame = playerOptions.some(p => p.isOnline);
-		if(this.isOnlineGame){
-			this.ws = new WebSocket("ws://localhost:3000");
-
-			this.ws.onopen = () => {
-				console.log("WebSocket connection established.");
-				this.ws.send(JSON.stringify({ type: 'join', gameName: this.name }));
-			};
-
-			this.ws.onmessage = (event) => {
-				console.log("Received message from server:", event.data);
-				try {
-					const message = JSON.parse(event.data);
-					switch (message.type) {
-						case 'move':
-							const fromPanel = this.field[message.from.pY][message.from.pX];
-							const toPanel = this.field[message.to.pY][message.to.pX];
-							this.applyRemoteMove(fromPanel, toPanel, message.playerDeg);
-							break;
-						case 'playerAssignment':
-							const myPlayer = [...this.players.values()].find(p=>p.id === message.playerId);
-							if(myPlayer) {
-								myPlayer.isLocal = true;
-								// If I am player 1 (180 degrees), rotate the board to my view.
-								this.#rotateField(myPlayer.deg);
-								this.stand.rotate(myPlayer.deg);
-								this.viewingAngle = myPlayer.deg;
-								if (this.autoDrawing) this.draw();
-							}
-							break;
-					}
-				} catch (error) {
-					console.error("Error parsing message from server:", error);
-				}
-			};
-
-			this.ws.onclose = () => {
-				console.log("WebSocket connection closed.");
-				this.#dialog?.show("接続エラー", "サーバーとの接続が切れました。", [{label: "OK"}]);
-			};
-
-			this.ws.onerror = (error) => {
-				console.error("WebSocket error:", error);
-				this.#dialog?.show("接続エラー", "サーバーとの接続でエラーが発生しました。", [{label: "OK"}]);
-			};
 		}
 
 		// 描写寸法を設定
@@ -322,7 +272,7 @@ export class Board{
 	rotate(isRight=true){
 		let deg = this.degNormal(1);
 		if(!isRight) deg = -deg;
-		this.#rotateField(deg);
+		this.rotateField(deg);
 		this.stand.rotate(deg);
 		if(this.autoDrawing) this.draw();
 	}
@@ -330,7 +280,7 @@ export class Board{
 	/** 駒配置を回転
 	 * @param {number} deg - 回転角 (90の倍数)
 	 */
-	#rotateField(deg){
+	rotateField(deg){
 		const {field, xLen, yLen} = this;
 
 		deg = this.degNormal(deg);
@@ -370,7 +320,7 @@ export class Board{
 		const {pieces} = this;
 
 		const deg = this.degNormal(playerId);
-		this.#rotateField(-deg);
+		this.rotateField(-deg);
 		const pos = games[gameName].position[this.xLen][pieceSet];
 		if(!pos) throw Error(`games["${gameName}"].position["${this.xLen}"]["${pieceSet}"]is null.`);
 		pos.forEach((row, i)=>{
@@ -381,7 +331,7 @@ export class Board{
 				this.field[pY][pX].piece = pieces[char].clone();
 			});
 		});
-		this.#rotateField(deg);
+		this.rotateField(deg);
 		if(this.autoDrawing) this.draw();
 	}
 
@@ -620,8 +570,8 @@ export class Board{
 	 * @param {Panel} fromPanel - 移動元のマス目
 	 * @param {Panel} toPanel - 選択中のマス目
 	 */
-	async #executeMove(fromPanel, toPanel, deg=0){
-		this.#rotateField(-deg);
+	async executeMove(fromPanel, toPanel, deg=0){
+		this.rotateField(-deg);
 		this.stand.rotate(-deg);
 		this.stand.capturePiece(
 			fromPanel.piece,
@@ -643,22 +593,11 @@ export class Board{
 			this.addRecord({fromPanel, toPanel});
 		}
 		piece.deg -= this.degNormal(deg + this.viewingAngle);
-		this.#rotateField(deg);
+		this.rotateField(deg);
 		this.stand.rotate(deg);
 		if (this.autoDrawing) this.draw();
 		this.#emitGameOver();
 		if(this.#mouseControl) this.#mouseControl.resetSelect();
-	}
-
-	/**
-	 * サーバーから受信した駒の移動を適用
-	 * @param {Panel} fromPanel - 移動元のマス目
-	 * @param {Panel} toPanel - 選択中のマス目
-	 */
-	applyRemoteMove(fromPanel, toPanel) {
-		console.log([fromPanel.pX, fromPanel.pY]);
-		console.log([toPanel.pX, toPanel.pY]);
-		this.#executeMove(fromPanel, toPanel, 180);
 	}
 
 	/** 駒を移動
@@ -672,13 +611,8 @@ export class Board{
 
 		if (activePlayer.isOnline && activePlayer.isLocal) {
 			if (toPanel.isTarget) {
-				const moveData = {
-					type: 'move',
-					from: { pX: fromPanel.pX, pY: fromPanel.pY },
-					to: { pX: toPanel.pX, pY: toPanel.pY },
-				};
-				this.ws.send(JSON.stringify(moveData));
-				this.#executeMove(fromPanel, toPanel);
+    			this.server.sendMove(fromPanel, toPanel); // BoardのmovePieceから呼ばれる
+				this.executeMove(fromPanel, toPanel);
 			}
 			return;
 		}
@@ -764,23 +698,6 @@ export class Board{
 			this.#beforeTurn = this.turn;
 			// ターンエンドイベント
 			this.onTurnEnd?.(this, this.turn);
-			const activePlayer = this.getActivePlayer();
-
-			// For local hot-seat games, rotate the board to the active player's view
-			if (!this.isOnlineGame && !activePlayer.cpu) {
-				const targetAngle = activePlayer.deg;
-				const rotationAmount = this.degNormal(targetAngle - this.viewingAngle);
-				if (rotationAmount !== 0) {
-					this.#rotateField(rotationAmount);
-					this.stand.rotate(rotationAmount);
-					this.viewingAngle = targetAngle;
-					if (this.autoDrawing) this.draw();
-				}
-			}
-
-			if (!activePlayer.isOnline) {
-				setTimeout(()=>activePlayer.cpu.playTurn(), 0);
-			}
 		}
 	}
 
