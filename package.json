@@ -34,7 +34,7 @@
   "homepage": "https://github.com/yosgspec/ShogiCross#readme",
   "type": "module",
   "scripts": {
-    "dev": "npx vite",
+    "dev": "npx vite --mode nojson",
     "sharp-all": "npx sharp -i ./**/*.png -f png -o {dir} ",
     "build": "run-s setup building collect minify post deploy built",
     "setup": "run-p setup:*",
