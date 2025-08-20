@@ -41,6 +41,7 @@
 
 		<script type="module">
 		import {gameSoft, Board} from "./ShogiCross/lib.js";
+		import {OnlineGameManager} from "./ShogiCross/core/onlineGameManager.js";
 		const main = document.querySelector("main");
 		const vMain = main.cloneNode(false);
 		const vGame = document.getElementById("game").content.firstElementChild;
@@ -98,25 +99,19 @@
 			const onlineGameOptions = {
 				...shogiOption, // Base options from standard Shogi
 				playerOptions: [
-					{ gameName: '将棋', isOnline: true, pieceSet: "default" },
-					{ gameName: '将棋', isOnline: true, pieceSet: "default" }
-				]
+					{ gameName: '将棋', pieceSet: "default" },
+					{ gameName: '将棋', pieceSet: "default" }
+				],
+				isOnline: true,
 			};
 
 			// Run the board with online options
 			const board = Board.run(canvas, onlineGameOptions);
-			
-			// A bit of a hack to update the status message from the client
-			const originalOnMessage = board.ws.onmessage;
-			board.ws.onmessage = (event) => {
-				if(originalOnMessage) originalOnMessage(event);
-				try {
-					const message = JSON.parse(event.data);
-					if (message.type === 'playerAssignment') {
-						statusP.textContent = `対戦開始！ あなたはプレイヤー${message.playerId + 1}です。`;
-					}
-				} catch(e){}
-			};
+			board.server.connect(board.name); // Connect to the game server
+
+			board.server.on('playerAssignment', (message) => {
+				statusP.textContent = `対戦開始！ あなたはプレイヤー${message.playerId + 1}です。`;
+			});
 		});
 		</script>
 	</body>
