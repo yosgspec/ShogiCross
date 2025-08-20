@@ -192,13 +192,10 @@ export class Board{
 							if(myPlayer) {
 								myPlayer.isLocal = true;
 								// If I am player 1 (180 degrees), rotate the board to my view.
-								if (myPlayer.deg === 180) {
-									const rotationAmount = 180 - this.viewingAngle;
-									this.#rotateField(rotationAmount);
-									this.stand.rotate(rotationAmount);
-									this.viewingAngle = 180;
-									if (this.autoDrawing) this.draw();
-								}
+								this.#rotateField(myPlayer.deg);
+								this.stand.rotate(myPlayer.deg);
+								this.viewingAngle = myPlayer.deg;
+								if (this.autoDrawing) this.draw();
 							}
 							break;
 					}
@@ -623,7 +620,8 @@ export class Board{
 	 * @param {Panel} fromPanel - 移動元のマス目
 	 * @param {Panel} toPanel - 選択中のマス目
 	 */
-	async #executeMove(fromPanel, toPanel){
+	async #executeMove(fromPanel, toPanel, deg=0){
+		this.#rotateField(-deg);
 		this.stand.capturePiece(
 			fromPanel.piece,
 			toPanel.piece,
@@ -634,14 +632,17 @@ export class Board{
 		this.simpleMovePiece(fromPanel, toPanel);
 
 		const {canPromo, forcePromo} = this.checkCanPromo(toPanel);
-		if (canPromo && toPanel.piece.promo) {
-			const promoChar = Object.keys(toPanel.piece.promo)[0];
-			toPanel.piece.promotion(promoChar);
+		const piece = toPanel.piece;
+		piece.deg += this.degNormal(deg + this.viewingAngle);
+		if (canPromo && piece.promo) {
+			const promoChar = Object.keys(piece.promo)[0];
+			piece.promotion(promoChar);
 			this.addRecord({fromPanel, toPanel, end:"成"});
 		} else {
 			this.addRecord({fromPanel, toPanel});
 		}
-
+		piece.deg -= this.degNormal(deg + this.viewingAngle);
+		this.#rotateField(deg);
 		if (this.autoDrawing) this.draw();
 		this.#emitGameOver();
 		if(this.#mouseControl) this.#mouseControl.resetSelect();
@@ -653,7 +654,9 @@ export class Board{
 	 * @param {Panel} toPanel - 選択中のマス目
 	 */
 	applyRemoteMove(fromPanel, toPanel) {
-		this.#executeMove(fromPanel, toPanel);
+		console.log([fromPanel.pX, fromPanel.pY]);
+		console.log([toPanel.pX, toPanel.pY]);
+		this.#executeMove(fromPanel, toPanel, 180);
 	}
 
 	/** 駒を移動
