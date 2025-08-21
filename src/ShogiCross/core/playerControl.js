@@ -21,8 +21,8 @@ export class PlayerControl{
 	constructor(board, compList){
 		this.board = board;
 		const buttons = new Map([
-			["undoRecord", {title: "一手戻る", text: "&lt;&lt;", onclick: ()=>board.undoRecord()}],
-			["redoRecord", {title: "一手進む", text: "&gt;&gt;", onclick: ()=>board.redoRecord()}],
+			["undo", {title: "一手戻る", text: "&lt;&lt;", onclick: ()=>board.record.undo()}],
+			["redo", {title: "一手進む", text: "&gt;&gt;", onclick: ()=>board.record.redo()}],
 			["rotateLeft", {title: "盤面を左回転", text: "🔄", onclick: ()=>board.rotate(false)}],
 			["rotateRight", {title: "盤面を右回転", text: "🔁", onclick: ()=>board.rotate()}],
 			["downloadImage", {title: "画像を保存", text: "📷", onclick: ()=>board.downloadImage()}]
@@ -63,14 +63,14 @@ export class PlayerControl{
 				const select = this.component.querySelector(`#textRecord${unique}`);
 				const option = select.querySelector("option");
 				const vSelect = select.cloneNode(false);
-				e.record.forEach((record, turn)=>{
+				e.record.records.forEach((_, turn)=>{
 					const vOption = option.cloneNode(false);
-					vOption.textContent = board.record2String(record, turn);
-					if(turn === e.turn) vOption.selected = true;
+					vOption.textContent = board.record.getText(turn);
+					if(turn === e.record.turn) vOption.selected = true;
 					vSelect.appendChild(vOption);
 				});
 				// セレクトボックス変更時、履歴を移動
-				vSelect.onchange = e=>board.moveRecord(e.target.selectedIndex);
+				vSelect.onchange = e=>board.record.move(e.target.selectedIndex);
 				select.replaceWith(vSelect);
 			});
 			onDrawedBase?.(e);
