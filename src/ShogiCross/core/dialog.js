@@ -62,10 +62,10 @@ export class Dialog{
 	#close(btn){
 		this.dialog.close();
 		this.dialog.style.display = "none";
-		return btn.value;
+		return btn?.value;
 	}
 
-	async show(title, message, buttons){
+	async show(title, message, buttons=[{label: "OK"}]){
 		this.#title.textContent = title;
 		this.#message.innerHTML = message.replace(/\r|\n|\r\n/g,"<br>");
 		this.#btnContainer.innerHTML = "";
