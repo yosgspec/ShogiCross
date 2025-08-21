@@ -14,6 +14,7 @@ import {Bod} from "./bod.js";
 import {boards, games} from "./data.js";
 import {CpuEngine} from "./cpu.js";
 import {Overlay} from "./overlay.js";
+import {Record} from "./record.js";
 
 /** 盤の管理クラス */
 export class Board{
@@ -21,7 +22,6 @@ export class Board{
 	#mouseControl
 	#playerControl
 	#option
-	#beforeTurn = 0;
 	#dialog
 	#overlay
 
@@ -84,7 +84,7 @@ export class Board{
 			onDrawed=e=>{},
 			onTurnEnd=(e,turn)=>{},
 			onGameOver=(e,i)=>alert(`プレイヤー${i+1}の敗北です。`),
-			onGameEnd=(e,i)=>e.addRecord({end: `対戦終了 勝者${[...e.players.values()][i].degChar}`}),
+			onGameEnd=(e,i)=>e.record.add({end: `対戦終了 勝者${[...e.players.values()][i].degChar}`}),
 		} = option;
 
 		this.#option = option;
@@ -219,11 +219,7 @@ export class Board{
 		/** ゲームの記録
 		 * @type {Record[]}
 		 */
-		this.record = [];
-		/** ゲームのターン
-		 * @type {number}
-		 */
-		this.turn = 0;
+		this.record = new Record(this);
 		if(!isHeadless) this.#mouseControl = mouseControl(this);
 		if(usePlayerControl){
 			this.#playerControl = this.makePlayerControl();
@@ -251,7 +247,7 @@ export class Board{
 	 * @returns {Object<string, any>|"PlayerInfo"} - 現在のプレイヤー情報
 	 */
 	getActivePlayer(){
-		return [...this.players.values()][this.turn%this.playerLen];
+		return [...this.players.values()][this.record.turn%this.playerLen];
 	}
 
 	/** 角度を正規化
@@ -521,15 +517,15 @@ export class Board{
 		const {piece} = toPanel;
 		const promo = char=>{
 			piece.promotion(char);
-			this.addRecord({fromPanel, toPanel, end:"成"});
+			this.record.add({fromPanel, toPanel, end:"成"});
 		};
 		const notPromo = ()=>{
-			this.addRecord({fromPanel, toPanel, end:"不成"});
+			this.record.add({fromPanel, toPanel, end:"不成"});
 		};
 
 		// プロモーション処理
 		if(!piece.promo || piece.hasAttr("promoted") || piece.hasAttr("cantPromotion") || !canPromo){
-			this.addRecord({fromPanel, toPanel});
+			this.record.add({fromPanel, toPanel});
 			return;
 		}
 
@@ -611,160 +607,14 @@ export class Board{
 	 * @param {PlayerInfo} player - プレイヤー情報
 	*/
 	passTurn(player){
-		this.addRecord({end: `${player.degChar}パス`});
+		this.record.add({end: `${player.degChar}パス`});
 	}
 
-	/** 棋譜を追記
-	 * @param {Panel} toPanel - 移動先のマス目
-	 * @param {Object} option - オプション
-	 * @param {Panel} option.fromPanel - 移動元のマス目
-	 * @param {string} option.end - オプション=成|不成|打
-	 */
-	addRecord(option={}){
-		const {record} = this;
-		const {fromPanel={}, toPanel={}, end="", inc=1} = option;
-		const {piece={}} = toPanel;
-
-		this.turn += inc;
-		if(this.isHeadless) return;
-
-		record[this.turn] = {
-			from: {
-				pX: fromPanel.pX,
-				pY: fromPanel.pY
-			},
-			to: {
-				pX: toPanel.pX,
-				pY: toPanel.pY,
-			},
-			deg: piece.deg,
-			pieceChar: piece.char,
-			end,
-			fieldText: this.getTextPieces("compact", true),
-			fieldMoved: this.field.map(row=>
-				row.map(({piece})=>
-					piece?.isMoved? 1: 0
-				)
-			)
-		};
-		if(0 < inc) record.splice(this.turn+1);
-		// ターンが変わった
-		if(this.#beforeTurn !== this.turn){
-			this.#beforeTurn = this.turn;
-			// ターンエンドイベント
-			this.onTurnEnd?.(this, this.turn);
-			// CPUのターンを進める
-			setTimeout(()=>this.getActivePlayer().cpu.playTurn(), 0);
-		}
-	}
-
-	/** 棋譜コメントを追記
-	 * @param {string} comment - 棋譜コメント
-	 * @param {number} shiftTurn - ずらす手数
-	 */
-	addRecordComment(comment, shiftTurn=0){
-		this.record[this.turn+shiftTurn].comment = comment;
-	}
-
-	/** 記録の参照手数を切り替える
-	 * @param {number} inc - 切り替えたい手数の差分
-	 */
-	#switchRecord(inc){
-		const {record} = this;
-		if(!record[this.turn+inc]) return;
-
-		this.turn += inc;
-		const {fieldText, fieldMoved} = record[this.turn];
-		this.setTextPieces(fieldText);
-		this.field.forEach((row, pY)=>
-			row.forEach(({piece}, pX)=>{
-				if(!piece) return;
-				piece.isMoved = !!fieldMoved[pY][pX];
-			})
-		);
-	}
-
-	/** 記録の手を戻す */
-	undoRecord(){
-		this.#switchRecord(-1);
-	}
-
-	/** 記録の手を進める */
-	redoRecord(){
-		this.#switchRecord(1);
-	}
-
-	/** 記録の手を移動
-	 * @param {number} turn - 手数
-	 */
-	moveRecord(turn){
-		this.turn = turn;
-		this.#switchRecord(0);
-	}
-
-	/** 局面の記録を文字列に変換
-	 * @param {Record} record - 局面の記録
-	 * @param {number} turn - 手数
-	 * @param {boolean} isNumOnly - 座標を数字で表現
-	 * @returns {string}
-	 */
-	record2String(record, turn, isNumOnly=false){
-		const {to, from, deg, pieceChar, end} = record;
-		if(to.pX == null) return `${turn}: ${end}`;
-
-		const getPX = ({pX})=> (this.xLen-pX).toString(isNumOnly? 10: 36);
-		const getPY = ({pY})=> (pY+1).toString(isNumOnly? 10: 36);
-		const numSep = isNumOnly? ",": "";
-		return `${
-			turn}: ${
-			Piece.degChars[deg]}${
-			getPX(to)}${
-			numSep}${
-			getPY(to)}${
-			pieceChar}${
-			end}${
-			from.pX === undefined? "": ` (${
-				getPX(from)}${
-				numSep}${
-				getPY(from)
-			})`}`;
-	}
-
-	/** 表示用の棋譜を取得
-	 * @param {boolean} isNumOnly - 座標を数字で表現
-	 * @returns {string}
-	 */
-	getTextRecord(isNumOnly=false){
-		return this.record.slice(0, this.turn+1).map((record, i)=>
-			this.record2String(record, i, isNumOnly)
-		).join("\n");
-	}
-
-	/** 棋譜データを取得
-	 * @param {boolean} isEncode - エンコード有無
-	 * @returns {string}
-	 */
-	getJsonRecord(isEncode=true){
-		const jsonRecord = JSON.stringify(this.record, null, "");
-		return isEncode? encodeURI(jsonRecord): jsonRecord;
-	}
-
-	/** 棋譜データを入力
-	 * @param {string} record - 棋譜データ
-	 * @param {number} turn - 手数
-	 */
-	setJsonRecord(record, turn){
-		this.record = JSON.parse(decodeURI(record));
-		this.moveRecord(turn ?? this.record.length-1);
-	}
 
 	/** 盤を描写 */
 	draw(){
 		if(this.isHeadless) return;
 		const {ctx, canvas, left, top, width, height, panelWidth, panelHeight} = this;
-
-		//最初の記録
-		if(this.turn === 0) this.addRecord({inc: 0, end: "開始局面"});
 
 		// 描写を初期化
 		ctx.restore();
@@ -805,14 +655,6 @@ export class Board{
 		return mode === "bod"?
 			Bod.getTextPieces(this):
 			this.toString(mode === "compact", isAlias);
-	}
-
-	/** 棋譜コメントを取得
-	 * @param {number} shiftTurn - ずらす手数
-	 * @returns {string}
-	 */
-	getRecordComment(shiftTurn=0){
-		return this.record[this.turn+shiftTurn] ?? "";
 	}
 
 	/** 駒配置をテキストで取得
@@ -882,7 +724,7 @@ export class Board{
 
 		// その他の状態をコピー
 		newBoard.turn = this.turn;
-		newBoard.record = JSON.parse(JSON.stringify(this.record)); // 記録もディープコピー
+		newBoard.record.resords = JSON.parse(JSON.stringify(this.record.resords ?? [])); // 記録もディープコピー
 
 		return newBoard;
 	}
