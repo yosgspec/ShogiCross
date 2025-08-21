@@ -7,7 +7,7 @@
     import {Board, gameSoft} from "https://cdn.jsdelivr.net/gh/yosgspec/ShogiCross@0.10/cdn/ShogiCross.min.js";
     const canvas = document.getElementById("shogiCross");
     const board = Board.run(canvas, gameSoft.chess);
-    board.setJsonRecord(jsonRecord());
+    board.record.setJson(jsonRecord());
 
     const textPieces = document.getElementById("textPieces");
 
@@ -17,9 +17,9 @@
      * @param {boolean} isNumOnly - 座標を数字で表現
      * @returns {string}
      */
-    // Board.record2String(record, turn, isNumOnly=false): string
+    // Board.record.getText(turn, isNumOnly=false): string
     document.getElementById("recordList").onclick = ()=>alert(
-        board.record.map((record, i)=>board.record2String(record, i, false))
+        board.record.map((record, i)=>board.record.getText(i, false))
     );
 
     function jsonRecord(){
