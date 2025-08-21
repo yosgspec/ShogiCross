@@ -20,7 +20,7 @@
 					{"gameName": "マークルック", "pieceSet": "p4", "cpuEngine": "random"},
 				],
 				onTurnEnd: (board, turn)=>{
-					console.log(board.record2String(board.record[turn], turn, true));
+					console.log(board.record.getText(turn, true));
 				}
 			});
 		</script>
