@@ -1,224 +1,25 @@
-declare class Z {
-    /**
-     * @typedef {Object} Record - 局面の記録
-     * @prop {Object} from
-     * @prop {number} from.pX - 移動元の列
-     * @prop {number} from.pY - 移動元の行
-     * @prop {Object} to
-     * @prop {number} to.pX - 移動先の列
-     * @prop {number} to.pY - 移動先の行
-     * @prop {number} deg - 駒の角度
-     * @prop {string} pieceChar - 駒の一文字表記
-     * @prop {string} end - 棋譜表示の末尾に記載する文字
-     * @prop {string} fieldText - 駒配置のテキスト
-     * @prop {number[][]} fieldMoved - 駒の移動済み判定
-     * @prop {string|null} comment - 棋譜コメント
-     */
-    /** ゲームを実行する
-     * @param {HTMLCanvasElement}} canvas - Canvas要素
-     * @param {BoardInitOption} option - ボードの初期化オプション
-     * @returns {Board}
-     */
-    static run(e: any, t: any): any;
-    /**
-     * @param {HTMLCanvasElement} canvas - Canvas要素
-     * @param {BoardInitOption} option - ボードの初期化オプション
-     */
-    constructor(e: any, t: any);
-    isHeadless: any;
-    name: any;
-    variant: any;
-    url: any;
-    desc: any;
-    ctx: any;
-    canvas: any;
-    overlay: be;
-    pieces: {
-        [k: string]: any;
-    };
-    playerLen: any;
-    left: any;
-    top: any;
-    panelWidth: any;
-    panelHeight: any;
-    borderWidth: any;
-    pieceSize: any;
-    canvasBackgroundColor: any;
-    field: any;
-    xLen: any;
-    yLen: any;
-    players: Map<any, any>;
-    width: number;
-    height: number;
-    right: any;
-    bottom: any;
-    stand: _;
+declare class ce extends ee {
+    overlay: Ne;
     autoDrawing: any;
-    isGameEnd: boolean;
-    onDrawed: any;
-    onTurnEnd: any;
-    onGameOver: any;
-    onGameEnd: any;
-    moveMode: any;
-    record: any[];
-    turn: number;
-    enPassant: we;
-    /** 操作パネルを構築
-     * @param {string[]} compList - 表示するコントロールの一覧
-     * @returns {PlayerControl}
-     */
-    makePlayerControl(e: any): any;
-    /** ボードを閉じる */
-    close(): void;
-    /** 現在の手番のプレイヤー情報を取得
-     * @returns {Object<string, any>|"PlayerInfo"} - 現在のプレイヤー情報
-     */
-    getActivePlayer(): {
-        [x: string]: any;
-    } | "PlayerInfo";
-    /** 角度を正規化
-     * @param {number} playeaIdOrDeg - プレイヤー番号または角度
-     * @returns {number}
-     */
-    degNormal(e: any): number;
-    /** 盤面を回転
-     * @param {boolean} isRight - 回転方向
-     */
-    rotate(e?: boolean): void;
-    /** 駒の初期配置
-     * @param {number} playerId - プレイヤー番号
-     * @param {string} gameName - ゲーム名(基準となる駒の配置セット)
-     * @param {string} pieceSet - 駒の配置パターン
-     */
-    putStartPieces(e: any, t: any, a?: string): void;
-    /** 駒の配置
-     * @param {string} piece - 駒の表現文字
-     * @param {number} pX - X方向配置位置(マス目基準)
-     * @param {number} pY - Y方向配置位置(マス目基準)
-     * @param {number} playeaIdOrDeg - プレイヤー番号または駒の配置角
-     * @param {Object} option - オプション
-     * @param {number} option.displayPtn - 表示文字列を変更(1〜)
-     * @param {boolean} option.isMoved - 初回移動済みか否か
-     */
-    putNewPiece(e: any, t: any, a: any, n: any, s?: {}): void;
-    /** 文字列から駒を配置
-     * {string} text - 駒配置を表す文字列
-     */
-    setTextPieces(e: any): void;
-    /** 角度基準のマス目の行を取得する
-     * @param {number} pX - マス目の列
-     * @param {number} pY - マス目の行
-     * @param {number} deg - 角度
-     * @param {number} offsetDeg - 補正角度
-     * @returns {number}
-     */
-    getRow(e: any, t: any, a: any, n?: number): number;
-    /** 角度基準のマス目の列を取得する
-     * @param {number} pX - マス目の列
-     * @param {number} pY - マス目の行
-     * @param {number} deg - 角度
-     * @param {number} offsetDeg - 補正角度
-     * @returns {number}
-     */
-    getCol(e: any, t: any, a: any, n?: number): number;
-    /** プロモーションエリア内であるか判別
-     * @param {Panel} panel - マス目
-     * @returns {{
-     * 		canPromo: boolean,
-     * 		forcePromo: boolean
-     * }}
-     */
-    checkCanPromo(e: any): {
-        canPromo: boolean;
-        forcePromo: boolean;
-    };
-    simpleMovePiece(e: any, t: any): void;
-    /** 駒を移動
-     * @param {Panel} fromPanel - 移動元のマス目
-     * @param {Panel} toPanel - 選択中のマス目
+    /** プロモーション選択
+     * @param {Piece} piece - 駒
+     * @param {boolean} canPromo - 成ることができる
+     * @param {boolean} forcePromo - 成りを強制する
      * @param {boolean} isCpuMove - CPUによる移動か
      */
-    movePiece(e: any, t: any, a?: boolean): Promise<void>;
-    /** パスして手番を進める
-     * @param {PlayerInfo} player - プレイヤー情報
-    */
-    passTurn(e: any): void;
-    /** 棋譜を追記
-     * @param {Panel} toPanel - 移動先のマス目
-     * @param {Object} option - オプション
-     * @param {Panel} option.fromPanel - 移動元のマス目
-     * @param {string} option.end - オプション=成|不成|打
-     */
-    addRecord(e?: {}): void;
-    /** 棋譜コメントを追記
-     * @param {string} comment - 棋譜コメント
-     * @param {number} shiftTurn - ずらす手数
-     */
-    addRecordComment(e: any, t?: number): void;
-    /** 記録の手を戻す */
-    undoRecord(): void;
-    /** 記録の手を進める */
-    redoRecord(): void;
-    /** 記録の手を移動
-     * @param {number} turn - 手数
-     */
-    moveRecord(e: any): void;
-    /** 局面の記録を文字列に変換
-     * @param {Record} record - 局面の記録
-     * @param {number} turn - 手数
-     * @param {boolean} isNumOnly - 座標を数字で表現
-     * @returns {string}
-     */
-    record2String(e: any, t: any, a?: boolean): string;
-    /** 表示用の棋譜を取得
-     * @param {boolean} isNumOnly - 座標を数字で表現
-     * @returns {string}
-     */
-    getTextRecord(e?: boolean): string;
-    /** 棋譜データを取得
-     * @param {boolean} isEncode - エンコード有無
-     * @returns {string}
-     */
-    getJsonRecord(e?: boolean): string;
-    /** 棋譜データを入力
-     * @param {string} record - 棋譜データ
-     * @param {number} turn - 手数
-     */
-    setJsonRecord(e: any, t: any): void;
-    /** 盤を描写 */
-    draw(): void;
-    /** 駒配置をテキストで取得
-     * @param {"default"|"compact"|"bod"} mode - テキスト形式
-     * @param {boolean} isAlias - エイリアス表示
-     * @returns {string}
-     */
-    getTextPieces(e?: string, t?: boolean): string;
-    /** 棋譜コメントを取得
-     * @param {number} shiftTurn - ずらす手数
-     * @returns {string}
-     */
-    getRecordComment(e?: number): string;
-    /** 駒配置をテキストで取得
-     * @param {boolean} isCompact - コンパクト表示
-     * @param {boolean} isAlias - エイリアス表示
-     */
-    toString(e?: boolean, t?: boolean): string;
+    onSelectPromo(e: any, t: any, a: any, n: any): Promise<any>;
     /** 画像を取得
      * @param {string} fileName - ファイル名
      * @param {string} ext - 拡張子
      * @returns {Promise<void>}
      */
     downloadImage(e: any, t: any, a: any): Promise<void>;
-    /** 盤面をクローン
-     * @returns {Board}
-     */
-    clone(): any;
     #private;
 }
-declare class ke extends J {
+declare class pe extends V {
     engine: any;
 }
-declare class J {
+declare class V {
     /**
      * @param {Board} board - 対象のボード
      * @param {PlayerInfo} player - プレイヤー情報
@@ -243,7 +44,7 @@ declare class J {
      */
     evaluate(e?: any): number;
 }
-declare namespace K {
+declare namespace Z {
     export { random };
     export { greedy };
     export { minimax };
@@ -332,6 +133,7 @@ declare class C {
      * @returns {number}
      */
     get zoom(): number;
+    id: number;
     ctx: any;
     alias: string[];
     game: any;
@@ -393,7 +195,7 @@ declare class C {
      */
     toString(e?: boolean): string;
 }
-declare const q: {
+declare const Y: {
     将棋: {
         backgroundColor: string;
         borderColor: string;
@@ -590,10 +392,10 @@ declare const q: {
         field: string[];
     };
 };
-declare namespace P {
+declare namespace j {
     let fonts: (string | number)[][];
 }
-declare namespace D {
+declare namespace G {
     let imported: boolean;
     let images: {
         [x: string]: new (width?: number, height?: number) => HTMLImageElement;
@@ -603,8 +405,8 @@ declare namespace D {
      */
     function importAsync(): Promise<void>;
 }
-declare function Ee(p: any): void;
-declare namespace oe {
+declare function Xe(p: any): void;
+declare namespace Se {
     namespace shogi {
         let name: string;
         let variant: string;
@@ -1473,7 +1275,7 @@ declare namespace oe {
         export { playerOptions_45 as playerOptions };
     }
 }
-declare namespace Q {
+declare namespace _ {
     namespace 将棋 {
         let english: string;
         let fontColor: string;
@@ -1761,7 +1563,7 @@ declare namespace Q {
         export { position_6 as position };
     }
 }
-declare const z: {
+declare const U: {
     S: {
         name: string;
         text: string;
@@ -1906,7 +1708,7 @@ declare const z: {
         attr: string[];
     };
 };
-declare namespace V {
+declare namespace Q {
     let 女: number;
     let 獅: number;
     let 后: number;
@@ -2039,7 +1841,7 @@ declare namespace V {
     let 楚: number;
     let 帥: number;
 }
-declare namespace te {
+declare namespace ae {
     export let 〇: string[];
     let 歩_1: string[];
     export { 歩_1 as 歩 };
@@ -2177,7 +1979,7 @@ declare namespace te {
     let 呈_1: string[];
     export { 呈_1 as 呈 };
 }
-declare namespace U {
+declare namespace J {
     export namespace 歩_2 {
         let name_46: string;
         export { name_46 as name };
@@ -5688,7 +5490,170 @@ declare namespace U {
         export { range_205 as range };
     }
 }
-declare class be {
+declare class ee {
+    /** ゲームを実行する
+     * @param {HTMLCanvasElement}} canvas - Canvas要素
+     * @param {BoardInitOption} option - ボードの初期化オプション
+     * @returns {this}
+     */
+    static run(e: any, t: any): any;
+    /**
+     * @param {HTMLCanvasElement} canvas - Canvas要素
+     * @param {BoardInitOption} option - ボードの初期化オプション
+     */
+    constructor(e: any, t: any);
+    option: any;
+    isHeadless: any;
+    name: any;
+    variant: any;
+    url: any;
+    desc: any;
+    ctx: any;
+    canvas: any;
+    pieces: {
+        [k: string]: any;
+    };
+    playerLen: any;
+    left: any;
+    top: any;
+    panelWidth: any;
+    panelHeight: any;
+    borderWidth: any;
+    pieceSize: any;
+    canvasBackgroundColor: any;
+    field: any;
+    xLen: any;
+    yLen: any;
+    players: Map<any, any>;
+    width: number;
+    height: number;
+    right: any;
+    bottom: any;
+    stand: K;
+    isGameEnd: boolean;
+    onDrawed: any;
+    onTurnEnd: any;
+    onGameOver: any;
+    onGameEnd: any;
+    moveMode: any;
+    record: ne;
+    enPassant: q;
+    /** 操作パネルを構築
+     * @param {string[]} compList - 表示するコントロールの一覧
+     * @returns {PlayerControl}
+     */
+    makePlayerControl(e: any): any;
+    /** ボードを閉じる */
+    close(): void;
+    /** 現在の手番のプレイヤー情報を取得
+     * @returns {Object<string, any>|"PlayerInfo"} - 現在のプレイヤー情報
+     */
+    getActivePlayer(): {
+        [x: string]: any;
+    } | "PlayerInfo";
+    /** 角度を正規化
+     * @param {number} playeaIdOrDeg - プレイヤー番号または角度
+     * @returns {number}
+     */
+    degNormal(e: any): number;
+    /** 盤面を回転
+     * @param {boolean} isRight - 回転方向
+     */
+    rotate(e?: boolean): void;
+    /** 駒の初期配置
+     * @param {number} playerId - プレイヤー番号
+     * @param {string} gameName - ゲーム名(基準となる駒の配置セット)
+     * @param {string} pieceSet - 駒の配置パターン
+     */
+    putStartPieces(e: any, t: any, a?: string): void;
+    /** 駒の配置
+     * @param {string} piece - 駒の表現文字
+     * @param {number} pX - X方向配置位置(マス目基準)
+     * @param {number} pY - Y方向配置位置(マス目基準)
+     * @param {number} playeaIdOrDeg - プレイヤー番号または駒の配置角
+     * @param {Object} option - オプション
+     * @param {number} option.displayPtn - 表示文字列を変更(1〜)
+     * @param {boolean} option.isMoved - 初回移動済みか否か
+     */
+    putNewPiece(e: any, t: any, a: any, n: any, s?: {}): void;
+    /** 文字列から駒を配置
+     * {string} text - 駒配置を表す文字列
+     */
+    setTextPieces(e: any): void;
+    /** 角度基準のマス目の行を取得する
+     * @param {number} pX - マス目の列
+     * @param {number} pY - マス目の行
+     * @param {number} deg - 角度
+     * @param {number} offsetDeg - 補正角度
+     * @returns {number}
+     */
+    getRow(e: any, t: any, a: any, n?: number): number;
+    /** 角度基準のマス目の列を取得する
+     * @param {number} pX - マス目の列
+     * @param {number} pY - マス目の行
+     * @param {number} deg - 角度
+     * @param {number} offsetDeg - 補正角度
+     * @returns {number}
+     */
+    getCol(e: any, t: any, a: any, n?: number): number;
+    /** プロモーション選択
+     * @param {Piece} piece - 駒
+     * @param {boolean} canPromo - 成ることができる
+     * @param {boolean} forcePromo - 成りを強制する
+     * @param {boolean} isCpuMove - CPUによる移動か
+     */
+    onSelectPromo(e: any, t: any, a: any, n: any): Promise<string>;
+    /** プロモーション処理
+     * @param {Panel} fromPanel - 移動元のマス目
+     * @param {Panel} toPanel - 選択中のマス目
+     * @param {boolean} canPromo - 成ることができる
+     * @param {boolean} forcePromo - 成りを強制する
+     * @param {boolean} isCpuMove - CPUによる移動か
+     */
+    promoPiece(e: any, t: any, a: any, n: any, s?: boolean): Promise<void>;
+    /** プロモーションエリア内であるか判別
+     * @param {Panel} panel - マス目
+     * @returns {{
+     * 		canPromo: boolean,
+     * 		forcePromo: boolean
+     * }}
+     */
+    checkCanPromo(e: any): {
+        canPromo: boolean;
+        forcePromo: boolean;
+    };
+    simpleMovePiece(e: any, t: any): void;
+    /** 駒を移動
+     * @param {Panel} fromPanel - 移動元のマス目
+     * @param {Panel} toPanel - 選択中のマス目
+     * @param {boolean} isCpuMove - CPUによる移動か
+     * @returns boolean
+     */
+    movePiece(e: any, t: any, a?: boolean): Promise<boolean>;
+    /** パスして手番を進める
+     * @param {PlayerInfo} player - プレイヤー情報
+    */
+    passTurn(e: any): void;
+    /** 盤を描写 */
+    draw(): void;
+    /** 駒配置をテキストで取得
+     * @param {"default"|"compact"|"bod"} mode - テキスト形式
+     * @param {boolean} isAlias - エイリアス表示
+     * @returns {string}
+     */
+    getTextPieces(e?: string, t?: boolean): string;
+    /** 駒配置をテキストで取得
+     * @param {boolean} isCompact - コンパクト表示
+     * @param {boolean} isAlias - エイリアス表示
+     */
+    toString(e?: boolean, t?: boolean): string;
+    /** 盤面をクローン
+     * @returns {this}
+     */
+    cloneHeadless(): this;
+    #private;
+}
+declare class Ne {
     constructor(e: any, t?: {});
     canvas: any;
     /**
@@ -5705,11 +5670,31 @@ declare class be {
     updatePosition(): void;
     #private;
 }
-declare class _ {
+declare class random extends V {
+    constructor(e: any, t: any);
+}
+declare class greedy extends V {
+    constructor(e: any, t: any);
+}
+declare class minimax extends V {
+    constructor(e: any, t: any);
+    searchDepth: number;
+    /**
+     * ミニマックス法（アルファベータ枝刈り付き）を実行します。
+     * @param {Board} board - 現在の盤面
+     * @param {number} depth - 残りの探索深さ
+     * @param {number} alpha - アルファ値
+     * @param {number} beta - ベータ値
+     * @param {boolean} isMaximizingPlayer - 現在のプレイヤーが最大化プレイヤーかどうか
+     * @returns {number} 評価値
+     */
+    minimax(e: any, t: any, a: any, n: any, s: any): number;
+}
+declare class K {
     /** 駒台への角度ごとの表示順
      * @type {number[]}
      */
-    static "__#25@#e": number[];
+    static "__#29@#e": number[];
     /**
      * @param {Board} ボード
      */
@@ -5758,7 +5743,61 @@ declare class _ {
      */
     toString(e?: boolean, t?: boolean): string;
 }
-declare class we {
+declare class ne {
+    constructor(e: any);
+    board: any;
+    turn: number;
+    records: any[];
+    /** 棋譜を追記
+     * @param {Panel} toPanel - 移動先のマス目
+     * @param {Object} option - オプション
+     * @param {Panel} option.fromPanel - 移動元のマス目
+     * @param {string} option.end - オプション=成|不成|打
+     */
+    add(e?: {}): void;
+    /** 棋譜コメントを追記
+     * @param {string} comment - 棋譜コメント
+     * @param {number} shiftTurn - ずらす手数
+     */
+    addComment(e: any, t?: number): void;
+    /** 記録の手を戻す */
+    undo(): void;
+    /** 記録の手を進める */
+    redo(): void;
+    /** 記録の手を移動
+     * @param {number} turn - 手数
+     */
+    move(e: any): void;
+    /** 局面の記録を文字列に変換
+     * @param {Record} record - 局面の記録
+     * @param {number} turn - 手数
+     * @param {boolean} isNumOnly - 座標を数字で表現
+     * @returns {string}
+     */
+    getText(e: any, t?: boolean): string;
+    /** 表示用の棋譜を取得
+     * @param {boolean} isNumOnly - 座標を数字で表現
+     * @returns {string}
+     */
+    getTextAll(e?: boolean): string;
+    /** 棋譜データを取得
+     * @param {boolean} isEncode - エンコード有無
+     * @returns {string}
+     */
+    getJson(e?: boolean): string;
+    /** 棋譜データを入力
+     * @param {string} record - 棋譜データ
+     * @param {number} turn - 手数
+     */
+    setJson(e: any, t: any): void;
+    /** 棋譜コメントを取得
+     * @param {number} shiftTurn - ずらす手数
+     * @returns {string}
+     */
+    getComment(e?: number): string;
+    #private;
+}
+declare class q {
     degs: {};
     /** アンパッサン情報をクリア
      * @param {number} deg - アンパッサンされうる陣営の角度
@@ -5779,25 +5818,10 @@ declare class we {
      * @returns {boolean}
      */
     isTarget(e: any, t: any): boolean;
-}
-declare class random extends J {
-    constructor(e: any, t: any);
-}
-declare class greedy extends J {
-    constructor(e: any, t: any);
-}
-declare class minimax extends J {
-    constructor(e: any, t: any);
-    searchDepth: number;
     /**
-     * ミニマックス法（アルファベータ枝刈り付き）を実行します。
-     * @param {Board} board - 現在の盤面
-     * @param {number} depth - 残りの探索深さ
-     * @param {number} alpha - アルファ値
-     * @param {number} beta - ベータ値
-     * @param {boolean} isMaximizingPlayer - 現在のプレイヤーが最大化プレイヤーかどうか
-     * @returns {number} 評価値
+     * アンパッサンの状態をクローンします。
+     * @returns {this}
      */
-    minimax(e: any, t: any, a: any, n: any, s: any): number;
+    clone(): this;
 }
-export { Z as Board, ke as CpuEngine, J as CpuEngineBase, K as CpuEngines, C as Piece, q as boards, P as canvasFont, D as canvasImage, Ee as extendData, oe as gameSoft, Q as games, z as panels, V as pieceCost, te as pieceRange, U as pieces };
+export { ce as Board, pe as CpuEngine, V as CpuEngineBase, Z as CpuEngines, C as Piece, Y as boards, j as canvasFont, G as canvasImage, Xe as extendData, Se as gameSoft, _ as games, U as panels, Q as pieceCost, ae as pieceRange, J as pieces };
