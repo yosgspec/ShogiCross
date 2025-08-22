@@ -85,6 +85,7 @@ export class Board{
 			onTurnEnd=(e,turn)=>{},
 			onGameOver=(e,i)=>alert(`プレイヤー${i+1}の敗北です。`),
 			onGameEnd=(e,i)=>e.addRecord({end: `対戦終了 勝者${[...e.players.values()][i].degChar}`}),
+			onReadyOnline=null,
 		} = option;
 
 		this.#option = option;
@@ -178,6 +179,7 @@ export class Board{
 			};
 
 			this.ws.onmessage = (event) => {
+				onReadyOnline?.(event, this);
 				console.log("Received message from server:", event.data);
 				try {
 					const message = JSON.parse(event.data);
