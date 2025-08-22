@@ -4,7 +4,12 @@ import { Board, PROTECTED as $ } from "./board.js";
 export class BoardOnline extends Board {
 	constructor(canvas, option) {
 		super(canvas, option);
+		const {
+			onReadyOnline = null,
+			serverURL = "http://localhost:3000",
+		} = option;
 		const playerOptions = this.option.playerOptions || [];
+		this.onReadyOnline = onReadyOnline;
 		this.isOnlineGame = playerOptions.some(p => p.isOnline);
 
 		if (!this.isOnlineGame) return;
@@ -20,7 +25,8 @@ export class BoardOnline extends Board {
 		this.viewingAngle = 0;
 
 		// WebSocketのセットアップ
-	this.ws = new WebSocket("ws://localhost:3000");
+		this.ws = new WebSocket(serverURL.replace(/^http/, "ws"));
+		console.log(this.sw)
 
 		this.ws.onopen = () => {
 			console.log("WebSocket connection established.");

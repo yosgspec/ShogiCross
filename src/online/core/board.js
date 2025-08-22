@@ -61,10 +61,6 @@ export class Board extends BoardHeadless{
 		});
 
 		const {
-			name,
-			variant,
-			url,
-			desc,
 			playBoard,
 			playerOptions=[],
 			players=playerOptions.some(({gameName}, i)=>1 < i && gameName)? 4: 2,
@@ -90,7 +86,6 @@ export class Board extends BoardHeadless{
 			onTurnEnd=(e,turn)=>{},
 			onGameOver=(e,i)=>alert(`プレイヤー${i+1}の敗北です。`),
 			onGameEnd=(e,i)=>e.record.add({end: `対戦終了 勝者${[...e.players.values()][i].degChar}`}),
-			onReadyOnline=null,
 		} = option;
 
 		// 初期化
@@ -223,9 +218,6 @@ export class Board extends BoardHeadless{
 			this.#playerControl.add();
 		}
 		this.enPassant = new EnPassant();
-		this.onReadyOnline = onReadyOnline;
-		this.viewingAngle = 0;
-	// オンライン処理はBoardOnlineでのみ実行
 	}
 
 	/** 操作パネルを構築
