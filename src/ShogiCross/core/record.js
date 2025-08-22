@@ -28,7 +28,6 @@ export class Record {
 	}
 
 	/** 棋譜を追記
-	 * @param {Panel} toPanel - 移動先のマス目
 	 * @param {Object} option - オプション
 	 * @param {Panel} option.fromPanel - 移動元のマス目
 	 * @param {string} option.end - オプション=成|不成|打
@@ -116,7 +115,6 @@ export class Record {
 	}
 
 	/** 局面の記録を文字列に変換
-	 * @param {Record} record - 局面の記録
 	 * @param {number} turn - 手数
 	 * @param {boolean} isNumOnly - 座標を数字で表現
 	 * @returns {string}

@@ -40,7 +40,7 @@ export class Board extends BoardHeadless{
 	 */
 
 	/** ゲームを実行する
-	 * @param {HTMLCanvasElement}} canvas - Canvas要素
+	 * @param {HTMLCanvasElement} canvas - Canvas要素
 	 * @param {BoardInitOption} option - ボードの初期化オプション
 	 * @returns {Board}
 	 */

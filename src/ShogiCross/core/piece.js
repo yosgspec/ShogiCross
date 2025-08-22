@@ -113,7 +113,7 @@ export class Piece{
 	}
 
 	/** 文字列から駒を取得
-	 * @param {Piece|PieceInitOption} piece - 駒
+	 * @param {Object<string, Piece|PieceInitOption>} pieces - 駒の一覧
 	 * @param {string} text - 駒文字列
 	 * @returns {Piece}
 	 */
