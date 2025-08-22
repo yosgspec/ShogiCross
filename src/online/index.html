@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width" />
-	<title>オンライン対戦専用 - ShogiCross</title>
+	<title>オンライン対戦テスト - ShogiCross</title>
 	<link rel=icon href="img/favicon.min.svg">
 	<link href="../shogicross.css" rel="stylesheet">
 </head>
@@ -35,6 +35,7 @@
 				{ gameName: '将棋', isOnline: true, pieceSet: "default" },
 				{ gameName: '将棋', isOnline: true, pieceSet: "default" }
 			],
+			serverURL: "https://shogicross-server-828297429002.asia-northeast1.run.app/",
 			onReadyOnline(event, board){
 				try {
 					const message = JSON.parse(event.data);
