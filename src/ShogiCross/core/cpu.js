@@ -154,9 +154,7 @@ CpuEngines.greedy = class Greedy extends CpuEngineBase{
 		let bestScore = -Infinity;
 
 		for(const move of allPossibleMoves){
-			const boardClone = board.clone();
-			boardClone.isHeadless = true;
-			boardClone.onGameOver = null;
+				const boardClone = board.cloneHeadless();
 			// クローン盤上のパネルを取得
 			const fromPanelClone = boardClone.field[move.from.pY][move.from.pX];
 			const toPanelClone = boardClone.field[move.to.pY][move.to.pX];
@@ -230,9 +228,7 @@ CpuEngines.minimax = class Minimax extends CpuEngineBase{
 		if(isMaximizingPlayer){
 			let maxEval = -Infinity;
 			for(const move of allPossibleMoves){
-				const boardClone = board.clone();
-				boardClone.isHeadless = true;
-				boardClone.onGameOver = null;
+				const boardClone = board.cloneHeadless();
 				const fromPanelClone = boardClone.field[move.from.pY][move.from.pX];
 				const toPanelClone = boardClone.field[move.to.pY][move.to.pX];
 				await boardClone.movePiece(fromPanelClone, toPanelClone, true);
@@ -247,9 +243,7 @@ CpuEngines.minimax = class Minimax extends CpuEngineBase{
 		else{ // 最小化プレイヤー
 			let minEval = Infinity;
 			for(const move of allPossibleMoves){
-				const boardClone = board.clone();
-				boardClone.isHeadless = true;
-				boardClone.onGameOver = null;
+				const boardClone = board.cloneHeadless();
 				const fromPanelClone = boardClone.field[move.from.pY][move.from.pX];
 				const toPanelClone = boardClone.field[move.to.pY][move.to.pX];
 				await boardClone.movePiece(fromPanelClone, toPanelClone, true);
@@ -298,9 +292,7 @@ CpuEngines.minimax = class Minimax extends CpuEngineBase{
 
 		// 各合法手を評価
 		for(const move of allPossibleMoves){
-			const boardClone = board.clone();
-			boardClone.isHeadless = true;
-			boardClone.onGameOver = null;
+			const boardClone = board.cloneHeadless();
 			const fromPanelClone = boardClone.field[move.from.pY][move.from.pX];
 			const toPanelClone = boardClone.field[move.to.pY][move.to.pX];
 			await boardClone.movePiece(fromPanelClone, toPanelClone, true);
