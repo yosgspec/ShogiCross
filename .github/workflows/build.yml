@@ -205,6 +205,19 @@ jobs:
         continue-on-error: true
         run: |
           FILE="server/package.json"
+          # 最新コミットと1つ前のコミットで差分を確認
+          git fetch origin main
+          git diff --name-only HEAD^ HEAD | grep -q "^$FILE$"
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Try Diff package.json
+        id: TRY_DIFF_PROJECT
+        continue-on-error: true
+        run: |
+          FILE="server/package.json"
           # 最新コミットと差分を確認
           git diff origin/main...HEAD | grep -q "^$FILE$"
 
