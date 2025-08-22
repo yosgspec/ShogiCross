@@ -1,123 +1,44 @@
-<!DOCTYPE html>
-<html>
-	<head>
-		<!-- Global site tag (gtag.js) - Google Analytics -->
-		<script async src="https://www.googletagmanager.com/gtag/js?id=UA-46760069-2"></script>
-		<script>
-			window.dataLayer = window.dataLayer || [];
-			function gtag(){dataLayer.push(arguments);}
-			gtag('js', new Date());
-			gtag('config', 'UA-46760069-2');
-		</script>
+<h1>ボードタイプの変更</h1>
+<p>ボードのマス目の数やデザインを変更する。<br>
+playBoardの値を指定する。</p>
 
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width" />
-		<title>将棋類紹介 - ShogiCross</title>
-		<link rel=icon href="img/favicon.min.svg">
-		<link href="shogicross.css" rel="stylesheet">
-		<link rel="preconnect" href="https://fonts.googleapis.com">
-		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-		<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@900&family=Kosugi:wght@400&display=swap" rel="stylesheet">
-	</head>
-	<body>
-		<h1>将棋類紹介 - ShogiCross</h1>
-		<button id="online-btn" style="margin-left: 20px; padding: 5px 10px; cursor: pointer;">オンライン対戦を始める</button>
-		実際に動かして試すことができます。
-		<main></main>
-		<a href="./" target="_parent">RETURN</a>
+<iframe src="./iframe/playBoard.html" frameborder="no"></iframe>
 
-		<template id="game">
-			<div>
-				<h3>
-					<a target="_blank"></a>
-				</h3>
-				<p></p>
-				<canvas></canvas>
-				<details style="display:none">
-					<summary style="cursor:pointer">バリエーション</summary>
-				</details>
-			</div>
-		</template>
-
-		<script type="module">
-		import {gameSoft, Board} from "./ShogiCross/lib.js";
-		const main = document.querySelector("main");
-		const vMain = main.cloneNode(false);
-		const vGame = document.getElementById("game").content.firstElementChild;
-
-		const gameSoftList = Object.entries(gameSoft);
-		const detailsMap = new Map();
-		for(const [gameName, option] of gameSoftList){
-			const {name, variant, desc, url, useStand} = option;
-			const game = vGame.cloneNode(true);
-			game.id = gameName;
-			const a = game.querySelector("a");
-			a.href = url;
-			a.textContent = name;
-
-			const p = game.querySelector("p");
-			p.textContent = `${desc}持ち駒${(useStand? "あり": "なし")}。`;
-
-			const canvas = game.querySelector("canvas");
-			setTimeout(()=>Board.run(canvas, option), 0);
-
-			if(name === variant){
-				const details = game.querySelector("details");
-				detailsMap.set(name, details);
-				details.id = name;
-				vMain.append(game);
-			}
-			else{
-				const details = detailsMap.get(variant);
-				details.style.display = "";
-				details.append(game);
-			}
-		}
-		main.replaceWith(vMain);
-
-		const onlineBtn = document.getElementById('online-btn');
-		onlineBtn.addEventListener('click', () => {
-			// Find the main shogi game option
-			const shogiOption = gameSoft['shogi'];
-			if (!shogiOption) {
-				alert('標準将棋が見つかりません。');
-				return;
-			}
-
-			// Clear the main area and create a new canvas for the online game
-			const mainNode = document.querySelector("main") || vMain;
-			mainNode.innerHTML = '';
-			const game = vGame.cloneNode(true);
-			const canvas = game.querySelector("canvas");
-			game.querySelector("h3 a").textContent = "オンライン対戦";
-			const statusP = game.querySelector("p");
-			statusP.textContent = "マッチング待機中...";
-			mainNode.append(game);
-
-			// Create options for an online game
-			const onlineGameOptions = {
-				...shogiOption, // Base options from standard Shogi
-				playerOptions: [
-					{ gameName: '将棋', isOnline: true, pieceSet: "default" },
-					{ gameName: '将棋', isOnline: true, pieceSet: "default" }
-				]
-			};
-
-			// Run the board with online options
-			const board = Board.run(canvas, onlineGameOptions);
-			
-			// A bit of a hack to update the status message from the client
-			const originalOnMessage = board.ws.onmessage;
-			board.ws.onmessage = (event) => {
-				if(originalOnMessage) originalOnMessage(event);
-				try {
-					const message = JSON.parse(event.data);
-					if (message.type === 'playerAssignment') {
-						statusP.textContent = `対戦開始！ あなたはプレイヤー${message.playerId + 1}です。`;
-					}
-				} catch(e){}
-			};
-		});
-		</script>
-	</body>
-</html>
+<p>ボードの値はboardsで定義されているキーの値を指定する。<br>
+デフォルトで用意されているボードは下記となる。<br>
+(<a href="https://github.com/yosgspec/ShogiCross/blob/main/doc/json/boards.md">boards.json</a>での追記でデータを追加できる)<p>
+<table>
+	<tr><th>ボード名</th><th>筋数</th><th>段数</th></tr>
+	<tr><td>将棋</td><td>9</td><td>9</td></tr>
+	<tr><td>チェス</td><td>8</td><td>8</td></tr>
+	<tr><td>シャンチー</td><td>9</td><td>10</td></tr>
+	<tr><td>チャンギ</td><td>9</td><td>10</td></tr>
+	<tr><td>マークルック</td><td>8</td><td>8</td></tr>
+	<tr><td>どうぶつしょうぎ</td><td>3</td><td>4</td></tr>
+	<tr><td>将棋5x5</td><td>5</td><td>5</td></tr>
+	<tr><td>将棋7x7</td><td>7</td><td>7</td></tr>
+	<tr><td>将棋10x10</td><td>10</td><td>10</td></tr>
+	<tr><td>チェス6x6</td><td>6</td><td>6</td></tr>
+	<tr><td>チェス10x8</td><td>10</td><td>8</td></tr>
+	<tr><td>チェス10x10</td><td>10</td><td>10</td></tr>
+	<tr><td>チェス12x8</td><td>12</td><td>8</td></tr>
+	<tr><td>チェス12x12</td><td>12</td><td>12</td></tr>
+	<tr><td>ごろごろどうぶつしょうぎ</td><td>5</td><td>6</td></tr>
+	<tr><td>古将棋8x8</td><td>8</td><td>8</td></tr>
+	<tr><td>古将棋9x8</td><td>9</td><td>8</td></tr>
+	<tr><td>古将棋9x9</td><td>9</td><td>9</td></tr>
+	<tr><td>古将棋10x10</td><td>10</td><td>10</td></tr>
+	<tr><td>古将棋12x12</td><td>12</td><td>12</td></tr>
+	<tr><td>古将棋15x15</td><td>15</td><td>15</td></tr>
+	<tr><td>クレージーハウス</td><td>8</td><td>8</td></tr>
+	<tr><td>4人チェス</td><td>14</td><td>14</td></tr>
+	<tr><td>四神将棋</td><td>15</td><td>15</td></tr>
+	<tr><td>クロス8x8</td><td>8</td><td>8</td></tr>
+	<tr><td>クロス9x9</td><td>9</td><td>9</td></tr>
+	<tr><td>クロス11x11</td><td>11</td><td>11</td></tr>
+	<tr><td>クロス12x12</td><td>12</td><td>12</td></tr>
+	<tr><td>クロス13x13</td><td>13</td><td>13</td></tr>
+	<tr><td>4人用クロス8列</td><td>14</td><td>14</td></tr>
+	<tr><td>4人用クロス9列</td><td>15</td><td>15</td></tr>
+	<tr><td>4人用クロス9列4行</td><td>17</td><td>17</td></tr>
+</table>
