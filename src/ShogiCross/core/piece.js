@@ -3,6 +3,9 @@ import {canvasFont} from "./canvasFontLoader.js";
 import {canvasImage} from "./canvasImageLoader.js";
 import {games, pieces, pieceRange, pieceCost} from "./data.js";
 
+/** @type {number} 駒生成カウンター */
+let pieceCounter = 0;
+
 /** 駒の管理クラス */
 export class Piece{
 	/** @typedef {Object} Piece */
@@ -91,7 +94,6 @@ export class Piece{
 		}
 		// 駒をクラスオブジェクトに変換
 		[...exPieces].forEach(([key, piece], i)=>{
-			piece.id = i;
 			piece.char = key;
 			exPieces.set(key, new Piece(ctx, piece, option));
 		});
@@ -192,6 +194,7 @@ export class Piece{
 			isMoved=false
 		} = option;
 		Object.assign(this, piece);
+		this.id = pieceCounter++;
 		this.ctx = ctx;
 		this.display ??= [""];
 		this.imgSrc ??= null;

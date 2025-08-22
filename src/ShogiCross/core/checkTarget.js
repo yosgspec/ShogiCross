@@ -129,9 +129,7 @@ export function checkTarget(board, piece, pX, pY){
 			p.piece?.hasAttr("cantSeeKing")
 		)) return false;
 		// 王が向き合っているかシミュレーション
-		const boardClone = board.clone();
-		boardClone.isHeadless = true;
-		boardClone.onGameOver = null;
+		const boardClone = board.cloneHeadless();
 		// 今の駒が動いたとして、
 		boardClone.simpleMovePiece(
 			boardClone.field[pY][pX],
@@ -356,9 +354,7 @@ export function hasLegalMoves(board, playerDeg){
 		if(!fromPanel.piece || fromPanel.piece.deg !== playerDeg) continue;
 		const canMovePanels = checkTarget(board, fromPanel.piece, fromPanel.pX, fromPanel.pY);
 		for(const toPanel of canMovePanels){
-			const boardClone = board.clone();
-			boardClone.isHeadless = true;
-			boardClone.onGameOver = null;
+			const boardClone = board.cloneHeadless();
 			// 駒を移動
 			boardClone.simpleMovePiece(
 				boardClone.field[fromPanel.pY][fromPanel.pX],
