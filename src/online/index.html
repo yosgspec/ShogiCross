@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width" />
+	<title>オンライン対戦専用 - ShogiCross</title>
+	<link rel=icon href="img/favicon.min.svg">
+	<link href="../shogicross.css" rel="stylesheet">
+</head>
+<body>
+	<h1>ShogiCross オンライン対戦</h1>
+	<button id="online-btn" style="margin: 20px; padding: 10px 20px; cursor: pointer; font-size: 1.2em;">オンライン対戦を始める</button>
+	<div id="status"></div>
+	<canvas id="online-canvas"></canvas>
+	<a href="./" target="_parent">RETURN</a>
+
+	<script type="module">
+	import {gameSoft, BoardOnline} from "./lib.js";
+	const btn = document.getElementById('online-btn');
+	const canvas = document.getElementById('online-canvas');
+	const statusDiv = document.getElementById('status');
+
+	btn.addEventListener('click', () => {
+		const shogiOption = gameSoft['shogi'];
+		if (!shogiOption) {
+			statusDiv.textContent = '標準将棋が見つかりません。';
+			return;
+		}
+		btn.style.display = 'none';
+		statusDiv.textContent = 'マッチング待機中...';
+
+		const onlineGameOptions = {
+			...shogiOption,
+			playerOptions: [
+				{ gameName: '将棋', isOnline: true, pieceSet: "default" },
+				{ gameName: '将棋', isOnline: true, pieceSet: "default" }
+			],
+			onReadyOnline(event, board){
+				try {
+					const message = JSON.parse(event.data);
+					if (message.type === 'playerAssignment') {
+						statusDiv.textContent = `対戦開始！ あなたはプレイヤー${message.playerId + 1}です。`;
+					}
+				} catch(e){}
+			}
+		};
+	const board = new BoardOnline(canvas, onlineGameOptions);
+	});
+	</script>
+</body>
+</html>
