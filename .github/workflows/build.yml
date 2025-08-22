@@ -178,16 +178,16 @@ jobs:
           if git diff --staged --quiet; then
             echo "No changes to CDN to commit."
           else
-            git commit -m "Release ${{ needs.CheckVersion.outputs.PROJECT_VERSION }} [skip ci]"
+            git commit -m "Release ${{needs.CheckVersion.outputs.PROJECT_VERSION}} [skip ci]"
             git push
           fi
-          git tag ${{ needs.CheckVersion.outputs.PROJECT_VERSION }}
-          git push origin ${{ needs.CheckVersion.outputs.PROJECT_VERSION }}
+          git tag ${{needs.CheckVersion.outputs.PROJECT_VERSION}}
+          git push origin ${{needs.CheckVersion.outputs.PROJECT_VERSION}}
 
       - name: Release
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: ${{ needs.CheckVersion.outputs.PROJECT_VERSION }}
+          tag_name: ${{needs.CheckVersion.outputs.PROJECT_VERSION}}
 
   CheckUpdateServer:
     runs-on: ubuntu-latest
@@ -203,11 +203,12 @@ jobs:
       - name: Check Diff package.json
         uses: technote-space/get-diff-action@v5
         with:
-          FILES: |
-            ./server/package.json
+          PATTERNS: |
+            server/package.json
+
   DeployServer:
     needs: [CheckUpdateServer]
-    if: needs.CheckUpdateServer.outputs.IS_UPDATE == 'true'
+    if: needs.CheckUpdateServer.outputs.IS_UPDATE
     runs-on: ubuntu-latest
     permissions:
       contents: read
