@@ -1,4 +1,5 @@
 import {Piece} from "./piece.js"
+/** @typedef {import("./panel.js").Panel} Panel */
 /**
  * @typedef {Object} RecordInfo - 局面の記録
  * @prop {Object} from
