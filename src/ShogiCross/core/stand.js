@@ -1,3 +1,5 @@
+/** @typedef {import("./board.js").Board} Board */
+/** @typedef {import("./panel.js").Panel} Panel */
 import {Piece} from "./piece.js";
 
 /** 駒台の管理クラス */
@@ -8,7 +10,7 @@ export class Stand{
 	static #degOrder = [180, 90, 270, 0];
 
 	/**
-	 * @param {Board} ボード
+	 * @param {Board} board - 盤面
 	 */
 	constructor(board){
 		this.board = board;
@@ -33,7 +35,7 @@ export class Stand{
 	}
 
 	/** 持ち駒からボード上に配置する
-	 * @param {Panal} toPanell - 配置先のパネル
+	 * @param {Panel} toPanel - 配置先のパネル
 	 * @param {Object} option - オプション
 	 * @param {number} option.deg - 角度
 	 * @param {number} option.i - 配置する持ち駒のインデックス

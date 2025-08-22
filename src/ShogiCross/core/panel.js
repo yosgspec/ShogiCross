@@ -66,7 +66,7 @@ export class Panel{
 	}
 
 	/** マス目の移動可能判定
-	 * @param {boolean} value
+	 * @returns {boolean}
 	 */
 	get isTarget(){
 		return 0 < this.#targetRanges.length;

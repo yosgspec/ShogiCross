@@ -3,7 +3,7 @@ import {Panel} from "./panel.js";
 import {checkTarget} from "./checkTarget.js";
 
 /** マウスコントロール
- * @param {Board} board - 盤
+ * @param {Board} board - 盤面
  * @returns {()=>void}
  */
 export function mouseControl(board){

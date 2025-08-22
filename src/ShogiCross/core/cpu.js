@@ -5,7 +5,7 @@ import {checkTarget, isCheckmate, hasLegalMoves} from "./checkTarget.js";
 /** 基底CPUエンジン(手動操作用) */
 export class CpuEngineBase{
 	/**
-	 * @param {Board} board - 対象のボード
+	 * @param {Board} board - 対象の盤面
 	 * @param {PlayerInfo} player - プレイヤー情報
 	 */
 	constructor(board, player){
@@ -325,7 +325,7 @@ CpuEngines.minimax = class Minimax extends CpuEngineBase{
 /** CPUエンジンの管理クラス */
 export class CpuEngine extends CpuEngineBase {
 	/**
-	 * @param {Board} board - 対象のボード
+	 * @param {Board} board - 対象の盤面
 	 * @param {PlayerInfo} player - プレイヤー情報
 	 */
 	constructor(board, player){
