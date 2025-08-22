@@ -1,4 +1,4 @@
-import {Panel} from "./panel.js";
+/** @typedef {import("./panel.js").Panel} Panel */
 import {Piece} from "./piece.js";
 
 const degs = Object.keys(Piece.degChars);
@@ -54,7 +54,7 @@ export class EnPassant{
 
 	/**
 	 * アンパッサンの状態をクローンします。
-	 * @returns {EnPassant}
+	 * @returns {this}
 	 */
 	clone() {
 		const newEnPassant = new EnPassant();

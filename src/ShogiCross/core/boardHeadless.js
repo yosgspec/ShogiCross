@@ -137,7 +137,7 @@ export class BoardHeadless{
 	/** ゲームを実行する
 	 * @param {HTMLCanvasElement}} canvas - Canvas要素
 	 * @param {BoardInitOption} option - ボードの初期化オプション
-	 * @returns {Board}
+	 * @returns {this}
 	 */
 	static run(canvas, option){}
 
@@ -532,7 +532,7 @@ export class BoardHeadless{
 	}
 
 	/** 盤面をクローン
-	 * @returns {Board}
+	 * @returns {this}
 	 */
 	cloneHeadless(){
 		// クローン用の新しいオプションオブジェクトを作成
