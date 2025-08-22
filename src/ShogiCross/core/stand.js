@@ -1,6 +1,6 @@
 import {Piece} from "./piece.js";
 
-/** 盤の管理クラス */
+/** 駒台の管理クラス */
 export class Stand{
 	/** 駒台への角度ごとの表示順
 	 * @type {number[]}

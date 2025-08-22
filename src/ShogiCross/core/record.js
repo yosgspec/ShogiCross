@@ -15,6 +15,7 @@ import {Piece} from "./piece.js"
  * @prop {string|null} comment - 棋譜コメント
  */
 
+/** 棋譜クラス */
 export class Record {
 	#beforeTurn = 0;
 
@@ -23,7 +24,6 @@ export class Record {
 		this.turn = 0;
 		this.records = [];
 		this.add({inc: 0, end: "開始局面"});
-
 	}
 
 	/** 棋譜を追記
@@ -82,13 +82,13 @@ export class Record {
 	 * @param {number} inc - 切り替えたい手数の差分
 	 */
 	#shift(inc){
-		const {records} = this;
+		const {board, records} = this;
 		if(!records[this.turn+inc]) return;
 
 		this.turn += inc;
 		const {fieldText, fieldMoved} = records[this.turn];
-		this.setTextPieces(fieldText);
-		this.field.forEach((row, pY)=>
+		board.setTextPieces(fieldText);
+		board.field.forEach((row, pY)=>
 			row.forEach(({piece}, pX)=>{
 				if(!piece) return;
 				piece.isMoved = !!fieldMoved[pY][pX];

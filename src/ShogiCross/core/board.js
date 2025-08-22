@@ -1,5 +1,6 @@
 /** @typedef {import("./data").BoardInitOption} BoardInitOption */
 /** @typedef {import("./data").PlayerInfo} PlayerInfo */
+import {BoardHeadless} from "./boardHeadless.js";
 import {canvasFont} from "./canvasFontLoader.js";
 import {canvasImage} from "./canvasImageLoader.js";
 import {downloadImage} from "./downloadImage.js";
@@ -10,20 +11,17 @@ import {Stand} from "./stand.js";
 import {Panel} from "./panel.js";
 import {Piece} from "./piece.js";
 import {EnPassant} from "./enPassant.js";
-import {Bod} from "./bod.js";
 import {boards, games} from "./data.js";
 import {CpuEngine} from "./cpu.js";
 import {Overlay} from "./overlay.js";
 import {Record} from "./record.js";
 
 /** 盤の管理クラス */
-export class Board{
+export class Board extends BoardHeadless{
 	/** @typedef {Object} Board */
 	#mouseControl
 	#playerControl
-	#option
 	#dialog
-	#overlay
 
 	/**
 	 * @typedef {Object} Record - 局面の記録
@@ -55,6 +53,7 @@ export class Board{
 	 * @param {BoardInitOption} option - ボードの初期化オプション
 	 */
 	constructor(canvas, option){
+		super(canvas, option);
 		const {
 			name,
 			variant,
@@ -78,7 +77,7 @@ export class Board{
 			backgroundColor="#00000000",
 			isHeadless=false,
 			autoDrawing=!isHeadless,
-			OverlayOptions = {useDimOverlay: true},
+			overlayOptions = {useDimOverlay: true},
 			moveMode="normal",
 			usePlayerControl=!isHeadless,
 			onDrawed=e=>{},
@@ -87,16 +86,7 @@ export class Board{
 			onGameEnd=(e,i)=>e.record.add({end: `対戦終了 勝者${[...e.players.values()][i].degChar}`}),
 		} = option;
 
-		this.#option = option;
-		this.isHeadless = isHeadless;
-		this.name = name;
-		this.variant = variant;
-		this.url = url;
-		this.desc = desc;
-
 		// 初期化
-		this.ctx = null;
-		this.canvas = null;
 		let canvasFontAsync = null;
 		let canvasImageAsync = null;
 		if(!isHeadless){
@@ -105,7 +95,7 @@ export class Board{
 			this.canvas = canvas;
 			this.ctx = canvas.getContext("2d");
 			this.ctx.clearRect(0, 0, canvas.width, canvas.height);
-			this.overlay = new Overlay(this.canvas, OverlayOptions);
+			this.overlay = new Overlay(this.canvas, overlayOptions);
 			this.#dialog = new Dialog();
 		}
 
@@ -242,245 +232,12 @@ export class Board{
 		this.#mouseControl?.removeEvent();
 		this.#playerControl?.remove();
 	}
-
-	/** 現在の手番のプレイヤー情報を取得
-	 * @returns {Object<string, any>|"PlayerInfo"} - 現在のプレイヤー情報
-	 */
-	getActivePlayer(){
-		return [...this.players.values()][this.record.turn%this.playerLen];
-	}
-
-	/** 角度を正規化
-	 * @param {number} playeaIdOrDeg - プレイヤー番号または角度
-	 * @returns {number}
-	 */
-	degNormal(playeaIdOrDeg){
-		let deg = playeaIdOrDeg;
-		if(0 < deg && deg < 4) deg = 0|deg*360/this.playerLen;
-		do{deg = (deg+360)%360} while(deg<0);
-		return deg;
-	}
-
 	/** 盤面を回転
 	 * @param {boolean} isRight - 回転方向
 	 */
 	rotate(isRight=true){
-		let deg = this.degNormal(1);
-		if(!isRight) deg = -deg;
-		this.#rotateField(deg);
-		this.stand.rotate(deg);
+		super.rotete(isRight);
 		if(this.autoDrawing) this.draw();
-	}
-
-	/** 駒配置を回転
-	 * @param {number} deg - 回転角 (90の倍数)
-	 */
-	#rotateField(deg){
-		const {field, xLen, yLen} = this;
-
-		deg = this.degNormal(deg);
-		if(deg === 0) return;
-		if(![90, 180, 270].includes(deg)) throw Error(`deg=${deg}, deg need multiple of 90.`);
-
-		let fieldPieces = field.map(row=>row.map(({piece})=>piece));
-		if([90, 270].includes(deg)){
-			// 2次配列を転置
-			const transpose = a => a[0].map((_, c) => a.map(r => r[c]));
-			if(xLen !== yLen) throw Error(`cols=${xLen} != rows=${yLen}, Not rows = cols.`);
-			fieldPieces = transpose(fieldPieces);
-		}
-		if([180, 270].includes(deg)){
-			fieldPieces.reverse();
-		}
-		fieldPieces.forEach(row=>{
-			row.forEach(piece=>{
-				if(!piece) return;
-				piece.deg += deg;
-			});
-			if([90, 180].includes(deg)) row.reverse();
-		});
-		field.forEach((row, pY)=>
-			row.forEach((panel, pX)=>
-				panel.piece = fieldPieces[pY][pX]
-			)
-		);
-	}
-
-	/** 駒の初期配置
-	 * @param {number} playerId - プレイヤー番号
-	 * @param {string} gameName - ゲーム名(基準となる駒の配置セット)
-	 * @param {string} pieceSet - 駒の配置パターン
-	 */
-	putStartPieces(playerId, gameName, pieceSet="default"){
-		const {pieces} = this;
-
-		const deg = this.degNormal(playerId);
-		this.#rotateField(-deg);
-		const pos = games[gameName].position[this.xLen][pieceSet];
-		if(!pos) throw Error(`games["${gameName}"].position["${this.xLen}"]["${pieceSet}"]is null.`);
-		pos.forEach((row, i)=>{
-			if(row.length < this.xLen) throw Error(row.join(""));
-			const pY = i+this.yLen - pos.length;
-			[...row].forEach((char, pX)=>{
-				if(!pieces[char]) return;
-				this.field[pY][pX].piece = pieces[char].clone();
-			});
-		});
-		this.#rotateField(deg);
-		if(this.autoDrawing) this.draw();
-	}
-
-	/** 駒の配置
-	 * @param {string} piece - 駒の表現文字
-	 * @param {number} pX - X方向配置位置(マス目基準)
-	 * @param {number} pY - Y方向配置位置(マス目基準)
-	 * @param {number} playeaIdOrDeg - プレイヤー番号または駒の配置角
-	 * @param {Object} option - オプション
-	 * @param {number} option.displayPtn - 表示文字列を変更(1〜)
-	 * @param {boolean} option.isMoved - 初回移動済みか否か
-	 */
-	putNewPiece(piece, pX, pY, playeaIdOrDeg, option={}){
-		const {displayPtn=0, isMoved=false} = option;
-		const {pieces} = this;
-
-		const deg = this.degNormal(playeaIdOrDeg);
-		if(typeof piece === "string"){
-			piece = new Piece(this.ctx, pieces[piece], {displayPtn, deg, isMoved});
-		}
-		this.field[pY][pX].piece = piece;
-		if(this.autoDrawing) this.draw();
-	}
-
-	/** 文字列から駒を配置
-	 * {string} text - 駒配置を表す文字列
-	 */
-	setTextPieces(text){
-		const {field, pieces, xLen, yLen} = this;
-
-		const standTitle = "持駒：";
-		// BOD形式
-		if(0<text.indexOf(standTitle)) text = Bod.convTextPieces(text);
-
-		// 排除する記号
-		const noises = "┏━┯┓┗┷┛┃│┠─┼┨―";
-
-		// 配列変換
-		const texts = [text].concat(
-				[...noises],
-				Object.values(Piece.degChars).map(c=>"\n"+c+standTitle)
-			).reduce(
-				(text,char)=>
-					text.replace(new RegExp(char,"g"), "")
-			).replace(/\n\n/g, "\n")
-			.replace(/　/g, "・")
-			.trim()
-			.split(/\n/)
-			.map(
-				row=>row.match(/.{2}/g));
-
-		// ボードに駒を配置
-		for(let pY=0;pY<yLen;pY++){
-			for(let pX=0;pX<xLen;pX++){
-				try{
-					const text = texts[pY][pX];
-					field[pY][pX].piece = Piece.stringToPiece(pieces, text);
-				}
-				catch(ex){
-					field[pY][pX].piece = null;
-				}
-			}
-		}
-
-		// 駒台の読み込みを待機
-		while(!this.stand){}
-		// 持ち駒を配置
-		this.stand.clear();
-		const standTexts = texts[yLen];
-		if(standTexts){
-			standTexts.forEach(text=>{
-				const piece = Piece.stringToPiece(pieces, text);
-				if(!piece) return;
-				this.stand.add(piece);
-			});
-		}
-		if(this.autoDrawing) this.draw();
-	}
-
-	/** 角度基準のマス目の行を取得する
-	 * @param {number} pX - マス目の列
-	 * @param {number} pY - マス目の行
-	 * @param {number} deg - 角度
-	 * @param {number} offsetDeg - 補正角度
-	 * @returns {number}
-	 */
-	getRow(pX, pY, deg, offsetDeg=0){
-		const {xLen, yLen} = this;
-
-		deg = this.degNormal(deg+offsetDeg);
-		return (
-			deg === 0? yLen-1-pY:
-			deg === 90? pX:
-			deg === 180? pY:
-			deg === 270? xLen-1-pX:
-			-1
-		);
-	}
-
-	/** 角度基準のマス目の列を取得する
-	 * @param {number} pX - マス目の列
-	 * @param {number} pY - マス目の行
-	 * @param {number} deg - 角度
-	 * @param {number} offsetDeg - 補正角度
-	 * @returns {number}
-	 */
-	getCol(pX, pY, deg, offsetDeg=0){
-		const {xLen, yLen} = this;
-
-		deg = this.degNormal(deg+offsetDeg);
-		return (
-			deg === 0? pX:
-			deg === 90? yLen-1-pY:
-			deg === 180? xLen-1-pX:
-			deg === 270? pY:
-			-1
-		);
-	}
-
-	/** プロモーションエリア内であるか判別
-	 * @param {Panel} panel - マス目
-	 * @returns {{
-	 * 		canPromo: boolean,
-	 * 		forcePromo: boolean
-	 * }}
-	 */
-	checkCanPromo(panel){
-		const {yLen} = this;
-		const {piece, pX, pY} = panel;
-		const {deg} = piece;
-
-		const [promoLine, forcePromoLine] = [
-			piece.game.promoLine,
-			piece.forcePromoLine
-		].map(line=>yLen-line-(0|this.promoLineOffset));
-
-		let row;
-		if(!this.sidePromo){
-			row = this.getRow(pX, pY, deg);
-		}
-		else{
-			row = Math.max(
-				...Object.keys(Piece.degChars)
-				.map(d=>0|d)
-				.filter(d=>d!==deg)
-				.map(
-					d=>this.getRow(pX, pY, d, 180)
-				)
-			);
-		}
-		return {
-			canPromo: promoLine <= row,
-			forcePromo: forcePromoLine <= row
-		};
 	}
 
 	/** 敗北したプレイヤーが存在するか確認し、イベントを発生させる */
@@ -505,39 +262,17 @@ export class Board{
 		}
 	}
 
-	/** プロモーション処理
-	 * @param {Panel} fromPanel - 移動元のマス目
-	 * @param {Panel} toPanel - 選択中のマス目
+	/** プロモーション選択
+	 * @param {Piece} piece - 駒
 	 * @param {boolean} canPromo - 成ることができる
 	 * @param {boolean} forcePromo - 成りを強制する
 	 * @param {boolean} isCpuMove - CPUによる移動か
 	 */
-	async #promoPiece(fromPanel, toPanel, canPromo, forcePromo, isCpuMove=false){
+	async onSelectPromo(piece, canPromo, forcePromo, isCpuMove){
 		const {moveMode} = this;
-		const {piece} = toPanel;
-		const promo = char=>{
-			piece.promotion(char);
-			this.record.add({fromPanel, toPanel, end:"成"});
-		};
-		const notPromo = ()=>{
-			this.record.add({fromPanel, toPanel, end:"不成"});
-		};
 
-		// プロモーション処理
-		if(!piece.promo || piece.hasAttr("promoted") || piece.hasAttr("cantPromotion") || !canPromo){
-			this.record.add({fromPanel, toPanel});
-			return;
-		}
-
-		if(this.isHeadless || isCpuMove){
-			if(canPromo)
-				promo(Object.keys(piece.promo)[0]);
-			else
-				notPromo();
-			return;
-		}
-
-		let promoList = [];
+		if(isCpuMove) return super.onSelectPromo(piece, canPromo, forcePromo, isCpuMove);
+		const promoList = [];
 		for(const [char, {name}] of Object.entries(piece.promo))
 			promoList.push({label: `${char}:${name}`, value: char});
 		if(moveMode === "free" || !forcePromo)
@@ -548,66 +283,24 @@ export class Board{
 			`${piece.char}:${piece.name}`,
 			promoList
 		);
-		if(promoChar)
-			promo(promoChar);
-		else
-			notPromo();
-	}
-
-	simpleMovePiece(fromPanel, toPanel){
-		toPanel.piece = fromPanel.piece;
-		toPanel.piece.isMoved = true;
-		fromPanel.piece = null;
+		return promoChar;
 	}
 
 	/** 駒を移動
 	 * @param {Panel} fromPanel - 移動元のマス目
 	 * @param {Panel} toPanel - 選択中のマス目
 	 * @param {boolean} isCpuMove - CPUによる移動か
+	 * @returns boolean
 	 */
 	async movePiece(fromPanel, toPanel, isCpuMove=false){
-		const {stand, moveMode, enPassant} = this;
-
-		if(!fromPanel
-			|| moveMode === "viewOnly"
-			|| toPanel.hasAttr("keepOut")
-			|| toPanel.piece === fromPanel.piece
-			|| toPanel.piece?.deg === fromPanel.piece.deg
-			|| !isCpuMove && moveMode !== "free" && !toPanel.isTarget
-			|| !isCpuMove && this.getActivePlayer().cpuEngine
-		) return;
-
-		let {canPromo, forcePromo} = this.checkCanPromo(fromPanel);
-
-		stand.capturePiece(
-			fromPanel.piece,
-			toPanel.piece,
-			toPanel.hasAttr("capture"),
-			toPanel.hasAttr("cantCapture")
-		);
-
-		this.simpleMovePiece(fromPanel, toPanel);
-
-		const afterPromo = this.checkCanPromo(toPanel);
-		canPromo ||= afterPromo.canPromo;
-		forcePromo ||= afterPromo.forcePromo;
-
-		// アンパッサン
-		enPassant.setMoved(toPanel);
+		if(!await super.movePiece(fromPanel, toPanel, isCpuMove)) return false;
 
 		// プロモーション処理
-		await this.#promoPiece(fromPanel, toPanel, canPromo, forcePromo, isCpuMove);
-		if(this.#mouseControl) this.#mouseControl.resetSelect();
+		this.#mouseControl?.resetSelect();
 
 		// プレイヤーのゲームオーバー判定
 		this.#emitGameOver();
-	}
-
-	/** パスして手番を進める
-	 * @param {PlayerInfo} player - プレイヤー情報
-	*/
-	passTurn(player){
-		this.record.add({end: `${player.degChar}パス`});
+		return true;
 	}
 
 
@@ -646,52 +339,6 @@ export class Board{
 		if(this.onDrawed) this.onDrawed(this);
 	}
 
-	/** 駒配置をテキストで取得
-	 * @param {"default"|"compact"|"bod"} mode - テキスト形式
-	 * @param {boolean} isAlias - エイリアス表示
-	 * @returns {string}
-	 */
-	getTextPieces(mode="default", isAlias=false){
-		return mode === "bod"?
-			Bod.getTextPieces(this):
-			this.toString(mode === "compact", isAlias);
-	}
-
-	/** 駒配置をテキストで取得
-	 * @param {boolean} isCompact - コンパクト表示
-	 * @param {boolean} isAlias - エイリアス表示
-	 */
-	toString(isCompact=false, isAlias=false){
-		const {xLen} = this;
-
-		let header = "";
-		let footer = "";
-		let panelOuter = "";
-		let panelSep = "";
-		let rowSep = "\n";
-
-		if(!isCompact){
-			header = `┏${Array(xLen).fill("━━").join("┯")}┓\n`;
-			footer = `\n┗${Array(xLen).fill("━━").join("┷")}┛`;
-			panelOuter = "┃";
-			panelSep = "│";
-			rowSep = `\n┠${Array(xLen).fill("──").join("┼")}┨\n`;
-		}
-
-		return (
-			header+
-			this.field.map(row=>
-				panelOuter+
-				row.map(panel=>
-					panel.piece?.toString(isAlias) ?? panel.toString(isCompact)
-				).join(panelSep)+
-				panelOuter
-			).join(rowSep)+
-			footer+
-			this.stand.toString(isCompact)
-		);
-	}
-
 	/** 画像を取得
 	 * @param {string} fileName - ファイル名
 	 * @param {string} ext - 拡張子
@@ -699,33 +346,5 @@ export class Board{
 	 */
 	async downloadImage(fileName, ext, urlType){
 		await downloadImage(this.canvas, fileName ?? this.name ?? "shogicross", ext, urlType);
-	}
-
-	/** 盤面をクローン
-	 * @returns {Board}
-	 */
-	clone(){
-		// クローン用の新しいオプションオブジェクトを作成
-		const cloneOption = {...this.#option, isHeadless: true};
-		const newBoard = new Board(null, cloneOption);
-
-		// 盤面の駒をコピー
-		this.field.flat().forEach(({piece, pX, pY})=>{
-			if(!piece) return;
-			const newPanel = newBoard.field[pY][pX];
-			newPanel.piece = piece.clone();
-		});
-
-		// 持ち駒をコピー
-		newBoard.stand.clear(); // まずクリア
-		[...this.stand.stocks.values()].flat().forEach(piece=>{
-			newBoard.stand.add(piece.clone());
-		});
-
-		// その他の状態をコピー
-		newBoard.turn = this.turn;
-		newBoard.record.resords = JSON.parse(JSON.stringify(this.record.resords ?? [])); // 記録もディープコピー
-
-		return newBoard;
 	}
 }

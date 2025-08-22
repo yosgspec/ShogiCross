@@ -59,21 +59,21 @@ export class Overlay{
 	#spinner = null; // HTMLスピナー要素
 	#useDimOverlay;
 	#showSpinner;
-    #styles;
+	#styles;
 
 	constructor(canvas, options={}){
-        const {
-            useDimOverlay=true,
-            showSpinner=true,
-            styles,
-        } = options;
+		const {
+			useDimOverlay=true,
+			showSpinner=true,
+			styles,
+		} = options;
 		this.canvas = canvas;
 		this.#useDimOverlay = useDimOverlay;
 		this.#showSpinner = showSpinner;
-        this.#styles = {
-            ...defaultStyles,
-            ...styles,
-        };
+		this.#styles = {
+			...defaultStyles,
+			...styles,
+		};
 		this.#createSpinnerElement();
 		this.#createDimOverlay();
 	}
@@ -106,13 +106,13 @@ export class Overlay{
 	#createSpinnerElement(){
 		if(this.#spinner) return;
 
-        this.#spinner = document.createElement("div");
-        document.body.appendChild(this.#spinner);
-        Object.assign(this.#spinner.style, this.#styles.spinner);
+		this.#spinner = document.createElement("div");
+		document.body.appendChild(this.#spinner);
+		Object.assign(this.#spinner.style, this.#styles.spinner);
 
-        const spinerInner = document.createElement("div");
-        this.#spinner.appendChild(spinerInner);
-        Object.assign(spinerInner.style, this.#styles.spinnerInner);
+		const spinerInner = document.createElement("div");
+		this.#spinner.appendChild(spinerInner);
+		Object.assign(spinerInner.style, this.#styles.spinnerInner);
 	}
 
 	/**
@@ -122,9 +122,9 @@ export class Overlay{
 	#createDimOverlay(){
 		if(this.#dimOverlay) return;
 
-        this.#dimOverlay = document.createElement("div");
-        document.body.appendChild(this.#dimOverlay);
-        Object.assign(this.#dimOverlay.style, this.#styles.dimOverlay);
+		this.#dimOverlay = document.createElement("div");
+		document.body.appendChild(this.#dimOverlay);
+		Object.assign(this.#dimOverlay.style, this.#styles.dimOverlay);
 	}
 
 	/**
@@ -133,7 +133,7 @@ export class Overlay{
 	updatePosition(){
 		const canvasRect = this.canvas.getBoundingClientRect();
 
-        Object.assign(this.#dimOverlay.style, {
+		Object.assign(this.#dimOverlay.style, {
 			top: `${canvasRect.top}px`,
 			left: `${canvasRect.left}px`,
 			width: `${canvasRect.width}px`,
