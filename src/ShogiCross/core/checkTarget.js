@@ -79,7 +79,7 @@ function getOrigin(range){
 }
 
 /** 駒の移動判定
- * @param {Board} board - ボード
+ * @param {Board} board - 盤面
  * @param {Piece} piece - 駒
  * @param {number} pX - マス目の列
  * @param {number} pY - マス目の行

@@ -15,7 +15,7 @@ export class PlayerControl{
 	}
 
 	/**
-	 * @param {Board} board ボード
+	 * @param {Board} board - 盤面
 	 * @param {string[]} compList 表示するコントロールの一覧
 	 */
 	constructor(board, compList){

@@ -2,7 +2,7 @@ const getMime = (ext)=>
 	"image/"+ext.replace("jpg", "jpeg");
 
 /** キャンバスの画像を取得する
- * @param {HTMLCanvasElement}} canvas - Canvas要素
+ * @param {HTMLCanvasElement} canvas - Canvas要素
  * @param {string} fileName - 取得するファイル名(拡張子を除く)
  * @param {string} ext - 拡張子
  * @param {"base64"|"blob"} urlType - 生成URLタイプ
