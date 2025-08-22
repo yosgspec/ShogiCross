@@ -209,18 +209,6 @@ jobs:
           git fetch origin main
           git diff --name-only HEAD^ HEAD | grep -q "^$FILE$"
 
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Try Diff package.json
-        id: TRY_DIFF_PROJECT
-        continue-on-error: true
-        run: |
-          FILE="server/package.json"
-          # 最新コミットと差分を確認
-          git diff origin/main...HEAD | grep -q "^$FILE$"
-
   DeployServer:
     needs: [CheckUpdateServer]
     if: needs.CheckUpdateServer.outputs.IS_UPDATE == 'true'
