@@ -70,6 +70,7 @@ export class BoardCore{
 		this.variant = variant;
 		this.url = url;
 		this.desc = desc;
+		this.displayDeg = 0;;
 
 		// 初期化
 		this.ctx = null;
@@ -323,14 +324,14 @@ export class BoardCore{
 	 * @param {number} offsetDeg - 補正角度
 	 * @returns {number}
 	 */
-	getRow(pX, pY, deg, offsetDeg=0){
+	getRow(pX, pY, deg=this.displayDeg, offsetDeg=0, isReverse=true){
 		const {xLen, yLen} = this;
 
 		deg = this.degNormal(deg+offsetDeg);
 		return (
-			deg === 0? yLen-1-pY:
+			deg === 0? (isReverse? yLen-1-pY: pY):
 			deg === 90? pX:
-			deg === 180? pY:
+			deg === 180? (isReverse? pY: yLen-1-pY):
 			deg === 270? xLen-1-pX:
 			-1
 		);
@@ -343,7 +344,7 @@ export class BoardCore{
 	 * @param {number} offsetDeg - 補正角度
 	 * @returns {number}
 	 */
-	getCol(pX, pY, deg, offsetDeg=0){
+	getCol(pX, pY, deg=this.displayDeg, offsetDeg=0){
 		const {xLen, yLen} = this;
 
 		deg = this.degNormal(deg+offsetDeg);
