@@ -6934,17 +6934,15 @@ class Fe extends V {
    * @param {number} message.playerDeg - 移動を行ったプレイヤーの視点角度
    */
   async applyRemoteMove({ from: e, to: t, playerDeg: a }) {
-    const n = this.getCol(e.pX, e.pY), i = this.getRow(e.pX, e.pY, void 0, void 0, !1), s = this.getCol(t.pX, t.pY), r = this.getRow(t.pX, t.pY, void 0, void 0, !1);
-    console.log({ localFromX: n, localFromY: i, localToX: s, localToY: r });
-    const o = this.field[i][n], l = this.field[r][s];
-    o.piece.deg = this.degNormal(this.displayDeg + a), this.stand.capturePiece(
-      o.piece,
+    const n = [void 0, -a], i = this.getCol(e.pX, e.pY, ...n), s = this.getRow(e.pX, e.pY, ...n), r = this.getCol(t.pX, t.pY, ...n), o = this.getRow(t.pX, t.pY, ...n), l = this.field[s][i], d = this.field[o][r];
+    l.piece.deg = this.degNormal(this.displayDeg + a), this.stand.capturePiece(
       l.piece,
-      l.hasAttr("capture"),
-      l.hasAttr("cantCapture")
-    ), this.simpleMovePiece(o, l);
-    const { canPromo: d, forcePromo: c } = this.checkCanPromo(l);
-    await this.promoPiece(o, l, d, c, !0), this.autoDrawing && this.draw(), this[X].emitGameOver();
+      d.piece,
+      d.hasAttr("capture"),
+      d.hasAttr("cantCapture")
+    ), this.simpleMovePiece(l, d);
+    const { canPromo: c, forcePromo: S } = this.checkCanPromo(d);
+    await this.promoPiece(l, d, c, S, !0), this.autoDrawing && this.draw(), this[X].emitGameOver();
   }
   /**
    * 駒の移動処理（オンラインゲームの場合、サーバーに移動情報を送信）
