@@ -10,12 +10,18 @@ import {boards, games} from "./data.js";
 import {CpuEngine} from "./cpu.js";
 import {Record} from "./record.js";
 
+export const PROTECTED = Symbol("Board");
+
 export class BoardHeadless{
 	/**
 	 * @param {HTMLCanvasElement} canvas - Canvas要素
 	 * @param {BoardInitOption} option - ボードの初期化オプション
 	 */
 	constructor(canvas, option){
+		this[PROTECTED] = {
+			rotateField: this.#rotateField.bind(this),
+		};
+
 		const {
 			name,
 			variant,
