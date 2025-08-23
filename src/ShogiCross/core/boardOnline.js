@@ -106,11 +106,11 @@ export class BoardOnline extends Board{
 	 */
 	async applyRemoteMove({from, to, playerDeg}) {
 		// === 送信者の座標系をローカル基準に変換 ===
-		const localFromX = this.getCol(from.pX, from.pY);
-		const localFromY = this.getRow(from.pX, from.pY, undefined, undefined, false);
-		const localToX = this.getCol(to.pX, to.pY);
-		const localToY = this.getRow(to.pX, to.pY, undefined, undefined, false);
-		console.log({localFromX, localFromY, localToX, localToY})
+		const rest = [undefined, -playerDeg];
+		const localFromX = this.getCol(from.pX, from.pY, ...rest);
+		const localFromY = this.getRow(from.pX, from.pY, ...rest);
+		const localToX = this.getCol(to.pX, to.pY, ...rest);
+		const localToY = this.getRow(to.pX, to.pY, ...rest);
 
 		const fromPanel = this.field[localFromY][localFromX];
 		const toPanel   = this.field[localToY][localToX];
@@ -124,10 +124,7 @@ export class BoardOnline extends Board{
 		);
 
 		this.simpleMovePiece(fromPanel, toPanel);
-
 		const {canPromo, forcePromo} = this.checkCanPromo(toPanel);
-
-		// 駒の角度を調整
 		await this.promoPiece(fromPanel, toPanel, canPromo, forcePromo, true);
 
 		if (this.autoDrawing) this.draw();
