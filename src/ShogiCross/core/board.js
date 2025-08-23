@@ -51,9 +51,9 @@ export class Board extends BoardCore{
 	 */
 	constructor(canvas, option){
 		super(canvas, option);
-		Object.assign(this[PROTECTED], {
+		Object.defineProperties(this[PROTECTED], {
 			emitGameOver: this.#emitGameOver.bind(this),
-			dialog: (...$)=>this.#dialog(...$),
+			dialog: {get: ()=>this.#dialog},
 		});
 
 		const {
