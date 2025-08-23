@@ -6948,7 +6948,7 @@ class Re extends Z {
    * @param {number} message.playerDeg - 移動を行ったプレイヤーの視点角度
    */
   async applyRemoteMove({ from: e, to: t, playerDeg: a }) {
-    const n = [void 0, -a, !0], i = this.getCol(e.pX, e.pY, ...n), s = this.getRow(e.pX, e.pY, ...n), r = this.getCol(t.pX, t.pY, ...n), o = this.getRow(t.pX, t.pY, ...n), l = this.field[s][i], d = this.field[o][r];
+    const n = [void 0, -a, !1], i = this.getCol(e.pX, e.pY, ...n), s = this.getRow(e.pX, e.pY, ...n), r = this.getCol(t.pX, t.pY, ...n), o = this.getRow(t.pX, t.pY, ...n), l = this.field[s][i], d = this.field[o][r];
     l.piece.deg = this.degNormal(this.displayDeg + a), this.stand.capturePiece(
       l.piece,
       d.piece,
