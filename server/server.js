@@ -55,7 +55,7 @@ wss.on("connection", (ws)=>{
     else{
         // 待機中のプレイヤーがいない場合、現在のクライアントを待機状態にする
         waitingPlayer = ws;
-        console.log(`Client ${ws.clientId} is waiting for an opponent.`);
+        console.log(`Client ${ws.clientId} is waiting for an rival.`);
         // クライアントに待機中であることを通知
         ws.send(JSON.stringify({type: "waiting"}));
     }
@@ -68,15 +68,15 @@ wss.on("connection", (ws)=>{
             if(!game) return; // ゲームが存在しない場合は何もしない
 
             // 対戦相手を見つける
-            const opponent = game.players.find(p=>p.clientId !== ws.clientId);
+            const rival = game.players.find(p=>p.clientId !== ws.clientId);
 
             // メッセージタイプが"move"の場合の処理
-            if(data.type === "move" && opponent){
+            if(data.type === "move" && rival){
                 console.log(`Move from ${ws.clientId} in game ${ws.gameId}:`, data);
                 // 送信元のプレイヤーの視点角度をメッセージに追加
                 data.playerDeg = ws.playerDeg;
                 // 移動情報を対戦相手にブロードキャスト（転送）
-                opponent.send(JSON.stringify(data));
+                rival.send(JSON.stringify(data));
             }
             // メッセージタイプが"join"の場合の処理（現在はログ出力のみ）
             else if(data.type === "join"){
@@ -95,9 +95,9 @@ wss.on("connection", (ws)=>{
         const game = games[ws.gameId]; // クライアントが参加していたゲームを取得
         if(game){
             // 対戦相手に切断を通知
-            const opponent = game.players.find(p => p.clientId !== ws.clientId);
-            if(opponent && opponent.readyState === WebSocket.OPEN){
-                opponent.send(JSON.stringify({type: "opponentDisconnected"}));
+            const rival = game.players.find(p => p.clientId !== ws.clientId);
+            if(rival && rival.readyState === WebSocket.OPEN){
+                rival.send(JSON.stringify({type: "rivalDisconnect"}));
             }
             delete games[ws.gameId]; // ゲームを削除
             console.log(`Game ${ws.gameId} closed.`);

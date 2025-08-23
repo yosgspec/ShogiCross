@@ -1,0 +1,1017 @@
+/** @typedef {import("./data").BoardInitOption} BoardInitOption */
+/** @typedef {import("./data").PlayerInfo} PlayerInfo */
+import {canvasFont} from "./canvasFontLoader.js";
+import {canvasImage} from "./canvasImageLoader.js";
+import {downloadImage} from "./downloadImage.js";
+import {Dialog} from "./dialog.js";
+import {mouseControl} from "./mouseControl.js";
+import {PlayerControl} from "./playerControl.js";
+import {Stand} from "./stand.js";
+import {Panel} from "./panel.js";
+import {Piece} from "./piece.js";
+import {EnPassant} from "./enPassant.js";
+import {Bod} from "./bod.js";
+import {boards, games} from "./data.js";
+import {CpuEngine} from "./cpu.js";
+import {Overlay} from "./overlay.js";
+
+/** 盤の管理クラス */
+export class Board{
+	/** @typedef {Object} Board */
+	#mouseControl
+	#playerControl
+	#option
+	#beforeTurn = 0;
+	#dialog
+	#overlay
+
+	/**
+	 * @typedef {Object} Record - 局面の記録
+	 * @prop {Object} from
+	 * @prop {number} from.pX - 移動元の列
+	 * @prop {number} from.pY - 移動元の行
+	 * @prop {Object} to
+	 * @prop {number} to.pX - 移動先の列
+	 * @prop {number} to.pY - 移動先の行
+	 * @prop {number} deg - 駒の角度
+	 * @prop {string} pieceChar - 駒の一文字表記
+	 * @prop {string} end - 棋譜表示の末尾に記載する文字
+	 * @prop {string} fieldText - 駒配置のテキスト
+	 * @prop {number[][]} fieldMoved - 駒の移動済み判定
+	 * @prop {string|null} comment - 棋譜コメント
+	 */
+
+	/** ゲームを実行する
+	 * @param {HTMLCanvasElement}} canvas - Canvas要素
+	 * @param {BoardInitOption} option - ボードの初期化オプション
+	 * @returns {Board}
+	 */
+	static run(canvas, option){
+		return new Board(canvas, option);
+	}
+
+	/**
+	 * @param {HTMLCanvasElement} canvas - Canvas要素
+	 * @param {BoardInitOption} option - ボードの初期化オプション
+	 */
+	constructor(canvas, option){
+		const {
+			name,
+			variant,
+			url,
+			desc,
+			playBoard,
+			playerOptions=[],
+			players=playerOptions.some(({gameName}, i)=>1 < i && gameName)? 4: 2,
+			useStand=false,
+			canvasWidth=undefined,
+			canvasHeight=undefined,
+			canvasFit="overflow",
+			boardLeft=5,
+			boardTop=5,
+			panelWidth=50,
+			panelHeight=0|panelWidth*1.1,
+			pieceSize=0|panelWidth*0.9,
+			useRankSize = true,
+			isDrawShadow = true,
+			borderWidth=Math.min(panelWidth, panelHeight)/30,
+			backgroundColor="#00000000",
+			isHeadless=false,
+			autoDrawing=!isHeadless,
+			OverlayOptions = {useDimOverlay: true},
+			moveMode="normal",
+			usePlayerControl=!isHeadless,
+			onDrawed=e=>{},
+			onTurnEnd=(e,turn)=>{},
+			onGameOver=(e,i)=>alert(`プレイヤー${i+1}の敗北です。`),
+			onGameEnd=(e,i)=>e.addRecord({end: `対戦終了 勝者${[...e.players.values()][i].degChar}`}),
+			onReadyOnline=null,
+		} = option;
+
+		this.#option = option;
+		this.isHeadless = isHeadless;
+		this.name = name;
+		this.variant = variant;
+		this.url = url;
+		this.desc = desc;
+
+		// 初期化
+		this.ctx = null;
+		this.ws = null;
+		this.canvas = null;
+		let canvasFontAsync = null;
+		let canvasImageAsync = null;
+		if(!isHeadless){
+			canvasFontAsync = canvasFont.importAsync();
+			canvasImageAsync = canvasImage.importAsync();
+			this.canvas = canvas;
+			this.ctx = canvas.getContext("2d");
+			this.ctx.clearRect(0, 0, canvas.width, canvas.height);
+			this.overlay = new Overlay(this.canvas, OverlayOptions);
+			this.#dialog = new Dialog();
+		}
+
+		this.pieces = Piece.getPieces(this.ctx, {
+			size: pieceSize,
+			useRankSize,
+			isDrawShadow
+		});
+
+		// ボード情報
+		if(!boards[playBoard]) throw Error(`playBoard=${playBoard}, Unknown board name.`);
+		Object.assign(this, boards[playBoard]);
+		if(![2, 4].includes(players)) throw Error(`players=${players}, players need 2 or 4.`);
+		this.playerLen = players;
+		this.left = boardLeft;
+		this.top = boardTop;
+		this.panelWidth = panelWidth;
+		this.panelHeight = panelHeight;
+		this.borderWidth = borderWidth;
+		this.pieceSize = pieceSize;
+		this.canvasBackgroundColor = backgroundColor;
+
+		// マス目データを構築
+		this.field = this.field.map((row, pY)=>
+			[...row].map((char, pX)=>{
+				const center = boardLeft+panelWidth*(pX+1);
+				const middle = boardTop+panelHeight*(pY+1)
+				return new Panel(this.ctx, char, center, middle, panelWidth, panelHeight, pX, pY, borderWidth);
+			})
+		);
+		this.xLen = this.field[0].length;
+		this.yLen = this.field.length;
+
+		// プレイヤー設定
+		this.players = new Map();
+		for(let id=0;id<players;id++){
+			const deg = this.degNormal(id)
+			const status = {
+				...playerOptions[id],
+				id,
+				deg,
+				degChar: Piece.degChars[deg],
+				alive: true,
+				cpuDelay: playerOptions[id]?.cpuDelay ?? 500, // CPUの遅延時間
+				isOnline: playerOptions[id]?.isOnline ?? false, // オンラインプレイヤーか
+				isLocal: false, // このクライアントが操作するプレイヤーか
+			};
+			// CPUエンジンの初期化
+			status.cpu = new CpuEngine(this, status);
+			this.players.set(deg, status);
+			// 駒の初期配置
+			if(!status.gameName) continue;
+			try{
+				this.putStartPieces(id, status.gameName, status.pieceSet);
+			}
+			catch(ex){
+				console.error(ex);
+			}
+		}
+
+		// WebSocket Setup for Online Play
+		this.isOnlineGame = playerOptions.some(p => p.isOnline);
+		if(this.isOnlineGame){
+			this.ws = new WebSocket("ws://localhost:3000");
+
+			this.ws.onopen = () => {
+				console.log("WebSocket connection established.");
+				this.ws.send(JSON.stringify({ type: 'join', gameName: this.name }));
+			};
+
+			this.ws.onmessage = (event) => {
+				onReadyOnline?.(event, this);
+				console.log("Received message from server:", event.data);
+				try {
+					const message = JSON.parse(event.data);
+					switch (message.type) {
+						case 'move':
+							const fromPanel = this.field[message.from.pY][message.from.pX];
+							const toPanel = this.field[message.to.pY][message.to.pX];
+							this.applyRemoteMove(fromPanel, toPanel, message.playerDeg);
+							break;
+						case 'playerAssignment':
+							const myPlayer = [...this.players.values()].find(p=>p.id === message.playerId);
+							if(myPlayer) {
+								myPlayer.isLocal = true;
+								// If I am player 1 (180 degrees), rotate the board to my view.
+								this.#rotateField(myPlayer.deg);
+								this.stand.rotate(myPlayer.deg);
+								this.viewingAngle = myPlayer.deg;
+								if (this.autoDrawing) this.draw();
+							}
+							break;
+					}
+				} catch (error) {
+					console.error("Error parsing message from server:", error);
+				}
+			};
+
+			this.ws.onclose = () => {
+				console.log("WebSocket connection closed.");
+				this.#dialog?.show("接続エラー", "サーバーとの接続が切れました。", [{label: "OK"}]);
+			};
+
+			this.ws.onerror = (error) => {
+				console.error("WebSocket error:", error);
+				this.#dialog?.show("接続エラー", "サーバーとの接続でエラーが発生しました。", [{label: "OK"}]);
+			};
+		}
+
+		// 描写寸法を設定
+		this.width = this.panelWidth*(this.xLen+1);
+		this.height = this.panelHeight*(this.yLen+1);
+		this.right = boardLeft+this.width;
+		this.bottom = boardTop+this.height;
+		this.stand = new Stand(this);
+		if(!isHeadless){
+			canvas.width = canvasWidth ?? (useStand? this.stand.right: this.right)+5;
+			canvas.height = canvasHeight ?? this.bottom+5;
+
+			const {style} = canvas;
+			if(canvasFit === "overflow"){
+				if(style.maxWidth === "") style.maxWidth = "97vw";
+				if(style.maxHeight === "") style.maxHeight = "92vh";
+			}
+			else if(canvasFit === "horizontal"){
+				if(style.width === "") style.width = "97vw";
+			}
+			else if(canvasFit === "vertical"){
+				if(style.height === "") style.height = "92vh";
+			}
+			else if(canvasFit === "parentOverflow"){
+				if(style.maxWidth === "") style.maxWidth = "100%";
+				if(style.maxHeight === "") style.maxHeight = "100%";
+			}
+			else if(canvasFit === "parentHorizontal"){
+				if(style.width === "") style.width = "100%";
+			}
+			else if(canvasFit === "parentVertical"){
+				if(style.height === "") style.height = "100%";
+			}
+		}
+
+		// 自動描写更新設定
+		this.autoDrawing = autoDrawing;
+		if(autoDrawing){
+			canvasFontAsync.then(()=>{
+				this.draw();
+				this.#dialog.setFontFamily(canvasFont.names);
+			});
+			canvasImageAsync.then(()=>this.draw());
+			this.draw();
+		}
+
+		this.isGameEnd = false;
+		this.onDrawed = onDrawed;
+		this.onTurnEnd = onTurnEnd;
+		this.onGameOver = onGameOver;
+		this.onGameEnd = onGameEnd;
+		this.moveMode = moveMode;
+		this.viewingAngle = 0;
+
+		/** ゲームの記録
+		 * @type {Record[]}
+		 */
+		this.record = [];
+		/** ゲームのターン
+		 * @type {number}
+		 */
+		this.turn = 0;
+		if(!isHeadless) this.#mouseControl = mouseControl(this);
+		if(usePlayerControl){
+			this.#playerControl = this.makePlayerControl();
+			this.#playerControl.add();
+		}
+		this.enPassant = new EnPassant();
+	}
+
+	/** 操作パネルを構築
+	 * @param {string[]} compList - 表示するコントロールの一覧
+	 * @returns {PlayerControl}
+	 */
+	makePlayerControl(compList){
+		this.#playerControl = new PlayerControl(this, compList);
+		return this.#playerControl;
+	}
+
+	/** ボードを閉じる */
+	close(){
+		this.#mouseControl?.removeEvent();
+		this.#playerControl?.remove();
+	}
+
+	/** 現在の手番のプレイヤー情報を取得
+	 * @returns {Object<string, any>|"PlayerInfo"} - 現在のプレイヤー情報
+	 */
+	getActivePlayer(){
+		return [...this.players.values()][this.turn%this.playerLen];
+	}
+
+	/** 角度を正規化
+	 * @param {number} playeaIdOrDeg - プレイヤー番号または角度
+	 * @returns {number}
+	 */
+	degNormal(playeaIdOrDeg){
+		let deg = playeaIdOrDeg;
+		if(0 < deg && deg < 4) deg = 0|deg*360/this.playerLen;
+		do{deg = (deg+360)%360} while(deg<0);
+		return deg;
+	}
+
+	/** 盤面を回転
+	 * @param {boolean} isRight - 回転方向
+	 */
+	rotate(isRight=true){
+		let deg = this.degNormal(1);
+		if(!isRight) deg = -deg;
+		this.#rotateField(deg);
+		this.stand.rotate(deg);
+		if(this.autoDrawing) this.draw();
+	}
+
+	/** 駒配置を回転
+	 * @param {number} deg - 回転角 (90の倍数)
+	 */
+	#rotateField(deg){
+		const {field, xLen, yLen} = this;
+
+		deg = this.degNormal(deg);
+		if(deg === 0) return;
+		if(![90, 180, 270].includes(deg)) throw Error(`deg=${deg}, deg need multiple of 90.`);
+
+		let fieldPieces = field.map(row=>row.map(({piece})=>piece));
+		if([90, 270].includes(deg)){
+			// 2次配列を転置
+			const transpose = a => a[0].map((_, c) => a.map(r => r[c]));
+			if(xLen !== yLen) throw Error(`cols=${xLen} != rows=${yLen}, Not rows = cols.`);
+			fieldPieces = transpose(fieldPieces);
+		}
+		if([180, 270].includes(deg)){
+			fieldPieces.reverse();
+		}
+		fieldPieces.forEach(row=>{
+			row.forEach(piece=>{
+				if(!piece) return;
+				piece.deg += deg;
+			});
+			if([90, 180].includes(deg)) row.reverse();
+		});
+		field.forEach((row, pY)=>
+			row.forEach((panel, pX)=>
+				panel.piece = fieldPieces[pY][pX]
+			)
+		);
+	}
+
+	/** 駒の初期配置
+	 * @param {number} playerId - プレイヤー番号
+	 * @param {string} gameName - ゲーム名(基準となる駒の配置セット)
+	 * @param {string} pieceSet - 駒の配置パターン
+	 */
+	putStartPieces(playerId, gameName, pieceSet="default"){
+		const {pieces} = this;
+
+		const deg = this.degNormal(playerId);
+		this.#rotateField(-deg);
+		const pos = games[gameName].position[this.xLen][pieceSet];
+		if(!pos) throw Error(`games["${gameName}"].position["${this.xLen}"]["${pieceSet}"]is null.`);
+		pos.forEach((row, i)=>{
+			if(row.length < this.xLen) throw Error(row.join(""));
+			const pY = i+this.yLen - pos.length;
+			[...row].forEach((char, pX)=>{
+				if(!pieces[char]) return;
+				this.field[pY][pX].piece = pieces[char].clone();
+			});
+		});
+		this.#rotateField(deg);
+		if(this.autoDrawing) this.draw();
+	}
+
+	/** 駒の配置
+	 * @param {string} piece - 駒の表現文字
+	 * @param {number} pX - X方向配置位置(マス目基準)
+	 * @param {number} pY - Y方向配置位置(マス目基準)
+	 * @param {number} playeaIdOrDeg - プレイヤー番号または駒の配置角
+	 * @param {Object} option - オプション
+	 * @param {number} option.displayPtn - 表示文字列を変更(1〜)
+	 * @param {boolean} option.isMoved - 初回移動済みか否か
+	 */
+	putNewPiece(piece, pX, pY, playeaIdOrDeg, option={}){
+		const {displayPtn=0, isMoved=false} = option;
+		const {pieces} = this;
+
+		const deg = this.degNormal(playeaIdOrDeg);
+		if(typeof piece === "string"){
+			piece = new Piece(this.ctx, pieces[piece], {displayPtn, deg, isMoved});
+		}
+		this.field[pY][pX].piece = piece;
+		if(this.autoDrawing) this.draw();
+	}
+
+	/** 文字列から駒を配置
+	 * {string} text - 駒配置を表す文字列
+	 */
+	setTextPieces(text){
+		const {field, pieces, xLen, yLen} = this;
+
+		const standTitle = "持駒：";
+		// BOD形式
+		if(0<text.indexOf(standTitle)) text = Bod.convTextPieces(text);
+
+		// 排除する記号
+		const noises = "┏━┯┓┗┷┛┃│┠─┼┨―";
+
+		// 配列変換
+		const texts = [text].concat(
+				[...noises],
+				Object.values(Piece.degChars).map(c=>"\n"+c+standTitle)
+			).reduce(
+				(text,char)=>
+					text.replace(new RegExp(char,"g"), "")
+			).replace(/\n\n/g, "\n")
+			.replace(/　/g, "・")
+			.trim()
+			.split(/\n/)
+			.map(
+				row=>row.match(/.{2}/g));
+
+		// ボードに駒を配置
+		for(let pY=0;pY<yLen;pY++){
+			for(let pX=0;pX<xLen;pX++){
+				try{
+					const text = texts[pY][pX];
+					field[pY][pX].piece = Piece.stringToPiece(pieces, text);
+				}
+				catch(ex){
+					field[pY][pX].piece = null;
+				}
+			}
+		}
+
+		// 駒台の読み込みを待機
+		while(!this.stand){}
+		// 持ち駒を配置
+		this.stand.clear();
+		const standTexts = texts[yLen];
+		if(standTexts){
+			standTexts.forEach(text=>{
+				const piece = Piece.stringToPiece(pieces, text);
+				if(!piece) return;
+				this.stand.add(piece);
+			});
+		}
+		if(this.autoDrawing) this.draw();
+	}
+
+	/** 角度基準のマス目の行を取得する
+	 * @param {number} pX - マス目の列
+	 * @param {number} pY - マス目の行
+	 * @param {number} deg - 角度
+	 * @param {number} offsetDeg - 補正角度
+	 * @returns {number}
+	 */
+	getRow(pX, pY, deg, offsetDeg=0){
+		const {xLen, yLen} = this;
+
+		deg = this.degNormal(deg+offsetDeg);
+		return (
+			deg === 0? yLen-1-pY:
+			deg === 90? pX:
+			deg === 180? pY:
+			deg === 270? xLen-1-pX:
+			-1
+		);
+	}
+
+	/** 角度基準のマス目の列を取得する
+	 * @param {number} pX - マス目の列
+	 * @param {number} pY - マス目の行
+	 * @param {number} deg - 角度
+	 * @param {number} offsetDeg - 補正角度
+	 * @returns {number}
+	 */
+	getCol(pX, pY, deg, offsetDeg=0){
+		const {xLen, yLen} = this;
+
+		deg = this.degNormal(deg+offsetDeg);
+		return (
+			deg === 0? pX:
+			deg === 90? yLen-1-pY:
+			deg === 180? xLen-1-pX:
+			deg === 270? pY:
+			-1
+		);
+	}
+
+	/** プロモーションエリア内であるか判別
+	 * @param {Panel} panel - マス目
+	 * @returns {{
+	 * 		canPromo: boolean,
+	 * 		forcePromo: boolean
+	 * }}
+	 */
+	checkCanPromo(panel){
+		const {yLen} = this;
+		const {piece, pX, pY} = panel;
+		const {deg} = piece;
+
+		const [promoLine, forcePromoLine] = [
+			piece.game.promoLine,
+			piece.forcePromoLine
+		].map(line=>yLen-line-(0|this.promoLineOffset));
+
+		let row;
+		if(!this.sidePromo){
+			row = this.getRow(pX, pY, deg);
+		}
+		else{
+			row = Math.max(
+				...Object.keys(Piece.degChars)
+				.map(d=>0|d)
+				.filter(d=>d!==deg)
+				.map(
+					d=>this.getRow(pX, pY, d, 180)
+				)
+			);
+		}
+		return {
+			canPromo: promoLine <= row,
+			forcePromo: forcePromoLine <= row
+		};
+	}
+
+	/** 敗北したプレイヤーが存在するか確認し、イベントを発生させる */
+	#emitGameOver(){
+		this.players.forEach((player, deg)=>{
+			if(!player.alive) return;
+			if(this.field.flat().some(
+				({piece})=>
+					piece?.deg === deg
+					&& piece.hasAttr("king")
+				)
+			) return;
+			player.alive = false;
+			this.onGameOver?.(this, player.id);
+		});
+
+		// 生存プレイヤーが1人になったら対戦終了
+		const alivePlayers = [...this.players.values()].filter(p => p.alive);
+		if(alivePlayers.length <= 1){
+			this.onGameEnd?.(this, alivePlayers[0].id);
+			this.isGameEnd = true;
+		}
+	}
+
+	/** プロモーション処理
+	 * @param {Panel} fromPanel - 移動元のマス目
+	 * @param {Panel} toPanel - 選択中のマス目
+	 * @param {boolean} canPromo - 成ることができる
+	 * @param {boolean} forcePromo - 成りを強制する
+	 * @param {boolean} isCpuMove - CPUによる移動か
+	 */
+	async #promoPiece(fromPanel, toPanel, canPromo, forcePromo, isCpuMove=false){
+		const {moveMode} = this;
+		const {piece} = toPanel;
+		const promo = char=>{
+			piece.promotion(char);
+			this.addRecord({fromPanel, toPanel, end:"成"});
+		};
+		const notPromo = ()=>{
+			this.addRecord({fromPanel, toPanel, end:"不成"});
+		};
+
+		// プロモーション処理
+		if(!piece.promo || piece.hasAttr("promoted") || piece.hasAttr("cantPromotion") || !canPromo){
+			this.addRecord({fromPanel, toPanel});
+			return;
+		}
+
+		if(this.isHeadless || isCpuMove){
+			if(canPromo)
+				promo(Object.keys(piece.promo)[0]);
+			else
+				notPromo();
+			return;
+		}
+
+		let promoList = [];
+		for(const [char, {name}] of Object.entries(piece.promo))
+			promoList.push({label: `${char}:${name}`, value: char});
+		if(moveMode === "free" || !forcePromo)
+			promoList.push({label: "不成", value: null});
+
+		const promoChar = await this.#dialog.show("",
+			"成りますか?\n"+
+			`${piece.char}:${piece.name}`,
+			promoList
+		);
+		if(promoChar)
+			promo(promoChar);
+		else
+			notPromo();
+	}
+
+	simpleMovePiece(fromPanel, toPanel){
+		toPanel.piece = fromPanel.piece;
+		toPanel.piece.isMoved = true;
+		fromPanel.piece = null;
+	}
+
+	/**
+	 * 駒の移動を実行する内部メソッド
+	 * @param {Panel} fromPanel - 移動元のマス目
+	 * @param {Panel} toPanel - 選択中のマス目
+	 */
+	async #executeMove(fromPanel, toPanel, deg=0){
+		this.#rotateField(-deg);
+		this.stand.rotate(-deg);
+		this.stand.capturePiece(
+			fromPanel.piece,
+			toPanel.piece,
+			toPanel.hasAttr("capture"),
+			toPanel.hasAttr("cantCapture")
+		);
+
+		this.simpleMovePiece(fromPanel, toPanel);
+
+		const {canPromo, forcePromo} = this.checkCanPromo(toPanel);
+		const piece = toPanel.piece;
+		piece.deg += this.degNormal(deg + this.viewingAngle);
+		if (canPromo && piece.promo) {
+			const promoChar = Object.keys(piece.promo)[0];
+			piece.promotion(promoChar);
+			this.addRecord({fromPanel, toPanel, end:"成"});
+		} else {
+			this.addRecord({fromPanel, toPanel});
+		}
+		piece.deg -= this.degNormal(deg + this.viewingAngle);
+		this.#rotateField(deg);
+		this.stand.rotate(deg);
+		if (this.autoDrawing) this.draw();
+		this.#emitGameOver();
+		if(this.#mouseControl) this.#mouseControl.resetSelect();
+	}
+
+	/**
+	 * サーバーから受信した駒の移動を適用
+	 * @param {Panel} fromPanel - 移動元のマス目
+	 * @param {Panel} toPanel - 選択中のマス目
+	 */
+	applyRemoteMove(fromPanel, toPanel) {
+		console.log([fromPanel.pX, fromPanel.pY]);
+		console.log([toPanel.pX, toPanel.pY]);
+		this.#executeMove(fromPanel, toPanel, 180);
+	}
+
+	/** 駒を移動
+	 * @param {Panel} fromPanel - 移動元のマス目
+	 * @param {Panel} toPanel - 選択中のマス目
+	 * @param {boolean} isCpuMove - CPUによる移動か
+	 */
+	async movePiece(fromPanel, toPanel, isCpuMove=false){
+		const {stand, moveMode, enPassant} = this;
+		const activePlayer = this.getActivePlayer();
+
+		if (activePlayer.isOnline && activePlayer.isLocal) {
+			if (toPanel.isTarget) {
+				const moveData = {
+					type: 'move',
+					from: { pX: fromPanel.pX, pY: fromPanel.pY },
+					to: { pX: toPanel.pX, pY: toPanel.pY },
+				};
+				this.ws.send(JSON.stringify(moveData));
+				this.#executeMove(fromPanel, toPanel);
+			}
+			return;
+		}
+
+		if(!fromPanel
+			|| moveMode === "viewOnly"
+			|| toPanel.hasAttr("keepOut")
+			|| toPanel.piece === fromPanel.piece
+			|| toPanel.piece?.deg === fromPanel.piece.deg
+			|| !isCpuMove && moveMode !== "free" && !toPanel.isTarget
+			|| !isCpuMove && this.getActivePlayer().cpuEngine
+		) return;
+
+		let {canPromo, forcePromo} = this.checkCanPromo(fromPanel);
+
+		stand.capturePiece(
+			fromPanel.piece,
+			toPanel.piece,
+			toPanel.hasAttr("capture"),
+			toPanel.hasAttr("cantCapture")
+		);
+
+		this.simpleMovePiece(fromPanel, toPanel);
+
+		const afterPromo = this.checkCanPromo(toPanel);
+		canPromo ||= afterPromo.canPromo;
+		forcePromo ||= afterPromo.forcePromo;
+
+		// アンパッサン
+		enPassant.setMoved(toPanel);
+
+		// プロモーション処理
+		await this.#promoPiece(fromPanel, toPanel, canPromo, forcePromo, isCpuMove);
+		if(this.#mouseControl) this.#mouseControl.resetSelect();
+
+		// プレイヤーのゲームオーバー判定
+		this.#emitGameOver();
+	}
+
+	/** パスして手番を進める
+	 * @param {PlayerInfo} player - プレイヤー情報
+	*/
+	passTurn(player){
+		this.addRecord({end: `${player.degChar}パス`});
+	}
+
+	/** 棋譜を追記
+	 * @param {Panel} toPanel - 移動先のマス目
+	 * @param {Object} option - オプション
+	 * @param {Panel} option.fromPanel - 移動元のマス目
+	 * @param {string} option.end - オプション=成|不成|打
+	 */
+	addRecord(option={}){
+		const {record} = this;
+		const {fromPanel={}, toPanel={}, end="", inc=1} = option;
+		const {piece={}} = toPanel;
+
+		this.turn += inc;
+		if(this.isHeadless) return;
+
+		record[this.turn] = {
+			from: {
+				pX: fromPanel.pX,
+				pY: fromPanel.pY
+			},
+			to: {
+				pX: toPanel.pX,
+				pY: toPanel.pY,
+			},
+			deg: piece.deg,
+			pieceChar: piece.char,
+			end,
+			fieldText: this.getTextPieces("compact", true),
+			fieldMoved: this.field.map(row=>
+				row.map(({piece})=>
+					piece?.isMoved? 1: 0
+				)
+			)
+		};
+		if(0 < inc) record.splice(this.turn+1);
+		// ターンが変わった
+		if(this.#beforeTurn !== this.turn){
+			this.#beforeTurn = this.turn;
+			// ターンエンドイベント
+			this.onTurnEnd?.(this, this.turn);
+			const activePlayer = this.getActivePlayer();
+
+			// For local hot-seat games, rotate the board to the active player's view
+			if (!this.isOnlineGame && !activePlayer.cpu) {
+				const targetAngle = activePlayer.deg;
+				const rotationAmount = this.degNormal(targetAngle - this.viewingAngle);
+				if (rotationAmount !== 0) {
+					this.#rotateField(rotationAmount);
+					this.stand.rotate(rotationAmount);
+					this.viewingAngle = targetAngle;
+					if (this.autoDrawing) this.draw();
+				}
+			}
+
+			if (!activePlayer.isOnline) {
+				setTimeout(()=>activePlayer.cpu.playTurn(), 0);
+			}
+		}
+	}
+
+	/** 棋譜コメントを追記
+	 * @param {string} comment - 棋譜コメント
+	 * @param {number} shiftTurn - ずらす手数
+	 */
+	addRecordComment(comment, shiftTurn=0){
+		this.record[this.turn+shiftTurn].comment = comment;
+	}
+
+	/** 記録の参照手数を切り替える
+	 * @param {number} inc - 切り替えたい手数の差分
+	 */
+	#switchRecord(inc){
+		const {record} = this;
+		if(!record[this.turn+inc]) return;
+
+		this.turn += inc;
+		const {fieldText, fieldMoved} = record[this.turn];
+		this.setTextPieces(fieldText);
+		this.field.forEach((row, pY)=>
+			row.forEach(({piece}, pX)=>{
+				if(!piece) return;
+				piece.isMoved = !!fieldMoved[pY][pX];
+			})
+		);
+	}
+
+	/** 記録の手を戻す */
+	undoRecord(){
+		this.#switchRecord(-1);
+	}
+
+	/** 記録の手を進める */
+	redoRecord(){
+		this.#switchRecord(1);
+	}
+
+	/** 記録の手を移動
+	 * @param {number} turn - 手数
+	 */
+	moveRecord(turn){
+		this.turn = turn;
+		this.#switchRecord(0);
+	}
+
+	/** 局面の記録を文字列に変換
+	 * @param {Record} record - 局面の記録
+	 * @param {number} turn - 手数
+	 * @param {boolean} isNumOnly - 座標を数字で表現
+	 * @returns {string}
+	 */
+	record2String(record, turn, isNumOnly=false){
+		const {to, from, deg, pieceChar, end} = record;
+		if(to.pX == null) return `${turn}: ${end}`;
+
+		const getPX = ({pX})=> (this.xLen-pX).toString(isNumOnly? 10: 36);
+		const getPY = ({pY})=> (pY+1).toString(isNumOnly? 10: 36);
+		const numSep = isNumOnly? ",": "";
+		return `${
+			turn}: ${
+			Piece.degChars[deg]}${
+			getPX(to)}${
+			numSep}${
+			getPY(to)}${
+			pieceChar}${
+			end}${
+			from.pX === undefined? "": ` (${
+				getPX(from)}${
+				numSep}${
+				getPY(from)
+			})`}`;
+	}
+
+	/** 表示用の棋譜を取得
+	 * @param {boolean} isNumOnly - 座標を数字で表現
+	 * @returns {string}
+	 */
+	getTextRecord(isNumOnly=false){
+		return this.record.slice(0, this.turn+1).map((record, i)=>
+			this.record2String(record, i, isNumOnly)
+		).join("\n");
+	}
+
+	/** 棋譜データを取得
+	 * @param {boolean} isEncode - エンコード有無
+	 * @returns {string}
+	 */
+	getJsonRecord(isEncode=true){
+		const jsonRecord = JSON.stringify(this.record, null, "");
+		return isEncode? encodeURI(jsonRecord): jsonRecord;
+	}
+
+	/** 棋譜データを入力
+	 * @param {string} record - 棋譜データ
+	 * @param {number} turn - 手数
+	 */
+	setJsonRecord(record, turn){
+		this.record = JSON.parse(decodeURI(record));
+		this.moveRecord(turn ?? this.record.length-1);
+	}
+
+	/** 盤を描写 */
+	draw(){
+		if(this.isHeadless) return;
+		const {ctx, canvas, left, top, width, height, panelWidth, panelHeight} = this;
+
+		//最初の記録
+		if(this.turn === 0) this.addRecord({inc: 0, end: "開始局面"});
+
+		// 描写を初期化
+		ctx.restore();
+		ctx.save();
+		ctx.clearRect(0, 0, canvas.width, canvas.height);
+		ctx.fillStyle = this.canvasBackgroundColor;
+		ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+		// 外枠を描写
+		ctx.fillStyle = this.backgroundColor;
+		ctx.lineWidth = this.borderWidth;
+		ctx.strokeStyle = this.borderColor;
+
+		ctx.save();
+		ctx.translate(left, top);
+		ctx.fillRect(0, 0, width, height);
+		ctx.strokeRect(0, 0, width, height);
+		ctx.translate(panelWidth/2, panelHeight/2);
+		ctx.strokeRect(0, 0, width-panelWidth, height-panelHeight);
+		ctx.restore();
+		this.stand.draw();
+
+		// マス目を描写
+		this.field.forEach(row=>{
+			row.forEach(panel=>{
+				panel.draw();
+			});
+		});
+		if(this.onDrawed) this.onDrawed(this);
+	}
+
+	/** 駒配置をテキストで取得
+	 * @param {"default"|"compact"|"bod"} mode - テキスト形式
+	 * @param {boolean} isAlias - エイリアス表示
+	 * @returns {string}
+	 */
+	getTextPieces(mode="default", isAlias=false){
+		return mode === "bod"?
+			Bod.getTextPieces(this):
+			this.toString(mode === "compact", isAlias);
+	}
+
+	/** 棋譜コメントを取得
+	 * @param {number} shiftTurn - ずらす手数
+	 * @returns {string}
+	 */
+	getRecordComment(shiftTurn=0){
+		return this.record[this.turn+shiftTurn] ?? "";
+	}
+
+	/** 駒配置をテキストで取得
+	 * @param {boolean} isCompact - コンパクト表示
+	 * @param {boolean} isAlias - エイリアス表示
+	 */
+	toString(isCompact=false, isAlias=false){
+		const {xLen} = this;
+
+		let header = "";
+		let footer = "";
+		let panelOuter = "";
+		let panelSep = "";
+		let rowSep = "\n";
+
+		if(!isCompact){
+			header = `┏${Array(xLen).fill("━━").join("┯")}┓\n`;
+			footer = `\n┗${Array(xLen).fill("━━").join("┷")}┛`;
+			panelOuter = "┃";
+			panelSep = "│";
+			rowSep = `\n┠${Array(xLen).fill("──").join("┼")}┨\n`;
+		}
+
+		return (
+			header+
+			this.field.map(row=>
+				panelOuter+
+				row.map(panel=>
+					panel.piece?.toString(isAlias) ?? panel.toString(isCompact)
+				).join(panelSep)+
+				panelOuter
+			).join(rowSep)+
+			footer+
+			this.stand.toString(isCompact)
+		);
+	}
+
+	/** 画像を取得
+	 * @param {string} fileName - ファイル名
+	 * @param {string} ext - 拡張子
+	 * @returns {Promise<void>}
+	 */
+	async downloadImage(fileName, ext, urlType){
+		await downloadImage(this.canvas, fileName ?? this.name ?? "shogicross", ext, urlType);
+	}
+
+	/** 盤面をクローン
+	 * @returns {Board}
+	 */
+	clone(){
+		// クローン用の新しいオプションオブジェクトを作成
+		const cloneOption = {...this.#option, isHeadless: true};
+		const newBoard = new Board(null, cloneOption);
+
+		// 盤面の駒をコピー
+		this.field.flat().forEach(({piece, pX, pY})=>{
+			if(!piece) return;
+			const newPanel = newBoard.field[pY][pX];
+			newPanel.piece = piece.clone();
+		});
+
+		// 持ち駒をコピー
+		newBoard.stand.clear(); // まずクリア
+		[...this.stand.stocks.values()].flat().forEach(piece=>{
+			newBoard.stand.add(piece.clone());
+		});
+
+		// その他の状態をコピー
+		newBoard.turn = this.turn;
+		newBoard.record = JSON.parse(JSON.stringify(this.record)); // 記録もディープコピー
+
+		return newBoard;
+	}
+}
