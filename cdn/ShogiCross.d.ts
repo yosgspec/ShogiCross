@@ -29,15 +29,29 @@ declare class Z extends V {
 declare class Re extends Z {
     onReadyOnline: any;
     isOnlineGame: any;
-    viewingAngle: number;
     ws: WebSocket;
     /**
      * リモートからの移動を盤面に適用する
-     * @param {Panel} fromPanel - 移動元のパネル
-     * @param {Panel} toPanel - 移動先のパネル
-     * @param {number} deg - 移動を行ったプレイヤーの視点角度
+     * @param {Object} message
+     * @param {Object} message.from - 移動元の座標
+     * @param {number} message.from.pX - 移動元の座標X
+     * @param {number} message.from.pY - 移動元の座標Y
+     * @param {Object} message.to - 移動先の座標
+     * @param {number} message.to.pX - 移動先の座標X
+     * @param {number} message.to.pY - 移動先の座標Y
+     * @param {number} message.playerDeg - 移動を行ったプレイヤーの視点角度
      */
-    applyRemoteMove(e: any, t: any, a: any): Promise<void>;
+    applyRemoteMove({ from: e, to: t, playerDeg: a }: {
+        from: {
+            pX: number;
+            pY: number;
+        };
+        to: {
+            pX: number;
+            pY: number;
+        };
+        playerDeg: number;
+    }): Promise<void>;
 }
 declare class be extends I {
     engine: any;
@@ -5531,6 +5545,7 @@ declare class V {
     variant: any;
     url: any;
     desc: any;
+    displayDeg: number;
     ctx: any;
     canvas: any;
     pieces: {
@@ -5600,7 +5615,7 @@ declare class V {
      * @param {number} offsetDeg - 補正角度
      * @returns {number}
      */
-    getRow(e: any, t: any, a: any, n?: number): number;
+    getRow(e: any, t: any, a?: number, n?: number, i?: boolean): number;
     /** 角度基準のマス目の列を取得する
      * @param {number} pX - マス目の列
      * @param {number} pY - マス目の行
@@ -5608,7 +5623,7 @@ declare class V {
      * @param {number} offsetDeg - 補正角度
      * @returns {number}
      */
-    getCol(e: any, t: any, a: any, n?: number): number;
+    getCol(e: any, t: any, a?: number, n?: number): number;
     /** プロモーション選択
      * @param {Piece} piece - 駒
      * @param {boolean} canPromo - 成ることができる
@@ -5764,6 +5779,8 @@ declare class We {
     board: any;
     turn: number;
     records: any[];
+    /** 棋譜の最後を取得 */
+    get last(): any;
     /** 棋譜を追記
      * @param {Object} option - オプション
      * @param {Panel} option.fromPanel - 移動元のマス目
