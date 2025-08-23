@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - act
 
 # 同時実行制御：GitHub Pagesのデプロイが重複しないように
 concurrency:
@@ -128,7 +129,9 @@ jobs:
 
   PublishNPM:
     needs: [CheckVersion, Build]
-    if: needs.CheckVersion.outputs.IS_NEW_VERSION == 'true'
+    if: >
+      github.ref == 'refs/heads/main'
+      && needs.CheckVersion.outputs.IS_NEW_VERSION == 'true'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -153,7 +156,9 @@ jobs:
 
   ReleaseCDN:
     needs: [CheckVersion, Build]
-    if: needs.CheckVersion.outputs.IS_NEW_VERSION == 'true'
+    if: >
+      github.ref == 'refs/heads/main'
+      && needs.CheckVersion.outputs.IS_NEW_VERSION == 'true'
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -220,11 +225,10 @@ jobs:
           chmod +x ./server/setup_gcloud.sh
           ./server/setup_gcloud.sh
 
-  CheckUpdateServer:
+  CheckDiffServer:
     runs-on: ubuntu-latest
     outputs:
-      IS_UPDATE: ${{env.GIT_DIFF}}
-
+      IS_DIFF: ${{env.GIT_DIFF}}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -235,10 +239,43 @@ jobs:
           PATTERNS: |
             server/package.json
 
-  DeployServer:
-    needs: [CheckUpdateServer, SetUpGoogleCloud]
-    if: needs.CheckUpdateServer.outputs.IS_UPDATE
+  CheckServerVersion:
     runs-on: ubuntu-latest
+    outputs:
+      SERVER_VERSION: ${{steps.SERVER_VERSION.outputs.value}}
+      IS_NEW_VERSION: ${{steps.TRY_EXISTS_TAG.outcome == 'failure'}}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Get Server Version
+        id: SERVER_VERSION
+        run: echo "value=$(node -p "require('./server/package.json').version")" >> $GITHUB_OUTPUT
+
+      - name: Try Exist Tag
+        id: TRY_EXISTS_TAG
+        continue-on-error: true
+        run: |
+          TAG_NAME="server${{steps.SERVER_VERSION.outputs.value}}"
+          echo "Checking for tag ${TAG_NAME}..."
+          git ls-remote --exit-code --tags origin "refs/tags/${TAG_NAME}"
+
+  DeployServer:
+    needs: [CheckDiffServer, CheckServerVersion, SetUpGoogleCloud]
+    if: >
+      github.ref == 'refs/heads/main'
+      && (
+        needs.CheckDiffServer.outputs.IS_DIFF
+        || needs.CheckServerVersion.outputs.IS_NEW_VERSION == 'true'
+      )
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
     env:
       REGION: asia-northeast1
     steps:
@@ -277,3 +314,11 @@ jobs:
             --cpu 1 \
             --memory 512Mi \
             --concurrency 80
+
+      - name: Push Version Tag
+        if: needs.CheckServerVersion.outputs.IS_NEW_VERSION == 'true'
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          git tag server${{needs.CheckServerVersion.outputs.SERVER_VERSION}}
+          git push origin ${{needs.CheckServerVersion.outputs.SERVER_VERSION}}
