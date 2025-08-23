@@ -1,6 +1,16 @@
-declare class pe extends te {
-    overlay: Oe;
+declare class Z extends V {
+    overlay: ke;
     autoDrawing: any;
+    isGameEnd: boolean;
+    onDrawed: any;
+    onTurnEnd: any;
+    onGameOver: any;
+    onGameEnd: any;
+    /** 操作パネルを構築
+     * @param {string[]} compList - 表示するコントロールの一覧
+     * @returns {PlayerControl}
+     */
+    makePlayerControl(e: any): any;
     /** プロモーション選択
      * @param {Piece} piece - 駒
      * @param {boolean} canPromo - 成ることができる
@@ -16,12 +26,25 @@ declare class pe extends te {
     downloadImage(e: any, t: any, a: any): Promise<void>;
     #private;
 }
-declare class Se extends Z {
+declare class Re extends Z {
+    onReadyOnline: any;
+    isOnlineGame: any;
+    viewingAngle: number;
+    ws: WebSocket;
+    /**
+     * リモートからの移動を盤面に適用する
+     * @param {Panel} fromPanel - 移動元のパネル
+     * @param {Panel} toPanel - 移動先のパネル
+     * @param {number} deg - 移動を行ったプレイヤーの視点角度
+     */
+    applyRemoteMove(e: any, t: any, a: any): Promise<void>;
+}
+declare class Pe extends I {
     engine: any;
 }
-declare class Z {
+declare class I {
     /**
-     * @param {Board} board - 対象のボード
+     * @param {Board} board - 対象の盤面
      * @param {PlayerInfo} player - プレイヤー情報
      */
     constructor(e: any, t: any);
@@ -44,7 +67,7 @@ declare class Z {
      */
     evaluate(e?: any): number;
 }
-declare namespace Q {
+declare namespace Y {
     export { random };
     export { greedy };
     export { minimax };
@@ -90,7 +113,7 @@ declare class C {
         [k: string]: any;
     };
     /** 文字列から駒を取得
-     * @param {Piece|PieceInitOption} piece - 駒
+     * @param {Object<string, Piece|PieceInitOption>} pieces - 駒の一覧
      * @param {string} text - 駒文字列
      * @returns {Piece}
      */
@@ -195,7 +218,7 @@ declare class C {
      */
     toString(e?: boolean): string;
 }
-declare const Y: {
+declare const z: {
     将棋: {
         backgroundColor: string;
         borderColor: string;
@@ -392,10 +415,10 @@ declare const Y: {
         field: string[];
     };
 };
-declare namespace j {
+declare namespace N {
     let fonts: (string | number)[][];
 }
-declare namespace z {
+declare namespace F {
     let imported: boolean;
     let images: {
         [x: string]: new (width?: number, height?: number) => HTMLImageElement;
@@ -405,8 +428,8 @@ declare namespace z {
      */
     function importAsync(): Promise<void>;
 }
-declare function Pe(p: any): void;
-declare namespace me {
+declare function Me(p: any): void;
+declare namespace pe {
     namespace shogi {
         let name: string;
         let variant: string;
@@ -1275,7 +1298,7 @@ declare namespace me {
         export { playerOptions_45 as playerOptions };
     }
 }
-declare namespace ee {
+declare namespace J {
     namespace 将棋 {
         let english: string;
         let fontColor: string;
@@ -1563,7 +1586,7 @@ declare namespace ee {
         export { position_6 as position };
     }
 }
-declare const J: {
+declare const T: {
     S: {
         name: string;
         text: string;
@@ -1708,7 +1731,7 @@ declare const J: {
         attr: string[];
     };
 };
-declare namespace _ {
+declare namespace U {
     let 女: number;
     let 獅: number;
     let 后: number;
@@ -1979,7 +2002,7 @@ declare namespace se {
     let 呈_1: string[];
     export { 呈_1 as 呈 };
 }
-declare namespace K {
+declare namespace D {
     export namespace 歩_2 {
         let name_46: string;
         export { name_46 as name };
@@ -5490,16 +5513,16 @@ declare namespace K {
         export { range_205 as range };
     }
 }
-declare class te {
+declare class V {
     /** ゲームを実行する
-     * @param {HTMLCanvasElement}} canvas - Canvas要素
+     * @param {HTMLCanvasElement} canvas - Canvas要素
      * @param {BoardInitOption} option - ボードの初期化オプション
      * @returns {this}
      */
     static run(e: any, t: any): any;
     /**
      * @param {HTMLCanvasElement} canvas - Canvas要素
-     * @param {BoardInitOption} option - ボードの初期化オプション
+     * @param {BoardCoreInitOption} option - ボードの初期化オプション
      */
     constructor(e: any, t: any);
     option: any;
@@ -5529,20 +5552,10 @@ declare class te {
     height: number;
     right: any;
     bottom: any;
-    stand: q;
-    isGameEnd: boolean;
-    onDrawed: any;
-    onTurnEnd: any;
-    onGameOver: any;
-    onGameEnd: any;
+    stand: K;
     moveMode: any;
-    record: re;
-    enPassant: V;
-    /** 操作パネルを構築
-     * @param {string[]} compList - 表示するコントロールの一覧
-     * @returns {PlayerControl}
-     */
-    makePlayerControl(e: any): any;
+    record: Be;
+    enPassant: q;
     /** ボードを閉じる */
     close(): void;
     /** 現在の手番のプレイヤー情報を取得
@@ -5575,7 +5588,7 @@ declare class te {
      * @param {number} option.displayPtn - 表示文字列を変更(1〜)
      * @param {boolean} option.isMoved - 初回移動済みか否か
      */
-    putNewPiece(e: any, t: any, a: any, n: any, s?: {}): void;
+    putNewPiece(e: any, t: any, a: any, n: any, i?: {}): void;
     /** 文字列から駒を配置
      * {string} text - 駒配置を表す文字列
      */
@@ -5610,7 +5623,7 @@ declare class te {
      * @param {boolean} forcePromo - 成りを強制する
      * @param {boolean} isCpuMove - CPUによる移動か
      */
-    promoPiece(e: any, t: any, a: any, n: any, s?: boolean): Promise<void>;
+    promoPiece(e: any, t: any, a: any, n: any, i?: boolean): Promise<void>;
     /** プロモーションエリア内であるか判別
      * @param {Panel} panel - マス目
      * @returns {{
@@ -5650,10 +5663,13 @@ declare class te {
     /** 盤面をクローン
      * @returns {this}
      */
-    cloneHeadless(): this;
+    cloneCore(): this;
+    [O]: {
+        rotateField: any;
+    };
     #private;
 }
-declare class Oe {
+declare class ke {
     constructor(e: any, t?: {});
     canvas: any;
     /**
@@ -5670,13 +5686,13 @@ declare class Oe {
     updatePosition(): void;
     #private;
 }
-declare class random extends Z {
+declare class random extends I {
     constructor(e: any, t: any);
 }
-declare class greedy extends Z {
+declare class greedy extends I {
     constructor(e: any, t: any);
 }
-declare class minimax extends Z {
+declare class minimax extends I {
     constructor(e: any, t: any);
     searchDepth: number;
     /**
@@ -5688,15 +5704,15 @@ declare class minimax extends Z {
      * @param {boolean} isMaximizingPlayer - 現在のプレイヤーが最大化プレイヤーかどうか
      * @returns {number} 評価値
      */
-    minimax(e: any, t: any, a: any, n: any, s: any): number;
+    minimax(e: any, t: any, a: any, n: any, i: any): number;
 }
-declare class q {
+declare class K {
     /** 駒台への角度ごとの表示順
      * @type {number[]}
      */
-    static "__#11@#e": number[];
+    static "__#10@#e": number[];
     /**
-     * @param {Board} ボード
+     * @param {Board} board - 盤面
      */
     constructor(e: any);
     board: any;
@@ -5714,7 +5730,7 @@ declare class q {
     clear(): void;
     stocks: Map<number, any[]>;
     /** 持ち駒からボード上に配置する
-     * @param {Panal} toPanell - 配置先のパネル
+     * @param {Panel} toPanel - 配置先のパネル
      * @param {Object} option - オプション
      * @param {number} option.deg - 角度
      * @param {number} option.i - 配置する持ち駒のインデックス
@@ -5743,13 +5759,12 @@ declare class q {
      */
     toString(e?: boolean, t?: boolean): string;
 }
-declare class re {
+declare class Be {
     constructor(e: any);
     board: any;
     turn: number;
     records: any[];
     /** 棋譜を追記
-     * @param {Panel} toPanel - 移動先のマス目
      * @param {Object} option - オプション
      * @param {Panel} option.fromPanel - 移動元のマス目
      * @param {string} option.end - オプション=成|不成|打
@@ -5769,7 +5784,6 @@ declare class re {
      */
     move(e: any): void;
     /** 局面の記録を文字列に変換
-     * @param {Record} record - 局面の記録
      * @param {number} turn - 手数
      * @param {boolean} isNumOnly - 座標を数字で表現
      * @returns {string}
@@ -5797,7 +5811,7 @@ declare class re {
     getComment(e?: number): string;
     #private;
 }
-declare class V {
+declare class q {
     degs: {};
     /** アンパッサン情報をクリア
      * @param {number} deg - アンパッサンされうる陣営の角度
@@ -5824,4 +5838,5 @@ declare class V {
      */
     clone(): this;
 }
-export { pe as Board, Se as CpuEngine, Z as CpuEngineBase, Q as CpuEngines, C as Piece, Y as boards, j as canvasFont, z as canvasImage, Pe as extendData, me as gameSoft, ee as games, J as panels, _ as pieceCost, se as pieceRange, K as pieces };
+declare const O: unique symbol;
+export { Z as Board, Re as BoardOnline, Pe as CpuEngine, I as CpuEngineBase, Y as CpuEngines, C as Piece, z as boards, N as canvasFont, F as canvasImage, Me as extendData, pe as gameSoft, J as games, T as panels, U as pieceCost, se as pieceRange, D as pieces };
