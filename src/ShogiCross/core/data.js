@@ -1,3 +1,4 @@
+/** @typedef {import("./board").BoardInitOption} BoardInitOption */
 /**
  * @typedef {Object} CanvasFont
  * @prop {{fontName: string, fontWeight: number}[]} fonts - {fontName: フォント名, fontWeight: フォントの太さ}
@@ -20,43 +21,6 @@
  * @prop {string} promoteBorderColor - 成駒の枠色   // ← 修正
  * @prop {number} promoLine - プロモーションライン(成りの段)
  * @prop {Object<string, Object<string, string[]>>} position - 駒の配置データ
- */
-/**
- * @typedef {Object} PlayerInitOption - ボードの初期化オプション
- * @prop {string} gameName - ゲーム名
- * @prop {string} pieceSet - 駒セット名
- * @prop {string} cpuEngine - CPUエンジン名
- * @prop {string} cpuDelay - CPU保証待機時間
- */
-/** @typedef {Object} Board */
-/** @typedef {import("./overlay").OverlayOptions} OverlayOptions */
-/**
- * @typedef {Object} BoardInitOption - ボードの初期化オプション
- * @prop {string} playBoard - ボードタイプ
- * @prop {PlayerInitOption[]} playerOptions - プレイヤーの初期化設定
- * @prop {2|4} players - プレイヤー人数(2 or 4)
- * @prop {boolean} useStand - 駒台の使用有無
- * @prop {number} canvasWidth - Canvas幅
- * @prop {number} canvasHeight - Canvas高さ
- * @prop {"overflow"|"horizontal"|"vertical"|"parentOverflow"|"parentHorizontal"|"parentVertical"} canvasFit - Canvasサイズの自動調整
- * @prop {number} boardLeft - 描写するX座標
- * @prop {number} boardTop - 描写するY座標
- * @prop {number} panelWidth - マス目幅
- * @prop {number} panelHeight - マス目高さ
- * @prop {number} borderWidth - 枠線太さ
- * @prop {number} pieceSize - 駒の大きさ
- * @prop {boolean} useRankSize - 駒の大きさを格の違いで変更する
- * @prop {boolean} isDrawShadow - 駒の影の描写有無
- * @prop {string} backgroundColor - 背景色(デフォルト無色)
- * @prop {boolean} isHeadless - ヘッドレスモード（Canvas非描画・自動操作用）
- * @prop {boolean} autoDrawing - 描写の自動更新有無
- * @prop {OverlayOptions} [OverlayOptions] - スピナーのオプション
- * @prop {"normal"|"free"|"viewOnly"} moveMode - 移動モード
- * @prop {boolean} useDefaultPlayer - デフォルトのプレイヤーを使用する
- * @prop {(e:Board)=>void} onDrawed - 描写イベント
- * @prop {(e:Board,turn:number)=>void} onDrawed - 描写イベント
- * @prop {(e:Board,playerId:number)=>void} onGameOver - ゲームオーバーイベント
- * @prop {(e:Board)=>void} onGameEnd - 投了イベント
  */
 /**
  * @typedef {Object} PanelInitOption - マス目の初期化オプション
@@ -95,16 +59,20 @@
  * @prop {string[]} attr - 駒の機能のリスト
  */
 /**
+ * @typedef {Object} PlayerInitOption - ボードの初期化オプション
+ * @prop {string} gameName - ゲーム名
+ * @prop {string} pieceSet - 駒セット名
+ * @prop {string} cpuEngine - CPUエンジン名
+ * @prop {string} cpuDelay - CPU保証待機時間
+ *
+/**
  * @typedef {Object} PlayerInfo - プレイヤー情報
+ * @extends PlayerInitOption
  * @prop {number} id - プレイヤー番号
  * @prop {number} deg - プレイヤーの角度
  * @prop {string} degChar - プレイヤーを識別する角度文字
  * @prop {boolean} alive - 生存状態
- * @prop {string} cpuEngine - CPUエンジン名
- * @prop {string} cpuDelay - CPU保証待機時間
  * @prop {CpuEngine} cpu - CPUエンジンのインスタンス
- * @prop {string} gameName - ゲーム名
- * @prop {string} pieceSet - 駒セット名
  */
 /** @typedef {string[]} PieceRange 駒の移動範囲 */
 import canvasFont from "../data/canvasFont.js";

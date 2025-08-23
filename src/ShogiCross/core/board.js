@@ -1,44 +1,40 @@
-/** @typedef {import("./data").BoardInitOption} BoardInitOption */
-/** @typedef {import("./data").PlayerInfo} PlayerInfo */
-import {BoardHeadless, PROTECTED} from "./boardHeadless.js";
+/** @typedef {import("./boardCore.js").BoardCoreInitOption} BoardCoreInitOption */
+/** @typedef {import("./panel.js").Panel} Panel */
+/** @typedef {import("./piece.js").Piece} Piece */
+import {BoardCore, PROTECTED} from "./boardCore.js";
 import {canvasFont} from "./canvasFontLoader.js";
 import {canvasImage} from "./canvasImageLoader.js";
 import {downloadImage} from "./downloadImage.js";
 import {Dialog} from "./dialog.js";
 import {mouseControl} from "./mouseControl.js";
 import {PlayerControl} from "./playerControl.js";
-import {Stand} from "./stand.js";
-import {Panel} from "./panel.js";
-import {Piece} from "./piece.js";
-import {EnPassant} from "./enPassant.js";
-import {boards, games} from "./data.js";
-import {CpuEngine} from "./cpu.js";
 import {Overlay} from "./overlay.js";
-import {Record} from "./record.js";
 export {PROTECTED};
 
+/**
+ * @typedef {Object} BoardInitOption - ボードの初期化オプション
+ * @extends BoardCoreInitOption
+ * @prop {boolean} useStand - 駒台の使用有無
+ * @prop {number} canvasWidth - Canvas幅
+ * @prop {number} canvasHeight - Canvas高さ
+ * @prop {"overflow"|"horizontal"|"vertical"|"parentOverflow"|"parentHorizontal"|"parentVertical"} canvasFit - Canvasサイズの自動調整
+ * @prop {boolean} isHeadless - ヘッドレスモード（Canvas非描画・自動操作用）
+ * @prop {"normal"|"free"|"viewOnly"} moveMode - 移動モード
+ * @prop {boolean} autoDrawing - 描写の自動更新有無
+ * @prop {OverlayOptions} overlayOptions - オーバーレイのオプション
+ * @prop {boolean} usePlayerControl - プレイヤーを使用するか
+ * @prop {(e:Board)=>void} onDrawed - 描写イベント
+ * @prop {(e:Board,turn:number)=>void} onDrawed - 描写イベント
+ * @prop {(e:Board,playerId:number)=>void} onGameOver - ゲームオーバーイベント
+ * @prop {(e:Board)=>void} onGameEnd - 投了イベント
+ */
+
 /** 盤の管理クラス */
-export class Board extends BoardHeadless{
+export class Board extends BoardCore{
 	/** @typedef {Object} Board */
 	#mouseControl
 	#playerControl
 	#dialog
-
-	/**
-	 * @typedef {Object} Record - 局面の記録
-	 * @prop {Object} from
-	 * @prop {number} from.pX - 移動元の列
-	 * @prop {number} from.pY - 移動元の行
-	 * @prop {Object} to
-	 * @prop {number} to.pX - 移動先の列
-	 * @prop {number} to.pY - 移動先の行
-	 * @prop {number} deg - 駒の角度
-	 * @prop {string} pieceChar - 駒の一文字表記
-	 * @prop {string} end - 棋譜表示の末尾に記載する文字
-	 * @prop {string} fieldText - 駒配置のテキスト
-	 * @prop {number[][]} fieldMoved - 駒の移動済み判定
-	 * @prop {string|null} comment - 棋譜コメント
-	 */
 
 	/** ゲームを実行する
 	 * @param {HTMLCanvasElement} canvas - Canvas要素
@@ -61,26 +57,13 @@ export class Board extends BoardHeadless{
 		});
 
 		const {
-			playBoard,
-			playerOptions=[],
-			players=playerOptions.some(({gameName}, i)=>1 < i && gameName)? 4: 2,
 			useStand=false,
 			canvasWidth=undefined,
 			canvasHeight=undefined,
 			canvasFit="overflow",
-			boardLeft=5,
-			boardTop=5,
-			panelWidth=50,
-			panelHeight=0|panelWidth*1.1,
-			pieceSize=0|panelWidth*0.9,
-			useRankSize = true,
-			isDrawShadow = true,
-			borderWidth=Math.min(panelWidth, panelHeight)/30,
-			backgroundColor="#00000000",
 			isHeadless=false,
 			autoDrawing=!isHeadless,
-			overlayOptions = {useDimOverlay: true},
-			moveMode="normal",
+			overlayOptions,
 			usePlayerControl=!isHeadless,
 			onDrawed=e=>{},
 			onTurnEnd=(e,turn)=>{},
@@ -99,70 +82,18 @@ export class Board extends BoardHeadless{
 			this.ctx.clearRect(0, 0, canvas.width, canvas.height);
 			this.overlay = new Overlay(this.canvas, overlayOptions);
 			this.#dialog = new Dialog();
-		}
 
-		this.pieces = Piece.getPieces(this.ctx, {
-			size: pieceSize,
-			useRankSize,
-			isDrawShadow
-		});
-
-		// ボード情報
-		if(!boards[playBoard]) throw Error(`playBoard=${playBoard}, Unknown board name.`);
-		Object.assign(this, boards[playBoard]);
-		if(![2, 4].includes(players)) throw Error(`players=${players}, players need 2 or 4.`);
-		this.playerLen = players;
-		this.left = boardLeft;
-		this.top = boardTop;
-		this.panelWidth = panelWidth;
-		this.panelHeight = panelHeight;
-		this.borderWidth = borderWidth;
-		this.pieceSize = pieceSize;
-		this.canvasBackgroundColor = backgroundColor;
-
-		// マス目データを構築
-		this.field = this.field.map((row, pY)=>
-			[...row].map((char, pX)=>{
-				const center = boardLeft+panelWidth*(pX+1);
-				const middle = boardTop+panelHeight*(pY+1)
-				return new Panel(this.ctx, char, center, middle, panelWidth, panelHeight, pX, pY, borderWidth);
-			})
-		);
-		this.xLen = this.field[0].length;
-		this.yLen = this.field.length;
-
-		// プレイヤー設定
-		this.players = new Map();
-		for(let id=0;id<players;id++){
-			const deg = this.degNormal(id)
-			const status = {
-				...playerOptions[id],
-				id,
-				deg,
-				degChar: Piece.degChars[deg],
-				alive: true,
-				cpuDelay: playerOptions[id]?.cpuDelay ?? 500, // CPUの遅延時間
-			};
-			// CPUエンジンの初期化
-			status.cpu = new CpuEngine(this, status),
-			this.players.set(deg, status);
-			// 駒の初期配置
-			if(!status.gameName) continue;
-			try{
-				this.putStartPieces(id, status.gameName, status.pieceSet);
+			// 描写コンテキストを適用
+			for(const piece of Object.values(this.pieces)){
+				console.log(piece)
+				piece.ctx = this.ctx;
 			}
-			catch(ex){
-				console.error(ex);
-			}
-		}
 
-		// 描写寸法を設定
-		this.width = this.panelWidth*(this.xLen+1);
-		this.height = this.panelHeight*(this.yLen+1);
-		this.right = boardLeft+this.width;
-		this.bottom = boardTop+this.height;
-		this.stand = new Stand(this);
-		if(!isHeadless){
+			for(const panel of this.field.flat()){
+				panel.ctx = this.ctx;
+				if(panel.piece) panel.piece.ctx = this.ctx;
+			}
+
 			canvas.width = canvasWidth ?? (useStand? this.stand.right: this.right)+5;
 			canvas.height = canvasHeight ?? this.bottom+5;
 
@@ -206,18 +137,12 @@ export class Board extends BoardHeadless{
 		this.onTurnEnd = onTurnEnd;
 		this.onGameOver = onGameOver;
 		this.onGameEnd = onGameEnd;
-		this.moveMode = moveMode;
 
-		/** ゲームの記録
-		 * @type {Record[]}
-		 */
-		this.record = new Record(this);
 		if(!isHeadless) this.#mouseControl = mouseControl(this);
 		if(usePlayerControl){
 			this.#playerControl = this.makePlayerControl();
 			this.#playerControl.add();
 		}
-		this.enPassant = new EnPassant();
 	}
 
 	/** 操作パネルを構築

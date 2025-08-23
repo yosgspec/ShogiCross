@@ -1,7 +1,7 @@
+/** @typedef {import("./piece.js").Piece} Piece */
 import {canvasFont} from "./canvasFontLoader.js";
 import {canvasImage} from "./canvasImageLoader.js";
 import {panels} from "./data.js";
-import {Piece} from "./piece.js";
 
 /** マス目の管理クラス */
 export class Panel{

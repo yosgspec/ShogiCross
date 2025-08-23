@@ -1,21 +1,43 @@
-/** @typedef {import("./data.js").BoardInitOption} BoardInitOption */
+/** @typedef {import("./board.js").BoardInitOption} BoardInitOption */
+/** @typedef {import("./data.js").PlayerInitOption} PlayerInitOption */
 /** @typedef {import("./data.js").PlayerInfo} PlayerInfo */
-import {PlayerControl} from "./playerControl.js";
 import {Stand} from "./stand.js";
 import {Panel} from "./panel.js";
 import {Piece} from "./piece.js";
+import {Record} from "./record.js";
+import {CpuEngine} from "./cpu.js";
 import {EnPassant} from "./enPassant.js";
 import {Bod} from "./bod.js";
 import {boards, games} from "./data.js";
-import {CpuEngine} from "./cpu.js";
-import {Record} from "./record.js";
 
 export const PROTECTED = Symbol("Board");
 
-export class BoardHeadless{
+/**
+ * @typedef {Object} BoardCoreInitOption - ボードの初期化オプション
+ * @prop {string|undefined} name - ゲーム名(本将棋、5五将棋、...等)
+ * @prop {string|undefined} variant - ゲーム系統(将棋、チェス、...等)
+ * @prop {string|undefined} url - ゲームに関連するURL
+ * @prop {string|undefined} desc - ゲームの説明
+ * @prop {string} playBoard - ボードタイプ
+ * @prop {PlayerInitOption[]} playerOptions - プレイヤーの初期化設定
+ * @prop {2|4} players - プレイヤー人数(2 or 4)
+ * @prop {number} boardLeft - 描写するX座標
+ * @prop {number} boardTop - 描写するY座標
+ * @prop {number} panelWidth - マス目幅
+ * @prop {number} panelHeight - マス目高さ
+ * @prop {number} borderWidth - 枠線太さ
+ * @prop {number} pieceSize - 駒の大きさ
+ * @prop {boolean} useRankSize - 駒の大きさを格の違いで変更する
+ * @prop {boolean} isDrawShadow - 駒の影の描写有無
+ * @prop {string} backgroundColor - 背景色(デフォルト無色)
+ * @prop {boolean} isHeadless - ヘッドレスモード（Canvas非描画・自動操作用）
+ * @prop {"normal"|"free"|"viewOnly"} moveMode - 移動モード
+ */
+
+export class BoardCore{
 	/**
 	 * @param {HTMLCanvasElement} canvas - Canvas要素
-	 * @param {BoardInitOption} option - ボードの初期化オプション
+	 * @param {BoardCoreInitOption} option - ボードの初期化オプション
 	 */
 	constructor(canvas, option){
 		this[PROTECTED] = {
@@ -30,10 +52,6 @@ export class BoardHeadless{
 			playBoard,
 			playerOptions=[],
 			players=playerOptions.some(({gameName}, i)=>1 < i && gameName)? 4: 2,
-			useStand=false,
-			canvasWidth=undefined,
-			canvasHeight=undefined,
-			canvasFit="overflow",
 			boardLeft=5,
 			boardTop=5,
 			panelWidth=50,
@@ -44,14 +62,7 @@ export class BoardHeadless{
 			borderWidth=Math.min(panelWidth, panelHeight)/30,
 			backgroundColor="#00000000",
 			isHeadless=false,
-			autoDrawing=!isHeadless,
-			overlayOptions = {},
 			moveMode="normal",
-			usePlayerControl=!isHeadless,
-			onDrawed=e=>{},
-			onTurnEnd=(e,turn)=>{},
-			onGameOver=(e,i)=>alert(`プレイヤー${i+1}の敗北です。`),
-			onGameEnd=(e,i)=>e.record.add({end: `対戦終了 勝者${[...e.players.values()][i].degChar}`}),
 		} = option;
 		this.option = option;
 		this.isHeadless = isHeadless;
@@ -64,10 +75,10 @@ export class BoardHeadless{
 		this.ctx = null;
 		this.canvas = null;
 
-		this.pieces = Piece.getPieces(this.ctx, {
+		this.pieces = Piece.getPieces(null, {
 			size: pieceSize,
 			useRankSize,
-			isDrawShadow
+			isDrawShadow,
 		});
 
 		// ボード情報
@@ -88,7 +99,7 @@ export class BoardHeadless{
 			[...row].map((char, pX)=>{
 				const center = boardLeft+panelWidth*(pX+1);
 				const middle = boardTop+panelHeight*(pY+1)
-				return new Panel(this.ctx, char, center, middle, panelWidth, panelHeight, pX, pY, borderWidth);
+				return new Panel(null, char, center, middle, panelWidth, panelHeight, pX, pY, borderWidth);
 			})
 		);
 		this.xLen = this.field[0].length;
@@ -112,7 +123,7 @@ export class BoardHeadless{
 			// 駒の初期配置
 			if(!status.gameName) continue;
 			try{
-				this.putStartPieces.bind(this, id, status.gameName, status.pieceSet);
+				this.putStartPieces(id, status.gameName, status.pieceSet);
 			}
 			catch(ex){
 				console.error(ex);
@@ -126,16 +137,7 @@ export class BoardHeadless{
 		this.bottom = boardTop+this.height;
 		this.stand = new Stand(this);
 
-		this.isGameEnd = false;
-		this.onDrawed = onDrawed;
-		this.onTurnEnd = onTurnEnd;
-		this.onGameOver = onGameOver;
-		this.onGameEnd = onGameEnd;
 		this.moveMode = moveMode;
-
-		/** ゲームの記録
-		 * @type {Record[]}
-		 */
 		this.record = new Record(this);
 		this.enPassant = new EnPassant();
 	}
@@ -146,12 +148,6 @@ export class BoardHeadless{
 	 * @returns {this}
 	 */
 	static run(canvas, option){}
-
-	/** 操作パネルを構築
-	 * @param {string[]} compList - 表示するコントロールの一覧
-	 * @returns {PlayerControl}
-	 */
-	makePlayerControl(compList){}
 
 	/** ボードを閉じる */
 	close(){}
@@ -540,9 +536,9 @@ export class BoardHeadless{
 	/** 盤面をクローン
 	 * @returns {this}
 	 */
-	cloneHeadless(){
+	cloneCore(){
 		// クローン用の新しいオプションオブジェクトを作成
-		// new BoardHeadlessのコンストラクタは、optionがなくてもデフォルト値で動作するため、
+		// new BoardCoreのコンストラクタは、optionがなくてもデフォルト値で動作するため、
 		// クローンに不要なプロパティをわざわざ引き継ぐ必要はない。
 		// playBoardなど、盤面の構造を決定する最低限のoptionのみを渡す。
 		const cloneOption = {
@@ -550,7 +546,7 @@ export class BoardHeadless{
 			isHeadless: true,
 			autoDrawing: false,
 		};
-		const newBoard = new BoardHeadless(null, cloneOption);
+		const newBoard = new BoardCore(null, cloneOption);
 
 		// 盤面の駒をコピー
 		this.field.flat().forEach(({piece, pX, pY})=>{
