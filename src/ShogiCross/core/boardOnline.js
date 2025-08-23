@@ -72,6 +72,11 @@ export class BoardOnline extends Board{
 						}
 						break;
 					}
+					case "rivalDisconnect": {
+						// 対戦相手の接続が切れたことをユーザーに通知
+						this[$].dialog?.show("対戦相手が切断しました", "ゲームは終了です。");
+						break;
+					}
 					// その他のメッセージタイプもここに追加可能
 				}
 			}
@@ -100,7 +105,6 @@ export class BoardOnline extends Board{
 	 * @param {number} deg - 移動を行ったプレイヤーの視点角度
 	 */
 	async applyRemoteMove(fromPanel, toPanel, deg){
-		console.log(deg)
 		// 盤面を一時的に元の視点に戻す
 		this[$].rotateField(-deg);
 		this.stand.rotate(-deg);
@@ -117,9 +121,7 @@ export class BoardOnline extends Board{
 		const {canPromo, forcePromo} = this.checkCanPromo(toPanel);
 		const piece = toPanel.piece;
 		// 駒の角度を調整
-		piece.deg += this.degNormal(deg+this.viewingAngle);
 		await this.promoPiece(fromPanel, toPanel, canPromo, forcePromo, true);
-		piece.deg -= this.degNormal(deg+this.viewingAngle);
 
 		// 盤面を元の視点に戻す
 		this[$].rotateField(deg);

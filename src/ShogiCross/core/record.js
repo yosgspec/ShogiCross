@@ -27,6 +27,12 @@ export class Record {
 		this.add({inc: 0, end: "開始局面"});
 	}
 
+
+	/** 棋譜の最後を取得 */
+	get last(){
+		return this.records[this.turn];
+	}
+
 	/** 棋譜を追記
 	 * @param {Object} option - オプション
 	 * @param {Panel} option.fromPanel - 移動元のマス目
