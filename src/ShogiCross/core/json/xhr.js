@@ -1,6 +1,6 @@
 const base = "./json/ShogiCross/";
 function importJson(name){
-	const xhr = new XMLHttpRequest();
+zzz	const xhr = new XMLHttpRequest();
 	xhr.open("GET", `${base}${name}.json`, false);
 	xhr.send();
 	if(xhr.status === 200)
