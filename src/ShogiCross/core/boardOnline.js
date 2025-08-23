@@ -32,9 +32,6 @@ export class BoardOnline extends Board{
 			player.isLocal = false; // 初期状態ではローカルプレイヤーではない
 		});
 
-		// viewingAngleプロパティを追加
-		this.viewingAngle = 0; // 盤面の視点角度
-
 		// WebSocketのセットアップ
 		// HTTP/HTTPSのURLをWebSocketのws/wssプロトコルに変換して接続
 		this.ws = new WebSocket(serverURL.replace(/^http/, "ws"));
@@ -52,10 +49,8 @@ export class BoardOnline extends Board{
 				switch(message.type){
 					case "move": {
 						// サーバーから受信した移動情報に基づいて駒を移動
-						const fromPanel = this.field[message.from.pY][message.from.pX];
-						const toPanel = this.field[message.to.pY][message.to.pX];
 						// リモートからの移動を盤面に適用
-						this.applyRemoteMove(fromPanel, toPanel, message.playerDeg+this.viewingAngle); // message.playerDegを追加
+						this.applyRemoteMove(message);
 						break;
 					}
 					case "readyOnline": {
@@ -67,7 +62,7 @@ export class BoardOnline extends Board{
 							// 盤面を自分の視点に回転
 							this[$].rotateField(myPlayer.deg);
 							this.stand.rotate(myPlayer.deg);
-							this.viewingAngle = myPlayer.deg; // 視点角度を更新
+							this.displayDeg = myPlayer.deg; // 視点角度を更新
 							if(this.autoDrawing) this.draw();
 						}
 						break;
@@ -104,10 +99,18 @@ export class BoardOnline extends Board{
 	 * @param {Panel} toPanel - 移動先のパネル
 	 * @param {number} deg - 移動を行ったプレイヤーの視点角度
 	 */
-	async applyRemoteMove(fromPanel, toPanel, deg){
-		// 盤面を一時的に元の視点に戻す
-		this[$].rotateField(-deg);
-		this.stand.rotate(-deg);
+	async applyRemoteMove({from, to, playerDeg}) {
+		// === 送信者の座標系をローカル基準に変換 ===
+		// 送信者基準 → 自分基準に変換
+		const localFromX = this.getCol(from.pX, from.pY);
+		const localFromY = this.getRow(from.pX, from.pY, undefined, undefined, false);
+		const localToX = this.getCol(to.pX, to.pY);
+		const localToY = this.getRow(to.pX, to.pY, undefined, undefined, false);
+		console.log({localFromX, localFromY, localToX, localToY})
+
+		const fromPanel = this.field[localFromY][localFromX];
+		const toPanel   = this.field[localToY][localToX];
+		fromPanel.piece.deg = this.degNormal(this.displayDeg+playerDeg);
 
 		this.stand.capturePiece(
 			fromPanel.piece,
@@ -119,18 +122,13 @@ export class BoardOnline extends Board{
 		this.simpleMovePiece(fromPanel, toPanel);
 
 		const {canPromo, forcePromo} = this.checkCanPromo(toPanel);
-		const piece = toPanel.piece;
+
 		// 駒の角度を調整
 		await this.promoPiece(fromPanel, toPanel, canPromo, forcePromo, true);
-
-		// 盤面を元の視点に戻す
-		this[$].rotateField(deg);
-		this.stand.rotate(deg);
 
 		if (this.autoDrawing) this.draw();
 		this[$].emitGameOver();
 	}
-
 	/**
 	 * 駒の移動処理（オンラインゲームの場合、サーバーに移動情報を送信）
 	 * @param {Panel} fromPanel - 移動元のパネル
