@@ -1,9 +1,17 @@
+/** @typedef {import("./board.js").BoardInitOption} BoardInitOption */
+/** @typedef {import("./panel.js").Panel} Panel */
 import {Board, PROTECTED as $} from "./board.js";
 
 export class BoardOnline extends Board{
 	/**
+	 * @typedef {Object} BoardOnlineInitOption - ボードの初期化オプション
+	 * @extends BoardInitOption
+	 * @prop {(e:string, BoardOnline)=>void} onReadyOnline - 接続完了イベント
+	 * @prop {string} serverURL - 接続するサーバーURL(http(s)://～)
+	 */
+	/**
 	 * @param {HTMLCanvasElement} canvas - Canvas要素
-	 * @param {BoardInitOption} option - ボードの初期化オプション
+	 * @param {BoardOnlineInitOption} option - ボードの初期化オプション
 	 */
 	constructor(canvas, option){
 		super(canvas, option);
