@@ -106,7 +106,7 @@ export class BoardOnline extends Board{
 	 */
 	async applyRemoteMove({from, to, playerDeg}) {
 		// === 送信者の座標系をローカル基準に変換 ===
-		const rest = [undefined, -playerDeg];
+		const rest = [undefined, -playerDeg, true];
 		const localFromX = this.getCol(from.pX, from.pY, ...rest);
 		const localFromY = this.getRow(from.pX, from.pY, ...rest);
 		const localToX = this.getCol(to.pX, to.pY, ...rest);
