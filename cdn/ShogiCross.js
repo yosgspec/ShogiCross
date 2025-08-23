@@ -4919,12 +4919,16 @@ const me = {
   pieceCost: X("pieceCost")
 };
 function ue(p) {
+  Object.assign(N, p.canvasFont), Object.assign(pe, p.gameSoft), Object.assign(J, p.games), Object.assign(z, p.boards), Object.assign(T, p.panels), Object.assign(D, p.pieces), Object.assign(se, p.pieceRange), Object.assign(U, p.pieceCost);
+}
+ue(me);
+function he(p) {
   return new Promise((e) => {
     const t = new Image();
     t.src = p, t.onload = () => e(t);
   });
 }
-function he() {
+function ge() {
   return [...new Set(
     Object.values(T).flatMap(({ imgSrc: p }) => p ?? []).concat(Object.values(D).flatMap(({ imgSrc: p }) => p != null ? Object.values(p) : []).flat())
   )];
@@ -4942,13 +4946,13 @@ const F = {
   async importAsync() {
     if (!this.imported)
       return Promise.all(
-        he().map(async (p) => {
-          this.images[p] = await ue(p);
+        ge().map(async (p) => {
+          this.images[p] = await he(p);
         })
       ).then((p) => this.imported = !0);
   }
 };
-let ge = 0;
+let fe = 0;
 class C {
   /** @typedef {Object} Piece */
   /** 描写サイズ
@@ -5094,7 +5098,7 @@ class C {
       isDrawShadow: o = C.isDrawShadow,
       isMoved: l = !1
     } = a;
-    Object.assign(this, t), this.id = ge++, this.ctx = e, this.display ??= [""], this.imgSrc ??= null, this.alias = [...this.alias ?? ""], this.displayPtn ??= n, this.game = J[this.gameName], this.cost = U[this.char] ?? U[this.base.char] ?? 1, this.center = 0, this.middle = 0, this.deg ||= i, this.size ??= s, this.useRankSize ??= r, this.isDrawShadow ??= o, this.isRotateImg ??= !0, this.isMoved = l, this.isSelected = !1, this.attr ??= [];
+    Object.assign(this, t), this.id = fe++, this.ctx = e, this.display ??= [""], this.imgSrc ??= null, this.alias = [...this.alias ?? ""], this.displayPtn ??= n, this.game = J[this.gameName], this.cost = U[this.char] ?? U[this.base.char] ?? 1, this.center = 0, this.middle = 0, this.deg ||= i, this.size ??= s, this.useRankSize ??= r, this.isDrawShadow ??= o, this.isRotateImg ??= !0, this.isMoved = l, this.isSelected = !1, this.attr ??= [];
     try {
       Object.entries(this.range).forEach(([d, c]) => {
         Array.isArray(c) || (this.range[d] = se[c].map((S) => [...S]));
@@ -5311,7 +5315,7 @@ ${r}持駒：${r}`);
     return i + s;
   }
 }
-class fe {
+class Be {
   #e;
   #t;
   #a;
@@ -5426,7 +5430,7 @@ class fe {
     return e ? `｜${this.text.slice(-1).replace(/　/g, "・")}` : this.text;
   }
 }
-class Be {
+class We {
   #e = 0;
   constructor(e) {
     this.board = e, this.turn = 0, this.records = [], this.add({ inc: 0, end: "開始局面" });
@@ -5537,10 +5541,365 @@ class Be {
     return this.records[this.turn + e] ?? "";
   }
 }
-const We = Object.keys(C.degChars), ae = () => ({ pX: null, pY: null, pieceId: null });
+const ye = [
+  ["default", { isAttack: !1 }],
+  ["attack", { isAttack: !0 }],
+  ["start", { isAttack: !1 }],
+  ["castling", { isAttack: !1 }],
+  ["enPassant", { isAttack: !0 }],
+  ["palaceSlash", { isAttack: !1 }],
+  ["palaceSlash", { isAttack: !0 }]
+], Ae = [
+  ["O", { isOwn: !0 }],
+  ["o", {}]
+], Ce = [
+  ["o"],
+  ["A", { child: ["a"] }],
+  ["B", { child: ["b"] }],
+  ["C", { child: ["c"] }],
+  ["D", { child: ["d"] }],
+  ["E", { child: ["a", "e"] }],
+  ["F", { child: ["a", "f"] }],
+  ["G", { child: ["b", "g"] }],
+  ["H", { child: ["b", "h"] }],
+  ["I", { child: ["c", "i"] }],
+  ["J", { child: ["c", "j"] }],
+  ["K", { child: ["d", "k"] }],
+  ["L", { child: ["d", "l"] }]
+], ie = [
+  ["*", {}],
+  ["+", { jmps: 1 }],
+  ["|", { jmps: 1, moves: 1 }]
+];
+for (let p = 1; p <= 9; p++)
+  ie.push(["" + p, { moves: p }]);
+function we(p) {
+  const e = [];
+  let t, a;
+  for (let n = 0; n < p.length; n++)
+    for (let i = 0; i < p[n].length; i++) {
+      const s = p[n][i];
+      for (let [r, { isOwn: o }] of Ae)
+        s === r && (e.push({ isOwn: o, oX: i, oY: n }), o && ([t, a] = [i, n]));
+    }
+  return e.map((n) => (n.offsetX = n.oX - t, n.offsetY = n.oY - a, n));
+}
+function P(p, e, t, a) {
+  const n = [], { field: i, yLen: s, enPassant: r } = p;
+  function o(u, m) {
+    return i[m] && i[m][u] && !i[m][u].hasAttr("keepOut");
+  }
+  function l(u) {
+    return u.piece && e.hasAttr("po") && u.piece.hasAttr("po");
+  }
+  function d(u) {
+    return u.piece && !e.isMoved && !u.piece.isMoved && e.hasAttr("pao") && e.cost < u.piece.cost;
+  }
+  function c(u, m, g, B = "", x = !0) {
+    if (!i[g] || !i[g][m]) return !1;
+    const W = i[g][m];
+    return !W || l(W) || d(W) || B === "enPassant" && !r.isTarget(W, e) || e.hasAttr("inPalace") && !W.hasAttr("palace") || B.indexOf("palace") === 0 && !(W.hasAttr(B) && i[a][t].hasAttr(B)) || e.hasAttr("unCrossRiver") && s - (0 | s / 2) <= p.getRow(m, g, e.deg) ? !1 : u ? i[g][m].piece ? x ? e.deg !== i[g][m].piece.deg : !0 : !1 : !i[g][m].piece;
+  }
+  function S(u, m, g, B, x) {
+    for (const W of m)
+      for (let w = 0; w < u.length; w++)
+        for (let b = 0; b < u[w].length; b++) {
+          const [k, E] = [b + t - B, w + a - x];
+          if (!(!o(k, E) || c(g, 0 | k, 0 | E, "", !1) || u[w][b] !== W))
+            return !0;
+        }
+    return !1;
+  }
+  function h(u, m, g) {
+    const B = i[g][m];
+    B.addTarget(u), r.setTarget(B, e), n.push(B);
+  }
+  function f(u, [m, { isAttack: g }], { oX: B, oY: x, isOwn: W }) {
+    if (W)
+      for (const [w, { child: b = [] } = {}] of Ce)
+        for (let k = 0; k < u.length; k++)
+          for (let E = 0; E < u[k].length; E++) {
+            const [v, M] = [E + t - B, k + a - x];
+            !o(v, M) || !c(g, v, M, m) || u[k][E] !== w || S(u, b, !1, B, x) || h(m, v, M);
+          }
+  }
+  function y(u, [m, { isAttack: g }], { oX: B, oY: x, isOwn: W, offsetX: w, offsetY: b }) {
+    if (!(!W && !c(!1, t + w, a + b)))
+      for (const [k, { jmps: E = 0, moves: v = 0 } = {}] of ie) {
+        const M = !v || v === 0;
+        for (let L = x - 1; L <= x + 1; L++)
+          for (let j = B - 1; j <= B + 1; j++) {
+            if (u[L][j] !== k || j === B && L === x) continue;
+            let Q = E || 0, G = v || 0;
+            const [de, ce] = [j - B, L - x];
+            for (let _ = t, ee = a; ; ) {
+              _ += de, ee += ce;
+              const $ = _ + w, R = ee + b;
+              if (!o($, R) || !M && G === 0) break;
+              const H = Q === 0;
+              H && c(g, $, R, m, H) ? (G--, h(m, $, R)) : E < 1 && G--;
+              const te = i[R][$];
+              if (te.piece && (Q--, H || l(te)))
+                break;
+            }
+          }
+      }
+  }
+  return (function() {
+    const u = e.getRange();
+    u.attack ??= u.default;
+    for (const m of ye) {
+      const g = m[0];
+      if (e.isMoved && ["start", "castling"].includes(g)) continue;
+      const B = u[g];
+      if (B)
+        for (const x of we(B))
+          f(B, m, x), y(B, m, x);
+    }
+  })(), n;
+}
+function ne(p, e) {
+  let t = p.field.flat().filter(
+    (n) => n.piece?.deg === e && n.piece.hasAttr("king")
+  );
+  if (t.length !== 1) return !1;
+  const a = t[0];
+  for (const n of p.field.flat()) {
+    if (!n.piece || n.piece.deg === e) continue;
+    if (P(p, n.piece, n.pX, n.pY).some(
+      ({ pX: s, pY: r }) => s === a.pX && r === a.pY
+    )) return !0;
+  }
+  return !1;
+}
+function re(p, e) {
+  for (const t of p.field.flat()) {
+    if (!t.piece || t.piece.deg !== e) continue;
+    const a = P(p, t.piece, t.pX, t.pY);
+    for (const n of a) {
+      const i = p.cloneCore();
+      if (i.simpleMovePiece(
+        i.field[t.pY][t.pX],
+        i.field[n.pY][n.pX]
+      ), !ne(i, e)) return !0;
+    }
+  }
+  return !1;
+}
+function xe(p, e) {
+  return ne(p, e) && !re(p, e);
+}
+class I {
+  /**
+   * @param {Board} board - 対象の盤面
+   * @param {PlayerInfo} player - プレイヤー情報
+   */
+  constructor(e, t) {
+    this.board = e, this.player = t;
+  }
+  /** 手番操作 */
+  async playTurn() {
+  }
+  /** CPU操作の待機開始
+   * @return {()=>Promise<void>} timer
+   */
+  delayStart() {
+    return this.board.overlay.start(), new Promise((e) => setTimeout(e, 50)).then(() => () => new Promise((e) => setTimeout(e, this.player.cpuDelay)));
+  }
+  /** CPU操作の待機終了
+   * @param {Promise<void>} timer
+   */
+  async delayEnd(e) {
+    await e, this.board.overlay.stop();
+  }
+  /**
+   * 盤面を評価します。
+   * @param {Board} board - 評価対象の盤面
+   * @returns {number} 盤面の評価値
+   */
+  evaluate(e = this.board) {
+    const { player: t } = this, a = 1e4;
+    let n = 0;
+    return e.field.flat().forEach((i) => {
+      if (i.piece && i.piece.deg === t.deg) {
+        const s = i.piece.cost <= 0;
+        n += s ? a : i.piece.cost;
+      }
+    }), e.stand.stocks.forEach((i, s) => {
+      if (s === t.deg) {
+        const r = i.reduce((o, l) => o + l.cost, 0);
+        n += r;
+      }
+    }), n;
+  }
+}
+const Y = {};
+Y.random = class extends I {
+  constructor(e, t) {
+    super(e, t);
+  }
+  async playTurn() {
+    const { board: e, player: t } = this, a = (await this.delayStart())(), n = [];
+    e.field.flat().forEach((s) => {
+      if (s.piece && s.piece.deg === t.deg) {
+        const r = s, o = P(e, r.piece, r.pX, r.pY);
+        o.length > 0 && n.push({ from: r, tos: o });
+      }
+    });
+    const i = [];
+    if (n.forEach(({ from: s, tos: r }) => {
+      r.forEach((o) => {
+        i.push({ from: s, to: o });
+      });
+    }), i.length > 0) {
+      const s = i[Math.floor(Math.random() * i.length)];
+      await this.delayEnd(a), await e.movePiece(s.from, s.to, !0), console.log(`CPU(Random): (${s.from.pX}, ${s.from.pY}) から (${s.to.pX}, ${s.to.pY}) へ移動`);
+    } else
+      console.log("CPU(Random): 指し手がありません。");
+  }
+};
+Y.greedy = class extends I {
+  constructor(e, t) {
+    super(e, t);
+  }
+  /**
+   * 手番を処理します。
+   */
+  async playTurn() {
+    const { board: e, player: t } = this, a = (await this.delayStart())(), n = [];
+    e.field.flat().forEach((o) => {
+      if (o.piece && o.piece.deg === t.deg) {
+        const l = o, d = P(e, l.piece, l.pX, l.pY);
+        d.length > 0 && n.push({ from: l, tos: d });
+      }
+    });
+    const i = [];
+    if (n.forEach(({ from: o, tos: l }) => {
+      l.forEach((d) => {
+        i.push({ from: o, to: d });
+      });
+    }), i.length === 0) {
+      console.log("CPU(Greedy): 指し手がありません。");
+      return;
+    }
+    let s = null, r = -1 / 0;
+    for (const o of i) {
+      const l = e.cloneCore(), d = l.field[o.from.pY][o.from.pX], c = l.field[o.to.pY][o.to.pX];
+      await l.movePiece(d, c);
+      const S = this.evaluate(l);
+      S > r && (r = S, s = o);
+    }
+    s ? (await this.delayEnd(a), await e.movePiece(s.from, s.to, !0), console.log(`CPU(Greedy): (${s.from.pX}, ${s.from.pY}) から (${s.to.pX}, ${s.to.pY}) へ移動 (評価値: ${r})`)) : console.log("CPU(Greedy): 最善手が見つかりませんでした。");
+  }
+};
+Y.minimax = class extends I {
+  constructor(e, t) {
+    super(e, t), this.searchDepth = 3;
+  }
+  /**
+   * ミニマックス法（アルファベータ枝刈り付き）を実行します。
+   * @param {Board} board - 現在の盤面
+   * @param {number} depth - 残りの探索深さ
+   * @param {number} alpha - アルファ値
+   * @param {number} beta - ベータ値
+   * @param {boolean} isMaximizingPlayer - 現在のプレイヤーが最大化プレイヤーかどうか
+   * @returns {number} 評価値
+   */
+  async minimax(e, t, a, n, i) {
+    const s = e.getActivePlayer();
+    if (t === 0) return this.evaluate(e);
+    if (xe(e, s.deg))
+      return i ? -1 / 0 : 1 / 0;
+    if (!re(e, s.deg))
+      return 0;
+    const r = [];
+    e.field.flat().forEach((l) => {
+      if (l.piece && l.piece.deg === s.deg) {
+        const d = l, c = P(e, d.piece, d.pX, d.pY);
+        c.length > 0 && r.push({ from: d, tos: c });
+      }
+    });
+    const o = [];
+    if (r.forEach(({ from: l, tos: d }) => {
+      d.forEach((c) => {
+        o.push({ from: l, to: c });
+      });
+    }), i) {
+      let l = -1 / 0;
+      for (const d of o) {
+        const c = e.cloneCore(), S = c.field[d.from.pY][d.from.pX], h = c.field[d.to.pY][d.to.pX];
+        await c.movePiece(S, h, !0);
+        const f = await this.minimax(c, t - 1, a, n, !i);
+        if (l = Math.max(l, f), a = Math.max(a, f), n <= a) break;
+      }
+      return l;
+    } else {
+      let l = 1 / 0;
+      for (const d of o) {
+        const c = e.cloneCore(), S = c.field[d.from.pY][d.from.pX], h = c.field[d.to.pY][d.to.pX];
+        await c.movePiece(S, h, !0);
+        const f = await this.minimax(c, t - 1, a, n, !i);
+        if (l = Math.min(l, f), n = Math.min(n, f), n <= a) break;
+      }
+      return l;
+    }
+  }
+  /**
+   * 手番を処理します。
+   */
+  async playTurn() {
+    const { board: e, player: t } = this, a = (await this.delayStart())();
+    let n = null, i = -1 / 0;
+    const s = [];
+    e.field.flat().forEach((o) => {
+      if (o.piece && o.piece.deg === t.deg) {
+        const l = o, d = P(e, l.piece, l.pX, l.pY);
+        d.length > 0 && s.push({ from: l, tos: d });
+      }
+    });
+    const r = [];
+    if (s.forEach(({ from: o, tos: l }) => {
+      l.forEach((d) => {
+        r.push({ from: o, to: d });
+      });
+    }), r.length === 0) {
+      console.log("CPU(Minimax): 指し手がありません。");
+      return;
+    }
+    for (const o of r) {
+      const l = e.cloneCore(), d = l.field[o.from.pY][o.from.pX], c = l.field[o.to.pY][o.to.pX];
+      await l.movePiece(d, c, !0);
+      const S = await this.minimax(l, this.searchDepth - 1, -1 / 0, 1 / 0, !1);
+      S > i ? (i = S, n = o) : S === i && Math.random() < 0.5 && (n = o);
+    }
+    n ? (await this.delayEnd(a), await e.movePiece(n.from, n.to, !0), console.log(`CPU(Minimax): (${n.from.pX}, ${n.from.pY}) から (${n.to.pX}, ${n.to.pY}) へ移動 (評価値: ${i})`)) : console.log("CPU(Minimax): 最善手が見つかりませんでした。");
+  }
+};
+class be extends I {
+  /**
+   * @param {Board} board - 対象の盤面
+   * @param {PlayerInfo} player - プレイヤー情報
+   */
+  constructor(e, t) {
+    super(e, t);
+    const a = t.cpuEngine?.toLowerCase();
+    this.engine = a == null ? null : new Y[a](e, t);
+  }
+  /** 手番操作 */
+  async playTurn() {
+    if (!this.board.isGameEnd) {
+      if (!this.player.alive) {
+        this.board.passTurn(this.player);
+        return;
+      }
+      this.engine && await this.engine.playTurn();
+    }
+  }
+}
+const ke = Object.keys(C.degChars), ae = () => ({ pX: null, pY: null, pieceId: null });
 class q {
   constructor() {
-    this.degs = {}, We.forEach((e) => this.degs[e] = ae());
+    this.degs = {}, ke.forEach((e) => this.degs[e] = ae());
   }
   /** アンパッサン情報をクリア
    * @param {number} deg - アンパッサンされうる陣営の角度
@@ -5767,7 +6126,7 @@ class V {
     this.playerLen = l, this.left = d, this.top = c, this.panelWidth = S, this.panelHeight = h, this.borderWidth = m, this.pieceSize = f, this.canvasBackgroundColor = g, this.field = this.field.map(
       (W, w) => [...W].map((b, k) => {
         const E = d + S * (k + 1), v = c + h * (w + 1);
-        return new fe(null, b, E, v, S, h, k, w, m);
+        return new Be(null, b, E, v, S, h, k, w, m);
       })
     ), this.xLen = this.field[0].length, this.yLen = this.field.length, this.players = /* @__PURE__ */ new Map();
     for (let W = 0; W < l; W++) {
@@ -5780,14 +6139,14 @@ class V {
         cpuDelay: o[W]?.cpuDelay ?? 500
         // CPUの遅延時間
       };
-      if (b.cpu = new Pe(this, b), this.players.set(w, b), !!b.gameName)
+      if (b.cpu = new be(this, b), this.players.set(w, b), !!b.gameName)
         try {
           this.putStartPieces(W, b.gameName, b.pieceSet);
         } catch (k) {
           console.error(k);
         }
     }
-    this.width = this.panelWidth * (this.xLen + 1), this.height = this.panelHeight * (this.yLen + 1), this.right = d + this.width, this.bottom = c + this.height, this.stand = new K(this), this.moveMode = x, this.record = new Be(this), this.enPassant = new q();
+    this.width = this.panelWidth * (this.xLen + 1), this.height = this.panelHeight * (this.yLen + 1), this.right = d + this.width, this.bottom = c + this.height, this.stand = new K(this), this.moveMode = x, this.record = new We(this), this.enPassant = new q();
   }
   /** ゲームを実行する
    * @param {HTMLCanvasElement} canvas - Canvas要素
@@ -6056,15 +6415,15 @@ class V {
     }), t.record.turn = this.record.turn, t.enPassant = this.enPassant.clone(), t;
   }
 }
-const ye = (p) => "image/" + p.replace("jpg", "jpeg");
-async function Ae(p, e = "image", t = "png", a = "base64") {
-  const n = ye(t), i = document.createElement("a");
+const Ee = (p) => "image/" + p.replace("jpg", "jpeg");
+async function ve(p, e = "image", t = "png", a = "base64") {
+  const n = Ee(t), i = document.createElement("a");
   let s;
   a === "blob" ? s = URL.createObjectURL(
     await new Promise((r) => p.toBlob(r), n)
   ) : s = p.toDataURL(n), i.href = s, i.download = `${e}.${t}`, i.click(), a === "blob" && URL.revokeObjectURL(i.href);
 }
-const Ce = {
+const Ne = {
   dialog: {
     border: "none",
     borderRadius: "12px",
@@ -6097,13 +6456,13 @@ const Ce = {
     background: "#ddd"
   }
 };
-class we {
+class Xe {
   #e;
   #t;
   #a;
   #s;
   constructor(e = {}) {
-    this.#s = { ...Ce, ...e }, this.dialog = document.createElement("dialog"), document.body.appendChild(this.dialog), Object.assign(this.dialog.style, this.#s.dialog), this.#e = document.createElement("h3"), this.dialog.appendChild(this.#e), Object.assign(this.#e.style, this.#s.title), this.#t = document.createElement("p"), this.dialog.appendChild(this.#t), Object.assign(this.#t.style, this.#s.message), this.#a = document.createElement("div"), this.dialog.appendChild(this.#a), Object.assign(this.#a.style, this.#s.buttonContainer), this.isModal = !1;
+    this.#s = { ...Ne, ...e }, this.dialog = document.createElement("dialog"), document.body.appendChild(this.dialog), Object.assign(this.dialog.style, this.#s.dialog), this.#e = document.createElement("h3"), this.dialog.appendChild(this.#e), Object.assign(this.#e.style, this.#s.title), this.#t = document.createElement("p"), this.dialog.appendChild(this.#t), Object.assign(this.#t.style, this.#s.message), this.#a = document.createElement("div"), this.dialog.appendChild(this.#a), Object.assign(this.#a.style, this.#s.buttonContainer), this.isModal = !1;
   }
   #i(e) {
     return this.dialog.close(), this.dialog.style.display = "none", e?.value;
@@ -6125,7 +6484,7 @@ class we {
     this.dialog && (this.dialog.style.fontFamily = e, this.#s.button.fontFamily = e);
   }
 }
-function xe(p) {
+function Oe(p) {
   let e = !1, t = [], a = null, n = null;
   const { canvas: i } = p, s = async (c, S, h = () => {
   }) => {
@@ -6196,67 +6555,15 @@ function xe(p) {
     }
   };
 }
-class ie {
-  /** @typedef {Object} PlayerControl */
-  static buttonTexts = "<>🔄🔁📷";
-  /** 要素のサイズをCanvasに合わせて変更 */
-  #e() {
-    if (this.board.isHeadless) return;
-    const { canvas: e } = this.board, t = window.getComputedStyle(e);
-    this.component.style.maxWidth = parseFloat(t.width) + "px";
-  }
-  /**
-   * @param {Board} board - 盤面
-   * @param {string[]} compList 表示するコントロールの一覧
-   */
-  constructor(e, t) {
-    this.board = e;
-    const a = /* @__PURE__ */ new Map([
-      ["undo", { title: "一手戻る", text: "&lt;&lt;", onclick: () => e.record.undo() }],
-      ["redo", { title: "一手進む", text: "&gt;&gt;", onclick: () => e.record.redo() }],
-      ["rotateLeft", { title: "盤面を左回転", text: "🔄", onclick: () => e.rotate(!1) }],
-      ["rotateRight", { title: "盤面を右回転", text: "🔁", onclick: () => e.rotate() }],
-      ["downloadImage", { title: "画像を保存", text: "📷", onclick: () => e.downloadImage() }]
-    ]);
-    t ??= [...a.keys(), "textRecord"];
-    const n = Date.now().toString();
-    this.component = document.createElement("div"), this.component.id = n, this.component.style.display = "flex", this.#e(), window.addEventListener("resize", () => this.#e()), this.component.innerHTML = `${[...a].filter(([s]) => t.includes(s)).map(
-      ([s, { title: r, text: o }]) => `<button id="${s}${n}" title="${r}" style="font-family:${N.names};">${o}</button>`
-    ).join("")}${t.includes("textRecord") ? `<select id="textRecord${n}" style="flex-grow:1; font-family:${N.names};"><option></option></select>` : ""}`;
-    for (const [s, { onclick: r }] of a)
-      t.includes(s) && (this.component.querySelector(`#${s}${n}`).onclick = r);
-    if (!t.includes("textRecord")) return;
-    const i = e.onDrawed;
-    e.onDrawed = async (s) => {
-      setTimeout(() => {
-        const r = this.component.querySelector(`#textRecord${n}`), o = r.querySelector("option"), l = r.cloneNode(!1);
-        s.record.records.forEach((d, c) => {
-          const S = o.cloneNode(!1);
-          S.textContent = e.record.getText(c), c === s.record.turn && (S.selected = !0), l.appendChild(S);
-        }), l.onchange = (d) => e.record.move(d.target.selectedIndex), r.replaceWith(l);
-      }), i?.(s);
-    };
-  }
-  /** 操作パネルを追加 */
-  add() {
-    if (this.board.isHeadless) return;
-    const { canvas: e } = this.board;
-    e.after(this.component);
-  }
-  /** 操作パネルを破棄 */
-  remove() {
-    this.board.isHeadless || (this.component.remove(), window.removeEventListener("resize", () => this.#e));
-  }
-}
-const ne = document.createElement("style");
-ne.textContent = `
+const oe = document.createElement("style");
+oe.textContent = `
 	@keyframes spin {
 		0% { transform: rotate(0deg); }
 		100% { transform: rotate(360deg); }
 	}
 `;
-document.head.appendChild(ne);
-const be = {
+document.head.appendChild(oe);
+const Pe = {
   spinner: {
     position: "fixed",
     /* Changed to fixed */
@@ -6292,7 +6599,7 @@ const be = {
     /* Hidden by default */
   }
 };
-class ke {
+class Me {
   /**
    * @param {HTMLCanvasElement} canvas - Canvas要素
    * @param {OverlayOptions} options - スピナーのオプション
@@ -6312,7 +6619,7 @@ class ke {
       styles: i
     } = t;
     this.canvas = e, this.#s = a, this.#i = n, this.#n = {
-      ...be,
+      ...Pe,
       ...i
     }, this.#r(), this.#o();
   }
@@ -6401,9 +6708,9 @@ class Z extends V {
     } = t;
     let y = null, u = null;
     if (!r) {
-      y = N.importAsync(), u = F.importAsync(), this.canvas = e, this.ctx = e.getContext("2d"), this.ctx.clearRect(0, 0, e.width, e.height), this.overlay = new ke(this.canvas, l), this.#a = new we();
+      y = N.importAsync(), u = F.importAsync(), this.canvas = e, this.ctx = e.getContext("2d"), this.ctx.clearRect(0, 0, e.width, e.height), this.overlay = new Me(this.canvas, l), this.#a = new Xe();
       for (const g of Object.values(this.pieces))
-        console.log(g), g.ctx = this.ctx;
+        g.ctx = this.ctx;
       for (const g of this.field.flat())
         g.ctx = this.ctx, g.piece && (g.piece.ctx = this.ctx);
       e.width = n ?? (a ? this.stand.right : this.right) + 5, e.height = i ?? this.bottom + 5;
@@ -6412,14 +6719,14 @@ class Z extends V {
     }
     this.autoDrawing = o, o && (y.then(() => {
       this.draw(), this.#a.setFontFamily(N.names);
-    }), u.then(() => this.draw()), this.draw()), this.isGameEnd = !1, this.onDrawed = c, this.onTurnEnd = S, this.onGameOver = h, this.onGameEnd = f, r || (this.#e = xe(this)), d && (this.#t = this.makePlayerControl(), this.#t.add());
+    }), u.then(() => this.draw()), this.draw()), this.isGameEnd = !1, this.onDrawed = c, this.onTurnEnd = S, this.onGameOver = h, this.onGameEnd = f, r || (this.#e = Oe(this)), d && (this.#t = this.makePlayerControl(), this.#t.add());
   }
   /** 操作パネルを構築
    * @param {string[]} compList - 表示するコントロールの一覧
    * @returns {PlayerControl}
    */
   makePlayerControl(e) {
-    return this.#t = new ie(this, e), this.#t;
+    return this.#t = new le(this, e), this.#t;
   }
   /** ボードを閉じる */
   close() {
@@ -6485,371 +6792,64 @@ ${e.char}:${e.name}`,
    * @returns {Promise<void>}
    */
   async downloadImage(e, t, a) {
-    await Ae(this.canvas, e ?? this.name ?? "shogicross", t, a);
+    await ve(this.canvas, e ?? this.name ?? "shogicross", t, a);
   }
 }
-const Ee = [
-  ["default", { isAttack: !1 }],
-  ["attack", { isAttack: !0 }],
-  ["start", { isAttack: !1 }],
-  ["castling", { isAttack: !1 }],
-  ["enPassant", { isAttack: !0 }],
-  ["palaceSlash", { isAttack: !1 }],
-  ["palaceSlash", { isAttack: !0 }]
-], ve = [
-  ["O", { isOwn: !0 }],
-  ["o", {}]
-], Ne = [
-  ["o"],
-  ["A", { child: ["a"] }],
-  ["B", { child: ["b"] }],
-  ["C", { child: ["c"] }],
-  ["D", { child: ["d"] }],
-  ["E", { child: ["a", "e"] }],
-  ["F", { child: ["a", "f"] }],
-  ["G", { child: ["b", "g"] }],
-  ["H", { child: ["b", "h"] }],
-  ["I", { child: ["c", "i"] }],
-  ["J", { child: ["c", "j"] }],
-  ["K", { child: ["d", "k"] }],
-  ["L", { child: ["d", "l"] }]
-], re = [
-  ["*", {}],
-  ["+", { jmps: 1 }],
-  ["|", { jmps: 1, moves: 1 }]
-];
-for (let p = 1; p <= 9; p++)
-  re.push(["" + p, { moves: p }]);
-function Xe(p) {
-  const e = [];
-  let t, a;
-  for (let n = 0; n < p.length; n++)
-    for (let i = 0; i < p[n].length; i++) {
-      const s = p[n][i];
-      for (let [r, { isOwn: o }] of ve)
-        s === r && (e.push({ isOwn: o, oX: i, oY: n }), o && ([t, a] = [i, n]));
-    }
-  return e.map((n) => (n.offsetX = n.oX - t, n.offsetY = n.oY - a, n));
-}
-function P(p, e, t, a) {
-  const n = [], { field: i, yLen: s, enPassant: r } = p;
-  function o(u, m) {
-    return i[m] && i[m][u] && !i[m][u].hasAttr("keepOut");
+class le {
+  /** @typedef {Object} PlayerControl */
+  static buttonTexts = "<>🔄🔁📷";
+  /** 要素のサイズをCanvasに合わせて変更 */
+  #e() {
+    if (this.board.isHeadless) return;
+    const { canvas: e } = this.board, t = window.getComputedStyle(e);
+    this.component.style.maxWidth = parseFloat(t.width) + "px";
   }
-  function l(u) {
-    return u.piece && e.hasAttr("po") && u.piece.hasAttr("po");
-  }
-  function d(u) {
-    return u.piece && !e.isMoved && !u.piece.isMoved && e.hasAttr("pao") && e.cost < u.piece.cost;
-  }
-  function c(u, m, g, B = "", x = !0) {
-    if (!i[g] || !i[g][m]) return !1;
-    const W = i[g][m];
-    return !W || l(W) || d(W) || B === "enPassant" && !r.isTarget(W, e) || e.hasAttr("inPalace") && !W.hasAttr("palace") || B.indexOf("palace") === 0 && !(W.hasAttr(B) && i[a][t].hasAttr(B)) || e.hasAttr("unCrossRiver") && s - (0 | s / 2) <= p.getRow(m, g, e.deg) ? !1 : u ? i[g][m].piece ? x ? e.deg !== i[g][m].piece.deg : !0 : !1 : !i[g][m].piece;
-  }
-  function S(u, m, g, B, x) {
-    for (const W of m)
-      for (let w = 0; w < u.length; w++)
-        for (let b = 0; b < u[w].length; b++) {
-          const [k, E] = [b + t - B, w + a - x];
-          if (!(!o(k, E) || c(g, 0 | k, 0 | E, "", !1) || u[w][b] !== W))
-            return !0;
-        }
-    return !1;
-  }
-  function h(u, m, g) {
-    const B = i[g][m];
-    B.addTarget(u), r.setTarget(B, e), n.push(B);
-  }
-  function f(u, [m, { isAttack: g }], { oX: B, oY: x, isOwn: W }) {
-    if (W)
-      for (const [w, { child: b = [] } = {}] of Ne)
-        for (let k = 0; k < u.length; k++)
-          for (let E = 0; E < u[k].length; E++) {
-            const [v, M] = [E + t - B, k + a - x];
-            !o(v, M) || !c(g, v, M, m) || u[k][E] !== w || S(u, b, !1, B, x) || h(m, v, M);
-          }
-  }
-  function y(u, [m, { isAttack: g }], { oX: B, oY: x, isOwn: W, offsetX: w, offsetY: b }) {
-    if (!(!W && !c(!1, t + w, a + b)))
-      for (const [k, { jmps: E = 0, moves: v = 0 } = {}] of re) {
-        const M = !v || v === 0;
-        for (let L = x - 1; L <= x + 1; L++)
-          for (let j = B - 1; j <= B + 1; j++) {
-            if (u[L][j] !== k || j === B && L === x) continue;
-            let Q = E || 0, G = v || 0;
-            const [de, ce] = [j - B, L - x];
-            for (let _ = t, ee = a; ; ) {
-              _ += de, ee += ce;
-              const $ = _ + w, R = ee + b;
-              if (!o($, R) || !M && G === 0) break;
-              const H = Q === 0;
-              H && c(g, $, R, m, H) ? (G--, h(m, $, R)) : E < 1 && G--;
-              const te = i[R][$];
-              if (te.piece && (Q--, H || l(te)))
-                break;
-            }
-          }
-      }
-  }
-  return (function() {
-    const u = e.getRange();
-    u.attack ??= u.default;
-    for (const m of Ee) {
-      const g = m[0];
-      if (e.isMoved && ["start", "castling"].includes(g)) continue;
-      const B = u[g];
-      if (B)
-        for (const x of Xe(B))
-          f(B, m, x), y(B, m, x);
-    }
-  })(), n;
-}
-function oe(p, e) {
-  let t = p.field.flat().filter(
-    (n) => n.piece?.deg === e && n.piece.hasAttr("king")
-  );
-  if (t.length !== 1) return !1;
-  const a = t[0];
-  for (const n of p.field.flat()) {
-    if (!n.piece || n.piece.deg === e) continue;
-    if (P(p, n.piece, n.pX, n.pY).some(
-      ({ pX: s, pY: r }) => s === a.pX && r === a.pY
-    )) return !0;
-  }
-  return !1;
-}
-function le(p, e) {
-  for (const t of p.field.flat()) {
-    if (!t.piece || t.piece.deg !== e) continue;
-    const a = P(p, t.piece, t.pX, t.pY);
-    for (const n of a) {
-      const i = p.cloneCore();
-      if (i.simpleMovePiece(
-        i.field[t.pY][t.pX],
-        i.field[n.pY][n.pX]
-      ), !oe(i, e)) return !0;
-    }
-  }
-  return !1;
-}
-function Oe(p, e) {
-  return oe(p, e) && !le(p, e);
-}
-class I {
   /**
-   * @param {Board} board - 対象の盤面
-   * @param {PlayerInfo} player - プレイヤー情報
+   * @param {Board} board - 盤面
+   * @param {string[]} compList 表示するコントロールの一覧
    */
   constructor(e, t) {
-    this.board = e, this.player = t;
+    this.board = e;
+    const a = /* @__PURE__ */ new Map([
+      ["undo", { title: "一手戻る", text: "&lt;&lt;", onclick: () => e.record.undo() }],
+      ["redo", { title: "一手進む", text: "&gt;&gt;", onclick: () => e.record.redo() }],
+      ["rotateLeft", { title: "盤面を左回転", text: "🔄", onclick: () => e.rotate(!1) }],
+      ["rotateRight", { title: "盤面を右回転", text: "🔁", onclick: () => e.rotate() }],
+      ["downloadImage", { title: "画像を保存", text: "📷", onclick: () => e.downloadImage() }]
+    ]);
+    t ??= [...a.keys(), "textRecord"];
+    const n = Date.now().toString();
+    this.component = document.createElement("div"), this.component.id = n, this.component.style.display = "flex", this.#e(), window.addEventListener("resize", () => this.#e()), this.component.innerHTML = `${[...a].filter(([s]) => t.includes(s)).map(
+      ([s, { title: r, text: o }]) => `<button id="${s}${n}" title="${r}" style="font-family:${N.names};">${o}</button>`
+    ).join("")}${t.includes("textRecord") ? `<select id="textRecord${n}" style="flex-grow:1; font-family:${N.names};"><option></option></select>` : ""}`;
+    for (const [s, { onclick: r }] of a)
+      t.includes(s) && (this.component.querySelector(`#${s}${n}`).onclick = r);
+    if (!t.includes("textRecord")) return;
+    const i = e.onDrawed;
+    e.onDrawed = async (s) => {
+      setTimeout(() => {
+        const r = this.component.querySelector(`#textRecord${n}`), o = r.querySelector("option"), l = r.cloneNode(!1);
+        s.record.records.forEach((d, c) => {
+          const S = o.cloneNode(!1);
+          S.textContent = e.record.getText(c), c === s.record.turn && (S.selected = !0), l.appendChild(S);
+        }), l.onchange = (d) => e.record.move(d.target.selectedIndex), r.replaceWith(l);
+      }), i?.(s);
+    };
   }
-  /** 手番操作 */
-  async playTurn() {
+  /** 操作パネルを追加 */
+  add() {
+    if (this.board.isHeadless) return;
+    const { canvas: e } = this.board;
+    e.after(this.component);
   }
-  /** CPU操作の待機開始
-   * @return {()=>Promise<void>} timer
-   */
-  delayStart() {
-    return this.board.overlay.start(), new Promise((e) => setTimeout(e, 50)).then(() => () => new Promise((e) => setTimeout(e, this.player.cpuDelay)));
-  }
-  /** CPU操作の待機終了
-   * @param {Promise<void>} timer
-   */
-  async delayEnd(e) {
-    await e, this.board.overlay.stop();
-  }
-  /**
-   * 盤面を評価します。
-   * @param {Board} board - 評価対象の盤面
-   * @returns {number} 盤面の評価値
-   */
-  evaluate(e = this.board) {
-    const { player: t } = this, a = 1e4;
-    let n = 0;
-    return e.field.flat().forEach((i) => {
-      if (i.piece && i.piece.deg === t.deg) {
-        const s = i.piece.cost <= 0;
-        n += s ? a : i.piece.cost;
-      }
-    }), e.stand.stocks.forEach((i, s) => {
-      if (s === t.deg) {
-        const r = i.reduce((o, l) => o + l.cost, 0);
-        n += r;
-      }
-    }), n;
-  }
-}
-const Y = {};
-Y.random = class extends I {
-  constructor(e, t) {
-    super(e, t);
-  }
-  async playTurn() {
-    const { board: e, player: t } = this, a = (await this.delayStart())(), n = [];
-    e.field.flat().forEach((s) => {
-      if (s.piece && s.piece.deg === t.deg) {
-        const r = s, o = P(e, r.piece, r.pX, r.pY);
-        o.length > 0 && n.push({ from: r, tos: o });
-      }
-    });
-    const i = [];
-    if (n.forEach(({ from: s, tos: r }) => {
-      r.forEach((o) => {
-        i.push({ from: s, to: o });
-      });
-    }), i.length > 0) {
-      const s = i[Math.floor(Math.random() * i.length)];
-      await this.delayEnd(a), await e.movePiece(s.from, s.to, !0), console.log(`CPU(Random): (${s.from.pX}, ${s.from.pY}) から (${s.to.pX}, ${s.to.pY}) へ移動`);
-    } else
-      console.log("CPU(Random): 指し手がありません。");
-  }
-};
-Y.greedy = class extends I {
-  constructor(e, t) {
-    super(e, t);
-  }
-  /**
-   * 手番を処理します。
-   */
-  async playTurn() {
-    const { board: e, player: t } = this, a = (await this.delayStart())(), n = [];
-    e.field.flat().forEach((o) => {
-      if (o.piece && o.piece.deg === t.deg) {
-        const l = o, d = P(e, l.piece, l.pX, l.pY);
-        d.length > 0 && n.push({ from: l, tos: d });
-      }
-    });
-    const i = [];
-    if (n.forEach(({ from: o, tos: l }) => {
-      l.forEach((d) => {
-        i.push({ from: o, to: d });
-      });
-    }), i.length === 0) {
-      console.log("CPU(Greedy): 指し手がありません。");
-      return;
-    }
-    let s = null, r = -1 / 0;
-    for (const o of i) {
-      const l = e.cloneCore(), d = l.field[o.from.pY][o.from.pX], c = l.field[o.to.pY][o.to.pX];
-      await l.movePiece(d, c);
-      const S = this.evaluate(l);
-      S > r && (r = S, s = o);
-    }
-    s ? (await this.delayEnd(a), await e.movePiece(s.from, s.to, !0), console.log(`CPU(Greedy): (${s.from.pX}, ${s.from.pY}) から (${s.to.pX}, ${s.to.pY}) へ移動 (評価値: ${r})`)) : console.log("CPU(Greedy): 最善手が見つかりませんでした。");
-  }
-};
-Y.minimax = class extends I {
-  constructor(e, t) {
-    super(e, t), this.searchDepth = 3;
-  }
-  /**
-   * ミニマックス法（アルファベータ枝刈り付き）を実行します。
-   * @param {Board} board - 現在の盤面
-   * @param {number} depth - 残りの探索深さ
-   * @param {number} alpha - アルファ値
-   * @param {number} beta - ベータ値
-   * @param {boolean} isMaximizingPlayer - 現在のプレイヤーが最大化プレイヤーかどうか
-   * @returns {number} 評価値
-   */
-  async minimax(e, t, a, n, i) {
-    const s = e.getActivePlayer();
-    if (t === 0) return this.evaluate(e);
-    if (Oe(e, s.deg))
-      return i ? -1 / 0 : 1 / 0;
-    if (!le(e, s.deg))
-      return 0;
-    const r = [];
-    e.field.flat().forEach((l) => {
-      if (l.piece && l.piece.deg === s.deg) {
-        const d = l, c = P(e, d.piece, d.pX, d.pY);
-        c.length > 0 && r.push({ from: d, tos: c });
-      }
-    });
-    const o = [];
-    if (r.forEach(({ from: l, tos: d }) => {
-      d.forEach((c) => {
-        o.push({ from: l, to: c });
-      });
-    }), i) {
-      let l = -1 / 0;
-      for (const d of o) {
-        const c = e.cloneCore(), S = c.field[d.from.pY][d.from.pX], h = c.field[d.to.pY][d.to.pX];
-        await c.movePiece(S, h, !0);
-        const f = await this.minimax(c, t - 1, a, n, !i);
-        if (l = Math.max(l, f), a = Math.max(a, f), n <= a) break;
-      }
-      return l;
-    } else {
-      let l = 1 / 0;
-      for (const d of o) {
-        const c = e.cloneCore(), S = c.field[d.from.pY][d.from.pX], h = c.field[d.to.pY][d.to.pX];
-        await c.movePiece(S, h, !0);
-        const f = await this.minimax(c, t - 1, a, n, !i);
-        if (l = Math.min(l, f), n = Math.min(n, f), n <= a) break;
-      }
-      return l;
-    }
-  }
-  /**
-   * 手番を処理します。
-   */
-  async playTurn() {
-    const { board: e, player: t } = this, a = (await this.delayStart())();
-    let n = null, i = -1 / 0;
-    const s = [];
-    e.field.flat().forEach((o) => {
-      if (o.piece && o.piece.deg === t.deg) {
-        const l = o, d = P(e, l.piece, l.pX, l.pY);
-        d.length > 0 && s.push({ from: l, tos: d });
-      }
-    });
-    const r = [];
-    if (s.forEach(({ from: o, tos: l }) => {
-      l.forEach((d) => {
-        r.push({ from: o, to: d });
-      });
-    }), r.length === 0) {
-      console.log("CPU(Minimax): 指し手がありません。");
-      return;
-    }
-    for (const o of r) {
-      const l = e.cloneCore(), d = l.field[o.from.pY][o.from.pX], c = l.field[o.to.pY][o.to.pX];
-      await l.movePiece(d, c, !0);
-      const S = await this.minimax(l, this.searchDepth - 1, -1 / 0, 1 / 0, !1);
-      S > i ? (i = S, n = o) : S === i && Math.random() < 0.5 && (n = o);
-    }
-    n ? (await this.delayEnd(a), await e.movePiece(n.from, n.to, !0), console.log(`CPU(Minimax): (${n.from.pX}, ${n.from.pY}) から (${n.to.pX}, ${n.to.pY}) へ移動 (評価値: ${i})`)) : console.log("CPU(Minimax): 最善手が見つかりませんでした。");
-  }
-};
-class Pe extends I {
-  /**
-   * @param {Board} board - 対象の盤面
-   * @param {PlayerInfo} player - プレイヤー情報
-   */
-  constructor(e, t) {
-    super(e, t);
-    const a = t.cpuEngine?.toLowerCase();
-    this.engine = a == null ? null : new Y[a](e, t);
-  }
-  /** 手番操作 */
-  async playTurn() {
-    if (!this.board.isGameEnd) {
-      if (!this.player.alive) {
-        this.board.passTurn(this.player);
-        return;
-      }
-      this.engine && await this.engine.playTurn();
-    }
+  /** 操作パネルを破棄 */
+  remove() {
+    this.board.isHeadless || (this.component.remove(), window.removeEventListener("resize", () => this.#e));
   }
 }
-function Me(p) {
-  Object.assign(N, p.canvasFont), Object.assign(pe, p.gameSoft), Object.assign(J, p.games), Object.assign(z, p.boards), Object.assign(T, p.panels), Object.assign(D, p.pieces), Object.assign(se, p.pieceRange), Object.assign(U, p.pieceCost);
-}
-Me(me);
 const Le = () => [
   .../* @__PURE__ */ new Set([
-    ...ie.buttonTexts + Object.values(T).map(({ displayText: p }) => p).join("") + Object.values(D).map(({ display: p }) => p ? p.join("") : "").join("")
+    ...le.buttonTexts + Object.values(T).map(({ displayText: p }) => p).join("") + Object.values(D).map(({ display: p }) => p ? p.join("") : "").join("")
   ])
 ].sort().join("");
 Object.assign(N, {
@@ -6973,14 +6973,14 @@ class Re extends Z {
 export {
   Z as Board,
   Re as BoardOnline,
-  Pe as CpuEngine,
+  be as CpuEngine,
   I as CpuEngineBase,
   Y as CpuEngines,
   C as Piece,
   z as boards,
   N as canvasFont,
   F as canvasImage,
-  Me as extendData,
+  ue as extendData,
   pe as gameSoft,
   J as games,
   T as panels,
