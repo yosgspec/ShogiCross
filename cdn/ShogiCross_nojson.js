@@ -5421,6 +5421,10 @@ class fe {
   constructor(e) {
     this.board = e, this.turn = 0, this.records = [], this.add({ inc: 0, end: "開始局面" });
   }
+  /** 棋譜の最後を取得 */
+  get last() {
+    return this.records[this.turn];
+  }
   /** 棋譜を追記
    * @param {Object} option - オプション
    * @param {Panel} option.fromPanel - 移動元のマス目
@@ -6103,7 +6107,7 @@ class q {
       isHeadless: B = !1,
       moveMode: x = "normal"
     } = t;
-    if (this.option = t, this.isHeadless = B, this.name = a, this.variant = n, this.url = i, this.desc = s, this.ctx = null, this.canvas = null, this.pieces = C.getPieces(null, {
+    if (this.option = t, this.isHeadless = B, this.name = a, this.variant = n, this.url = i, this.desc = s, this.displayDeg = 0, this.ctx = null, this.canvas = null, this.pieces = C.getPieces(null, {
       size: f,
       useRankSize: y,
       isDrawShadow: u
@@ -6263,9 +6267,9 @@ class q {
    * @param {number} offsetDeg - 補正角度
    * @returns {number}
    */
-  getRow(e, t, a, n = 0) {
-    const { xLen: i, yLen: s } = this;
-    return a = this.degNormal(a + n), a === 0 ? s - 1 - t : a === 90 ? e : a === 180 ? t : a === 270 ? i - 1 - e : -1;
+  getRow(e, t, a = this.displayDeg, n = 0, i = !0) {
+    const { xLen: s, yLen: r } = this;
+    return a = this.degNormal(a + n), a === 0 ? i ? r - 1 - t : t : a === 90 ? e : a === 180 ? i ? t : r - 1 - t : a === 270 ? s - 1 - e : -1;
   }
   /** 角度基準のマス目の列を取得する
    * @param {number} pX - マス目の列
@@ -6274,7 +6278,7 @@ class q {
    * @param {number} offsetDeg - 補正角度
    * @returns {number}
    */
-  getCol(e, t, a, n = 0) {
+  getCol(e, t, a = this.displayDeg, n = 0) {
     const { xLen: i, yLen: s } = this;
     return a = this.degNormal(a + n), a === 0 ? e : a === 90 ? s - 1 - t : a === 180 ? i - 1 - e : a === 270 ? t : -1;
   }
@@ -6673,8 +6677,9 @@ class V extends q {
    */
   constructor(e, t) {
     super(e, t), Object.assign(this[X], {
-      emitGameOver: this.#s.bind(this),
-      dialog: (...m) => this.#a(...m)
+      emitGameOver: this.#s.bind(this)
+    }), Object.defineProperties(this[X], {
+      dialog: { get: () => this.#a }
     });
     const {
       useStand: a = !1,
@@ -6886,7 +6891,7 @@ class Fe extends V {
     this.onReadyOnline = a, this.isOnlineGame = i.some((s) => s.isOnline), this.isOnlineGame && (this.players.forEach((s) => {
       const r = i[s.id] ?? {};
       s.isOnline = r.isOnline ?? !1, s.isLocal = !1;
-    }), this.viewingAngle = 0, this.ws = new WebSocket(n.replace(/^http/, "ws")), this.ws.onopen = () => {
+    }), this.ws = new WebSocket(n.replace(/^http/, "ws")), this.ws.onopen = () => {
       console.log("WebSocket connection established."), this.ws.send(JSON.stringify({ type: "join", gameName: this.name }));
     }, this.ws.onmessage = (s) => {
       console.log("Received message from server:", s.data);
@@ -6894,14 +6899,17 @@ class Fe extends V {
         const r = JSON.parse(s.data);
         switch (r.type) {
           case "move": {
-            const o = this.field[r.from.pY][r.from.pX], l = this.field[r.to.pY][r.to.pX];
-            this.applyRemoteMove(o, l, r.playerDeg + this.viewingAngle);
+            this.applyRemoteMove(r);
             break;
           }
           case "readyOnline": {
             this.onReadyOnline?.(r, this);
             const o = [...this.players.values()].find((l) => l.id === r.playerId);
-            o && (o.isLocal = !0, this[X].rotateField(o.deg), this.stand.rotate(o.deg), this.viewingAngle = o.deg, this.autoDrawing && this.draw());
+            o && (o.isLocal = !0, this[X].rotateField(o.deg), this.stand.rotate(o.deg), this.displayDeg = o.deg, this.autoDrawing && this.draw());
+            break;
+          }
+          case "rivalDisconnect": {
+            this[X].dialog?.show("対戦相手が切断しました", "ゲームは終了です。");
             break;
           }
         }
@@ -6916,19 +6924,27 @@ class Fe extends V {
   }
   /**
    * リモートからの移動を盤面に適用する
-   * @param {Panel} fromPanel - 移動元のパネル
-   * @param {Panel} toPanel - 移動先のパネル
-   * @param {number} deg - 移動を行ったプレイヤーの視点角度
+   * @param {Object} message
+   * @param {Object} message.from - 移動元の座標
+   * @param {number} message.from.pX - 移動元の座標X
+   * @param {number} message.from.pY - 移動元の座標Y
+   * @param {Object} message.to - 移動先の座標
+   * @param {number} message.to.pX - 移動先の座標X
+   * @param {number} message.to.pY - 移動先の座標Y
+   * @param {number} message.playerDeg - 移動を行ったプレイヤーの視点角度
    */
-  async applyRemoteMove(e, t, a) {
-    console.log(a), this[X].rotateField(-a), this.stand.rotate(-a), this.stand.capturePiece(
-      e.piece,
-      t.piece,
-      t.hasAttr("capture"),
-      t.hasAttr("cantCapture")
-    ), this.simpleMovePiece(e, t);
-    const { canPromo: n, forcePromo: i } = this.checkCanPromo(t), s = t.piece;
-    s.deg += this.degNormal(a + this.viewingAngle), await this.promoPiece(e, t, n, i, !0), s.deg -= this.degNormal(a + this.viewingAngle), this[X].rotateField(a), this.stand.rotate(a), this.autoDrawing && this.draw(), this[X].emitGameOver();
+  async applyRemoteMove({ from: e, to: t, playerDeg: a }) {
+    const n = this.getCol(e.pX, e.pY), i = this.getRow(e.pX, e.pY, void 0, void 0, !1), s = this.getCol(t.pX, t.pY), r = this.getRow(t.pX, t.pY, void 0, void 0, !1);
+    console.log({ localFromX: n, localFromY: i, localToX: s, localToY: r });
+    const o = this.field[i][n], l = this.field[r][s];
+    o.piece.deg = this.degNormal(this.displayDeg + a), this.stand.capturePiece(
+      o.piece,
+      l.piece,
+      l.hasAttr("capture"),
+      l.hasAttr("cantCapture")
+    ), this.simpleMovePiece(o, l);
+    const { canPromo: d, forcePromo: c } = this.checkCanPromo(l);
+    await this.promoPiece(o, l, d, c, !0), this.autoDrawing && this.draw(), this[X].emitGameOver();
   }
   /**
    * 駒の移動処理（オンラインゲームの場合、サーバーに移動情報を送信）
