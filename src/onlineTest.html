@@ -5,7 +5,7 @@
 	<meta name="viewport" content="width=device-width" />
 	<title>オンライン対戦テスト - ShogiCross</title>
 	<link rel=icon href="img/favicon.min.svg">
-	<link href="../shogicross.css" rel="stylesheet">
+	<link href="./shogicross.css" rel="stylesheet">
 </head>
 <body>
 	<h1>ShogiCross オンライン対戦</h1>
@@ -15,34 +15,29 @@
 	<a href="./" target="_parent">RETURN</a>
 
 	<script type="module">
-	import {gameSoft, BoardOnline} from "./lib.js";
-	const btn = document.getElementById('online-btn');
-	const canvas = document.getElementById('online-canvas');
-	const statusDiv = document.getElementById('status');
+	import {gameSoft, BoardOnline} from "./ShogiCross/lib.js";
+	const btn = document.getElementById("online-btn");
+	const canvas = document.getElementById("online-canvas");
+	const statusDiv = document.getElementById("status");
 
-	btn.addEventListener('click', () => {
-		const shogiOption = gameSoft['shogi'];
+	btn.addEventListener("click", () => {
+		const shogiOption = gameSoft["shogi"];
 		if (!shogiOption) {
-			statusDiv.textContent = '標準将棋が見つかりません。';
+			statusDiv.textContent = "標準将棋が見つかりません。";
 			return;
 		}
-		btn.style.display = 'none';
-		statusDiv.textContent = 'マッチング待機中...';
+		btn.style.display = "none";
+		statusDiv.textContent = "マッチング待機中...";
 
 		const onlineGameOptions = {
 			...shogiOption,
 			playerOptions: [
-				{ gameName: '将棋', isOnline: true, pieceSet: "default" },
-				{ gameName: '将棋', isOnline: true, pieceSet: "default" }
+				{ gameName: "将棋", isOnline: true, pieceSet: "default" },
+				{ gameName: "将棋", isOnline: true, pieceSet: "default" }
 			],
 			serverURL: "https://shogicross-server-828297429002.asia-northeast1.run.app/",
 			onReadyOnline(event, board){
-				try {
-					const message = JSON.parse(event.data);
-					if (message.type === 'playerAssignment') {
-						statusDiv.textContent = `対戦開始！ あなたはプレイヤー${message.playerId + 1}です。`;
-					}
-				} catch(e){}
+				statusDiv.textContent = `対戦開始！ あなたはプレイヤー${event.playerId + 1}です。`;
 			}
 		};
 	const board = new BoardOnline(canvas, onlineGameOptions);
