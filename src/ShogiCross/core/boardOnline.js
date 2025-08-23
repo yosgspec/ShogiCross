@@ -95,13 +95,17 @@ export class BoardOnline extends Board{
 
 	/**
 	 * リモートからの移動を盤面に適用する
-	 * @param {Panel} fromPanel - 移動元のパネル
-	 * @param {Panel} toPanel - 移動先のパネル
-	 * @param {number} deg - 移動を行ったプレイヤーの視点角度
+	 * @param {Object} message
+	 * @param {Object} message.from - 移動元の座標
+	 * @param {number} message.from.pX - 移動元の座標X
+	 * @param {number} message.from.pY - 移動元の座標Y
+	 * @param {Object} message.to - 移動先の座標
+	 * @param {number} message.to.pX - 移動先の座標X
+	 * @param {number} message.to.pY - 移動先の座標Y
+	 * @param {number} message.playerDeg - 移動を行ったプレイヤーの視点角度
 	 */
 	async applyRemoteMove({from, to, playerDeg}) {
 		// === 送信者の座標系をローカル基準に変換 ===
-		// 送信者基準 → 自分基準に変換
 		const localFromX = this.getCol(from.pX, from.pY);
 		const localFromY = this.getRow(from.pX, from.pY, undefined, undefined, false);
 		const localToX = this.getCol(to.pX, to.pY);
