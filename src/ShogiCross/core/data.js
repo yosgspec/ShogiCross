@@ -1,4 +1,5 @@
 /** @typedef {import("./board").BoardInitOption} BoardInitOption */
+/** @typedef {import("./cpu.js").CpuEngine} CpuEngine */
 /**
  * @typedef {Object} CanvasFont
  * @prop {{fontName: string, fontWeight: number}[]} fonts - {fontName: フォント名, fontWeight: フォントの太さ}
@@ -84,7 +85,6 @@ import pieces from "../data/pieces.js";
 import pieceRange from "../data/pieceRange.js";
 import pieceCost from "../data/pieceCost.js";
 import {json} from "./json/xhr.js";
-import {CpuEngine} from "./cpu.js";
 
 export {
 	/** Canvas用のGoogleフォント情報

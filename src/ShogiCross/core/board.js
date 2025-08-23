@@ -84,11 +84,8 @@ export class Board extends BoardCore{
 			this.#dialog = new Dialog();
 
 			// 描写コンテキストを適用
-			for(const piece of Object.values(this.pieces)){
-				console.log(piece)
+			for(const piece of Object.values(this.pieces))
 				piece.ctx = this.ctx;
-			}
-
 			for(const panel of this.field.flat()){
 				panel.ctx = this.ctx;
 				if(panel.piece) panel.piece.ctx = this.ctx;
