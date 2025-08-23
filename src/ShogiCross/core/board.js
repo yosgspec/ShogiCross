@@ -1,6 +1,6 @@
 /** @typedef {import("./data").BoardInitOption} BoardInitOption */
 /** @typedef {import("./data").PlayerInfo} PlayerInfo */
-import {BoardHeadless} from "./boardHeadless.js";
+import {BoardHeadless, PROTECTED} from "./boardHeadless.js";
 import {canvasFont} from "./canvasFontLoader.js";
 import {canvasImage} from "./canvasImageLoader.js";
 import {downloadImage} from "./downloadImage.js";
@@ -15,6 +15,7 @@ import {boards, games} from "./data.js";
 import {CpuEngine} from "./cpu.js";
 import {Overlay} from "./overlay.js";
 import {Record} from "./record.js";
+export {PROTECTED};
 
 /** 盤の管理クラス */
 export class Board extends BoardHeadless{
@@ -54,11 +55,12 @@ export class Board extends BoardHeadless{
 	 */
 	constructor(canvas, option){
 		super(canvas, option);
+		Object.assign(this[PROTECTED], {
+			emitGameOver: this.#emitGameOver.bind(this),
+			dialog: (...$)=>this.#dialog(...$),
+		});
+
 		const {
-			name,
-			variant,
-			url,
-			desc,
 			playBoard,
 			playerOptions=[],
 			players=playerOptions.some(({gameName}, i)=>1 < i && gameName)? 4: 2,
@@ -236,7 +238,7 @@ export class Board extends BoardHeadless{
 	 * @param {boolean} isRight - 回転方向
 	 */
 	rotate(isRight=true){
-		super.rotete(isRight);
+		super.rotate(isRight);
 		if(this.autoDrawing) this.draw();
 	}
 
