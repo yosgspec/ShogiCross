@@ -1,5 +1,5 @@
 declare class Z extends V {
-    overlay: ke;
+    overlay: Me;
     autoDrawing: any;
     isGameEnd: boolean;
     onDrawed: any;
@@ -39,7 +39,7 @@ declare class Re extends Z {
      */
     applyRemoteMove(e: any, t: any, a: any): Promise<void>;
 }
-declare class Pe extends I {
+declare class be extends I {
     engine: any;
 }
 declare class I {
@@ -428,7 +428,7 @@ declare namespace F {
      */
     function importAsync(): Promise<void>;
 }
-declare function Me(p: any): void;
+declare function ue(p: any): void;
 declare namespace pe {
     namespace shogi {
         let name: string;
@@ -5554,7 +5554,7 @@ declare class V {
     bottom: any;
     stand: K;
     moveMode: any;
-    record: Be;
+    record: We;
     enPassant: q;
     /** ボードを閉じる */
     close(): void;
@@ -5669,7 +5669,7 @@ declare class V {
     };
     #private;
 }
-declare class ke {
+declare class Me {
     constructor(e: any, t?: {});
     canvas: any;
     /**
@@ -5759,7 +5759,7 @@ declare class K {
      */
     toString(e?: boolean, t?: boolean): string;
 }
-declare class Be {
+declare class We {
     constructor(e: any);
     board: any;
     turn: number;
@@ -5839,4 +5839,4 @@ declare class q {
     clone(): this;
 }
 declare const O: unique symbol;
-export { Z as Board, Re as BoardOnline, Pe as CpuEngine, I as CpuEngineBase, Y as CpuEngines, C as Piece, z as boards, N as canvasFont, F as canvasImage, Me as extendData, pe as gameSoft, J as games, T as panels, U as pieceCost, se as pieceRange, D as pieces };
+export { Z as Board, Re as BoardOnline, be as CpuEngine, I as CpuEngineBase, Y as CpuEngines, C as Piece, z as boards, N as canvasFont, F as canvasImage, ue as extendData, pe as gameSoft, J as games, T as panels, U as pieceCost, se as pieceRange, D as pieces };
