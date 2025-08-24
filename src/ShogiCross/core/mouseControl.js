@@ -43,8 +43,8 @@ export function mouseControl(board){
 			e.preventDefault();
 			[x, y] = lastXY;
 		}
-		board.field.forEach((row, pY) =>
-			row.forEach(async (panel, pX) =>
+		board.field.forEach((row, pY)=>
+			row.forEach(async (panel, pX)=>
 				await fnPanel(panel, x, y, pX, pY)));
 		await fnAfter(x, y);
 		board.draw();
@@ -91,7 +91,7 @@ export function mouseControl(board){
 				panel.isSelected = panel.checkRangeMouse(x, y);
 			}
 		);
-	}
+	};
 
 
 	/** ドラッグ終了
@@ -143,7 +143,7 @@ export function mouseControl(board){
 		selectPanel = null;
 		selectStand = null;
 		board.draw();
-	}
+	};
 
 	// イベントリスナーを作成
 	canvas.addEventListener("mousedown", dragStart);

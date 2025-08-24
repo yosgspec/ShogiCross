@@ -196,7 +196,7 @@ export class BoardCore{
 		let fieldPieces = field.map(row=>row.map(({piece})=>piece));
 		if([90, 270].includes(deg)){
 			// 2次配列を転置
-			const transpose = a => a[0].map((_, c) => a.map(r => r[c]));
+			const transpose = a=>a[0].map((_, c)=>a.map(r=>r[c]));
 			if(xLen !== yLen) throw Error(`cols=${xLen} != rows=${yLen}, Not rows = cols.`);
 			fieldPieces = transpose(fieldPieces);
 		}
@@ -428,7 +428,7 @@ export class BoardCore{
 		}
 		return {
 			canPromo: promoLine <= row,
-			forcePromo: forcePromoLine <= row
+			forcePromo: forcePromoLine <= row,
 		};
 	}
 

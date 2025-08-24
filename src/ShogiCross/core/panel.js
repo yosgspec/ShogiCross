@@ -5,7 +5,7 @@ import {panels} from "./data.js";
 
 /** マス目の管理クラス */
 export class Panel{
-	#piece
+	#piece;
 	#isSelected;
 	#targetRanges;
 
@@ -13,7 +13,7 @@ export class Panel{
 	 * @returns {Piece}
 	 */
 	get piece(){
-		return this.#piece
+		return this.#piece;
 	}
 	set piece(piece){
 		this.#piece = piece;
@@ -80,7 +80,7 @@ export class Panel{
 	/** マス目の移動先情報を追加
 	 * @param {string} rangeName - 移動先情報
 	 */
-   addTarget(rangeName){
+	addTarget(rangeName){
 		this.#targetRanges.push(rangeName);
 	}
 

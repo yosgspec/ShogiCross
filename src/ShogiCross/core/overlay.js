@@ -33,7 +33,7 @@ const defaultStyles = {
 		backgroundColor: "rgba(0, 0, 0, 0.3)", /* Changed opacity to 0.3 */
 		zIndex: 9999, /* Above canvas */
 		display: "none", /* Hidden by default */
-	}
+	},
 };
 
 /**

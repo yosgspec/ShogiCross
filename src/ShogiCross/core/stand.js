@@ -44,7 +44,7 @@ export class Stand{
 		const {board} = this;
 		if(board.moveMode === "viewOnly" || toPanel.hasAttr("keepOut")) return;
 
-		const {deg, i} = option
+		const {deg, i} = option;
 		const stock = this.stocks.get(deg);
 		toPanel.piece = stock[i];
 		stock[i].center = toPanel.center;
@@ -90,7 +90,7 @@ export class Stand{
 			const pieceDeg = this.board.degNormal(standDeg+deg);
 			stock.forEach(piece=>piece.deg = pieceDeg);
 			this.stocks.set(pieceDeg, stock);
-		})
+		});
 	}
 
 	/** 盤を描写 */

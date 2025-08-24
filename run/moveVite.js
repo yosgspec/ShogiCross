@@ -11,7 +11,7 @@ async function moveVite(targetDir, outputDir){
 			fs.rename(path.join(targetDir, f), path.join(outputDir, path.basename(f)));
 			console.log(`Moved: ${f} to ${outputDir}`);
 		})
-	)
+	);
 	await fs.rm(targetDir, {recursive: true});
 	console.log(`Removed original directory: ${targetDir}`);
 }

@@ -17,5 +17,5 @@ export const json = {
 	panels: importJson("panels"),
 	pieces: importJson("pieces"),
 	pieceRange: importJson("pieceRange"),
-	pieceCost: importJson("pieceCost")
+	pieceCost: importJson("pieceCost"),
 };

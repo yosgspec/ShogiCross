@@ -25,7 +25,7 @@ export class PlayerControl{
 			["redo", {title: "一手進む", text: "&gt;&gt;", onclick: ()=>board.record.redo()}],
 			["rotateLeft", {title: "盤面を左回転", text: "🔄", onclick: ()=>board.rotate(false)}],
 			["rotateRight", {title: "盤面を右回転", text: "🔁", onclick: ()=>board.rotate()}],
-			["downloadImage", {title: "画像を保存", text: "📷", onclick: ()=>board.downloadImage()}]
+			["downloadImage", {title: "画像を保存", text: "📷", onclick: ()=>board.downloadImage()}],
 		]);
 		compList ??= [...buttons.keys(), "textRecord"];
 		const unique = Date.now().toString();
@@ -43,14 +43,14 @@ export class PlayerControl{
 				.filter(([id])=>compList.includes(id))
 				.map(([id, {title, text}])=>
 					`<button id="${id}${unique}" title="${title}" style="font-family:${canvasFont.names};">${text}</button>`
-			).join("")
+				).join("")
 		}${
 			compList.includes("textRecord")?
 				`<select id="textRecord${unique}" style="flex-grow:1; font-family:${canvasFont.names};"><option></option></select>`: ""
 		}`;
 
 		for(const [id, {onclick}] of buttons){
-			if(!compList.includes(id)) continue
+			if(!compList.includes(id)) continue;
 			this.component.querySelector(`#${id}${unique}`).onclick = onclick;
 		}
 
@@ -58,7 +58,7 @@ export class PlayerControl{
 
 		// 元の描写イベントを退避
 		const onDrawedBase = board.onDrawed;
-		board.onDrawed = async e =>{
+		board.onDrawed = async e=>{
 			setTimeout(()=>{
 				const select = this.component.querySelector(`#textRecord${unique}`);
 				const option = select.querySelector("option");
@@ -74,7 +74,7 @@ export class PlayerControl{
 				select.replaceWith(vSelect);
 			});
 			onDrawedBase?.(e);
-		}
+		};
 	}
 
 	/** 操作パネルを追加 */

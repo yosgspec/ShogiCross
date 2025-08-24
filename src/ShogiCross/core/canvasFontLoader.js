@@ -49,5 +49,5 @@ Object.assign(canvasFont, {
 				}
 			})
 		).then(_=>this.imported = true);
-	}
+	},
 });
