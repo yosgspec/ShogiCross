@@ -10,6 +10,7 @@ gh_pages*
 
 node_modules
 dist
+cdn
 src/dist
 src/doc/api
 src/ShogiCross.zip
