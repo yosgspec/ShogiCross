@@ -58,7 +58,7 @@ export class CpuEngineBase{
 		// 持ち駒を評価
 		board.stand.stocks.forEach((pieces, deg)=>{
 			if(deg === player.deg){
-				const hand_value = pieces.reduce((acc, piece) => acc + piece.cost, 0);
+				const hand_value = pieces.reduce((acc, piece)=>acc + piece.cost, 0);
 				my_score += hand_value;
 			}
 		});
@@ -113,7 +113,7 @@ CpuEngines.random = class Random extends CpuEngineBase{
 			// ゲーム終了やパス処理
 		}
 	}
-}
+};
 
 /** 貪欲法エンジン (1手読み) */
 CpuEngines.greedy = class Greedy extends CpuEngineBase{
@@ -154,7 +154,7 @@ CpuEngines.greedy = class Greedy extends CpuEngineBase{
 		let bestScore = -Infinity;
 
 		for(const move of allPossibleMoves){
-				const boardClone = board.cloneCore();
+			const boardClone = board.cloneCore();
 			// クローン盤上のパネルを取得
 			const fromPanelClone = boardClone.field[move.from.pY][move.from.pX];
 			const toPanelClone = boardClone.field[move.to.pY][move.to.pX];
@@ -176,7 +176,7 @@ CpuEngines.greedy = class Greedy extends CpuEngineBase{
 			console.log("CPU(Greedy): 最善手が見つかりませんでした。");
 		}
 	}
-}
+};
 
 /** ミニマックスエンジン (アルファベータ枝刈り付き) */
 CpuEngines.minimax = class Minimax extends CpuEngineBase{
@@ -320,7 +320,7 @@ CpuEngines.minimax = class Minimax extends CpuEngineBase{
 			console.log("CPU(Minimax): 最善手が見つかりませんでした。");
 		}
 	}
-}
+};
 
 /** CPUエンジンの管理クラス */
 export class CpuEngine extends CpuEngineBase {
@@ -331,7 +331,7 @@ export class CpuEngine extends CpuEngineBase {
 	constructor(board, player){
 		super(board, player);
 		const engineName = player.cpuEngine?.toLowerCase();
-		this.engine = engineName==null?
+		this.engine = engineName == null?
 			null:
 			new CpuEngines[engineName](board, player);
 	}

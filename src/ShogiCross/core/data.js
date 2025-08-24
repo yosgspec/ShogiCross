@@ -130,8 +130,8 @@ export {
 	 * 駒の価値
 	 * @type {Object<string, number>}
 	 */
-	pieceCost
-}
+	pieceCost,
+};
 
 /**
  * @typedef {Object} ShogiCrossData - ShogiCrossデータ

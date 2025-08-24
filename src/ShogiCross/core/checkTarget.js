@@ -10,13 +10,13 @@ const rangeOptions = [
 	["castling", {isAttack: false}],
 	["enPassant", {isAttack: true}],
 	["palaceSlash", {isAttack: false}],
-	["palaceSlash", {isAttack: true}]
+	["palaceSlash", {isAttack: true}],
 ];
 
 // 起点文字の定義
 const centerChars = [
 	["O", {isOwn: true}],
-	["o", {}]
+	["o", {}],
 ];
 
 // 移動範囲文字の親子関係
@@ -38,7 +38,7 @@ const pointChars = [
 	["I", {child: ["c", "i"]}],
 	["J", {child: ["c", "j"]}],
 	["K", {child: ["d", "k"]}],
-	["L", {child: ["d", "l"]}]
+	["L", {child: ["d", "l"]}],
 ];
 
 /** 直線移動オプション
@@ -50,7 +50,7 @@ const pointChars = [
 const linerChars = [
 	["*", {}],
 	["+", {jmps: 1}],
-	["|", {jmps: 1, moves: 1}]
+	["|", {jmps: 1, moves: 1}],
 ];
 for(let i=1;i<=9;i++)
 	linerChars.push([""+i, {moves: i}]);
@@ -206,7 +206,7 @@ export function checkTarget(board, piece, pX, pY){
 						canMove(isAttack, 0|x, 0|y, "", false) ||
 						range[rY][rX] !== char
 					) continue;
-					return true
+					return true;
 				}
 			}
 		}
@@ -277,7 +277,7 @@ export function checkTarget(board, piece, pX, pY){
 							moveLen--;
 							setTarget(rangeName, x, y);
 						}
-						else if(jmps<1){
+						else if(jmps < 1){
 							moveLen--;
 						}
 						const panel = field[y][x];

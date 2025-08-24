@@ -13,10 +13,11 @@ async function minifyLib(targetDir){
 			const code = await fs.readFile(baseFile, {encoding: "utf8"});
 			const response = await fetch(
 				"https://www.toptal.com/developers/javascript-minifier/api/raw", {
-				method: "POST",
-				headers: {"Content-Type": "application/x-www-form-urlencoded"},
-				body: querystring.stringify({input: code})
-			});
+					method: "POST",
+					headers: {"Content-Type": "application/x-www-form-urlencoded"},
+					body: querystring.stringify({input: code}),
+				}
+            );
 			if(!response.ok) throw Error(`minify error. filename: ${minFile}`);
 			const minifyCode = await response.text();
 			await fs.writeFile(minFile, minifyCode);

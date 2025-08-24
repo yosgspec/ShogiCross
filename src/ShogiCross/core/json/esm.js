@@ -23,5 +23,5 @@ export const json = {
 	panels,
 	pieces,
 	pieceRange,
-	pieceCost
+	pieceCost,
 };

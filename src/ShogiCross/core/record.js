@@ -1,5 +1,5 @@
 /** @typedef {import("./panel.js").Panel} Panel */
-import {Piece} from "./piece.js"
+import {Piece} from "./piece.js";
 /**
  * @typedef {Object} RecordInfo - 局面の記録
  * @prop {Object} from
@@ -63,7 +63,7 @@ export class Record {
 				row.map(({piece})=>
 					piece?.isMoved? 1: 0
 				)
-			)
+			),
 		};
 		if(0 < inc) records.splice(this.turn+1);
 		// ターンが変わった
@@ -130,8 +130,8 @@ export class Record {
 		const {to, from, deg, pieceChar, end} = this.records[turn];
 		if(to.pX == null) return `${turn}: ${end}`;
 
-		const getPX = ({pX})=> (board.xLen-pX).toString(isNumOnly? 10: 36);
-		const getPY = ({pY})=> (pY+1).toString(isNumOnly? 10: 36);
+		const getPX = ({pX})=>(board.xLen-pX).toString(isNumOnly? 10: 36);
+		const getPY = ({pY})=>(pY+1).toString(isNumOnly? 10: 36);
 		const numSep = isNumOnly? ",": "";
 		return `${
 			turn}: ${

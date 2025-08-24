@@ -1,8 +1,8 @@
 const template = {
 	// backgroundColor: "#DDEEFF",
 	moveMode: "free",
-	usePlayerControl: false
-}
+	usePlayerControl: false,
+};
 const getPanelWidth = col=>({
 	panelWidth:
 		col < 5? 110:
@@ -14,6 +14,6 @@ const getPanelWidth = col=>({
 export function boardTemplate(col){
 	return {
 		...template,
-		...getPanelWidth(col)
+		...getPanelWidth(col),
 	};
 }

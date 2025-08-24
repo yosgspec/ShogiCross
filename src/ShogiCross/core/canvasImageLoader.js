@@ -42,7 +42,7 @@ export const canvasImage = {
 			getImgSrcs().map(async src=>{
 				this.images[src] = await loadImage(src);
 			})
-		).then(_=>this.imported = true)
-	}
+		).then(_=>this.imported = true);
+	},
 };
 

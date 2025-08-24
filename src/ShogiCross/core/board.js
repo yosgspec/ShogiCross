@@ -32,9 +32,9 @@ export {PROTECTED};
 /** 盤の管理クラス */
 export class Board extends BoardCore{
 	/** @typedef {Object} Board */
-	#mouseControl
-	#playerControl
-	#dialog
+	#mouseControl;
+	#playerControl;
+	#dialog;
 
 	/** ゲームを実行する
 	 * @param {HTMLCanvasElement} canvas - Canvas要素
@@ -181,7 +181,7 @@ export class Board extends BoardCore{
 		});
 
 		// 生存プレイヤーが1人になったら対戦終了
-		const alivePlayers = [...this.players.values()].filter(p => p.alive);
+		const alivePlayers = [...this.players.values()].filter(p =>p.alive);
 		if(alivePlayers.length <= 1){
 			this.onGameEnd?.(this, alivePlayers[0].id);
 			this.isGameEnd = true;

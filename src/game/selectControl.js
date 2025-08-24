@@ -1,4 +1,4 @@
-import {boards, games} from "../ShogiCross/lib.js"
+import {boards, games} from "../ShogiCross/lib.js";
 import {PlayGames} from "./playGame.js";
 
 const crossSelects = document.getElementById("crossSelects");
@@ -8,8 +8,8 @@ const select = {
 	board: document.getElementById("selectBoard"),
 	stand: document.getElementById("selectStand"),
 	pieceGame: document.querySelectorAll(".selectPieceGame"),
-	pieceSet: document.querySelectorAll(".selectPieceSet")
-}
+	pieceSet: document.querySelectorAll(".selectPieceSet"),
+};
 
 // ゲームセレクトを初期化
 Object.entries(PlayGames).forEach(([key, {name, variant}])=>{
@@ -86,7 +86,7 @@ function updateCrossPiece(i){
 			opt.value = opt.textContent = key;
 			pieceSet.appendChild(opt);
 		});
-	}
+	};
 }
 
 export class SelectControl{
@@ -100,10 +100,10 @@ export class SelectControl{
 			useStand: JSON.parse(select.stand.value),
 			playerOptions: [...select.pieceGame].map((pieceGame, i)=>({
 				gameName: pieceGame.value,
-				pieceSet: select.pieceSet[i].value
+				pieceSet: select.pieceSet[i].value,
 			})),
-			usePlayerControl: false
-		}
+			usePlayerControl: false,
+		};
 	}
 	static set onchange(value){
 		select.game.addEventListener("change", updateSelectVariant);
@@ -117,6 +117,6 @@ export class SelectControl{
 			pieceGame.addEventListener("change", value);
 			select.board.addEventListener("change", updateCrossPiece(i));
 			select.pieceSet[i].addEventListener("change", value);
-		})
+		});
 	}
 }
