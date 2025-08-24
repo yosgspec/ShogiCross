@@ -176,12 +176,22 @@ jobs:
         run: |
           git config --global user.name 'github-actions[bot]'
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
-          git add ./cdn
+
+          # cdnブランチが存在しない場合、孤立ブランチとして作成
+          if git fetch origin cdn; then
+            git checkout cdn
+          else
+            git checkout --orphan cdn
+            # 管理対処ファイルをすべて削除(除外ファイル除く)
+            git rm -rf .
+          fi
+          mv cdn/* .
+          git add .
           if git diff --staged --quiet; then
             echo "No changes to CDN to commit."
           else
             git commit -m "Release ${{needs.CheckVersion.outputs.PROJECT_VERSION}} [skip ci]"
-            git push
+            git push origin cdn --set-upstream
           fi
           git tag ${{needs.CheckVersion.outputs.PROJECT_VERSION}}
           git push origin ${{needs.CheckVersion.outputs.PROJECT_VERSION}}
