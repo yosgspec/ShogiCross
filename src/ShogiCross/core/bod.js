@@ -10,7 +10,7 @@ export class Bod{
 		[0, " "],
 		[90, ">"],
 		[180, "v"],
-		[270, "<"]
+		[270, "<"],
 	]);
 
 	/** 角度から駒の正規表現表示
@@ -36,7 +36,7 @@ export class Bod{
 		[0, "先手の持駒"],
 		[90, "次手の持駒"],
 		[180, "後手の持駒"],
-		[270, "四手の持駒"]
+		[270, "四手の持駒"],
 	]);
 
 	/** 持駒の表題から角度表示
@@ -86,7 +86,7 @@ export class Bod{
 	 * @returns {string}
 	 */
 	static #num2Zen(num){
-		if(10<=num) return num;
+		if(10 <= num) return num;
 		const zen = "０１２３４５６７８９";
 		const i = num%10;
 		return zen[i];
@@ -135,13 +135,13 @@ export class Bod{
 			if([...Bod.#standTitle2Degs.keys()].some(title=>
 				new RegExp(`^${title}`).test(line))
 			) standLines.push(line);
-			else boardLines.push(line.slice(1))
+			else boardLines.push(line.slice(1));
 		});
 
 		let boardStr = boardLines.slice(2, -1).join("\n");
 		Bod.#deg2PieceRegexes.forEach((bodChar, deg)=>{
 			boardStr = boardStr.replace(bodChar, Piece.degChars[deg]);
-		})
+		});
 
 		const standStr = standLines.flatMap(line=>{
 			const [title, paramStr] = line.split(/：/);

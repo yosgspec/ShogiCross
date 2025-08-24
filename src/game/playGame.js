@@ -1,5 +1,5 @@
 import {Board, boards, gameSoft} from "../ShogiCross/lib.js";
-import {boardTemplate} from "./boardTemplate.js"
+import {boardTemplate} from "./boardTemplate.js";
 
 const PlayGamesTop = {
 	default: {
@@ -22,23 +22,23 @@ const PlayGamesTop = {
 				"▲石▲鉄▲猫▲瀧▲嗔▲丑▲狼▲鉐▲鋼▲錨▲錆▲鎭▲鈕▲狂",
 				"▲燕▲雉▲鶴▲鶉▲享▲鷹▲鵬▲鴈▲左▲右▲雕▲雀▲烏▲鴟",
 				"▲鶏▲犬▲麁▲鷙▲犇▲風▲羽▲兎▲猿▲鳫▲狽▲狐▲雲▲霍",
-				"▲錐▲鳶▲曇▲延▲狛▲豬▲鷄▲前▲騰▲行▲瓜▲麈▲羽▲熊"
+				"▲錐▲鳶▲曇▲延▲狛▲豬▲鷄▲前▲騰▲行▲瓜▲麈▲羽▲熊",
 			].join("\n");
 
 			const board = Board.run(canvas, {
 				playBoard,
 				useStand,
-				...boardTemplate(14)
+				...boardTemplate(14),
 			});
 			board.setTextPieces(pieceMap);
 			board.onDrawed = onDrawed;
 			return board;
-		}
+		},
 	},
 	cross: {
 		name: "*クロスゲーム*",
-		run: Board.run
-	}
+		run: Board.run,
+	},
 };
 const PlayGamesBottom = {};
 
@@ -47,10 +47,10 @@ Object.keys(gameSoft).forEach(key=>{
 		const xLen = boards[this.playBoard].field[0].length;
 		return Board.run(canvas, {...option, ...this, ...boardTemplate(xLen)});
 	};
-})
+});
 
 export const PlayGames = {
 	...PlayGamesTop,
 	...gameSoft,
-	...PlayGamesBottom
-}
+	...PlayGamesBottom,
+};

@@ -169,16 +169,16 @@ export class Board{
 		}
 
 		// WebSocket Setup for Online Play
-		this.isOnlineGame = playerOptions.some(p => p.isOnline);
+		this.isOnlineGame = playerOptions.some(p=>p.isOnline);
 		if(this.isOnlineGame){
 			this.ws = new WebSocket("ws://localhost:3000");
 
-			this.ws.onopen = () => {
+			this.ws.onopen = ()=>{
 				console.log("WebSocket connection established.");
 				this.ws.send(JSON.stringify({ type: 'join', gameName: this.name }));
 			};
 
-			this.ws.onmessage = (event) => {
+			this.ws.onmessage = (event)=>{
 				onReadyOnline?.(event, this);
 				console.log("Received message from server:", event.data);
 				try {
@@ -206,13 +206,13 @@ export class Board{
 				}
 			};
 
-			this.ws.onclose = () => {
+			this.ws.onclose = ()=>{
 				console.log("WebSocket connection closed.");
 				this.#dialog?.show("接続エラー", "サーバーとの接続が切れました。", [{label: "OK"}]);
 			};
 
-			this.ws.onerror = (error) => {
-				console.error("WebSocket error:", error);
+			this.ws.onerror = ex=>{
+				console.error("WebSocket error:", ex);
 				this.#dialog?.show("接続エラー", "サーバーとの接続でエラーが発生しました。", [{label: "OK"}]);
 			};
 		}
@@ -342,7 +342,7 @@ export class Board{
 		let fieldPieces = field.map(row=>row.map(({piece})=>piece));
 		if([90, 270].includes(deg)){
 			// 2次配列を転置
-			const transpose = a => a[0].map((_, c) => a.map(r => r[c]));
+			const transpose = a=>a[0].map((_, c)=>a.map(r=>r[c]));
 			if(xLen !== yLen) throw Error(`cols=${xLen} != rows=${yLen}, Not rows = cols.`);
 			fieldPieces = transpose(fieldPieces);
 		}
@@ -555,7 +555,7 @@ export class Board{
 		});
 
 		// 生存プレイヤーが1人になったら対戦終了
-		const alivePlayers = [...this.players.values()].filter(p => p.alive);
+		const alivePlayers = [...this.players.values()].filter(p=>p.alive);
 		if(alivePlayers.length <= 1){
 			this.onGameEnd?.(this, alivePlayers[0].id);
 			this.isGameEnd = true;
@@ -840,8 +840,8 @@ export class Board{
 		const {to, from, deg, pieceChar, end} = record;
 		if(to.pX == null) return `${turn}: ${end}`;
 
-		const getPX = ({pX})=> (this.xLen-pX).toString(isNumOnly? 10: 36);
-		const getPY = ({pY})=> (pY+1).toString(isNumOnly? 10: 36);
+		const getPX = ({pX})=>(this.xLen-pX).toString(isNumOnly? 10: 36);
+		const getPY = ({pY})=>(pY+1).toString(isNumOnly? 10: 36);
 		const numSep = isNumOnly? ",": "";
 		return `${
 			turn}: ${

@@ -31,7 +31,7 @@ export class Piece{
 		0: "▲",
 		90: "≫",
 		180: "▽",
-		270: "＜"
+		270: "＜",
 	};
 
 	/** プレイヤー表示から角度を取得
@@ -49,8 +49,8 @@ export class Piece{
 		"SR": 0.965,
 		"R": 0.935,
 		"UC": 0.90,
-		"C": 0.865
-	}
+		"C": 0.865,
+	};
 
 	/** 駒の段階別価値を取得
 	 * @returns {string}
@@ -167,7 +167,7 @@ export class Piece{
 	 * @returns {number}
 	 */
 	get zoom(){
-		let zoom =this.size/100;
+		let zoom = this.size/100;
 		if(this.useRankSize)
 			zoom *= Piece.rankRatio[this.rank];
 		return zoom;
@@ -215,7 +215,7 @@ export class Piece{
 		try{
 			Object.entries(this.range).forEach(([key, rng])=>{
 				if(Array.isArray(rng)) return;
-				this.range[key] = pieceRange[rng].map(row=>[...row])
+				this.range[key] = pieceRange[rng].map(row=>[...row]);
 			});
 		}
 		catch(e){
@@ -281,7 +281,7 @@ export class Piece{
 			if(![90, 180, 270].includes(deg)) throw Error(`deg=${deg}, deg need multiple of 90.`);
 			if([90, 270].includes(deg)){
 				// 2次配列を転置
-				const transpose = a => a[0].map((_, c) => a.map(r => r[c]));
+				const transpose = a=>a[0].map((_, c)=>a.map(r=>r[c]));
 				range[key] = transpose(range[key]);
 			}
 			if([180, 270].includes(deg)){

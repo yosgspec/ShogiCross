@@ -29,7 +29,7 @@ const defaultStyles = {
 	},
 	btnHover: {
 		background: "#ddd",
-	}
+	},
 };
 
 export class Dialog{
@@ -92,8 +92,8 @@ export class Dialog{
 	setFontFamily(fontFamily){
 		if(this.dialog){
 			this.dialog.style.fontFamily = fontFamily;
-				// ボタンのフォントも設定
-				this.#styles.button.fontFamily = fontFamily;
-			}
+			// ボタンのフォントも設定
+			this.#styles.button.fontFamily = fontFamily;
 		}
+	}
 }
