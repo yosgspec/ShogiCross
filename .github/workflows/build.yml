@@ -185,7 +185,7 @@ jobs:
             # 管理対処ファイルをすべて削除(除外ファイル除く)
             git rm -rf .
           fi
-          mv cdn/* .
+          mv ./cdn/* .
           git add .
           if git diff --staged --quiet; then
             echo "No changes to CDN to commit."
