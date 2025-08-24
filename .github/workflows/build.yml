@@ -179,7 +179,7 @@ jobs:
 
           # cdnブランチが存在しない場合、孤立ブランチとして作成
           if git fetch origin cdn; then
-            git checkout cdn
+            git switch cdn
           else
             git checkout --orphan cdn
             # 管理対処ファイルをすべて削除(除外ファイル除く)
