@@ -1,4 +1,4 @@
-declare class V extends q {
+declare class Z extends V {
     overlay: Oe;
     autoDrawing: any;
     isGameEnd: boolean;
@@ -8,9 +8,9 @@ declare class V extends q {
     onGameEnd: any;
     /** 操作パネルを構築
      * @param {string[]} compList - 表示するコントロールの一覧
-     * @returns {PlayerControl}
+     * @returns {UIControl}
      */
-    makePlayerControl(e: any): any;
+    makeUIControl(e: any): any;
     /** 画像を取得
      * @param {string} fileName - ファイル名
      * @param {string} ext - 拡張子
@@ -19,49 +19,10 @@ declare class V extends q {
     downloadImage(e: any, t: any, a: any): Promise<void>;
     #private;
 }
-declare class Fe extends V {
+declare class $e extends Z {
     onReadyOnline: any;
     isOnlineGame: any;
     ws: WebSocket;
-    stand: D | {
-        dropPiece(l: any, d?: {}): void;
-        board: any;
-        left: number;
-        top: any;
-        width: number;
-        height: any;
-        right: number;
-        bottom: any;
-        pitchWidth: number;
-        pitchHeight: any;
-        xLen: any;
-        yLen: any;
-        /** 駒台を初期化にする */
-        clear(): void;
-        stocks: Map<number, any[]>;
-        /** 駒台に追加する
-         * @param {Piece} piece - 追加する駒
-         */
-        add(e: any): void;
-        /** 駒を持ち駒にする
-         * @param {Piece|null} winnerPiece - 移動する駒
-         * @param {Piece} loserPiece - 捕縛される駒
-         * @param {boolean} forceCapture - 属性を無視して捕縛する
-         * @param {boolean} forceCantCapture - 属性を無視して捕縛しない
-         */
-        capturePiece(e: any, t: any, a?: boolean, n?: boolean): void;
-        /** 持ち駒の所有権を回転
-         * @param {number} deg - 回転角 (90の倍数)
-         */
-        rotate(e: any): void;
-        /** 盤を描写 */
-        draw(): void;
-        /** 駒台をテキスト形式で取得
-         * @param {boolean} isCompact - コンパクト表示
-         * @param {boolean} isAlias - エイリアス表示
-         */
-        toString(e?: boolean, t?: boolean): string;
-    };
     /**
      * リモートからの移動を盤面に適用する
      * @param {Object} message
@@ -104,10 +65,10 @@ declare class Fe extends V {
         standIndex: number;
     }): Promise<void>;
 }
-declare class we extends I {
+declare class we extends Y {
     engine: any;
 }
-declare class I {
+declare class Y {
     /**
      * @param {Board} board - 対象の盤面
      * @param {PlayerInfo} player - プレイヤー情報
@@ -132,7 +93,7 @@ declare class I {
      */
     evaluate(e?: any): number;
 }
-declare namespace Y {
+declare namespace G {
     export { random };
     export { greedy };
     export { minimax };
@@ -493,8 +454,8 @@ declare namespace j {
      */
     function importAsync(): Promise<void>;
 }
-declare function Se(p: any): void;
-declare namespace ce {
+declare function me(p: any): void;
+declare namespace pe {
     namespace shogi {
         let name: string;
         let variant: string;
@@ -1363,7 +1324,7 @@ declare namespace ce {
         export { playerOptions_45 as playerOptions };
     }
 }
-declare namespace J {
+declare namespace K {
     namespace 将棋 {
         let english: string;
         let fontColor: string;
@@ -1651,7 +1612,7 @@ declare namespace J {
         export { position_6 as position };
     }
 }
-declare const R: {
+declare const T: {
     S: {
         name: string;
         text: string;
@@ -1796,7 +1757,7 @@ declare const R: {
         attr: string[];
     };
 };
-declare namespace U {
+declare namespace J {
     let 女: number;
     let 獅: number;
     let 后: number;
@@ -1929,7 +1890,7 @@ declare namespace U {
     let 楚: number;
     let 帥: number;
 }
-declare namespace ae {
+declare namespace se {
     export let 〇: string[];
     let 歩_1: string[];
     export { 歩_1 as 歩 };
@@ -2067,7 +2028,7 @@ declare namespace ae {
     let 呈_1: string[];
     export { 呈_1 as 呈 };
 }
-declare namespace T {
+declare namespace D {
     export namespace 歩_2 {
         let name_46: string;
         export { name_46 as name };
@@ -5578,7 +5539,7 @@ declare namespace T {
         export { range_205 as range };
     }
 }
-declare class q {
+declare class V {
     /** ゲームを実行する
      * @param {HTMLCanvasElement} canvas - Canvas要素
      * @param {BoardInitOption} option - ボードの初期化オプション
@@ -5618,10 +5579,10 @@ declare class q {
     height: number;
     right: any;
     bottom: any;
-    stand: D;
+    stand: I;
     moveMode: any;
     record: fe;
-    enPassant: K;
+    enPassant: q;
     /** ボードを閉じる */
     close(): void;
     /** 現在の手番のプレイヤー情報を取得
@@ -5710,6 +5671,12 @@ declare class q {
         canPromo: boolean;
         forcePromo: boolean;
     };
+    /** 駒を単純移動
+     * @param {Panel} fromPanel - 移動元のマス目
+     * @param {Panel} toPanel - 選択中のマス目
+     * @param {boolean} isCpuMove - CPUによる移動か
+     * @returns boolean
+     */
     simpleMovePiece(e: any, t: any): void;
     /** 駒を移動
      * @param {Panel} fromPanel - 移動元のマス目
@@ -5761,11 +5728,31 @@ declare class Oe {
     updatePosition(): void;
     #private;
 }
-declare class D {
+declare class random extends Y {
+    constructor(e: any, t: any);
+}
+declare class greedy extends Y {
+    constructor(e: any, t: any);
+}
+declare class minimax extends Y {
+    constructor(e: any, t: any);
+    searchDepth: number;
+    /**
+     * ミニマックス法（アルファベータ枝刈り付き）を実行します。
+     * @param {Board} board - 現在の盤面
+     * @param {number} depth - 残りの探索深さ
+     * @param {number} alpha - アルファ値
+     * @param {number} beta - ベータ値
+     * @param {boolean} isMaximizingPlayer - 現在のプレイヤーが最大化プレイヤーかどうか
+     * @returns {number} 評価値
+     */
+    minimax(e: any, t: any, a: any, n: any, s: any): number;
+}
+declare class I {
     /** 駒台への角度ごとの表示順
      * @type {number[]}
      */
-    static "__#28@#e": number[];
+    static "__#29@#e": number[];
     /**
      * @param {Board} board - 盤面
      */
@@ -5813,26 +5800,6 @@ declare class D {
      * @param {boolean} isAlias - エイリアス表示
      */
     toString(e?: boolean, t?: boolean): string;
-}
-declare class random extends I {
-    constructor(e: any, t: any);
-}
-declare class greedy extends I {
-    constructor(e: any, t: any);
-}
-declare class minimax extends I {
-    constructor(e: any, t: any);
-    searchDepth: number;
-    /**
-     * ミニマックス法（アルファベータ枝刈り付き）を実行します。
-     * @param {Board} board - 現在の盤面
-     * @param {number} depth - 残りの探索深さ
-     * @param {number} alpha - アルファ値
-     * @param {number} beta - ベータ値
-     * @param {boolean} isMaximizingPlayer - 現在のプレイヤーが最大化プレイヤーかどうか
-     * @returns {number} 評価値
-     */
-    minimax(e: any, t: any, a: any, n: any, s: any): number;
 }
 declare class fe {
     constructor(e: any);
@@ -5888,7 +5855,7 @@ declare class fe {
     getComment(e?: number): string;
     #private;
 }
-declare class K {
+declare class q {
     degs: {};
     /** アンパッサン情報をクリア
      * @param {number} deg - アンパッサンされうる陣営の角度
@@ -5916,4 +5883,4 @@ declare class K {
     clone(): this;
 }
 declare const X: unique symbol;
-export { V as Board, Fe as BoardOnline, we as CpuEngine, I as CpuEngineBase, Y as CpuEngines, C as Piece, z as boards, N as canvasFont, j as canvasImage, Se as extendData, ce as gameSoft, J as games, R as panels, U as pieceCost, ae as pieceRange, T as pieces };
+export { Z as Board, $e as BoardOnline, we as CpuEngine, Y as CpuEngineBase, G as CpuEngines, C as Piece, z as boards, N as canvasFont, j as canvasImage, me as extendData, pe as gameSoft, K as games, T as panels, J as pieceCost, se as pieceRange, D as pieces };
