@@ -2,6 +2,7 @@
 /** @typedef {import("./panel.js").Panel} Panel */
 import {Board, PROTECTED as $} from "./board.js";
 import {Stand} from "./stand.js";
+import {Piece} from "./piece.js";
 
 export class BoardOnline extends Board{
 	/**
@@ -99,6 +100,12 @@ export class BoardOnline extends Board{
 		// Stand クラスを継承した新しいクラスを作成し、dropPiece をオーバーライド
 		const board = this;
 		class StandOnline extends Stand{
+			/** 持ち駒からボード上に配置する
+			 * @param {Panel} toPanel - 配置先のパネル
+			 * @param {Object} option - オプション
+			 * @param {number} option.deg - 角度
+			 * @param {number} option.i - 配置する持ち駒のインデックス
+			 */
 			dropPiece(toPanel, option={}){
 				const activePlayer = board.getActivePlayer();
 
@@ -106,6 +113,7 @@ export class BoardOnline extends Board{
 					const {deg, i} = option;
 					const stock = this.stocks.get(deg);
 					const piece = stock[i];
+					if(!(piece instanceof Piece)) return;
 
 					const data = {
 						type: "drop",
