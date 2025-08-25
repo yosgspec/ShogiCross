@@ -3,7 +3,7 @@
 </div></main>
 
 <script type="module">
-    import {Board} from "https://cdn.jsdelivr.net/gh/yosgspec/ShogiCross@0.11/ShogiCross.min.js";
+    import {Board} from "https://cdn.jsdelivr.net/gh/yosgspec/ShogiCross@0.12/ShogiCross.min.js";
     const canvas = document.getElementById("shogiCross");
     const board = Board.run(canvas, {
         name: "ShogiCrossサンプル",
@@ -11,7 +11,7 @@
         useStand: true,
         players: 4,
         canvasFit: "parentOverflow",
-        usePlayerControl: true,
+        useUIControl: true,
         moveMode: "free"
     });
 

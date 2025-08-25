@@ -1,0 +1,23 @@
+<main><div>
+    <canvas id="shogiCross"></canvas>
+    <div>
+        <input id="jsonRecord" style="width:10rem; color:#000033; background-color:#EEFFFF">
+        <button id="getJson">取得</button>
+    </div>
+</div></main>
+
+<script type="module">
+    import {Board, gameSoft} from "https://cdn.jsdelivr.net/gh/yosgspec/ShogiCross@0.12/ShogiCross.min.js";
+    const canvas = document.getElementById("shogiCross");
+    const board = Board.run(canvas, gameSoft.gorogoroDobutsuShogi);
+
+    const jsonRecord = document.getElementById("jsonRecord");
+
+    /** 棋譜データを取得
+     * @param {}  - エンコード有無
+     * @returns {string}
+     */
+    // board.record.getJson(isEncode?: boolean): string
+    document.getElementById("getJson").onclick = ()=>jsonRecord.value = board.record.getJson();
+</script>
+<script src="codeViewer.js"></script>
