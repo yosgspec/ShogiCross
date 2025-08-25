@@ -40,7 +40,7 @@ export class Stand{
 	 * @param {number} option.deg - 角度
 	 * @param {number} option.i - 配置する持ち駒のインデックス
 	 */
-	releasePiece(toPanel, option={}){
+	dropPiece(toPanel, option={}){
 		const {board} = this;
 		if(board.moveMode === "viewOnly" || toPanel.hasAttr("keepOut")) return;
 
