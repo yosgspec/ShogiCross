@@ -7,7 +7,7 @@ import {canvasImage} from "./canvasImageLoader.js";
 import {downloadImage} from "./downloadImage.js";
 import {Dialog} from "./dialog.js";
 import {mouseControl} from "./mouseControl.js";
-import {PlayerControl} from "./playerControl.js";
+import {UIControl} from "./uiControl.js";
 import {Overlay} from "./overlay.js";
 export {PROTECTED};
 
@@ -22,7 +22,7 @@ export {PROTECTED};
  * @prop {"normal"|"free"|"viewOnly"} moveMode - 移動モード
  * @prop {boolean} autoDrawing - 描写の自動更新有無
  * @prop {OverlayOptions} overlayOptions - オーバーレイのオプション
- * @prop {boolean} usePlayerControl - プレイヤーを使用するか
+ * @prop {boolean} useUIControl - プレイヤーを使用するか
  * @prop {(e:Board)=>void} onDrawed - 描写イベント
  * @prop {(e:Board,turn:number)=>void} onDrawed - 描写イベント
  * @prop {(e:Board,playerId:number)=>void} onGameOver - ゲームオーバーイベント
@@ -33,7 +33,7 @@ export {PROTECTED};
 export class Board extends BoardCore{
 	/** @typedef {Object} Board */
 	#mouseControl;
-	#playerControl;
+	#uiControl;
 	#dialog;
 
 	/** ゲームを実行する
@@ -66,7 +66,7 @@ export class Board extends BoardCore{
 			isHeadless=false,
 			autoDrawing=!isHeadless,
 			overlayOptions,
-			usePlayerControl=!isHeadless,
+			useUIControl=!isHeadless,
 			onDrawed=e=>{},
 			onTurnEnd=(e,turn)=>{},
 			onGameOver=(e,i)=>alert(`プレイヤー${i+1}の敗北です。`),
@@ -138,25 +138,25 @@ export class Board extends BoardCore{
 		this.onGameEnd = onGameEnd;
 
 		if(!isHeadless) this.#mouseControl = mouseControl(this);
-		if(usePlayerControl){
-			this.#playerControl = this.makePlayerControl();
-			this.#playerControl.add();
+		if(useUIControl){
+			this.#uiControl = this.makeUIControl();
+			this.#uiControl.add();
 		}
 	}
 
 	/** 操作パネルを構築
 	 * @param {string[]} compList - 表示するコントロールの一覧
-	 * @returns {PlayerControl}
+	 * @returns {UIControl}
 	 */
-	makePlayerControl(compList){
-		this.#playerControl = new PlayerControl(this, compList);
-		return this.#playerControl;
+	makeUIControl(compList){
+		this.#uiControl = new UIControl(this, compList);
+		return this.#uiControl;
 	}
 
 	/** ボードを閉じる */
 	close(){
 		this.#mouseControl?.removeEvent();
-		this.#playerControl?.remove();
+		this.#uiControl?.remove();
 	}
 	/** 盤面を回転
 	 * @param {boolean} isRight - 回転方向

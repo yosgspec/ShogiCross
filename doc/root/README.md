@@ -81,7 +81,7 @@ Canvas用の画像ローダー
 ##### mouseControl.js
 マウスなどゲームの操作を構成
 
-##### playerControl.js
+##### uiControl.js
 操作パネルの操作を構成
 
 ##### checkTarget.js
