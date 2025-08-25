@@ -1,6 +1,7 @@
 /** @typedef {import("./board.js").BoardInitOption} BoardInitOption */
 /** @typedef {import("./panel.js").Panel} Panel */
 import {Board, PROTECTED as $} from "./board.js";
+import {Stand} from "./stand.js";
 
 export class BoardOnline extends Board{
 	/**
@@ -47,13 +48,8 @@ export class BoardOnline extends Board{
 			try{
 				const message = JSON.parse(event.data);
 				switch(message.type){
-					case "move": {
-						// サーバーから受信した移動情報に基づいて駒を移動
-						// リモートからの移動を盤面に適用
-						this.applyRemoteMove(message);
-						break;
-					}
-					case "readyOnline": {
+					// プレイヤーとマッチングした場合
+					case "readyOnline":
 						this.onReadyOnline?.(message, this);
 						// サーバーからプレイヤーの割り当て情報を受信
 						const myPlayer = [...this.players.values()].find(p=>p.id === message.playerId);
@@ -66,13 +62,21 @@ export class BoardOnline extends Board{
 							if(this.autoDrawing) this.draw();
 						}
 						break;
-					}
-					case "rivalDisconnect": {
-						// 対戦相手の接続が切れたことをユーザーに通知
+
+					// 駒が動いた場合
+					case "move":
+						this.moveRivalPiece(message);
+						break;
+
+					// 駒が駒台から打たれた場合
+					case "drop":
+						this.dropRivalPiece(message);
+						break;
+
+					// 対戦相手の接続が切れた場合
+					case "disconnect":
 						this[$].dialog?.show("対戦相手が切断しました", "ゲームは終了です。");
 						break;
-					}
-					// その他のメッセージタイプもここに追加可能
 				}
 			}
 			catch(ex){
@@ -91,6 +95,77 @@ export class BoardOnline extends Board{
 			// WebSocketエラーをユーザーに通知
 			this[$].dialog?.show("接続エラー", "サーバーとの接続でエラーが発生しました。");
 		};
+
+		// Stand クラスを継承した新しいクラスを作成し、dropPiece をオーバーライド
+		const board = this;
+		class StandOnline extends Stand{
+			dropPiece(toPanel, option={}){
+				console.log("OverRide dropPiece");
+				console.log(toPanel, option);
+				const activePlayer = board.getActivePlayer();
+
+				if(activePlayer.isOnline && activePlayer.isLocal){
+					const {deg, i} = option;
+					const stock = this.stocks.get(deg);
+					const piece = stock[i];
+
+					const data = {
+						type: "drop",
+						to: {pX: toPanel.pX, pY: toPanel.pY},
+						playerDeg: activePlayer.deg, // プレイヤーの視点角度を追加
+						standIndex: i,
+					};
+					console.log("Sending drop message:", data);
+					board.ws.send(JSON.stringify(data));
+
+					console.log(toPanel);
+					// ローカルで打駒を適用 (Stand.dropPiece の中身を参考に)
+					if(board.moveMode === "viewOnly" || toPanel.hasAttr("keepOut")) return;
+
+					toPanel.piece = piece;
+					piece.center = toPanel.center;
+					piece.middle = toPanel.middle;
+					stock.splice(i, 1);
+					board.record.add({toPanel, end: "打"});
+					if (board.autoDrawing) board.draw();
+					return;
+				}
+				// オンラインでない場合は親クラスの処理を呼び出す
+				super.dropPiece(toPanel, option);
+			}
+		}
+		this.stand = new StandOnline(this);
+		console.log(this.stand.constructor.name);
+	}
+
+	/**
+	 * 駒の移動処理（オンラインゲームの場合、サーバーに移動情報を送信）
+	 * @param {Panel} fromPanel - 移動元のパネル
+	 * @param {Panel} toPanel - 移動先のパネル
+	 * @param {boolean} isCpuMove - CPUによる移動かどうか
+	 * @returns {Promise<boolean>} - 移動が成功したかどうか
+	 */
+	async movePiece(fromPanel, toPanel, isCpuMove=false){
+		const activePlayer = this.getActivePlayer();
+
+		// アクティブプレイヤーがオンラインかつローカルプレイヤーの場合
+		if(activePlayer.isOnline && activePlayer.isLocal){
+			if(toPanel.isTarget){
+				const baseChar = fromPanel.piece.char;
+				const result = await super.movePiece(fromPanel, toPanel, isCpuMove);
+				const promoChar = toPanel.piece.char;
+				const data = {
+					type: "move",
+					from: {pX: fromPanel.pX, pY: fromPanel.pY}, // 移動元の座標
+					to: {pX: toPanel.pX, pY: toPanel.pY},     // 移動先の座標
+					promoChar: baseChar !== promoChar? promoChar: null,
+				};
+				this.ws.send(JSON.stringify(data));
+				return result;
+			}
+			return false; // ターゲットでない場合は移動しない
+		}
+		return await super.movePiece(fromPanel, toPanel, isCpuMove);
 	}
 
 	/**
@@ -103,17 +178,14 @@ export class BoardOnline extends Board{
 	 * @param {number} message.to.pX - 移動先の座標X
 	 * @param {number} message.to.pY - 移動先の座標Y
 	 * @param {number} message.playerDeg - 移動を行ったプレイヤーの視点角度
+	 * @param {string|null} message.promoChar - 成り先の駒名(成らない場合null)
 	 */
-	async applyRemoteMove({from, to, playerDeg}) {
-		// === 送信者の座標系をローカル基準に変換 ===
-		const rest = [undefined, -playerDeg, false];
-		const localFromX = this.getCol(from.pX, from.pY, ...rest);
-		const localFromY = this.getRow(from.pX, from.pY, ...rest);
-		const localToX = this.getCol(to.pX, to.pY, ...rest);
-		const localToY = this.getRow(to.pX, to.pY, ...rest);
-
-		const fromPanel = this.field[localFromY][localFromX];
-		const toPanel   = this.field[localToY][localToX];
+	async moveRivalPiece({from, to, playerDeg, promoChar}){
+		// 送信者の座標系をローカル基準に変換
+		const localFrom = this.rotatePosition(from.pX, from.pY, -playerDeg);
+		const localTo = this.rotatePosition(to.pX, to.pY, -playerDeg);
+		const fromPanel = this.field[localFrom.pY][localFrom.pX];
+		const toPanel   = this.field[localTo.pY][localTo.pX];
 		fromPanel.piece.deg = this.degNormal(this.displayDeg+playerDeg);
 
 		this.stand.capturePiece(
@@ -127,35 +199,29 @@ export class BoardOnline extends Board{
 		const {canPromo, forcePromo} = this.checkCanPromo(toPanel);
 		await this.promoPiece(fromPanel, toPanel, canPromo, forcePromo, true);
 
-		if (this.autoDrawing) this.draw();
+		if(this.autoDrawing) this.draw();
 		this[$].emitGameOver();
 	}
+
 	/**
-	 * 駒の移動処理（オンラインゲームの場合、サーバーに移動情報を送信）
-	 * @param {Panel} fromPanel - 移動元のパネル
-	 * @param {Panel} toPanel - 移動先のパネル
-	 * @param {boolean} isCpuMove - CPUによる移動かどうか
-	 * @returns {Promise<boolean>} - 移動が成功したかどうか
+	 * リモートからの打駒を盤面に適用する
+	 * @param {Object} message
+	 * @param {Object} message.to - 打つ先の座標
+	 * @param {number} message.to.pX - 打つ先の座標X
+	 * @param {number} message.to.pY - 打つ先の座標Y
+	 * @param {number} message.playerDeg - 打駒を行ったプレイヤーの視点角度
+	 * @param {number} message.standIndex - 駒台の駒のインデックス
 	 */
-	async movePiece(fromPanel, toPanel, isCpuMove = false) {
-		const activePlayer = this.getActivePlayer();
+	async dropRivalPiece({to, playerDeg, standIndex}){
+		// 送信者の座標系をローカル基準に変換
+		const localTo = this.rotatePosition(to.pX, to.pY, -playerDeg);
+		const toPanel = this.field[localTo.pY][localTo.pX];
+		const option = {
+			deg: this.degNormal(-this.displayDeg+playerDeg),
+			i: standIndex,
+		};
+		this.stand.dropPiece(toPanel, option);
 
-		// アクティブプレイヤーがオンラインかつローカルプレイヤーの場合
-		if(activePlayer.isOnline && activePlayer.isLocal){
-			if(toPanel.isTarget){
-				const moveData = {
-					type: "move", // メッセージタイプを"move"に設定
-					from: {pX: fromPanel.pX, pY: fromPanel.pY}, // 移動元の座標
-					to: {pX: toPanel.pX, pY: toPanel.pY},     // 移動先の座標
-				};
-				// 移動情報をサーバーに送信
-				this.ws.send(JSON.stringify(moveData));
-				// 親クラスのmovePieceメソッドを呼び出し、ローカルで移動を適用
-				return await super.movePiece(fromPanel, toPanel, isCpuMove);
-			}
-			return false; // ターゲットでない場合は移動しない
-		}
-
-		return await super.movePiece(fromPanel, toPanel, isCpuMove);
+		if(this.autoDrawing) this.draw();
 	}
 }
