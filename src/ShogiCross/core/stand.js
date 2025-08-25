@@ -46,9 +46,11 @@ export class Stand{
 
 		const {deg, i} = option;
 		const stock = this.stocks.get(deg);
-		toPanel.piece = stock[i];
-		stock[i].center = toPanel.center;
-		stock[i].middle = toPanel.middle;
+		const piece = stock[i];
+		if(!(piece instanceof Piece)) return;
+		toPanel.piece = piece;
+		piece.center = toPanel.center;
+		piece.middle = toPanel.middle;
 		stock.splice(i,1);
 		board.record.add({toPanel, end: "打"});
 	}
