@@ -1,0 +1,15 @@
+<h1>手を進める・戻す</h1>
+<p>ゲームの手を戻すこと、進めることをする。<br>
+<a href="#doc/useUIControl">デフォルトの操作パネルの表示</a>で提供される機能の一つであるが、<br>
+独自のボタン表示や実行タイミングの制御を行える。<br>
+Board.record.undo()またはBoard.record.redo()を用いて実行。</p>
+
+<iframe src="./iframe/record/switch.html" frameborder="no"></iframe>
+
+<h3>メソッド仕様</h3>
+<div style="font-family: monospace;">
+	Board.prototype.record.undo(): void
+	<ul><li>記録の手を戻す</li></ul>
+	Board.prototype.record.redo(): void
+	<ul><li>記録の手を進める</li></ul>
+</div>
