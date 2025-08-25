@@ -447,7 +447,14 @@ export class BoardCore{
 		};
 	}
 
+	/** 駒を単純移動
+	 * @param {Panel} fromPanel - 移動元のマス目
+	 * @param {Panel} toPanel - 選択中のマス目
+	 * @param {boolean} isCpuMove - CPUによる移動か
+	 * @returns boolean
+	 */
 	simpleMovePiece(fromPanel, toPanel){
+		if(fromPanel instanceof Panel || toPanel instanceof Panel) return;
 		toPanel.piece = fromPanel.piece;
 		toPanel.piece.isMoved = true;
 		fromPanel.piece = null;

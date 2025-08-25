@@ -107,6 +107,7 @@ export class BoardOnline extends Board{
 			 * @param {number} option.i - 配置する持ち駒のインデックス
 			 */
 			dropPiece(toPanel, option={}){
+				if(!(toPanel instanceof Panel)) return
 				const activePlayer = board.getActivePlayer();
 
 				if(activePlayer.isOnline && activePlayer.isLocal){
