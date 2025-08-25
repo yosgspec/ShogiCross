@@ -106,7 +106,7 @@ export function mouseControl(board){
 					await board.movePiece(selectPanel, panel);
 				}
 				if(selectStand && !panel.piece){
-					board.stand.releasePiece(panel, selectStand);
+					board.stand.dropPiece(panel, selectStand);
 				}
 			}
 		);

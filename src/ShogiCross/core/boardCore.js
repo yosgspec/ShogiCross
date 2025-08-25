@@ -357,6 +357,19 @@ export class BoardCore{
 		);
 	}
 
+	/** 駒の座標を回転取得する
+	 * @param {number} pX - マス目の列
+	 * @param {number} pY - マス目の行
+	 * @param {number} deg - 角度
+	 * @returns {number}
+	 */
+	rotatePosition(pX, pY, deg){
+		return {
+			pX: this.getCol(pX, pY, this.displayDeg, deg),
+			pY: this.getRow(pX, pY, this.displayDeg, deg, false),
+		};
+	}
+
 	/** プロモーション選択
 	 * @param {Piece} piece - 駒
 	 * @param {boolean} canPromo - 成ることができる

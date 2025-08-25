@@ -78,6 +78,15 @@ wss.on("connection", ws=>{
 				// 移動情報を対戦相手にブロードキャスト（転送）
 				rival.send(JSON.stringify(data));
 			}
+			// メッセージタイプが"drop"の場合の処理
+			else if(data.type === "drop" && rival){
+				console.log("Processing drop message:", data);
+				console.log(`Drop from ${ws.clientId} in game ${ws.gameId}:`, data);
+				// 送信元のプレイヤーの視点角度をメッセージに追加
+				data.playerDeg = ws.playerDeg;
+				// 打駒情報を対戦相手にブロードキャスト（転送）
+				rival.send(JSON.stringify(data));
+			}
 			// メッセージタイプが"join"の場合の処理（現在はログ出力のみ）
 			else if(data.type === "join"){
 				console.log(`Join message from ${ws.clientId} for game: ${data.gameName}`);
@@ -96,7 +105,7 @@ wss.on("connection", ws=>{
 			// 対戦相手に切断を通知
 			const rival = game.players.find(p => p.clientId !== ws.clientId);
 			if(rival && rival.readyState === WebSocket.OPEN){
-				rival.send(JSON.stringify({type: "rivalDisconnect"}));
+				rival.send(JSON.stringify({type: "disconnect"}));
 			}
 			delete games[ws.gameId]; // ゲームを削除
 			console.log(`Game ${ws.gameId} closed.`);
