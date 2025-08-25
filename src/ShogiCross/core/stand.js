@@ -1,5 +1,4 @@
 /** @typedef {import("./board.js").Board} Board */
-/** @typedef {import("./panel.js").Panel} Panel */
 import {Piece} from "./piece.js";
 import {Panel} from "./panel.js";
 
