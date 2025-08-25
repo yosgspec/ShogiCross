@@ -11,13 +11,6 @@ declare class V extends q {
      * @returns {PlayerControl}
      */
     makePlayerControl(e: any): any;
-    /** プロモーション選択
-     * @param {Piece} piece - 駒
-     * @param {boolean} canPromo - 成ることができる
-     * @param {boolean} forcePromo - 成りを強制する
-     * @param {boolean} isCpuMove - CPUによる移動か
-     */
-    onSelectPromo(e: any, t: any, a: any, n: any): Promise<any>;
     /** 画像を取得
      * @param {string} fileName - ファイル名
      * @param {string} ext - 拡張子
@@ -30,6 +23,45 @@ declare class Fe extends V {
     onReadyOnline: any;
     isOnlineGame: any;
     ws: WebSocket;
+    stand: D | {
+        dropPiece(l: any, d?: {}): void;
+        board: any;
+        left: number;
+        top: any;
+        width: number;
+        height: any;
+        right: number;
+        bottom: any;
+        pitchWidth: number;
+        pitchHeight: any;
+        xLen: any;
+        yLen: any;
+        /** 駒台を初期化にする */
+        clear(): void;
+        stocks: Map<number, any[]>;
+        /** 駒台に追加する
+         * @param {Piece} piece - 追加する駒
+         */
+        add(e: any): void;
+        /** 駒を持ち駒にする
+         * @param {Piece|null} winnerPiece - 移動する駒
+         * @param {Piece} loserPiece - 捕縛される駒
+         * @param {boolean} forceCapture - 属性を無視して捕縛する
+         * @param {boolean} forceCantCapture - 属性を無視して捕縛しない
+         */
+        capturePiece(e: any, t: any, a?: boolean, n?: boolean): void;
+        /** 持ち駒の所有権を回転
+         * @param {number} deg - 回転角 (90の倍数)
+         */
+        rotate(e: any): void;
+        /** 盤を描写 */
+        draw(): void;
+        /** 駒台をテキスト形式で取得
+         * @param {boolean} isCompact - コンパクト表示
+         * @param {boolean} isAlias - エイリアス表示
+         */
+        toString(e?: boolean, t?: boolean): string;
+    };
     /**
      * リモートからの移動を盤面に適用する
      * @param {Object} message
@@ -40,8 +72,9 @@ declare class Fe extends V {
      * @param {number} message.to.pX - 移動先の座標X
      * @param {number} message.to.pY - 移動先の座標Y
      * @param {number} message.playerDeg - 移動を行ったプレイヤーの視点角度
+     * @param {string|null} message.promoChar - 成り先の駒名(成らない場合null)
      */
-    applyRemoteMove({ from: e, to: t, playerDeg: a }: {
+    moveRivalPiece({ from: e, to: t, playerDeg: a, promoChar: n }: {
         from: {
             pX: number;
             pY: number;
@@ -51,12 +84,30 @@ declare class Fe extends V {
             pY: number;
         };
         playerDeg: number;
+        promoChar: string | null;
+    }): Promise<void>;
+    /**
+     * リモートからの打駒を盤面に適用する
+     * @param {Object} message
+     * @param {Object} message.to - 打つ先の座標
+     * @param {number} message.to.pX - 打つ先の座標X
+     * @param {number} message.to.pY - 打つ先の座標Y
+     * @param {number} message.playerDeg - 打駒を行ったプレイヤーの視点角度
+     * @param {number} message.standIndex - 駒台の駒のインデックス
+     */
+    dropRivalPiece({ to: e, playerDeg: t, standIndex: a }: {
+        to: {
+            pX: number;
+            pY: number;
+        };
+        playerDeg: number;
+        standIndex: number;
     }): Promise<void>;
 }
-declare class we extends D {
+declare class we extends I {
     engine: any;
 }
-declare class D {
+declare class I {
     /**
      * @param {Board} board - 対象の盤面
      * @param {PlayerInfo} player - プレイヤー情報
@@ -81,7 +132,7 @@ declare class D {
      */
     evaluate(e?: any): number;
 }
-declare namespace I {
+declare namespace Y {
     export { random };
     export { greedy };
     export { minimax };
@@ -232,7 +283,7 @@ declare class C {
      */
     toString(e?: boolean): string;
 }
-declare const H: {
+declare const z: {
     将棋: {
         backgroundColor: string;
         borderColor: string;
@@ -1312,7 +1363,7 @@ declare namespace ce {
         export { playerOptions_45 as playerOptions };
     }
 }
-declare namespace U {
+declare namespace J {
     namespace 将棋 {
         let english: string;
         let fontColor: string;
@@ -1745,7 +1796,7 @@ declare const R: {
         attr: string[];
     };
 };
-declare namespace z {
+declare namespace U {
     let 女: number;
     let 獅: number;
     let 后: number;
@@ -5567,7 +5618,7 @@ declare class q {
     height: number;
     right: any;
     bottom: any;
-    stand: J;
+    stand: D;
     moveMode: any;
     record: fe;
     enPassant: K;
@@ -5603,7 +5654,7 @@ declare class q {
      * @param {number} option.displayPtn - 表示文字列を変更(1〜)
      * @param {boolean} option.isMoved - 初回移動済みか否か
      */
-    putNewPiece(e: any, t: any, a: any, n: any, i?: {}): void;
+    putNewPiece(e: any, t: any, a: any, n: any, s?: {}): void;
     /** 文字列から駒を配置
      * {string} text - 駒配置を表す文字列
      */
@@ -5615,7 +5666,7 @@ declare class q {
      * @param {number} offsetDeg - 補正角度
      * @returns {number}
      */
-    getRow(e: any, t: any, a?: number, n?: number, i?: boolean): number;
+    getRow(e: any, t: any, a?: number, n?: number, s?: boolean): number;
     /** 角度基準のマス目の列を取得する
      * @param {number} pX - マス目の列
      * @param {number} pY - マス目の行
@@ -5624,21 +5675,30 @@ declare class q {
      * @returns {number}
      */
     getCol(e: any, t: any, a?: number, n?: number): number;
+    /** 駒の座標を回転取得する
+     * @param {number} pX - マス目の列
+     * @param {number} pY - マス目の行
+     * @param {number} deg - 角度
+     * @returns {number}
+     */
+    rotatePosition(e: any, t: any, a: any): number;
     /** プロモーション選択
      * @param {Piece} piece - 駒
      * @param {boolean} canPromo - 成ることができる
      * @param {boolean} forcePromo - 成りを強制する
      * @param {boolean} isCpuMove - CPUによる移動か
+     * @param {string|null} promoChar - 成り先の駒名(成らない場合null)
      */
-    onSelectPromo(e: any, t: any, a: any, n: any): Promise<string>;
+    onSelectPromo(e: any, t: any, a: any, n: any, s: any): Promise<any>;
     /** プロモーション処理
      * @param {Panel} fromPanel - 移動元のマス目
      * @param {Panel} toPanel - 選択中のマス目
      * @param {boolean} canPromo - 成ることができる
      * @param {boolean} forcePromo - 成りを強制する
      * @param {boolean} isCpuMove - CPUによる移動か
+     * @param {string|null} promoChar - 成り先の駒名(成らない場合null)
      */
-    promoPiece(e: any, t: any, a: any, n: any, i?: boolean): Promise<void>;
+    promoPiece(e: any, t: any, a: any, n: any, s?: boolean, i?: any): Promise<void>;
     /** プロモーションエリア内であるか判別
      * @param {Panel} panel - マス目
      * @returns {{
@@ -5701,27 +5761,7 @@ declare class Oe {
     updatePosition(): void;
     #private;
 }
-declare class random extends D {
-    constructor(e: any, t: any);
-}
-declare class greedy extends D {
-    constructor(e: any, t: any);
-}
-declare class minimax extends D {
-    constructor(e: any, t: any);
-    searchDepth: number;
-    /**
-     * ミニマックス法（アルファベータ枝刈り付き）を実行します。
-     * @param {Board} board - 現在の盤面
-     * @param {number} depth - 残りの探索深さ
-     * @param {number} alpha - アルファ値
-     * @param {number} beta - ベータ値
-     * @param {boolean} isMaximizingPlayer - 現在のプレイヤーが最大化プレイヤーかどうか
-     * @returns {number} 評価値
-     */
-    minimax(e: any, t: any, a: any, n: any, i: any): number;
-}
-declare class J {
+declare class D {
     /** 駒台への角度ごとの表示順
      * @type {number[]}
      */
@@ -5750,7 +5790,7 @@ declare class J {
      * @param {number} option.deg - 角度
      * @param {number} option.i - 配置する持ち駒のインデックス
      */
-    releasePiece(e: any, t?: {}): void;
+    dropPiece(e: any, t?: {}): void;
     /** 駒台に追加する
      * @param {Piece} piece - 追加する駒
      */
@@ -5773,6 +5813,26 @@ declare class J {
      * @param {boolean} isAlias - エイリアス表示
      */
     toString(e?: boolean, t?: boolean): string;
+}
+declare class random extends I {
+    constructor(e: any, t: any);
+}
+declare class greedy extends I {
+    constructor(e: any, t: any);
+}
+declare class minimax extends I {
+    constructor(e: any, t: any);
+    searchDepth: number;
+    /**
+     * ミニマックス法（アルファベータ枝刈り付き）を実行します。
+     * @param {Board} board - 現在の盤面
+     * @param {number} depth - 残りの探索深さ
+     * @param {number} alpha - アルファ値
+     * @param {number} beta - ベータ値
+     * @param {boolean} isMaximizingPlayer - 現在のプレイヤーが最大化プレイヤーかどうか
+     * @returns {number} 評価値
+     */
+    minimax(e: any, t: any, a: any, n: any, s: any): number;
 }
 declare class fe {
     constructor(e: any);
@@ -5856,4 +5916,4 @@ declare class K {
     clone(): this;
 }
 declare const X: unique symbol;
-export { V as Board, Fe as BoardOnline, we as CpuEngine, D as CpuEngineBase, I as CpuEngines, C as Piece, H as boards, N as canvasFont, j as canvasImage, Se as extendData, ce as gameSoft, U as games, R as panels, z as pieceCost, ae as pieceRange, T as pieces };
+export { V as Board, Fe as BoardOnline, we as CpuEngine, I as CpuEngineBase, Y as CpuEngines, C as Piece, z as boards, N as canvasFont, j as canvasImage, Se as extendData, ce as gameSoft, J as games, R as panels, U as pieceCost, ae as pieceRange, T as pieces };
