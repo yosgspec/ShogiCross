@@ -1,6 +1,7 @@
 /** @typedef {import("./board.js").Board} Board */
 /** @typedef {import("./panel.js").Panel} Panel */
 import {Piece} from "./piece.js";
+import {Panel} from "./panel.js";
 
 /** 駒台の管理クラス */
 export class Stand{
@@ -42,7 +43,11 @@ export class Stand{
 	 */
 	dropPiece(toPanel, option={}){
 		const {board} = this;
-		if(board.moveMode === "viewOnly" || toPanel.hasAttr("keepOut")) return;
+		if(
+			!(toPanel instanceof Panel)
+			|| board.moveMode === "viewOnly"
+			|| toPanel.hasAttr("keepOut")
+		) return;
 
 		const {deg, i} = option;
 		const stock = this.stocks.get(deg);
