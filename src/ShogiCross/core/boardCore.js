@@ -454,7 +454,7 @@ export class BoardCore{
 	 * @returns boolean
 	 */
 	simpleMovePiece(fromPanel, toPanel){
-		if(fromPanel instanceof Panel || toPanel instanceof Panel) return;
+		if(!(fromPanel instanceof Panel) || !(toPanel instanceof Panel)) return;
 		toPanel.piece = fromPanel.piece;
 		toPanel.piece.isMoved = true;
 		fromPanel.piece = null;
