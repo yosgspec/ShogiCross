@@ -375,11 +375,12 @@ export class BoardCore{
 	 * @param {boolean} canPromo - 成ることができる
 	 * @param {boolean} forcePromo - 成りを強制する
 	 * @param {boolean} isCpuMove - CPUによる移動か
+	 * @param {string|null} promoChar - 成り先の駒名(成らない場合null)
 	 */
-	async onSelectPromo(piece, canPromo, forcePromo, isCpuMove){
-		if(this.isHeadless || isCpuMove){
+	async onSelectPromo(piece, canPromo, forcePromo, isCpuMove, promoChar){
+		if(promoChar) return promoChar;
+		if(this.isHeadless || isCpuMove)
 			return canPromo? Object.keys(piece.promo)[0]: null;
-		}
 	}
 
 	/** プロモーション処理
@@ -388,8 +389,9 @@ export class BoardCore{
 	 * @param {boolean} canPromo - 成ることができる
 	 * @param {boolean} forcePromo - 成りを強制する
 	 * @param {boolean} isCpuMove - CPUによる移動か
+	 * @param {string|null} promoChar - 成り先の駒名(成らない場合null)
 	 */
-	async promoPiece(fromPanel, toPanel, canPromo, forcePromo, isCpuMove=false){
+	async promoPiece(fromPanel, toPanel, canPromo, forcePromo, isCpuMove=false, promoChar=null){
 		const {piece} = toPanel;
 
 		// プロモーション判定
@@ -398,9 +400,9 @@ export class BoardCore{
 			return;
 		}
 
-		const promoChar = await this.onSelectPromo(piece, canPromo, forcePromo, isCpuMove);
-		if(promoChar){
-			piece.promotion(promoChar);
+		const selectPromoChar = await this.onSelectPromo(piece, canPromo, forcePromo, isCpuMove, promoChar);
+		if(selectPromoChar){
+			piece.promotion(selectPromoChar);
 			this.record.add({fromPanel, toPanel, end:"成"});
 		}
 		else{

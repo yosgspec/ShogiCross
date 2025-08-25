@@ -193,23 +193,23 @@ export class Board extends BoardCore{
 	 * @param {boolean} canPromo - 成ることができる
 	 * @param {boolean} forcePromo - 成りを強制する
 	 * @param {boolean} isCpuMove - CPUによる移動か
+	 * @param {string|null} promoChar - 成り先の駒名(成らない場合null)
 	 */
-	async onSelectPromo(piece, canPromo, forcePromo, isCpuMove){
+	async onSelectPromo(piece, canPromo, forcePromo, isCpuMove, promoChar){
 		const {moveMode} = this;
 
-		if(isCpuMove) return super.onSelectPromo(piece, canPromo, forcePromo, isCpuMove);
+		if(isCpuMove) return super.onSelectPromo(piece, canPromo, forcePromo, isCpuMove, promoChar);
 		const promoList = [];
 		for(const [char, {name}] of Object.entries(piece.promo))
 			promoList.push({label: `${char}:${name}`, value: char});
 		if(moveMode === "free" || !forcePromo)
 			promoList.push({label: "不成", value: null});
 
-		const promoChar = await this.#dialog.show("",
+		return await this.#dialog.show("",
 			"成りますか?\n"+
 			`${piece.char}:${piece.name}`,
 			promoList
 		);
-		return promoChar;
 	}
 
 	/** 駒を移動
