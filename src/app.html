@@ -139,7 +139,7 @@
 		async function playGame(){
 			playingGame?.close();
 			playingGame = PlayGames[SelectControl.gameName].run(canvas, {onDrawed, ...SelectControl.option});
-			selectVariant.after(playingGame.makePlayerControl([
+			selectVariant.after(playingGame.makeUIControl([
 				"undo",
 				"redo",
 				"rotateLeft",

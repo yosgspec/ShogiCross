@@ -62,8 +62,8 @@
 * [ ] ~~ヘルプサンプルにコード実行機能を追加する。~~
 * [x] ドキュメントを修正
   * [x] freeModeを書き換える
-  * [x] PlayerControlについて追記
-  * [x] makePlayerControlについて追記
+  * [x] UIControlについて追記
+  * [x] makeUIControlについて追記
   * [x] moveRecord
   * [x] record2String
   * [x] ドキュメントのライブラリをCDNへ再差し替え

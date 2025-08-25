@@ -1,5 +1,5 @@
 import {canvasFont, panels, pieces} from "./data.js";
-import {PlayerControl} from "./playerControl.js";
+import {UIControl} from "./uiControl.js";
 export {canvasFont};
 
 /** 読み込む文字の一覧を取得
@@ -7,7 +7,7 @@ export {canvasFont};
  */
 const getChars = ()=>[...
 	new Set([...
-		PlayerControl.buttonTexts+
+		UIControl.buttonTexts+
 		Object.values(panels).map(({displayText})=>displayText).join("")+
 		Object.values(pieces).map(({display})=>display? display.join(""): "").join("")
 	])

@@ -7,7 +7,15 @@
     const canvas = document.getElementById("shogiCross");
     const board = Board.run(canvas, {
         ...gameSoft.shogi,
-        usePlayerControl: false
+        useUIControl: false
     });
+
+    /** 操作パネルを構築
+     * @param {string[]} compList - 表示するコントロールの一覧
+     * @return {UIControl}
+     */
+    // Board.prototype.makeUIControl(compList)
+    const uiControl = board.makeUIControl(["undo", "rotateRight", "downloadImage"]);
+    board.canvas.before(uiControl.component);
 </script>
 <script src="codeViewer.js"></script>

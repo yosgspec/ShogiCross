@@ -39,8 +39,8 @@ export default `
 <div><a href="#doc/moveModeViewOnly">移動を無効化</a></div>
 <div><a href="#doc/onDrawed">描写時に任意の処理を行う</a></div>
 <div><a href="#doc/onGameOver">プレイヤーが敗北した時の処理を行う</a></div>
-<div><a href="#doc/usePlayerControl">操作パネル表示を変更する</a></div>
-<div><a href="#doc/makePlayerControl">操作パネル要素を取得</a></div>
+<div><a href="#doc/useUIControl">操作パネル表示を変更する</a></div>
+<div><a href="#doc/makeUIControl">操作パネル要素を取得</a></div>
 <div><a href="#doc/downloadImage">スクリーンショットを保存する</a></div>
 <div><a href="#doc/rotate">盤面を回転する</a></div>
 <div><a href="#doc/extendData">ゲームデータを拡張する</a></div>

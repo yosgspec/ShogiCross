@@ -2,8 +2,8 @@ import {Board} from "./board.js";
 import {canvasFont} from "./canvasFontLoader.js";
 
 /** 操作パネル */
-export class PlayerControl{
-	/** @typedef {Object} PlayerControl */
+export class UIControl{
+	/** @typedef {Object} UIControl */
 	static buttonTexts = "<>🔄🔁📷";
 
 	/** 要素のサイズをCanvasに合わせて変更 */

@@ -102,7 +102,7 @@ export class SelectControl{
 				gameName: pieceGame.value,
 				pieceSet: select.pieceSet[i].value,
 			})),
-			usePlayerControl: false,
+			useUIControl: false,
 		};
 	}
 	static set onchange(value){
