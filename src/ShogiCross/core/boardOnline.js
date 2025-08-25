@@ -100,8 +100,6 @@ export class BoardOnline extends Board{
 		const board = this;
 		class StandOnline extends Stand{
 			dropPiece(toPanel, option={}){
-				console.log("OverRide dropPiece");
-				console.log(toPanel, option);
 				const activePlayer = board.getActivePlayer();
 
 				if(activePlayer.isOnline && activePlayer.isLocal){
@@ -118,7 +116,6 @@ export class BoardOnline extends Board{
 					console.log("Sending drop message:", data);
 					board.ws.send(JSON.stringify(data));
 
-					console.log(toPanel);
 					// ローカルで打駒を適用 (Stand.dropPiece の中身を参考に)
 					if(board.moveMode === "viewOnly" || toPanel.hasAttr("keepOut")) return;
 
@@ -135,7 +132,6 @@ export class BoardOnline extends Board{
 			}
 		}
 		this.stand = new StandOnline(this);
-		console.log(this.stand.constructor.name);
 	}
 
 	/**
@@ -196,8 +192,7 @@ export class BoardOnline extends Board{
 		);
 
 		this.simpleMovePiece(fromPanel, toPanel);
-		const {canPromo, forcePromo} = this.checkCanPromo(toPanel);
-		await this.promoPiece(fromPanel, toPanel, canPromo, forcePromo, true);
+		await this.promoPiece(fromPanel, toPanel, !!promoChar, false, true, promoChar);
 
 		if(this.autoDrawing) this.draw();
 		this[$].emitGameOver();
