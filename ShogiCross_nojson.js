@@ -6908,7 +6908,7 @@ class Fe extends Z {
     super(e, t);
     const {
       onReadyOnline: a = null,
-      serverURL: i = "http://localhost:3000"
+      serverURL: i = "http://localhost:8080"
     } = t;
     this.onReadyOnline = a, this.isOnline = !0, this.players.forEach((r) => {
       r.isLocal = !1;
