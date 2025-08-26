@@ -1,5 +1,6 @@
 import asyncio
 import json
+import os
 import websockets
 from websockets.connection import State
 
@@ -53,11 +54,9 @@ async def handler(websocket):
 
 				# ロックの外で非同期の送信処理を行う
 				if player1 and player2:
-					readyMsg1 = json.dumps({"type": "readyOnline", "playerId": 0})
-					readyMsg2 = json.dumps({"type": "readyOnline", "playerId": 1})
 					await asyncio.gather(
-						player1.send(readyMsg1),
-						player2.send(readyMsg2)
+						player1.send(json.dumps({"type": "readyOnline", "playerId": 0})),
+						player2.send(json.dumps({"type": "readyOnline", "playerId": 1}))
 					)
 
 			else: # join以外のメッセージ (move, dropなど)
@@ -101,14 +100,13 @@ async def handler(websocket):
 
 		# ロックの外で切断メッセージを送信
 		if remainingPlayer and not remainingPlayer.closed:
-			disconnectMsg = json.dumps({"type": "disconnect"})
-			await remainingPlayer.send(disconnectMsg)
+			await remainingPlayer.send(json.dumps({"type": "disconnect"}))
 
 async def main():
-	port = 8080
+	port = int(os.environ.get("PORT", 8080))
 	print(f"Python WebSocket server starting on port {port}")
-	async with websockets.serve(handler, "localhost", port):
-		await asyncio.Future()  # サーバーを永続的に実行
+	async with websockets.serve(handler, "0.0.0.0", port):
+		await asyncio.Future()  # 永続的に実行
 
 if __name__ == "__main__":
 	asyncio.run(main())
