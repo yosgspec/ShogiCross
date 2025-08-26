@@ -430,8 +430,8 @@ jobs:
         run: |
           git config --global user.name 'github-actions[bot]'
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
-          git tag ${{env.SERVER_NAME}}-${{needs.CheckServerVersionCs.outputs.SERVER_CS_VERSION}}
-          git push origin ${{env.SERVER_NAME}}-${{needs.CheckServerVersionCs.outputs.SERVER_CS_VERSION}}
+          git tag server-cs${{needs.CheckServerVersionCs.outputs.SERVER_CS_VERSION}}
+          git push origin server-cs${{needs.CheckServerVersionCs.outputs.SERVER_CS_VERSION}}
 
   CheckDiffServerPy:
     runs-on: ubuntu-latest
@@ -531,5 +531,5 @@ jobs:
         run: |
           git config --global user.name 'github-actions[bot]'
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
-          git tag ${{env.SERVER_NAME}}-${{needs.CheckServerVersionPy.outputs.SERVER_PY_VERSION}}
-          git push origin ${{env.SERVER_NAME}}-${{needs.CheckServerVersionPy.outputs.SERVER_PY_VERSION}}
+          git tag server-py${{needs.CheckServerVersionPy.outputs.SERVER_PY_VERSION}}
+          git push origin server-py${{needs.CheckServerVersionPy.outputs.SERVER_PY_VERSION}}
