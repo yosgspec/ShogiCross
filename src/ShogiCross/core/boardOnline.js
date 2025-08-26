@@ -3,6 +3,7 @@
 import {Board, PROTECTED as $} from "./board.js";
 import {Stand} from "./stand.js";
 import {Piece} from "./piece.js";
+import {Panel} from "./panel.js";
 
 export class BoardOnline extends Board{
 	/**
@@ -21,16 +22,11 @@ export class BoardOnline extends Board{
 			onReadyOnline = null,
 			serverURL = "http://localhost:3000",
 		} = option;
-		const playerOptions = this.option.playerOptions ?? [];
 		this.onReadyOnline = onReadyOnline;
-		this.isOnlineGame = playerOptions.some(p=>p.isOnline);
-
-		if(!this.isOnlineGame) return;
+		this.isOnline = true;
 
 		// isLocalプロパティをプレイヤーに追加
 		this.players.forEach(player=>{
-			const option = playerOptions[player.id] ?? {};
-			player.isOnline = option.isOnline ?? false;
 			player.isLocal = false; // 初期状態ではローカルプレイヤーではない
 		});
 
@@ -110,7 +106,7 @@ export class BoardOnline extends Board{
 				if(!(toPanel instanceof Panel)) return
 				const activePlayer = board.getActivePlayer();
 
-				if(activePlayer.isOnline && activePlayer.isLocal){
+				if(board.isOnline && activePlayer.isLocal){
 					const {deg, i} = option;
 					const stock = this.stocks.get(deg);
 					const piece = stock[i];
@@ -154,7 +150,7 @@ export class BoardOnline extends Board{
 		const activePlayer = this.getActivePlayer();
 
 		// アクティブプレイヤーがオンラインかつローカルプレイヤーの場合
-		if(activePlayer.isOnline && activePlayer.isLocal){
+		if(this.isOnline && activePlayer.isLocal){
 			if(toPanel.isTarget){
 				const baseChar = fromPanel.piece.char;
 				const result = await super.movePiece(fromPanel, toPanel, isCpuMove);
