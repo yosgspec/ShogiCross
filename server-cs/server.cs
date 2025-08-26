@@ -16,7 +16,7 @@ public class Program{
 
 	public static async Task Main(string[] args){
 		var listener = new HttpListener();
-		listener.Prefixes.Add("http://localhost:3000/");
+		listener.Prefixes.Add("http://localhost:8080/");
 
 		Console.WriteLine("WebSocket server started on port 3000");
 		listener.Start();
