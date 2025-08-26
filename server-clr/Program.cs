@@ -9,17 +9,15 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Linq;
 
-public class Program
-{
+public class Program{
 	private static readonly ConcurrentDictionary<string, List<WebSocket>> _games = new();
 	private static readonly ConcurrentDictionary<WebSocket, string> _wsToGame = new();
 	private static readonly ConcurrentDictionary<WebSocket, int> _wsToDeg = new();
 
-	public static async Task Main(string[] args)
-	{
+	public static async Task Main(string[] args){
 		var listener = new HttpListener();
 		listener.Prefixes.Add("http://localhost:3000/");
-		
+
 		Console.WriteLine("WebSocket server started on port 3000");
 		listener.Start();
 
@@ -27,7 +25,8 @@ public class Program
 			var context = await listener.GetContextAsync();
 			if(context.Request.IsWebSocketRequest){
 				_ = ProcessWebSocketRequest(context);
-			}else{
+			}
+			else{
 				context.Response.StatusCode = 400;
 				context.Response.Close();
 			}
@@ -39,7 +38,8 @@ public class Program
 		try{
 			webSocketContext = await context.AcceptWebSocketAsync(subProtocol: null);
 			Console.WriteLine("Client connected");
-		}catch(Exception e){
+		}
+		catch(Exception e){
 			context.Response.StatusCode = 500;
 			context.Response.Close();
 			Console.Error.WriteLine($"WebSocket accept error: {e.Message}");
@@ -55,7 +55,8 @@ public class Program
 
 				if(receiveResult.MessageType == WebSocketMessageType.Close){
 					await ws.CloseAsync(WebSocketCloseStatus.NormalClosure, "", CancellationToken.None);
-				}else{
+				}
+				else{
 					var message = Encoding.UTF8.GetString(buffer, 0, receiveResult.Count);
 					Console.WriteLine($"Received: {message}");
 
@@ -65,12 +66,12 @@ public class Program
 					if(type == "join"){
 						var gameName = jsonDoc.RootElement.GetProperty("gameName").GetString();
 						var game = _games.GetOrAdd(gameName, new List<WebSocket>());
-						
+
 						WebSocket? player1 = null;
 						WebSocket? player2 = null;
 
 						lock(game){
-							game.RemoveAll(socket => socket.State != WebSocketState.Open);
+							game.RemoveAll(socket=>socket.State != WebSocketState.Open);
 							game.Add(ws);
 							_wsToGame[ws] = gameName;
 							Console.WriteLine($"Client joined game: {gameName}. Players: {game.Count}");
@@ -85,15 +86,16 @@ public class Program
 						}
 
 						if(player1 != null && player2 != null){
-							var readyMsg1 = new { type = "readyOnline", playerId = 0 };
+							var readyMsg1 = new {type = "readyOnline", playerId = 0};
 							var bytes1 = JsonSerializer.SerializeToUtf8Bytes(readyMsg1);
 							if(player1.State == WebSocketState.Open) await player1.SendAsync(new ArraySegment<byte>(bytes1), WebSocketMessageType.Text, true, CancellationToken.None);
 
-							var readyMsg2 = new { type = "readyOnline", playerId = 1 };
+							var readyMsg2 = new {type = "readyOnline", playerId = 1};
 							var bytes2 = JsonSerializer.SerializeToUtf8Bytes(readyMsg2);
 							if(player2.State == WebSocketState.Open) await player2.SendAsync(new ArraySegment<byte>(bytes2), WebSocketMessageType.Text, true, CancellationToken.None);
 						}
-					}else{
+					}
+					else{
 						if(_wsToGame.TryGetValue(ws, out var gameName) && _games.TryGetValue(gameName, out var game)){
 							var originalMessage = JsonDocument.Parse(message).RootElement;
 							var newMsg = new Dictionary<string, object>();
@@ -118,19 +120,21 @@ public class Program
 					}
 				}
 			}
-		}catch(Exception e){
+		}
+		catch(Exception e){
 			Console.Error.WriteLine($"Error during WebSocket communication: {e.Message}");
-		}finally{
+		}
+		finally{
 			Console.WriteLine("Client disconnected");
 			_wsToDeg.TryRemove(ws, out _);
 			if(_wsToGame.TryRemove(ws, out var gameName) && _games.TryGetValue(gameName, out var game)){
 				List<WebSocket> remainingClients;
 				lock(game){
-					game.RemoveAll(socket => socket.State != WebSocketState.Open);
+					game.RemoveAll(socket=>socket.State != WebSocketState.Open);
 					remainingClients = game.ToList();
 				}
-			
-				var disconnectMsg = new { type = "disconnect" };
+
+				var disconnectMsg = new {type = "disconnect"};
 				var bytes = JsonSerializer.SerializeToUtf8Bytes(disconnectMsg);
 
 				foreach(var client in remainingClients){

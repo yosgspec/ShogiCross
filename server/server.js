@@ -27,7 +27,8 @@ wss.on("connection", ws=>{
 		try{
 			data = JSON.parse(message);
 			console.log("Received:", data);
-		}catch(e){
+		}
+		catch(e){
 			console.error("Invalid JSON received:", e);
 			return;
 		}
@@ -69,11 +70,12 @@ wss.on("connection", ws=>{
 				// 各プレイヤーに通知
 				const readyMsg1 = JSON.stringify({type: "readyOnline", playerId: 0});
 				const readyMsg2 = JSON.stringify({type: "readyOnline", playerId: 1});
-				
+
 				player1.send(readyMsg1);
 				player2.send(readyMsg2);
 			}
-		}else{
+		}
+		else{
 			// join以外のメッセージ (move, dropなど)
 			const gameName = wsToGame.get(ws);
 			if(!gameName || !games[gameName]) return;
