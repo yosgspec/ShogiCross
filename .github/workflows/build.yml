@@ -384,9 +384,7 @@ jobs:
       contents: write
     env:
       REGION: asia-northeast1
-      SERVER_NAME: server-cs
-      DOCKERFILE_PATH: ./server-cs/Dockerfile
-      PROJECT_PATH: ./server-cs/
+      RUN_NAME: ${{vars.GCP_RUN_NAME}}-cs
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -404,16 +402,16 @@ jobs:
       - name: Setup Docker
         run: gcloud auth configure-docker ${{env.REGION}}-docker.pkg.dev --quiet
 
-      - name: Build and Push Docker Image
+      - name: Push Docker Image
         run: |
-          IMAGE_TAG=${{env.REGION}}-docker.pkg.dev/${{vars.GCP_ID}}/${{vars.GCP_DOCKER_REPO}}/${{env.SERVER_NAME}}:${{github.sha}}
-          docker build -t $IMAGE_TAG -f ${{env.DOCKERFILE_PATH}} ${{env.PROJECT_PATH}}
+          IMAGE_TAG=${{env.REGION}}-docker.pkg.dev/${{vars.GCP_ID}}/${{vars.GCP_DOCKER_REPO}}/${{env.RUN_NAME}}:${{github.sha}}
+          docker build -t $IMAGE_TAG ./server-cs/
           docker push $IMAGE_TAG
 
       - name: Deploy Cloud Run
         run: |
-          IMAGE_TAG=${{env.REGION}}-docker.pkg.dev/${{vars.GCP_ID}}/${{vars.GCP_DOCKER_REPO}}/${{env.SERVER_NAME}}:${{github.sha}}
-          gcloud run deploy ${{env.SERVER_NAME}} \
+          IMAGE_TAG=${{env.REGION}}-docker.pkg.dev/${{vars.GCP_ID}}/${{vars.GCP_DOCKER_REPO}}/${{env.RUN_NAME}}:${{github.sha}}
+          gcloud run deploy ${{env.RUN_NAME}} \
             --image $IMAGE_TAG \
             --region ${{env.REGION}} \
             --platform managed \
@@ -485,9 +483,7 @@ jobs:
       contents: write
     env:
       REGION: asia-northeast1
-      SERVER_NAME: server-py
-      DOCKERFILE_PATH: ./server-py/Dockerfile
-      PROJECT_PATH: ./server-py/
+      RUN_NAME: ${{vars.GCP_RUN_NAME}}-py
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -505,16 +501,16 @@ jobs:
       - name: Setup Docker
         run: gcloud auth configure-docker ${{env.REGION}}-docker.pkg.dev --quiet
 
-      - name: Build and Push Docker Image
+      - name: Push Docker Image
         run: |
-          IMAGE_TAG=${{env.REGION}}-docker.pkg.dev/${{vars.GCP_ID}}/${{vars.GCP_DOCKER_REPO}}/${{env.SERVER_NAME}}:${{github.sha}}
-          docker build -t $IMAGE_TAG -f ${{env.DOCKERFILE_PATH}} ${{env.PROJECT_PATH}}
+          IMAGE_TAG=${{env.REGION}}-docker.pkg.dev/${{vars.GCP_ID}}/${{vars.GCP_DOCKER_REPO}}/${{env.RUN_NAME}}:${{github.sha}}
+          docker build -t $IMAGE_TAG ./server-cs/
           docker push $IMAGE_TAG
 
       - name: Deploy Cloud Run
         run: |
-          IMAGE_TAG=${{env.REGION}}-docker.pkg.dev/${{vars.GCP_ID}}/${{vars.GCP_DOCKER_REPO}}/${{env.SERVER_NAME}}:${{github.sha}}
-          gcloud run deploy ${{env.SERVER_NAME}} \
+          IMAGE_TAG=${{env.REGION}}-docker.pkg.dev/${{vars.GCP_ID}}/${{vars.GCP_DOCKER_REPO}}/${{env.RUN_NAME}}:${{github.sha}}
+          gcloud run deploy ${{env.RUN_NAME}} \
             --image $IMAGE_TAG \
             --region ${{env.REGION}} \
             --platform managed \
