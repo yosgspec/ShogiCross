@@ -462,7 +462,7 @@ jobs:
       - name: Get Python Project Version
         id: SERVER_PY_VERSION
         run: |
-          VERSION=$(python -c 'import toml; print(toml.load("pyproject.toml")["project"]["version"])')
+          VERSION=$(python -c 'import toml; print(toml.load("server-py/pyproject.toml")["project"]["version"])')
           echo "value=$VERSION" >> $GITHUB_OUTPUT
       - name: Try Exist Tag
         id: TRY_EXISTS_TAG_PY
