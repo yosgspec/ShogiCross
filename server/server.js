@@ -1,130 +1,136 @@
 // 必要なモジュールのインポート
-const express = require("express"); // Webサーバーフレームワーク
-const http = require("http");       // HTTPサーバーの作成
-const WebSocket = require("ws");    // WebSocketサーバー
-const path = require("path");       // ファイルパスの解決
-const {randomUUID} = require("crypto");
+const express = require("express");
+const http = require("http");
+const WebSocket = require("ws");
+const path = require("path");
+
+// --- 状態管理 ---
+// ゲームルームを保持: { gameName: Set(ws1, ws2) }
+const games = {};
+// WebSocketからゲーム名へのマッピング: Map<ws, gameName>
+const wsToGame = new Map();
+// WebSocketから角度へのマッピング: Map<ws, deg>
+const wsToDeg = new Map();
 
 // Expressアプリケーションの初期化
 const app = express();
-// HTTPサーバーの作成（Expressアプリをリクエストハンドラとして使用）
 const server = http.createServer(app);
-// WebSocketサーバーの初期化（既存のHTTPサーバーにアタッチ）
 const wss = new WebSocket.Server({server});
-
-// ゲーム開始を待っているプレイヤーを一時的に保持する変数
-let waitingPlayer = null;
-// 現在アクティブなゲームの状態を保存するオブジェクト
-// gameIdをキーとして、ゲームに参加しているプレイヤーなどの情報を保持
-const games = {};
 
 // WebSocket接続が確立されたときのイベントハンドラ
 wss.on("connection", ws=>{
 	console.log("Client connected");
-	// クライアントにユニークなIDを割り当て
-	const clientId = randomUUID();
-	ws.clientId = clientId;
-
-	// 待機中のプレイヤーがいる場合、新しいゲームを開始
-	if(waitingPlayer){
-		const gameId = randomUUID(); // 新しいゲームIDを生成
-		// ゲームオブジェクトを作成し、2人のプレイヤーを割り当て
-		const game = {
-			id: gameId,
-			players: [waitingPlayer, ws],
-		};
-		games[gameId] = game; // gamesオブジェクトにゲーム状態を保存
-
-		// 各プレイヤーにゲームIDとプレイヤーの視点角度を割り当てて通知
-		game.players.forEach((playerWs, i)=>{
-			playerWs.gameId = gameId; // WebSocketオブジェクトにゲームIDを保存
-			// プレイヤーの視点角度を計算 (例: 0度と180度)
-			const playerDeg = (i*360/game.players.length)%360;
-			playerWs.playerDeg = playerDeg; // WebSocketオブジェクトに視点角度を保存
-			// クライアントにプレイヤーの割り当て情報を送信
-			playerWs.send(JSON.stringify({
-				type: "readyOnline",
-				playerId: i, // プレイヤーID (0または1)
-				playerDeg: playerDeg, // 視点角度
-			}));
-		});
-
-		console.log(`Game ${gameId} started between ${game.players[0].clientId} and ${game.players[1].clientId}`);
-		waitingPlayer = null; // 待機中のプレイヤーをクリア
-	}
-	else{
-		// 待機中のプレイヤーがいない場合、現在のクライアントを待機状態にする
-		waitingPlayer = ws;
-		console.log(`Client ${ws.clientId} is waiting for an rival.`);
-		// クライアントに待機中であることを通知
-		ws.send(JSON.stringify({type: "waiting"}));
-	}
 
 	// クライアントからメッセージを受信したときのイベントハンドラ
-	ws.on("message", message=>{
+	ws.on("message", async message=>{
+		let data;
 		try{
-			const data = JSON.parse(message); // 受信したメッセージをJSONとしてパース
-			const game = games[ws.gameId]; // クライアントが参加しているゲームを取得
-			if(!game) return; // ゲームが存在しない場合は何もしない
-
-			// 対戦相手を見つける
-			const rival = game.players.find(p=>p.clientId !== ws.clientId);
-
-			// メッセージタイプが"move"の場合の処理
-			if(data.type === "move" && rival){
-				console.log(`Move from ${ws.clientId} in game ${ws.gameId}:`, data);
-				// 送信元のプレイヤーの視点角度をメッセージに追加
-				data.playerDeg = ws.playerDeg;
-				// 移動情報を対戦相手にブロードキャスト（転送）
-				rival.send(JSON.stringify(data));
-			}
-			// メッセージタイプが"drop"の場合の処理
-			else if(data.type === "drop" && rival){
-				console.log("Processing drop message:", data);
-				console.log(`Drop from ${ws.clientId} in game ${ws.gameId}:`, data);
-				// 送信元のプレイヤーの視点角度をメッセージに追加
-				data.playerDeg = ws.playerDeg;
-				// 打駒情報を対戦相手にブロードキャスト（転送）
-				rival.send(JSON.stringify(data));
-			}
-			// メッセージタイプが"join"の場合の処理（現在はログ出力のみ）
-			else if(data.type === "join"){
-				console.log(`Join message from ${ws.clientId} for game: ${data.gameName}`);
-			}
+			data = JSON.parse(message);
+			console.log("Received:", data);
+		}catch(e){
+			console.error("Invalid JSON received:", e);
+			return;
 		}
-		catch(ex){
-			console.error("Failed to process message:", message, ex);
+
+		const msgType = data.type;
+
+		if(msgType === "join"){
+			const gameName = data.gameName;
+			if(!gameName) return;
+
+			// ゲームルームを取得または作成
+			if(!games[gameName]){
+				games[gameName] = new Set();
+			}
+			const game = games[gameName];
+
+			// 参加前に、切断済みのソケットを掃除する
+			for(const player of game){
+				if(player.readyState !== WebSocket.OPEN){
+					game.delete(player);
+				}
+			}
+
+			// 新しいプレイヤーを追加
+			game.add(ws);
+			wsToGame.set(ws, gameName);
+			console.log(`Client joined game: '${gameName}'. Players: ${game.size}`);
+
+			// 2人揃ったらゲーム開始
+			if(game.size === 2){
+				console.log(`Game '${gameName}' starting with 2 players.`);
+				const players = Array.from(game);
+				const [player1, player2] = players;
+
+				// プレイヤーの角度を保存
+				wsToDeg.set(player1, 0);
+				wsToDeg.set(player2, 180);
+
+				// 各プレイヤーに通知
+				const readyMsg1 = JSON.stringify({type: "readyOnline", playerId: 0});
+				const readyMsg2 = JSON.stringify({type: "readyOnline", playerId: 1});
+				
+				player1.send(readyMsg1);
+				player2.send(readyMsg2);
+			}
+		}else{
+			// join以外のメッセージ (move, dropなど)
+			const gameName = wsToGame.get(ws);
+			if(!gameName || !games[gameName]) return;
+
+			// 送信者の角度をメッセージに追加
+			data.playerDeg = wsToDeg.get(ws) || 0;
+			const messageWithDeg = JSON.stringify(data);
+
+			// 対戦相手にメッセージを転送
+			const game = games[gameName];
+			for(const player of game){
+				if(player !== ws && player.readyState === WebSocket.OPEN){
+					player.send(messageWithDeg);
+				}
+			}
 		}
 	});
 
 	// クライアントの接続が閉じられたときのイベントハンドラ
 	ws.on("close", ()=>{
-		console.log(`Client ${ws.clientId} disconnected`);
-		const game = games[ws.gameId]; // クライアントが参加していたゲームを取得
-		if(game){
-			// 対戦相手に切断を通知
-			const rival = game.players.find(p => p.clientId !== ws.clientId);
-			if(rival && rival.readyState === WebSocket.OPEN){
-				rival.send(JSON.stringify({type: "disconnect"}));
+		console.log("Client disconnected");
+		const gameName = wsToGame.get(ws);
+
+		// クリーンアップ
+		wsToGame.delete(ws);
+		wsToDeg.delete(ws);
+
+		if(gameName && games[gameName]){
+			const game = games[gameName];
+			game.delete(ws);
+
+			// ルームに残っているプレイヤーに切断を通知
+			if(game.size > 0){
+				const opponent = game.values().next().value;
+				if(opponent && opponent.readyState === WebSocket.OPEN){
+					opponent.send(JSON.stringify({type: "disconnect"}));
+				}
 			}
-			delete games[ws.gameId]; // ゲームを削除
-			console.log(`Game ${ws.gameId} closed.`);
+
+			// ルームが空になったら削除
+			if(game.size === 0){
+				delete games[gameName];
+				console.log(`Game room '${gameName}' is now empty and closed.`);
+			}
 		}
-		// 切断されたクライアントが待機中のプレイヤーだった場合、待機状態をクリア
-		if(ws === waitingPlayer){
-			waitingPlayer = null;
-			console.log("Waiting player disconnected.");
-		}
+	});
+
+	ws.on("error", (error)=>{
+		console.error("WebSocket error:", error);
 	});
 });
 
-// サーバーがリッスンするポート番号
+// 静的ファイルを配信
+app.use(express.static(path.join(__dirname, "..")));
+
+// サーバーを起動
 const PORT = process.env.PORT || 3000;
-// 指定されたポートでHTTPサーバーを起動
 server.listen(PORT, ()=>{
 	console.log(`Server is listening on port ${PORT}`);
 });
-
-// 静的ファイルを配信するためのミドルウェア設定
-// プロジェクトのルートディレクトリを静的ファイルの配信元として設定
-app.use(express.static(path.join(__dirname, "..")));

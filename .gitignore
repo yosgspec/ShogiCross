@@ -9,6 +9,8 @@ lerna-debug.log*
 gh_pages*
 
 node_modules
+bin
+obj
 dist
 cdn
 src/dist
