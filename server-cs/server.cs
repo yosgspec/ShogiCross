@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Concurrent;
-using System.Net;
 using System.Net.WebSockets;
 using System.Text;
 using System.Text.Json;
@@ -8,6 +7,9 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Hosting;
 
 public class Program{
 	private static readonly ConcurrentDictionary<string, List<WebSocket>> _games = new();
@@ -15,39 +17,29 @@ public class Program{
 	private static readonly ConcurrentDictionary<WebSocket, int> _wsToDeg = new();
 
 	public static async Task Main(string[] args){
-		var listener = new HttpListener();
-		listener.Prefixes.Add("http://localhost:8080/");
+		var builder = WebApplication.CreateBuilder(args);
+		var app = builder.Build();
 
-		Console.WriteLine("WebSocket server started on port 3000");
-		listener.Start();
+		app.UseWebSockets();
 
-		while(true){
-			var context = await listener.GetContextAsync();
-			if(context.Request.IsWebSocketRequest){
-				_ = ProcessWebSocketRequest(context);
+		app.Map("/", async context => {
+			if(context.WebSockets.IsWebSocketRequest){
+				var ws = await context.WebSockets.AcceptWebSocketAsync();
+				Console.WriteLine("Client connected");
+				_ = ProcessWebSocketRequest(ws);
+				await Task.CompletedTask;
 			}
 			else{
 				context.Response.StatusCode = 400;
-				context.Response.Close();
 			}
-		}
+		});
+
+		var port = Environment.GetEnvironmentVariable("PORT") ?? "8080";
+		Console.WriteLine($"WebSocket server started on port {port}");
+		await app.RunAsync($"http://0.0.0.0:{port}");
 	}
 
-	private static async Task ProcessWebSocketRequest(HttpListenerContext context){
-		WebSocketContext? webSocketContext = null;
-		try{
-			webSocketContext = await context.AcceptWebSocketAsync(subProtocol: null);
-			Console.WriteLine("Client connected");
-		}
-		catch(Exception e){
-			context.Response.StatusCode = 500;
-			context.Response.Close();
-			Console.Error.WriteLine($"WebSocket accept error: {e.Message}");
-			return;
-		}
-
-		WebSocket ws = webSocketContext.WebSocket;
-
+	private static async Task ProcessWebSocketRequest(WebSocket ws){
 		try{
 			var buffer = new byte[1024 * 4];
 			while(ws.State == WebSocketState.Open){
@@ -64,8 +56,8 @@ public class Program{
 					var type = jsonDoc.RootElement.GetProperty("type").GetString();
 
 					if(type == "join"){
-						var gameName = jsonDoc.RootElement.GetProperty("gameName").GetString();
-						var game = _games.GetOrAdd(gameName, new List<WebSocket>());
+						var gameName = jsonDoc.RootElement.GetProperty("gameName").GetString() ?? "default";
+						var game = _games.GetOrAdd(gameName, _ => new List<WebSocket>());
 
 						WebSocket? player1 = null;
 						WebSocket? player2 = null;
@@ -87,12 +79,9 @@ public class Program{
 
 						if(player1 != null && player2 != null){
 							var readyMsg1 = new {type = "readyOnline", playerId = 0};
-							var bytes1 = JsonSerializer.SerializeToUtf8Bytes(readyMsg1);
-							if(player1.State == WebSocketState.Open) await player1.SendAsync(new ArraySegment<byte>(bytes1), WebSocketMessageType.Text, true, CancellationToken.None);
-
 							var readyMsg2 = new {type = "readyOnline", playerId = 1};
-							var bytes2 = JsonSerializer.SerializeToUtf8Bytes(readyMsg2);
-							if(player2.State == WebSocketState.Open) await player2.SendAsync(new ArraySegment<byte>(bytes2), WebSocketMessageType.Text, true, CancellationToken.None);
+							await player1.SendAsync(new ArraySegment<byte>(JsonSerializer.SerializeToUtf8Bytes(readyMsg1)), WebSocketMessageType.Text, true, CancellationToken.None);
+							await player2.SendAsync(new ArraySegment<byte>(JsonSerializer.SerializeToUtf8Bytes(readyMsg2)), WebSocketMessageType.Text, true, CancellationToken.None);
 						}
 					}
 					else{
@@ -104,8 +93,7 @@ public class Program{
 							}
 							newMsg["playerDeg"] = _wsToDeg.GetValueOrDefault(ws, 0);
 
-							var messageWithDeg = JsonSerializer.Serialize(newMsg);
-							var messageBytes = Encoding.UTF8.GetBytes(messageWithDeg);
+							var messageBytes = Encoding.UTF8.GetBytes(JsonSerializer.Serialize(newMsg));
 
 							List<WebSocket> clients;
 							lock(game){
@@ -143,7 +131,7 @@ public class Program{
 					}
 				}
 			}
-			ws?.Dispose();
+			ws.Dispose();
 		}
 	}
 }

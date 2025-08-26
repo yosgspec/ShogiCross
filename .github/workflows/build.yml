@@ -332,3 +332,204 @@ jobs:
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
           git tag server${{needs.CheckServerVersion.outputs.SERVER_VERSION}}
           git push origin server${{needs.CheckServerVersion.outputs.SERVER_VERSION}}
+
+  CheckDiffServerCs:
+    runs-on: ubuntu-latest
+    outputs:
+      IS_DIFF: ${{env.GIT_DIFF}}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Check Diff Server-CS
+        uses: technote-space/get-diff-action@v5
+        with:
+          PATTERNS: |
+            server-cs/
+
+  CheckServerVersionCs:
+    runs-on: ubuntu-latest
+    outputs:
+      SERVER_CS_VERSION: ${{steps.SERVER_CS_VERSION.outputs.value}}
+      IS_NEW_VERSION: ${{steps.TRY_EXISTS_TAG_CS.outcome == 'failure'}}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install xmlstarlet
+        run: sudo apt-get update && sudo apt-get install -y xmlstarlet
+
+      - name: Get Server-CS Version
+        id: SERVER_CS_VERSION
+        run: echo "value=$(xmlstarlet sel -t -v "/Project/PropertyGroup/Version" ./server-cs/package.csproj)" >> $GITHUB_OUTPUT
+
+      - name: Try Exist Tag
+        id: TRY_EXISTS_TAG_CS
+        continue-on-error: true
+        run: |
+          TAG_NAME="server-cs-${{steps.SERVER_CS_VERSION.outputs.value}}"
+          echo "Checking for tag ${TAG_NAME}..."
+          git ls-remote --exit-code --tags origin "refs/tags/${TAG_NAME}"
+
+  DeployServerCs:
+    needs: [SetUpGoogleCloud, CheckDiffServerCs, CheckServerVersionCs]
+    if: >
+      github.ref == 'refs/heads/main'
+      && (
+        needs.CheckDiffServerCs.outputs.IS_DIFF
+        || needs.CheckServerVersionCs.outputs.IS_NEW_VERSION == 'true'
+      )
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    env:
+      REGION: asia-northeast1
+      SERVER_NAME: server-cs
+      DOCKERFILE_PATH: ./server-cs/Dockerfile
+      PROJECT_PATH: ./server-cs/
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Auth Google Cloud
+        uses: google-github-actions/auth@v2
+        with:
+          credentials_json: ${{secrets.GCP_CREDENTIALS}}
+
+      - name: Setup Google Cloud SDK
+        uses: google-github-actions/setup-gcloud@v2
+        with:
+          project_id: ${{vars.GCP_ID}}
+
+      - name: Setup Docker
+        run: gcloud auth configure-docker ${{env.REGION}}-docker.pkg.dev --quiet
+
+      - name: Build and Push Docker Image
+        run: |
+          IMAGE_TAG=${{env.REGION}}-docker.pkg.dev/${{vars.GCP_ID}}/${{vars.GCP_DOCKER_REPO}}/${{env.SERVER_NAME}}:${{github.sha}}
+          docker build -t $IMAGE_TAG -f ${{env.DOCKERFILE_PATH}} ${{env.PROJECT_PATH}}
+          docker push $IMAGE_TAG
+
+      - name: Deploy Cloud Run
+        run: |
+          IMAGE_TAG=${{env.REGION}}-docker.pkg.dev/${{vars.GCP_ID}}/${{vars.GCP_DOCKER_REPO}}/${{env.SERVER_NAME}}:${{github.sha}}
+          gcloud run deploy ${{env.SERVER_NAME}} \
+            --image $IMAGE_TAG \
+            --region ${{env.REGION}} \
+            --platform managed \
+            --allow-unauthenticated \
+            --port 8080 \
+            --min-instances 0 \
+            --max-instances 1 \
+            --cpu 1 \
+            --memory 512Mi \
+            --concurrency 80
+
+      - name: Push Version Tag
+        if: needs.CheckServerVersionCs.outputs.IS_NEW_VERSION == 'true'
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          git tag ${{env.SERVER_NAME}}-${{needs.CheckServerVersionCs.outputs.SERVER_CS_VERSION}}
+          git push origin ${{env.SERVER_NAME}}-${{needs.CheckServerVersionCs.outputs.SERVER_CS_VERSION}}
+
+  CheckDiffServerPy:
+    runs-on: ubuntu-latest
+    outputs:
+      IS_DIFF: ${{env.GIT_DIFF}}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Check Diff Server-PY
+        uses: technote-space/get-diff-action@v5
+        with:
+          PATTERNS: |
+            server-py/
+
+  CheckServerVersionPy:
+    runs-on: ubuntu-latest
+    outputs:
+      SERVER_PY_VERSION: ${{steps.SERVER_PY_VERSION.outputs.value}}
+      IS_NEW_VERSION: ${{steps.TRY_EXISTS_TAG_PY.outcome == 'failure'}}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install toml library
+        run: pip install toml
+
+      - name: Get Python Project Version
+        id: SERVER_PY_VERSION
+        run: |
+          VERSION=$(python -c 'import toml; print(toml.load("pyproject.toml")["project"]["version"])')
+          echo "value=$VERSION" >> $GITHUB_OUTPUT
+      - name: Try Exist Tag
+        id: TRY_EXISTS_TAG_PY
+        continue-on-error: true
+        run: |
+          TAG_NAME="server-py-${{steps.SERVER_PY_VERSION.outputs.value}}"
+          echo "Checking for tag ${TAG_NAME}..."
+          git ls-remote --exit-code --tags origin "refs/tags/${TAG_NAME}"
+
+   DeployServerPy:
+     needs: [SetUpGoogleCloud, CheckDiffServerPy, CheckServerVersionPy]
+     if: >
+       github.ref == 'refs/heads/main'
+       && (
+         needs.CheckDiffServerPy.outputs.IS_DIFF
+         || needs.CheckServerVersionPy.outputs.IS_NEW_VERSION == 'true'
+       )
+     runs-on: ubuntu-latest
+     permissions:
+       contents: write
+     env:
+       REGION: asia-northeast1
+       SERVER_NAME: server-py
+       DOCKERFILE_PATH: ./server-py/Dockerfile
+       PROJECT_PATH: ./server-py/
+     steps:
+       - name: Checkout
+         uses: actions/checkout@v4
+
+       - name: Auth Google Cloud
+         uses: google-github-actions/auth@v2
+         with:
+           credentials_json: ${{secrets.GCP_CREDENTIALS}}
+
+       - name: Setup Google Cloud SDK
+         uses: google-github-actions/setup-gcloud@v2
+         with:
+           project_id: ${{vars.GCP_ID}}
+
+       - name: Setup Docker
+         run: gcloud auth configure-docker ${{env.REGION}}-docker.pkg.dev --quiet
+
+       - name: Build and Push Docker Image
+         run: |
+           IMAGE_TAG=${{env.REGION}}-docker.pkg.dev/${{vars.GCP_ID}}/${{vars.GCP_DOCKER_REPO}}/${{env.SERVER_NAME}}:${{github.sha}}
+           docker build -t $IMAGE_TAG -f ${{env.DOCKERFILE_PATH}} ${{env.PROJECT_PATH}}
+           docker push $IMAGE_TAG
+
+       - name: Deploy Cloud Run
+         run: |
+           IMAGE_TAG=${{env.REGION}}-docker.pkg.dev/${{vars.GCP_ID}}/${{vars.GCP_DOCKER_REPO}}/${{env.SERVER_NAME}}:${{github.sha}}
+           gcloud run deploy ${{env.SERVER_NAME}} \
+             --image $IMAGE_TAG \
+             --region ${{env.REGION}} \
+             --platform managed \
+             --allow-unauthenticated \
+             --port 8080 \
+             --min-instances 0 \
+             --max-instances 1 \
+             --cpu 1 \
+             --memory 512Mi \
+             --concurrency 80
+
+       - name: Push Version Tag
+         if: needs.CheckServerVersionPy.outputs.IS_NEW_VERSION == 'true'
+         run: |
+           git config --global user.name 'github-actions[bot]'
+           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+           git tag ${{env.SERVER_NAME}}-${{needs.CheckServerVersionPy.outputs.SERVER_PY_VERSION}}
+           git push origin ${{env.SERVER_NAME}}-${{needs.CheckServerVersionPy.outputs.SERVER_PY_VERSION}}
