@@ -19,9 +19,9 @@ declare class Q extends Z {
     downloadImage(e: any, t: any, a: any): Promise<void>;
     #private;
 }
-declare class Te extends Q {
+declare class Re extends Q {
     onReadyOnline: any;
-    isOnlineGame: any;
+    isOnline: boolean;
     ws: WebSocket;
     /**
      * リモートからの移動を盤面に適用する
@@ -35,7 +35,7 @@ declare class Te extends Q {
      * @param {number} message.playerDeg - 移動を行ったプレイヤーの視点角度
      * @param {string|null} message.promoChar - 成り先の駒名(成らない場合null)
      */
-    moveRivalPiece({ from: e, to: t, playerDeg: a, promoChar: n }: {
+    moveRivalPiece({ from: e, to: t, playerDeg: a, promoChar: i }: {
         from: {
             pX: number;
             pY: number;
@@ -444,7 +444,7 @@ declare const J: {
 declare namespace N {
     let fonts: (string | number)[][];
 }
-declare namespace F {
+declare namespace $ {
     let imported: boolean;
     let images: {
         [x: string]: new (width?: number, height?: number) => HTMLImageElement;
@@ -5615,7 +5615,7 @@ declare class Z {
      * @param {number} option.displayPtn - 表示文字列を変更(1〜)
      * @param {boolean} option.isMoved - 初回移動済みか否か
      */
-    putNewPiece(e: any, t: any, a: any, n: any, s?: {}): void;
+    putNewPiece(e: any, t: any, a: any, i: any, s?: {}): void;
     /** 文字列から駒を配置
      * {string} text - 駒配置を表す文字列
      */
@@ -5627,7 +5627,7 @@ declare class Z {
      * @param {number} offsetDeg - 補正角度
      * @returns {number}
      */
-    getRow(e: any, t: any, a?: number, n?: number, s?: boolean): number;
+    getRow(e: any, t: any, a?: number, i?: number, s?: boolean): number;
     /** 角度基準のマス目の列を取得する
      * @param {number} pX - マス目の列
      * @param {number} pY - マス目の行
@@ -5635,7 +5635,7 @@ declare class Z {
      * @param {number} offsetDeg - 補正角度
      * @returns {number}
      */
-    getCol(e: any, t: any, a?: number, n?: number): number;
+    getCol(e: any, t: any, a?: number, i?: number): number;
     /** 駒の座標を回転取得する
      * @param {number} pX - マス目の列
      * @param {number} pY - マス目の行
@@ -5650,7 +5650,7 @@ declare class Z {
      * @param {boolean} isCpuMove - CPUによる移動か
      * @param {string|null} promoChar - 成り先の駒名(成らない場合null)
      */
-    onSelectPromo(e: any, t: any, a: any, n: any, s: any): Promise<any>;
+    onSelectPromo(e: any, t: any, a: any, i: any, s: any): Promise<any>;
     /** プロモーション処理
      * @param {Panel} fromPanel - 移動元のマス目
      * @param {Panel} toPanel - 選択中のマス目
@@ -5659,7 +5659,7 @@ declare class Z {
      * @param {boolean} isCpuMove - CPUによる移動か
      * @param {string|null} promoChar - 成り先の駒名(成らない場合null)
      */
-    promoPiece(e: any, t: any, a: any, n: any, s?: boolean, i?: any): Promise<void>;
+    promoPiece(e: any, t: any, a: any, i: any, s?: boolean, n?: any): Promise<void>;
     /** プロモーションエリア内であるか判別
      * @param {Panel} panel - マス目
      * @returns {{
@@ -5746,7 +5746,7 @@ declare class minimax extends G {
      * @param {boolean} isMaximizingPlayer - 現在のプレイヤーが最大化プレイヤーかどうか
      * @returns {number} 評価値
      */
-    minimax(e: any, t: any, a: any, n: any, s: any): number;
+    minimax(e: any, t: any, a: any, i: any, s: any): number;
 }
 declare class Y {
     /** 駒台への角度ごとの表示順
@@ -5788,7 +5788,7 @@ declare class Y {
      * @param {boolean} forceCapture - 属性を無視して捕縛する
      * @param {boolean} forceCantCapture - 属性を無視して捕縛しない
      */
-    capturePiece(e: any, t: any, a?: boolean, n?: boolean): void;
+    capturePiece(e: any, t: any, a?: boolean, i?: boolean): void;
     /** 持ち駒の所有権を回転
      * @param {number} deg - 回転角 (90の倍数)
      */
@@ -5883,4 +5883,4 @@ declare class V {
     clone(): this;
 }
 declare const O: unique symbol;
-export { Q as Board, Te as BoardOnline, be as CpuEngine, G as CpuEngineBase, H as CpuEngines, C as Piece, J as boards, N as canvasFont, F as canvasImage, he as extendData, Se as gameSoft, q as games, D as panels, K as pieceCost, ie as pieceRange, I as pieces };
+export { Q as Board, Re as BoardOnline, be as CpuEngine, G as CpuEngineBase, H as CpuEngines, C as Piece, J as boards, N as canvasFont, $ as canvasImage, he as extendData, Se as gameSoft, q as games, D as panels, K as pieceCost, ie as pieceRange, I as pieces };
