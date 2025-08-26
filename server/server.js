@@ -132,7 +132,7 @@ wss.on("connection", ws=>{
 app.use(express.static(path.join(__dirname, "..")));
 
 // サーバーを起動
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 8080;
 server.listen(PORT, ()=>{
 	console.log(`Server is listening on port ${PORT}`);
 });

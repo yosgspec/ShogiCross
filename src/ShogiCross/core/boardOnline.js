@@ -20,7 +20,7 @@ export class BoardOnline extends Board{
 		super(canvas, option);
 		const {
 			onReadyOnline = null,
-			serverURL = "http://localhost:3000",
+			serverURL = "http://localhost:8080",
 		} = option;
 		this.onReadyOnline = onReadyOnline;
 		this.isOnline = true;
