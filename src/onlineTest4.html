@@ -15,36 +15,36 @@
 	<a href="./" target="_parent">RETURN</a>
 
 	<script type="module">
-	import {gameSoft, BoardOnline} from "./ShogiCross/lib.js";
-	const btn = document.getElementById("online-btn");
-	const canvas = document.getElementById("online-canvas");
-	const statusDiv = document.getElementById("status");
+		import {BoardOnline} from "./ShogiCross/lib.js";
+		const btn = document.getElementById("online-btn");
+		const canvas = document.getElementById("online-canvas");
+		const statusDiv = document.getElementById("status");
 
-	btn.addEventListener("click", ()=>{
-		const shogiOption = gameSoft["shogi"];
-		if (!shogiOption) {
-			statusDiv.textContent = "標準将棋が見つかりません。";
-			return;
-		}
-		btn.style.display = "none";
-		statusDiv.textContent = "マッチング待機中...";
+		btn.addEventListener("click", ()=>{
+			btn.style.display = "none";
+			statusDiv.textContent = "マッチング待機中...";
 
-		const board = new BoardOnline(canvas, {
-				...shogiOption,
+			const board = BoardOnline.run(canvas, {
+				playBoard: "4人用9x9",
+				useStand: true,
 				playerOptions: [
-					{gameName: "将棋", pieceSet: "default"},
-					//{gameName: "将棋", pieceSet: "default"},
-					{gameName: "チェス", pieceSet: "default"},
+					{"gameName": "将棋", "pieceSet": "p4"},
+					{"gameName": "シャンチー", "pieceSet": "p4"},
+					{"gameName": "チェス", "pieceSet": "p4"},
+					{"gameName": "マークルック", "pieceSet": "p4"},
 				],
-				serverURL: "https://shogicross-server-828297429002.asia-northeast1.run.app/",
+				//serverURL: "https://shogicross-server-828297429002.asia-northeast1.run.app/",
 				//serverURL: "https://shogicross-server-cs-828297429002.asia-northeast1.run.app/",
 				//serverURL: "https://shogicross-server-py-828297429002.asia-northeast1.run.app/",
-				onReadyOnline(event, board){
+				onTurnEnd(board, turn){
+					console.log(board.record.getText(turn, true));
+				},
+								onReadyOnline(event, board){
 					statusDiv.textContent = `対戦開始！ あなたはプレイヤー${event.playerId + 1}です。`;
 				},
-			},
-		);
-	});
+			});
+		});
 	</script>
+	<p><a href="." target="_parent">RETURN</a></p>
 </body>
 </html>
