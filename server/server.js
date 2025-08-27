@@ -3,129 +3,160 @@ const express = require("express");
 const http = require("http");
 const WebSocket = require("ws");
 const path = require("path");
+const { randomUUID } = require('crypto');
 
 // --- 状態管理 ---
-// ゲームルームを保持: { gameName: Set(ws1, ws2) }
+// ゲームルームを保持: { [gameName]: [ { id: roomId, sockets: Set(), numPlayers: number }, ... ] }
 const games = {};
-// WebSocketからゲーム名へのマッピング: Map<ws, gameName>
-const wsToGame = new Map();
-// WebSocketから角度へのマッピング: Map<ws, deg>
-const wsToDeg = new Map();
+// WebSocketからルームIDへのマッピング: Map<ws, roomId>
+const wsToRoomId = new Map();
 
 // Expressアプリケーションの初期化
 const app = express();
 const server = http.createServer(app);
-const wss = new WebSocket.Server({server});
+const wss = new WebSocket.Server({ server });
 
 // WebSocket接続が確立されたときのイベントハンドラ
-wss.on("connection", ws=>{
-	console.log("Client connected");
+wss.on("connection", ws => {
+    console.log("Client connected");
 
-	// クライアントからメッセージを受信したときのイベントハンドラ
-	ws.on("message", async message=>{
-		let data;
-		try{
-			data = JSON.parse(message);
-			console.log("Received:", data);
-		}
-		catch(e){
-			console.error("Invalid JSON received:", e);
-			return;
-		}
+    // クライアントからメッセージを受信したときのイベントハンドラ
+    ws.on("message", async message => {
+        let data;
+        try {
+            data = JSON.parse(message);
+            console.log("Received:", data);
+        } catch (e) {
+            console.error("Invalid JSON received:", e);
+            return;
+        }
 
-		const msgType = data.type;
+        const { type, gameName, numPlayers, roomId } = data;
 
-		if(msgType === "join"){
-			const gameName = data.gameName;
-			if(!gameName) return;
+        if (type === "join") {
+            if (!gameName) return;
 
-			// ゲームルームを取得または作成
-			if(!games[gameName]){
-				games[gameName] = new Set();
-			}
-			const game = games[gameName];
+            // gameNameに対応するゲームがなければ初期化
+            if (!games[gameName]) {
+                games[gameName] = [];
+            }
 
-			// 参加前に、切断済みのソケットを掃除する
-			for(const player of game){
-				if(player.readyState !== WebSocket.OPEN){
-					game.delete(player);
-				}
-			}
+            // 切断済みのソケットを掃除
+            games[gameName].forEach(room => {
+                room.sockets.forEach(player => {
+                    if (player.readyState !== WebSocket.OPEN) {
+                        room.sockets.delete(player);
+                    }
+                });
+            });
+            // 空のルームも掃除
+            games[gameName] = games[gameName].filter(room => room.sockets.size > 0);
 
-			// 新しいプレイヤーを追加
-			game.add(ws);
-			wsToGame.set(ws, gameName);
-			console.log(`Client joined game: '${gameName}'. Players: ${game.size}`);
+            // 参加可能なルームを探す
+            let roomToJoin = games[gameName].find(room => room.sockets.size < room.numPlayers);
 
-			// 2人揃ったらゲーム開始
-			if(game.size === 2){
-				console.log(`Game '${gameName}' starting with 2 players.`);
-				const players = Array.from(game);
-				const [player1, player2] = players;
+            // 参加可能なルームがなければ新規作成
+            if (!roomToJoin) {
+                roomToJoin = {
+                    id: randomUUID(),
+                    sockets: new Set(),
+                    numPlayers: numPlayers || 2,
+                };
+                games[gameName].push(roomToJoin);
+                console.log(`New room created for game '${gameName}' with id ${roomToJoin.id}`);
+            }
 
-				// プレイヤーの角度を保存
-				wsToDeg.set(player1, 0);
-				wsToDeg.set(player2, 180);
+            // ルームにプレイヤーを追加
+            roomToJoin.sockets.add(ws);
+            wsToRoomId.set(ws, roomToJoin.id);
 
-				// 各プレイヤーに通知
-				const readyMsg1 = JSON.stringify({type: "readyOnline", playerId: 0});
-				const readyMsg2 = JSON.stringify({type: "readyOnline", playerId: 1});
+            console.log(`Client joined room ${roomToJoin.id} for game '${gameName}'. Players: ${roomToJoin.sockets.size}/${roomToJoin.numPlayers}`);
 
-				player1.send(readyMsg1);
-				player2.send(readyMsg2);
-			}
-		}
-		else{
-			// join以外のメッセージ (move, dropなど)
-			const gameName = wsToGame.get(ws);
-			if(!gameName || !games[gameName]) return;
+            // 必要なプレイヤー数が揃ったらゲーム開始
+            if (roomToJoin.sockets.size === roomToJoin.numPlayers) {
+                console.log(`Game in room ${roomToJoin.id} ('${gameName}') starting with ${roomToJoin.numPlayers} players.`);
+                const players = Array.from(roomToJoin.sockets);
+                const degStep = 360 / roomToJoin.numPlayers;
 
-			// 送信者の角度をメッセージに追加
-			data.playerDeg = wsToDeg.get(ws) || 0;
-			const messageWithDeg = JSON.stringify(data);
+                players.forEach((player, i) => {
+                    const deg = i * degStep;
+                    // 角度情報をwsに紐づけておく（本来はもっと良い方法があるかも）
+                    player.deg = deg;
+                    const readyMsg = JSON.stringify({ type: "readyOnline", playerId: i, deg: deg, roomId: roomToJoin.id });
+                    player.send(readyMsg);
+                });
+            }
+        } else if (roomId) { // join以外のメッセージ (move, dropなど)
+            // roomIdからルームを特定
+            let targetRoom = null;
+            for (const gameType in games) {
+                const room = games[gameType].find(r => r.id === roomId);
+                if (room) {
+                    targetRoom = room;
+                    break;
+                }
+            }
 
-			// 対戦相手にメッセージを転送
-			const game = games[gameName];
-			for(const player of game){
-				if(player !== ws && player.readyState === WebSocket.OPEN){
-					player.send(messageWithDeg);
-				}
-			}
-		}
-	});
+            if (!targetRoom) {
+                console.error(`Room with id ${roomId} not found.`);
+                return;
+            }
 
-	// クライアントの接続が閉じられたときのイベントハンドラ
-	ws.on("close", ()=>{
-		console.log("Client disconnected");
-		const gameName = wsToGame.get(ws);
+            // 送信者の角度をメッセージに追加
+            data.playerDeg = ws.deg;
+            const messageWithDeg = JSON.stringify(data);
 
-		// クリーンアップ
-		wsToGame.delete(ws);
-		wsToDeg.delete(ws);
+            // ルーム内の他のプレイヤーにメッセージを転送
+            for (const player of targetRoom.sockets) {
+                if (player !== ws && player.readyState === WebSocket.OPEN) {
+                    player.send(messageWithDeg);
+                }
+            }
+        }
+    });
 
-		if(gameName && games[gameName]){
-			const game = games[gameName];
-			game.delete(ws);
+    // クライアントの接続が閉じられたときのイベントハンドラ
+    ws.on("close", () => {
+        console.log("Client disconnected");
+        const roomId = wsToRoomId.get(ws);
+        if (!roomId) return;
 
-			// ルームに残っているプレイヤーに切断を通知
-			if(game.size > 0){
-				const opponent = game.values().next().value;
-				if(opponent && opponent.readyState === WebSocket.OPEN){
-					opponent.send(JSON.stringify({type: "disconnect"}));
-				}
-			}
+        // クリーンアップ
+        wsToRoomId.delete(ws);
 
-			// ルームが空になったら削除
-			if(game.size === 0){
-				delete games[gameName];
-				console.log(`Game room '${gameName}' is now empty and closed.`);
-			}
-		}
-	});
+        // プレイヤーが属していたルームを探して削除
+        for (const gameName in games) {
+            const roomIndex = games[gameName].findIndex(r => r.id === roomId);
+            if (roomIndex !== -1) {
+                const room = games[gameName][roomIndex];
+                room.sockets.delete(ws);
 
-	ws.on("error", (error)=>{
-		console.error("WebSocket error:", error);
-	});
+                // ルームに残っているプレイヤーに切断を通知
+                const disconnectMsg = JSON.stringify({ type: "disconnect" });
+                for (const player of room.sockets) {
+                    if (player.readyState === WebSocket.OPEN) {
+                        player.send(disconnectMsg);
+                    }
+                }
+
+                // ルームが空になったら配列から削除
+                if (room.sockets.size === 0) {
+                    games[gameName].splice(roomIndex, 1);
+                    console.log(`Room ${roomId} is now empty and closed.`);
+                    // gameNameに紐づくルームがなくなったら、そのgameName自体も削除
+                    if (games[gameName].length === 0) {
+                        delete games[gameName];
+                        console.log(`Game type '${gameName}' has no more rooms.`);
+                    }
+                }
+                break;
+            }
+        }
+    });
+
+    ws.on("error", (error) => {
+        console.error("WebSocket error:", error);
+    });
 });
 
 // 静的ファイルを配信
@@ -133,6 +164,6 @@ app.use(express.static(path.join(__dirname, "..")));
 
 // サーバーを起動
 const PORT = process.env.PORT || 8080;
-server.listen(PORT, ()=>{
-	console.log(`Server is listening on port ${PORT}`);
+server.listen(PORT, () => {
+    console.log(`Server is listening on port ${PORT}`);
 });

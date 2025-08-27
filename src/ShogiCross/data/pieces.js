@@ -358,7 +358,7 @@ export default {
 		"unit": "王",
 		"attr": ["king", "countingRules"],
 		"range": {
-			"default": "ぞ"
+			"default": "王"
 		}
 	},
 	"火": {

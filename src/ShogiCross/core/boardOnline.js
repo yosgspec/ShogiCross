@@ -6,6 +6,14 @@ import {Piece} from "./piece.js";
 import {Panel} from "./panel.js";
 
 export class BoardOnline extends Board{
+	/** ゲームを実行する
+	 * @param {HTMLCanvasElement} canvas - Canvas要素
+	 * @param {BoardOnlineInitOption} option - ボードの初期化オプション
+	 * @returns {BoardOnline}
+	 */
+	static run(canvas, option){
+		return new BoardOnline(canvas, option);
+	}
 	/**
 	 * @typedef {Object} BoardOnlineInitOption - ボードの初期化オプション
 	 * @extends BoardInitOption
@@ -16,7 +24,12 @@ export class BoardOnline extends Board{
 	 * @param {HTMLCanvasElement} canvas - Canvas要素
 	 * @param {BoardOnlineInitOption} option - ボードの初期化オプション
 	 */
-	constructor(canvas, option){
+		constructor(canvas, option){
+		// nameが指定されていない場合、現在のURLをnameとして使用する
+		if(!option.name && typeof window !== "undefined"){
+			option.name = window.location.href;
+		}
+
 		super(canvas, option);
 		const {
 			onReadyOnline = null,
@@ -24,6 +37,7 @@ export class BoardOnline extends Board{
 		} = option;
 		this.onReadyOnline = onReadyOnline;
 		this.isOnline = true;
+		this.roomId = null;
 
 		// isLocalプロパティをプレイヤーに追加
 		this.players.forEach(player=>{
@@ -34,10 +48,15 @@ export class BoardOnline extends Board{
 		// HTTP/HTTPSのURLをWebSocketのws/wssプロトコルに変換して接続
 		this.ws = new WebSocket(serverURL.replace(/^http/, "ws"));
 
-		this.ws.onopen = ()=>{
+		this.ws.onopen = () => {
+			console.log("WebSocket connection established.");
+			this.ws.onopen = ()=>{
 			console.log("WebSocket connection established.");
 			// サーバーにゲーム参加メッセージを送信
-			this.ws.send(JSON.stringify({type: "join", gameName: this.name}));
+			this.ws.send(JSON.stringify({type: "join", gameName: this.name, numPlayers: this.playerLen}));
+
+			// サーバーにゲーム参加メッセージを送信
+			this.ws.send(JSON.stringify(payload));
 		};
 
 		this.ws.onmessage = event=>{
@@ -47,6 +66,7 @@ export class BoardOnline extends Board{
 				switch(message.type){
 					// プレイヤーとマッチングした場合
 					case "readyOnline":
+						this.roomId = message.roomId;
 						this.onReadyOnline?.(message, this);
 						// サーバーからプレイヤーの割り当て情報を受信
 						const myPlayer = [...this.players.values()].find(p=>p.id === message.playerId);
@@ -114,6 +134,7 @@ export class BoardOnline extends Board{
 
 					const data = {
 						type: "drop",
+						roomId: board.roomId,
 						to: {pX: toPanel.pX, pY: toPanel.pY},
 						playerDeg: activePlayer.deg, // プレイヤーの視点角度を追加
 						standIndex: i,
@@ -157,6 +178,7 @@ export class BoardOnline extends Board{
 				const promoChar = toPanel.piece.char;
 				const data = {
 					type: "move",
+					roomId: this.roomId,
 					from: {pX: fromPanel.pX, pY: fromPanel.pY}, // 移動元の座標
 					to: {pX: toPanel.pX, pY: toPanel.pY},     // 移動先の座標
 					promoChar: baseChar !== promoChar? promoChar: null,
@@ -187,7 +209,6 @@ export class BoardOnline extends Board{
 		const localTo = this.rotatePosition(to.pX, to.pY, -playerDeg);
 		const fromPanel = this.field[localFrom.pY][localFrom.pX];
 		const toPanel   = this.field[localTo.pY][localTo.pX];
-		fromPanel.piece.deg = this.degNormal(this.displayDeg+playerDeg);
 
 		this.stand.capturePiece(
 			fromPanel.piece,
