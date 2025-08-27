@@ -1,5 +1,5 @@
 declare class Q extends Z {
-    overlay: Me;
+    overlay: Le;
     autoDrawing: any;
     isGameEnd: boolean;
     onDrawed: any;
@@ -19,10 +19,58 @@ declare class Q extends Z {
     downloadImage(e: any, t: any, a: any): Promise<void>;
     #private;
 }
-declare class Re extends Q {
+declare class ce extends Q {
     onReadyOnline: any;
     isOnline: boolean;
+    isReadyOnline: boolean;
+    roomId: any;
     ws: WebSocket;
+    stand: {
+        /** 持ち駒からボード上に配置する
+         * @param {Panel} toPanel - 配置先のパネル
+         * @param {Object} option - オプション
+         * @param {number} option.deg - 角度
+         * @param {number} option.i - 配置する持ち駒のインデックス
+         */
+        dropPiece(o: any, l?: {}): void;
+        stand: any;
+        board: any;
+        left: number;
+        top: any;
+        width: number;
+        height: any;
+        right: number;
+        bottom: any;
+        pitchWidth: number;
+        pitchHeight: any;
+        xLen: any;
+        yLen: any;
+        /** 駒台を初期化にする */
+        clear(): void;
+        stocks: Map<number, any[]>;
+        /** 駒台に追加する
+         * @param {Piece} piece - 追加する駒
+         */
+        add(e: any): void;
+        /** 駒を持ち駒にする
+         * @param {Piece|null} winnerPiece - 移動する駒
+         * @param {Piece} loserPiece - 捕縛される駒
+         * @param {boolean} forceCapture - 属性を無視して捕縛する
+         * @param {boolean} forceCantCapture - 属性を無視して捕縛しない
+         */
+        capturePiece(e: any, t: any, a?: boolean, i?: boolean): void;
+        /** 持ち駒の所有権を回転
+         * @param {number} deg - 回転角 (90の倍数)
+         */
+        rotate(e: any): void;
+        /** 盤を描写 */
+        draw(): void;
+        /** 駒台をテキスト形式で取得
+         * @param {boolean} isCompact - コンパクト表示
+         * @param {boolean} isAlias - エイリアス表示
+         */
+        toString(e?: boolean, t?: boolean): string;
+    };
     /**
      * リモートからの移動を盤面に適用する
      * @param {Object} message
@@ -65,7 +113,7 @@ declare class Re extends Q {
         standIndex: number;
     }): Promise<void>;
 }
-declare class be extends G {
+declare class ke extends G {
     engine: any;
 }
 declare class G {
@@ -454,8 +502,8 @@ declare namespace $ {
      */
     function importAsync(): Promise<void>;
 }
-declare function he(p: any): void;
-declare namespace Se {
+declare function ge(p: any): void;
+declare namespace me {
     namespace shogi {
         let name: string;
         let variant: string;
@@ -5581,7 +5629,7 @@ declare class Z {
     bottom: any;
     stand: Y;
     moveMode: any;
-    record: We;
+    record: ye;
     enPassant: V;
     /** ボードを閉じる */
     close(): void;
@@ -5711,7 +5759,7 @@ declare class Z {
     };
     #private;
 }
-declare class Me {
+declare class Le {
     constructor(e: any, t?: {});
     canvas: any;
     /**
@@ -5801,7 +5849,7 @@ declare class Y {
      */
     toString(e?: boolean, t?: boolean): string;
 }
-declare class We {
+declare class ye {
     constructor(e: any);
     board: any;
     turn: number;
@@ -5883,4 +5931,4 @@ declare class V {
     clone(): this;
 }
 declare const O: unique symbol;
-export { Q as Board, Re as BoardOnline, be as CpuEngine, G as CpuEngineBase, H as CpuEngines, C as Piece, J as boards, N as canvasFont, $ as canvasImage, he as extendData, Se as gameSoft, q as games, D as panels, K as pieceCost, ie as pieceRange, I as pieces };
+export { Q as Board, ce as BoardOnline, ke as CpuEngine, G as CpuEngineBase, H as CpuEngines, C as Piece, J as boards, N as canvasFont, $ as canvasImage, ge as extendData, me as gameSoft, q as games, D as panels, K as pieceCost, ie as pieceRange, I as pieces };

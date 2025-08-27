@@ -7,7 +7,7 @@ const N = {
     ["Noto Serif", 900],
     ["Noto Serif TC", 900]
   ]
-}, Se = {
+}, me = {
   shogi: {
     name: "将棋",
     variant: "将棋",
@@ -2429,7 +2429,7 @@ const N = {
     unit: "王",
     attr: ["king", "countingRules"],
     range: {
-      default: "ぞ"
+      default: "王"
     }
   },
   火: {
@@ -4903,12 +4903,12 @@ const N = {
   霍: -18,
   楚: -24,
   帥: -28
-}, me = "./json/ShogiCross/";
+}, ue = "./json/ShogiCross/";
 function X(p) {
   const e = new XMLHttpRequest();
-  return e.open("GET", `${me}${p}.json`, !1), e.send(), e.status === 200 ? JSON.parse(e.responseText) : {};
+  return e.open("GET", `${ue}${p}.json`, !1), e.send(), e.status === 200 ? JSON.parse(e.responseText) : {};
 }
-const ue = {
+const he = {
   canvasFont: X("canvasFont"),
   gameSoft: X("gameSoft"),
   games: X("games"),
@@ -4918,17 +4918,17 @@ const ue = {
   pieceRange: X("pieceRange"),
   pieceCost: X("pieceCost")
 };
-function he(p) {
-  Object.assign(N, p.canvasFont), Object.assign(Se, p.gameSoft), Object.assign(q, p.games), Object.assign(J, p.boards), Object.assign(D, p.panels), Object.assign(I, p.pieces), Object.assign(ie, p.pieceRange), Object.assign(K, p.pieceCost);
-}
-he(ue);
 function ge(p) {
+  Object.assign(N, p.canvasFont), Object.assign(me, p.gameSoft), Object.assign(q, p.games), Object.assign(J, p.boards), Object.assign(D, p.panels), Object.assign(I, p.pieces), Object.assign(ie, p.pieceRange), Object.assign(K, p.pieceCost);
+}
+ge(he);
+function fe(p) {
   return new Promise((e) => {
     const t = new Image();
     t.src = p, t.onload = () => e(t);
   });
 }
-function fe() {
+function Be() {
   return [...new Set(
     Object.values(D).flatMap(({ imgSrc: p }) => p ?? []).concat(Object.values(I).flatMap(({ imgSrc: p }) => p != null ? Object.values(p) : []).flat())
   )];
@@ -4946,13 +4946,13 @@ const $ = {
   async importAsync() {
     if (!this.imported)
       return Promise.all(
-        fe().map(async (p) => {
-          this.images[p] = await ge(p);
+        Be().map(async (p) => {
+          this.images[p] = await fe(p);
         })
       ).then((p) => this.imported = !0);
   }
 };
-let Be = 0;
+let We = 0;
 class C {
   /** @typedef {Object} Piece */
   /** 描写サイズ
@@ -5098,7 +5098,7 @@ class C {
       isDrawShadow: o = C.isDrawShadow,
       isMoved: l = !1
     } = a;
-    Object.assign(this, t), this.id = Be++, this.ctx = e, this.display ??= [""], this.imgSrc ??= null, this.alias = [...this.alias ?? ""], this.displayPtn ??= i, this.game = q[this.gameName], this.cost = K[this.char] ?? K[this.base.char] ?? 1, this.center = 0, this.middle = 0, this.deg ||= s, this.size ??= n, this.useRankSize ??= r, this.isDrawShadow ??= o, this.isRotateImg ??= !0, this.isMoved = l, this.isSelected = !1, this.attr ??= [];
+    Object.assign(this, t), this.id = We++, this.ctx = e, this.display ??= [""], this.imgSrc ??= null, this.alias = [...this.alias ?? ""], this.displayPtn ??= i, this.game = q[this.gameName], this.cost = K[this.char] ?? K[this.base.char] ?? 1, this.center = 0, this.middle = 0, this.deg ||= s, this.size ??= n, this.useRankSize ??= r, this.isDrawShadow ??= o, this.isRotateImg ??= !0, this.isMoved = l, this.isSelected = !1, this.attr ??= [];
     try {
       Object.entries(this.range).forEach(([d, c]) => {
         Array.isArray(c) || (this.range[d] = ie[c].map((S) => [...S]));
@@ -5430,7 +5430,7 @@ ${r}持駒：${r}`);
     return s + n;
   }
 }
-class We {
+class ye {
   #e = 0;
   constructor(e) {
     this.board = e, this.turn = 0, this.records = [], this.add({ inc: 0, end: "開始局面" });
@@ -5545,7 +5545,7 @@ class We {
     return this.records[this.turn + e] ?? "";
   }
 }
-const ye = [
+const Ae = [
   ["default", { isAttack: !1 }],
   ["attack", { isAttack: !0 }],
   ["start", { isAttack: !1 }],
@@ -5553,10 +5553,10 @@ const ye = [
   ["enPassant", { isAttack: !0 }],
   ["palaceSlash", { isAttack: !1 }],
   ["palaceSlash", { isAttack: !0 }]
-], Ae = [
+], Ce = [
   ["O", { isOwn: !0 }],
   ["o", {}]
-], Ce = [
+], we = [
   ["o"],
   ["A", { child: ["a"] }],
   ["B", { child: ["b"] }],
@@ -5577,13 +5577,13 @@ const ye = [
 ];
 for (let p = 1; p <= 9; p++)
   ne.push(["" + p, { moves: p }]);
-function we(p) {
+function xe(p) {
   const e = [];
   let t, a;
   for (let i = 0; i < p.length; i++)
     for (let s = 0; s < p[i].length; s++) {
       const n = p[i][s];
-      for (let [r, { isOwn: o }] of Ae)
+      for (let [r, { isOwn: o }] of Ce)
         n === r && (e.push({ isOwn: o, oX: s, oY: i }), o && ([t, a] = [s, i]));
     }
   return e.map((i) => (i.offsetX = i.oX - t, i.offsetY = i.oY - a, i));
@@ -5620,7 +5620,7 @@ function P(p, e, t, a) {
   }
   function g(u, [m, { isAttack: f }], { oX: W, oY: x, isOwn: y }) {
     if (y)
-      for (const [w, { child: b = [] } = {}] of Ce)
+      for (const [w, { child: b = [] } = {}] of we)
         for (let k = 0; k < u.length; k++)
           for (let E = 0; E < u[k].length; E++) {
             const [v, M] = [E + t - W, k + a - x];
@@ -5635,9 +5635,9 @@ function P(p, e, t, a) {
           for (let j = W - 1; j <= W + 1; j++) {
             if (u[L][j] !== k || j === W && L === x) continue;
             let _ = E || 0, U = v || 0;
-            const [ce, pe] = [j - W, L - x];
+            const [pe, Se] = [j - W, L - x];
             for (let ee = t, te = a; ; ) {
-              ee += ce, te += pe;
+              ee += pe, te += Se;
               const R = ee + w, T = te + b;
               if (!o(R, T) || !M && U === 0) break;
               const z = _ === 0;
@@ -5652,12 +5652,12 @@ function P(p, e, t, a) {
   return (function() {
     const u = e.getRange();
     u.attack ??= u.default;
-    for (const m of ye) {
+    for (const m of Ae) {
       const f = m[0];
       if (e.isMoved && ["start", "castling"].includes(f)) continue;
       const W = u[f];
       if (W)
-        for (const x of we(W))
+        for (const x of xe(W))
           g(W, m, x), B(W, m, x);
     }
   })(), i;
@@ -5690,7 +5690,7 @@ function oe(p, e) {
   }
   return !1;
 }
-function xe(p, e) {
+function be(p, e) {
   return re(p, e) && !oe(p, e);
 }
 class G {
@@ -5812,7 +5812,7 @@ H.minimax = class extends G {
   async minimax(e, t, a, i, s) {
     const n = e.getActivePlayer();
     if (t === 0) return this.evaluate(e);
-    if (xe(e, n.deg))
+    if (be(e, n.deg))
       return s ? -1 / 0 : 1 / 0;
     if (!oe(e, n.deg))
       return 0;
@@ -5879,7 +5879,7 @@ H.minimax = class extends G {
     i ? (await this.delayEnd(a), await e.movePiece(i.from, i.to, !0), console.log(`CPU(Minimax): (${i.from.pX}, ${i.from.pY}) から (${i.to.pX}, ${i.to.pY}) へ移動 (評価値: ${s})`)) : console.log("CPU(Minimax): 最善手が見つかりませんでした。");
   }
 };
-class be extends G {
+class ke extends G {
   /**
    * @param {Board} board - 対象の盤面
    * @param {PlayerInfo} player - プレイヤー情報
@@ -5900,10 +5900,10 @@ class be extends G {
     }
   }
 }
-const ke = Object.keys(C.degChars), se = () => ({ pX: null, pY: null, pieceId: null });
+const Ee = Object.keys(C.degChars), se = () => ({ pX: null, pY: null, pieceId: null });
 class V {
   constructor() {
-    this.degs = {}, ke.forEach((e) => this.degs[e] = se());
+    this.degs = {}, Ee.forEach((e) => this.degs[e] = se());
   }
   /** アンパッサン情報をクリア
    * @param {number} deg - アンパッサンされうる陣営の角度
@@ -6143,14 +6143,14 @@ class Z {
         cpuDelay: o[y]?.cpuDelay ?? 500
         // CPUの遅延時間
       };
-      if (b.cpu = new be(this, b), this.players.set(w, b), !!b.gameName)
+      if (b.cpu = new ke(this, b), this.players.set(w, b), !!b.gameName)
         try {
           this.putStartPieces(y, b.gameName, b.pieceSet);
         } catch (k) {
           console.error(k);
         }
     }
-    this.width = this.panelWidth * (this.xLen + 1), this.height = this.panelHeight * (this.yLen + 1), this.right = d + this.width, this.bottom = c + this.height, this.stand = new Y(this), this.moveMode = x, this.record = new We(this), this.enPassant = new V();
+    this.width = this.panelWidth * (this.xLen + 1), this.height = this.panelHeight * (this.yLen + 1), this.right = d + this.width, this.bottom = c + this.height, this.stand = new Y(this), this.moveMode = x, this.record = new ye(this), this.enPassant = new V();
   }
   /** ゲームを実行する
    * @param {HTMLCanvasElement} canvas - Canvas要素
@@ -6440,15 +6440,15 @@ class Z {
     }), t.record.turn = this.record.turn, t.enPassant = this.enPassant.clone(), t;
   }
 }
-const Ee = (p) => "image/" + p.replace("jpg", "jpeg");
-async function ve(p, e = "image", t = "png", a = "base64") {
-  const i = Ee(t), s = document.createElement("a");
+const ve = (p) => "image/" + p.replace("jpg", "jpeg");
+async function Ne(p, e = "image", t = "png", a = "base64") {
+  const i = ve(t), s = document.createElement("a");
   let n;
   a === "blob" ? n = URL.createObjectURL(
     await new Promise((r) => p.toBlob(r), i)
   ) : n = p.toDataURL(i), s.href = n, s.download = `${e}.${t}`, s.click(), a === "blob" && URL.revokeObjectURL(s.href);
 }
-const Ne = {
+const Xe = {
   dialog: {
     border: "none",
     borderRadius: "12px",
@@ -6481,13 +6481,13 @@ const Ne = {
     background: "#ddd"
   }
 };
-class Xe {
+class Oe {
   #e;
   #t;
   #a;
   #s;
   constructor(e = {}) {
-    this.#s = { ...Ne, ...e }, this.dialog = document.createElement("dialog"), document.body.appendChild(this.dialog), Object.assign(this.dialog.style, this.#s.dialog), this.#e = document.createElement("h3"), this.dialog.appendChild(this.#e), Object.assign(this.#e.style, this.#s.title), this.#t = document.createElement("p"), this.dialog.appendChild(this.#t), Object.assign(this.#t.style, this.#s.message), this.#a = document.createElement("div"), this.dialog.appendChild(this.#a), Object.assign(this.#a.style, this.#s.buttonContainer), this.isModal = !1;
+    this.#s = { ...Xe, ...e }, this.dialog = document.createElement("dialog"), document.body.appendChild(this.dialog), Object.assign(this.dialog.style, this.#s.dialog), this.#e = document.createElement("h3"), this.dialog.appendChild(this.#e), Object.assign(this.#e.style, this.#s.title), this.#t = document.createElement("p"), this.dialog.appendChild(this.#t), Object.assign(this.#t.style, this.#s.message), this.#a = document.createElement("div"), this.dialog.appendChild(this.#a), Object.assign(this.#a.style, this.#s.buttonContainer), this.isModal = !1;
   }
   #i(e) {
     return this.dialog.close(), this.dialog.style.display = "none", e?.value;
@@ -6509,7 +6509,7 @@ class Xe {
     this.dialog && (this.dialog.style.fontFamily = e, this.#s.button.fontFamily = e);
   }
 }
-function Oe(p) {
+function Pe(p) {
   let e = !1, t = [], a = null, i = null;
   const { canvas: s } = p, n = async (c, S, h = () => {
   }) => {
@@ -6588,7 +6588,7 @@ le.textContent = `
 	}
 `;
 document.head.appendChild(le);
-const Pe = {
+const Me = {
   spinner: {
     position: "fixed",
     /* Changed to fixed */
@@ -6624,7 +6624,7 @@ const Pe = {
     /* Hidden by default */
   }
 };
-class Me {
+class Le {
   /**
    * @param {HTMLCanvasElement} canvas - Canvas要素
    * @param {OverlayOptions} options - スピナーのオプション
@@ -6644,7 +6644,7 @@ class Me {
       styles: s
     } = t;
     this.canvas = e, this.#s = a, this.#i = i, this.#n = {
-      ...Pe,
+      ...Me,
       ...s
     }, this.#r(), this.#o();
   }
@@ -6734,7 +6734,7 @@ class Q extends Z {
     } = t;
     let B = null, u = null;
     if (!r) {
-      B = N.importAsync(), u = $.importAsync(), this.canvas = e, this.ctx = e.getContext("2d"), this.ctx.clearRect(0, 0, e.width, e.height), this.overlay = new Me(this.canvas, l), this.#a = new Xe();
+      B = N.importAsync(), u = $.importAsync(), this.canvas = e, this.ctx = e.getContext("2d"), this.ctx.clearRect(0, 0, e.width, e.height), this.overlay = new Le(this.canvas, l), this.#a = new Oe();
       for (const f of Object.values(this.pieces))
         f.ctx = this.ctx;
       for (const f of this.field.flat())
@@ -6745,7 +6745,7 @@ class Q extends Z {
     }
     this.autoDrawing = o, o && (B.then(() => {
       this.draw(), this.#a.setFontFamily(N.names);
-    }), u.then(() => this.draw()), this.draw()), this.isGameEnd = !1, this.onDrawed = c, this.onTurnEnd = S, this.onGameOver = h, this.onGameEnd = g, r || (this.#e = Oe(this)), d && (this.#t = this.makeUIControl(), this.#t.add());
+    }), u.then(() => this.draw()), this.draw()), this.isGameEnd = !1, this.onDrawed = c, this.onTurnEnd = S, this.onGameOver = h, this.onGameEnd = g, r || (this.#e = Pe(this)), d && (this.#t = this.makeUIControl(), this.#t.add());
   }
   /** 操作パネルを構築
    * @param {string[]} compList - 表示するコントロールの一覧
@@ -6819,7 +6819,7 @@ ${e.char}:${e.name}`,
    * @returns {Promise<void>}
    */
   async downloadImage(e, t, a) {
-    await ve(this.canvas, e ?? this.name ?? "shogicross", t, a);
+    await Ne(this.canvas, e ?? this.name ?? "shogicross", t, a);
   }
 }
 class de {
@@ -6874,7 +6874,7 @@ class de {
     this.board.isHeadless || (this.component.remove(), window.removeEventListener("resize", () => this.#e));
   }
 }
-const Le = () => [
+const je = () => [
   .../* @__PURE__ */ new Set([
     ...de.buttonTexts + Object.values(D).map(({ displayText: p }) => p).join("") + Object.values(I).map(({ display: p }) => p ? p.join("") : "").join("")
   ])
@@ -6891,7 +6891,7 @@ Object.assign(N, {
    */
   async importAsync() {
     if (this.imported) return;
-    const p = "https://fonts.googleapis.com/css2?family=", e = Le(), t = Date.now().toString();
+    const p = "https://fonts.googleapis.com/css2?family=", e = je(), t = Date.now().toString();
     return this.names = N.fonts.map((a) => `"${a[0]}${t}"`).join(",") + ",serif", Promise.all(
       N.fonts.map(async ([a, i]) => {
         const s = a.replace(/ /g, "+"), n = `${p}${s}:wght@${i}&text=${e}`, r = await fetch(n);
@@ -6907,7 +6907,15 @@ Object.assign(N, {
     ).then((a) => this.imported = !0);
   }
 });
-class Re extends Q {
+class ce extends Q {
+  /** ゲームを実行する
+   * @param {HTMLCanvasElement} canvas - Canvas要素
+   * @param {BoardOnlineInitOption} option - ボードの初期化オプション
+   * @returns {BoardOnline}
+   */
+  static run(e, t) {
+    return new ce(e, t);
+  }
   /**
    * @typedef {Object} BoardOnlineInitOption - ボードの初期化オプション
    * @extends BoardInitOption
@@ -6919,15 +6927,15 @@ class Re extends Q {
    * @param {BoardOnlineInitOption} option - ボードの初期化オプション
    */
   constructor(e, t) {
-    super(e, t);
+    !t.name && typeof window < "u" && (t.name = window.location.href), super(e, t);
     const {
       onReadyOnline: a = null,
       serverURL: i = "http://localhost:8080"
     } = t;
-    this.onReadyOnline = a, this.isOnline = !0, this.players.forEach((r) => {
+    this.onReadyOnline = a, this.isOnline = !0, this.isReadyOnline = !1, this.roomId = null, this.players.forEach((r) => {
       r.isLocal = !1;
     }), this.ws = new WebSocket(i.replace(/^http/, "ws")), this.ws.onopen = () => {
-      console.log("WebSocket connection established."), this.ws.send(JSON.stringify({ type: "join", gameName: this.name }));
+      console.log("WebSocket connection established."), this.ws.send(JSON.stringify({ type: "join", gameName: this.name, numPlayers: this.playerLen })), this.overlay.start();
     }, this.ws.onmessage = (r) => {
       console.log("Received message from server:", r.data);
       try {
@@ -6935,9 +6943,9 @@ class Re extends Q {
         switch (o.type) {
           // プレイヤーとマッチングした場合
           case "readyOnline":
-            this.onReadyOnline?.(o, this);
+            this.isReadyOnline = !0, this.roomId = o.roomId, this.onReadyOnline?.(o, this);
             const l = [...this.players.values()].find((d) => d.id === o.playerId);
-            l && (l.isLocal = !0, this[O].rotateField(l.deg), this.stand.rotate(l.deg), this.displayDeg = l.deg, this.autoDrawing && this.draw());
+            l && (l.isLocal = !0, this[O].rotateField(l.deg), this.stand.rotate(l.deg), this.displayDeg = l.deg, this.autoDrawing && this.draw()), this.overlay.stop();
             break;
           // 駒が動いた場合
           case "move":
@@ -6969,23 +6977,20 @@ class Re extends Q {
        * @param {number} option.i - 配置する持ち駒のインデックス
        */
       dropPiece(o, l = {}) {
-        if (!(o instanceof F)) return;
+        if (!(o instanceof F) || !s.isReadyOnline) return;
         const d = s.getActivePlayer();
-        if (s.isOnline && d.isLocal) {
-          const { deg: c, i: S } = l, h = this.stocks.get(c), g = h[S];
-          if (!(g instanceof C)) return;
-          const B = {
-            type: "drop",
-            to: { pX: o.pX, pY: o.pY },
-            playerDeg: d.deg,
-            // プレイヤーの視点角度を追加
-            standIndex: S
-          };
-          if (console.log("Sending drop message:", B), s.ws.send(JSON.stringify(B)), s.moveMode === "viewOnly" || o.hasAttr("keepOut")) return;
-          o.piece = g, g.center = o.center, g.middle = o.middle, h.splice(S, 1), s.record.add({ toPanel: o, end: "打" }), s.autoDrawing && s.draw();
-          return;
-        }
-        super.dropPiece(o, l);
+        d.isLocal || (this.stand = new n(this));
+        const { deg: c, i: S } = l, h = this.stocks.get(c), g = h[S];
+        if (!(g instanceof C)) return;
+        const B = {
+          type: "drop",
+          roomId: s.roomId,
+          to: { pX: o.pX, pY: o.pY },
+          playerDeg: d.deg,
+          // プレイヤーの視点角度を追加
+          standIndex: S
+        };
+        console.log("Sending drop message:", B), s.ws.send(JSON.stringify(B)), !(s.moveMode === "viewOnly" || o.hasAttr("keepOut")) && (o.piece = g, g.center = o.center, g.middle = o.middle, h.splice(S, 1), s.record.add({ toPanel: o, end: "打" }), s.autoDrawing && s.draw());
       }
     }
     this.stand = new n(this);
@@ -6999,21 +7004,19 @@ class Re extends Q {
    */
   async movePiece(e, t, a = !1) {
     const i = this.getActivePlayer();
-    if (this.isOnline && i.isLocal) {
-      if (t.isTarget) {
-        const s = e.piece.char, n = await super.movePiece(e, t, a), r = t.piece.char, o = {
-          type: "move",
-          from: { pX: e.pX, pY: e.pY },
-          // 移動元の座標
-          to: { pX: t.pX, pY: t.pY },
-          // 移動先の座標
-          promoChar: s !== r ? r : null
-        };
-        return this.ws.send(JSON.stringify(o)), n;
-      }
-      return !1;
-    }
-    return await super.movePiece(e, t, a);
+    if (!this.isReadyOnline) return;
+    if (!i.isLocal) return await super.movePiece(e, t, a);
+    if (!t.isTarget) return !1;
+    const s = e.piece.char, n = await super.movePiece(e, t, a), r = t.piece.char, o = {
+      type: "move",
+      roomId: this.roomId,
+      from: { pX: e.pX, pY: e.pY },
+      // 移動元の座標
+      to: { pX: t.pX, pY: t.pY },
+      // 移動先の座標
+      promoChar: s !== r ? r : null
+    };
+    return this.ws.send(JSON.stringify(o)), n;
   }
   /**
    * リモートからの移動を盤面に適用する
@@ -7029,7 +7032,7 @@ class Re extends Q {
    */
   async moveRivalPiece({ from: e, to: t, playerDeg: a, promoChar: i }) {
     const s = this.rotatePosition(e.pX, e.pY, -a), n = this.rotatePosition(t.pX, t.pY, -a), r = this.field[s.pY][s.pX], o = this.field[n.pY][n.pX];
-    r.piece.deg = this.degNormal(this.displayDeg + a), this.stand.capturePiece(
+    this.stand.capturePiece(
       r.piece,
       o.piece,
       o.hasAttr("capture"),
@@ -7055,16 +7058,16 @@ class Re extends Q {
 }
 export {
   Q as Board,
-  Re as BoardOnline,
-  be as CpuEngine,
+  ce as BoardOnline,
+  ke as CpuEngine,
   G as CpuEngineBase,
   H as CpuEngines,
   C as Piece,
   J as boards,
   N as canvasFont,
   $ as canvasImage,
-  he as extendData,
-  Se as gameSoft,
+  ge as extendData,
+  me as gameSoft,
   q as games,
   D as panels,
   K as pieceCost,
