@@ -21,6 +21,7 @@ declare class Q extends Z {
 }
 declare class ce extends Q {
     onReadyOnline: any;
+    onCancelOnline: any;
     isOnline: boolean;
     isReadyOnline: boolean;
     roomId: any;
@@ -31,8 +32,9 @@ declare class ce extends Q {
          * @param {Object} option - オプション
          * @param {number} option.deg - 角度
          * @param {number} option.i - 配置する持ち駒のインデックス
+         * @param {boolean} isCpuDrop - CPUによる打ち駒かどうか
          */
-        dropPiece(o: any, l?: {}): void;
+        dropPiece(o: any, l?: {}, d?: boolean): void;
         stand: any;
         board: any;
         left: number;
@@ -489,7 +491,7 @@ declare const J: {
         field: string[];
     };
 };
-declare namespace N {
+declare namespace X {
     let fonts: (string | number)[][];
 }
 declare namespace $ {
@@ -5754,7 +5756,7 @@ declare class Z {
      * @returns {this}
      */
     cloneCore(): this;
-    [O]: {
+    [N]: {
         rotateField: any;
     };
     #private;
@@ -5930,5 +5932,5 @@ declare class V {
      */
     clone(): this;
 }
-declare const O: unique symbol;
-export { Q as Board, ce as BoardOnline, ke as CpuEngine, G as CpuEngineBase, H as CpuEngines, C as Piece, J as boards, N as canvasFont, $ as canvasImage, ge as extendData, me as gameSoft, q as games, D as panels, K as pieceCost, ie as pieceRange, I as pieces };
+declare const N: unique symbol;
+export { Q as Board, ce as BoardOnline, ke as CpuEngine, G as CpuEngineBase, H as CpuEngines, C as Piece, J as boards, X as canvasFont, $ as canvasImage, ge as extendData, me as gameSoft, q as games, D as panels, K as pieceCost, ie as pieceRange, I as pieces };
