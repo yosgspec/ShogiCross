@@ -53,7 +53,7 @@ jobs:
           git ls-remote --exit-code --tags origin "refs/tags/${TAG_NAME}"
 
   DeployServerCs:
-    needs: [SetUpGoogleCloud, CheckDiffServerCs, CheckServerVersionCs]
+    needs: [CheckDiffServerCs, CheckServerVersionCs]
     if: >
       github.ref == 'refs/heads/main'
       && (
