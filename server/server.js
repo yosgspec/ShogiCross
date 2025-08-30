@@ -1,9 +1,10 @@
 // 必要なモジュールのインポート
-const express = require("express");
-const http = require("http");
-const WebSocket = require("ws");
-const path = require("path");
-const { randomUUID } = require('crypto');
+import express from "express";
+import http from "http";
+import {WebSocket, WebSocketServer} from "ws";
+import path, {dirname} from "path";
+import {fileURLToPath} from "url";
+import {randomUUID} from 'crypto';
 
 // --- 状態管理 ---
 // ゲームルームを保持: { [gameName]: [ { id: roomId, sockets: Set(), numPlayers: number }, ... ] }
@@ -14,7 +15,7 @@ const wsToRoomId = new Map();
 // Expressアプリケーションの初期化
 const app = express();
 const server = http.createServer(app);
-const wss = new WebSocket.Server({server});
+const wss = new WebSocketServer({server});
 
 // WebSocket接続が確立されたときのイベントハンドラ
 wss.on("connection", ws=>{
@@ -51,7 +52,7 @@ wss.on("connection", ws=>{
 				});
 			});
 			// 空のルームも掃除
-			games[gameName] = games[gameName].filter(room=>room.sockets.size > 0);
+			games[gameName] = games[gameName].filter(room=>0 < room.sockets.size);
 
 			// 参加可能なルームを探す
 			let roomToJoin = games[gameName].find(room=>room.sockets.size < room.numPlayers);
@@ -86,6 +87,45 @@ wss.on("connection", ws=>{
 					const readyMsg = JSON.stringify({type: "readyOnline", playerId: i, deg: deg, roomId: roomToJoin.id});
 					player.send(readyMsg);
 				});
+			}
+		}
+		else if(type === "cancelJoin"){
+			const roomId = wsToRoomId.get(ws);
+			if(!roomId) return;
+
+			// プレイヤーが属していたルームを探して削除
+			for(const gameName in games){
+				const roomIndex = games[gameName].findIndex(r=>r.id === roomId);
+				if(roomIndex !== -1){
+					const room = games[gameName][roomIndex];
+
+					// マッチングが成立していないルームでのみキャンセル処理を行う
+					if(room.sockets.size < room.numPlayers){
+						room.sockets.delete(ws);
+						wsToRoomId.delete(ws);
+
+						console.log(`Client cancelled matching and left room ${roomId}. Players: ${room.sockets.size}/${room.numPlayers}`);
+
+						// クライアントにキャンセル成功を通知
+						try{
+							ws.send(JSON.stringify({type: "cancelled"}));
+						}
+						catch(e){
+							console.error("Failed to send cancellation confirmation:", e);
+						}
+
+						// ルームが空になったら配列から削除
+						if(room.sockets.size === 0){
+							games[gameName].splice(roomIndex, 1);
+							console.log(`Room ${roomId} is now empty and closed.`);
+							if(games[gameName].length === 0){
+								delete games[gameName];
+								console.log(`Game type '${gameName}' has no more rooms.`);
+							}
+						}
+					}
+					break;
+				}
 			}
 		}
 		else if(roomId){ // join以外のメッセージ (move, dropなど)
@@ -161,9 +201,6 @@ wss.on("connection", ws=>{
 		console.error("WebSocket error:", error);
 	});
 });
-
-// 静的ファイルを配信
-app.use(express.static(path.join(__dirname, "..")));
 
 // サーバーを起動
 const PORT = process.env.PORT || 8080;

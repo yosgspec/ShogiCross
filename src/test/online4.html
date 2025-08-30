@@ -12,6 +12,7 @@
 	<button id="online-btn" style="margin: 20px; padding: 10px 20px; cursor: pointer; font-size: 1.2em;">オンライン対戦を始める</button>
 	<div id="status"></div>
 	<canvas id="online-canvas"></canvas>
+	<div id="turn-status"></div>
 	<p><a href=".." target="_parent">RETURN</a></p>
 
 	<script type="module">
@@ -19,6 +20,14 @@
 		const btn = document.getElementById("online-btn");
 		const canvas = document.getElementById("online-canvas");
 		const statusDiv = document.getElementById("status");
+		const turnStatusDiv = document.getElementById("turn-status");
+
+		function updateTurnStatus(board){
+			turnStatusDiv.textContent =
+				board.displayDeg === board.getActivePlayer().deg?
+				"あなたの手番です":
+				"相手の手番です";
+		}
 
 		btn.addEventListener("click", ()=>{
 			btn.style.display = "none";
@@ -38,9 +47,14 @@
 				//serverURL: "https://shogicross-server-py-828297429002.asia-northeast1.run.app/",
 				onTurnEnd(board, turn){
 					console.log(board.record.getText(turn, true));
+					updateTurnStatus(board);
 				},
-								onReadyOnline(event, board){
+				onReadyOnline(event, board){
 					statusDiv.textContent = `対戦開始！ あなたはプレイヤー${event.playerId + 1}です。`;
+					updateTurnStatus(board);
+				},
+				onCancelOnline(board){
+					statusDiv.textContent = "マッチングを中止しました。";
 				},
 			});
 		});

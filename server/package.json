@@ -1,8 +1,9 @@
 {
   "name": "shogicross-server",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "Server for ShogiCross online play",
   "main": "server.js",
+  "type": "module",
   "scripts": {
     "start": "node server.js",
     "dev": "nodemon server.js"
