@@ -4,18 +4,18 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width" />
 	<title>オンライン対戦テスト - ShogiCross</title>
-	<link rel=icon href="img/favicon.min.svg">
-	<link href="./shogicross.css" rel="stylesheet">
+	<link rel=icon href="sample/img/favicon.min.svg">
+	<link href="../shogicross.css" rel="stylesheet">
 </head>
 <body>
 	<h1>ShogiCross オンライン対戦</h1>
 	<button id="online-btn" style="margin: 20px; padding: 10px 20px; cursor: pointer; font-size: 1.2em;">オンライン対戦を始める</button>
 	<div id="status"></div>
 	<canvas id="online-canvas"></canvas>
-	<a href="./" target="_parent">RETURN</a>
+	<p><a href=".." target="_parent">RETURN</a></p>
 
 	<script type="module">
-	import {gameSoft, BoardOnline} from "./ShogiCross/lib.js";
+	import {gameSoft, BoardOnline} from "../ShogiCross/lib.js";
 	const btn = document.getElementById("online-btn");
 	const canvas = document.getElementById("online-canvas");
 	const statusDiv = document.getElementById("status");

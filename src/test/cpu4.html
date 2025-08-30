@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width" />
+	<title>CPU実装テスト(4人用) - ShogiCross</title>
+	<link rel=icon href="sample/img/favicon.min.svg">
+	<link href="../shogicross.css" rel="stylesheet">
+</head>
+<body>
+	<canvas id="shogiCross"></canvas>
+	<p><a href=".." target="_parent">RETURN</a></p>
+	<script type="module">
+	import {Board, gameSoft} from "../ShogiCross/lib.js"
+	let turn = -1;
+	const canvas = document.getElementById("shogiCross");
+		const board = Board.run(canvas, {
+			playBoard: "4人用9x9",
+			useStand: true,
+			playerOptions: [
+				{"gameName": "将棋", "pieceSet": "p4"},
+				{"gameName": "シャンチー", "pieceSet": "p4", "cpuEngine": "minimax"},
+				{"gameName": "チェス", "pieceSet": "p4", "cpuEngine": "greedy"},
+				{"gameName": "マークルック", "pieceSet": "p4", "cpuEngine": "random"},
+			],
+			onTurnEnd: (board, turn)=>{
+				console.log(board.record.getText(turn, true));
+			}
+		});
+	</script>
+	<p><a href=".." target="_parent">RETURN</a></p>
+</body>
+</html>

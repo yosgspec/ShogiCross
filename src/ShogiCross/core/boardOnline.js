@@ -77,22 +77,22 @@ export class BoardOnline extends Board{
 							if(this.autoDrawing) this.draw();
 						}
 						this.overlay.stop();
-						break;
+						return;
 
 					// 駒が動いた場合
 					case "move":
 						this.moveRivalPiece(message);
-						break;
+						return;
 
 					// 駒が駒台から打たれた場合
 					case "drop":
 						this.dropRivalPiece(message);
-						break;
+						return;
 
 					// 対戦相手の接続が切れた場合
 					case "disconnect":
-						this[$].dialog?.show("対戦相手が切断しました", "ゲームは終了です。");
-						break;
+						this[$].dialog?.show("接続エラー", "対戦相手が切断しました。");
+						return;
 				}
 			}
 			catch(ex){
@@ -112,16 +112,17 @@ export class BoardOnline extends Board{
 			this[$].dialog?.show("接続エラー", "サーバーとの接続でエラーが発生しました。");
 		};
 
-		// Stand クラスを継承した新しいクラスを作成し、dropPiece をオーバーライド
-		const board = this;
+		// オンライン用駒台クラス
 		class StandOnline extends Stand{
 			/** 持ち駒からボード上に配置する
 			 * @param {Panel} toPanel - 配置先のパネル
 			 * @param {Object} option - オプション
 			 * @param {number} option.deg - 角度
 			 * @param {number} option.i - 配置する持ち駒のインデックス
+			 * @param {boolean} isCpuDrop - CPUによる打ち駒かどうか
 			 */
-			dropPiece(toPanel, option={}){
+			dropPiece(toPanel, option={}, isCpuDrop=false){
+				const {board} = this;
 				if(!(toPanel instanceof Panel) || !board.isReadyOnline) return;
 				const activePlayer = board.getActivePlayer();
 
@@ -131,7 +132,7 @@ export class BoardOnline extends Board{
 				const {deg, i} = option;
 				const stock = this.stocks.get(deg);
 				const piece = stock[i];
-				if(!(piece instanceof Piece)) return;
+				if(!(piece instanceof Piece) || isCpuDrop) return;
 
 				const data = {
 					type: "drop",
@@ -171,9 +172,8 @@ export class BoardOnline extends Board{
 
 		// ローカルプレイヤーでない場合
 		if(!activePlayer.isLocal) return await super.movePiece(fromPanel, toPanel, isCpuMove);
-		// 移動範囲外の場合
-		if(!toPanel.isTarget) return false;
 		// ローカルプレイヤーの場合
+		if(!toPanel.isTarget || isCpuMove) return false;
 		const baseChar = fromPanel.piece.char;
 		const result = await super.movePiece(fromPanel, toPanel, isCpuMove);
 		const promoChar = toPanel.piece.char;
@@ -238,7 +238,7 @@ export class BoardOnline extends Board{
 			deg: this.degNormal(-this.displayDeg+playerDeg),
 			i: standIndex,
 		};
-		this.stand.dropPiece(toPanel, option);
+		this.stand.dropPiece(toPanel, option, true);
 
 		if(this.autoDrawing) this.draw();
 	}
