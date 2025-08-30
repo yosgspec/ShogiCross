@@ -25,7 +25,7 @@ export class BoardOnline extends Board{
 	 * @param {HTMLCanvasElement} canvas - Canvas要素
 	 * @param {BoardOnlineInitOption} option - ボードの初期化オプション
 	 */
-		constructor(canvas, option){
+	constructor(canvas, option){
 		// nameが指定されていない場合、現在のURLをnameとして使用する
 		if(!option.name && typeof window !== "undefined"){
 			option.name = window.location.href;
@@ -132,13 +132,17 @@ export class BoardOnline extends Board{
 			 */
 			dropPiece(toPanel, option={}, isCpuDrop=false){
 				const {board} = this;
-				if(!(toPanel instanceof Panel) || !board.isReadyOnline) return;
+				const {deg, i} = option;
 				const activePlayer = board.getActivePlayer();
-
+				if(
+					!(toPanel instanceof Panel)
+					|| !board.isReadyOnline  // 接続待機中
+					|| activePlayer.deg !== this.displayDeg  // 手番の角度
+					|| activePlayer.isLocal && deg !== 0  // 自分の駒
+				) return;
 				// ローカルプレイヤーでない場合
 				if(!activePlayer.isLocal) this.stand = new StandOnline(this);
 				// ローカルプレイヤーの場合
-				const {deg, i} = option;
 				const stock = this.stocks.get(deg);
 				const piece = stock[i];
 				if(!(piece instanceof Piece) || isCpuDrop) return;
@@ -176,9 +180,11 @@ export class BoardOnline extends Board{
 	 */
 	async movePiece(fromPanel, toPanel, isCpuMove=false){
 		const activePlayer = this.getActivePlayer();
-
-		if(!this.isReadyOnline) return;
-
+		if(
+			!this.isReadyOnline  // 接続完了まで操作禁止
+			|| activePlayer.deg !== this.displayDeg  // 手番の角度
+			|| activePlayer.isLocal && fromPanel.piece.deg !== 0  // 自分の駒
+		) return;
 		// ローカルプレイヤーでない場合
 		if(!activePlayer.isLocal) return await super.movePiece(fromPanel, toPanel, isCpuMove);
 		// ローカルプレイヤーの場合
