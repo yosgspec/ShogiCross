@@ -66,6 +66,24 @@ export class Piece{
 		);
 	}
 
+	/** 駒の移動範囲を展開
+	 * @param {string|string[]|Object<string, any[]>} value
+	 * @returns {Object<string, any[]>}
+	 */
+	static expandRange = value=>
+		// 値が文字列で、pieceRangeにキーが存在すれば、実データに置き換える
+		typeof value === "string" && Piece.ranges[value]?
+			Piece.ranges[value]:
+		// 値が配列なら、各要素を再帰的に展開
+		Array.isArray(value)?
+			value.map(item=>Piece.expandRange(item)):
+		// 値がオブジェクトなら、各プロパティの値を再帰的に展開
+		typeof value === "object" && value !== null?
+			Object.fromEntries(
+				Object.entries(value).map(([key, rng])=>
+					[key, Piece.expandRange(rng)])):
+		// それ以外の値（"piece"キーの値など）はそのまま返す
+		value;
 
 	/** 駒データを初期化
 	 * @param {any} ctx - Canvas描画コンテキスト
@@ -74,7 +92,8 @@ export class Piece{
 	 */
 	static getPieces(ctx, option={}){
 		const exPieces = new Map(Object.entries(JSON.parse(JSON.stringify(pieces))));
-
+		for(const [_, piece] of exPieces)
+			piece.range = Piece.expandRange(piece.range);
 		/* データを補完 */
 		for(const [_, piece] of exPieces){
 			piece.attr ??= [];
@@ -224,10 +243,8 @@ export class Piece{
 		this.isSelected = false;
 		this.attr ??= [];
 		try{
-			Object.entries(this.range).forEach(([key, rng])=>{
-				if(Array.isArray(rng)) return;
-				this.range[key] = Piece.ranges[rng];
-			});
+			// this.range全体に再帰的な展開を適用
+			this.range = Piece.expandRange(this.range);
 		}
 		catch(e){
 			console.error(e);
