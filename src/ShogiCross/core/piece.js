@@ -304,22 +304,37 @@ export class Piece{
 	getRange(){
 		const deg = 0|this.deg;
 		const range = JSON.parse(JSON.stringify(this.range));
-		Object.keys(range).forEach(key=>{
-			if(deg === 0) return;
-			if(![90, 180, 270].includes(deg)) throw Error(`deg=${deg}, deg need multiple of 90.`);
-			if([90, 270].includes(deg)){
-				// 2次配列を転置
-				const transpose = a=>a[0].map((_, c)=>a.map(r=>r[c]));
-				range[key] = transpose(range[key]);
+
+		if(deg === 0) return range;
+		if(![90, 180, 270].includes(deg)) throw Error(`deg=${deg}, deg need multiple of 90.`);
+
+		const rotate = target=>{
+			if(Array.isArray(target) && typeof target[0][0] === "string"){
+				// 2次元配列とみなして回転
+				let rotated = target;
+				if([90, 270].includes(deg)){
+					// 2次配列を転置
+					const transpose = a=>a[0].map((_, c)=>a.map(r=>r[c]));
+					rotated = transpose(rotated);
+				}
+				if([180, 270].includes(deg)){
+					rotated.reverse();
+				}
+				rotated.forEach(row=>{
+					if([90, 180].includes(deg)) row.reverse();
+				});
+				return rotated;
 			}
-			if([180, 270].includes(deg)){
-				range[key].reverse();
-			}
-			range[key].forEach(row=>{
-				if([90, 180].includes(deg)) row.reverse();
-			});
-		});
-		return range;
+			if(Array.isArray(target))
+				return target.map(item=>rotate(item));
+			if(typeof target === "object" && target !== null)
+				return Object.fromEntries(
+					Object.entries(target).map(([key, value])=>
+						[key, rotate(value)]));
+			return target;
+		}
+		// 再帰して移動範囲をすべて回転
+		return rotate(range);
 	}
 
 	/** 駒/マスクを描写 */
