@@ -5,6 +5,7 @@ import {games, pieces, pieceRange, pieceCost} from "./data.js";
 
 /** @type {number} 駒生成カウンター */
 let pieceCounter = 0;
+let ranges;
 
 /** 駒の管理クラス */
 export class Piece{
@@ -173,6 +174,16 @@ export class Piece{
 		return zoom;
 	}
 
+	/** 移動範囲を二次元配列で取得
+	 * @returns {string[][]}
+	 */
+	static get ranges(){
+		if(ranges) return ranges;
+		return ranges = Object.fromEntries(
+			Object.entries(pieceRange).map(([key, value])=>
+				[key, value.map(row=>[...row])]));
+	}
+
 	/**
 	 * @param {any} ctx - Canvas描画コンテキスト
 	 * @param {Piece|PieceInitOption} piece - 駒
@@ -215,7 +226,7 @@ export class Piece{
 		try{
 			Object.entries(this.range).forEach(([key, rng])=>{
 				if(Array.isArray(rng)) return;
-				this.range[key] = pieceRange[rng].map(row=>[...row]);
+				this.range[key] = Piece.ranges[rng];
 			});
 		}
 		catch(e){
