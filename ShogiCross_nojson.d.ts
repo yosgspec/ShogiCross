@@ -1,5 +1,5 @@
-declare class Z extends V {
-    overlay: Pe;
+declare class Q extends Z {
+    overlay: Me;
     autoDrawing: any;
     isGameEnd: boolean;
     onDrawed: any;
@@ -19,7 +19,7 @@ declare class Z extends V {
     downloadImage(e: any, t: any, a: any): Promise<void>;
     #private;
 }
-declare class de extends Z {
+declare class pe extends Q {
     onReadyOnline: any;
     onCancelOnline: any;
     isOnline: boolean;
@@ -115,7 +115,7 @@ declare class de extends Z {
         standIndex: number;
     }): Promise<void>;
 }
-declare class xe extends Y {
+declare class be extends Y {
     engine: any;
 }
 declare class Y {
@@ -148,7 +148,7 @@ declare namespace G {
     export { greedy };
     export { minimax };
 }
-declare class C {
+declare class y {
     /** @typedef {Object} Piece */
     /** 描写サイズ
      * @type {number}
@@ -180,6 +180,13 @@ declare class C {
     static rankRatio: {
         [x: string]: number;
     };
+    /** 駒の移動範囲を展開
+     * @param {string|string[]|Object<string, any[]>} value
+     * @returns {Object<string, any[]>}
+     */
+    static expandRange: (e: any) => {
+        [x: string]: any[];
+    };
     /** 駒データを初期化
      * @param {any} ctx - Canvas描画コンテキスト
      * @param {Piece|PieceInitOption} option - 駒の初期化オプション
@@ -198,6 +205,10 @@ declare class C {
      * @returns {Piece[]}
      */
     static piecesToList(e: any): any[];
+    /** 移動範囲を二次元配列で取得
+     * @returns {string[][]}
+     */
+    static get ranges(): string[][];
     /**
      * @param {any} ctx - Canvas描画コンテキスト
      * @param {Piece|PieceInitOption} piece - 駒
@@ -241,6 +252,9 @@ declare class C {
     middle: number;
     isMoved: any;
     isSelected: boolean;
+    range: {
+        [x: string]: any[];
+    };
     /** 駒をクローン
      * @returns {Piece}
      */
@@ -294,7 +308,7 @@ declare class C {
      */
     toString(e?: boolean): string;
 }
-declare const z: {
+declare const J: {
     将棋: {
         backgroundColor: string;
         borderColor: string;
@@ -491,7 +505,7 @@ declare const z: {
         field: string[];
     };
 };
-declare namespace X {
+declare namespace O {
     let fonts: (string | number)[][];
 }
 declare namespace F {
@@ -504,8 +518,8 @@ declare namespace F {
      */
     function importAsync(): Promise<void>;
 }
-declare function ue(p: any): void;
-declare namespace Se {
+declare function ge(p: any): void;
+declare namespace ue {
     namespace shogi {
         let name: string;
         let variant: string;
@@ -1374,7 +1388,7 @@ declare namespace Se {
         export { playerOptions_45 as playerOptions };
     }
 }
-declare namespace K {
+declare namespace q {
     namespace 将棋 {
         let english: string;
         let fontColor: string;
@@ -1807,7 +1821,7 @@ declare const T: {
         attr: string[];
     };
 };
-declare namespace J {
+declare namespace K {
     let 女: number;
     let 獅: number;
     let 后: number;
@@ -1940,7 +1954,7 @@ declare namespace J {
     let 楚: number;
     let 帥: number;
 }
-declare namespace se {
+declare namespace ne {
     export let 〇: string[];
     let 歩_1: string[];
     export { 歩_1 as 歩 };
@@ -2058,6 +2072,10 @@ declare namespace se {
     export let 牛: string[];
     export let 鷂: string[];
     export let 鷲: string[];
+    export let 右: string[];
+    export let 佑: string[];
+    export let 左: string[];
+    export let 佐: string[];
     let 狼_1: string[];
     export { 狼_1 as 狼 };
     let 翅_1: string[];
@@ -2253,7 +2271,15 @@ declare namespace D {
             export { _default_8 as default };
             export let start: string;
             export let attack: string;
-            export let enPassant: string;
+            export let enPassant: ({
+                enPassant: string;
+                default?: undefined;
+                attack?: undefined;
+            } | {
+                default: string;
+                attack: string;
+                enPassant?: undefined;
+            })[];
         }
         export { range_8 as range };
         let promo_6: string;
@@ -2306,7 +2332,13 @@ declare namespace D {
         export namespace range_11 {
             let _default_11: string;
             export { _default_11 as default };
-            export let castling: string;
+            export let castling: ({
+                start: string;
+                piece?: undefined;
+            } | {
+                piece: string;
+                start: string;
+            })[];
         }
         export { range_11 as range };
     }
@@ -2343,7 +2375,13 @@ declare namespace D {
         export namespace range_13 {
             let _default_13: string;
             export { _default_13 as default };
-            let castling_1: string;
+            let castling_1: ({
+                start: string;
+                piece?: undefined;
+            } | {
+                piece: string;
+                start: string;
+            })[];
             export { castling_1 as castling };
         }
         export { range_13 as range };
@@ -3911,6 +3949,9 @@ declare namespace D {
         export namespace range_91 {
             let _default_90: string;
             export { _default_90 as default };
+            export let steps: {
+                default: string;
+            }[][];
         }
         export { range_91 as range };
     }
@@ -4931,7 +4972,7 @@ declare namespace D {
         export { range_149 as range };
     }
     export { 鴈_1 as 鴈 };
-    export namespace 左 {
+    export namespace 左_1 {
         let name_196: string;
         export { name_196 as name };
         let display_150: string[];
@@ -4948,7 +4989,8 @@ declare namespace D {
         }
         export { range_150 as range };
     }
-    export namespace 右 {
+    export { 左_1 as 左 };
+    export namespace 右_1 {
         let name_197: string;
         export { name_197 as name };
         let display_151: string[];
@@ -4965,6 +5007,7 @@ declare namespace D {
         }
         export { range_151 as range };
     }
+    export { 右_1 as 右 };
     export namespace 雕_1 {
         let name_198: string;
         export { name_198 as name };
@@ -5261,6 +5304,10 @@ declare namespace D {
         export namespace range_176 {
             let _default_175: string;
             export { _default_175 as default };
+            let steps_1: {
+                default: string;
+            }[][];
+            export { steps_1 as steps };
         }
         export { range_176 as range };
     }
@@ -5273,6 +5320,10 @@ declare namespace D {
         export namespace range_177 {
             let _default_176: string;
             export { _default_176 as default };
+            let steps_2: {
+                default: string;
+            }[][];
+            export { steps_2 as steps };
         }
         export { range_177 as range };
     }
@@ -5589,7 +5640,7 @@ declare namespace D {
         export { range_205 as range };
     }
 }
-declare class V {
+declare class Z {
     /** ゲームを実行する
      * @param {HTMLCanvasElement} canvas - Canvas要素
      * @param {BoardInitOption} option - ボードの初期化オプション
@@ -5631,8 +5682,8 @@ declare class V {
     bottom: any;
     stand: I;
     moveMode: any;
-    record: Be;
-    enPassant: q;
+    record: We;
+    enPassant: V;
     /** ボードを閉じる */
     close(): void;
     /** 現在の手番のプレイヤー情報を取得
@@ -5761,7 +5812,7 @@ declare class V {
     };
     #private;
 }
-declare class Pe {
+declare class Me {
     constructor(e: any, t?: {});
     canvas: any;
     /**
@@ -5851,7 +5902,7 @@ declare class I {
      */
     toString(e?: boolean, t?: boolean): string;
 }
-declare class Be {
+declare class We {
     constructor(e: any);
     board: any;
     turn: number;
@@ -5905,7 +5956,7 @@ declare class Be {
     getComment(e?: number): string;
     #private;
 }
-declare class q {
+declare class V {
     degs: {};
     /** アンパッサン情報をクリア
      * @param {number} deg - アンパッサンされうる陣営の角度
@@ -5933,4 +5984,4 @@ declare class q {
     clone(): this;
 }
 declare const N: unique symbol;
-export { Z as Board, de as BoardOnline, xe as CpuEngine, Y as CpuEngineBase, G as CpuEngines, C as Piece, z as boards, X as canvasFont, F as canvasImage, ue as extendData, Se as gameSoft, K as games, T as panels, J as pieceCost, se as pieceRange, D as pieces };
+export { Q as Board, pe as BoardOnline, be as CpuEngine, Y as CpuEngineBase, G as CpuEngines, y as Piece, J as boards, O as canvasFont, F as canvasImage, ge as extendData, ue as gameSoft, q as games, T as panels, K as pieceCost, ne as pieceRange, D as pieces };

@@ -1,5 +1,5 @@
-declare class Q extends Z {
-    overlay: Le;
+declare class _ extends Q {
+    overlay: je;
     autoDrawing: any;
     isGameEnd: boolean;
     onDrawed: any;
@@ -16,10 +16,10 @@ declare class Q extends Z {
      * @param {string} ext - 拡張子
      * @returns {Promise<void>}
      */
-    downloadImage(e: any, t: any, a: any): Promise<void>;
+    downloadImage(e: any, t: any, s: any): Promise<void>;
     #private;
 }
-declare class ce extends Q {
+declare class Se extends _ {
     onReadyOnline: any;
     onCancelOnline: any;
     isOnline: boolean;
@@ -60,7 +60,7 @@ declare class ce extends Q {
          * @param {boolean} forceCapture - 属性を無視して捕縛する
          * @param {boolean} forceCantCapture - 属性を無視して捕縛しない
          */
-        capturePiece(e: any, t: any, a?: boolean, i?: boolean): void;
+        capturePiece(e: any, t: any, s?: boolean, i?: boolean): void;
         /** 持ち駒の所有権を回転
          * @param {number} deg - 回転角 (90の倍数)
          */
@@ -85,7 +85,7 @@ declare class ce extends Q {
      * @param {number} message.playerDeg - 移動を行ったプレイヤーの視点角度
      * @param {string|null} message.promoChar - 成り先の駒名(成らない場合null)
      */
-    moveRivalPiece({ from: e, to: t, playerDeg: a, promoChar: i }: {
+    moveRivalPiece({ from: e, to: t, playerDeg: s, promoChar: i }: {
         from: {
             pX: number;
             pY: number;
@@ -106,7 +106,7 @@ declare class ce extends Q {
      * @param {number} message.playerDeg - 打駒を行ったプレイヤーの視点角度
      * @param {number} message.standIndex - 駒台の駒のインデックス
      */
-    dropRivalPiece({ to: e, playerDeg: t, standIndex: a }: {
+    dropRivalPiece({ to: e, playerDeg: t, standIndex: s }: {
         to: {
             pX: number;
             pY: number;
@@ -115,7 +115,7 @@ declare class ce extends Q {
         standIndex: number;
     }): Promise<void>;
 }
-declare class ke extends G {
+declare class Ee extends G {
     engine: any;
 }
 declare class G {
@@ -148,7 +148,7 @@ declare namespace H {
     export { greedy };
     export { minimax };
 }
-declare class C {
+declare class y {
     /** @typedef {Object} Piece */
     /** 描写サイズ
      * @type {number}
@@ -180,6 +180,13 @@ declare class C {
     static rankRatio: {
         [x: string]: number;
     };
+    /** 駒の移動範囲を展開
+     * @param {string|string[]|Object<string, any[]>} value
+     * @returns {Object<string, any[]>}
+     */
+    static expandRange: (e: any) => {
+        [x: string]: any[];
+    };
     /** 駒データを初期化
      * @param {any} ctx - Canvas描画コンテキスト
      * @param {Piece|PieceInitOption} option - 駒の初期化オプション
@@ -198,6 +205,10 @@ declare class C {
      * @returns {Piece[]}
      */
     static piecesToList(e: any): any[];
+    /** 移動範囲を二次元配列で取得
+     * @returns {string[][]}
+     */
+    static get ranges(): string[][];
     /**
      * @param {any} ctx - Canvas描画コンテキスト
      * @param {Piece|PieceInitOption} piece - 駒
@@ -209,7 +220,7 @@ declare class C {
      * @param {boolean} option.isDrawShadow - 駒の影の描写有無
      * @param {boolean} option.isMoved - 初回移動済みか否か
      */
-    constructor(e: any, t: any, a?: {});
+    constructor(e: any, t: any, s?: {});
     /** 駒の段階別価値を取得
      * @returns {string}
      */
@@ -241,6 +252,9 @@ declare class C {
     middle: number;
     isMoved: any;
     isSelected: boolean;
+    range: {
+        [x: string]: any[];
+    };
     /** 駒をクローン
      * @returns {Piece}
      */
@@ -294,7 +308,7 @@ declare class C {
      */
     toString(e?: boolean): string;
 }
-declare const J: {
+declare const K: {
     将棋: {
         backgroundColor: string;
         borderColor: string;
@@ -491,7 +505,7 @@ declare const J: {
         field: string[];
     };
 };
-declare namespace X {
+declare namespace O {
     let fonts: (string | number)[][];
 }
 declare namespace $ {
@@ -504,8 +518,8 @@ declare namespace $ {
      */
     function importAsync(): Promise<void>;
 }
-declare function ge(p: any): void;
-declare namespace me {
+declare function Be(p: any): void;
+declare namespace he {
     namespace shogi {
         let name: string;
         let variant: string;
@@ -1374,7 +1388,7 @@ declare namespace me {
         export { playerOptions_45 as playerOptions };
     }
 }
-declare namespace q {
+declare namespace V {
     namespace 将棋 {
         let english: string;
         let fontColor: string;
@@ -1807,7 +1821,7 @@ declare const D: {
         attr: string[];
     };
 };
-declare namespace K {
+declare namespace q {
     let 女: number;
     let 獅: number;
     let 后: number;
@@ -1940,7 +1954,7 @@ declare namespace K {
     let 楚: number;
     let 帥: number;
 }
-declare namespace ie {
+declare namespace re {
     export let 〇: string[];
     let 歩_1: string[];
     export { 歩_1 as 歩 };
@@ -2058,6 +2072,10 @@ declare namespace ie {
     export let 牛: string[];
     export let 鷂: string[];
     export let 鷲: string[];
+    export let 右: string[];
+    export let 佑: string[];
+    export let 左: string[];
+    export let 佐: string[];
     let 狼_1: string[];
     export { 狼_1 as 狼 };
     let 翅_1: string[];
@@ -2253,7 +2271,15 @@ declare namespace I {
             export { _default_8 as default };
             export let start: string;
             export let attack: string;
-            export let enPassant: string;
+            export let enPassant: ({
+                enPassant: string;
+                default?: undefined;
+                attack?: undefined;
+            } | {
+                default: string;
+                attack: string;
+                enPassant?: undefined;
+            })[];
         }
         export { range_8 as range };
         let promo_6: string;
@@ -2306,7 +2332,13 @@ declare namespace I {
         export namespace range_11 {
             let _default_11: string;
             export { _default_11 as default };
-            export let castling: string;
+            export let castling: ({
+                start: string;
+                piece?: undefined;
+            } | {
+                piece: string;
+                start: string;
+            })[];
         }
         export { range_11 as range };
     }
@@ -2343,7 +2375,13 @@ declare namespace I {
         export namespace range_13 {
             let _default_13: string;
             export { _default_13 as default };
-            let castling_1: string;
+            let castling_1: ({
+                start: string;
+                piece?: undefined;
+            } | {
+                piece: string;
+                start: string;
+            })[];
             export { castling_1 as castling };
         }
         export { range_13 as range };
@@ -3911,6 +3949,9 @@ declare namespace I {
         export namespace range_91 {
             let _default_90: string;
             export { _default_90 as default };
+            export let steps: {
+                default: string;
+            }[][];
         }
         export { range_91 as range };
     }
@@ -4931,7 +4972,7 @@ declare namespace I {
         export { range_149 as range };
     }
     export { 鴈_1 as 鴈 };
-    export namespace 左 {
+    export namespace 左_1 {
         let name_196: string;
         export { name_196 as name };
         let display_150: string[];
@@ -4948,7 +4989,8 @@ declare namespace I {
         }
         export { range_150 as range };
     }
-    export namespace 右 {
+    export { 左_1 as 左 };
+    export namespace 右_1 {
         let name_197: string;
         export { name_197 as name };
         let display_151: string[];
@@ -4965,6 +5007,7 @@ declare namespace I {
         }
         export { range_151 as range };
     }
+    export { 右_1 as 右 };
     export namespace 雕_1 {
         let name_198: string;
         export { name_198 as name };
@@ -5261,6 +5304,10 @@ declare namespace I {
         export namespace range_176 {
             let _default_175: string;
             export { _default_175 as default };
+            let steps_1: {
+                default: string;
+            }[][];
+            export { steps_1 as steps };
         }
         export { range_176 as range };
     }
@@ -5273,6 +5320,10 @@ declare namespace I {
         export namespace range_177 {
             let _default_176: string;
             export { _default_176 as default };
+            let steps_2: {
+                default: string;
+            }[][];
+            export { steps_2 as steps };
         }
         export { range_177 as range };
     }
@@ -5589,7 +5640,7 @@ declare namespace I {
         export { range_205 as range };
     }
 }
-declare class Z {
+declare class Q {
     /** ゲームを実行する
      * @param {HTMLCanvasElement} canvas - Canvas要素
      * @param {BoardInitOption} option - ボードの初期化オプション
@@ -5631,8 +5682,8 @@ declare class Z {
     bottom: any;
     stand: Y;
     moveMode: any;
-    record: ye;
-    enPassant: V;
+    record: Ce;
+    enPassant: Z;
     /** ボードを閉じる */
     close(): void;
     /** 現在の手番のプレイヤー情報を取得
@@ -5655,7 +5706,7 @@ declare class Z {
      * @param {string} gameName - ゲーム名(基準となる駒の配置セット)
      * @param {string} pieceSet - 駒の配置パターン
      */
-    putStartPieces(e: any, t: any, a?: string): void;
+    putStartPieces(e: any, t: any, s?: string): void;
     /** 駒の配置
      * @param {string} piece - 駒の表現文字
      * @param {number} pX - X方向配置位置(マス目基準)
@@ -5665,7 +5716,7 @@ declare class Z {
      * @param {number} option.displayPtn - 表示文字列を変更(1〜)
      * @param {boolean} option.isMoved - 初回移動済みか否か
      */
-    putNewPiece(e: any, t: any, a: any, i: any, s?: {}): void;
+    putNewPiece(e: any, t: any, s: any, i: any, a?: {}): void;
     /** 文字列から駒を配置
      * {string} text - 駒配置を表す文字列
      */
@@ -5677,7 +5728,7 @@ declare class Z {
      * @param {number} offsetDeg - 補正角度
      * @returns {number}
      */
-    getRow(e: any, t: any, a?: number, i?: number, s?: boolean): number;
+    getRow(e: any, t: any, s?: number, i?: number, a?: boolean): number;
     /** 角度基準のマス目の列を取得する
      * @param {number} pX - マス目の列
      * @param {number} pY - マス目の行
@@ -5685,14 +5736,14 @@ declare class Z {
      * @param {number} offsetDeg - 補正角度
      * @returns {number}
      */
-    getCol(e: any, t: any, a?: number, i?: number): number;
+    getCol(e: any, t: any, s?: number, i?: number): number;
     /** 駒の座標を回転取得する
      * @param {number} pX - マス目の列
      * @param {number} pY - マス目の行
      * @param {number} deg - 角度
      * @returns {number}
      */
-    rotatePosition(e: any, t: any, a: any): number;
+    rotatePosition(e: any, t: any, s: any): number;
     /** プロモーション選択
      * @param {Piece} piece - 駒
      * @param {boolean} canPromo - 成ることができる
@@ -5700,7 +5751,7 @@ declare class Z {
      * @param {boolean} isCpuMove - CPUによる移動か
      * @param {string|null} promoChar - 成り先の駒名(成らない場合null)
      */
-    onSelectPromo(e: any, t: any, a: any, i: any, s: any): Promise<any>;
+    onSelectPromo(e: any, t: any, s: any, i: any, a: any): Promise<any>;
     /** プロモーション処理
      * @param {Panel} fromPanel - 移動元のマス目
      * @param {Panel} toPanel - 選択中のマス目
@@ -5709,7 +5760,7 @@ declare class Z {
      * @param {boolean} isCpuMove - CPUによる移動か
      * @param {string|null} promoChar - 成り先の駒名(成らない場合null)
      */
-    promoPiece(e: any, t: any, a: any, i: any, s?: boolean, n?: any): Promise<void>;
+    promoPiece(e: any, t: any, s: any, i: any, a?: boolean, n?: any): Promise<void>;
     /** プロモーションエリア内であるか判別
      * @param {Panel} panel - マス目
      * @returns {{
@@ -5734,7 +5785,7 @@ declare class Z {
      * @param {boolean} isCpuMove - CPUによる移動か
      * @returns boolean
      */
-    movePiece(e: any, t: any, a?: boolean): Promise<boolean>;
+    movePiece(e: any, t: any, s?: boolean): Promise<boolean>;
     /** パスして手番を進める
      * @param {PlayerInfo} player - プレイヤー情報
     */
@@ -5761,7 +5812,7 @@ declare class Z {
     };
     #private;
 }
-declare class Le {
+declare class je {
     constructor(e: any, t?: {});
     canvas: any;
     /**
@@ -5796,7 +5847,7 @@ declare class minimax extends G {
      * @param {boolean} isMaximizingPlayer - 現在のプレイヤーが最大化プレイヤーかどうか
      * @returns {number} 評価値
      */
-    minimax(e: any, t: any, a: any, i: any, s: any): number;
+    minimax(e: any, t: any, s: any, i: any, a: any): number;
 }
 declare class Y {
     /** 駒台への角度ごとの表示順
@@ -5838,7 +5889,7 @@ declare class Y {
      * @param {boolean} forceCapture - 属性を無視して捕縛する
      * @param {boolean} forceCantCapture - 属性を無視して捕縛しない
      */
-    capturePiece(e: any, t: any, a?: boolean, i?: boolean): void;
+    capturePiece(e: any, t: any, s?: boolean, i?: boolean): void;
     /** 持ち駒の所有権を回転
      * @param {number} deg - 回転角 (90の倍数)
      */
@@ -5851,7 +5902,7 @@ declare class Y {
      */
     toString(e?: boolean, t?: boolean): string;
 }
-declare class ye {
+declare class Ce {
     constructor(e: any);
     board: any;
     turn: number;
@@ -5905,7 +5956,7 @@ declare class ye {
     getComment(e?: number): string;
     #private;
 }
-declare class V {
+declare class Z {
     degs: {};
     /** アンパッサン情報をクリア
      * @param {number} deg - アンパッサンされうる陣営の角度
@@ -5933,4 +5984,4 @@ declare class V {
     clone(): this;
 }
 declare const N: unique symbol;
-export { Q as Board, ce as BoardOnline, ke as CpuEngine, G as CpuEngineBase, H as CpuEngines, C as Piece, J as boards, X as canvasFont, $ as canvasImage, ge as extendData, me as gameSoft, q as games, D as panels, K as pieceCost, ie as pieceRange, I as pieces };
+export { _ as Board, Se as BoardOnline, Ee as CpuEngine, G as CpuEngineBase, H as CpuEngines, y as Piece, K as boards, O as canvasFont, $ as canvasImage, Be as extendData, he as gameSoft, V as games, D as panels, q as pieceCost, re as pieceRange, I as pieces };
