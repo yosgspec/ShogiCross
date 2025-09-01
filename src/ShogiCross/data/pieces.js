@@ -100,7 +100,10 @@ export default {
 			"default": "歩",
 			"start": "二",
 			"attack": "兵",
-			"enPassant": "通"
+			"enPassant": [
+				{"enPassant": "通"},
+				{"default": "歩", "attack": "〇"}
+			]
 		},
 		"promo": "妃騏城僧"
 	},
@@ -130,7 +133,10 @@ export default {
 		"attr": ["castlingRook"],
 		"range": {
 			"default": "車",
-			"castling": "塔"
+			"castling": [
+				{"start": "塔"},
+				{"piece": "王", "start": "城"},
+			]
 		}
 	},
 	"后": {
@@ -151,7 +157,10 @@ export default {
 		"attr": ["king", "castlingKing"],
 		"range": {
 			"default": "王",
-			"castling": "城"
+			"castling": [
+				{"start": "城"},
+				{"piece": "塔", "start": "塔"}
+			]
 		}
 	},
 	"卒": {
@@ -1013,7 +1022,13 @@ export default {
 		"expansion": "中将棋",
 		"unit": "臣",
 		"range": {
-			"default": "獅"
+			"default": "獅",
+			"steps": [
+				[
+					{"default": "王"},
+					{"default": "王"}
+				]
+			]
 		}
 	},
 	"石": {
@@ -1791,14 +1806,30 @@ export default {
 		"name": "角鷹",
 		"display": ["角鷹"],
 		"range": {
-			"default": "鷂"
+			"default": "鷂",
+			"steps": [
+				[
+					{"default": "歩"},
+					{"default": "仲"}
+				]
+			]
 		}
 	},
 	"鷲": {
 		"name": "飛鷲",
 		"display": ["飛鷲"],
 		"range": {
-			"default": "鷲"
+			"default": "鷲",
+			"steps": [
+				[
+					{"default": "右"},
+					{"default": "佑"}
+				],
+				[
+					{"default": "左"},
+					{"default": "佐"}
+				]
+			]
 		}
 	},
 	"鉐": {

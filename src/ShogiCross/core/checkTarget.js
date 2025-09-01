@@ -3,15 +3,14 @@ import {Panel} from "./panel.js";
 import {Piece} from "./piece.js";
 
 // 移動範囲オプション
-const rangeOptions = [
-	["default", {isAttack: false}],
-	["attack", {isAttack: true}],
-	["start", {isAttack: false}],
-	["castling", {isAttack: false}],
-	["enPassant", {isAttack: true}],
-	["palaceSlash", {isAttack: false}],
-	["palaceSlash", {isAttack: true}],
-];
+const rangeOptions = {
+	default: {isAttack: false},
+	attack: {isAttack: true},
+	start: {isAttack: false},
+	enPassant: {isAttack: true},
+	palaceSlash: {isAttack: false},
+	palaceSlash: {isAttack: true},
+}
 
 // 起点文字の定義
 const centerChars = [
@@ -295,18 +294,34 @@ export function checkTarget(board, piece, pX, pY){
 	(function(){
 		const rangeMap = piece.getRange();
 		rangeMap.attack ??= rangeMap.default;
-		for(const rangeOption of rangeOptions){
-			const rangeName = rangeOption[0];
-			// 初回移動確認
-			if(piece.isMoved && ["start", "castling"].includes(rangeName)) continue;
+		for(const moveName in rangeMap){
+			const moves = rangeMap[moveName];
+			if(!Array.isArray(moves)) continue;
+			const steps =
+				Array.isArray(moves[0]) && typeof moves[0][0] === "string"? [[{[moveName]:moves}]]:
+				!Array.isArray(moves[0])? [moves]:
+				moves;
+			for(const step of steps){
+				for(const s of step){
+					if(s.piece) continue;
+					for(const rangeName in s){
+						const range = s[rangeName];
+						const rangeOption = [rangeName, rangeOptions[rangeName]];
+						if(
+							!rangeOptions[rangeName]
+							// 初回移動確認
+							|| piece.isMoved && ["start", "castling"].includes(rangeName)
+						) continue;
 
-			const range = rangeMap[rangeName];
-			if(!range) continue;
-			for(const origin of getOrigin(range)){
-				// 点移動
-				movePoint(range, rangeOption, origin);
-				// 直線移動
-				moveLiner(range, rangeOption, origin);
+						if(!range) continue;
+						for(const origin of getOrigin(range)){
+							// 点移動
+							movePoint(range, rangeOption, origin);
+							// 直線移動
+							moveLiner(range, rangeOption, origin);
+						}
+					}
+				}
 			}
 		}
 	})();

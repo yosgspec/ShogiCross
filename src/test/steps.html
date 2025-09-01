@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>ShogiCross</title>
+	</head>
+	<body>
+		<canvas id="chuShogi"></canvas>
+		<canvas id="chess"></canvas>
+		<script type="module">
+		import {Board} from "../ShogiCross/lib.js"
+		const canvasChuShogi = document.getElementById("chuShogi");
+		const canvasChess = document.getElementById("chess");
+		const boardChuShogi = Board.run(canvasChuShogi, {
+			playBoard: "古将棋12x12",
+			playerOptions: [
+				{gameName: "将棋", pieceSet: "中将棋"},
+				{gameName: "将棋", pieceSet: "中将棋2p"}
+			],
+			moveMode: "free",
+			onTurnEnd(board){
+				console.log(board.record.last.piece);
+			}
+		});
+
+		const boardChess = Board.run(canvasChess, {
+			"playBoard": "チェス",
+			"playerOptions": [
+				{"gameName": "チェス", "pieceSet": "default"},
+				{"gameName": "チェス", "pieceSet": "2p"}
+			],
+			moveMode: "free",
+			onTurnEnd(board){
+				console.log(board.record.last.piece);
+			}
+		});
+		console.log(boardChuShogi.pieces["獅"]);
+		console.log(boardChuShogi.pieces["兵"]);
+		console.log(boardChuShogi.pieces["王"]);
+		console.log(boardChuShogi.pieces);
+		</script>
+		<p><a href=".">RETURN</a></p>
+	</body>
+</html>
