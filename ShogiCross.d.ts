@@ -5927,7 +5927,7 @@ declare class Ce {
     /** 記録の手を移動
      * @param {number} turn - 手数
      */
-    move(e: any): void;
+    jump(e: any): void;
     /** 局面の記録を文字列に変換
      * @param {number} turn - 手数
      * @param {boolean} isNumOnly - 座標を数字で表現

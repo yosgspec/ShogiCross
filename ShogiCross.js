@@ -5543,14 +5543,16 @@ class Ce {
   add(e = {}) {
     const { board: t, records: s } = this, { fromPanel: i = {}, toPanel: a = {}, end: n = "", inc: r = 1 } = e, { piece: o = {} } = a;
     (this.turn += r) === 0 && 0 < s.length || t.isHeadless || (s[this.turn] = {
-      from: {
-        pX: i.pX,
-        pY: i.pY
-      },
-      to: {
-        pX: a.pX,
-        pY: a.pY
-      },
+      moves: [{
+        from: {
+          pX: i.pX,
+          pY: i.pY
+        },
+        to: {
+          pX: a.pX,
+          pY: a.pY
+        }
+      }],
       deg: o.deg,
       pieceChar: o.char,
       end: n,
@@ -5594,7 +5596,7 @@ class Ce {
   /** 記録の手を移動
    * @param {number} turn - 手数
    */
-  move(e) {
+  jump(e) {
     this.turn = e, this.#t(0);
   }
   /** 局面の記録を文字列に変換
@@ -5603,10 +5605,12 @@ class Ce {
    * @returns {string}
    */
   getText(e, t = !1) {
-    const { board: s } = this, { to: i, from: a, deg: n, pieceChar: r, end: o } = this.records[e];
-    if (i.pX == null) return `${e}: ${o}`;
-    const l = ({ pX: S }) => (s.xLen - S).toString(t ? 10 : 36), d = ({ pY: S }) => (S + 1).toString(t ? 10 : 36), c = t ? "," : "";
-    return `${e}: ${y.degChars[n]}${l(i)}${c}${d(i)}${r}${o}${a.pX === void 0 ? "" : ` (${l(a)}${c}${d(a)})`}`;
+    const { board: s } = this, { moves: i, deg: a, pieceChar: n, end: r } = this.records[e];
+    if (i[0].to.pX == null) return `${e}: ${r}`;
+    const o = ({ pX: c }) => (s.xLen - c).toString(t ? 10 : 36), l = ({ pY: c }) => (c + 1).toString(t ? 10 : 36), d = t ? "," : "";
+    return `${e}: ${y.degChars[a]}${i.map(
+      ({ from: c, to: S }) => `${o(S)}${d}${l(S)}${n}${r}${c.pX === void 0 ? "" : ` (${o(c)}${d}${l(c)})`}`
+    ).join("")}`;
   }
   /** 表示用の棋譜を取得
    * @param {boolean} isNumOnly - 座標を数字で表現
@@ -5631,7 +5635,7 @@ class Ce {
    * @param {number} turn - 手数
    */
   setJson(e, t) {
-    this.records = JSON.parse(decodeURI(e)), this.move(t ?? this.records.length - 1);
+    this.records = JSON.parse(decodeURI(e)), this.jump(t ?? this.records.length - 1);
   }
   /** 棋譜コメントを取得
    * @param {number} shiftTurn - ずらす手数
@@ -6972,7 +6976,7 @@ class pe {
         n.record.records.forEach((d, c) => {
           const S = o.cloneNode(!1);
           S.textContent = e.record.getText(c), c === n.record.turn && (S.selected = !0), l.appendChild(S);
-        }), l.onchange = (d) => e.record.move(d.target.selectedIndex), r.replaceWith(l);
+        }), l.onchange = (d) => e.record.jump(d.target.selectedIndex), r.replaceWith(l);
       }), a?.(n);
     };
   }
@@ -7093,7 +7097,7 @@ class Se extends _ {
        */
       dropPiece(o, l = {}, d = !1) {
         const { board: c } = this, { deg: S, i: h } = l, f = c.getActivePlayer();
-        if (!(o instanceof F) || !c.isReadyOnline || f.deg !== this.displayDeg || f.isLocal && S !== 0) return;
+        if (!(o instanceof F) || !c.isReadyOnline || f.deg !== c.displayDeg || f.isLocal && S !== 0) return;
         f.isLocal || (this.stand = new n(this));
         const W = this.stocks.get(S), u = W[h];
         if (!(u instanceof y) || d) return;
