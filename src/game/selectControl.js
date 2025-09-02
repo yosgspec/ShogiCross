@@ -1,4 +1,4 @@
-import {boards, games} from "../ShogiCross/lib.js";
+import {boards, games, CpuEngines} from "../ShogiCross/lib.js";
 import {PlayGames} from "./playGame.js";
 
 const crossSelects = document.getElementById("crossSelects");
@@ -9,6 +9,7 @@ const select = {
 	stand: document.getElementById("selectStand"),
 	pieceGame: document.querySelectorAll(".selectPieceGame"),
 	pieceSet: document.querySelectorAll(".selectPieceSet"),
+	cpuEngine: document.querySelectorAll(".selectCpuEngine"),
 };
 
 // ゲームセレクトを初期化
@@ -53,17 +54,29 @@ function openCrossGame(){
 	select.board.innerHTML = "";
 	Object.keys(boards).forEach(boardName=>{
 		const opt = document.createElement("option");
+		select.board.appendChild(opt);
 		opt.value = boardName;
 		opt.textContent = `${boardName}盤`;
-		select.board.appendChild(opt);
 	});
 	select.pieceGame.forEach((ele, i)=>{
 		ele.innerHTML = "";
 		const opt = document.createElement("option");
+		ele.appendChild(opt);
 		opt.value = "";
 		opt.textContent = `--駒${i+1}--`;
-		ele.appendChild(opt);
 		Object.entries(games).forEach(([key, game])=>{
+			const opt = document.createElement("option");
+			ele.appendChild(opt);
+			opt.value = opt.textContent = key;
+		});
+	});
+	select.cpuEngine.forEach((ele, i)=>{
+		ele.innerHTML = "";
+		const opt = document.createElement("option");
+		ele.appendChild(opt);
+		opt.value = "";
+		opt.textContent = `CPUなし`;
+		Object.keys(CpuEngines).forEach(key=>{
 			const opt = document.createElement("option");
 			opt.value = opt.textContent = key;
 			ele.appendChild(opt);
@@ -83,8 +96,8 @@ function updateCrossPiece(i){
 		if(!games[gameName].position[xLen]) return;
 		Object.keys(games[gameName].position[xLen]).forEach(key=>{
 			const opt = document.createElement("option");
-			opt.value = opt.textContent = key;
 			pieceSet.appendChild(opt);
+			opt.value = opt.textContent = key;
 		});
 	};
 }
@@ -101,6 +114,7 @@ export class SelectControl{
 			playerOptions: [...select.pieceGame].map((pieceGame, i)=>({
 				gameName: pieceGame.value,
 				pieceSet: select.pieceSet[i].value,
+				cpuEngine: select.cpuEngine[i].value || null,
 			})),
 			useUIControl: false,
 		};
@@ -117,6 +131,7 @@ export class SelectControl{
 			pieceGame.addEventListener("change", value);
 			select.board.addEventListener("change", updateCrossPiece(i));
 			select.pieceSet[i].addEventListener("change", value);
+			select.cpuEngine[i].addEventListener("change", value);
 		});
 	}
 }
