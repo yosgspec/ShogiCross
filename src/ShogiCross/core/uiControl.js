@@ -70,7 +70,7 @@ export class UIControl{
 					vSelect.appendChild(vOption);
 				});
 				// セレクトボックス変更時、履歴を移動
-				vSelect.onchange = e=>board.record.move(e.target.selectedIndex);
+				vSelect.onchange = e=>board.record.jump(e.target.selectedIndex);
 				select.replaceWith(vSelect);
 			});
 			onDrawedBase?.(e);

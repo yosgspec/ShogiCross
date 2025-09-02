@@ -57,7 +57,7 @@ export default `
 <div><a href="#doc/record/getJson">棋譜データを取得</a></div>
 <div><a href="#doc/record/setJson">棋譜データを反映</a></div>
 <div><a href="#doc/record/switch">手を進める・戻す</a></div>
-<div><a href="#doc/record/move">手数を移動する</a></div>
+<div><a href="#doc/record/jump">手数を移動する</a></div>
 
 <h3>ゲームデータ仕様</h3>
 <div><a href="#md/data/gameSoft">ゲーム用プリセット</a></div>

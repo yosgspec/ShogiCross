@@ -115,7 +115,7 @@ export class Record {
 	/** 記録の手を移動
 	 * @param {number} turn - 手数
 	 */
-	move(turn){
+	jump(turn){
 		this.turn = turn;
 		this.#shift(0);
 	}
@@ -173,7 +173,7 @@ export class Record {
 	 */
 	setJson(record, turn){
 		this.records = JSON.parse(decodeURI(record));
-		this.move(turn ?? this.records.length-1);
+		this.jump(turn ?? this.records.length-1);
 	}
 
 	/** 棋譜コメントを取得
