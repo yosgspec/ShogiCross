@@ -47,14 +47,16 @@ export class Record {
 		if(board.isHeadless) return;
 
 		records[this.turn] = {
-			from: {
-				pX: fromPanel.pX,
-				pY: fromPanel.pY
-			},
-			to: {
-				pX: toPanel.pX,
-				pY: toPanel.pY,
-			},
+			moves: [{
+				from: {
+					pX: fromPanel.pX,
+					pY: fromPanel.pY
+				},
+				to: {
+					pX: toPanel.pX,
+					pY: toPanel.pY,
+				},
+			}],
 			deg: piece.deg,
 			pieceChar: piece.char,
 			end,
@@ -127,8 +129,8 @@ export class Record {
 	 */
 	getText(turn, isNumOnly=false){
 		const {board} = this;
-		const {to, from, deg, pieceChar, end} = this.records[turn];
-		if(to.pX == null) return `${turn}: ${end}`;
+		const {moves, deg, pieceChar, end} = this.records[turn];
+		if(moves[0].to.pX == null) return `${turn}: ${end}`;
 
 		const getPX = ({pX})=>(board.xLen-pX).toString(isNumOnly? 10: 36);
 		const getPY = ({pY})=>(pY+1).toString(isNumOnly? 10: 36);
@@ -136,16 +138,18 @@ export class Record {
 		return `${
 			turn}: ${
 			Piece.degChars[deg]}${
-			getPX(to)}${
-			numSep}${
-			getPY(to)}${
-			pieceChar}${
-			end}${
-			from.pX === undefined? "": ` (${
-				getPX(from)}${
+			moves.map(({from, to})=>`${
+				getPX(to)}${
 				numSep}${
-				getPY(from)
-			})`}`;
+				getPY(to)}${
+				pieceChar}${
+				end}${
+				from.pX === undefined? "": ` (${
+					getPX(from)}${
+					numSep}${
+					getPY(from)
+				})`}`
+			).join("")}`;
 	}
 
 	/** 表示用の棋譜を取得
