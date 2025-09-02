@@ -137,7 +137,7 @@ export class BoardOnline extends Board{
 				if(
 					!(toPanel instanceof Panel)
 					|| !board.isReadyOnline  // 接続待機中
-					|| activePlayer.deg !== this.displayDeg  // 手番の角度
+					|| activePlayer.deg !== board.displayDeg  // 手番の角度
 					|| activePlayer.isLocal && deg !== 0  // 自分の駒
 				) return;
 				// ローカルプレイヤーでない場合
