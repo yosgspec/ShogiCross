@@ -19,70 +19,83 @@
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 		<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400&family=Kosugi:wght@400&family=Noto+Color+Emoji&display=swap" rel="stylesheet">
 		<style>
-			body, html {
-				margin: 0;
-				padding: 0;
-				height: 100%;
+		body, html{
+			margin: 0;
+			padding: 0;
+			height: 100%;
+		}
+		div#menuButton{
+			display: flex;
+			background-color: #6699CC;
+			color: #DDEEFF;
+			opacity: 0.8;
+			position: fixed;
+			z-index: 300;
+			top: 20px;
+			right: 20px;
+			justify-content: center;
+			align-items: center;
+			width: 50px;
+			height: 50px;
+			border-radius: 25px;
+			cursor: pointer;
+		}
+		div#menuButton span{
+			-moz-user-select: none;
+			-webkit-user-select: none;
+			-ms-user-select: none;
+			user-select: none;
+			font-size: 35px;
+		}
+		menu{
+			z-index: 200;
+			position: fixed;
+			top: 0;
+			bottom: 0;
+			min-width: 260px;
+			max-width: 260px;
+			overflow-y: auto;
+			background-color: #66CCFF;
+			margin: 0;
+			padding: 10px;
+			margin-right: 20px;
+			transform: translateX(-100%);
+			transition: transform 0.3s;
+		}
+		menu.open{
+			transform: translateX(0);
+		}
+		main{
+			width: 100%;
+			overflow-y: auto;
+			padding: 0;
+			margin-left: 0;
+			transition: margin-left 0.3s;
+		}
+		iframe{
+			width: 100%;
+			height: 600px;
+			margin: 0;
+		}
+		table, td, th{
+			border: 1px #000099 solid;
+		}
+		@media(min-width: 800px){
+			main{
+				margin-left: 10px;
+			}
+			menu.open + main{
+				margin-left: 290px;
 			}
 			div#menuButton{
-				display: none;
+				top: calc(50% - 25px);
+				left: -25px;
+				transition: left 0.3s;
 			}
-			menu {
-				min-width: 260px;
-				max-width: 260px;
-				overflow-y: auto;
-				background-color: #66CCFF;
-				margin: 0;
-				padding: 10px;
-				margin-right: 20px;
+			div#menuButton:has(+ div > menu.open){
+				left: 250px;
 			}
-			main {
-				width: 100%;
-				overflow-y: auto;
-				padding: 0;
-			}
-			iframe {
-				width: 100%;
-				height: 600px;
-				margin: 0;
-			}
-			table, td, th {
-				border: 1px #000099 solid;
-			}
-			@media (max-width: 799px){
-				menu {
-					z-index: 200;
-					position: fixed;
-					top: 0;
-					bottom: 0;
-					visibility: hidden;
-				}
-				div#menuButton {
-					display: flex;
-					background-color: #6699CC;
-					color: #DDEEFF;
-					opacity: 0.8;
-
-					position: fixed;
-					z-index: 300;
-					top: 20px;
-					right: 20px;
-					justify-content: center;
-					align-items: center;
-
-					width: 50px;
-					height: 50px;
-					border-radius: 25px;
-					cursor: pointer;
-				}
-				div#menuButton span {
-					-moz-user-select: none;
-					-webkit-user-select: none;
-					-ms-user-select: none;
-					user-select: none;
-					font-size: 35px;
-				}
-			}
+		}
 		</style>
 	</head>
 	<body>
@@ -104,24 +117,22 @@
 		const menuButtonText = menuButton.firstElementChild;
 		menuList.innerHTML = menuHtml;
 
+		let icons = [];
 		const switchMenu = function(){
-			const displays = new Map([
-				[true, {display: "none", text: "📁"}],
-				[false, {display: "", text: "📂"}]
-			]);
-			let isDisplay = true;
+			let isOpen = true;
 
-			return setDisplay=>{
-				isDisplay = typeof(setDisplay) === "boolean"? !setDisplay: !isDisplay;
-				const d = displays.get(isDisplay);
-				menu.style.display = d.display;
-				menu.style.visibility = "visible";
-				menuButtonText.textContent = d.text;
+			return setIsOpen=>{
+				isOpen = typeof(setIsOpen) === "boolean"? setIsOpen: !isOpen;
+				const icon = icons[0|isOpen];
+				menu.classList.toggle("open", isOpen);
+				menuButtonText.textContent = icon;
 			};
 		}();
 
 		function setupMenu(){
-			switchMenu(800 <= window.innerWidth);
+			const isDesktopView = 800 <= window.innerWidth;
+			icons = isDesktopView? ["▶", "◀"]:  ["📁", "📂"];
+			switchMenu(isDesktopView);
 		}
 
 		async function router(){
@@ -130,7 +141,7 @@
 			const hash = location.hash !== ""? location.hash.slice(1): "index";
 
 			let res = await fetch(`./pages/${hash}.html`);
-			if(!res.ok) res = await fetch("./pages/.html");
+			if(!res.ok) res = await fetch("./pages/index.html");
 			const mainHtml = await res.text();
 			vMain.innerHTML = mainHtml;
 			const h1 = vMain.querySelector("h1");
