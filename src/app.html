@@ -152,8 +152,8 @@
 			]).component);
 			txt.onchange = txtOnChange;
 			recordJsonCopy.onclick = ()=>navigator.clipboard.writeText(recordJson.value).then(()=>recordJson.select());
-			recordJsonInput.onclick = ()=>playingGame.setJson(recordJson.value);
-			recordJsonOutput.onclick = ()=>recordJson.value = playingGame.getJson();
+			recordJsonInput.onclick = ()=>playingGame.record.setJson(recordJson.value);
+			recordJsonOutput.onclick = ()=>recordJson.value = playingGame.record.getJson();
 		};
 
 		(function(){

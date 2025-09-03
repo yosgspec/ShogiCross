@@ -9,7 +9,7 @@ const rangeOptions = {
 	start: {isAttack: false},
 	enPassant: {isAttack: true},
 	palaceSlash: {isAttack: false},
-	palaceSlash: {isAttack: true},
+	palaceSlashAttack: {isAttack: true},
 }
 
 // 起点文字の定義
@@ -294,6 +294,7 @@ export function checkTarget(board, piece, pX, pY){
 	(function(){
 		const rangeMap = piece.getRange();
 		rangeMap.attack ??= rangeMap.default;
+		rangeMap.palaceSlashAttack ??= rangeMap.palaceSlash;
 		for(const moveName in rangeMap){
 			const moves = rangeMap[moveName];
 			if(!Array.isArray(moves)) continue;
