@@ -16,7 +16,7 @@ declare class _ extends Q {
      * @param {string} ext - 拡張子
      * @returns {Promise<void>}
      */
-    downloadImage(e: any, t: any, s: any): Promise<void>;
+    downloadImage(e: any, t: any, a: any): Promise<void>;
     #private;
 }
 declare class Se extends _ {
@@ -60,7 +60,7 @@ declare class Se extends _ {
          * @param {boolean} forceCapture - 属性を無視して捕縛する
          * @param {boolean} forceCantCapture - 属性を無視して捕縛しない
          */
-        capturePiece(e: any, t: any, s?: boolean, i?: boolean): void;
+        capturePiece(e: any, t: any, a?: boolean, i?: boolean): void;
         /** 持ち駒の所有権を回転
          * @param {number} deg - 回転角 (90の倍数)
          */
@@ -85,7 +85,7 @@ declare class Se extends _ {
      * @param {number} message.playerDeg - 移動を行ったプレイヤーの視点角度
      * @param {string|null} message.promoChar - 成り先の駒名(成らない場合null)
      */
-    moveRivalPiece({ from: e, to: t, playerDeg: s, promoChar: i }: {
+    moveRivalPiece({ from: e, to: t, playerDeg: a, promoChar: i }: {
         from: {
             pX: number;
             pY: number;
@@ -106,7 +106,7 @@ declare class Se extends _ {
      * @param {number} message.playerDeg - 打駒を行ったプレイヤーの視点角度
      * @param {number} message.standIndex - 駒台の駒のインデックス
      */
-    dropRivalPiece({ to: e, playerDeg: t, standIndex: s }: {
+    dropRivalPiece({ to: e, playerDeg: t, standIndex: a }: {
         to: {
             pX: number;
             pY: number;
@@ -220,7 +220,7 @@ declare class y {
      * @param {boolean} option.isDrawShadow - 駒の影の描写有無
      * @param {boolean} option.isMoved - 初回移動済みか否か
      */
-    constructor(e: any, t: any, s?: {});
+    constructor(e: any, t: any, a?: {});
     /** 駒の段階別価値を取得
      * @returns {string}
      */
@@ -5706,7 +5706,7 @@ declare class Q {
      * @param {string} gameName - ゲーム名(基準となる駒の配置セット)
      * @param {string} pieceSet - 駒の配置パターン
      */
-    putStartPieces(e: any, t: any, s?: string): void;
+    putStartPieces(e: any, t: any, a?: string): void;
     /** 駒の配置
      * @param {string} piece - 駒の表現文字
      * @param {number} pX - X方向配置位置(マス目基準)
@@ -5716,7 +5716,7 @@ declare class Q {
      * @param {number} option.displayPtn - 表示文字列を変更(1〜)
      * @param {boolean} option.isMoved - 初回移動済みか否か
      */
-    putNewPiece(e: any, t: any, s: any, i: any, a?: {}): void;
+    putNewPiece(e: any, t: any, a: any, i: any, s?: {}): void;
     /** 文字列から駒を配置
      * {string} text - 駒配置を表す文字列
      */
@@ -5728,7 +5728,7 @@ declare class Q {
      * @param {number} offsetDeg - 補正角度
      * @returns {number}
      */
-    getRow(e: any, t: any, s?: number, i?: number, a?: boolean): number;
+    getRow(e: any, t: any, a?: number, i?: number, s?: boolean): number;
     /** 角度基準のマス目の列を取得する
      * @param {number} pX - マス目の列
      * @param {number} pY - マス目の行
@@ -5736,14 +5736,14 @@ declare class Q {
      * @param {number} offsetDeg - 補正角度
      * @returns {number}
      */
-    getCol(e: any, t: any, s?: number, i?: number): number;
+    getCol(e: any, t: any, a?: number, i?: number): number;
     /** 駒の座標を回転取得する
      * @param {number} pX - マス目の列
      * @param {number} pY - マス目の行
      * @param {number} deg - 角度
      * @returns {number}
      */
-    rotatePosition(e: any, t: any, s: any): number;
+    rotatePosition(e: any, t: any, a: any): number;
     /** プロモーション選択
      * @param {Piece} piece - 駒
      * @param {boolean} canPromo - 成ることができる
@@ -5751,7 +5751,7 @@ declare class Q {
      * @param {boolean} isCpuMove - CPUによる移動か
      * @param {string|null} promoChar - 成り先の駒名(成らない場合null)
      */
-    onSelectPromo(e: any, t: any, s: any, i: any, a: any): Promise<any>;
+    onSelectPromo(e: any, t: any, a: any, i: any, s: any): Promise<any>;
     /** プロモーション処理
      * @param {Panel} fromPanel - 移動元のマス目
      * @param {Panel} toPanel - 選択中のマス目
@@ -5760,7 +5760,7 @@ declare class Q {
      * @param {boolean} isCpuMove - CPUによる移動か
      * @param {string|null} promoChar - 成り先の駒名(成らない場合null)
      */
-    promoPiece(e: any, t: any, s: any, i: any, a?: boolean, n?: any): Promise<void>;
+    promoPiece(e: any, t: any, a: any, i: any, s?: boolean, n?: any): Promise<void>;
     /** プロモーションエリア内であるか判別
      * @param {Panel} panel - マス目
      * @returns {{
@@ -5785,7 +5785,7 @@ declare class Q {
      * @param {boolean} isCpuMove - CPUによる移動か
      * @returns boolean
      */
-    movePiece(e: any, t: any, s?: boolean): Promise<boolean>;
+    movePiece(e: any, t: any, a?: boolean): Promise<boolean>;
     /** パスして手番を進める
      * @param {PlayerInfo} player - プレイヤー情報
     */
@@ -5847,7 +5847,7 @@ declare class minimax extends G {
      * @param {boolean} isMaximizingPlayer - 現在のプレイヤーが最大化プレイヤーかどうか
      * @returns {number} 評価値
      */
-    minimax(e: any, t: any, s: any, i: any, a: any): number;
+    minimax(e: any, t: any, a: any, i: any, s: any): number;
 }
 declare class Y {
     /** 駒台への角度ごとの表示順
@@ -5889,7 +5889,7 @@ declare class Y {
      * @param {boolean} forceCapture - 属性を無視して捕縛する
      * @param {boolean} forceCantCapture - 属性を無視して捕縛しない
      */
-    capturePiece(e: any, t: any, s?: boolean, i?: boolean): void;
+    capturePiece(e: any, t: any, a?: boolean, i?: boolean): void;
     /** 持ち駒の所有権を回転
      * @param {number} deg - 回転角 (90の倍数)
      */

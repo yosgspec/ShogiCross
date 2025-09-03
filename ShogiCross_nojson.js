@@ -5637,7 +5637,7 @@ const se = {
   start: { isAttack: !1 },
   enPassant: { isAttack: !0 },
   palaceSlash: { isAttack: !1 },
-  palaceSlash: { isAttack: !0 }
+  palaceSlashAttack: { isAttack: !0 }
 }, Ae = [
   ["O", { isOwn: !0 }],
   ["o", {}]
@@ -5736,7 +5736,7 @@ function X(p, e, t, a) {
   }
   return (function() {
     const u = e.getRange();
-    u.attack ??= u.default;
+    u.attack ??= u.default, u.palaceSlashAttack ??= u.palaceSlash;
     for (const m in u) {
       const g = u[m];
       if (!Array.isArray(g)) continue;
