@@ -255,7 +255,7 @@ jobs:
       SERVER_VERSION: ${{steps.SERVER_VERSION.outputs.value}}
       IS_NEW_VERSION: ${{steps.TRY_EXISTS_TAG.outcome == 'failure'}}
     steps:
-      - name: Checkout code
+      - name: Checkout
         uses: actions/checkout@v4
 
       - name: Setup Node.js
