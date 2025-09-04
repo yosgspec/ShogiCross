@@ -24,7 +24,7 @@
 			padding: 0;
 			height: 100%;
 		}
-		div#menuButton{
+		#menuButton{
 			display: flex;
 			background-color: #6699CC;
 			color: #DDEEFF;
@@ -40,7 +40,7 @@
 			border-radius: 25px;
 			cursor: pointer;
 		}
-		div#menuButton span{
+		#menuButton span{
 			-moz-user-select: none;
 			-webkit-user-select: none;
 			-ms-user-select: none;
@@ -72,6 +72,10 @@
 			margin-left: 0;
 			transition: margin-left 0.3s;
 		}
+		#menuButton:has(+ menu.load-menu),
+		menu.load-menu{
+			display: none;
+		}
 		iframe{
 			width: 100%;
 			height: 600px;
@@ -87,21 +91,21 @@
 			menu.open + main{
 				margin-left: 290px;
 			}
-			div#menuButton{
+			#menuButton{
 				top: calc(50% - 25px);
 				left: -25px;
 				transition: left 0.3s;
 			}
-			div#menuButton:has(+ div > menu.open){
+			#menuButton:has(+ menu.open){
 				left: 250px;
 			}
 		}
 		</style>
 	</head>
 	<body>
-		<div id="menuButton"><span></span></div>
 		<div class="flex-row" style="flex-wrap:nowrap; height:100%;">
-			<menu>
+			<div id="menuButton"><span></span></div>
+			<menu class="load-menu">
 				<a href="#"><img src="./sample/img/logo.min.svg" style="width:90%;"></a>
 				<div id="menuList" class="flex-col"></div>
 			</menu>
@@ -149,8 +153,9 @@
 			document.title = (
 				document.querySelector(`a[href="#${hash}"`)?.textContent ?? "将棋クロス")
 				+ endTitle;
-			await main.replaceWith(vMain);
+			main.replaceWith(vMain);
 			setupMenu();
+			menu.classList.toggle("load-menu", false);
 		}
 
 		menuButton.onclick = switchMenu;
