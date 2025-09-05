@@ -4,7 +4,7 @@ import {canvasFont} from "./canvasFontLoader.js";
 /** 操作パネル */
 export class UIControl{
 	/** @typedef {Object} UIControl */
-	static buttonTexts = "<>🔄🔁📷";
+	static buttonTexts = "<>🔄🔁⏭📷📜";
 
 	/** 要素のサイズをCanvasに合わせて変更 */
 	#resize(){
@@ -16,18 +16,25 @@ export class UIControl{
 
 	/**
 	 * @param {Board} board - 盤面
-	 * @param {string[]} compList 表示するコントロールの一覧
+	 * @param {string[]} controls - 表示するコントロールの一覧
+	 * @param {Object} recordOption - 棋譜オプション
+	 * @param {number} recordOption.lines - 棋譜の表示行数
+	 * @param {boolean} recordOption.readonly - 棋譜の読込専用
 	 */
-	constructor(board, compList){
+	constructor(board, controls, recordOption={}){
+		recordOption.lines ??= 0;
+		recordOption.readonly ??= false;
 		this.board = board;
 		const buttons = new Map([
 			["undo", {title: "一手戻る", text: "&lt;&lt;", onclick: ()=>board.record.undo()}],
 			["redo", {title: "一手進む", text: "&gt;&gt;", onclick: ()=>board.record.redo()}],
 			["rotateLeft", {title: "盤面を左回転", text: "🔄", onclick: ()=>board.rotate(false)}],
 			["rotateRight", {title: "盤面を右回転", text: "🔁", onclick: ()=>board.rotate()}],
+			["passTurn", {title: "手番をパス", text: "⏭", onclick: ()=>board.passTurn(board.getActivePlayer())}],
 			["downloadImage", {title: "画像を保存", text: "📷", onclick: ()=>board.downloadImage()}],
+			["downloadRecord", {title: "棋譜を保存", text: "📜", onclick: ()=>board.record.download()}],
 		]);
-		compList ??= [...buttons.keys(), "textRecord"];
+		controls ??= [...buttons.keys(), "textRecord"];
 		const unique = Date.now().toString();
 
 		/** 操作パネル要素
@@ -40,21 +47,21 @@ export class UIControl{
 		window.addEventListener("resize", ()=>this.#resize());
 		this.component.innerHTML = `${
 			[...buttons]
-				.filter(([id])=>compList.includes(id))
+				.filter(([id])=>controls.includes(id))
 				.map(([id, {title, text}])=>
 					`<button id="${id}${unique}" title="${title}" style="font-family:${canvasFont.names};">${text}</button>`
 				).join("")
 		}${
-			compList.includes("textRecord")?
-				`<select id="textRecord${unique}" style="flex-grow:1; font-family:${canvasFont.names};"><option></option></select>`: ""
+			controls.includes("textRecord")?
+				`<select id="textRecord${unique}" size=${recordOption.lines} style="flex-grow:1; font-family:${canvasFont.names};"><option></option></select>`: ""
 		}`;
 
 		for(const [id, {onclick}] of buttons){
-			if(!compList.includes(id)) continue;
+			if(!controls.includes(id)) continue;
 			this.component.querySelector(`#${id}${unique}`).onclick = onclick;
 		}
 
-		if(!compList.includes("textRecord")) return;
+		if(!controls.includes("textRecord")) return;
 
 		// 元の描写イベントを退避
 		const onDrawedBase = board.onDrawed;
@@ -65,12 +72,14 @@ export class UIControl{
 				const vSelect = select.cloneNode(false);
 				e.record.records.forEach((_, turn)=>{
 					const vOption = option.cloneNode(false);
+					vSelect.appendChild(vOption);
 					vOption.textContent = board.record.getText(turn);
 					if(turn === e.record.turn) vOption.selected = true;
-					vSelect.appendChild(vOption);
+					if(recordOption.readonly) vOption.disabled = true;
 				});
 				// セレクトボックス変更時、履歴を移動
-				vSelect.onchange = e=>board.record.jump(e.target.selectedIndex);
+				if(!recordOption.readonly)
+					vSelect.onchange = e=>board.record.jump(e.target.selectedIndex);
 				select.replaceWith(vSelect);
 			});
 			onDrawedBase?.(e);

@@ -1,5 +1,6 @@
 /** @typedef {import("./panel.js").Panel} Panel */
 import {Piece} from "./piece.js";
+import {downloadText} from "./download.js";
 /**
  * @typedef {Object} RecordInfo - 局面の記録
  * @prop {Object} from
@@ -186,5 +187,12 @@ export class Record {
 	 */
 	getComment(shiftTurn=0){
 		return this.records[this.turn+shiftTurn] ?? "";
+	}
+
+	/** 棋譜をダウンロード
+	 * @param {boolean} isNumOnly - 座標を数字で表現
+	 */
+	download(isNumOnly=false){
+		downloadText(this.getTextAll(isNumOnly), "record");
 	}
 }

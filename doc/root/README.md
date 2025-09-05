@@ -90,8 +90,8 @@ Canvas用の画像ローダー
 ##### enPassant.js
 アンパッサンに冠する情報を管理
 
-##### downloadImage.js
-画像のダウンロード機能を実装
+##### download.js
+ファイルのダウンロード機能を実装
 
 ##### bod.js
 BOD形式の入出力に必要な汎用処理を実装

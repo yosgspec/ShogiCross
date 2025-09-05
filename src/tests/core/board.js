@@ -4,7 +4,7 @@
 import {BoardCore, PROTECTED} from "./boardCore.js";
 import {canvasFont} from "./canvasFontLoader.js";
 import {canvasImage} from "./canvasImageLoader.js";
-import {downloadImage} from "./downloadImage.js";
+import {downloadImage} from "./download.js";
 import {Dialog} from "./dialog.js";
 import {mouseControl} from "./mouseControl.js";
 import {UIControl} from "./uiControl.js";
@@ -24,7 +24,7 @@ export {PROTECTED};
  * @prop {OverlayOptions} overlayOptions - オーバーレイのオプション
  * @prop {boolean} useUIControl - プレイヤーを使用するか
  * @prop {(e:Board)=>void} onDrawed - 描写イベント
- * @prop {(e:Board,turn:number)=>void} onDrawed - 描写イベント
+ * @prop {(e:Board,turn:number)=>void} onTurnEnd - ターンエンドイベント
  * @prop {(e:Board,playerId:number)=>void} onGameOver - ゲームオーバーイベント
  * @prop {(e:Board)=>void} onGameEnd - 投了イベント
  */

@@ -30,6 +30,12 @@ export class BoardOnline extends Board{
 		if(!option.name && typeof window !== "undefined"){
 			option.name = window.location.href;
 		}
+		option.useUIControl ??= [
+			"downloadImage",
+			"downloadRecord",
+			"textRecord",
+		];
+		option.uiControlRecordOption ??= {readonly: true};
 
 		super(canvas, option);
 		const {

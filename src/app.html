@@ -148,7 +148,9 @@
 				"redo",
 				"rotateLeft",
 				"rotateRight",
-				"downloadImage"
+				"passTurn",
+				"downloadImage",
+				"downloadRecord",
 			]).component);
 			txt.onchange = txtOnChange;
 			recordJsonCopy.onclick = ()=>navigator.clipboard.writeText(recordJson.value).then(()=>recordJson.select());

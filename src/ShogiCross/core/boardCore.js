@@ -505,6 +505,7 @@ export class BoardCore{
 	*/
 	passTurn(player){
 		this.record.add({end: `${player.degChar}パス`});
+		if(this.autoDrawing) this.draw();
 	}
 
 	/** 盤を描写 */

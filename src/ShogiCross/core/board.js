@@ -4,7 +4,7 @@
 import {BoardCore, PROTECTED} from "./boardCore.js";
 import {canvasFont} from "./canvasFontLoader.js";
 import {canvasImage} from "./canvasImageLoader.js";
-import {downloadImage} from "./downloadImage.js";
+import {downloadImage} from "./download.js";
 import {Dialog} from "./dialog.js";
 import {mouseControl} from "./mouseControl.js";
 import {UIControl} from "./uiControl.js";
@@ -22,9 +22,12 @@ export {PROTECTED};
  * @prop {"normal"|"free"|"viewOnly"} moveMode - 移動モード
  * @prop {boolean} autoDrawing - 描写の自動更新有無
  * @prop {OverlayOptions} overlayOptions - オーバーレイのオプション
- * @prop {boolean} useUIControl - プレイヤーを使用するか
+ * @prop {boolean|("undo"|"redo"|"rotateLeft"|"rotateRight"|"passTurn"|"downloadImage"|"downloadRecord"|"textRecord")[]} useUIControl - 操作パネルを使用するか
+ * @prop {Object} UIControlRecordOption - 操作パネルの棋譜オプション
+ * @param {number} UIControlRecordOption.lines - 棋譜の表示行数
+ * @param {boolean} UIControlRecordOption.readonly - 棋譜の読込専用
  * @prop {(e:Board)=>void} onDrawed - 描写イベント
- * @prop {(e:Board,turn:number)=>void} onDrawed - 描写イベント
+ * @prop {(e:Board,turn:number)=>void} onTurnEnd - ターンエンドイベント
  * @prop {(e:Board,playerId:number)=>void} onGameOver - ゲームオーバーイベント
  * @prop {(e:Board)=>void} onGameEnd - 投了イベント
  */
@@ -67,6 +70,7 @@ export class Board extends BoardCore{
 			autoDrawing=!isHeadless,
 			overlayOptions,
 			useUIControl=!isHeadless,
+			uiControlRecordOption={},
 			onDrawed=e=>{},
 			onTurnEnd=(e,turn)=>{},
 			onGameOver=(e,i)=>alert(`プレイヤー${i+1}の敗北です。`),
@@ -139,18 +143,22 @@ export class Board extends BoardCore{
 
 		if(!isHeadless) this.#mouseControl = mouseControl(this);
 		if(useUIControl){
-			this.#uiControl = this.makeUIControl();
+			this.#uiControl = Array.isArray(useUIControl)?
+				this.makeUIControl(useUIControl, uiControlRecordOption):
+				this.makeUIControl(null, uiControlRecordOption);
 			this.#uiControl.add();
 		}
 	}
 
 	/** 操作パネルを構築
-	 * @param {string[]} compList - 表示するコントロールの一覧
+	 * @param {string[]} controls - 表示するコントロールの一覧
+	 * @param {Object} recordOption - 棋譜オプション
+	 * @param {number} recordOption.lines - 棋譜の表示行数
+	 * @param {boolean} recordOption.readonly - 棋譜の読込専用
 	 * @returns {UIControl}
 	 */
-	makeUIControl(compList){
-		this.#uiControl = new UIControl(this, compList);
-		return this.#uiControl;
+	makeUIControl(controls, recordOption){
+		return this.#uiControl = new UIControl(this, controls, recordOption);
 	}
 
 	/** ボードを閉じる */
