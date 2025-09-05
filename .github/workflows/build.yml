@@ -68,8 +68,37 @@ jobs:
           name: cdn
           path: cdn
 
+  UpdateCdnUrl:
+    needs: [CheckVersion]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Update CDN URL in HTML
+        run: node run/updateCdnUrl.js src ${{needs.CheckVersion.outputs.PROJECT_VERSION}}
+
+      - name: Commit and push
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          git add src/
+          if git diff --staged --quiet; then
+            echo "No changes to commit."
+          else
+            git commit -m "Update CDN URL ${{needs.CheckVersion.outputs.PROJECT_VERSION}} in html"
+            git push
+          fi
+
   DeployPages:
-    needs: Build
+    needs: [Build, UpdateCdnUrl]
     if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     permissions:
