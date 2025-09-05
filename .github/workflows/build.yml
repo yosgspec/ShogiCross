@@ -68,7 +68,7 @@ jobs:
           name: cdn
           path: cdn
 
-  UpdateCdnUrl:
+  UpdateCdnURL:
     needs: [CheckVersion]
     runs-on: ubuntu-latest
     permissions:
@@ -93,12 +93,12 @@ jobs:
           if git diff --staged --quiet; then
             echo "No changes to commit."
           else
-            git commit -m "Update CDN URL ${{needs.CheckVersion.outputs.PROJECT_VERSION}} in html"
+            git commit -m "Update CDN URL ${{needs.CheckVersion.outputs.PROJECT_VERSION}} [skip ci]"
             git push
           fi
 
   DeployPages:
-    needs: [Build, UpdateCdnUrl]
+    needs: [Build, UpdateCdnURL]
     if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     permissions:
@@ -219,7 +219,7 @@ jobs:
           if git diff --staged --quiet; then
             echo "No changes to CDN to commit."
           else
-            git commit -m "Release ${{needs.CheckVersion.outputs.PROJECT_VERSION}} [skip ci]"
+            git commit -m "Release ${{needs.CheckVersion.outputs.PROJECT_VERSION}}"
             git push origin cdn --set-upstream
           fi
           git tag ${{needs.CheckVersion.outputs.PROJECT_VERSION}}
