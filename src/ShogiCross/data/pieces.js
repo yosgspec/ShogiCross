@@ -100,9 +100,11 @@ export default {
 			"default": "歩",
 			"start": "二",
 			"attack": "兵",
-			"enPassant": [
-				{"enPassant": "通"},
-				{"default": "歩", "attack": "〇"}
+			"steps": [
+				[
+					{"enPassant": "通"},
+					{"default": "歩", "attack": "〇"}
+				]
 			]
 		},
 		"promo": "妃騏城僧"
@@ -133,9 +135,11 @@ export default {
 		"attr": ["castlingRook"],
 		"range": {
 			"default": "車",
-			"castling": [
-				{"start": "塔"},
-				{"piece": "王", "start": "城"},
+			"steps": [
+				[
+					{"start": "塔"},
+					{"piece": "王", "start": "城"}
+				]
 			]
 		}
 	},

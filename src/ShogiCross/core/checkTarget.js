@@ -9,7 +9,7 @@ const rangeOptions = {
 	start: {isAttack: false},
 	enPassant: {isAttack: true},
 	palaceSlash: {isAttack: false},
-	palaceSlashAttack: {isAttack: true},
+	palaceSlash$Attack: {isAttack: true},
 }
 
 // 起点文字の定義
@@ -294,33 +294,40 @@ export function checkTarget(board, piece, pX, pY){
 	(function(){
 		const rangeMap = piece.getRange();
 		rangeMap.attack ??= rangeMap.default;
-		rangeMap.palaceSlashAttack ??= rangeMap.palaceSlash;
+		if(rangeMap.palaceSlash) rangeMap.palaceSlash$Attack = rangeMap.palaceSlash;
 		for(const moveName in rangeMap){
-			const moves = rangeMap[moveName];
-			if(!Array.isArray(moves)) continue;
-			const steps =
-				Array.isArray(moves[0]) && typeof moves[0][0] === "string"? [[{[moveName]:moves}]]:
-				!Array.isArray(moves[0])? [moves]:
-				moves;
-			for(const step of steps){
-				for(const s of step){
-					if(s.piece) continue;
-					for(const rangeName in s){
-						const range = s[rangeName];
-						const rangeOption = [rangeName, rangeOptions[rangeName]];
-						if(
-							!rangeOptions[rangeName]
-							// 初回移動確認
-							|| piece.isMoved && ["start", "castling"].includes(rangeName)
-						) continue;
+			const movePtn = rangeMap[moveName];
+			if(!Array.isArray(movePtn)) continue;
+			const moves =
+				Array.isArray(movePtn[0]) && typeof movePtn[0][0] === "string"? [[{[moveName]:movePtn}]]:
+				!Array.isArray(movePtn[0])? [movePtn]:
+				movePtn;
+			// 移動パターンループ
+			for(const steps of moves){
+				// 複数手番の最初を取得
+				const step = steps[0];
+				if(step.piece) continue;
+				// 移動範囲を設定
+				for(const rangeNameFull in step){
+					// $より後ろをトリミング
+					const $ = rangeNameFull.indexOf("$");
+					const rangeName = $ === -1? rangeNameFull: rangeNameFull.substring(0, $);
+					// 範囲データチェック
+					const range = step[rangeNameFull];
+					if(!range) continue;
+					if(
+						!rangeOptions[rangeNameFull]
+						// 初回移動確認
+						|| piece.isMoved && ["start", "castling"].includes(rangeName)
+					) continue;
 
-						if(!range) continue;
-						for(const origin of getOrigin(range)){
-							// 点移動
-							movePoint(range, rangeOption, origin);
-							// 直線移動
-							moveLiner(range, rangeOption, origin);
-						}
+					// 移動オプション
+					const rangeOption = [rangeName, rangeOptions[rangeNameFull]];
+					for(const origin of getOrigin(range)){
+						// 点移動
+						movePoint(range, rangeOption, origin);
+						// 直線移動
+						moveLiner(range, rangeOption, origin);
 					}
 				}
 			}
