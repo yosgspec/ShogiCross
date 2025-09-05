@@ -7,7 +7,7 @@ import {fileURLToPath} from "url";
 import {randomUUID} from 'crypto';
 
 // --- 状態管理 ---
-// ゲームルームを保持: { [gameName]: [ { id: roomId, sockets: Set(), numPlayers: number }, ... ] }
+// ゲームルームを保持: { [gameKey]: [ { id: roomId, sockets: Set(), playerLen: number }, ... ] }
 const games = {};
 // WebSocketからルームIDへのマッピング: Map<ws, roomId>
 const wsToRoomId = new Map();
@@ -33,18 +33,18 @@ wss.on("connection", ws=>{
 			return;
 		}
 
-		const {type, gameName, numPlayers, roomId} = data;
+		const {type, gameKey, playerLen, roomId} = data;
 
 		if(type === "join"){
-			if(!gameName) return;
+			if(!gameKey) return;
 
-			// gameNameに対応するゲームがなければ初期化
-			if(!games[gameName]){
-				games[gameName] = [];
+			// gameKeyに対応するゲームがなければ初期化
+			if(!games[gameKey]){
+				games[gameKey] = [];
 			}
 
 			// 切断済みのソケットを掃除
-			games[gameName].forEach(room=>{
+			games[gameKey].forEach(room=>{
 				room.sockets.forEach(player=>{
 					if(player.readyState !== WebSocket.OPEN){
 						room.sockets.delete(player);
@@ -52,33 +52,33 @@ wss.on("connection", ws=>{
 				});
 			});
 			// 空のルームも掃除
-			games[gameName] = games[gameName].filter(room=>0 < room.sockets.size);
+			games[gameKey] = games[gameKey].filter(room=>0 < room.sockets.size);
 
 			// 参加可能なルームを探す
-			let roomToJoin = games[gameName].find(room=>room.sockets.size < room.numPlayers);
+			let roomToJoin = games[gameKey].find(room=>room.sockets.size < room.playerLen);
 
 			// 参加可能なルームがなければ新規作成
 			if(!roomToJoin){
 				roomToJoin = {
 					id: randomUUID(),
 					sockets: new Set(),
-					numPlayers: numPlayers || 2,
+					playerLen: playerLen || 2,
 				};
-				games[gameName].push(roomToJoin);
-				console.log(`New room created for game '${gameName}' with id ${roomToJoin.id}`);
+				games[gameKey].push(roomToJoin);
+				console.log(`New room created for game '${gameKey}' with id ${roomToJoin.id}`);
 			}
 
 			// ルームにプレイヤーを追加
 			roomToJoin.sockets.add(ws);
 			wsToRoomId.set(ws, roomToJoin.id);
 
-			console.log(`Client joined room ${roomToJoin.id} for game '${gameName}'. Players: ${roomToJoin.sockets.size}/${roomToJoin.numPlayers}`);
+			console.log(`Client joined room ${roomToJoin.id} for game '${gameKey}'. Players: ${roomToJoin.sockets.size}/${roomToJoin.playerLen}`);
 
 			// 必要なプレイヤー数が揃ったらゲーム開始
-			if(roomToJoin.sockets.size === roomToJoin.numPlayers){
-				console.log(`Game in room ${roomToJoin.id} ('${gameName}') starting with ${roomToJoin.numPlayers} players.`);
+			if(roomToJoin.sockets.size === roomToJoin.playerLen){
+				console.log(`Game in room ${roomToJoin.id} ('${gameKey}') starting with ${roomToJoin.playerLen} players.`);
 				const players = Array.from(roomToJoin.sockets);
-				const degStep = 360 / roomToJoin.numPlayers;
+				const degStep = 360 / roomToJoin.playerLen;
 
 				players.forEach((player, i)=>{
 					const deg = i * degStep;
@@ -94,17 +94,17 @@ wss.on("connection", ws=>{
 			if(!roomId) return;
 
 			// プレイヤーが属していたルームを探して削除
-			for(const gameName in games){
-				const roomIndex = games[gameName].findIndex(r=>r.id === roomId);
+			for(const gameKey in games){
+				const roomIndex = games[gameKey].findIndex(r=>r.id === roomId);
 				if(roomIndex !== -1){
-					const room = games[gameName][roomIndex];
+					const room = games[gameKey][roomIndex];
 
 					// マッチングが成立していないルームでのみキャンセル処理を行う
-					if(room.sockets.size < room.numPlayers){
+					if(room.sockets.size < room.playerLen){
 						room.sockets.delete(ws);
 						wsToRoomId.delete(ws);
 
-						console.log(`Client cancelled matching and left room ${roomId}. Players: ${room.sockets.size}/${room.numPlayers}`);
+						console.log(`Client cancelled matching and left room ${roomId}. Players: ${room.sockets.size}/${room.playerLen}`);
 
 						// クライアントにキャンセル成功を通知
 						try{
@@ -116,11 +116,11 @@ wss.on("connection", ws=>{
 
 						// ルームが空になったら配列から削除
 						if(room.sockets.size === 0){
-							games[gameName].splice(roomIndex, 1);
+							games[gameKey].splice(roomIndex, 1);
 							console.log(`Room ${roomId} is now empty and closed.`);
-							if(games[gameName].length === 0){
-								delete games[gameName];
-								console.log(`Game type '${gameName}' has no more rooms.`);
+							if(games[gameKey].length === 0){
+								delete games[gameKey];
+								console.log(`Game type '${gameKey}' has no more rooms.`);
 							}
 						}
 					}
@@ -167,10 +167,10 @@ wss.on("connection", ws=>{
 		wsToRoomId.delete(ws);
 
 		// プレイヤーが属していたルームを探して削除
-		for(const gameName in games){
-			const roomIndex = games[gameName].findIndex(r=>r.id === roomId);
+		for(const gameKey in games){
+			const roomIndex = games[gameKey].findIndex(r=>r.id === roomId);
 			if(roomIndex !== -1){
-				const room = games[gameName][roomIndex];
+				const room = games[gameKey][roomIndex];
 				room.sockets.delete(ws);
 
 				// ルームに残っているプレイヤーに切断を通知
@@ -183,12 +183,12 @@ wss.on("connection", ws=>{
 
 				// ルームが空になったら配列から削除
 				if(room.sockets.size === 0){
-					games[gameName].splice(roomIndex, 1);
+					games[gameKey].splice(roomIndex, 1);
 					console.log(`Room ${roomId} is now empty and closed.`);
-					// gameNameに紐づくルームがなくなったら、そのgameName自体も削除
-					if(games[gameName].length === 0){
-						delete games[gameName];
-						console.log(`Game type '${gameName}' has no more rooms.`);
+					// gameKeyに紐づくルームがなくなったら、そのgameKey自体も削除
+					if(games[gameKey].length === 0){
+						delete games[gameKey];
+						console.log(`Game type '${gameKey}' has no more rooms.`);
 					}
 				}
 				break;

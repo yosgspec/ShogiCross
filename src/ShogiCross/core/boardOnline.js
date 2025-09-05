@@ -20,16 +20,13 @@ export class BoardOnline extends Board{
 	 * @prop {(e:string, BoardOnline)=>void} onReadyOnline - 接続完了イベント
 	 * @prop {(BoardOnline)=>void} onCancelOnline - 接続キャンセルイベント
 	 * @prop {string} serverURL - 接続するサーバーURL(http(s)://～)
+	 * @prop {string} gameKey - オンライン用ゲーム接続キー
 	 */
 	/**
 	 * @param {HTMLCanvasElement} canvas - Canvas要素
 	 * @param {BoardOnlineInitOption} option - ボードの初期化オプション
 	 */
 	constructor(canvas, option){
-		// nameが指定されていない場合、現在のURLをnameとして使用する
-		if(!option.name && typeof window !== "undefined"){
-			option.name = window.location.href;
-		}
 		option.useUIControl ??= [
 			"downloadImage",
 			"downloadRecord",
@@ -42,11 +39,14 @@ export class BoardOnline extends Board{
 			onReadyOnline = null,
 			onCancelOnline = null,
 			serverURL = "http://localhost:8080",
+			gameKey = encodeURI(JSON.stringify(option)),
 		} = option;
+		const {playerLen} = this;
 		this.onReadyOnline = onReadyOnline;
 		this.onCancelOnline = onCancelOnline;
 		this.isOnline = true;
 		this.isReadyOnline = false;
+		this.gameKey = gameKey;
 		this.roomId = null;
 
 		// isLocalプロパティをプレイヤーに追加
@@ -61,10 +61,10 @@ export class BoardOnline extends Board{
 		this.ws.onopen = async ()=>{
 			console.log("WebSocket connection established.");
 			// サーバーにゲーム参加メッセージを送信
-			this.ws.send(JSON.stringify({type: "join", gameName: this.name, numPlayers: this.playerLen}));
+			this.ws.send(JSON.stringify({type: "join", gameKey, playerLen}));
 			this.overlay.start();
 			if(await this[$].dialog.show("", "マッチング待機中...", [{label: "キャンセル", value: true}])){
-				this.ws.send(JSON.stringify({type: 'cancelJoin'}));
+				this.ws.send(JSON.stringify({type: "cancelJoin"}));
 				this.overlay.stop();
 				this.onCancelOnline?.(this);
 			};

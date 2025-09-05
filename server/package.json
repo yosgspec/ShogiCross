@@ -1,6 +1,6 @@
 {
   "name": "shogicross-server",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "description": "Server for ShogiCross online play",
   "main": "server.js",
   "type": "module",

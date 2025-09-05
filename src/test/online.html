@@ -30,16 +30,17 @@
 		statusDiv.textContent = "マッチング待機中...";
 
 		const board = new BoardOnline(canvas, {
-				...shogiOption,
+				playBoard: "将棋",
+				useStand: true,
 				playerOptions: [
 					{gameName: "将棋", pieceSet: "default"},
 					//{gameName: "将棋", pieceSet: "default"},
 					{gameName: "チェス", pieceSet: "default"},
 				],
-				//serverURL: "https://shogicross-server.onrender.com",
 				serverURL: "https://shogicross-server-828297429002.asia-northeast1.run.app/",
 				//serverURL: "https://shogicross-server-cs-828297429002.asia-northeast1.run.app/",
 				//serverURL: "https://shogicross-server-py-828297429002.asia-northeast1.run.app/",
+				//serverURL: "https://shogicross-server.onrender.com",
 				onReadyOnline(event, board){
 					statusDiv.textContent = `対戦開始！ あなたはプレイヤー${event.playerId + 1}です。`;
 				},
