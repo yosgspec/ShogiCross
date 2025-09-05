@@ -1,5 +1,5 @@
 declare class Q extends Z {
-    overlay: Me;
+    overlay: Le;
     autoDrawing: any;
     isGameEnd: boolean;
     onDrawed: any;
@@ -7,10 +7,13 @@ declare class Q extends Z {
     onGameOver: any;
     onGameEnd: any;
     /** 操作パネルを構築
-     * @param {string[]} compList - 表示するコントロールの一覧
+     * @param {string[]} controls - 表示するコントロールの一覧
+     * @param {Object} recordOption - 棋譜オプション
+     * @param {number} recordOption.lines - 棋譜の表示行数
+     * @param {boolean} recordOption.readonly - 棋譜の読込専用
      * @returns {UIControl}
      */
-    makeUIControl(e: any): any;
+    makeUIControl(e: any, t: any): any;
     /** 画像を取得
      * @param {string} fileName - ファイル名
      * @param {string} ext - 拡張子
@@ -24,6 +27,7 @@ declare class pe extends Q {
     onCancelOnline: any;
     isOnline: boolean;
     isReadyOnline: boolean;
+    gameKey: any;
     roomId: any;
     ws: WebSocket;
     stand: {
@@ -34,7 +38,7 @@ declare class pe extends Q {
          * @param {number} option.i - 配置する持ち駒のインデックス
          * @param {boolean} isCpuDrop - CPUによる打ち駒かどうか
          */
-        dropPiece(o: any, l?: {}, d?: boolean): void;
+        dropPiece(d: any, c?: {}, S?: boolean): void;
         stand: any;
         board: any;
         left: number;
@@ -115,7 +119,7 @@ declare class pe extends Q {
         standIndex: number;
     }): Promise<void>;
 }
-declare class be extends Y {
+declare class ve extends Y {
     engine: any;
 }
 declare class Y {
@@ -148,7 +152,7 @@ declare namespace G {
     export { greedy };
     export { minimax };
 }
-declare class y {
+declare class W {
     /** @typedef {Object} Piece */
     /** 描写サイズ
      * @type {number}
@@ -508,7 +512,7 @@ declare const J: {
 declare namespace O {
     let fonts: (string | number)[][];
 }
-declare namespace F {
+declare namespace $ {
     let imported: boolean;
     let images: {
         [x: string]: new (width?: number, height?: number) => HTMLImageElement;
@@ -2271,7 +2275,7 @@ declare namespace D {
             export { _default_8 as default };
             export let start: string;
             export let attack: string;
-            export let enPassant: ({
+            export let steps: ({
                 enPassant: string;
                 default?: undefined;
                 attack?: undefined;
@@ -2279,7 +2283,7 @@ declare namespace D {
                 default: string;
                 attack: string;
                 enPassant?: undefined;
-            })[];
+            })[][];
         }
         export { range_8 as range };
         let promo_6: string;
@@ -2332,13 +2336,14 @@ declare namespace D {
         export namespace range_11 {
             let _default_11: string;
             export { _default_11 as default };
-            export let castling: ({
+            let steps_1: ({
                 start: string;
                 piece?: undefined;
             } | {
                 piece: string;
                 start: string;
-            })[];
+            })[][];
+            export { steps_1 as steps };
         }
         export { range_11 as range };
     }
@@ -2375,14 +2380,13 @@ declare namespace D {
         export namespace range_13 {
             let _default_13: string;
             export { _default_13 as default };
-            let castling_1: ({
+            export let castling: ({
                 start: string;
                 piece?: undefined;
             } | {
                 piece: string;
                 start: string;
             })[];
-            export { castling_1 as castling };
         }
         export { range_13 as range };
     }
@@ -3483,8 +3487,8 @@ declare namespace D {
         export namespace range_68 {
             let _default_67: string;
             export { _default_67 as default };
-            let castling_2: string;
-            export { castling_2 as castling };
+            let castling_1: string;
+            export { castling_1 as castling };
         }
         export { range_68 as range };
     }
@@ -3949,9 +3953,10 @@ declare namespace D {
         export namespace range_91 {
             let _default_90: string;
             export { _default_90 as default };
-            export let steps: {
+            let steps_2: {
                 default: string;
             }[][];
+            export { steps_2 as steps };
         }
         export { range_91 as range };
     }
@@ -5304,10 +5309,10 @@ declare namespace D {
         export namespace range_176 {
             let _default_175: string;
             export { _default_175 as default };
-            let steps_1: {
+            let steps_3: {
                 default: string;
             }[][];
-            export { steps_1 as steps };
+            export { steps_3 as steps };
         }
         export { range_176 as range };
     }
@@ -5320,10 +5325,10 @@ declare namespace D {
         export namespace range_177 {
             let _default_176: string;
             export { _default_176 as default };
-            let steps_2: {
+            let steps_4: {
                 default: string;
             }[][];
-            export { steps_2 as steps };
+            export { steps_4 as steps };
         }
         export { range_177 as range };
     }
@@ -5682,7 +5687,7 @@ declare class Z {
     bottom: any;
     stand: I;
     moveMode: any;
-    record: We;
+    record: we;
     enPassant: V;
     /** ボードを閉じる */
     close(): void;
@@ -5812,7 +5817,7 @@ declare class Z {
     };
     #private;
 }
-declare class Me {
+declare class Le {
     constructor(e: any, t?: {});
     canvas: any;
     /**
@@ -5902,7 +5907,7 @@ declare class I {
      */
     toString(e?: boolean, t?: boolean): string;
 }
-declare class We {
+declare class we {
     constructor(e: any);
     board: any;
     turn: number;
@@ -5954,6 +5959,10 @@ declare class We {
      * @returns {string}
      */
     getComment(e?: number): string;
+    /** 棋譜をダウンロード
+     * @param {boolean} isNumOnly - 座標を数字で表現
+     */
+    download(e?: boolean): void;
     #private;
 }
 declare class V {
@@ -5984,4 +5993,4 @@ declare class V {
     clone(): this;
 }
 declare const N: unique symbol;
-export { Q as Board, pe as BoardOnline, be as CpuEngine, Y as CpuEngineBase, G as CpuEngines, y as Piece, J as boards, O as canvasFont, F as canvasImage, ge as extendData, ue as gameSoft, q as games, T as panels, K as pieceCost, ne as pieceRange, D as pieces };
+export { Q as Board, pe as BoardOnline, ve as CpuEngine, Y as CpuEngineBase, G as CpuEngines, W as Piece, J as boards, O as canvasFont, $ as canvasImage, ge as extendData, ue as gameSoft, q as games, T as panels, K as pieceCost, ne as pieceRange, D as pieces };
