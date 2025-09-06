@@ -8,14 +8,18 @@
   * 角度ごとの情報を抽出するUtil関数を追加する
   * ボード上と駒台の駒
 * [ ] 2手移動について実装する
+  * [ ] アンパッサン、キャスリング、獅子、飛鷹、角鷲など
+  * [ ] 他の駒の移動を全てブロッキングとか?
   * [x] 複数手動かす場合の駒定義方法を検討
   * [x] 複数手動かす場合の移動範囲表示を作成(分割無し)
   * [x] 棋譜に複数動作を記録できるようにする
   * [ ] 継続状態を保持できるようにする
   * [ ] 次に動くことのできる駒を記録する
   * [ ] 複数手動かす場合の移動範囲表示を作成(分割あり)
-* [ ] 操作パネルにパスボタンを追加する(チャンギ用)
 * [ ] 最終手を強調
+  * 紫でぼんやり影つけようかと考えてる
+  * テキスト表示は★◆☆◇でいいかな?  
+    ♠♣♡♢でもいいけど、世界観にそぐわない
 * [ ] 駒画像設定時の成挙動がおかしい件を確認
 * [ ] 棋譜関連機能強化
   * KIFU形式でそれとなく読めるようにする
@@ -40,25 +44,43 @@
     * [ ] 移動範囲ごとに例となる駒を選定する
   * [ ] テストライブラリ追加
   * [ ] テスト実装
+* [ ] ゲームとして成立するようにする
 
 ## 検討中のこと
-* [ ] ゲームとして成立するようにする
-* [ ] 2手で1手とみなせるようにする
-  * [ ] アンパッサン、キャスリング、獅子、飛鷹、角鷲など
-  * [ ] 他の駒の移動を全てブロッキングとか?
 * [ ] エラートラップの充実
-* [ ] ドキュメントを本物のSPAにする
+* [ ] グラスホッパー系駒の対応
 
 ## (現状)やる予定のないこと/できないこと
 * TypeScript化
   * vanillaで動く環境を維持したい
 * jQuery導入
   * むやみに依存関係を増やすのはNG
+* ドキュメントを本物のSPAにする
 
 ## 0.14
 * [x] 棋譜ダウンロードボタンを追加する
 * [x] 棋譜リストボックスを対応
 * [x] オンラインで操作パネルに不正防止カスタマイズを行う
+* [x] 操作パネルにパスボタンを追加する(チャンギ用)
+* [x] 関連プロジェクトをまとめてページを作る
+  * [将棋対チェススレ](https://web.archive.org/web/20060225234451/http://www.geocities.co.jp:80/Playtown-Toys/8188/)
+  * [CSSG](https://web.archive.org/web/20181107161900/http://www.geocities.co.jp/SiliconValley-Sunnyvale/4739/shogi/)
+  * [ちぇりしょい](https://www.freem.ne.jp/win/game/6444)
+  * [ZoG](https://w.atwiki.jp/zillionsofgames)
+  * [ZoG拡張](https://w.atwiki.jp/zillionsofgames)
+  * [将棋RPG](https://hothukurou.com/game/Shogi/index.html)
+  * [将棋ライク](https://unityroom.com/games/shougi-like)
+  * [二零将棋](https://sites.google.com/takasagosewoi.net/20shogi/)
+  * [超次元盤上遊戯カオスボード](https://store.steampowered.com/app/2905650/)
+  * [Kifu for JS](https://kifu-for-js.81.la/blog/2023/09/01/kifu-for-js-v5/)
+  * [shogi-player](https://shogi-player.netlify.app)
+  * [将棋ったー](https://shogitter.com)
+  * [んとか将棋](https://syouginojikan.web.fc2.com/other.html)
+  * [Chess Remix](https://chessremix.app)
+  * [PyChess](https://www.pychess.org)
+  * [Chess Variant Pages](https://www.chessvariants.org/)
+  * [Dagaz Project](https://dagazproject.github.io)
+  * [jocly](https://jocly.jcfrog.com/joclymatch/gamespanel.php)
 
 ## 0.13
 * [ ] 2手移動について実装する

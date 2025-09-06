@@ -1,0 +1,142 @@
+<h1>参考実装・類似アプリの紹介</h1>
+<h2>このページは?</h2>
+<p>ShogiCrossの実装にあたって参考にした実装やアプリがあるため、それをここにまとめる。<br>
+ShogiCrossのコンセプトに異種格闘も含まれるが、意外と他にも対応しているソフトが存在するためこれもまとめた。</p>
+<h2>ShogiCross</h2>
+<h3><a href="https://shogicross.yosgspec.com/#app">ShogiCross</a></h3>
+<ul>
+<li>分類: Webアプリ、UIライブラリ、将棋用ゲームエンジン、ペーパークラフト、アクリルカット用データ</li>
+<li>ライセンス: CC0(パブリックドメイン)</li>
+<li>設計思想
+<ul>
+<li>世界の将棋類・古将棋で駒遊びをできるようにする</li>
+<li>世界の将棋類・古将棋で異種格闘をできるようにする</li>
+<li>盤面をテキストベースで表現できるようにする</li>
+<li>コア機能はコンパクトに保ち、画像なしで動くようにする</li>
+<li>外部ライブラリに依存しない</li>
+<li>ビルド不要でブラウザで動くようにする(vanilla.js)</li>
+<li>4人対戦に対応する</li>
+<li>駒や将棋盤などのデータ拡張を容易にする</li>
+<li>CPU対戦、オンライン対戦はおまけ</li>
+<li>ShogiCross App及びツール類はその機能を利用した実装である</li>
+<li>ペーパークラフトやアクリルカットで現実世界に召喚する</li>
+</ul>
+</li>
+</ul>
+<h3><a href="https://drive.google.com/file/d/0B75PndrlQqwbZnNONVN4NHpTcWc/view?resourcekey=0-i0UIfQRzmfqTaelhUcYSoA">混合将棋 -超棋-</a></h3>
+<ul>
+<li>分類: ルール提案、ペーパークラフト</li>
+<li>ShogiCrossの原案</li>
+<li>ルール提案+遊びの実現手法としてのペーパークラフトの構成</li>
+</ul>
+<h2>外部サイト</h2>
+<h3><a href="https://web.archive.org/web/20060225234451/http://www.geocities.co.jp:80/Playtown-Toys/8188/">将棋とチェスが同じ盤で戦うスレ</a></h3>
+<h3><a href="https://web.archive.org/web/20181107161900/http://www.geocities.co.jp/SiliconValley-Sunnyvale/4739/shogi/">CSSG</a></h3>
+<ul>
+<li>分類: ルール提案、Windowsアプリ</li>
+<li>将棋とチェスを対決させるという思想の発端<br>
+特にテキスト周りの大半を引き継いでいる</li>
+<li>CSSGはその対戦を行うためのソフト<br>
+オンライン対戦対応(今でも動くのかどうかは謎)</li>
+</ul>
+<h3><a href="https://web.archive.org/web/20131103225945/http://blog.hangame.co.jp/P427369068/article/40534170/">自作変則将棋　『連合将棋』</a></h3>
+<ul>
+<li>分類: ルール提案</li>
+<li>世界の将棋で対戦を行うためのルール提案<br>
+超棋のルール制定時に参考にさせてもらった</li>
+</ul>
+<h3><a href="https://syouginojikan.web.fc2.com">んとか将棋</a></h3>
+<ul>
+<li>分類: Webアプリ</li>
+<li>将棋、チェス、どうぶつしょうぎ、中将棋、チャトランガ、京都将棋で遊べる</li>
+<li>CPU対戦または一人指しに対応</li>
+<li>棋譜の表現方法を参考にさせてもらった</li>
+</ul>
+<h3><a href="https://kifu-for-js.81.la">Kifu for JS</a></h3>
+<h3><a href="https://shogi-player.netlify.app">shogi-player</a></h3>
+<ul>
+<li>分類: UIライブラリ</li>
+<li>ライセンス: Kifu for JS(MIT)、shogi-player(AGPL)</li>
+<li>将棋をWeb上で表現するためのUIライブラリ</li>
+<li>表示UI、BOD表現を参考にさせてもらった</li>
+</ul>
+<h3><a href="https://www.freem.ne.jp/win/game/6444">ちぇりしょい</a></h3>
+<ul>
+<li>分類: Windowsアプリ</li>
+<li>将棋、チェス、囲碁、リバーシでも異種格闘ゲーム</li>
+<li>オンライン対戦対応</li>
+</ul>
+<h3><a href="https://sites.google.com/takasagosewoi.net/20shogi">二零将棋</a></h3>
+<ul>
+<li>分類: Steamアプリ、スマホアプリ、Switch用ソフト</li>
+<li>世界の将棋と古将棋の駒で自由に配置して対戦する</li>
+<li>根本的な思想は割と近いと思う</li>
+<li>CPU、オンライン対戦対応</li>
+</ul>
+<h3><a href="https://hothukurou.com/game/Shogi/index.html">将棋RPG</a></h3>
+<ul>
+<li>分類: Webアプリ</li>
+<li>入手した駒を自陣に自由に配置してステージ攻略をする</li>
+<li>持ち駒無し</li>
+<li>トライルールあり</li>
+<li>CPU対戦対応</li>
+</ul>
+<h3><a href="https://unityroom.com/games/shougi-like">将棋ライク</a></h3>
+<ul>
+<li>分類: Webアプリ、スマホアプリ</li>
+<li>将棋+ローグライク</li>
+<li>ランダムで入手できる駒を活用してステージ攻略をする</li>
+<li>オリジナル駒多数</li>
+<li>持ち駒無し</li>
+<li>CPU対戦対応</li>
+</ul>
+<h3><a href="https://store.steampowered.com/app/2905650">超次元盤上遊戯カオスボード</a></h3>
+<ul>
+<li>分類: Steamアプリ</li>
+<li>将棋、チェス、リバーシ、カードゲームでごちゃまぜに対戦するゲーム</li>
+<li>2025年内にリリースされるとのこと</li>
+</ul>
+<h3><a href="https://www.zillions-of-games.com">Zillions of Games</a></h3>
+<h3><a href="https://w.atwiki.jp/zillionsofgames">Zillions of Games@ウィキ</a></h3>
+<ul>
+<li>分類: Windowsアプリ(有料)、ボードゲームエンジン</li>
+<li>元祖汎用ボードゲームツール</li>
+<li>拡張性が高く、様々な将棋類の拡張が作成されている</li>
+<li>CPU対戦対応</li>
+</ul>
+<h3><a href="https://dagazproject.github.io">Dagaz Project</a></h3>
+<ul>
+<li>分類: Webアプリ、ボードゲームエンジン</li>
+<li>ライセンス: MIT</li>
+<li>Zillions of Gamesの後継を目指したボードゲームエンジン</li>
+<li>様々な将棋類で対戦できる</li>
+<li>CPU対戦対応</li>
+</ul>
+<h3><a href="https://shogitter.com">将棋ったー</a></h3>
+<ul>
+<li>分類: Webアプリ</li>
+<li>様々な将棋類(特殊ルール、古将棋メイン)で対戦できる</li>
+<li>CPU、オンライン対戦対応</li>
+</ul>
+<h3><a href="https://www.chessvariants.org">Chess Variant Pages</a></h3>
+<ul>
+<li>分類: Webアプリ</li>
+<li>世界の将棋類を遊べるサイト</li>
+<li>対応する将棋類はかなり多数<br>
+Grant Acedrexみたいなレアな奴も置いてある</li>
+<li>CPU、オンライン対戦対応</li>
+</ul>
+<h3><a href="https://chessremix.app">Chess Remix</a></h3>
+<ul>
+<li>分類: スマホアプリ(基本無料)、Steamアプリ(有料)</li>
+<li>色々な将棋類を遊べるスマホ用アプリ</li>
+<li>自分でルールを作成できる</li>
+</ul>
+<h3><a href="https://jocly.jcfrog.com/joclymatch/gamespanel.php">jocly</a></h3>
+<ul>
+<li>分類: Webアプリ、ボードゲームエンジン</li>
+<li>ライセンス: AGPL</li>
+<li>3Dグラフィックが特徴的なボードゲームエンジン</li>
+<li>将棋は入っていないけど、チェス類が豊富</li>
+<li>CPU、オンライン対戦対応</li>
+</ul>
