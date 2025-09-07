@@ -47,6 +47,13 @@
 			user-select: none;
 			font-size: 35px;
 		}
+		#menuButton span:has(img){
+			display: contents;
+		}
+		#menuButton span img{
+			width: 40px;
+			height: 40px;
+		}
 		menu{
 			z-index: 200;
 			position: fixed;
@@ -129,13 +136,18 @@
 				isOpen = typeof(setIsOpen) === "boolean"? setIsOpen: !isOpen;
 				const icon = icons[0|isOpen];
 				menu.classList.toggle("open", isOpen);
-				menuButtonText.textContent = icon;
+				menuButtonText.innerHTML = icon;
 			};
 		}();
 
 		function setupMenu(){
 			const isDesktopView = 800 <= window.innerWidth;
-			icons = isDesktopView? ["▶", "◀"]:  ["📁", "📂"];
+			icons = isDesktopView?
+				["▶", "◀"]:
+				[
+					`<img src="./sample/img/favicon.min.svg" alt="menu close">`,
+					`<img src="./sample/img/faviconBlack.min.svg" alt="menu open">`
+				];
 			switchMenu(isDesktopView);
 		}
 

@@ -532,6 +532,21 @@ export class Piece{
 		ctx.restore();
 	}
 
+	/** 駒に最終手を描写
+	 * @param {string} color - カラーエフェクトの色
+	 */
+	drawLastMove(color){
+		if(!this.ctx) return;
+		const {ctx, zoom} = this;
+
+		ctx.fillStyle = color;
+		ctx.save();
+		this.makePath(zoom);
+		ctx.fill();
+
+		ctx.restore();
+	}
+
 	/** 文字列形式で取得
 	 * @param {boolean} isAlias - エイリアス表示
 	 */
