@@ -5359,6 +5359,14 @@ class W {
     const { ctx: t, zoom: a } = this;
     t.fillStyle = e, t.save(), this.makePath(a), t.fill(), t.restore();
   }
+  /** 駒に最終手を描写
+   * @param {string} color - カラーエフェクトの色
+   */
+  drawLastMove(e) {
+    if (!this.ctx) return;
+    const { ctx: t, zoom: a } = this;
+    t.fillStyle = e, t.save(), this.makePath(a), t.fill(), t.restore();
+  }
   /** 文字列形式で取得
    * @param {boolean} isAlias - エイリアス表示
    */

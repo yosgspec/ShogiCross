@@ -1,5 +1,5 @@
 declare class _ extends Q {
-    overlay: $e;
+    overlay: Re;
     isGameEnd: boolean;
     onDrawed: any;
     onTurnEnd: any;
@@ -82,7 +82,7 @@ declare class Se extends _ {
         standIndex: number;
     }): Promise<void>;
 }
-declare class Oe extends G {
+declare class Xe extends G {
     /** @typedef {Object} CpuEngineBase */
     /** @type {CpuEngineBase} */
     engine: any;
@@ -311,12 +311,16 @@ declare class W {
      * @param {string} color - カラーエフェクトの色
      */
     drawMask(e: any): void;
+    /** 駒に最終手を描写
+     * @param {string} color - カラーエフェクトの色
+     */
+    drawLastMove(e: any): void;
     /** 文字列形式で取得
      * @param {boolean} isAlias - エイリアス表示
      */
     toString(e?: boolean): string;
 }
-declare const K: {
+declare const q: {
     将棋: {
         backgroundColor: string;
         borderColor: string;
@@ -526,7 +530,7 @@ declare namespace R {
      */
     function importAsync(): Promise<void>;
 }
-declare function Be(p: any): void;
+declare function ye(p: any): void;
 declare namespace he {
     namespace shogi {
         let name: string;
@@ -1829,7 +1833,7 @@ declare const D: {
         attr: string[];
     };
 };
-declare namespace q {
+declare namespace K {
     let 女: number;
     let 獅: number;
     let 后: number;
@@ -5691,7 +5695,7 @@ declare class Q {
     bottom: any;
     stand: Y;
     moveMode: any;
-    record: be;
+    record: ke;
     enPassant: Z;
     /** ボードを閉じる */
     close(): void;
@@ -5821,7 +5825,7 @@ declare class Q {
     };
     #private;
 }
-declare class $e {
+declare class Re {
     /**
      * @param {HTMLCanvasElement} canvas - Canvas要素
      * @param {OverlayOptions} options - スピナーのオプション
@@ -5916,7 +5920,7 @@ declare class Y {
      */
     toString(e?: boolean, t?: boolean): string;
 }
-declare class be {
+declare class ke {
     /**
      * @param {Board} board
      */
@@ -6007,4 +6011,4 @@ declare class Z {
     clone(): any;
 }
 declare const O: unique symbol;
-export { _ as Board, Se as BoardOnline, Oe as CpuEngine, G as CpuEngineBase, H as CpuEngines, W as Piece, K as boards, N as canvasFont, R as canvasImage, Be as extendData, he as gameSoft, V as games, D as panels, q as pieceCost, re as pieceRange, I as pieces };
+export { _ as Board, Se as BoardOnline, Xe as CpuEngine, G as CpuEngineBase, H as CpuEngines, W as Piece, q as boards, N as canvasFont, R as canvasImage, ye as extendData, he as gameSoft, V as games, D as panels, K as pieceCost, re as pieceRange, I as pieces };

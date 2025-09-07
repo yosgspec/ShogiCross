@@ -311,6 +311,10 @@ declare class W {
      * @param {string} color - カラーエフェクトの色
      */
     drawMask(e: any): void;
+    /** 駒に最終手を描写
+     * @param {string} color - カラーエフェクトの色
+     */
+    drawLastMove(e: any): void;
     /** 文字列形式で取得
      * @param {boolean} isAlias - エイリアス表示
      */
