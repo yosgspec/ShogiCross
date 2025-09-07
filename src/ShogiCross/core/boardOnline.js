@@ -50,10 +50,13 @@ export class BoardOnline extends Board{
 		this.isReadyOnline = false;
 		this.gameKey = gameKey;
 		this.roomId = null;
+		this.moveMode = "vs";
 
 		// isLocalプロパティをプレイヤーに追加
 		this.players.forEach(player=>{
 			player.isLocal = false; // 初期状態ではローカルプレイヤーではない
+			player.cpuEngine = null;
+			player.cpu = null;
 		});
 
 		// WebSocketのセットアップ

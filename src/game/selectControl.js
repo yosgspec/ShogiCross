@@ -7,6 +7,7 @@ const select = {
 	variant: document.getElementById("selectVariant"),
 	board: document.getElementById("selectBoard"),
 	stand: document.getElementById("selectStand"),
+	moveMode: document.getElementById("selectMoveMode"),
 	pieceGame: document.querySelectorAll(".selectPieceGame"),
 	pieceSet: document.querySelectorAll(".selectPieceSet"),
 	cpuEngine: document.querySelectorAll(".selectCpuEngine"),
@@ -111,6 +112,7 @@ export class SelectControl{
 		return {
 			playBoard: select.board.value,
 			useStand: JSON.parse(select.stand.value),
+			moveMode: select.moveMode.value,
 			playerOptions: [...select.pieceGame].map((pieceGame, i)=>({
 				gameName: pieceGame.value,
 				pieceSet: select.pieceSet[i].value,
@@ -126,6 +128,7 @@ export class SelectControl{
 		select.variant.addEventListener("change", value);
 		select.board.addEventListener("change", value);
 		select.stand.addEventListener("change", value);
+		select.moveMode.addEventListener("change", value);
 		select.pieceGame.forEach((pieceGame, i)=>{
 			pieceGame.addEventListener("change", updateCrossPiece(i));
 			pieceGame.addEventListener("change", value);
