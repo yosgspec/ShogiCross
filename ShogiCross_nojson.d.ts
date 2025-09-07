@@ -1,11 +1,11 @@
 declare class Q extends Z {
     overlay: Le;
-    autoDrawing: any;
     isGameEnd: boolean;
     onDrawed: any;
     onTurnEnd: any;
     onGameOver: any;
     onGameEnd: any;
+    autoDrawing: any;
     /** 操作パネルを構築
      * @param {("undo"|"redo"|"rotateLeft"|"rotateRight"|"passTurn"|"downloadImage"|"downloadRecord"|"textRecord")[]} - controls - 表示するコントロールの一覧
      * @param {Object} recordOption - 棋譜オプション
@@ -513,7 +513,7 @@ declare const J: {
         field: string[];
     };
 };
-declare namespace O {
+declare namespace N {
     let fonts: (string | number)[][];
 }
 declare namespace $ {
@@ -5816,7 +5816,7 @@ declare class Z {
      * @returns {this}
      */
     cloneCore(): this;
-    [N]: {
+    [O]: {
         rotateField: any;
     };
     #private;
@@ -6006,5 +6006,5 @@ declare class V {
      */
     clone(): any;
 }
-declare const N: unique symbol;
-export { Q as Board, pe as BoardOnline, ve as CpuEngine, Y as CpuEngineBase, G as CpuEngines, W as Piece, J as boards, O as canvasFont, $ as canvasImage, ge as extendData, ue as gameSoft, q as games, T as panels, K as pieceCost, ne as pieceRange, D as pieces };
+declare const O: unique symbol;
+export { Q as Board, pe as BoardOnline, ve as CpuEngine, Y as CpuEngineBase, G as CpuEngines, W as Piece, J as boards, N as canvasFont, $ as canvasImage, ge as extendData, ue as gameSoft, q as games, T as panels, K as pieceCost, ne as pieceRange, D as pieces };
