@@ -226,10 +226,13 @@ export function checkTarget(board, piece, pX, pY){
 
 	/** 点移動
 	 * @param {string[]} range - 移動範囲情報
-	 * @param {string} rangeName - 移動範囲の定義名
-	 * @param {boolean} isAttack - 駒を取得対象に含むか?
-	 * @param {number} oX - 移動範囲情報の原点位置(行)
-	 * @param {number} oY - 移動範囲情報の原点位置(列)
+	 * @param {Array} rangeInfo - 移動範囲の定義名と攻撃フラグ
+	 * @param {string} rangeInfo[0] - 移動範囲の定義名
+	 * @param {boolean} rangeInfo[1].isAttack - 駒を取得対象に含むか?
+	 * @param {object} origin - 原点座標と補正
+	 * @param {number} origin.oX - 移動範囲情報の原点位置(行)
+	 * @param {number} origin.oY - 移動範囲情報の原点位置(列)
+	 * @param {boolean} origin.isOwn - 自駒フラグ
 	 */
 	function movePoint(range, [rangeName, {isAttack}], {oX, oY, isOwn}){
 		if(!isOwn) return;
@@ -249,10 +252,15 @@ export function checkTarget(board, piece, pX, pY){
 
 	/** 直線移動
 	 * @param {string[]} range - 移動範囲情報
-	 * @param {string} rangeName - 移動範囲の定義名
-	 * @param {boolean} isAttack - 駒を取得対象に含むか?
-	 * @param {number} oX - 移動範囲情報の原点位置(行)
-	 * @param {number} oY - 移動範囲情報の原点位置(列)
+	 * @param {Array} rangeInfo - 移動範囲の定義名と攻撃フラグ
+	 * @param {string} rangeInfo[0] - 移動範囲の定義名
+	 * @param {boolean} rangeInfo[1].isAttack - 駒を取得対象に含むか?
+	 * @param {object} origin - 原点座標と補正
+	 * @param {number} origin.oX - 原点位置(行)
+	 * @param {number} origin.oY - 原点位置(列)
+	 * @param {boolean} origin.isOwn - 自駒フラグ
+	 * @param {number} origin.offsetX - 補正X
+	 * @param {number} origin.offsetY - 補正Y
 	 */
 	function moveLiner(range, [rangeName, {isAttack}], {oX, oY, isOwn, offsetX, offsetY}){
 		if(!isOwn && !canMove(false, pX+offsetX, pY+offsetY)) return;

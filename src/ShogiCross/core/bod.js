@@ -1,3 +1,4 @@
+/** @typedef {import("./boardCore.js").BoardCore} Board */
 import {Stand} from "./stand.js";
 import {Piece} from "./piece.js";
 
@@ -14,7 +15,7 @@ export class Bod{
 	]);
 
 	/** 角度から駒の正規表現表示
-	 * @type {Map<number, string>}
+	 * @type {Map<number, RegExp>}
 	 */
 	static #deg2PieceRegexes = new Map(
 		[...Bod.#deg2PieceChars]
@@ -65,7 +66,7 @@ export class Bod{
 	/** 行/持駒用の数字表示(漢数字)
 	 * @param {string} kan - 漢数字
 	 * @param {boolean} emptyOne - 空文字を1とする
-	 * @returns {string}
+	 * @returns {number}
 	 */
 	static #kan2Num(kan, emptyOne=true){
 		if(emptyOne && kan === "") return 1;
@@ -162,6 +163,7 @@ export class Bod{
 	}
 
 	/** BOD形式テキストを取得
+	 * @param {Board} board
 	 * @returns {string}
 	 */
 	static getTextPieces(board){

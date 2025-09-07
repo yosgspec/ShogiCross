@@ -24,7 +24,7 @@ export async function downloadImage(canvas, fileName="image", ext="png", urlType
 }
 
 /** テキストファイルをダウンロードする
- * @param {string} text - Canvas要素
+ * @param {string} text - ダウンロードするテキスト
  * @param {string} fileName - 取得するファイル名(拡張子を除く)
  * @param {string} ext - 拡張子
  * @param {"base64"|"blob"} urlType - 生成URLタイプ

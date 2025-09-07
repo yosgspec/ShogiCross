@@ -10,6 +10,7 @@ let ranges;
 /** 駒の管理クラス */
 export class Piece{
 	/** @typedef {Object} Piece */
+
 	/** 描写サイズ
 	 * @type {number}
 	 */
@@ -40,7 +41,7 @@ export class Piece{
 	 */
 	static charDegs = Object.fromEntries(
 		Object.entries(Piece.degChars)
-			.map(([key, value])=>[value, key]));
+			.map(([key, value])=>[value, 0|key]));
 
 	/** サイズ変更設定値
 	 * @type {Object<string, number>}
@@ -52,6 +53,55 @@ export class Piece{
 		"UC": 0.90,
 		"C": 0.865,
 	};
+
+	/** @type {number} */
+	id;
+	/** @type {any} */
+	ctx;
+	/** @type {string[]} */
+	display;
+	/** @type {string|null} */
+	imgSrc;
+	/** @type {string[]} */
+	alias;
+	/** @type {number} */
+	displayPtn;
+	/** @type {any} */
+	game;
+	/** @type {number} */
+	cost;
+	/** @type {number} */
+	center;
+	/** @type {number} */
+	middle;
+	/** @type {number} */
+	rad;
+	/** @type {number} */
+	size;
+	/** @type {boolean} */
+	useRankSize;
+	/** @type {boolean} */
+	isDrawShadow;
+	/** @type {boolean} */
+	isRotateImg;
+	/** @type {boolean} */
+	isMoved;
+	/** @type {boolean} */
+	isSelected;
+	/** @type {string[]} */
+	attr;
+	/** @type {any} */
+	range;
+	/** @type {any} */
+	base;
+	/** @type {string} */
+	char;
+	/** @type {Object<string, Piece>} */
+	promo;
+	/** @type {string} */
+	unit;
+	/** @type {string} */
+	gameName;
 
 	/** 駒の段階別価値を取得
 	 * @returns {string}
@@ -88,7 +138,7 @@ export class Piece{
 	/** 駒データを初期化
 	 * @param {any} ctx - Canvas描画コンテキスト
 	 * @param {Piece|PieceInitOption} option - 駒の初期化オプション
-	 * @retuens {Object<string, Piece>}
+	 * @returns {Object<string, Piece>}
 	 */
 	static getPieces(ctx, option={}){
 		const exPieces = new Map(Object.entries(JSON.parse(JSON.stringify(pieces))));
@@ -148,6 +198,7 @@ export class Piece{
 	}
 
 	/** 駒の一覧をリストで取得
+	 * @param {Object<string,Piece>} pieces
 	 * @returns {Piece[]}
 	 */
 	static piecesToList(pieces){
@@ -194,7 +245,7 @@ export class Piece{
 	}
 
 	/** 移動範囲を二次元配列で取得
-	 * @returns {string[][]}
+	 * @returns {string[][]|Object<string,any>}
 	 */
 	static get ranges(){
 		if(ranges) return ranges;

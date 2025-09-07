@@ -37,9 +37,6 @@ export class UIControl{
 		controls ??= [...buttons.keys(), "textRecord"];
 		const unique = Date.now().toString();
 
-		/** 操作パネル要素
-		 * @type {HTMLDivElement}
-		 */
 		this.component = document.createElement("div");
 		this.component.id = unique;
 		this.component.style.display = "flex";

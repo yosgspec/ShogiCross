@@ -1,6 +1,7 @@
 /** @typedef {import("./boardCore.js").BoardCoreInitOption} BoardCoreInitOption */
 /** @typedef {import("./panel.js").Panel} Panel */
 /** @typedef {import("./piece.js").Piece} Piece */
+/** @typedef {import("./overlay.js").OverlayOptions} OverlayOptions */
 import {BoardCore, PROTECTED} from "./boardCore.js";
 import {canvasFont} from "./canvasFontLoader.js";
 import {canvasImage} from "./canvasImageLoader.js";
@@ -24,12 +25,12 @@ export {PROTECTED};
  * @prop {OverlayOptions} overlayOptions - オーバーレイのオプション
  * @prop {boolean|("undo"|"redo"|"rotateLeft"|"rotateRight"|"passTurn"|"downloadImage"|"downloadRecord"|"textRecord")[]} useUIControl - 操作パネルを使用するか
  * @prop {Object} UIControlRecordOption - 操作パネルの棋譜オプション
- * @param {number} UIControlRecordOption.lines - 棋譜の表示行数
- * @param {boolean} UIControlRecordOption.readonly - 棋譜の読込専用
- * @prop {(e:Board)=>void} onDrawed - 描写イベント
- * @prop {(e:Board,turn:number)=>void} onTurnEnd - ターンエンドイベント
- * @prop {(e:Board,playerId:number)=>void} onGameOver - ゲームオーバーイベント
- * @prop {(e:Board)=>void} onGameEnd - 投了イベント
+ * @prop {number} UIControlRecordOption.lines - 棋譜の表示行数
+ * @prop {boolean} UIControlRecordOption.readonly - 棋譜の読込専用
+ * @prop {(board:Board)=>void} onDrawed - 描写イベント
+ * @prop {(board:Board,turn:number)=>void} onTurnEnd - ターンエンドイベント
+ * @prop {(board:Board,playerId:number)=>void} onGameOver - ゲームオーバーイベント
+ * @prop {(board:Board,winnerId:number)=>void} onGameEnd - 投了イベント
  */
 
 /** 盤の管理クラス */
@@ -151,7 +152,7 @@ export class Board extends BoardCore{
 	}
 
 	/** 操作パネルを構築
-	 * @param {string[]} controls - 表示するコントロールの一覧
+	 * @param {("undo"|"redo"|"rotateLeft"|"rotateRight"|"passTurn"|"downloadImage"|"downloadRecord"|"textRecord")[]} - controls - 表示するコントロールの一覧
 	 * @param {Object} recordOption - 棋譜オプション
 	 * @param {number} recordOption.lines - 棋譜の表示行数
 	 * @param {boolean} recordOption.readonly - 棋譜の読込専用
@@ -182,7 +183,7 @@ export class Board extends BoardCore{
 				({piece})=>
 					piece?.deg === deg
 					&& piece.hasAttr("king")
-				)
+					)
 			) return;
 			player.alive = false;
 			this.onGameOver?.(this, player.id);
@@ -202,6 +203,7 @@ export class Board extends BoardCore{
 	 * @param {boolean} forcePromo - 成りを強制する
 	 * @param {boolean} isCpuMove - CPUによる移動か
 	 * @param {string|null} promoChar - 成り先の駒名(成らない場合null)
+	 * @returns {Promise<string|null>}
 	 */
 	async onSelectPromo(piece, canPromo, forcePromo, isCpuMove, promoChar){
 		const {moveMode} = this;
@@ -224,7 +226,7 @@ export class Board extends BoardCore{
 	 * @param {Panel} fromPanel - 移動元のマス目
 	 * @param {Panel} toPanel - 選択中のマス目
 	 * @param {boolean} isCpuMove - CPUによる移動か
-	 * @returns boolean
+	 * @returns {Promise<boolean>}
 	 */
 	async movePiece(fromPanel, toPanel, isCpuMove=false){
 		if(!await super.movePiece(fromPanel, toPanel, isCpuMove)) return false;
@@ -276,6 +278,7 @@ export class Board extends BoardCore{
 	/** 画像を取得
 	 * @param {string} fileName - ファイル名
 	 * @param {string} ext - 拡張子
+	 * @param {"base64"|"blob"} urlType - 生成URLタイプ
 	 * @returns {Promise<void>}
 	 */
 	async downloadImage(fileName, ext, urlType){

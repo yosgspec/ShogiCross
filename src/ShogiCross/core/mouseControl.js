@@ -4,7 +4,7 @@ import {checkTarget} from "./checkTarget.js";
 
 /** マウスコントロール
  * @param {Board} board - 盤面
- * @returns {()=>void}
+ * @returns {{resetSelect:(()=>void),removeEvent:(()=>void)}}
  */
 export function mouseControl(board){
 	let isClick = false;
@@ -14,7 +14,7 @@ export function mouseControl(board){
 	const {canvas} = board;
 
 	/** マス目に対する処理
-	 * @param {Event} e - イベント引数
+	 * @param {MouseEvent|TouchEvent} e - イベント引数
 	 * @param {(
 	 *     panel: Panel,
 	 *     x: number,
@@ -52,7 +52,7 @@ export function mouseControl(board){
 	};
 
 	/** ドラッグ開始
-	 * @param {Event} e - イベント引数
+	 * @param {MouseEvent|TouchEvent} e - イベント引数
 	 */
 	const dragStart = async e=>{
 		isClick = true;
@@ -82,7 +82,7 @@ export function mouseControl(board){
 	};
 
 	/** ドラッグ中
-	 * @param {any} e - イベント引数
+	 * @param {MouseEvent|TouchEvent} e - イベント引数
 	 */
 	const dragMove = async e=>{
 		if(!isClick || !(selectPanel || selectStand)) return;
@@ -95,7 +95,7 @@ export function mouseControl(board){
 
 
 	/** ドラッグ終了
-	 * @param {Event} e - イベント引数
+	 * @param {MouseEvent|TouchEvent} e - イベント引数
 	 */
 	const dragEnd = async e=>{
 		isClick = false;

@@ -6,6 +6,22 @@ import {Piece} from "./piece.js";
 import {Panel} from "./panel.js";
 
 export class BoardOnline extends Board{
+	/** @typedef {Object} BoardOnline */
+	/** @type {(e:string, board:BoardOnline)=>void} */
+	onReadyOnline;
+	/** @type {(board: BoardOnline)=>void} */
+	onCancelOnline;
+	/** @type {boolean} */
+	isOnline;
+	/** @type {boolean} */
+	isReadyOnline;
+	/** @type {string} */
+	gameKey;
+	/** @type {string} */
+	roomId;
+	/** @type {WebSocket} */
+	ws;
+
 	/** ゲームを実行する
 	 * @param {HTMLCanvasElement} canvas - Canvas要素
 	 * @param {BoardOnlineInitOption} option - ボードの初期化オプション
@@ -17,8 +33,8 @@ export class BoardOnline extends Board{
 	/**
 	 * @typedef {Object} BoardOnlineInitOption - ボードの初期化オプション
 	 * @extends BoardInitOption
-	 * @prop {(e:string, BoardOnline)=>void} onReadyOnline - 接続完了イベント
-	 * @prop {(BoardOnline)=>void} onCancelOnline - 接続キャンセルイベント
+	 * @prop {(e:string, board:BoardOnline)=>void} onReadyOnline - 接続完了イベント
+	 * @prop {(board:BoardOnline)=>void} onCancelOnline - 接続キャンセルイベント
 	 * @prop {string} serverURL - 接続するサーバーURL(http(s)://～)
 	 * @prop {string} gameKey - オンライン用ゲーム接続キー
 	 */

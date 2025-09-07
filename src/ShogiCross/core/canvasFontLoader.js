@@ -15,7 +15,9 @@ const getChars = ()=>[...
 
 /** Canvas用フォント管理 */
 Object.assign(canvasFont, {
-	/** 読み込み済みであるか? */
+	/** 読み込み済みであるか?
+	 * @type {boolean}
+	 */
 	imported: false,
 
 	/** 読み込むフォントの一覧(","区切り)

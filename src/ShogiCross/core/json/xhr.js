@@ -1,4 +1,10 @@
 const base = "./json/ShogiCross/";
+/** @typedef {import("../data.js").ShogiCrossData} ShogiCrossData */
+
+/** JSONファイルを同期的にインポートします。
+ * @param {string} name - JSONファイルの名前 (拡張子なし)
+ * @returns {Object} インポートされたJSONデータ
+ */
 function importJson(name){
 	const xhr = new XMLHttpRequest();
 	xhr.open("GET", `${base}${name}.json`, false);
@@ -9,6 +15,9 @@ function importJson(name){
 		return {};
 }
 
+/** 読み込まれたJSONデータを含むオブジェクト
+ * @type {ShogiCrossData}
+ */
 export const json = {
 	canvasFont: importJson("canvasFont"),
 	gameSoft: importJson("gameSoft"),

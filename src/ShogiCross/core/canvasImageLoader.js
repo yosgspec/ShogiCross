@@ -2,7 +2,7 @@ import {panels, pieces} from "./data.js";
 
 /** 画像読み込み処理
  * @param {string} src - 画像パス
- * @returns Promise<Image>
+ * @returns {Promise<HTMLImageElement>}
  */
 function loadImage(src){
 	return new Promise(resolve=>{
@@ -13,7 +13,7 @@ function loadImage(src){
 }
 
 /** 読み込む画像パスの一覧
- * @type {string[]}
+ * @returns {string[]}
  */
 function getImgSrcs(){
 	return [...new Set(
@@ -25,11 +25,13 @@ function getImgSrcs(){
 
 /** Canvas用画像の管理 */
 export const canvasImage = {
-	/** 読み込み済みであるか? */
+	/** 読み込み済みであるか?
+	 * @type {boolean}
+	 */
 	imported: false,
 
 	/** 読み込んだ画像データ
-	 * @type {Object<string, Image>}
+	 * @type {Object<string, HTMLImageElement>}
 	 */
 	images: {},
 
@@ -45,4 +47,3 @@ export const canvasImage = {
 		).then(_=>this.imported = true);
 	},
 };
-

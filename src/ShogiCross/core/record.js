@@ -1,3 +1,4 @@
+/** @typedef {import("./boardCore.js").BoardCore} Board */
 /** @typedef {import("./panel.js").Panel} Panel */
 import {Piece} from "./piece.js";
 import {downloadText} from "./download.js";
@@ -21,6 +22,9 @@ import {downloadText} from "./download.js";
 export class Record {
 	#beforeTurn = 0;
 
+	/**
+	 * @param {Board} board
+	 */
 	constructor(board){
 		this.board = board;
 		this.turn = 0;
@@ -37,7 +41,9 @@ export class Record {
 	/** 棋譜を追記
 	 * @param {Object} option - オプション
 	 * @param {Panel} option.fromPanel - 移動元のマス目
+	 * @param {Panel} option.toPanel - 移動先のマス目
 	 * @param {string} option.end - オプション=成|不成|打
+	 * @param {number} option.inc - 手数の増分
 	 */
 	add(option={}){
 		const {board, records} = this;

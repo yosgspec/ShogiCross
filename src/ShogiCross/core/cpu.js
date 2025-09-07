@@ -1,5 +1,5 @@
 /** @typedef {import("./data.js").PlayerInfo} PlayerInfo */
-/** @typedef {import("./board.js").Board} Board */
+/** @typedef {import("./boardCore.js").BoardCore} Board */
 import {checkTarget, isCheckmate, hasLegalMoves} from "./checkTarget.js";
 
 /** 基底CPUエンジン(手動操作用) */
@@ -18,7 +18,7 @@ export class CpuEngineBase{
 	}
 
 	/** CPU操作の待機開始
-	 * @return {()=>Promise<void>} timer
+	 * @returns {Promise<()=>Promise<void>>}
 	 */
 	delayStart(){
 		// 思考中であることを示すため、画面を暗転
@@ -192,7 +192,7 @@ CpuEngines.minimax = class Minimax extends CpuEngineBase{
 	 * @param {number} alpha - アルファ値
 	 * @param {number} beta - ベータ値
 	 * @param {boolean} isMaximizingPlayer - 現在のプレイヤーが最大化プレイヤーかどうか
-	 * @returns {number} 評価値
+	 * @returns {Promise<number>} 評価値
 	 */
 	async minimax(board, depth, alpha, beta, isMaximizingPlayer){
 		const activePlayer = board.getActivePlayer();
@@ -324,6 +324,10 @@ CpuEngines.minimax = class Minimax extends CpuEngineBase{
 
 /** CPUエンジンの管理クラス */
 export class CpuEngine extends CpuEngineBase {
+	/** @typedef {Object} CpuEngineBase */
+	/** @type {CpuEngineBase} */
+	engine;
+
 	/**
 	 * @param {Board} board - 対象の盤面
 	 * @param {PlayerInfo} player - プレイヤー情報

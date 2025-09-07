@@ -1,4 +1,4 @@
-/** @typedef {import("./board").BoardInitOption} BoardInitOption */
+/** @typedef {import("./board.js").BoardInitOption} BoardInitOption */
 /** @typedef {import("./cpu.js").CpuEngine} CpuEngine */
 /**
  * @typedef {Object} CanvasFont
@@ -19,7 +19,7 @@
  * @prop {string} backgroundColor - 駒の色
  * @prop {string} promoteBackgroundColor - 成駒の色
  * @prop {string} borderColor - 駒の枠色
- * @prop {string} promoteBorderColor - 成駒の枠色   // ← 修正
+ * @prop {string} promoteBorderColor - 成駒の枠色
  * @prop {number} promoLine - プロモーションライン(成りの段)
  * @prop {Object<string, Object<string, string[]>>} position - 駒の配置データ
  */
@@ -65,7 +65,7 @@
  * @prop {string} pieceSet - 駒セット名
  * @prop {string} cpuEngine - CPUエンジン名
  * @prop {string} cpuDelay - CPU保証待機時間
- *
+ */
 /**
  * @typedef {Object} PlayerInfo - プレイヤー情報
  * @extends PlayerInitOption

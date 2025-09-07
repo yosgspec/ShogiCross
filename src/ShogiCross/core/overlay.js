@@ -41,19 +41,15 @@ const defaultStyles = {
  * @prop {boolean} useDimOverlay - 画面を暗転させるか
  * @prop {boolean} showSpinner - スピナーを表示するか
  * @prop {Object} styles - スタイルシート
- * @prop {Object<string, any>}} styles.spinner - スピナー
- * @prop {Object<string, any>}} styles.spinnerInner - スピナーの内部要素
- * @prop {Object<string, any>}} styles.dimOverlay - オーバーレイ
+ * @prop {Object<string, any>} styles.spinner - スピナー
+ * @prop {Object<string, any>} styles.spinnerInner - スピナーの内部要素
+ * @prop {Object<string, any>} styles.dimOverlay - オーバーレイ
  */
 
 /**
  * オーバーレイを描写・管理するクラス
  */
 export class Overlay{
-	/**
-	 * @param {HTMLCanvasElement} canvas - Canvas要素
-	 * @param {OverlayOptions} options - スピナーのオプション
-	 */
 	#active = false;
 	#dimOverlay = null; // 暗転用オーバーレイ要素
 	#spinner = null; // HTMLスピナー要素
@@ -61,6 +57,10 @@ export class Overlay{
 	#showSpinner;
 	#styles;
 
+	/**
+	 * @param {HTMLCanvasElement} canvas - Canvas要素
+	 * @param {OverlayOptions} options - スピナーのオプション
+	 */
 	constructor(canvas, options={}){
 		const {
 			useDimOverlay=true,
