@@ -4,7 +4,8 @@ async function importJson(name){
 		.then(async res=>{
 			return await res.json();
 		})
-		.catch(()=>({}))}
+		.catch(()=>({}));
+}
 
 export const json = {
 	canvasFont: await importJson("canvasFont"),
