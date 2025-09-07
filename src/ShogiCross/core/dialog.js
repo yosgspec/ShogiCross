@@ -15,7 +15,7 @@ const defaultStyles = {
 		marginTop: "15px",
 	},
 	title: {
-		display: "none",
+		textAlign: "center",
 	},
 	message: {
 		textAlign: "center",
@@ -81,6 +81,7 @@ export class Dialog{
 
 	async show(title, message, buttons=[{label: "OK"}]){
 		this.#title.textContent = title;
+		this.#title.style.display = title? "block": "none";
 		this.#message.innerHTML = message.replace(/\r|\n|\r\n/g,"<br>");
 		this.#btnContainer.innerHTML = "";
 		return new Promise(resolve=>{
@@ -103,7 +104,7 @@ export class Dialog{
 	 * ダイアログのフォントを設定します。
 	 * @param {string} fontFamily - 設定するフォントファミリー名
 	 */
-	setFontFamily(fontFamily){
+	setFont(fontFamily){
 		if(this.dialog){
 			this.dialog.style.fontFamily = fontFamily;
 			// ボタンのフォントも設定

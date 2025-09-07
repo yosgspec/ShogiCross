@@ -125,17 +125,6 @@ export class Board extends BoardCore{
 			}
 		}
 
-		// 自動描写更新設定
-		this.autoDrawing = autoDrawing;
-		if(autoDrawing){
-			canvasFontAsync.then(()=>{
-				this.draw();
-				this.#dialog.setFontFamily(canvasFont.names);
-			});
-			canvasImageAsync.then(()=>this.draw());
-			this.draw();
-		}
-
 		this.isGameEnd = false;
 		this.onDrawed = onDrawed;
 		this.onTurnEnd = onTurnEnd;
@@ -148,6 +137,23 @@ export class Board extends BoardCore{
 				this.makeUIControl(useUIControl, uiControlRecordOption):
 				this.makeUIControl(null, uiControlRecordOption);
 			this.#uiControl.add();
+		}
+
+		// 自動描写更新設定
+		this.autoDrawing = autoDrawing;
+		if(autoDrawing){
+			canvasFontAsync.then(()=>{
+				this.draw();
+				this.#dialog.setFont(canvasFont.names);
+				this.#uiControl.setRecordFont(canvasFont.names);
+				const btnFont = ["Noto Color Emoji", "Noto Serif"];
+				this.#uiControl.setButtonFont(btnFont
+					.map(f=>`"${f}${canvasFont.unique}"`)
+					.join(",")
+				);
+			});
+			canvasImageAsync.then(()=>this.draw());
+			this.draw();
 		}
 	}
 
@@ -215,9 +221,9 @@ export class Board extends BoardCore{
 		if(moveMode === "free" || !forcePromo)
 			promoList.push({label: "不成", value: null});
 
-		return await this.#dialog.show("",
-			"成りますか?\n"+
+		return await this.#dialog.show(
 			`${piece.char}:${piece.name}`,
+			"成りますか?",
 			promoList
 		);
 	}

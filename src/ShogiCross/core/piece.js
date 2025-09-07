@@ -41,7 +41,7 @@ export class Piece{
 	 */
 	static charDegs = Object.fromEntries(
 		Object.entries(Piece.degChars)
-			.map(([key, value])=>[value, 0|key]));
+			.map(([key, value])=>[value, key]));
 
 	/** サイズ変更設定値
 	 * @type {Object<string, number>}

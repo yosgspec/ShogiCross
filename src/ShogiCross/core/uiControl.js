@@ -96,4 +96,24 @@ export class UIControl{
 		this.component.remove();
 		window.removeEventListener("resize", ()=>this.#resize);
 	}
+
+	/**
+	 * 操作パネルのボタンフォントを設定します。
+	 * @param {string} fontFamily - 設定するフォントファミリー名
+	 */
+	setButtonFont(fontFamily){
+		for(const el of this.component.querySelectorAll("button")){
+			el.style.fontFamily = fontFamily;
+		}
+	}
+
+	/**
+	 * 操作パネルの棋譜フォントを設定します。
+	 * @param {string} fontFamily - 設定するフォントファミリー名
+	 */
+	setRecordFont(fontFamily){
+		for(const el of this.component.querySelectorAll("select")){
+			el.style.fontFamily = fontFamily;
+		}
+	}
 }

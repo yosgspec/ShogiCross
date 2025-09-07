@@ -25,19 +25,25 @@ Object.assign(canvasFont, {
 	 */
 	names: "",
 
+	/** 識別値
+	 * @type {string}
+	 */
+	unique: Date.now().toString(),
+
 	/** フォントの読み込み
+	 * @param {boolean} isFull - 全テキスト読み込み
 	 * @returns {Promise<void>}
 	 */
-	async importAsync(){
+	async importAsync(isFull=false){
 		if(this.imported) return;
 		const googleUrl = "https://fonts.googleapis.com/css2?family=";
 		const chars = getChars();
-		const unique = Date.now().toString();
-		this.names = canvasFont.fonts.map(o=>`"${o[0]}${unique}"`).join(",")+",serif";
+		this.names = canvasFont.fonts.map(o=>`"${o[0]}${this.unique}"`).join(",")+",serif";
+		const fontText = isFull? "": `&text=${chars}`;
 		return Promise.all(
 			canvasFont.fonts.map(async ([fontName, fontWeight])=>{
 				const fontNamePlus = fontName.replace(/ /g, "+");
-				const fontUrl = `${googleUrl}${fontNamePlus}:wght@${fontWeight}&text=${chars}`;
+				const fontUrl = `${googleUrl}${fontNamePlus}:wght@${fontWeight}${fontText}`;
 				const res = await fetch(fontUrl);
 				if(!res.ok) return;
 				const css = await res.text();
@@ -45,11 +51,14 @@ Object.assign(canvasFont, {
 				if(!matchUrls) throw new Error("Not found font.");
 
 				for(const url of matchUrls){
-					const fontFace = new FontFace(`${fontName}${unique}`, url);
+					const fontFace = new FontFace(`${fontName}${this.unique}`, url);
 					document.fonts.add(fontFace);
 					await fontFace.load().catch(()=>{});
 				}
 			})
-		).then(_=>this.imported = true);
+		).then(_=>{
+			this.importAsync(true);
+			this.imported = true;
+		});
 	},
 });
