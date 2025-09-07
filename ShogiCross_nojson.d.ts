@@ -7,16 +7,26 @@ declare class Q extends Z {
     onGameOver: any;
     onGameEnd: any;
     /** 操作パネルを構築
-     * @param {string[]} controls - 表示するコントロールの一覧
+     * @param {("undo"|"redo"|"rotateLeft"|"rotateRight"|"passTurn"|"downloadImage"|"downloadRecord"|"textRecord")[]} - controls - 表示するコントロールの一覧
      * @param {Object} recordOption - 棋譜オプション
      * @param {number} recordOption.lines - 棋譜の表示行数
      * @param {boolean} recordOption.readonly - 棋譜の読込専用
      * @returns {UIControl}
      */
     makeUIControl(e: any, t: any): any;
+    /** プロモーション選択
+     * @param {Piece} piece - 駒
+     * @param {boolean} canPromo - 成ることができる
+     * @param {boolean} forcePromo - 成りを強制する
+     * @param {boolean} isCpuMove - CPUによる移動か
+     * @param {string|null} promoChar - 成り先の駒名(成らない場合null)
+     * @returns {Promise<string|null>}
+     */
+    onSelectPromo(e: any, t: any, a: any, i: any, s: any): Promise<string | null>;
     /** 画像を取得
      * @param {string} fileName - ファイル名
      * @param {string} ext - 拡張子
+     * @param {"base64"|"blob"} urlType - 生成URLタイプ
      * @returns {Promise<void>}
      */
     downloadImage(e: any, t: any, a: any): Promise<void>;
@@ -30,53 +40,6 @@ declare class pe extends Q {
     gameKey: any;
     roomId: any;
     ws: WebSocket;
-    stand: {
-        /** 持ち駒からボード上に配置する
-         * @param {Panel} toPanel - 配置先のパネル
-         * @param {Object} option - オプション
-         * @param {number} option.deg - 角度
-         * @param {number} option.i - 配置する持ち駒のインデックス
-         * @param {boolean} isCpuDrop - CPUによる打ち駒かどうか
-         */
-        dropPiece(d: any, c?: {}, S?: boolean): void;
-        stand: any;
-        board: any;
-        left: number;
-        top: any;
-        width: number;
-        height: any;
-        right: number;
-        bottom: any;
-        pitchWidth: number;
-        pitchHeight: any;
-        xLen: any;
-        yLen: any;
-        /** 駒台を初期化にする */
-        clear(): void;
-        stocks: Map<number, any[]>;
-        /** 駒台に追加する
-         * @param {Piece} piece - 追加する駒
-         */
-        add(e: any): void;
-        /** 駒を持ち駒にする
-         * @param {Piece|null} winnerPiece - 移動する駒
-         * @param {Piece} loserPiece - 捕縛される駒
-         * @param {boolean} forceCapture - 属性を無視して捕縛する
-         * @param {boolean} forceCantCapture - 属性を無視して捕縛しない
-         */
-        capturePiece(e: any, t: any, a?: boolean, i?: boolean): void;
-        /** 持ち駒の所有権を回転
-         * @param {number} deg - 回転角 (90の倍数)
-         */
-        rotate(e: any): void;
-        /** 盤を描写 */
-        draw(): void;
-        /** 駒台をテキスト形式で取得
-         * @param {boolean} isCompact - コンパクト表示
-         * @param {boolean} isAlias - エイリアス表示
-         */
-        toString(e?: boolean, t?: boolean): string;
-    };
     /**
      * リモートからの移動を盤面に適用する
      * @param {Object} message
@@ -120,6 +83,8 @@ declare class pe extends Q {
     }): Promise<void>;
 }
 declare class ve extends Y {
+    /** @typedef {Object} CpuEngineBase */
+    /** @type {CpuEngineBase} */
     engine: any;
 }
 declare class Y {
@@ -133,9 +98,9 @@ declare class Y {
     /** 手番操作 */
     playTurn(): Promise<void>;
     /** CPU操作の待機開始
-     * @return {()=>Promise<void>} timer
+     * @returns {Promise<()=>Promise<void>>}
      */
-    delayStart(): () => Promise<void>;
+    delayStart(): Promise<() => Promise<void>>;
     /** CPU操作の待機終了
      * @param {Promise<void>} timer
      */
@@ -194,10 +159,10 @@ declare class W {
     /** 駒データを初期化
      * @param {any} ctx - Canvas描画コンテキスト
      * @param {Piece|PieceInitOption} option - 駒の初期化オプション
-     * @retuens {Object<string, Piece>}
+     * @returns {Object<string, Piece>}
      */
     static getPieces(e: any, t?: {}): {
-        [k: string]: any;
+        [x: string]: any;
     };
     /** 文字列から駒を取得
      * @param {Object<string, Piece|PieceInitOption>} pieces - 駒の一覧
@@ -206,13 +171,16 @@ declare class W {
      */
     static stringToPiece(e: any, t: any): any;
     /** 駒の一覧をリストで取得
+     * @param {Object<string,Piece>} pieces
      * @returns {Piece[]}
      */
     static piecesToList(e: any): any[];
     /** 移動範囲を二次元配列で取得
-     * @returns {string[][]}
+     * @returns {string[][]|Object<string,any>}
      */
-    static get ranges(): string[][];
+    static get ranges(): string[][] | {
+        [x: string]: any;
+    };
     /**
      * @param {any} ctx - Canvas描画コンテキスト
      * @param {Piece|PieceInitOption} piece - 駒
@@ -225,6 +193,56 @@ declare class W {
      * @param {boolean} option.isMoved - 初回移動済みか否か
      */
     constructor(e: any, t: any, a?: {});
+    /** @type {number} */
+    id: number;
+    /** @type {any} */
+    ctx: any;
+    /** @type {string[]} */
+    display: string[];
+    /** @type {string|null} */
+    imgSrc: string | null;
+    /** @type {string[]} */
+    alias: string[];
+    /** @type {number} */
+    displayPtn: number;
+    /** @type {any} */
+    game: any;
+    /** @type {number} */
+    cost: number;
+    /** @type {number} */
+    center: number;
+    /** @type {number} */
+    middle: number;
+    /** @type {number} */
+    rad: number;
+    /** @type {number} */
+    size: number;
+    /** @type {boolean} */
+    useRankSize: boolean;
+    /** @type {boolean} */
+    isDrawShadow: boolean;
+    /** @type {boolean} */
+    isRotateImg: boolean;
+    /** @type {boolean} */
+    isMoved: boolean;
+    /** @type {boolean} */
+    isSelected: boolean;
+    /** @type {string[]} */
+    attr: string[];
+    /** @type {any} */
+    range: any;
+    /** @type {any} */
+    base: any;
+    /** @type {string} */
+    char: string;
+    /** @type {Object<string, Piece>} */
+    promo: {
+        [x: string]: any;
+    };
+    /** @type {string} */
+    unit: string;
+    /** @type {string} */
+    gameName: string;
     /** 駒の段階別価値を取得
      * @returns {string}
      */
@@ -234,7 +252,6 @@ declare class W {
      */
     set deg(e: number);
     get deg(): number;
-    rad: any;
     /** 左側の座標 */
     get left(): number;
     /** 上側の座標 */
@@ -247,18 +264,6 @@ declare class W {
      * @returns {number}
      */
     get zoom(): number;
-    id: number;
-    ctx: any;
-    alias: string[];
-    game: any;
-    cost: any;
-    center: number;
-    middle: number;
-    isMoved: any;
-    isSelected: boolean;
-    range: {
-        [x: string]: any[];
-    };
     /** 駒をクローン
      * @returns {Piece}
      */
@@ -269,7 +274,6 @@ declare class W {
      * @param {string} char - 成り先の文字
      */
     promotion(e: any): void;
-    char: any;
     /** 属性の存在を確認
      * @param {string} attrName - 属性名
      * @returns {boolean}
@@ -515,7 +519,7 @@ declare namespace O {
 declare namespace $ {
     let imported: boolean;
     let images: {
-        [x: string]: new (width?: number, height?: number) => HTMLImageElement;
+        [x: string]: HTMLImageElement;
     };
     /** 画像の読み込み
      * @returns {Promise<void>}
@@ -5667,7 +5671,7 @@ declare class Z {
     ctx: any;
     canvas: any;
     pieces: {
-        [k: string]: any;
+        [x: string]: any;
     };
     playerLen: any;
     left: any;
@@ -5818,6 +5822,10 @@ declare class Z {
     #private;
 }
 declare class Le {
+    /**
+     * @param {HTMLCanvasElement} canvas - Canvas要素
+     * @param {OverlayOptions} options - スピナーのオプション
+     */
     constructor(e: any, t?: {});
     canvas: any;
     /**
@@ -5850,9 +5858,9 @@ declare class minimax extends Y {
      * @param {number} alpha - アルファ値
      * @param {number} beta - ベータ値
      * @param {boolean} isMaximizingPlayer - 現在のプレイヤーが最大化プレイヤーかどうか
-     * @returns {number} 評価値
+     * @returns {Promise<number>} 評価値
      */
-    minimax(e: any, t: any, a: any, i: any, s: any): number;
+    minimax(e: any, t: any, a: any, i: any, s: any): Promise<number>;
 }
 declare class I {
     /** 駒台への角度ごとの表示順
@@ -5882,8 +5890,9 @@ declare class I {
      * @param {Object} option - オプション
      * @param {number} option.deg - 角度
      * @param {number} option.i - 配置する持ち駒のインデックス
+     * @param {boolean} isCpuDrop - CPUによる駒配置であるか
      */
-    dropPiece(e: any, t?: {}): void;
+    dropPiece(e: any, t?: {}, a?: boolean): boolean;
     /** 駒台に追加する
      * @param {Piece} piece - 追加する駒
      */
@@ -5908,6 +5917,9 @@ declare class I {
     toString(e?: boolean, t?: boolean): string;
 }
 declare class we {
+    /**
+     * @param {Board} board
+     */
     constructor(e: any);
     board: any;
     turn: number;
@@ -5917,7 +5929,9 @@ declare class we {
     /** 棋譜を追記
      * @param {Object} option - オプション
      * @param {Panel} option.fromPanel - 移動元のマス目
+     * @param {Panel} option.toPanel - 移動先のマス目
      * @param {string} option.end - オプション=成|不成|打
+     * @param {number} option.inc - 手数の増分
      */
     add(e?: {}): void;
     /** 棋譜コメントを追記
@@ -5988,9 +6002,9 @@ declare class V {
     isTarget(e: any, t: any): boolean;
     /**
      * アンパッサンの状態をクローンします。
-     * @returns {this}
+     * @returns {EnPassant}
      */
-    clone(): this;
+    clone(): any;
 }
 declare const N: unique symbol;
 export { Q as Board, pe as BoardOnline, ve as CpuEngine, Y as CpuEngineBase, G as CpuEngines, W as Piece, J as boards, O as canvasFont, $ as canvasImage, ge as extendData, ue as gameSoft, q as games, T as panels, K as pieceCost, ne as pieceRange, D as pieces };
