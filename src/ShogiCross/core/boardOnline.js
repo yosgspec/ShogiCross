@@ -7,20 +7,6 @@ import {Panel} from "./panel.js";
 
 export class BoardOnline extends Board{
 	/** @typedef {Object} BoardOnline */
-	/** @type {(e:string, board:BoardOnline)=>void} */
-	onReadyOnline;
-	/** @type {(board: BoardOnline)=>void} */
-	onCancelOnline;
-	/** @type {boolean} */
-	isOnline;
-	/** @type {boolean} */
-	isReadyOnline;
-	/** @type {string} */
-	gameKey;
-	/** @type {string} */
-	roomId;
-	/** @type {WebSocket} */
-	ws;
 
 	/** ゲームを実行する
 	 * @param {HTMLCanvasElement} canvas - Canvas要素
@@ -151,23 +137,24 @@ export class BoardOnline extends Board{
 			 * @param {number} option.deg - 角度
 			 * @param {number} option.i - 配置する持ち駒のインデックス
 			 * @param {boolean} isCpuDrop - CPUによる打ち駒かどうか
+			 * @returns {boolean}
 			 */
 			dropPiece(toPanel, option={}, isCpuDrop=false){
 				const {board} = this;
+				const {isReadyOnline, displayDeg} = board;
 				const {deg, i} = option;
 				const activePlayer = board.getActivePlayer();
+				// ローカルプレイヤーでない場合
+				if(isCpuDrop) return super.dropPiece(toPanel, option, isCpuDrop);
 				if(
 					!(toPanel instanceof Panel)
-					|| !board.isReadyOnline  // 接続待機中
-					|| activePlayer.deg !== board.displayDeg  // 手番の角度
+					|| !isReadyOnline  // 接続待機中
+					|| activePlayer.deg !== displayDeg  // 手番の角度
 					|| activePlayer.isLocal && deg !== 0  // 自分の駒
-				) return;
-				// ローカルプレイヤーでない場合
-				if(!activePlayer.isLocal) this.stand = new StandOnline(this);
+				) return false;
 				// ローカルプレイヤーの場合
-				const stock = this.stocks.get(deg);
-				const piece = stock[i];
-				if(!(piece instanceof Piece) || isCpuDrop) return;
+				const isDroped = super.dropPiece(toPanel, option);
+				if(!isDroped) return false;
 
 				const data = {
 					type: "drop",
@@ -178,16 +165,8 @@ export class BoardOnline extends Board{
 				};
 				console.log("Sending drop message:", data);
 				board.ws.send(JSON.stringify(data));
-
-				// ローカルで打駒を適用 (Stand.dropPiece の中身を参考に)
-				if(board.moveMode === "viewOnly" || toPanel.hasAttr("keepOut")) return;
-
-				toPanel.piece = piece;
-				piece.center = toPanel.center;
-				piece.middle = toPanel.middle;
-				stock.splice(i, 1);
-				board.record.add({toPanel, end: "打"});
-				if (board.autoDrawing) board.draw();
+				if(board.autoDrawing) board.draw();
+				return true;
 			}
 		}
 		this.stand = new StandOnline(this);
@@ -206,14 +185,15 @@ export class BoardOnline extends Board{
 			!this.isReadyOnline  // 接続完了まで操作禁止
 			|| activePlayer.deg !== this.displayDeg  // 手番の角度
 			|| activePlayer.isLocal && fromPanel.piece.deg !== 0  // 自分の駒
-		) return;
+		) return false;
 		// ローカルプレイヤーでない場合
 		if(!activePlayer.isLocal) return await super.movePiece(fromPanel, toPanel, isCpuMove);
 		// ローカルプレイヤーの場合
 		if(!toPanel.isTarget || isCpuMove) return false;
 		const baseChar = fromPanel.piece.char;
-		const result = await super.movePiece(fromPanel, toPanel, isCpuMove);
-		const promoChar = toPanel.piece.char;
+		const isMoved = await super.movePiece(fromPanel, toPanel, isCpuMove);
+		if(!isMoved) return false;
+		const promoChar = toPanel.piece?.char;
 		const data = {
 			type: "move",
 			roomId: this.roomId,
@@ -222,7 +202,7 @@ export class BoardOnline extends Board{
 			promoChar: baseChar !== promoChar? promoChar: null,
 		};
 		this.ws.send(JSON.stringify(data));
-		return result;
+		return true;
 	}
 
 	/**
@@ -272,11 +252,10 @@ export class BoardOnline extends Board{
 		const localTo = this.rotatePosition(to.pX, to.pY, -playerDeg);
 		const toPanel = this.field[localTo.pY][localTo.pX];
 		const option = {
-			deg: this.degNormal(-this.displayDeg+playerDeg),
+			deg: this.degNormal(this.displayDeg-playerDeg),
 			i: standIndex,
 		};
 		this.stand.dropPiece(toPanel, option, true);
-
 		if(this.autoDrawing) this.draw();
 	}
 }

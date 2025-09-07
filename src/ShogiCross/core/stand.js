@@ -39,24 +39,30 @@ export class Stand{
 	 * @param {Object} option - オプション
 	 * @param {number} option.deg - 角度
 	 * @param {number} option.i - 配置する持ち駒のインデックス
+	 * @param {boolean} isCpuDrop - CPUによる駒配置であるか
 	 */
-	dropPiece(toPanel, option={}){
+	dropPiece(toPanel, option={}, isCpuDrop=false){
 		const {board} = this;
-		if(
-			!(toPanel instanceof Panel)
-			|| board.moveMode === "viewOnly"
-			|| toPanel.hasAttr("keepOut")
-		) return;
-
+		const {moveMode, displayDeg} = board;
+		const activePlayer = board.getActivePlayer();
 		const {deg, i} = option;
 		const stock = this.stocks.get(deg);
 		const piece = stock[i];
+		if(
+			!(toPanel instanceof Panel)
+			|| !(piece instanceof Piece)
+			|| moveMode === "viewOnly"
+			|| toPanel.hasAttr("keepOut")
+			|| !isCpuDrop && moveMode === "vs" && activePlayer.deg !== deg + displayDeg
+		) return false;
+
 		if(!(piece instanceof Piece)) return;
 		toPanel.piece = piece;
 		piece.center = toPanel.center;
 		piece.middle = toPanel.middle;
 		stock.splice(i,1);
 		board.record.add({toPanel, end: "打"});
+		return true;
 	}
 
 	/** 駒台に追加する

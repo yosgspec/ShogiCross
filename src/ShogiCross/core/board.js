@@ -20,7 +20,7 @@ export {PROTECTED};
  * @prop {number} canvasHeight - Canvas高さ
  * @prop {"overflow"|"horizontal"|"vertical"|"parentOverflow"|"parentHorizontal"|"parentVertical"} canvasFit - Canvasサイズの自動調整
  * @prop {boolean} isHeadless - ヘッドレスモード（Canvas非描画・自動操作用）
- * @prop {"normal"|"free"|"viewOnly"} moveMode - 移動モード
+ * @prop {"normal"|"vs"|"free"|"viewOnly"} moveMode - 移動モード
  * @prop {boolean} autoDrawing - 描写の自動更新有無
  * @prop {OverlayOptions} overlayOptions - オーバーレイのオプション
  * @prop {boolean|("undo"|"redo"|"rotateLeft"|"rotateRight"|"passTurn"|"downloadImage"|"downloadRecord"|"textRecord")[]} useUIControl - 操作パネルを使用するか

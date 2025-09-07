@@ -31,7 +31,7 @@ export const PROTECTED = Symbol("Board");
  * @prop {boolean} isDrawShadow - 駒の影の描写有無
  * @prop {string} backgroundColor - 背景色(デフォルト無色)
  * @prop {boolean} isHeadless - ヘッドレスモード（Canvas非描画・自動操作用）
- * @prop {"normal"|"free"|"viewOnly"} moveMode - 移動モード
+ * @prop {"normal"|"vs"|"free"|"viewOnly"} moveMode - 移動モード
  */
 
 export class BoardCore{
@@ -467,15 +467,18 @@ export class BoardCore{
 	 * @returns boolean
 	 */
 	async movePiece(fromPanel, toPanel, isCpuMove=false){
-		const {stand, moveMode, enPassant} = this;
-
+		const {stand, moveMode, enPassant, displayDeg} = this;
+		const activePlayer = this.getActivePlayer()
 		if(!fromPanel
 			|| moveMode === "viewOnly"
 			|| toPanel.hasAttr("keepOut")
 			|| toPanel.piece === fromPanel.piece
 			|| toPanel.piece?.deg === fromPanel.piece.deg
-			|| !isCpuMove && moveMode !== "free" && !toPanel.isTarget
-			|| !isCpuMove && this.getActivePlayer().cpuEngine
+			|| !isCpuMove && (
+				moveMode === "vs" && activePlayer.deg !== fromPanel.piece.deg + displayDeg
+				|| moveMode !== "free" && !toPanel.isTarget
+				|| activePlayer.cpuEngine
+			)
 		) return false;
 
 		let {canPromo, forcePromo} = this.checkCanPromo(fromPanel);
