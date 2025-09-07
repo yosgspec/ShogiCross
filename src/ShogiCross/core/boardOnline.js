@@ -2,7 +2,6 @@
 /** @typedef {import("./panel.js").Panel} Panel */
 import {Board, PROTECTED as $} from "./board.js";
 import {Stand} from "./stand.js";
-import {Piece} from "./piece.js";
 import {Panel} from "./panel.js";
 
 export class BoardOnline extends Board{
@@ -35,6 +34,7 @@ export class BoardOnline extends Board{
 			"textRecord",
 		];
 		option.uiControlRecordOption ??= {readonly: true};
+		option.moveMode = "vs";
 
 		super(canvas, option);
 		const {
@@ -50,7 +50,6 @@ export class BoardOnline extends Board{
 		this.isReadyOnline = false;
 		this.gameKey = gameKey;
 		this.roomId = null;
-		this.moveMode = "vs";
 
 		// isLocalプロパティをプレイヤーに追加
 		this.players.forEach(player=>{
