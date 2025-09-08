@@ -47,8 +47,9 @@ ShogiCrossのコンセプトに異種格闘も含まれるが、意外と他に�
 
 ### [Kifu for JS](https://kifu-for-js.81.la)
 ### [shogi-player](https://shogi-player.netlify.app)
+### [Shogi Board](https://murosan.github.io/shogi-board/)
 * 分類: UIライブラリ
-* ライセンス: Kifu for JS(MIT)、shogi-player(AGPL)
+* ライセンス: Kifu for JS(MIT)、shogi-player(AGPL)、Shogi Board(MIT)
 * 将棋をWeb上で表現するためのUIライブラリ
 * 表示UI、BOD表現を参考にさせてもらった
 
