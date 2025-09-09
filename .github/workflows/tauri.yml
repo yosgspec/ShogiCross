@@ -9,16 +9,18 @@ on:
 jobs:
   build-linux:
     runs-on: ubuntu-22.04
+    permissions:
+      contents: read
     defaults:
       run:
         working-directory: tauri
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Setup Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: 20
 
@@ -35,29 +37,30 @@ jobs:
 
       - name: Install npm dependencies
         run: npm install
+
       - name: Build Tauri for Linux
-        run: |
-          npm run tauri build
-          rm -rf dist src-tauri/target/release/bundle/appimage/shogicross-app.AppDir
+        run: npm run tauri build --release
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
           name: tauri-linux
-          path: tauri/src-tauri/target/release/bundle/appimage
+          path: tauri/src-tauri/target/release/bundle/appimage/*.AppImage
 
   build-windows:
     runs-on: windows-latest
+    permissions:
+      contents: read
     defaults:
       run:
         working-directory: tauri
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Setup Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: 20
 
@@ -71,10 +74,68 @@ jobs:
         run: npm install
 
       - name: Build Tauri for Windows
-        run: npm run tauri build
+        run: npm run tauri build --release
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
           name: tauri-windows
           path: tauri/src-tauri/target/release/shogicross.exe
+
+  build-android:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    defaults:
+      run:
+        working-directory: tauri
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Setup Rust
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+          override: true
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: zulu
+          java-version: 17
+
+      - name: Setup Android SDK & NDK
+        uses: android-actions/setup-android@v3
+        with:
+          api-level: 33
+          ndk-version: 25.2.9519653
+          build-tools: 33.0.2
+
+      - name: Export Android environment variables
+        run: |
+          echo "ANDROID_HOME=$ANDROID_SDK_ROOT" >> $GITHUB_ENV
+          echo "ANDROID_SDK_ROOT=$ANDROID_SDK_ROOT" >> $GITHUB_ENV
+          echo "NDK_HOME=$ANDROID_NDK_ROOT" >> $GITHUB_ENV
+          echo "PATH=$PATH:$ANDROID_SDK_ROOT/platform-tools" >> $GITHUB_ENV
+
+      - name: Install npm dependencies
+        run: npm install
+
+      - name: Init Tauri Android project
+        run: npx tauri android init
+
+      - name: Build Tauri for Android
+        run: npx tauri android build --apk
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: tauri-android
+          path: tauri/src-tauri/gen/android/app/build/outputs/apk/universal/release/app-universal-release-unsigned.apk
