@@ -72,7 +72,7 @@ export class Stand{
 		const stock = this.stocks.get(piece.deg);
 		piece.turnFront();
 		stock.push(piece);
-		stock.sort((a,b)=>Math.sign(a.id-b.id));
+		stock.sort((a,b)=>Math.sign(a.sortId-b.sortId));
 	}
 
 	/** 駒を持ち駒にする
@@ -105,10 +105,10 @@ export class Stand{
 		});
 	}
 
-	/** 盤を描写 */
+	/** 駒台を描写 */
 	draw(){
 		const {board, left, top, width, height, pitchWidth, pitchHeight} = this;
-		const {ctx, xLen, yLen} = board;
+		const {ctx, xLen, yLen, playerLen} = board;
 
 		// 外枠を描写
 		ctx.fillStyle = board.backgroundColor;
@@ -125,6 +125,7 @@ export class Stand{
 			let i = 0;
 			// 溢れた場合は後方優先で表示
 			stock = stock.slice(-yLen/4*xLen);
+			let selectedPiece = null;
 			for(let pY=0|yLen/4*player;pY<yLen/4*(player+1);pY++){
 				for(let pX=0;pX<xLen;pX++){
 					const center = left+pitchWidth*(pX+1);
@@ -134,8 +135,10 @@ export class Stand{
 					piece.center = center;
 					piece.middle = middle;
 					piece.draw();
+					if(piece.isSelected && playerLen === 4) selectedPiece = piece;
 				}
 			}
+			selectedPiece?.draw();
 		});
 	}
 

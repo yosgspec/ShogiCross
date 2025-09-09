@@ -164,6 +164,7 @@ export class Piece{
 		}
 		// 駒をクラスオブジェクトに変換
 		[...exPieces].forEach(([key, piece], i)=>{
+			piece.sortId = i;
 			piece.char = key;
 			exPieces.set(key, new Piece(ctx, piece, option));
 		});
@@ -282,6 +283,7 @@ export class Piece{
 		this.alias = [...this.alias ?? ""];
 		this.displayPtn ??= displayPtn;
 		this.game = games[this.gameName];
+		this.gameId = [...Object.keys(games)].indexOf(this.gameName);
 		this.cost = pieceCost[this.char] ?? pieceCost[this.base.char] ?? 1;
 		this.center = 0;
 		this.middle = 0;
@@ -542,6 +544,7 @@ export class Piece{
 		ctx.fillStyle = color;
 		ctx.save();
 		this.makePath(zoom);
+		ctx.scale(zoom*1.1, zoom*1.1);
 		ctx.fill();
 
 		ctx.restore();
