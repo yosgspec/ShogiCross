@@ -117,7 +117,7 @@ declare namespace H {
     export { greedy };
     export { minimax };
 }
-declare class W {
+declare class y {
     /** @typedef {Object} Piece */
     /** 描写サイズ
      * @type {number}
@@ -135,6 +135,12 @@ declare class W {
      * @type {Object<string, string>}
      */
     static degChars: {
+        [x: string]: string;
+    };
+    /** テキスト出力時の最終手番プレイヤー表示
+     * @type {Object<string, string>}
+     */
+    static degLastMoveChars: {
         [x: string]: string;
     };
     /** プレイヤー表示から角度を取得
@@ -193,56 +199,6 @@ declare class W {
      * @param {boolean} option.isMoved - 初回移動済みか否か
      */
     constructor(e: any, t: any, s?: {});
-    /** @type {number} */
-    id: number;
-    /** @type {any} */
-    ctx: any;
-    /** @type {string[]} */
-    display: string[];
-    /** @type {string|null} */
-    imgSrc: string | null;
-    /** @type {string[]} */
-    alias: string[];
-    /** @type {number} */
-    displayPtn: number;
-    /** @type {any} */
-    game: any;
-    /** @type {number} */
-    cost: number;
-    /** @type {number} */
-    center: number;
-    /** @type {number} */
-    middle: number;
-    /** @type {number} */
-    rad: number;
-    /** @type {number} */
-    size: number;
-    /** @type {boolean} */
-    useRankSize: boolean;
-    /** @type {boolean} */
-    isDrawShadow: boolean;
-    /** @type {boolean} */
-    isRotateImg: boolean;
-    /** @type {boolean} */
-    isMoved: boolean;
-    /** @type {boolean} */
-    isSelected: boolean;
-    /** @type {string[]} */
-    attr: string[];
-    /** @type {any} */
-    range: any;
-    /** @type {any} */
-    base: any;
-    /** @type {string} */
-    char: string;
-    /** @type {Object<string, Piece>} */
-    promo: {
-        [x: string]: any;
-    };
-    /** @type {string} */
-    unit: string;
-    /** @type {string} */
-    gameName: string;
     /** 駒の段階別価値を取得
      * @returns {string}
      */
@@ -252,6 +208,7 @@ declare class W {
      */
     set deg(e: number);
     get deg(): number;
+    rad: any;
     /** 左側の座標 */
     get left(): number;
     /** 上側の座標 */
@@ -264,7 +221,19 @@ declare class W {
      * @returns {number}
      */
     get zoom(): number;
+    id: number;
+    ctx: any;
+    alias: string[];
+    game: any;
     gameId: number;
+    cost: any;
+    center: number;
+    middle: number;
+    isMoved: any;
+    isSelected: boolean;
+    range: {
+        [x: string]: any[];
+    };
     /** 駒をクローン
      * @returns {Piece}
      */
@@ -275,6 +244,7 @@ declare class W {
      * @param {string} char - 成り先の文字
      */
     promotion(e: any): void;
+    char: any;
     /** 属性の存在を確認
      * @param {string} attrName - 属性名
      * @returns {boolean}
@@ -306,16 +276,15 @@ declare class W {
     * @param {number} zoom - 駒の拡大率
     */
     drawPieceShadow(e: any): void;
+    /** 駒に最終手を描写 */
+    drawLastMove(): void;
     /** 駒を描写 */
     drawPiece(): void;
     /** 駒にマスクを描写
      * @param {string} color - カラーエフェクトの色
+    * @param {number} zoom - マスクの拡大率
      */
-    drawMask(e: any): void;
-    /** 駒に最終手を描写
-     * @param {string} color - カラーエフェクトの色
-     */
-    drawLastMove(e: any): void;
+    drawMask(e: any, t?: number): void;
     /** 文字列形式で取得
      * @param {boolean} isAlias - エイリアス表示
      */
@@ -521,7 +490,7 @@ declare const K: {
 declare namespace N {
     let fonts: (string | number)[][];
 }
-declare namespace $ {
+declare namespace F {
     let imported: boolean;
     let images: {
         [x: string]: HTMLImageElement;
@@ -531,7 +500,7 @@ declare namespace $ {
      */
     function importAsync(): Promise<void>;
 }
-declare function ge(p: any): void;
+declare function ge(S: any): void;
 declare namespace ue {
     namespace shogi {
         let name: string;
@@ -5686,6 +5655,7 @@ declare class Z {
     borderWidth: any;
     pieceSize: any;
     canvasBackgroundColor: any;
+    isDisplayLastMove: any;
     field: any;
     xLen: any;
     yLen: any;
@@ -5731,6 +5701,10 @@ declare class Z {
      * @param {boolean} option.isMoved - 初回移動済みか否か
      */
     putNewPiece(e: any, t: any, s: any, i: any, a?: {}): void;
+    /** ボードの初期配置を行う
+     * {string} text - 駒配置を表す文字列
+     */
+    initTextPieces(e: any): void;
     /** 文字列から駒を配置
      * {string} text - 駒配置を表す文字列
      */
@@ -5821,7 +5795,7 @@ declare class Z {
      * @returns {this}
      */
     cloneCore(): this;
-    [O]: {
+    [X]: {
         rotateField: any;
     };
     #private;
@@ -5952,6 +5926,8 @@ declare class we {
      * @param {number} turn - 手数
      */
     jump(e: any): void;
+    /** 記録を復元する */
+    restoreField(): void;
     /** 局面の記録を文字列に変換
      * @param {number} turn - 手数
      * @param {boolean} isNumOnly - 座標を数字で表現
@@ -6011,5 +5987,5 @@ declare class V {
      */
     clone(): any;
 }
-declare const O: unique symbol;
-export { Q as Board, pe as BoardOnline, ve as CpuEngine, G as CpuEngineBase, H as CpuEngines, W as Piece, K as boards, N as canvasFont, $ as canvasImage, ge as extendData, ue as gameSoft, T as games, D as panels, q as pieceCost, ne as pieceRange, I as pieces };
+declare const X: unique symbol;
+export { Q as Board, pe as BoardOnline, ve as CpuEngine, G as CpuEngineBase, H as CpuEngines, y as Piece, K as boards, N as canvasFont, F as canvasImage, ge as extendData, ue as gameSoft, T as games, D as panels, q as pieceCost, ne as pieceRange, I as pieces };
