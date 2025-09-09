@@ -22,14 +22,14 @@ declare class Q extends Z {
      * @param {string|null} promoChar - 成り先の駒名(成らない場合null)
      * @returns {Promise<string|null>}
      */
-    onSelectPromo(e: any, t: any, a: any, i: any, s: any): Promise<string | null>;
+    onSelectPromo(e: any, t: any, s: any, i: any, a: any): Promise<string | null>;
     /** 画像を取得
      * @param {string} fileName - ファイル名
      * @param {string} ext - 拡張子
      * @param {"base64"|"blob"} urlType - 生成URLタイプ
      * @returns {Promise<void>}
      */
-    downloadImage(e: any, t: any, a: any): Promise<void>;
+    downloadImage(e: any, t: any, s: any): Promise<void>;
     #private;
 }
 declare class pe extends Q {
@@ -52,7 +52,7 @@ declare class pe extends Q {
      * @param {number} message.playerDeg - 移動を行ったプレイヤーの視点角度
      * @param {string|null} message.promoChar - 成り先の駒名(成らない場合null)
      */
-    moveRivalPiece({ from: e, to: t, playerDeg: a, promoChar: i }: {
+    moveRivalPiece({ from: e, to: t, playerDeg: s, promoChar: i }: {
         from: {
             pX: number;
             pY: number;
@@ -73,7 +73,7 @@ declare class pe extends Q {
      * @param {number} message.playerDeg - 打駒を行ったプレイヤーの視点角度
      * @param {number} message.standIndex - 駒台の駒のインデックス
      */
-    dropRivalPiece({ to: e, playerDeg: t, standIndex: a }: {
+    dropRivalPiece({ to: e, playerDeg: t, standIndex: s }: {
         to: {
             pX: number;
             pY: number;
@@ -82,12 +82,12 @@ declare class pe extends Q {
         standIndex: number;
     }): Promise<void>;
 }
-declare class ve extends Y {
+declare class ve extends G {
     /** @typedef {Object} CpuEngineBase */
     /** @type {CpuEngineBase} */
     engine: any;
 }
-declare class Y {
+declare class G {
     /**
      * @param {Board} board - 対象の盤面
      * @param {PlayerInfo} player - プレイヤー情報
@@ -112,7 +112,7 @@ declare class Y {
      */
     evaluate(e?: any): number;
 }
-declare namespace G {
+declare namespace H {
     export { random };
     export { greedy };
     export { minimax };
@@ -192,7 +192,7 @@ declare class W {
      * @param {boolean} option.isDrawShadow - 駒の影の描写有無
      * @param {boolean} option.isMoved - 初回移動済みか否か
      */
-    constructor(e: any, t: any, a?: {});
+    constructor(e: any, t: any, s?: {});
     /** @type {number} */
     id: number;
     /** @type {any} */
@@ -264,6 +264,7 @@ declare class W {
      * @returns {number}
      */
     get zoom(): number;
+    gameId: number;
     /** 駒をクローン
      * @returns {Piece}
      */
@@ -320,7 +321,7 @@ declare class W {
      */
     toString(e?: boolean): string;
 }
-declare const J: {
+declare const K: {
     将棋: {
         backgroundColor: string;
         borderColor: string;
@@ -1400,7 +1401,7 @@ declare namespace ue {
         export { playerOptions_45 as playerOptions };
     }
 }
-declare namespace q {
+declare namespace T {
     namespace 将棋 {
         let english: string;
         let fontColor: string;
@@ -1688,7 +1689,7 @@ declare namespace q {
         export { position_6 as position };
     }
 }
-declare const T: {
+declare const D: {
     S: {
         name: string;
         text: string;
@@ -1833,7 +1834,7 @@ declare const T: {
         attr: string[];
     };
 };
-declare namespace K {
+declare namespace q {
     let 女: number;
     let 獅: number;
     let 后: number;
@@ -2108,7 +2109,7 @@ declare namespace ne {
     let 呈_1: string[];
     export { 呈_1 as 呈 };
 }
-declare namespace D {
+declare namespace I {
     export namespace 歩_2 {
         let name_46: string;
         export { name_46 as name };
@@ -5693,7 +5694,7 @@ declare class Z {
     height: number;
     right: any;
     bottom: any;
-    stand: I;
+    stand: Y;
     moveMode: any;
     record: we;
     enPassant: V;
@@ -5719,7 +5720,7 @@ declare class Z {
      * @param {string} gameName - ゲーム名(基準となる駒の配置セット)
      * @param {string} pieceSet - 駒の配置パターン
      */
-    putStartPieces(e: any, t: any, a?: string): void;
+    putStartPieces(e: any, t: any, s?: string): void;
     /** 駒の配置
      * @param {string} piece - 駒の表現文字
      * @param {number} pX - X方向配置位置(マス目基準)
@@ -5729,7 +5730,7 @@ declare class Z {
      * @param {number} option.displayPtn - 表示文字列を変更(1〜)
      * @param {boolean} option.isMoved - 初回移動済みか否か
      */
-    putNewPiece(e: any, t: any, a: any, i: any, s?: {}): void;
+    putNewPiece(e: any, t: any, s: any, i: any, a?: {}): void;
     /** 文字列から駒を配置
      * {string} text - 駒配置を表す文字列
      */
@@ -5741,7 +5742,7 @@ declare class Z {
      * @param {number} offsetDeg - 補正角度
      * @returns {number}
      */
-    getRow(e: any, t: any, a?: number, i?: number, s?: boolean): number;
+    getRow(e: any, t: any, s?: number, i?: number, a?: boolean): number;
     /** 角度基準のマス目の列を取得する
      * @param {number} pX - マス目の列
      * @param {number} pY - マス目の行
@@ -5749,14 +5750,14 @@ declare class Z {
      * @param {number} offsetDeg - 補正角度
      * @returns {number}
      */
-    getCol(e: any, t: any, a?: number, i?: number): number;
+    getCol(e: any, t: any, s?: number, i?: number): number;
     /** 駒の座標を回転取得する
      * @param {number} pX - マス目の列
      * @param {number} pY - マス目の行
      * @param {number} deg - 角度
      * @returns {number}
      */
-    rotatePosition(e: any, t: any, a: any): number;
+    rotatePosition(e: any, t: any, s: any): number;
     /** プロモーション選択
      * @param {Piece} piece - 駒
      * @param {boolean} canPromo - 成ることができる
@@ -5764,7 +5765,7 @@ declare class Z {
      * @param {boolean} isCpuMove - CPUによる移動か
      * @param {string|null} promoChar - 成り先の駒名(成らない場合null)
      */
-    onSelectPromo(e: any, t: any, a: any, i: any, s: any): Promise<any>;
+    onSelectPromo(e: any, t: any, s: any, i: any, a: any): Promise<any>;
     /** プロモーション処理
      * @param {Panel} fromPanel - 移動元のマス目
      * @param {Panel} toPanel - 選択中のマス目
@@ -5773,7 +5774,7 @@ declare class Z {
      * @param {boolean} isCpuMove - CPUによる移動か
      * @param {string|null} promoChar - 成り先の駒名(成らない場合null)
      */
-    promoPiece(e: any, t: any, a: any, i: any, s?: boolean, n?: any): Promise<void>;
+    promoPiece(e: any, t: any, s: any, i: any, a?: boolean, n?: any): Promise<void>;
     /** プロモーションエリア内であるか判別
      * @param {Panel} panel - マス目
      * @returns {{
@@ -5798,7 +5799,7 @@ declare class Z {
      * @param {boolean} isCpuMove - CPUによる移動か
      * @returns boolean
      */
-    movePiece(e: any, t: any, a?: boolean): Promise<boolean>;
+    movePiece(e: any, t: any, s?: boolean): Promise<boolean>;
     /** パスして手番を進める
      * @param {PlayerInfo} player - プレイヤー情報
     */
@@ -5846,13 +5847,13 @@ declare class Le {
     updatePosition(): void;
     #private;
 }
-declare class random extends Y {
+declare class random extends G {
     constructor(e: any, t: any);
 }
-declare class greedy extends Y {
+declare class greedy extends G {
     constructor(e: any, t: any);
 }
-declare class minimax extends Y {
+declare class minimax extends G {
     constructor(e: any, t: any);
     searchDepth: number;
     /**
@@ -5864,9 +5865,9 @@ declare class minimax extends Y {
      * @param {boolean} isMaximizingPlayer - 現在のプレイヤーが最大化プレイヤーかどうか
      * @returns {Promise<number>} 評価値
      */
-    minimax(e: any, t: any, a: any, i: any, s: any): Promise<number>;
+    minimax(e: any, t: any, s: any, i: any, a: any): Promise<number>;
 }
-declare class I {
+declare class Y {
     /** 駒台への角度ごとの表示順
      * @type {number[]}
      */
@@ -5896,7 +5897,7 @@ declare class I {
      * @param {number} option.i - 配置する持ち駒のインデックス
      * @param {boolean} isCpuDrop - CPUによる駒配置であるか
      */
-    dropPiece(e: any, t?: {}, a?: boolean): boolean;
+    dropPiece(e: any, t?: {}, s?: boolean): boolean;
     /** 駒台に追加する
      * @param {Piece} piece - 追加する駒
      */
@@ -5907,12 +5908,12 @@ declare class I {
      * @param {boolean} forceCapture - 属性を無視して捕縛する
      * @param {boolean} forceCantCapture - 属性を無視して捕縛しない
      */
-    capturePiece(e: any, t: any, a?: boolean, i?: boolean): void;
+    capturePiece(e: any, t: any, s?: boolean, i?: boolean): void;
     /** 持ち駒の所有権を回転
      * @param {number} deg - 回転角 (90の倍数)
      */
     rotate(e: any): void;
-    /** 盤を描写 */
+    /** 駒台を描写 */
     draw(): void;
     /** 駒台をテキスト形式で取得
      * @param {boolean} isCompact - コンパクト表示
@@ -6011,4 +6012,4 @@ declare class V {
     clone(): any;
 }
 declare const O: unique symbol;
-export { Q as Board, pe as BoardOnline, ve as CpuEngine, Y as CpuEngineBase, G as CpuEngines, W as Piece, J as boards, N as canvasFont, $ as canvasImage, ge as extendData, ue as gameSoft, q as games, T as panels, K as pieceCost, ne as pieceRange, D as pieces };
+export { Q as Board, pe as BoardOnline, ve as CpuEngine, G as CpuEngineBase, H as CpuEngines, W as Piece, K as boards, N as canvasFont, $ as canvasImage, ge as extendData, ue as gameSoft, T as games, D as panels, q as pieceCost, ne as pieceRange, I as pieces };

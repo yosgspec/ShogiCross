@@ -82,12 +82,12 @@ declare class Se extends _ {
         standIndex: number;
     }): Promise<void>;
 }
-declare class Xe extends G {
+declare class Xe extends H {
     /** @typedef {Object} CpuEngineBase */
     /** @type {CpuEngineBase} */
     engine: any;
 }
-declare class G {
+declare class H {
     /**
      * @param {Board} board - 対象の盤面
      * @param {PlayerInfo} player - プレイヤー情報
@@ -112,7 +112,7 @@ declare class G {
      */
     evaluate(e?: any): number;
 }
-declare namespace H {
+declare namespace U {
     export { random };
     export { greedy };
     export { minimax };
@@ -264,6 +264,7 @@ declare class W {
      * @returns {number}
      */
     get zoom(): number;
+    gameId: number;
     /** 駒をクローン
      * @returns {Piece}
      */
@@ -320,7 +321,7 @@ declare class W {
      */
     toString(e?: boolean): string;
 }
-declare const q: {
+declare const K: {
     将棋: {
         backgroundColor: string;
         borderColor: string;
@@ -1400,7 +1401,7 @@ declare namespace he {
         export { playerOptions_45 as playerOptions };
     }
 }
-declare namespace V {
+declare namespace D {
     namespace 将棋 {
         let english: string;
         let fontColor: string;
@@ -1688,7 +1689,7 @@ declare namespace V {
         export { position_6 as position };
     }
 }
-declare const D: {
+declare const I: {
     S: {
         name: string;
         text: string;
@@ -1833,7 +1834,7 @@ declare const D: {
         attr: string[];
     };
 };
-declare namespace K {
+declare namespace V {
     let 女: number;
     let 獅: number;
     let 后: number;
@@ -2108,7 +2109,7 @@ declare namespace re {
     let 呈_1: string[];
     export { 呈_1 as 呈 };
 }
-declare namespace I {
+declare namespace Y {
     export namespace 歩_2 {
         let name_46: string;
         export { name_46 as name };
@@ -5693,7 +5694,7 @@ declare class Q {
     height: number;
     right: any;
     bottom: any;
-    stand: Y;
+    stand: G;
     moveMode: any;
     record: ke;
     enPassant: Z;
@@ -5846,13 +5847,13 @@ declare class Re {
     updatePosition(): void;
     #private;
 }
-declare class random extends G {
+declare class random extends H {
     constructor(e: any, t: any);
 }
-declare class greedy extends G {
+declare class greedy extends H {
     constructor(e: any, t: any);
 }
-declare class minimax extends G {
+declare class minimax extends H {
     constructor(e: any, t: any);
     searchDepth: number;
     /**
@@ -5866,7 +5867,7 @@ declare class minimax extends G {
      */
     minimax(e: any, t: any, s: any, i: any, a: any): Promise<number>;
 }
-declare class Y {
+declare class G {
     /** 駒台への角度ごとの表示順
      * @type {number[]}
      */
@@ -5912,7 +5913,7 @@ declare class Y {
      * @param {number} deg - 回転角 (90の倍数)
      */
     rotate(e: any): void;
-    /** 盤を描写 */
+    /** 駒台を描写 */
     draw(): void;
     /** 駒台をテキスト形式で取得
      * @param {boolean} isCompact - コンパクト表示
@@ -6011,4 +6012,4 @@ declare class Z {
     clone(): any;
 }
 declare const O: unique symbol;
-export { _ as Board, Se as BoardOnline, Xe as CpuEngine, G as CpuEngineBase, H as CpuEngines, W as Piece, q as boards, N as canvasFont, R as canvasImage, ye as extendData, he as gameSoft, V as games, D as panels, K as pieceCost, re as pieceRange, I as pieces };
+export { _ as Board, Se as BoardOnline, Xe as CpuEngine, H as CpuEngineBase, U as CpuEngines, W as Piece, K as boards, N as canvasFont, R as canvasImage, ye as extendData, he as gameSoft, D as games, I as panels, V as pieceCost, re as pieceRange, Y as pieces };
