@@ -30,7 +30,7 @@ const PlayGamesTop = {
 				useStand,
 				...boardTemplate(14),
 			});
-			board.setTextPieces(pieceMap);
+			board.initTextPieces(pieceMap);
 			board.onDrawed = onDrawed;
 			return board;
 		},

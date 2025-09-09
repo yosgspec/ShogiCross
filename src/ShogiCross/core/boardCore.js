@@ -29,6 +29,7 @@ export const PROTECTED = Symbol("Board");
  * @prop {number} pieceSize - 駒の大きさ
  * @prop {boolean} useRankSize - 駒の大きさを格の違いで変更する
  * @prop {boolean} isDrawShadow - 駒の影の描写有無
+ * @prop {boolean} isDisplayLastMove - 最終手の表示有無
  * @prop {string} backgroundColor - 背景色(デフォルト無色)
  * @prop {boolean} isHeadless - ヘッドレスモード（Canvas非描画・自動操作用）
  * @prop {"normal"|"vs"|"free"|"viewOnly"} moveMode - 移動モード
@@ -57,13 +58,15 @@ export class BoardCore{
 			panelWidth=50,
 			panelHeight=0|panelWidth*1.1,
 			pieceSize=0|panelWidth*0.9,
-			useRankSize = true,
-			isDrawShadow = true,
+			useRankSize=true,
+			isDrawShadow=true,
+			isDisplayLastMove=true,
 			borderWidth=Math.min(panelWidth, panelHeight)/30,
 			backgroundColor="#00000000",
 			isHeadless=false,
 			moveMode="normal",
 		} = option;
+
 		this.option = option;
 		this.isHeadless = isHeadless;
 		this.name = name;
@@ -94,6 +97,7 @@ export class BoardCore{
 		this.borderWidth = borderWidth;
 		this.pieceSize = pieceSize;
 		this.canvasBackgroundColor = backgroundColor;
+		this.isDisplayLastMove = isDisplayLastMove;
 
 		// マス目データを構築
 		this.field = this.field.map((row, pY)=>
@@ -260,6 +264,14 @@ export class BoardCore{
 		}
 		this.field[pY][pX].piece = piece;
 		if(this.autoDrawing) this.draw();
+	}
+
+	/** ボードの初期配置を行う
+	 * {string} text - 駒配置を表す文字列
+	 */
+	initTextPieces(text){
+		this.setTextPieces(text);
+		this.record.last.fieldText = text;
 	}
 
 	/** 文字列から駒を配置
@@ -530,8 +542,8 @@ export class BoardCore{
 	 * @param {boolean} isAlias - エイリアス表示
 	 */
 	toString(isCompact=false, isAlias=false){
-		const {xLen} = this;
-
+		const {xLen, record, isDisplayLastMove} = this;
+		const lastMovePieceId = record?.last?.pieceId;
 		let header = "";
 		let footer = "";
 		let panelOuter = "";
@@ -550,9 +562,14 @@ export class BoardCore{
 			header+
 			this.field.map(row=>
 				panelOuter+
-				row.map(panel=>
-					panel.piece?.toString(isAlias) ?? panel.toString(isCompact)
-				).join(panelSep)+
+				row.map(panel=>{
+					const {piece} = panel;
+					if(!piece) return panel.toString(isCompact);
+					const pieceText = piece.toString(isAlias);
+					if(isDisplayLastMove && piece.id === lastMovePieceId)
+						return Piece.degLastMoveChars[piece.deg]+pieceText.slice(1);
+					return pieceText;
+				}).join(panelSep)+
 				panelOuter
 			).join(rowSep)+
 			footer+

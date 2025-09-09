@@ -173,6 +173,7 @@ export class Board extends BoardCore{
 		this.#mouseControl?.removeEvent();
 		this.#uiControl?.remove();
 	}
+
 	/** 盤面を回転
 	 * @param {boolean} isRight - 回転方向
 	 */
@@ -249,7 +250,7 @@ export class Board extends BoardCore{
 	/** 盤を描写 */
 	draw(){
 		if(this.isHeadless) return;
-		const {ctx, canvas, left, top, width, height, panelWidth, panelHeight} = this;
+		const {ctx, canvas, left, top, width, height, panelWidth, panelHeight, record, isDisplayLastMove} = this;
 
 		// 描写を初期化
 		ctx.restore();
@@ -275,7 +276,7 @@ export class Board extends BoardCore{
 		// マス目を描写
 		this.field.forEach(row=>{
 			row.forEach(panel=>{
-				panel.draw();
+				panel.draw(isDisplayLastMove? record.last.pieceId: -1);
 			});
 		});
 		if(this.onDrawed) this.onDrawed(this);

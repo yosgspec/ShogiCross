@@ -66,8 +66,14 @@ export class Record {
 			}],
 			deg: piece.deg,
 			pieceChar: piece.char,
+			pieceId: piece.id,
 			end,
 			fieldText: board.getTextPieces("compact", true),
+			fieldPieceIds: board.field.map(row=>
+				row.map(({piece})=>
+					piece?.id
+				)
+			),
 			fieldMoved: board.field.map(row=>
 				row.map(({piece})=>
 					piece?.isMoved? 1: 0
@@ -97,18 +103,10 @@ export class Record {
 	 * @param {number} inc - 切り替えたい手数の差分
 	 */
 	#shift(inc){
-		const {board, records} = this;
+		const {records} = this;
 		if(!records[this.turn+inc]) return;
-
 		this.turn += inc;
-		const {fieldText, fieldMoved} = records[this.turn];
-		board.setTextPieces(fieldText);
-		board.field.forEach((row, pY)=>
-			row.forEach(({piece}, pX)=>{
-				if(!piece) return;
-				piece.isMoved = !!fieldMoved[pY][pX];
-			})
-		);
+		this.restoreField();
 	}
 
 	/** 記録の手を戻す */
@@ -127,6 +125,22 @@ export class Record {
 	jump(turn){
 		this.turn = turn;
 		this.#shift(0);
+	}
+
+	/** 記録を復元する */
+	restoreField(){
+		const {board, records, turn} = this;
+		const {fieldText, fieldPieceIds, fieldMoved} = records[turn];
+
+		board.setTextPieces(fieldText);
+		board.field.forEach((row, pY)=>
+			row.forEach(({piece}, pX)=>{
+				if(!piece) return;
+				piece.id = fieldPieceIds[pY][pX];
+				piece.isMoved = !!fieldMoved[pY][pX];
+			})
+		);
+		if(board.autoDrawing) board.draw();
 	}
 
 	/** 局面の記録を文字列に変換

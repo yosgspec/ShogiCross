@@ -112,7 +112,7 @@ export class Panel{
 	}
 
 	/** マス目/マスク/駒を描写 */
-	draw(){
+	draw(lastMovePieceId=-1){
 		if(!this.ctx) return;
 		const {selectColor, targetColor} = this;
 
@@ -122,6 +122,7 @@ export class Panel{
 			this.drawPanel();
 		if(this.isSelected) this.drawMask(selectColor);
 		if(this.isTarget) this.drawMask(targetColor);
+		if(this.piece?.id === lastMovePieceId) this.piece?.drawLastMove();
 		this.piece?.draw();
 	}
 

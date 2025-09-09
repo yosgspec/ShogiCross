@@ -1,6 +1,6 @@
 {
   "name": "shogicross",
-  "version": "0.14.4",
+  "version": "0.15.0",
   "description": "様々な将棋類の駒を並べるだけの将棋盤のようなツール",
   "main": "./src/dist/ShogiCross.js",
   "bin": {
@@ -37,7 +37,7 @@
     "dev": "npx vite",
     "sharp-all": "npx sharp -i ./**/*.png -f png -o {dir} ",
     "publish": "node run/npmPublish.js",
-    "build": "run-s gen:icon setup building collect minify post deploy:doc-api built",
+    "build": "run-s setup building collect minify post deploy:doc-api built",
     "setup": "run-p setup:*",
     "setup:crean": "npx shx rm -rf ./src/dist",
     "setup:doc-md2html": "node run/md2html.js ./doc ./src/pages/md",

@@ -36,12 +36,23 @@ export class Piece{
 		270: "＜",
 	};
 
+	/** テキスト出力時の最終手番プレイヤー表示
+	 * @type {Object<string, string>}
+	 */
+	static degLastMoveChars = {
+		0: "★",
+		90: "◆",
+		180: "☆",
+		270: "◇",
+	};
+
 	/** プレイヤー表示から角度を取得
 	* @type {Object<string, number>}
 	 */
-	static charDegs = Object.fromEntries(
-		Object.entries(Piece.degChars)
-			.map(([key, value])=>[value, key]));
+	static charDegs = Object.fromEntries([
+		...Object.entries(Piece.degChars),
+		...Object.entries(Piece.degLastMoveChars),
+		].map(([key, value])=>[value, key]));
 
 	/** サイズ変更設定値
 	 * @type {Object<string, number>}
@@ -53,55 +64,6 @@ export class Piece{
 		"UC": 0.90,
 		"C": 0.865,
 	};
-
-	/** @type {number} */
-	id;
-	/** @type {any} */
-	ctx;
-	/** @type {string[]} */
-	display;
-	/** @type {string|null} */
-	imgSrc;
-	/** @type {string[]} */
-	alias;
-	/** @type {number} */
-	displayPtn;
-	/** @type {any} */
-	game;
-	/** @type {number} */
-	cost;
-	/** @type {number} */
-	center;
-	/** @type {number} */
-	middle;
-	/** @type {number} */
-	rad;
-	/** @type {number} */
-	size;
-	/** @type {boolean} */
-	useRankSize;
-	/** @type {boolean} */
-	isDrawShadow;
-	/** @type {boolean} */
-	isRotateImg;
-	/** @type {boolean} */
-	isMoved;
-	/** @type {boolean} */
-	isSelected;
-	/** @type {string[]} */
-	attr;
-	/** @type {any} */
-	range;
-	/** @type {any} */
-	base;
-	/** @type {string} */
-	char;
-	/** @type {Object<string, Piece>} */
-	promo;
-	/** @type {string} */
-	unit;
-	/** @type {string} */
-	gameName;
 
 	/** 駒の段階別価値を取得
 	 * @returns {string}
@@ -144,12 +106,12 @@ export class Piece{
 		const exPieces = new Map(Object.entries(JSON.parse(JSON.stringify(pieces))));
 		for(const [_, piece] of exPieces)
 			piece.range = Piece.expandRange(piece.range);
-		/* データを補完 */
+		// データを補完
 		for(const [_, piece] of exPieces){
 			piece.attr ??= [];
 			if(piece.unit && piece.unit !== "成") piece.base = piece;
 		}
-		/* 成駒のデータを合成 */
+		// 成駒のデータを合成
 		for(const [_, piece] of exPieces){
 			if(!piece.promo || typeof(piece.promo) !== "string") continue;
 			const promoKeys = [...piece.promo];
@@ -479,6 +441,15 @@ export class Piece{
 		ctx.restore();
 	}
 
+	/** 駒に最終手を描写 */
+	drawLastMove(){
+		const {ctx, zoom} = this;
+
+		ctx.save();
+		this.drawMask("#FF660099", zoom*1.3);
+		ctx.restore();
+	}
+
 	/** 駒を描写 */
 	drawPiece(){
 		if(!this.ctx) return;
@@ -521,10 +492,11 @@ export class Piece{
 
 	/** 駒にマスクを描写
 	 * @param {string} color - カラーエフェクトの色
+	* @param {number} zoom - マスクの拡大率
 	 */
-	drawMask(color){
+	drawMask(color, zoom=this.zoom){
 		if(!this.ctx) return;
-		const {ctx, zoom} = this;
+		const {ctx} = this;
 
 		ctx.fillStyle = color;
 		ctx.save();
@@ -534,21 +506,6 @@ export class Piece{
 		ctx.restore();
 	}
 
-	/** 駒に最終手を描写
-	 * @param {string} color - カラーエフェクトの色
-	 */
-	drawLastMove(color){
-		if(!this.ctx) return;
-		const {ctx, zoom} = this;
-
-		ctx.fillStyle = color;
-		ctx.save();
-		this.makePath(zoom);
-		ctx.scale(zoom*1.1, zoom*1.1);
-		ctx.fill();
-
-		ctx.restore();
-	}
 
 	/** 文字列形式で取得
 	 * @param {boolean} isAlias - エイリアス表示
