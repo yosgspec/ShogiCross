@@ -155,6 +155,7 @@ export class Board extends BoardCore{
 				const btnFont = ["Noto Color Emoji", "Noto Serif"];
 				this.#uiControl.setButtonFont(btnFont
 					.map(f=>`"${f}${canvasFont.unique}"`)
+					.concat(["serif"])
 					.join(",")
 				);
 			});
