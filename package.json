@@ -55,13 +55,10 @@
     "post": "run-p post:*",
     "post:zip-dist": "node run/zip.js ./src/dist ./src/ShogiCross.zip",
     "post:dts": "npx tsc",
+    "post:collect-app-src": "node run/collectAppSrc.js",
     "deploy": "run-p deploy:*",
     "deploy:cdn": "mkdir -p cdn && npx shx cp src/dist/*.{js,ts,map} cdn/",
     "deploy:doc-api": "npx typedoc --entryPointStrategy expand ./src/dist/ShogiCross --exclude **/*.js --out ./src/doc/api",
-    "build-app": "run-p build-app:*",
-    "build-app:icon-ico": "npx icon-gen -i src/sample/img/favicon.min.svg -o tauri/src-tauri/icons --ico --ico-name app",
-    "build-app:icon-icns": "npx icon-gen -i src/sample/img/favicon.min.svg -o tauri/src-tauri/icons --icns --icns-name app",
-    "build-app:icon-png": "npx icon-gen -i src/sample/img/favicon.min.svg -o tauri/src-tauri/icons --favicon --favicon-name=app --favicon-png-sizes 128,16",
     "built": "echo Build completed successfully!"
   },
   "devDependencies": {

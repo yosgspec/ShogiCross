@@ -10,7 +10,7 @@
     "withGlobalTauri": true,
     "windows": [
       {
-        "title": "shogicross",
+        "title": "ShogiCross App",
         "width": 800,
         "height": 600
       }
