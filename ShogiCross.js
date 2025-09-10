@@ -6950,7 +6950,7 @@ class _ extends Q {
       this.draw(), this.#s.setFont(N.names), this.#t.setRecordFont(N.names);
       const m = ["Noto Color Emoji", "Noto Serif"];
       this.#t.setButtonFont(
-        m.map((B) => `"${B}${N.unique}"`).join(",")
+        m.map((B) => `"${B}${N.unique}"`).concat(["serif"]).join(",")
       );
     }), g.then(() => this.draw()), this.draw());
   }
