@@ -68,6 +68,12 @@ jobs:
           name: cdn
           path: cdn
 
+      - name: Upload App Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: app
+          path: app
+
   UpdateCdnURL:
     needs: [CheckVersion]
     runs-on: ubuntu-latest
@@ -361,3 +367,214 @@ jobs:
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
           git tag server${{needs.CheckServerVersion.outputs.SERVER_VERSION}}
           git push origin server${{needs.CheckServerVersion.outputs.SERVER_VERSION}}
+
+  BuildAppWindows:
+    needs: [Build]
+    runs-on: windows-latest
+    permissions:
+      contents: read
+    defaults:
+      run:
+        working-directory: app
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Download Source Artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: src
+          path: src
+
+      - name: Download App Artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: app
+          path: app
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Cache NPM Modules
+        uses: actions/cache@v4
+        with:
+          path: app/node_modules
+          key: ${{hashFiles('app/package.json')}}
+
+      - name: Setup Rust
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+          override: true
+
+      - name: Cache Cargo
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cargo/registry
+            ~/.cargo/git
+            app/src-tauri/target
+          key: windows-${{hashFiles('app/src-tauri/Cargo.lock')}}
+
+      - name: Setup NPM Modules
+        run: npm install
+
+      - name: Build Tauri App
+        run: npm run tauri build --release
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-windows
+          path: app/src-tauri/target/release/*.exe
+
+  BuildAppLinux:
+    needs: [Build]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    defaults:
+      run:
+        working-directory: app
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Download Source Artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: src
+          path: src
+
+      - name: Download App Artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: app
+          path: app
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Cache NPM Modules
+        uses: actions/cache@v4
+        with:
+          path: app/node_modules
+          key: ${{hashFiles('app/package.json')}}
+
+      - name: Setup Rust
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+          override: true
+
+      - name: Cache Cargo
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cargo/registry
+            ~/.cargo/git
+            app/src-tauri/target
+          key: linux-${{hashFiles('app/src-tauri/Cargo.lock')}}
+
+      - name: Setup Linux Liblary
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y build-essential libwebkit2gtk-4.1-dev libayatana-appindicator3-dev librsvg2-dev patchelf
+
+      - name: Setup NPM Modules
+        run: npm install
+
+      - name: Build Tauri App
+        run: npm run tauri build --release
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-linux
+          path: app/src-tauri/target/release/bundle/appimage/*.AppImage
+
+  BuildAppAndroid:
+    needs: [Build]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    defaults:
+      run:
+        working-directory: app
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Download Source Artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: src
+          path: src
+
+      - name: Download App Artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: app
+          path: app
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Cache NPM Modules
+        uses: actions/cache@v4
+        with:
+          path: app/node_modules
+          key: ${{hashFiles('app/package.json')}}
+
+      - name: Setup Rust
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+          override: true
+
+      - name: Cache Cargo
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cargo/registry
+            ~/.cargo/git
+            app/src-tauri/target
+          key: android-${{hashFiles('app/src-tauri/Cargo.lock')}}
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: zulu
+          java-version: 17
+
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Export Android Env
+        run: |
+          echo "ANDROID_HOME=$ANDROID_SDK_ROOT" >> $GITHUB_ENV
+          echo "ANDROID_SDK_ROOT=$ANDROID_SDK_ROOT" >> $GITHUB_ENV
+          echo "NDK_HOME=$ANDROID_NDK_ROOT" >> $GITHUB_ENV
+          echo "PATH=$PATH:$ANDROID_SDK_ROOT/platform-tools" >> $GITHUB_ENV
+
+      - name: Install NPM Modules
+        run: npm install
+
+      - name: Setup Tauri App
+        run: npx tauri android init
+
+      - name: Build Tauri App
+        run: npx tauri android build --apk
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-android
+          path: app/src-tauri/gen/android/app/build/outputs/apk/universal/release/*.apk
+
