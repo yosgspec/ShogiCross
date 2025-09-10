@@ -6895,7 +6895,15 @@ class Q extends Z {
       isHeadless: r = !1,
       autoDrawing: o = !r,
       overlayOptions: l,
-      useUIControl: d = !r,
+      useUIControl: d = r ? null : [
+        "undo",
+        "redo",
+        "rotateLeft",
+        "rotateRight",
+        "downloadImage",
+        "downloadRecord",
+        "textRecord"
+      ],
       uiControlRecordOption: c = {},
       onDrawed: p = (m) => {
       },
@@ -6915,7 +6923,7 @@ class Q extends Z {
       const { style: m } = e;
       n === "overflow" ? (m.maxWidth === "" && (m.maxWidth = "97vw"), m.maxHeight === "" && (m.maxHeight = "92vh")) : n === "horizontal" ? m.width === "" && (m.width = "97vw") : n === "vertical" ? m.height === "" && (m.height = "92vh") : n === "parentOverflow" ? (m.maxWidth === "" && (m.maxWidth = "100%"), m.maxHeight === "" && (m.maxHeight = "100%")) : n === "parentHorizontal" ? m.width === "" && (m.width = "100%") : n === "parentVertical" && m.height === "" && (m.height = "100%");
     }
-    this.isGameEnd = !1, this.onDrawed = p, this.onTurnEnd = h, this.onGameOver = f, this.onGameEnd = A, r || (this.#e = Pe(this)), d && (this.#t = Array.isArray(d) ? this.makeUIControl(d, c) : this.makeUIControl(null, c), this.#t.add()), this.autoDrawing = o, o && (u.then(() => {
+    this.isGameEnd = !1, this.onDrawed = p, this.onTurnEnd = h, this.onGameOver = f, this.onGameEnd = A, r || (this.#e = Pe(this)), d && (this.makeUIControl(d, c), this.#t.add()), this.autoDrawing = o, o && (u.then(() => {
       this.draw(), this.#s.setFont(N.names), this.#t.setRecordFont(N.names);
       const m = ["Noto Color Emoji", "Noto Serif"];
       this.#t.setButtonFont(

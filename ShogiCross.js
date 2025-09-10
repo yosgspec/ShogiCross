@@ -5014,7 +5014,7 @@ function Ae() {
     Object.values(I).flatMap(({ imgSrc: p }) => p ?? []).concat(Object.values(Y).flatMap(({ imgSrc: p }) => p != null ? Object.values(p) : []).flat())
   )];
 }
-const $ = {
+const R = {
   /** 読み込み済みであるか?
    * @type {boolean}
    */
@@ -5288,12 +5288,12 @@ class y {
   async draw() {
     if (!this.ctx) return;
     const e = "#FF000055";
-    this.imgSrc && $.imported ? (this.drawImage(), this.isSelected && this.drawMaskImage(e)) : (this.drawPiece(), this.isSelected && this.drawMask(e));
+    this.imgSrc && R.imported ? (this.drawImage(), this.isSelected && this.drawMaskImage(e)) : (this.drawPiece(), this.isSelected && this.drawMask(e));
   }
   /** 駒画像を描写 */
   drawImage() {
     if (!this.ctx) return;
-    const { ctx: e, size: t, deg: s } = this, i = this.imgSrc[s][this.displayPtn] ?? this.imgSrc[0][this.displayPtn], a = $.images[i];
+    const { ctx: e, size: t, deg: s } = this, i = this.imgSrc[s][this.displayPtn] ?? this.imgSrc[0][this.displayPtn], a = R.images[i];
     if (!a) return;
     e.save(), e.translate(this.center, this.middle), this.isRotateImg && e.rotate(this.rad);
     let n, r;
@@ -5436,12 +5436,12 @@ class F {
   draw(e = -1) {
     if (!this.ctx) return;
     const { selectColor: t, targetColor: s } = this;
-    this.imgSrc && $.imported ? this.drawImage() : this.drawPanel(), this.isSelected && this.drawMask(t), this.isTarget && this.drawMask(s), this.piece?.id === e && this.piece?.drawLastMove(), this.piece?.draw();
+    this.imgSrc && R.imported ? this.drawImage() : this.drawPanel(), this.isSelected && this.drawMask(t), this.isTarget && this.drawMask(s), this.piece?.id === e && this.piece?.drawLastMove(), this.piece?.draw();
   }
   /** マス目画像を描写 */
   drawImage() {
     if (!this.ctx) return;
-    const { ctx: e } = this, t = this.imgSrc, s = $.images[t];
+    const { ctx: e } = this, t = this.imgSrc, s = R.images[t];
     s && (e.save(), e.translate(this.left, this.top), e.drawImage(s, 0, 0, this.width, this.height), e.restore());
   }
   /** マス目を描写 */
@@ -5805,11 +5805,11 @@ function M(p, e, t, s) {
             const [me, ue] = [j - B, L - C];
             for (let te = t, se = s; ; ) {
               te += me, se += ue;
-              const R = te + W, T = se + b;
-              if (!o(R, T) || !O && z === 0) break;
+              const $ = te + W, T = se + b;
+              if (!o($, T) || !O && z === 0) break;
               const J = ee === 0;
-              J && c(m, R, T, g, J) ? (z--, h(g, R, T)) : k < 1 && z--;
-              const ae = a[T][R];
+              J && c(m, $, T, g, J) ? (z--, h(g, $, T)) : k < 1 && z--;
+              const ae = a[T][$];
               if (ae.piece && (ee--, J || l(ae)))
                 break;
             }
@@ -6818,7 +6818,7 @@ const Fe = {
     /* Hidden by default */
   }
 };
-class $e {
+class Re {
   #e = !1;
   #t = null;
   // 暗転用オーバーレイ要素
@@ -6918,7 +6918,15 @@ class _ extends Q {
       isHeadless: r = !1,
       autoDrawing: o = !r,
       overlayOptions: l,
-      useUIControl: d = !r,
+      useUIControl: d = r ? null : [
+        "undo",
+        "redo",
+        "rotateLeft",
+        "rotateRight",
+        "downloadImage",
+        "downloadRecord",
+        "textRecord"
+      ],
       uiControlRecordOption: c = {},
       onDrawed: S = (m) => {
       },
@@ -6929,7 +6937,7 @@ class _ extends Q {
     } = t;
     let u = null, g = null;
     if (!r) {
-      u = N.importAsync(), g = $.importAsync(), this.canvas = e, this.ctx = e.getContext("2d"), this.ctx.clearRect(0, 0, e.width, e.height), this.overlay = new $e(this.canvas, l), this.#s = new Le();
+      u = N.importAsync(), g = R.importAsync(), this.canvas = e, this.ctx = e.getContext("2d"), this.ctx.clearRect(0, 0, e.width, e.height), this.overlay = new Re(this.canvas, l), this.#s = new Le();
       for (const B of Object.values(this.pieces))
         B.ctx = this.ctx;
       for (const B of this.field.flat())
@@ -6938,7 +6946,7 @@ class _ extends Q {
       const { style: m } = e;
       n === "overflow" ? (m.maxWidth === "" && (m.maxWidth = "97vw"), m.maxHeight === "" && (m.maxHeight = "92vh")) : n === "horizontal" ? m.width === "" && (m.width = "97vw") : n === "vertical" ? m.height === "" && (m.height = "92vh") : n === "parentOverflow" ? (m.maxWidth === "" && (m.maxWidth = "100%"), m.maxHeight === "" && (m.maxHeight = "100%")) : n === "parentHorizontal" ? m.width === "" && (m.width = "100%") : n === "parentVertical" && m.height === "" && (m.height = "100%");
     }
-    this.isGameEnd = !1, this.onDrawed = S, this.onTurnEnd = h, this.onGameOver = f, this.onGameEnd = A, r || (this.#e = je(this)), d && (this.#t = Array.isArray(d) ? this.makeUIControl(d, c) : this.makeUIControl(null, c), this.#t.add()), this.autoDrawing = o, o && (u.then(() => {
+    this.isGameEnd = !1, this.onDrawed = S, this.onTurnEnd = h, this.onGameOver = f, this.onGameEnd = A, r || (this.#e = je(this)), d && (this.makeUIControl(d, c), this.#t.add()), this.autoDrawing = o, o && (u.then(() => {
       this.draw(), this.#s.setFont(N.names), this.#t.setRecordFont(N.names);
       const m = ["Noto Color Emoji", "Noto Serif"];
       this.#t.setButtonFont(
@@ -7098,7 +7106,7 @@ class pe {
       t.style.fontFamily = e;
   }
 }
-const Re = () => [
+const $e = () => [
   .../* @__PURE__ */ new Set([
     ...pe.buttonTexts + Object.values(I).map(({ displayText: p }) => p).join("") + Object.values(Y).map(({ display: p }) => p ? p.join("") : "").join("")
   ])
@@ -7122,7 +7130,7 @@ Object.assign(N, {
    */
   async importAsync(p = !1) {
     if (this.imported) return;
-    const e = "https://fonts.googleapis.com/css2?family=", t = Re();
+    const e = "https://fonts.googleapis.com/css2?family=", t = $e();
     this.names = N.fonts.map((i) => `"${i[0]}${this.unique}"`).join(",") + ",serif";
     const s = p ? "" : `&text=${t}`;
     return Promise.all(
@@ -7310,7 +7318,7 @@ export {
   y as Piece,
   K as boards,
   N as canvasFont,
-  $ as canvasImage,
+  R as canvasImage,
   ye as extendData,
   he as gameSoft,
   D as games,
