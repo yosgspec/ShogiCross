@@ -1,6 +1,6 @@
 {
   "name": "shogicross-server",
-  "version": "0.0.9",
+  "version": "0.0.10",
   "description": "Server for ShogiCross online play",
   "main": "server.js",
   "type": "module",
@@ -9,7 +9,6 @@
     "dev": "nodemon server.js"
   },
   "dependencies": {
-    "express": "^4.18.2",
     "ws": "^8.13.0"
   },
   "devDependencies": {

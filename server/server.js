@@ -1,5 +1,4 @@
 // 必要なモジュールのインポート
-import express from "express";
 import http from "http";
 import {WebSocket, WebSocketServer} from "ws";
 import path, {dirname} from "path";
@@ -12,9 +11,18 @@ const games = {};
 // WebSocketからルームIDへのマッピング: Map<ws, roomId>
 const wsToRoomId = new Map();
 
-// Expressアプリケーションの初期化
-const app = express();
-const server = http.createServer(app);
+// HTTPサーバーとWebSocketサーバーの初期化
+const server = http.createServer((req, res)=>{
+	// Cloud Runのヘルスチェックや基本的な接続確認に応答
+	if(req.method === "GET" && req.url === "/"){
+		res.writeHead(200, {"Content-Type": "text/plain"});
+		res.end("OK");
+	}
+	else{
+		res.writeHead(404, {"Content-Type": "text/plain"});
+		res.end("Not Found");
+	}
+});
 const wss = new WebSocketServer({server});
 
 // WebSocket接続が確立されたときのイベントハンドラ
