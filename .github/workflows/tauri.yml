@@ -49,7 +49,7 @@ jobs:
         run: npm install
 
       - name: Build Tauri App
-        run: npx tauri build --release
+        run: npx tauri build -- --release
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
@@ -104,7 +104,7 @@ jobs:
         run: npm install
 
       - name: Build Tauri App
-        run: npx tauri build --release
+        run: npx tauri build -- --release
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
