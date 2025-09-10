@@ -70,7 +70,15 @@ export class Board extends BoardCore{
 			isHeadless=false,
 			autoDrawing=!isHeadless,
 			overlayOptions,
-			useUIControl=!isHeadless,
+			useUIControl=!isHeadless? [
+				"undo",
+				"redo",
+				"rotateLeft",
+				"rotateRight",
+				"downloadImage",
+				"downloadRecord",
+				"textRecord",
+			]: null,
 			uiControlRecordOption={},
 			onDrawed=e=>{},
 			onTurnEnd=(e,turn)=>{},
@@ -133,9 +141,7 @@ export class Board extends BoardCore{
 
 		if(!isHeadless) this.#mouseControl = mouseControl(this);
 		if(useUIControl){
-			this.#uiControl = Array.isArray(useUIControl)?
-				this.makeUIControl(useUIControl, uiControlRecordOption):
-				this.makeUIControl(null, uiControlRecordOption);
+			this.makeUIControl(useUIControl, uiControlRecordOption);
 			this.#uiControl.add();
 		}
 
