@@ -6,7 +6,8 @@ import xml.etree.ElementTree as ET
 
 
 # 設定
-src_path = "svg"  # 入力ファイルのディレクトリ
+src_dir = "svg"  # 入力ファイルのディレクトリ
+output_dir = "dist"
 input_csv = "paperPieceCount.csv"  # 入力するCSVファイル
 game_name = "MAX"  # SVGを作成するゲーム名
 viewport = 3000  # ビューポートサイズ
@@ -41,7 +42,7 @@ with open(input_csv, mode="r", encoding="utf-8") as file:
 		for i,pcs in enumerate(row):
 			if game_name != games[i]: continue
 			for side in input_files_side:
-				img = glob.glob(f"{src_path}/*{piece}{side}.svg")[0]
+				img = glob.glob(f"{src_dir}/*{piece}{side}.svg")[0]
 				for j in range(int(pcs)):
 					input_files_side[side].append(img)
 			break
@@ -49,6 +50,9 @@ with open(input_csv, mode="r", encoding="utf-8") as file:
 # 総行数計算
 num_files = len(input_files_side["A"])
 total_rows = (num_files + max_cols - 1) // max_cols
+
+# 出力ディレクトリ作成
+makedirs(output_dir, exist_ok=True)
 
 # 処理
 for side, input_files in input_files_side.items():
@@ -116,6 +120,6 @@ for side, input_files in input_files_side.items():
 
 		# ファイル保存
 		tree = ET.ElementTree(svg_root)
-		tree.write(f"{game_name}{side}_{file_id}.svg")
+		tree.write(path.join(output_dir, f"{game_name}{side}_{file_id}.svg"))
 
 print("Completed.")
