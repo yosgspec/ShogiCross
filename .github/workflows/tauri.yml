@@ -28,7 +28,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: node_modules
-          key: ${{hashFiles('app/package-lock.json')}}
+          key: ${{hashFiles('package.json')}}
 
       - name: Setup Rust
         uses: actions-rs/toolchain@v1
@@ -43,7 +43,7 @@ jobs:
             ~/.cargo/registry
             ~/.cargo/git
             src-tauri/target
-          key: ${{hashFiles('app/src-tauri/Cargo.lock')}}
+          key: ${{hashFiles('src-tauri/Cargo.lock')}}
 
       - name: Setup NPM Modules
         run: npm install
@@ -78,7 +78,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: node_modules
-          key: ${{hashFiles('app/package-lock.json')}}
+          key: ${{hashFiles('package-lock.json')}}
 
       - name: Setup Rust
         uses: actions-rs/toolchain@v1
@@ -93,7 +93,7 @@ jobs:
             ~/.cargo/registry
             ~/.cargo/git
             src-tauri/target
-          key: linux-cargo-${{ hashFiles('app/src-tauri/Cargo.lock') }}
+          key: linux-cargo-${{ hashFiles('src-tauri/Cargo.lock') }}
 
       - name: Setup Linux Liblary
         run: |
@@ -133,7 +133,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: node_modules
-          key: ${{hashFiles('app/package-lock.json')}}
+          key: ${{hashFiles('package.json')}}
 
       - name: Setup Rust
         uses: actions-rs/toolchain@v1
@@ -148,7 +148,7 @@ jobs:
             ~/.cargo/registry
             ~/.cargo/git
             src-tauri/target
-          key: ${{hashFiles('app/src-tauri/Cargo.lock')}}
+          key: ${{hashFiles('src-tauri/Cargo.lock')}}
 
       - name: Setup Java
         uses: actions/setup-java@v4
