@@ -27,7 +27,7 @@ jobs:
       - name: Cache NPM Modules
         uses: actions/cache@v4
         with:
-          path: app/node_modules
+          path: node_modules
           key: ${{hashFiles('app/package-lock.json')}}
 
       - name: Setup Rust
@@ -42,7 +42,7 @@ jobs:
           path: |
             ~/.cargo/registry
             ~/.cargo/git
-            app/src-tauri/target
+            src-tauri/target
           key: ${{hashFiles('app/src-tauri/Cargo.lock')}}
 
       - name: Setup NPM Modules
@@ -77,7 +77,7 @@ jobs:
       - name: Cache NPM Modules
         uses: actions/cache@v4
         with:
-          path: app/node_modules
+          path: node_modules
           key: ${{hashFiles('app/package-lock.json')}}
 
       - name: Setup Rust
@@ -92,7 +92,7 @@ jobs:
           path: |
             ~/.cargo/registry
             ~/.cargo/git
-            app/src-tauri/target
+            src-tauri/target
           key: linux-cargo-${{ hashFiles('app/src-tauri/Cargo.lock') }}
 
       - name: Setup Linux Liblary
@@ -132,7 +132,7 @@ jobs:
       - name: Cache NPM Modules
         uses: actions/cache@v4
         with:
-          path: app/node_modules
+          path: node_modules
           key: ${{hashFiles('app/package-lock.json')}}
 
       - name: Setup Rust
@@ -147,7 +147,7 @@ jobs:
           path: |
             ~/.cargo/registry
             ~/.cargo/git
-            app/src-tauri/target
+            src-tauri/target
           key: ${{hashFiles('app/src-tauri/Cargo.lock')}}
 
       - name: Setup Java
