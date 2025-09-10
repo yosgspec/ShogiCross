@@ -369,7 +369,10 @@ jobs:
           git push origin server${{needs.CheckServerVersion.outputs.SERVER_VERSION}}
 
   BuildAppWindows:
-    needs: [Build]
+    needs: [CheckVersion, Build]
+    if: >
+      github.ref == 'refs/heads/main'
+      && needs.CheckVersion.outputs.IS_NEW_VERSION == 'true'
     runs-on: windows-latest
     permissions:
       contents: read
@@ -431,7 +434,10 @@ jobs:
           path: app/src-tauri/target/release/*.exe
 
   BuildAppLinux:
-    needs: [Build]
+    needs: [CheckVersion, Build]
+    if: >
+      github.ref == 'refs/heads/main'
+      && needs.CheckVersion.outputs.IS_NEW_VERSION == 'true'
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -498,7 +504,10 @@ jobs:
           path: app/src-tauri/target/release/bundle/appimage/*.AppImage
 
   BuildAppAndroid:
-    needs: [Build]
+    needs: [CheckVersion, Build]
+    if: >
+      github.ref == 'refs/heads/main'
+      && needs.CheckVersion.outputs.IS_NEW_VERSION == 'true'
     runs-on: ubuntu-latest
     permissions:
       contents: read

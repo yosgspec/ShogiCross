@@ -72,11 +72,12 @@
 ## 使用フォント
 下記のフォントを採用(優先度順)。
 * [Noto Serif JP Black](https://fonts.google.com/noto/specimen/Noto+Serif+JP)
-* [Noto Emoji](https://fonts.google.com/noto/specimen/Noto+Emoji?noto.query=emoji)
-* [Noto Sans Symbols 2](https://fonts.google.com/noto/specimen/Noto+Sans+Symbols+2?noto.query=Symbols)
-* [Noto Sans Symbols](https://fonts.google.com/noto/specimen/Noto+Sans+Symbols?noto.query=Symbols)
-* [Noto Serif Black](https://fonts.google.com/noto/specimen/Noto+Serif?noto.query=serif)
-* [Noto Serif TC Black](https://fonts.google.com/noto/specimen/Noto+Serif+TC?noto.query=serif+tc)
+* [Noto Emoji](https://fonts.google.com/noto/specimen/Noto+Emoji)
+* [Noto Sans Symbols 2](https://fonts.google.com/noto/specimen/Noto+Sans+Symbols+2)
+* [Noto Sans Symbols](https://fonts.google.com/noto/specimen/Noto+Sans+Symbols)
+* [Noto Serif Black](https://fonts.google.com/noto/specimen/Noto+Serif)
+* [Noto Serif TC Black](https://fonts.google.com/noto/specimen/Noto+Serif+TC)
+* [Noto Color Emoji](https://fonts.google.com/noto/specimen/Noto+Color+Emoji) (操作パネル用)
 
 楷書体は使用せず、文字の網羅性が高くGoogle Fontsで使用できることからからNotoフォントで統一している。
 
@@ -97,14 +98,18 @@ Webアプリの本体についてはVanilla.jsで実装。
 |ライブラリ|用途
 |:---------|:----
 |[npm-run-all](https://github.com/mysticatea/npm-run-all)|npmビルド処理直列化
+|[shx](https://github.com/shelljs/shx)|bashコマンド実行(Windows)
 |[Vite](https://ja.vitejs.dev)|コード1ファイル化
 |[Toptal Minifier Tool](https://www.toptal.com/developers/javascript-minifier)|コード最小化
+|[jsDelivr](https://www.jsdelivr.com/github)|CDN配信
 |[TypeScript](https://www.typescriptlang.org/ja/)|型定義ファイル(.d.ts)生成
+|[markdown-it](https://github.com/markdown-it/markdown-it)|Markdown⇒HTML変換
 |[TypeDoc](https://typedoc.org)|.d.ts(JSDoc)ドキュメント生成
 |[ADM-ZIP](https://github.com/cthackers/adm-zip/wiki/ADM-ZIP)|ZIPファイル生成
 |[sharp-cli](https://github.com/vseventer/sharp-cli)|画像ファイル最適化
-|[jsDelivr](https://www.jsdelivr.com/github)|CDNリンク取得
-|[markdown-it](https://github.com/markdown-it/markdown-it)|Markdown⇒HTML変換
+|[icon-gen](https://github.com/akabekobeko/npm-icon-gen)|アプリアイコン生成
+|[ws](https://github.com/websockets/ws)|オンライン通信(WebSocket)
+|[tauri](https://v2.tauri.app/ja/)|スタンドアロンアプリビルド
 
 ## [ライセンス](LICENSE)
 CC0-1.0。コードの引用再利用ご自由に。
