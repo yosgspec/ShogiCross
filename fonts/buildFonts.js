@@ -25,12 +25,6 @@ async function buildFonts(){
 	})
 	await downloader.execute();
 
-	// ライセンス配置
-	const res = await fetch(OFL_URL);
-	const ofl_text = await res.text();
-	const ofl_path = path.join(FONT_DIR, path.basename(OFL_URL));
-	await fs.writeFile(ofl_path, ofl_text, "utf8");
-
 	// フォント用CSS編集
 	const css = await fs.readFile(FONT_CSS_PATH, "utf8");
 	const root = postcss.parse(css);
@@ -56,6 +50,12 @@ async function buildFonts(){
 	});
 
 	await fs.writeFile(FONT_CSS_PATH, root.toString());
+
+	// ライセンス配置
+	const res = await fetch(OFL_URL);
+	const ofl_text = await res.text();
+	const ofl_path = path.basename(OFL_URL);
+	await fs.writeFile(ofl_path, ofl_text, "utf8");
 
 	console.log("Font Built!");
 };
