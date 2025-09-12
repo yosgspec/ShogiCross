@@ -1,5 +1,58 @@
 // クライアントサイド(通常の<script>タグ)で実行された場合
 if("serviceWorker" in navigator){
+	// --- インストールボタンの動的生成 ---
+	let deferredPrompt;
+	const installButton = document.createElement("button");
+	installButton.id = "installButton";
+	installButton.textContent = "📥";
+	installButton.title = "アプリをインストール";
+	Object.assign(installButton.style, {
+		position: "fixed",
+		bottom: "20px",
+		right: "20px",
+		width: "50px",
+		height: "50px",
+		borderRadius: "50%",
+		backgroundColor: "#f0f0f0",
+		border: "1px solid #ccc",
+		fontSize: "24px",
+		display: "flex",
+		justifyContent: "center",
+		alignItems: "center",
+		cursor: "pointer",
+		boxShadow: "0 4px 8px rgba(0,0,0,0.2)",
+		zIndex: "1000",
+		display: "none",
+	});
+
+	document.body.appendChild(installButton);
+
+	window.addEventListener("beforeinstallprompt", e=>{
+		e.preventDefault();
+		deferredPrompt = e;
+		console.log("beforeinstallprompt event fired. Button is now active.");
+		installButton.style.display = "flex"; // ← イベント発火で表示
+
+		installButton.addEventListener("click", async ()=>{
+			if(!deferredPrompt){
+				console.log("Install prompt is not available yet.");
+				return;
+			}
+			await deferredPrompt.prompt();
+			const { outcome } = await deferredPrompt.userChoice;
+			console.log(`User response to the install prompt: ${outcome}`);
+			deferredPrompt = null;
+			installButton.style.display = "none"; // ← クリック後非表示
+		});
+	});
+
+	window.addEventListener("appinstalled", ()=>{
+		deferredPrompt = null;
+		installButton.style.display = "none";
+		console.log("PWA was installed");
+	});
+
+	// --- Service Workerの登録処理 ---
 	window.addEventListener("load", async ()=>{
 		// このファイル自身をService Workerとして登録する
 		try{

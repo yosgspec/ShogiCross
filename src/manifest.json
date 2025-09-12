@@ -4,7 +4,7 @@
   "description": "様々な将棋類の駒を並べるだけの将棋盤のようなツール",
   "start_url": "./app.html",
   "background_color": "#3399FF",
-  "display": "fullscreen",
+  "display": "standalone",
   "icons": [
     {
       "src": "./sample/img/favicon.min.svg",
