@@ -26,7 +26,7 @@ async function collectAppSrc(){
 				report: true,
 				ico: {name: "app"},
 				icns: {name: "app"},
-				favicon: {name: "app", pngSizes: [128], icoSizes: []},
+				favicon: {name: "app", pngSizes: [192, 512], icoSizes: []},
 			}
 		))
 		// 不要なアイコンファイルを削除

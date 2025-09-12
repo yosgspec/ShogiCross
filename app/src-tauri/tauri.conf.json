@@ -25,7 +25,8 @@
     "icon": [
       "icons/app.ico",
       "icons/app.icns",
-      "icons/app128.png"
+      "icons/app512.png",
+      "icons/app192.png"
     ]
   }
 }
