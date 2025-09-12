@@ -1,55 +1,34 @@
 import fs from "fs/promises";
 import path from "path";
-import {constructURL, download} from "google-fonts-helper";
-import postcss from "postcss";
+import simpleGit from "simple-git";
+const git = simpleGit();
 import canvasFont from "../src/ShogiCross/data/canvasFont.js";
 
+
+const GIT_URL = "https://github.com/google/fonts.git";
 const FONT_DIR = "./fonts";
+const TEMP_DIR = "./temp";
 const OFL_URL = "https://raw.githubusercontent.com/google/fonts/refs/heads/main/ofl/notoserif/OFL.txt";
 const FONT_CSS_PATH = "./fonts.css";
 const MASTER_FONT_NAME = "ShogiCross";
 
 async function buildFonts(){
-	// フォントダウンロード
-	const url = constructURL({
-		families: Object.fromEntries(
-			canvasFont.fonts.map(
-				([key, wt])=>[key, {wght: ""+wt}]
+	await fs.rmdir(FONT_DIR, {recursive: true, force: true});
+	await fs.mkdir(FONT_DIR);
+	await git.clone(GIT_URL, TEMP_DIR, ["--filter=blob:none", "--sparse"]);
+	const repo = simpleGit(FONT_DIR);
+	for(const [fontName] of canvasFont.font){
+		const gitPath = path.join("ofl", fontName.replace(/\s/g, "").toLowerCase());
+		await repo.raw(["sparse-checkout", "set", gitPath]);
+		await Promise.all(
+			(await fs.readdir(gitPath))
+			.filter(f=>f.endsWith(".ttf"))
+			.map(f=>fs.copyFile(
+				path.join(TEMP_DIR, gitPath, f),
+				path.join(FONT_DIR, f))
 			)
-		)
-	});
-	const downloader = download(url, {
-		base64: false,
-		overwriting: true,
-		outputDir: './',
-	})
-	await downloader.execute();
-
-	// フォント用CSS編集
-	const css = await fs.readFile(FONT_CSS_PATH, "utf8");
-	const root = postcss.parse(css);
-	const fontFaces = root.nodes.filter(node=>
-		node.type === "atrule" && node.name === "font-face");
-
-	// フォント定義をソート
-	fontFaces.sort((...args)=>
-		args.map(a=>
-			canvasFont.fonts.findIndex(([name])=>
-				name === a.nodes.find(n=>n.prop === "font-family").value.replace(/['"]/g, "")
-			)
-		).reduce((a, b)=>a-b)
-	);
-	root.nodes = fontFaces;
-
-	// フォント名を統一
-	root.walkAtRules("font-face", fontFace=>{
-		fontFace.walkDecls("font-family", fontFamily=>{
-			if(fontFamily.value.includes("Color")) return;
-			fontFamily.value = `'${MASTER_FONT_NAME}'`;
-		});
-	});
-
-	await fs.writeFile(FONT_CSS_PATH, root.toString());
+		);
+	}
 
 	// ライセンス配置
 	const res = await fetch(OFL_URL);
