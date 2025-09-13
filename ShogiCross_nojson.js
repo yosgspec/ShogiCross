@@ -7143,7 +7143,7 @@ Object.assign(v, {
           })
         ), this.importAsync(!0);
       }
-      this.names = v.fonts.map((e) => `"${e[0]}${this.unique}"`).join(",") + ",serif", this.imported = !0;
+      this.names = v.fonts.map((e) => `"${e[0]}${this.unique}"`).join(",") + ",serif", await new Promise((e) => setTimeout(e, 10)), this.imported = !0;
     }
   }
 });
