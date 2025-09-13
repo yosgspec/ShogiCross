@@ -1,5 +1,6 @@
 ttf
 fonts
+build
 chars.txt
 OFL.txt
 *.egg-info

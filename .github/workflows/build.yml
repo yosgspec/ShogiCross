@@ -15,7 +15,7 @@ permissions:
   contents: read
 
 jobs:
-  Build:
+  BuildModule:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -25,7 +25,12 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
-          registry-url: https://registry.npmjs.org/
+
+      - name: Cache NPM Modules
+        uses: actions/cache@v4
+        with:
+          path: app/node_modules
+          key: ${{hashFiles('package.json')}}
 
       - name: Setup NPM Modules
         run: npm install
@@ -34,16 +39,96 @@ jobs:
         run: npm run setup
 
       - name: Build ShogiCross Module
-        run: npm run building
+        run: npm run compile
 
-      - name: Collect ShogiCross Module
-        run: npm run collect
+      - name: Stage ShogiCross Module
+        run: npm run stage
 
       - name: Minify ShogiCross Module
         run: npm run minify
 
-      - name: Post ShogiCross Module
-        run: npm run post
+      - name: Upload Source Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: src
+          path: src
+
+  BuildFont:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: font
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Cache NPM Modules
+        uses: actions/cache@v4
+        with:
+          path: app/node_modules
+          key: ${{hashFiles('package.json')}}
+
+      - name: Setup NPM Modules
+        run: npm install
+
+      - name: Setup Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: 'pypy3.11'
+          cache: pip
+
+      - name: Setup PIP Modules
+        run: pip install .
+
+      - name: Build Font
+        run: npm run build
+
+      - name: Upload Font Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: font
+          path: font
+
+  Stage:
+    needs: [BuildModule, BuildFont]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Download Module Artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: src
+          path: src
+
+      - name: Download Font Artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: font
+          path: font
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Cache NPM Modules
+        uses: actions/cache@v4
+        with:
+          path: app/node_modules
+          key: ${{hashFiles('package.json')}}
+
+      - name: Setup NPM Modules
+        run: npm install
+
+      - name: Package ShogiCross Module
+        run: npm run package
 
       - name: Deploy CDN
         run: npm run deploy:cdn
@@ -59,6 +144,7 @@ jobs:
       - name: Upload Source Artifact
         uses: actions/upload-artifact@v4
         with:
+          overwrite: true
           name: src
           path: src
 
@@ -104,7 +190,7 @@ jobs:
           fi
 
   DeployPages:
-    needs: [Build, UpdateCdnURL]
+    needs: [Stage, UpdateCdnURL]
     if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     permissions:
@@ -118,14 +204,14 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup GitHub Pages
-        uses: actions/configure-pages@v4
-
       - name: Download Source Artifact
         uses: actions/download-artifact@v4
         with:
           name: src
           path: src
+
+      - name: Setup GitHub Pages
+        uses: actions/configure-pages@v4
 
       - name: Upload GitHub Pages Artifact
         uses: actions/upload-pages-artifact@v3
@@ -148,7 +234,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: 20
 
       - name: Get ShogiCross Version
         id: PROJECT_VERSION
@@ -163,7 +249,7 @@ jobs:
           git ls-remote --exit-code --tags origin "refs/tags/${TAG_NAME}"
 
   PublishNPM:
-    needs: [CheckVersion, Build]
+    needs: [CheckVersion, Stage]
     if: >
       github.ref == 'refs/heads/main'
       && needs.CheckVersion.outputs.IS_NEW_VERSION == 'true'
@@ -172,17 +258,16 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-          registry-url: https://registry.npmjs.org/
-
       - name: Download Module Artifact
         uses: actions/download-artifact@v4
         with:
           name: src
           path: src
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
 
       - name: Publish NPM
         run: npm publish --access public
@@ -190,7 +275,7 @@ jobs:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
 
   ReleaseCDN:
-    needs: [CheckVersion, Build]
+    needs: [CheckVersion, Stage]
     if: >
       github.ref == 'refs/heads/main'
       && needs.CheckVersion.outputs.IS_NEW_VERSION == 'true'
@@ -296,7 +381,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: 20
 
       - name: Get Server Version
         id: SERVER_VERSION
@@ -331,6 +416,7 @@ jobs:
         uses: google-github-actions/auth@v2
         with:
           credentials_json: ${{secrets.GCP_CREDENTIALS}}
+
       - name: Setup Google Cloud SDK
         uses: google-github-actions/setup-gcloud@v2
         with:
@@ -369,25 +455,17 @@ jobs:
           git push origin server${{needs.CheckServerVersion.outputs.SERVER_VERSION}}
 
   BuildAppWindows:
-    needs: [CheckVersion, Build]
+    needs: [CheckVersion, Stage]
     if: >
       github.ref == 'refs/heads/main'
       && needs.CheckVersion.outputs.IS_NEW_VERSION == 'true'
     runs-on: windows-latest
-    permissions:
-      contents: read
     defaults:
       run:
         working-directory: app
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-
-      - name: Download Source Artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: src
-          path: src
 
       - name: Download App Artifact
         uses: actions/download-artifact@v4
@@ -425,34 +503,28 @@ jobs:
         run: npm install
 
       - name: Build Tauri App
-        run: npm run tauri build --release
+        run: npm run build
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
           name: app-windows
-          path: app/src-tauri/target/release/*.exe
+          path: |
+            app/src-tauri/target/release/*.exe
+            app/OFL.txt
 
   BuildAppLinux:
-    needs: [CheckVersion, Build]
+    needs: [CheckVersion, Stage]
     if: >
       github.ref == 'refs/heads/main'
       && needs.CheckVersion.outputs.IS_NEW_VERSION == 'true'
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
     defaults:
       run:
         working-directory: app
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-
-      - name: Download Source Artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: src
-          path: src
 
       - name: Download App Artifact
         uses: actions/download-artifact@v4
@@ -487,42 +559,34 @@ jobs:
           key: linux-${{hashFiles('app/src-tauri/Cargo.lock')}}
 
       - name: Setup Linux Liblary
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y build-essential libwebkit2gtk-4.1-dev libayatana-appindicator3-dev librsvg2-dev patchelf
+        run: npm run install:apt
 
       - name: Setup NPM Modules
         run: npm install
 
       - name: Build Tauri App
-        run: npm run tauri build --release
+        run: npm run build
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
           name: app-linux
-          path: app/src-tauri/target/release/bundle/appimage/*.AppImage
+          path: |
+            app/src-tauri/target/release/bundle/appimage/*.AppImage
+            app/OFL.txt
 
   BuildAppAndroid:
-    needs: [CheckVersion, Build]
+    needs: [CheckVersion, Stage]
     if: >
       github.ref == 'refs/heads/main'
       && needs.CheckVersion.outputs.IS_NEW_VERSION == 'true'
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
     defaults:
       run:
         working-directory: app
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-
-      - name: Download Source Artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: src
-          path: src
 
       - name: Download App Artifact
         uses: actions/download-artifact@v4
@@ -575,15 +639,14 @@ jobs:
       - name: Install NPM Modules
         run: npm install
 
-      - name: Setup Tauri App
-        run: npx tauri android init
-
       - name: Build Tauri App
-        run: npx tauri android build --apk
+        run: npm run build-apk
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
           name: app-android
-          path: app/src-tauri/gen/android/app/build/outputs/apk/universal/release/*.apk
+          path: |
+            app/src-tauri/gen/android/app/build/outputs/apk/universal/release/*.apk
+            app/OFL.txt
 

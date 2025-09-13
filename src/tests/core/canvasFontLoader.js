@@ -45,7 +45,7 @@ Object.assign(canvasFont, {
 				for(const url of matchUrls){
 					const fontFace = new FontFace(`${fontName}${unique}`, url);
 					document.fonts.add(fontFace);
-					await fontFace.load().catch(()=>{});
+					await fontFace.load().catch(_=>{});
 				}
 			})
 		).then(_=>this.imported = true);

@@ -41,7 +41,7 @@ Object.assign(canvasFont, {
 			weight: fontWeight,
 		});
 		document.fonts.add(fontFace);
-		return fontFace.load().catch(()=>{});
+		return fontFace.load().catch(_=>{});
 	},
 
 	/** ローカルフォントの読み込み

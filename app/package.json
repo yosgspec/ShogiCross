@@ -1,12 +1,22 @@
 {
   "name": "shogicross-app",
   "private": true,
-  "version": "0.1.0",
+  "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "tauri": "tauri"
+    "tauri": "tauri",
+    "dev": "npm run tauri build",
+    "install:apt": "sudo apt-get update && apt-get install -y build-essential libwebkit2gtk-4.1-dev libayatana-appindicator3-dev librsvg2-dev patchelf",
+    "stage": "node ./run/stageApp.js",
+    "build": "npm run tauri build --release",
+    "build-apk": "run-s build-apk",
+    "build-apk:init": "npx tauri android init",
+    "build-apk:build": "npx tauri android build --apk"
   },
   "devDependencies": {
     "@tauri-apps/cli": "^2"
+  },
+  "dependencies": {
+    "npm-run-all": "^4.1.5"
   }
 }

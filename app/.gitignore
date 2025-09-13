@@ -13,6 +13,7 @@ dist-ssr
 *.local
 /src
 /src-tauri/icons
+OFL.txt
 
 # Editor directories and files
 .vscode/*

@@ -43,4 +43,4 @@ if __name__ == "__main__":
 		print(fonts)
 
 	with ProcessPoolExecutor(max_workers=len(fonts)) as exec:
-		master_fonts = list(exec.map(genFont, fonts))
+		exec.map(genFont, fonts)
