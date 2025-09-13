@@ -268,6 +268,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
+          registry-url: https://registry.npmjs.org/
 
       - name: Publish NPM
         run: npm publish --access public
@@ -559,7 +560,7 @@ jobs:
           key: linux-${{hashFiles('app/src-tauri/Cargo.lock')}}
 
       - name: Setup Linux Liblary
-        run: npm run install:apt
+        run: sudo npm run install:apt
 
       - name: Setup NPM Modules
         run: npm install

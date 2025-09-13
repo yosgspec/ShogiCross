@@ -88,6 +88,7 @@ Object.assign(canvasFont, {
 
 		}
 		this.names = canvasFont.fonts.map(o=>`"${o[0]}${this.unique}"`).join(",")+",serif";
+		await new Promise(res=>setTimeout(res, 10));
 		this.imported = true;
 	},
 });
