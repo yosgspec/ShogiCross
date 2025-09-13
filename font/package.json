@@ -1,0 +1,18 @@
+{
+  "name": "shogicross-fonts",
+  "version": "0.0.0",
+  "scripts": {
+    "build": "run-s build:*",
+    "build:download-ttf": "node ./run/downloadTtf.js",
+    "build:collect-chars": "node ./run/collectChars.js",
+    "build:install-pip": "pip install .",
+    "build:conv-ttf2woff2": "python ./run/convTtf2Woff2.py"
+  },
+  "type": "module",
+  "dependencies": {
+    "google-fonts-helper": "^3.7.3",
+    "iconv-lite": "^0.7.0",
+    "postcss": "^8.5.6",
+    "simple-git": "^3.28.0"
+  }
+}

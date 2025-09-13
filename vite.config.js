@@ -4,7 +4,7 @@ export default defineConfig(({mode})=>{
 	const env = loadEnv(mode, process.cwd());
 	return {
 		root: ".",
-		publicDir: "json",
+		publicDir: "fonts",
 		server: {
 			open: "./src/"
 		},

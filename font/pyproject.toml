@@ -1,0 +1,13 @@
+[project]
+name = "shogicross-font"
+version = "0.0.0"
+description = "Build ShogiCross Fonts"
+
+dependencies = [
+  "fonttools",
+  "brotli",
+  "zopfli"
+]
+
+[tool.setuptools]
+py-modules = []

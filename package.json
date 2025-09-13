@@ -61,6 +61,11 @@
     "deploy:doc-api": "npx typedoc --entryPointStrategy expand ./src/dist/ShogiCross --exclude **/*.js --out ./src/doc/api",
     "built": "echo Build completed successfully!"
   },
+  "workspaces": [
+    "server",
+    "font",
+    "app"
+  ],
   "devDependencies": {
     "adm-zip": "^0.5.12",
     "icon-gen": "^5.0.0",
