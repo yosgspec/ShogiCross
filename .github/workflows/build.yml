@@ -506,12 +506,16 @@ jobs:
       - name: Build Tauri App
         run: npm run build
 
+      - name: Move Application
+        run: |
+          mv app/src-tauri/target/release/*.exe app/ShogiCross.exe
+
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: app-windows
+          name: app-windows-x64
           path: |
-            app/src-tauri/target/release/*.exe
+            app/ShogiCross.exe
             app/OFL.txt
 
   BuildAppLinux:
@@ -568,12 +572,16 @@ jobs:
       - name: Build Tauri App
         run: npm run build
 
+      - name: Move Application
+        run: |
+          mv app/src-tauri/target/release/bundle/appimage/*.AppImage app/ShogiCross.AppImage
+
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: app-linux
+          name: app-linux-x64
           path: |
-            app/src-tauri/target/release/bundle/appimage/*.AppImage
+            app/ShogiCross.AppImage
             app/OFL.txt
 
   BuildAppAndroid:
@@ -643,11 +651,15 @@ jobs:
       - name: Build Tauri App
         run: npm run build-apk
 
+      - name: Move Application
+        run: |
+          mv app/src-tauri/gen/android/app/build/outputs/apk/universal/release/*.apk app/ShogiCross.apk
+
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
           name: app-android
           path: |
-            app/src-tauri/gen/android/app/build/outputs/apk/universal/release/*.apk
+            app/ShogiCross.apk
             app/OFL.txt
 
