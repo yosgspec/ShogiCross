@@ -487,7 +487,7 @@ declare const K: {
         field: string[];
     };
 };
-declare namespace N {
+declare namespace v {
     let fonts: (string | number)[][];
 }
 declare namespace F {
@@ -500,7 +500,7 @@ declare namespace F {
      */
     function importAsync(): Promise<void>;
 }
-declare function ge(S: any): void;
+declare function ge(p: any): void;
 declare namespace ue {
     namespace shogi {
         let name: string;
@@ -5666,7 +5666,7 @@ declare class Z {
     bottom: any;
     stand: Y;
     moveMode: any;
-    record: we;
+    record: Ce;
     enPassant: V;
     /** ボードを閉じる */
     close(): void;
@@ -5895,7 +5895,7 @@ declare class Y {
      */
     toString(e?: boolean, t?: boolean): string;
 }
-declare class we {
+declare class Ce {
     /**
      * @param {Board} board
      */
@@ -5988,4 +5988,4 @@ declare class V {
     clone(): any;
 }
 declare const X: unique symbol;
-export { Q as Board, pe as BoardOnline, ve as CpuEngine, G as CpuEngineBase, H as CpuEngines, y as Piece, K as boards, N as canvasFont, F as canvasImage, ge as extendData, ue as gameSoft, T as games, D as panels, q as pieceCost, ne as pieceRange, I as pieces };
+export { Q as Board, pe as BoardOnline, ve as CpuEngine, G as CpuEngineBase, H as CpuEngines, y as Piece, K as boards, v as canvasFont, F as canvasImage, ge as extendData, ue as gameSoft, T as games, D as panels, q as pieceCost, ne as pieceRange, I as pieces };

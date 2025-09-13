@@ -1,5 +1,5 @@
 declare class _ extends Q {
-    overlay: Re;
+    overlay: $e;
     isGameEnd: boolean;
     onDrawed: any;
     onTurnEnd: any;
@@ -487,10 +487,10 @@ declare const K: {
         field: string[];
     };
 };
-declare namespace N {
+declare namespace v {
     let fonts: (string | number)[][];
 }
-declare namespace R {
+declare namespace $ {
     let imported: boolean;
     let images: {
         [x: string]: HTMLImageElement;
@@ -5800,7 +5800,7 @@ declare class Q {
     };
     #private;
 }
-declare class Re {
+declare class $e {
     /**
      * @param {HTMLCanvasElement} canvas - Canvas要素
      * @param {OverlayOptions} options - スピナーのオプション
@@ -5988,4 +5988,4 @@ declare class Z {
     clone(): any;
 }
 declare const X: unique symbol;
-export { _ as Board, Se as BoardOnline, Xe as CpuEngine, H as CpuEngineBase, U as CpuEngines, y as Piece, K as boards, N as canvasFont, R as canvasImage, ye as extendData, he as gameSoft, D as games, I as panels, V as pieceCost, re as pieceRange, Y as pieces };
+export { _ as Board, Se as BoardOnline, Xe as CpuEngine, H as CpuEngineBase, U as CpuEngines, y as Piece, K as boards, v as canvasFont, $ as canvasImage, ye as extendData, he as gameSoft, D as games, I as panels, V as pieceCost, re as pieceRange, Y as pieces };
