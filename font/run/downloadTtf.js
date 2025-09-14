@@ -5,6 +5,7 @@ import canvasFont from "../../src/ShogiCross/data/canvasFont.js";
 
 const GIT_URL = "https://github.com/google/fonts.git";
 const TTF_DIR = "./ttf";
+const FONT_DIR = "./fonts";
 const TEMP_DIR = "./temp";
 const OFL_NAME = "OFL.txt"
 
@@ -34,7 +35,7 @@ async function downloadTtf(){
 				);
 				fs.copyFile(
 					path.join(TEMP_DIR, gitPath, OFL_NAME),
-					path.join(TTF_DIR, OFL_NAME)
+					path.join(FONT_DIR, OFL_NAME)
 				);
 			})
 		);
