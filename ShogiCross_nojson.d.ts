@@ -1,5 +1,5 @@
 declare class Q extends Z {
-    overlay: Le;
+    overlay: Fe;
     isGameEnd: boolean;
     onDrawed: any;
     onTurnEnd: any;
@@ -22,17 +22,17 @@ declare class Q extends Z {
      * @param {string|null} promoChar - 成り先の駒名(成らない場合null)
      * @returns {Promise<string|null>}
      */
-    onSelectPromo(e: any, t: any, s: any, i: any, a: any): Promise<string | null>;
+    onSelectPromo(e: any, t: any, a: any, i: any, s: any): Promise<string | null>;
     /** 画像を取得
      * @param {string} fileName - ファイル名
      * @param {string} ext - 拡張子
      * @param {"base64"|"blob"} urlType - 生成URLタイプ
      * @returns {Promise<void>}
      */
-    downloadImage(e: any, t: any, s: any): Promise<void>;
+    downloadImage(e: any, t: any, a: any): Promise<void>;
     #private;
 }
-declare class pe extends Q {
+declare class Se extends Q {
     onReadyOnline: any;
     onCancelOnline: any;
     isOnline: boolean;
@@ -52,7 +52,7 @@ declare class pe extends Q {
      * @param {number} message.playerDeg - 移動を行ったプレイヤーの視点角度
      * @param {string|null} message.promoChar - 成り先の駒名(成らない場合null)
      */
-    moveRivalPiece({ from: e, to: t, playerDeg: s, promoChar: i }: {
+    moveRivalPiece({ from: e, to: t, playerDeg: a, promoChar: i }: {
         from: {
             pX: number;
             pY: number;
@@ -73,7 +73,7 @@ declare class pe extends Q {
      * @param {number} message.playerDeg - 打駒を行ったプレイヤーの視点角度
      * @param {number} message.standIndex - 駒台の駒のインデックス
      */
-    dropRivalPiece({ to: e, playerDeg: t, standIndex: s }: {
+    dropRivalPiece({ to: e, playerDeg: t, standIndex: a }: {
         to: {
             pX: number;
             pY: number;
@@ -82,7 +82,7 @@ declare class pe extends Q {
         standIndex: number;
     }): Promise<void>;
 }
-declare class ve extends G {
+declare class Ne extends G {
     /** @typedef {Object} CpuEngineBase */
     /** @type {CpuEngineBase} */
     engine: any;
@@ -159,7 +159,7 @@ declare class y {
      * @param {string|string[]|Object<string, any[]>} value
      * @returns {Object<string, any[]>}
      */
-    static expandRange: (e: any) => {
+    static expandRange(e: any): {
         [x: string]: any[];
     };
     /** 駒データを初期化
@@ -198,7 +198,7 @@ declare class y {
      * @param {boolean} option.isDrawShadow - 駒の影の描写有無
      * @param {boolean} option.isMoved - 初回移動済みか否か
      */
-    constructor(e: any, t: any, s?: {});
+    constructor(e: any, t: any, a?: {});
     /** 駒の段階別価値を取得
      * @returns {string}
      */
@@ -490,7 +490,7 @@ declare const K: {
 declare namespace v {
     let fonts: (string | number)[][];
 }
-declare namespace F {
+declare namespace j {
     let imported: boolean;
     let images: {
         [x: string]: HTMLImageElement;
@@ -500,8 +500,8 @@ declare namespace F {
      */
     function importAsync(): Promise<void>;
 }
-declare function ge(p: any): void;
-declare namespace ue {
+declare function fe(p: any): void;
+declare namespace he {
     namespace shogi {
         let name: string;
         let variant: string;
@@ -5666,7 +5666,7 @@ declare class Z {
     bottom: any;
     stand: Y;
     moveMode: any;
-    record: Ce;
+    record: xe;
     enPassant: V;
     /** ボードを閉じる */
     close(): void;
@@ -5690,7 +5690,7 @@ declare class Z {
      * @param {string} gameName - ゲーム名(基準となる駒の配置セット)
      * @param {string} pieceSet - 駒の配置パターン
      */
-    putStartPieces(e: any, t: any, s?: string): void;
+    putStartPieces(e: any, t: any, a?: string): void;
     /** 駒の配置
      * @param {string} piece - 駒の表現文字
      * @param {number} pX - X方向配置位置(マス目基準)
@@ -5700,7 +5700,7 @@ declare class Z {
      * @param {number} option.displayPtn - 表示文字列を変更(1〜)
      * @param {boolean} option.isMoved - 初回移動済みか否か
      */
-    putNewPiece(e: any, t: any, s: any, i: any, a?: {}): void;
+    putNewPiece(e: any, t: any, a: any, i: any, s?: {}): void;
     /** ボードの初期配置を行う
      * {string} text - 駒配置を表す文字列
      */
@@ -5716,7 +5716,7 @@ declare class Z {
      * @param {number} offsetDeg - 補正角度
      * @returns {number}
      */
-    getRow(e: any, t: any, s?: number, i?: number, a?: boolean): number;
+    getRow(e: any, t: any, a?: number, i?: number, s?: boolean): number;
     /** 角度基準のマス目の列を取得する
      * @param {number} pX - マス目の列
      * @param {number} pY - マス目の行
@@ -5724,14 +5724,14 @@ declare class Z {
      * @param {number} offsetDeg - 補正角度
      * @returns {number}
      */
-    getCol(e: any, t: any, s?: number, i?: number): number;
+    getCol(e: any, t: any, a?: number, i?: number): number;
     /** 駒の座標を回転取得する
      * @param {number} pX - マス目の列
      * @param {number} pY - マス目の行
      * @param {number} deg - 角度
      * @returns {number}
      */
-    rotatePosition(e: any, t: any, s: any): number;
+    rotatePosition(e: any, t: any, a: any): number;
     /** プロモーション選択
      * @param {Piece} piece - 駒
      * @param {boolean} canPromo - 成ることができる
@@ -5739,7 +5739,7 @@ declare class Z {
      * @param {boolean} isCpuMove - CPUによる移動か
      * @param {string|null} promoChar - 成り先の駒名(成らない場合null)
      */
-    onSelectPromo(e: any, t: any, s: any, i: any, a: any): Promise<any>;
+    onSelectPromo(e: any, t: any, a: any, i: any, s: any): Promise<any>;
     /** プロモーション処理
      * @param {Panel} fromPanel - 移動元のマス目
      * @param {Panel} toPanel - 選択中のマス目
@@ -5748,7 +5748,7 @@ declare class Z {
      * @param {boolean} isCpuMove - CPUによる移動か
      * @param {string|null} promoChar - 成り先の駒名(成らない場合null)
      */
-    promoPiece(e: any, t: any, s: any, i: any, a?: boolean, n?: any): Promise<void>;
+    promoPiece(e: any, t: any, a: any, i: any, s?: boolean, n?: any): Promise<void>;
     /** プロモーションエリア内であるか判別
      * @param {Panel} panel - マス目
      * @returns {{
@@ -5773,7 +5773,7 @@ declare class Z {
      * @param {boolean} isCpuMove - CPUによる移動か
      * @returns boolean
      */
-    movePiece(e: any, t: any, s?: boolean): Promise<boolean>;
+    movePiece(e: any, t: any, a?: boolean): Promise<boolean>;
     /** パスして手番を進める
      * @param {PlayerInfo} player - プレイヤー情報
     */
@@ -5800,7 +5800,7 @@ declare class Z {
     };
     #private;
 }
-declare class Le {
+declare class Fe {
     /**
      * @param {HTMLCanvasElement} canvas - Canvas要素
      * @param {OverlayOptions} options - スピナーのオプション
@@ -5839,7 +5839,7 @@ declare class minimax extends G {
      * @param {boolean} isMaximizingPlayer - 現在のプレイヤーが最大化プレイヤーかどうか
      * @returns {Promise<number>} 評価値
      */
-    minimax(e: any, t: any, s: any, i: any, a: any): Promise<number>;
+    minimax(e: any, t: any, a: any, i: any, s: any): Promise<number>;
 }
 declare class Y {
     /** 駒台への角度ごとの表示順
@@ -5871,7 +5871,7 @@ declare class Y {
      * @param {number} option.i - 配置する持ち駒のインデックス
      * @param {boolean} isCpuDrop - CPUによる駒配置であるか
      */
-    dropPiece(e: any, t?: {}, s?: boolean): boolean;
+    dropPiece(e: any, t?: {}, a?: boolean): boolean;
     /** 駒台に追加する
      * @param {Piece} piece - 追加する駒
      */
@@ -5882,7 +5882,7 @@ declare class Y {
      * @param {boolean} forceCapture - 属性を無視して捕縛する
      * @param {boolean} forceCantCapture - 属性を無視して捕縛しない
      */
-    capturePiece(e: any, t: any, s?: boolean, i?: boolean): void;
+    capturePiece(e: any, t: any, a?: boolean, i?: boolean): void;
     /** 持ち駒の所有権を回転
      * @param {number} deg - 回転角 (90の倍数)
      */
@@ -5895,7 +5895,7 @@ declare class Y {
      */
     toString(e?: boolean, t?: boolean): string;
 }
-declare class Ce {
+declare class xe {
     /**
      * @param {Board} board
      */
@@ -5988,4 +5988,4 @@ declare class V {
     clone(): any;
 }
 declare const X: unique symbol;
-export { Q as Board, pe as BoardOnline, ve as CpuEngine, G as CpuEngineBase, H as CpuEngines, y as Piece, K as boards, v as canvasFont, F as canvasImage, ge as extendData, ue as gameSoft, T as games, D as panels, q as pieceCost, ne as pieceRange, I as pieces };
+export { Q as Board, Se as BoardOnline, Ne as CpuEngine, G as CpuEngineBase, H as CpuEngines, y as Piece, K as boards, v as canvasFont, j as canvasImage, fe as extendData, he as gameSoft, T as games, D as panels, q as pieceCost, ne as pieceRange, I as pieces };
