@@ -1,10 +1,11 @@
 /** @typedef {import("./board.js").BoardInitOption} BoardInitOption */
 /** @typedef {import("./data.js").PlayerInitOption} PlayerInitOption */
-/** @typedef {import("./data.js").PlayerInfo} PlayerInfo */
+/** @typedef {import("./player.js").Player} Player */
 import {Stand} from "./stand.js";
 import {Panel} from "./panel.js";
 import {Piece} from "./piece.js";
 import {Record} from "./record.js";
+import {Player} from "./player.js";
 import {CpuEngine} from "./cpu.js";
 import {EnPassant} from "./enPassant.js";
 import {Bod} from "./bod.js";
@@ -113,22 +114,13 @@ export class BoardCore{
 		// プレイヤー設定
 		this.players = new Map();
 		for(let id=0;id<players;id++){
-			const deg = this.degNormal(id)
-			const status = {
-				...playerOptions[id],
-				id,
-				deg,
-				degChar: Piece.degChars[deg],
-				alive: true,
-				cpuDelay: playerOptions[id]?.cpuDelay ?? 500, // CPUの遅延時間
-			};
-			// CPUエンジンの初期化
-			status.cpu = new CpuEngine(this, status),
-			this.players.set(deg, status);
+			const option = playerOptions[id] ?? {};
+			const player = new Player(this, id, option.cpuEngine, option.cpuDelay);
+			this.players.set(player.deg, player);
 			// 駒の初期配置
-			if(!status.gameName) continue;
+			if(!option.gameName) continue;
 			try{
-				this.putStartPieces(id, status.gameName, status.pieceSet);
+				this.putStartPieces(id, option.gameName, option.pieceSet);
 			}
 			catch(ex){
 				console.error(ex);
@@ -158,7 +150,7 @@ export class BoardCore{
 	close(){}
 
 	/** 現在の手番のプレイヤー情報を取得
-	 * @returns {Object<string, any>|"PlayerInfo"} - 現在のプレイヤー情報
+	 * @returns {Player} - 現在のプレイヤー情報
 	 */
 	getActivePlayer(){
 		return [...this.players.values()][this.record.turn%this.playerLen];
@@ -516,7 +508,7 @@ export class BoardCore{
 	}
 
 	/** パスして手番を進める
-	 * @param {PlayerInfo} player - プレイヤー情報
+	 * @param {Player} player - プレイヤー情報
 	*/
 	passTurn(player){
 		this.record.add({end: `${player.degChar}パス`});

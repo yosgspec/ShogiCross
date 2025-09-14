@@ -66,15 +66,6 @@
  * @prop {string} cpuEngine - CPUエンジン名
  * @prop {string} cpuDelay - CPU保証待機時間
  */
-/**
- * @typedef {Object} PlayerInfo - プレイヤー情報
- * @extends PlayerInitOption
- * @prop {number} id - プレイヤー番号
- * @prop {number} deg - プレイヤーの角度
- * @prop {string} degChar - プレイヤーを識別する角度文字
- * @prop {boolean} alive - 生存状態
- * @prop {CpuEngine} cpu - CPUエンジンのインスタンス
- */
 /** @typedef {string[]} PieceRange 駒の移動範囲 */
 import canvasFont from "../data/canvasFont.js";
 import gameSoft from "../data/gameSoft.js";

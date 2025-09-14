@@ -268,6 +268,7 @@ export function checkTarget(board, piece, pX, pY){
 			const isMoveInf = !moves || 0 === moves;
 			// 原点の周囲8マスを探索
 			for(let rY=oY-1;rY<=oY+1;rY++){
+				if(range[rY] == null) continue;
 				for(let rX=oX-1;rX<=oX+1;rX++){
 					if(range[rY][rX] !== char || rX === oX && rY === oY) continue;
 					let jmpLen = jmps? jmps: 0;

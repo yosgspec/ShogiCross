@@ -158,14 +158,14 @@ export class Board extends BoardCore{
 					.concat(["serif"])
 					.join(",")
 				);
-				for(let i=0;i=10;i++){
+				for(let i=0;i<10;i++){
 					await new Promise(res=>setTimeout(res, 100));
 					this.draw();
 				}
 			});
 			canvasImageAsync.then(async ()=>{
 				this.draw();
-				for(let i=0;i=10;i++){
+				for(let i=0;i<10;i++){
 					await new Promise(res=>setTimeout(res, 100));
 					this.draw();
 				}

@@ -1,4 +1,4 @@
-/** @typedef {import("./data.js").PlayerInfo} PlayerInfo */
+/** @typedef {import("./player.js").Player} Player */
 /** @typedef {import("./boardCore.js").BoardCore} Board */
 import {checkTarget, isCheckmate, hasLegalMoves} from "./checkTarget.js";
 
@@ -6,7 +6,7 @@ import {checkTarget, isCheckmate, hasLegalMoves} from "./checkTarget.js";
 export class CpuEngineBase{
 	/**
 	 * @param {Board} board - 対象の盤面
-	 * @param {PlayerInfo} player - プレイヤー情報
+	 * @param {Player} player - プレイヤー情報
 	 */
 	constructor(board, player){
 		this.board = board;
@@ -330,7 +330,7 @@ export class CpuEngine extends CpuEngineBase {
 
 	/**
 	 * @param {Board} board - 対象の盤面
-	 * @param {PlayerInfo} player - プレイヤー情報
+	 * @param {Player} player - プレイヤー情報
 	 */
 	constructor(board, player){
 		super(board, player);
