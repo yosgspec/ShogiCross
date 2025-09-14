@@ -156,7 +156,12 @@ jobs:
         run: npm install
 
       - name: Package ShogiCross Module
-        run: npm run package
+        uses: nick-fields/retry@v3
+        with:
+          timeout_minutes: 10
+          max_attempts: 5
+          retry_on: error
+          command: npm run package
 
       - name: Deploy CDN
         run: npm run deploy:cdn
