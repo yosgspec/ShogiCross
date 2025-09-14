@@ -148,7 +148,7 @@ export class Board extends BoardCore{
 		// 自動描写更新設定
 		this.autoDrawing = autoDrawing;
 		if(autoDrawing){
-			canvasFontAsync.then(()=>{
+			canvasFontAsync.then(async ()=>{
 				this.draw();
 				this.#dialog.setFont(canvasFont.names);
 				this.#uiControl.setRecordFont(canvasFont.names);
@@ -158,8 +158,18 @@ export class Board extends BoardCore{
 					.concat(["serif"])
 					.join(",")
 				);
+				for(let i=0;i=10;i++){
+					await new Promise(res=>setTimeout(res, 100));
+					this.draw();
+				}
 			});
-			canvasImageAsync.then(()=>this.draw());
+			canvasImageAsync.then(async ()=>{
+				this.draw();
+				for(let i=0;i=10;i++){
+					await new Promise(res=>setTimeout(res, 100));
+					this.draw();
+				}
+			});
 			this.draw();
 		}
 	}
