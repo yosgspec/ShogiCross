@@ -17,6 +17,8 @@ permissions:
 jobs:
   BuildModule:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -697,4 +699,4 @@ jobs:
             ShogiCross-linux64.zip
             ShogiCross-android.zip
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
