@@ -32,7 +32,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: node_modules
-          key: ${{hashFiles('package.json')}}
+          key: main-npm-${{hashFiles('package.json')}}
 
       - name: Setup NPM Modules
         run: npm install
@@ -85,14 +85,14 @@ jobs:
         uses: actions/cache@v4
         with:
           path: font/node_modules
-          key: ${{hashFiles('font/package.json')}}
+          key: font-npm-${{hashFiles('font/package.json')}}
 
       - name: Cache TTF
         id: cache-ttf
         uses: actions/cache@v4
         with:
           path: font/ttf
-          key: ${{hashFiles('src/ShogiCross/data/canvasFont.js')}}
+          key: font-ttf-${{hashFiles('src/ShogiCross/data/canvasFont.js')}}
 
       - name: Setup NPM Modules
         run: npm install
@@ -150,7 +150,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: node_modules
-          key: ${{hashFiles('package.json')}}
+          key: main-npm-${{hashFiles('package.json')}}
 
       - name: Setup NPM Modules
         run: npm install
@@ -481,7 +481,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: app/node_modules
-          key: ${{hashFiles('app/package.json')}}
+          key: app-npm-${{hashFiles('app/package.json')}}
 
       - name: Setup Rust
         uses: actions-rs/toolchain@v1
@@ -496,7 +496,7 @@ jobs:
             ~/.cargo/registry
             ~/.cargo/git
             app/src-tauri/target
-          key: windows-${{hashFiles('app/src-tauri/Cargo.lock')}}
+          key: app-win-cargo-${{hashFiles('app/src-tauri/Cargo.lock')}}
 
       - name: Setup NPM Modules
         run: npm install
@@ -545,7 +545,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: app/node_modules
-          key: ${{hashFiles('app/package.json')}}
+          key: app-npm-${{hashFiles('app/package.json')}}
 
       - name: Setup Rust
         uses: actions-rs/toolchain@v1
@@ -560,7 +560,7 @@ jobs:
             ~/.cargo/registry
             ~/.cargo/git
             app/src-tauri/target
-          key: linux-${{hashFiles('app/src-tauri/Cargo.lock')}}
+          key: app-linux-cargo-${{hashFiles('app/src-tauri/Cargo.lock')}}
 
       - name: Setup Linux Liblary
         run: sudo npm run install:apt
@@ -611,7 +611,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: app/node_modules
-          key: ${{hashFiles('app/package.json')}}
+          key: app-npm-${{hashFiles('app/package.json')}}
 
       - name: Setup Rust
         uses: actions-rs/toolchain@v1
@@ -626,7 +626,7 @@ jobs:
             ~/.cargo/registry
             ~/.cargo/git
             app/src-tauri/target
-          key: android-${{hashFiles('app/src-tauri/Cargo.lock')}}
+          key: app-android-cargo-${{hashFiles('app/src-tauri/Cargo.lock')}}
 
       - name: Setup Java
         uses: actions/setup-java@v4
