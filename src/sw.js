@@ -66,7 +66,7 @@ if("serviceWorker" in navigator){
 }
 // Service Workerとしてバックグラウンドで実行された場合
 else{
-	const CACHE_NAME = "shogicross-cache-v6";
+	const CACHE_NAME = "shogicross-cache";
 	const APP_SHELL_URLS = [
 		"./app.html",
 		"./manifest.json",
@@ -82,16 +82,17 @@ else{
 	);
 
 	self.addEventListener("activate", event=>
-		event.waitUntil(
+		event.waitUntil((async ()=>{
+			const cacheKeys = await caches.keys();
+			if(!Array.isArray(cacheKeys)) return;
 			Promise.all(
-				caches.keys()
-				.map(cacheName=>{
+				cacheKeys.map(cacheName=>{
 					if(cacheName === CACHE_NAME) return;
 					console.log("SW: Deleting old cache:", cacheName);
 					return caches.delete(cacheName);
 				})
 			)
-		)
+		})())
 	);
 
 	self.addEventListener("fetch", event=>
@@ -99,10 +100,7 @@ else{
 			const {request} = event;
 			const url = new URL(request.url);
 
-			if(url.origin !== self.location.origin)
-				return fetch(request);
-
-			if(request.mode === "navigate"){
+			if(url.origin !== self.location.origin || request.mode === "navigate"){
 				try{
 					return await fetch(request);
 				}

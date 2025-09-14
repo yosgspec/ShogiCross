@@ -5,6 +5,19 @@ export {canvasFont};
 const GOOGLE_FONT_URL = "https://fonts.googleapis.com/css2?family=";
 const FONT_DIR = "./fonts";
 
+/** オンライン状態か確認する
+ * @returns {Promice<bool>}
+ */
+const isOnlune = async ()=>(await fetch?.(`${GOOGLE_FONT_URL}Roboto`, {method: "HEAD"}).catch(_=>{}))?.ok;
+
+/** ローカルフォントが存在するか確認する
+ * @returns {Promice<bool>}
+ */
+const existLocalFont = (()=>{
+	const localFontUrl = `${FONT_DIR}/${canvasFont.fonts[0][0].replace(/ /g, "")}.woff2`;
+	return async ()=>((await fetch?.(localFontUrl, {method: "HEAD"}).catch(_=>{}))?.ok);
+})();
+
 /** 読み込む文字の一覧を取得
  * @returns {string}
  */
@@ -48,9 +61,6 @@ Object.assign(canvasFont, {
 	 * @returns {Promise<void>}
 	 */
 	async loadLocalFont(){
-		const localFontUrl = `${FONT_DIR}/${canvasFont.fonts[0][0].replace(/ /g, "")}.woff2`;
-		const res = await fetch?.(localFontUrl, {method: "HEAD"});
-		if(!res?.ok) return false;
 		this.unique = "";
 		await Promise.all(
 			canvasFont.fonts.map(async ([fontName, fontWeight])=>{
@@ -59,36 +69,43 @@ Object.assign(canvasFont, {
 			})
 		);
 		console.log("Loaded Local Fonts.");
-		return true;
 	},
-	/** フォントの読み込み
+
+	/** ローカルフォントの読み込み
 	 * @param {boolean} isFull - 全テキスト読み込み
 	 * @returns {Promise<void>}
 	 */
-	async importAsync(isFull=false){
+	async loadCdnFont(isFull=false){
 		if(this.imported) return;
-		if(!await this.loadLocalFont()){
-			const fontText = isFull? "": `&text=${getChars()}`;
-			await Promise.all(
-				canvasFont.fonts.map(async ([fontName, fontWeight])=>{
-					const fontNamePlus = fontName.replace(/ /g, "+");
-					const fontUrl = `${GOOGLE_FONT_URL}${fontNamePlus}:wght@${fontWeight}${fontText}`;
-					const res = await fetch(fontUrl);
-					if(!res.ok) return;
-					const css = await res.text();
-					const matchUrls = css.match(/url\(.+?\)/g);
-					if(!matchUrls) throw new Error("Not found font.");
+		const fontText = isFull? "": `&text=${getChars()}`;
+		await Promise.all(
+			canvasFont.fonts.map(async ([fontName, fontWeight])=>{
+				const fontNamePlus = fontName.replace(/ /g, "+");
+				const fontUrl = `${GOOGLE_FONT_URL}${fontNamePlus}:wght@${fontWeight}${fontText}`;
+				const res = await fetch(fontUrl);
+				if(!res.ok) return;
+				const css = await res.text();
+				const matchUrls = css.match(/url\(.+?\)/g);
+				if(!matchUrls) return;
 
-					await Promise.all(matchUrls.map(url=>
-						this.loadFontFace(fontName, fontWeight, url)
-					));
-				})
-			)
-			this.importAsync(true);
+				await Promise.all(matchUrls.map(url=>
+					this.loadFontFace(fontName, fontWeight, url)
+				));
+			})
+		)
+		this.loadCdnFont(true);
+	},
 
-		}
+	/** フォントの読み込み
+	 * @returns {Promise<void>}
+	 */
+	async importAsync(){
+		if(await existLocalFont())
+			await this.loadLocalFont();
+		else if(await isOnlune())
+			await this.loadCdnFont();
 		this.names = canvasFont.fonts.map(o=>`"${o[0]}${this.unique}"`).join(",")+",serif";
-		await new Promise(res=>setTimeout(res, 10));
+		await new Promise(res=>setTimeout(res, 50));
 		this.imported = true;
 	},
 });

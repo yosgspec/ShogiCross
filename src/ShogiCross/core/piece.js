@@ -82,20 +82,27 @@ export class Piece{
 	 * @param {string|string[]|Object<string, any[]>} value
 	 * @returns {Object<string, any[]>}
 	 */
-	static expandRange = value=>
+	static expandRange(value){
 		// 値が文字列で、pieceRangeにキーが存在すれば、実データに置き換える
-		typeof value === "string" && Piece.ranges[value]?
-			Piece.ranges[value]:
+		if(typeof value === "string" && Piece.ranges[value])
+			return Piece.ranges[value];
 		// 値が配列なら、各要素を再帰的に展開
-		Array.isArray(value)?
-			value.map(item=>Piece.expandRange(item)):
+		if(Array.isArray(value))
+			return value.map(item=>Piece.expandRange(item));
 		// 値がオブジェクトなら、各プロパティの値を再帰的に展開
-		typeof value === "object" && value !== null?
-			Object.fromEntries(
+		if(typeof value === "object" && value !== null){
+			const move = Object.fromEntries(
 				Object.entries(value).map(([key, rng])=>
-					[key, Piece.expandRange(rng)])):
+					[key, Piece.expandRange(rng)]));
+			if(move.default)
+				move.attack ??= move.default;
+			if(move.palaceSlash)
+				move.palaceSlash$attack ??= move.palaceSlash;
+			return move;
+		}
 		// それ以外の値（"piece"キーの値など）はそのまま返す
-		value;
+		return value;
+	}
 
 	/** 駒データを初期化
 	 * @param {any} ctx - Canvas描画コンテキスト
