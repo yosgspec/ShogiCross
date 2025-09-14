@@ -665,7 +665,7 @@ jobs:
             app/OFL.txt
 
   ReleaseApp:
-    needs: [CheckVersion, Stage, BuildAppWindows, BuildAppLinux, BuildAppAndroid]
+    needs: [CheckVersion, BuildAppWindows, BuildAppLinux, BuildAppAndroid]
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -704,7 +704,10 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           tag_name: app${{needs.CheckVersion.outputs.PROJECT_VERSION}}
-          name: "Release App ${{needs.CheckVersion.outputs.PROJECT_VERSION}}"
+          name: "Download ShogiCross App${{needs.CheckVersion.outputs.PROJECT_VERSION}}"
+          body: |
+            ShogiCrossのアプリ版ダウンロードページ。
+            Android版は動かないため[こちら](https://shogicross.yosgspec.com/app.html)の右下「📥」ボタンからのPWA版インストールを推奨。
           draft: false
           prerelease: false
           files: |

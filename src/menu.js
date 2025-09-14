@@ -10,21 +10,14 @@ export default `
 <div><a href="#test/cpu">CPU実装テスト</a><a href="#test/cpu4">(4人用)</a></div>
 <div><a href="#test/online">オンラインテスト</a><a href="#test/online4">(4人用)</a></div>
 
+<h3>DownloadApp</h3>
+<div><a href="https://github.com/yosgspec/ShogiCross/releases?q=Download">アプリダウンロード</a></div>
+
 <h3>ライブラリ</h3>
-<div><a href="#doc/getStarted">はじめに(ダウンロード)</a></div>
-<div><a href="https://github.com/yosgspec/ShogiCross">GitHub</a></div>
+<div><a href="#doc/getStarted">はじめに</a></div>
 <div><a href="./doc/api/">APIドキュメント</a></div>
 <div><a href="https://github.com/yosgspec/ShogiCross/tree/main/doc/pieces">駒一覧</a></div>
-
-<h3>リンク集</h3>
-<div><a href="#md/reference">参考実装・類似アプリ</a></div>
-
-<h3>ペーパークラフト等</h3>
-<div><a href="https://github.com/yosgspec/ShogiCross/blob/main/paper/README.md">ペーパークラフト(GitHub)</a></div>
-<div><a href="./paper.zip">ペーパークラフトDL(ZIP)</a></div>
-<div><a href="https://github.com/yosgspec/ShogiCross/tree/main/acrylic/README.md">アクリルフリーカット(GitHub)</a></div>
-<div><a href="https://yosgspec.booth.pm">アクリル将棋注文(BOOTH)</a></div>
-<div><a href="#doc/chogi">超棋(過去制作物)</a></div>
+<div><a href="https://github.com/yosgspec/ShogiCross">GitHub</a></div>
 
 <h3>ボード設定</h3>
 <div><a href="#doc/board/board">ボードを構成する</a></div>
@@ -74,6 +67,14 @@ export default `
 <div><a href="#md/data/pieceRange">駒の移動範囲</a></div>
 <div><a href="#md/data/pieceCost">駒の価値情報</a></div>
 <div><a href="https://github.com/yosgspec/ShogiCross/blob/main/doc/data/README.md">ゲームデータ仕様(GitHub)</a></div>
+
+<h3>その他</h3>
+<div><a href="#md/reference">参考実装・類似アプリ</a></div>
+<div><a href="https://github.com/yosgspec/ShogiCross/blob/main/paper/README.md">ペーパークラフト(GitHub)</a></div>
+<div><a href="./paper.zip">ペーパークラフトDL(ZIP)</a></div>
+<div><a href="https://github.com/yosgspec/ShogiCross/tree/main/acrylic/README.md">アクリルフリーカット(GitHub)</a></div>
+<div><a href="https://yosgspec.booth.pm">アクリル将棋注文(BOOTH)</a></div>
+<div><a href="#doc/chogi">超棋(過去制作物)</a></div>
 
 <h3>連絡先</h3>
 <div><a href="http://yosgspec.blog103.fc2.com">ブログ</a></div>
