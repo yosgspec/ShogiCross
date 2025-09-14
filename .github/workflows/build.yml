@@ -443,7 +443,7 @@ jobs:
     needs: [CheckVersion, Stage]
     if: >
       github.ref == 'refs/heads/main'
-    #  && needs.CheckVersion.outputs.IS_NEW_VERSION == 'true'
+      && needs.CheckVersion.outputs.IS_NEW_VERSION == 'true'
     runs-on: windows-latest
     defaults:
       run:
@@ -507,7 +507,7 @@ jobs:
     needs: [CheckVersion, Stage]
     if: >
       github.ref == 'refs/heads/main'
-    #  && needs.CheckVersion.outputs.IS_NEW_VERSION == 'true'
+      && needs.CheckVersion.outputs.IS_NEW_VERSION == 'true'
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -573,7 +573,7 @@ jobs:
     needs: [CheckVersion, Stage]
     if: >
       github.ref == 'refs/heads/main'
-    #  && needs.CheckVersion.outputs.IS_NEW_VERSION == 'true'
+      && needs.CheckVersion.outputs.IS_NEW_VERSION == 'true'
     runs-on: ubuntu-latest
     defaults:
       run:
