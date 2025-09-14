@@ -6,7 +6,8 @@ const getInit = ()=>({pX: null, pY: null, pieceId: null});
 
 /** アンパッサン情報の管理 */
 export class EnPassant{
-	/** @typedef {Object} EnPassant */
+	/** @typedef {import("./enPassant.js")} EnPassant */
+
 	constructor(){
 		/** @type {Object<string, {pX: number, pY: number, pieceId: number}>} */
 		this.degs = {};

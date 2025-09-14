@@ -35,7 +35,7 @@ export {PROTECTED};
 
 /** 盤の管理クラス */
 export class Board extends BoardCore{
-	/** @typedef {Object} Board */
+	/** @typedef {import(./board.js).Board} Board */
 	#mouseControl;
 	#uiControl;
 	dialog;
@@ -176,7 +176,7 @@ export class Board extends BoardCore{
 	}
 
 	/** 操作パネルを構築
-	 * @param {("undo"|"redo"|"rotateLeft"|"rotateRight"|"passTurn"|"downloadImage"|"downloadRecord"|"textRecord")[]} - controls - 表示するコントロールの一覧
+	 * @param {("undo"|"redo"|"rotateLeft"|"rotateRight"|"passTurn"|"downloadImage"|"downloadRecord"|"textRecord")[]} controls - 表示するコントロールの一覧
 	 * @param {Object} recordOption - 棋譜オプション
 	 * @param {number} recordOption.lines - 棋譜の表示行数
 	 * @param {boolean} recordOption.readonly - 棋譜の読込専用

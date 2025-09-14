@@ -87,6 +87,13 @@ jobs:
           path: font/node_modules
           key: ${{hashFiles('font/package.json')}}
 
+      - name: Cache TTF
+        id: cache-ttf
+        uses: actions/cache@v4
+        with:
+          path: font/ttf
+          key: ${{hashFiles('src/ShogiCross/data/canvasFont.js')}}
+
       - name: Setup NPM Modules
         run: npm install
 
@@ -99,8 +106,15 @@ jobs:
       - name: Setup PIP Modules
         run: pip install .
 
-      - name: Build Font
-        run: npm run build
+      - name: Download TTF
+        if: steps.cache-ttf.outputs.cache-hit != 'true'
+        run: npm run build:download-ttf
+
+      - name: Collect Font Chars
+        run: npm run build:collect-chars
+
+      - name: Convert TTF To WOFF2
+        run: npm run build:conv-ttf2woff2
 
       - name: Upload Font Artifact
         uses: actions/upload-artifact@v4

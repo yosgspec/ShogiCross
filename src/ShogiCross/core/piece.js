@@ -9,7 +9,7 @@ let ranges;
 
 /** 駒の管理クラス */
 export class Piece{
-	/** @typedef {Object} Piece */
+	/** @typedef {import("./piece.js").Piece} Piece */
 
 	/** 描写サイズ
 	 * @type {number}

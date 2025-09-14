@@ -1,6 +1,5 @@
 /** @typedef {import("./board.js").BoardInitOption} BoardInitOption */
 /** @typedef {import("./data.js").PlayerInitOption} PlayerInitOption */
-/** @typedef {import("./player.js").Player} Player */
 import {Stand} from "./stand.js";
 import {Panel} from "./panel.js";
 import {Piece} from "./piece.js";
@@ -37,6 +36,8 @@ export const PROTECTED = Symbol("Board");
  */
 
 export class BoardCore{
+	/** @typedef {import("./player.js").Player} Player */
+
 	/**
 	 * @param {HTMLCanvasElement} canvas - Canvas要素
 	 * @param {BoardCoreInitOption} option - ボードの初期化オプション
@@ -454,7 +455,6 @@ export class BoardCore{
 	/** 駒を単純移動
 	 * @param {Panel} fromPanel - 移動元のマス目
 	 * @param {Panel} toPanel - 選択中のマス目
-	 * @param {boolean} isCpuMove - CPUによる移動か
 	 * @returns boolean
 	 */
 	simpleMovePiece(fromPanel, toPanel){

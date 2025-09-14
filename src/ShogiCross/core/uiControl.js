@@ -3,7 +3,7 @@ import {canvasFont} from "./canvasFontLoader.js";
 
 /** 操作パネル */
 export class UIControl{
-	/** @typedef {Object} UIControl */
+	/** @typedef {import("./uiControl.js").UIControl} UIControl */
 	static buttonTexts = "<>🔄🔁⏭📷📜";
 
 	/** 要素のサイズをCanvasに合わせて変更 */

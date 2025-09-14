@@ -5,7 +5,7 @@ import {Stand} from "./stand.js";
 import {Panel} from "./panel.js";
 
 export class BoardOnline extends Board{
-	/** @typedef {Object} BoardOnline */
+	/** @typedef {import("./boardOnline.js").BoardOnline} BoardOnline */
 
 	/** ゲームを実行する
 	 * @param {HTMLCanvasElement} canvas - Canvas要素
