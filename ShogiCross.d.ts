@@ -1,5 +1,6 @@
 declare class _ extends Q {
-    overlay: Re;
+    dialog: je;
+    overlay: Te;
     isGameEnd: boolean;
     onDrawed: any;
     onTurnEnd: any;
@@ -7,7 +8,7 @@ declare class _ extends Q {
     onGameEnd: any;
     autoDrawing: any;
     /** 操作パネルを構築
-     * @param {("undo"|"redo"|"rotateLeft"|"rotateRight"|"passTurn"|"downloadImage"|"downloadRecord"|"textRecord")[]} - controls - 表示するコントロールの一覧
+     * @param {("undo"|"redo"|"rotateLeft"|"rotateRight"|"passTurn"|"downloadImage"|"downloadRecord"|"textRecord")[]} controls - 表示するコントロールの一覧
      * @param {Object} recordOption - 棋譜オプション
      * @param {number} recordOption.lines - 棋譜の表示行数
      * @param {boolean} recordOption.readonly - 棋譜の読込専用
@@ -90,7 +91,7 @@ declare class Pe extends H {
 declare class H {
     /**
      * @param {Board} board - 対象の盤面
-     * @param {PlayerInfo} player - プレイヤー情報
+     * @param {Player} player - プレイヤー情報
      */
     constructor(e: any, t: any);
     board: any;
@@ -118,7 +119,7 @@ declare namespace U {
     export { minimax };
 }
 declare class y {
-    /** @typedef {Object} Piece */
+    /** @typedef {import("./piece.js").Piece} Piece */
     /** 描写サイズ
      * @type {number}
      */
@@ -490,7 +491,7 @@ declare const K: {
 declare namespace v {
     let fonts: (string | number)[][];
 }
-declare namespace $ {
+declare namespace j {
     let imported: boolean;
     let images: {
         [x: string]: HTMLImageElement;
@@ -5671,11 +5672,9 @@ declare class Q {
     /** ボードを閉じる */
     close(): void;
     /** 現在の手番のプレイヤー情報を取得
-     * @returns {Object<string, any>|"PlayerInfo"} - 現在のプレイヤー情報
+     * @returns {import("./player.js").Player} - 現在のプレイヤー情報
      */
-    getActivePlayer(): {
-        [x: string]: any;
-    } | "PlayerInfo";
+    getActivePlayer(): any;
     /** 角度を正規化
      * @param {number} playeaIdOrDeg - プレイヤー番号または角度
      * @returns {number}
@@ -5763,7 +5762,6 @@ declare class Q {
     /** 駒を単純移動
      * @param {Panel} fromPanel - 移動元のマス目
      * @param {Panel} toPanel - 選択中のマス目
-     * @param {boolean} isCpuMove - CPUによる移動か
      * @returns boolean
      */
     simpleMovePiece(e: any, t: any): void;
@@ -5775,7 +5773,7 @@ declare class Q {
      */
     movePiece(e: any, t: any, s?: boolean): Promise<boolean>;
     /** パスして手番を進める
-     * @param {PlayerInfo} player - プレイヤー情報
+     * @param {Player} player - プレイヤー情報
     */
     passTurn(e: any): void;
     /** 盤を描写 */
@@ -5795,12 +5793,31 @@ declare class Q {
      * @returns {this}
      */
     cloneCore(): this;
-    [X]: {
+    [$]: {
         rotateField: any;
     };
     #private;
 }
-declare class Re {
+declare class je {
+    constructor(e?: {});
+    dialog: HTMLDialogElement;
+    isModal: boolean;
+    set title(e: string);
+    get title(): string;
+    set message(e: string);
+    get message(): string;
+    close(e?: any): any;
+    show(e: any, t: any, s?: {
+        label: string;
+    }[]): Promise<any>;
+    /**
+     * ダイアログのフォントを設定します。
+     * @param {string} fontFamily - 設定するフォントファミリー名
+     */
+    setFont(e: any): void;
+    #private;
+}
+declare class Te {
     /**
      * @param {HTMLCanvasElement} canvas - Canvas要素
      * @param {OverlayOptions} options - スピナーのオプション
@@ -5987,5 +6004,5 @@ declare class Z {
      */
     clone(): any;
 }
-declare const X: unique symbol;
-export { _ as Board, me as BoardOnline, Pe as CpuEngine, H as CpuEngineBase, U as CpuEngines, y as Piece, K as boards, v as canvasFont, $ as canvasImage, We as extendData, ge as gameSoft, D as games, I as panels, V as pieceCost, re as pieceRange, Y as pieces };
+declare const $: unique symbol;
+export { _ as Board, me as BoardOnline, Pe as CpuEngine, H as CpuEngineBase, U as CpuEngines, y as Piece, K as boards, v as canvasFont, j as canvasImage, We as extendData, ge as gameSoft, D as games, I as panels, V as pieceCost, re as pieceRange, Y as pieces };
