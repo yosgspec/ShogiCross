@@ -459,6 +459,7 @@ jobs:
     needs: [CheckVersion, Stage]
     if: >
       github.ref == 'refs/heads/main'
+    #  && needs.CheckVersion.outputs.IS_NEW_VERSION == 'true'
     runs-on: windows-latest
     defaults:
       run:
@@ -522,6 +523,7 @@ jobs:
     needs: [CheckVersion, Stage]
     if: >
       github.ref == 'refs/heads/main'
+    #  && needs.CheckVersion.outputs.IS_NEW_VERSION == 'true'
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -587,6 +589,7 @@ jobs:
     needs: [CheckVersion, Stage]
     if: >
       github.ref == 'refs/heads/main'
+    #  && needs.CheckVersion.outputs.IS_NEW_VERSION == 'true'
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -661,3 +664,52 @@ jobs:
             app/ShogiCross.apk
             app/OFL.txt
 
+  ReleaseApp:
+    needs: [CheckVersion, Stage, BuildAppWindows, BuildAppLinux, BuildAppAndroid]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Download App Windows Artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: app-windows-x64
+          path: app-windows-x64
+
+      - name: Pack App Windows Artifact
+        run: zip -r app-windows-x64.zip app-windows-x64
+
+      - name: Download App Linux Artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: app-linux-x64
+          path: app-linux-x64
+
+      - name: Pack App Linux Artifact
+        run: zip -r app-linux-x64.zip app-linux-x64
+
+      - name: Download App Android Artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: app-android
+          path: app-android
+
+      - name: Pack App Android Artifact
+        run: zip -r app-android.zip app-android
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: app${{needs.CheckVersion.outputs.PROJECT_VERSION}}
+          name: "Release App ${{needs.CheckVersion.outputs.PROJECT_VERSION}}"
+          draft: false
+          prerelease: false
+          files: |
+            app-windows-x64.zip
+            app-linux-x64.zip
+            app-android.zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
