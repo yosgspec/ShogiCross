@@ -5630,11 +5630,11 @@ class xe {
   /** 記録を復元する */
   restoreField() {
     const { board: e, records: t, turn: a } = this, { fieldText: i, fieldPieceIds: s, fieldMoved: n } = t[a];
-    e.setTextPieces(i), e.field.forEach(
+    e.setTextPieces(i), s && (e.field.forEach(
       (r, o) => r.forEach(({ piece: l }, d) => {
         l && (l.id = s[o][d], l.isMoved = !!n[o][d]);
       })
-    ), e.autoDrawing && e.draw();
+    ), e.autoDrawing && e.draw());
   }
   /** 局面の記録を文字列に変換
    * @param {number} turn - 手数
@@ -7034,7 +7034,7 @@ class ce {
       ["downloadImage", { title: "画像を保存", text: "📷", onclick: () => e.downloadImage() }],
       ["downloadRecord", { title: "棋譜を保存", text: "📜", onclick: () => e.record.download() }]
     ]);
-    t ??= [...i.keys(), "textRecord"];
+    Array.isArray(t) || (t = [...i.keys(), "textRecord"]);
     const s = Date.now().toString();
     this.component = document.createElement("div"), this.component.id = s, this.component.style.display = "flex", this.#e(), window.addEventListener("resize", () => this.#e()), this.component.innerHTML = `${[...i].filter(([r]) => t.includes(r)).map(
       ([r, { title: o, text: l }]) => `<button id="${r}${s}" title="${o}" style="font-family:${v.names};">${l}</button>`
