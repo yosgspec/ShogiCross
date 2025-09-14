@@ -3,7 +3,7 @@ import path from "path";
 
 const BASE_URL = "https://cdn.jsdelivr.net/gh/yosgspec/ShogiCross@";
 
-async function updateCdnUrl(targetDir, version){
+async function updateCdnUrl(targetDir, version=process.env.npm_package_version){
 	const [major, minor] = version.split(".");
 	const targetVersion = `${major}.${parseInt(minor)-1}`;
 	const newVersion = `${major}.${minor}`;

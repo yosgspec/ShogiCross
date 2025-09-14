@@ -29,7 +29,7 @@ jobs:
       - name: Cache NPM Modules
         uses: actions/cache@v4
         with:
-          path: app/node_modules
+          path: node_modules
           key: ${{hashFiles('package.json')}}
 
       - name: Setup NPM Modules
@@ -37,6 +37,18 @@ jobs:
 
       - name: Setup ShogiCross Module
         run: npm run setup
+
+      - name: Push Update Document Pages
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          git add src/
+          if git diff --staged --quiet; then
+            echo "No changes to commit."
+          else
+            git commit -m "Update Document Pages [skip ci]"
+            git push
+          fi
 
       - name: Build ShogiCross Module
         run: npm run compile
@@ -70,8 +82,8 @@ jobs:
       - name: Cache NPM Modules
         uses: actions/cache@v4
         with:
-          path: app/node_modules
-          key: ${{hashFiles('package.json')}}
+          path: font/node_modules
+          key: ${{hashFiles('font/package.json')}}
 
       - name: Setup NPM Modules
         run: npm install
@@ -121,7 +133,7 @@ jobs:
       - name: Cache NPM Modules
         uses: actions/cache@v4
         with:
-          path: app/node_modules
+          path: node_modules
           key: ${{hashFiles('package.json')}}
 
       - name: Setup NPM Modules
@@ -160,37 +172,8 @@ jobs:
           name: app
           path: app
 
-  UpdateCdnURL:
-    needs: [CheckVersion]
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-
-      - name: Update CDN URL in HTML
-        run: node run/updateCdnUrl.js src ${{needs.CheckVersion.outputs.PROJECT_VERSION}}
-
-      - name: Commit and push
-        run: |
-          git config --global user.name 'github-actions[bot]'
-          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
-          git add src/
-          if git diff --staged --quiet; then
-            echo "No changes to commit."
-          else
-            git commit -m "Update CDN URL ${{needs.CheckVersion.outputs.PROJECT_VERSION}} [skip ci]"
-            git push
-          fi
-
   DeployPages:
-    needs: [Stage, UpdateCdnURL]
+    needs: [Stage]
     if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     permissions:
@@ -239,7 +222,6 @@ jobs:
       - name: Get ShogiCross Version
         id: PROJECT_VERSION
         run: echo "value=$(node -p "require('./package.json').version")" >> $GITHUB_OUTPUT
-
       - name: Try Exist Tag
         id: TRY_EXISTS_TAG
         continue-on-error: true
