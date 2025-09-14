@@ -133,6 +133,7 @@ export class Record {
 		const {fieldText, fieldPieceIds, fieldMoved} = records[turn];
 
 		board.setTextPieces(fieldText);
+		if(!fieldPieceIds) return;
 		board.field.forEach((row, pY)=>
 			row.forEach(({piece}, pX)=>{
 				if(!piece) return;

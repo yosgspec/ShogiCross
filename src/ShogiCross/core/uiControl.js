@@ -34,7 +34,8 @@ export class UIControl{
 			["downloadImage", {title: "画像を保存", text: "📷", onclick: ()=>board.downloadImage()}],
 			["downloadRecord", {title: "棋譜を保存", text: "📜", onclick: ()=>board.record.download()}],
 		]);
-		controls ??= [...buttons.keys(), "textRecord"];
+		if(!Array.isArray(controls))
+			controls = [...buttons.keys(), "textRecord"];
 		const unique = Date.now().toString();
 
 		this.component = document.createElement("div");
@@ -52,7 +53,6 @@ export class UIControl{
 			controls.includes("textRecord")?
 				`<select id="textRecord${unique}" size=${recordOption.lines} style="flex-grow:1; font-family:${canvasFont.names};"><option></option></select>`: ""
 		}`;
-
 		for(const [id, {onclick}] of buttons){
 			if(!controls.includes(id)) continue;
 			this.component.querySelector(`#${id}${unique}`).onclick = onclick;
