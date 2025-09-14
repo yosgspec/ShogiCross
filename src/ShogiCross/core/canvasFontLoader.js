@@ -105,7 +105,7 @@ Object.assign(canvasFont, {
 		else if(await isOnlune())
 			await this.loadCdnFont();
 		this.names = canvasFont.fonts.map(o=>`"${o[0]}${this.unique}"`).join(",")+",serif";
-		await new Promise(res=>setTimeout(res, 50));
+		await new Promise(res=>setTimeout(res, 100));
 		this.imported = true;
 	},
 });

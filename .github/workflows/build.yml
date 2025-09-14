@@ -680,7 +680,7 @@ jobs:
           path: app-windows-x64
 
       - name: Pack App Windows Artifact
-        run: zip -r app-windows-x64.zip app-windows-x64
+        run: zip -r ShogiCross-win64.zip app-windows-x64
 
       - name: Download App Linux Artifact
         uses: actions/download-artifact@v4
@@ -689,7 +689,7 @@ jobs:
           path: app-linux-x64
 
       - name: Pack App Linux Artifact
-        run: zip -r app-linux-x64.zip app-linux-x64
+        run: zip -r ShogiCross-linux64.zip app-linux-x64
 
       - name: Download App Android Artifact
         uses: actions/download-artifact@v4
@@ -698,7 +698,7 @@ jobs:
           path: app-android
 
       - name: Pack App Android Artifact
-        run: zip -r app-android.zip app-android
+        run: zip -r ShogiCross-android.zip app-android
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
@@ -711,8 +711,8 @@ jobs:
           draft: false
           prerelease: false
           files: |
-            app-windows-x64.zip
-            app-linux-x64.zip
-            app-android.zip
+            ShogiCross-win64.zip
+            ShogiCross-linux64.zip
+            ShogiCross-android.zip
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
