@@ -459,7 +459,6 @@ jobs:
     needs: [CheckVersion, Stage]
     if: >
       github.ref == 'refs/heads/main'
-      && needs.CheckVersion.outputs.IS_NEW_VERSION == 'true'
     runs-on: windows-latest
     defaults:
       run:
@@ -507,8 +506,9 @@ jobs:
         run: npm run build
 
       - name: Move Application
+        shell: bash
         run: |
-          mv app/src-tauri/target/release/*.exe app/ShogiCross.exe
+          mv src-tauri/target/release/*.exe ShogiCross.exe
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
@@ -522,7 +522,6 @@ jobs:
     needs: [CheckVersion, Stage]
     if: >
       github.ref == 'refs/heads/main'
-      && needs.CheckVersion.outputs.IS_NEW_VERSION == 'true'
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -574,7 +573,7 @@ jobs:
 
       - name: Move Application
         run: |
-          mv app/src-tauri/target/release/bundle/appimage/*.AppImage app/ShogiCross.AppImage
+          mv src-tauri/target/release/bundle/appimage/*.AppImage ShogiCross.AppImage
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
@@ -588,7 +587,6 @@ jobs:
     needs: [CheckVersion, Stage]
     if: >
       github.ref == 'refs/heads/main'
-      && needs.CheckVersion.outputs.IS_NEW_VERSION == 'true'
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -653,7 +651,7 @@ jobs:
 
       - name: Move Application
         run: |
-          mv app/src-tauri/gen/android/app/build/outputs/apk/universal/release/*.apk app/ShogiCross.apk
+          mv src-tauri/gen/android/app/build/outputs/apk/universal/release/*.apk ShogiCross.apk
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
