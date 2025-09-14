@@ -38,7 +38,7 @@ export class Board extends BoardCore{
 	/** @typedef {Object} Board */
 	#mouseControl;
 	#uiControl;
-	#dialog;
+	dialog;
 
 	/** ゲームを実行する
 	 * @param {HTMLCanvasElement} canvas - Canvas要素
@@ -59,7 +59,8 @@ export class Board extends BoardCore{
 			emitGameOver: this.#emitGameOver.bind(this),
 		});
 		Object.defineProperties(this[PROTECTED], {
-			dialog: {get: ()=>this.#dialog},
+			// オブジェクトのProtected例
+			// dialog: {get: ()=>this.dialog},
 		});
 
 		const {
@@ -96,7 +97,7 @@ export class Board extends BoardCore{
 			this.ctx = canvas.getContext("2d");
 			this.ctx.clearRect(0, 0, canvas.width, canvas.height);
 			this.overlay = new Overlay(this.canvas, overlayOptions);
-			this.#dialog = new Dialog();
+			this.dialog = new Dialog();
 
 			// 描写コンテキストを適用
 			for(const piece of Object.values(this.pieces))
@@ -150,7 +151,7 @@ export class Board extends BoardCore{
 		if(autoDrawing){
 			canvasFontAsync.then(async ()=>{
 				this.draw();
-				this.#dialog.setFont(canvasFont.names);
+				this.dialog.setFont(canvasFont.names);
 				this.#uiControl.setRecordFont(canvasFont.names);
 				const btnFont = ["Noto Color Emoji", "Noto Serif"];
 				this.#uiControl.setButtonFont(btnFont
@@ -239,7 +240,7 @@ export class Board extends BoardCore{
 		if(moveMode === "free" || !forcePromo)
 			promoList.push({label: "不成", value: null});
 
-		return await this.#dialog.show(
+		return await this.dialog.show(
 			`${piece.char}:${piece.name}`,
 			"成りますか?",
 			promoList

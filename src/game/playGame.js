@@ -1,5 +1,6 @@
-import {Board, boards, gameSoft} from "../ShogiCross/lib.js";
+import {Board, BoardOnline, boards, gameSoft} from "../ShogiCross/lib.js";
 import {boardTemplate} from "./boardTemplate.js";
+const onlineMsg = document.getElementById("onlineMsg");
 
 const PlayGamesTop = {
 	default: {
@@ -37,7 +38,25 @@ const PlayGamesTop = {
 	},
 	cross: {
 		name: "*クロスゲーム*",
-		run: Board.run,
+		run(canvas, option){
+			if(option.moveMode === "online"){
+				delete option.moveMode;
+				if(option.playerOptions)
+					for(const opt of option.playerOptions)
+						delete opt.cpuEngine;
+				return BoardOnline.run(canvas, {
+					...option,
+					onReadyOnline(event, board){
+						console.log(board.width);
+						onlineMsg.style.width = `${board.width}px`;
+						onlineMsg.style.display = "";
+						onlineMsg.value = `対戦開始！ あなたはプレイヤー${event.playerId + 1}です。`;
+					},
+				});
+			}
+			onlineMsg.style.display = "none";
+			return Board.run(canvas, option);
+		},
 	},
 };
 const PlayGamesBottom = {};
