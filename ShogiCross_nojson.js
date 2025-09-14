@@ -7146,7 +7146,7 @@ Object.assign(v, {
    * @returns {Promise<void>}
    */
   async importAsync() {
-    await Re() ? await this.loadLocalFont() : await $e() && await this.loadCdnFont(), this.names = v.fonts.map((p) => `"${p[0]}${this.unique}"`).join(",") + ",serif", await new Promise((p) => setTimeout(p, 50)), this.imported = !0;
+    await Re() ? await this.loadLocalFont() : await $e() && await this.loadCdnFont(), this.names = v.fonts.map((p) => `"${p[0]}${this.unique}"`).join(",") + ",serif", await new Promise((p) => setTimeout(p, 100)), this.imported = !0;
   }
 });
 class Se extends Q {
