@@ -34,7 +34,7 @@ async function downloadTtf(){
 				);
 				fs.copyFile(
 					path.join(TEMP_DIR, gitPath, OFL_NAME),
-					path.join("./", OFL_NAME)
+					path.join(TTF_DIR, OFL_NAME)
 				);
 			})
 		);
