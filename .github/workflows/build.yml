@@ -626,6 +626,7 @@ jobs:
 
       - name: Cache Tauri
         uses: actions/cache@v4
+        id: cache-tauri
         with:
           path: |
             ~/.cargo/registry
@@ -653,31 +654,40 @@ jobs:
       - name: Install NPM Modules
         run: npm install
 
-      - name: Decode and Save Keystore
-        run: echo "${{secrets.TAURI_KEY_JKS_BASE64}}" | base64 -d > shogicross.jks
+      - name: Init Tauri
+        if: steps.cache-tauri.outputs.cache-hit != 'true'
+        run: npm run build-apk:init
 
-      - name: Build Tauri App
-        env:
-          TAURI_KEY_PATH: ./shogicross.jks
-          TAURI_KEY_PASSWORD: ${{ secrets.TAURI_KEY_PASSWORD }}
-          TAURI_KEY_ALIAS: ${{ secrets.TAURI_KEY_ALIAS }}
-          TAURI_KEY_ALIAS_PASSWORD: ${{ secrets.TAURI_KEY_ALIAS_PASSWORD }}
-        run: |
-          # If the Android project directory (from cache) doesn't exist, run init.
-          if [ ! -d "src-tauri/gen/android" ]; then
-            echo "Android project not found. Running init..."
-            npm run build-apk:init
-          else
-            echo "Android project found in cache. Skipping init."
-          fi
-
-          # Run the build
-          npm run build-apk:build
+      - name: Build Tauri
+        run: npm run build-apk:build
 
       - name: Move Application
         run: |
           shopt -s globstar
-          mv src-tauri/gen/android/**/*.apk ShogiCross.apk
+          mv src-tauri/gen/android/**/*.apk unsigned.apk
+
+      - name: Decode and Save Keystore
+        run: echo "${{secrets.TAURI_KEY_JKS_BASE64}}" | base64 -d > shogicross.jks
+
+      - name: Sign APK
+        env:
+          STORE_PASSWORD: ${{secrets.TAURI_KEY_PASSWORD}}
+          KEY_ALIAS: ${{secrets.TAURI_KEY_ALIAS}}
+          KEY_PASSWORD: ${{secrets.TAURI_KEY_ALIAS_PASSWORD}}
+        run: |
+          jarsigner -verbose \
+            -sigalg SHA256withRSA \
+            -digestalg SHA-256 \
+            -keystore ./shogicross.jks \
+            -storepass "${STORE_PASSWORD}" \
+            -keypass "${KEY_PASSWORD}" \
+            "unsigned.apk" \
+            "${KEY_ALIAS}"
+
+      - name: Align APK
+        run: |
+          # zipalign is available in the PATH via android-actions/setup-android
+          zipalign -v 4 "unsigned.apk" "ShogiCross.apk"
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
