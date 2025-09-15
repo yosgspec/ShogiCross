@@ -29,16 +29,16 @@ async function downloadTtf(){
 		await Promise.all(
 			(await fs.readdir(path.join(TEMP_DIR, gitPath)))
 			.filter(f=>f.endsWith(".ttf") && !f.includes("Italic"))
-			.map(f=>{
+			.map(f=>
 				fs.copyFile(
 					path.join(TEMP_DIR, gitPath, f),
 					path.join(TTF_DIR, `${fontName.replace(/\s/g, "")}.ttf`)
-				);
-				fs.copyFile(
-					path.join(TEMP_DIR, gitPath, OFL_NAME),
-					path.join(FONT_DIR, OFL_NAME)
-				);
-			})
+				)
+			)
+		);
+		await fs.copyFile(
+			path.join(TEMP_DIR, gitPath, OFL_NAME),
+			path.join(FONT_DIR, OFL_NAME)
 		);
 	}
 	// ライセンス配置
