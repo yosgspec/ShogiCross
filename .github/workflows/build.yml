@@ -458,7 +458,7 @@ jobs:
     if: >
       github.ref == 'refs/heads/main'
       && needs.CheckVersion.outputs.IS_NEW_VERSION == 'true'
-      || github.ref == 'refs/heads/act'
+    #  || github.ref == 'refs/heads/act'
     runs-on: windows-latest
     defaults:
       run:
@@ -624,14 +624,15 @@ jobs:
           toolchain: stable
           override: true
 
-      - name: Cache Cargo
+      - name: Cache Tauri
         uses: actions/cache@v4
         with:
           path: |
             ~/.cargo/registry
             ~/.cargo/git
             app/src-tauri/target
-          key: app-android-cargo-${{hashFiles('app/src-tauri/Cargo.lock')}}
+            app/src-tauri/gen
+          key: app-android-tauri-${{hashFiles('app/src-tauri/Cargo.lock', 'app/tauri.conf.json')}}
 
       - name: Setup Java
         uses: actions/setup-java@v4
@@ -662,32 +663,16 @@ jobs:
           TAURI_KEY_ALIAS: ${{ secrets.TAURI_KEY_ALIAS }}
           TAURI_KEY_ALIAS_PASSWORD: ${{ secrets.TAURI_KEY_ALIAS_PASSWORD }}
         run: |
-          echo "--- Debugging Signing Setup ---"
-          echo "Checking for keystore file at ${{ env.TAURI_KEY_PATH }}..."
-          if [ -f "${{ env.TAURI_KEY_PATH }}" ]; then
-            echo "Keystore file found."
+          # If the Android project directory (from cache) doesn't exist, run init.
+          if [ ! -d "src-tauri/gen/android" ]; then
+            echo "Android project not found. Running init..."
+            npm run build-apk:init
           else
-            echo "!!! Keystore file NOT found. Check the 'Decode and Save Keystore' step. !!!"
-          fi
-          
-          echo "Checking if TAURI_KEY_PASSWORD is set..."
-          if [ -n "${{ env.TAURI_KEY_PASSWORD }}" ]; then
-            echo "TAURI_KEY_PASSWORD is set (length not shown for security)."
-          else
-            echo "!!! TAURI_KEY_PASSWORD is NOT set. Check your GitHub secret. !!!"
+            echo "Android project found in cache. Skipping init."
           fi
 
-          echo "TAURI_KEY_ALIAS is: ${{ env.TAURI_KEY_ALIAS }}"
-          
-          echo "Checking if TAURI_KEY_ALIAS_PASSWORD is set..."
-          if [ -n "${{ env.TAURI_KEY_ALIAS_PASSWORD }}" ]; then
-            echo "TAURI_KEY_ALIAS_PASSWORD is set (length not shown for security)."
-          else
-            echo "!!! TAURI_KEY_ALIAS_PASSWORD is NOT set. Check your GitHub secret. !!!"
-          fi
-          echo "--- End of Debugging ---"
-
-          npm run build-apk
+          # Run the build
+          npm run build-apk:build
 
       - name: Move Application
         run: |
