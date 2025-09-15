@@ -21,7 +21,7 @@
   },
   "bundle": {
     "active": true,
-    "targets": ["appimage", "app", "apk"],
+    "targets": ["appimage", "app"],
     "icon": [
       "icons/app.ico",
       "icons/app.icns",
