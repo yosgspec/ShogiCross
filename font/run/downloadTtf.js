@@ -38,7 +38,7 @@ async function downloadTtf(){
 		);
 		await fs.copyFile(
 			path.join(TEMP_DIR, gitPath, OFL_NAME),
-			path.join(FONT_DIR, OFL_NAME)
+			path.join(TTF_DIR, OFL_NAME)
 		);
 	}
 	// ライセンス配置
