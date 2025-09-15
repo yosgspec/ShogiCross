@@ -5288,7 +5288,7 @@ class xe {
       fieldText: t.getTextPieces("compact", !0),
       fieldPieceIds: t.field.map(
         (l) => l.map(
-          ({ piece: d }) => d?.id ?? -1
+          ({ piece: d }) => d?.id
         )
       ),
       fieldMoved: t.field.map(
