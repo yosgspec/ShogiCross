@@ -21,12 +21,15 @@
   },
   "bundle": {
     "active": true,
-    "targets": ["appimage", "app"],
+    "targets": ["appimage", "app", "apk"],
     "icon": [
       "icons/app.ico",
       "icons/app.icns",
       "icons/app512.png",
       "icons/app192.png"
-    ]
+    ],
+    "android": {
+      "minSdkVersion": 23
+    }
   }
 }
