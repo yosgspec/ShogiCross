@@ -71,7 +71,7 @@ export class Record {
 			fieldText: board.getTextPieces("compact", true),
 			fieldPieceIds: board.field.map(row=>
 				row.map(({piece})=>
-					piece?.id ?? -1
+					piece?.id
 				)
 			),
 			fieldMoved: board.field.map(row=>

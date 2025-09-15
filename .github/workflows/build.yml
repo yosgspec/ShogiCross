@@ -508,12 +508,13 @@ jobs:
       - name: Move Application
         shell: bash
         run: |
+          shopt -s globstar
           mv src-tauri/target/release/*.exe ShogiCross.exe
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: ShogiCross-win64
+          name: app-windows-x64
           path: |
             app/ShogiCross.exe
             app/OFL.txt
@@ -575,12 +576,13 @@ jobs:
 
       - name: Move Application
         run: |
-          mv src-tauri/target/release/bundle/appimage/*.AppImage ShogiCross.AppImage
+          shopt -s globstar
+          mv src-tauri/target/release/**/*.AppImage ShogiCross.AppImage
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: ShogiCross-linux64
+          name: app-linux-x64
           path: |
             app/ShogiCross.AppImage
             app/OFL.txt
@@ -590,8 +592,9 @@ jobs:
     if: >
       github.ref == 'refs/heads/main'
       && needs.CheckVersion.outputs.IS_NEW_VERSION == 'true'
+      && false
       || github.ref == 'refs/heads/act'
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     defaults:
       run:
         working-directory: app
@@ -622,14 +625,16 @@ jobs:
           toolchain: stable
           override: true
 
-      - name: Cache Cargo
+      - name: Cache Tauri
         uses: actions/cache@v4
+        id: cache-tauri
         with:
           path: |
             ~/.cargo/registry
             ~/.cargo/git
             app/src-tauri/target
-          key: app-android-cargo-${{hashFiles('app/src-tauri/Cargo.lock')}}
+            app/src-tauri/gen
+          key: app-android-tauri-${{hashFiles('app/src-tauri/Cargo.lock', 'app/tauri.conf.json')}}
 
       - name: Setup Java
         uses: actions/setup-java@v4
@@ -647,26 +652,65 @@ jobs:
           echo "NDK_HOME=$ANDROID_NDK_ROOT" >> $GITHUB_ENV
           echo "PATH=$PATH:$ANDROID_SDK_ROOT/platform-tools" >> $GITHUB_ENV
 
+          ZIPALIGN=$(find $ANDROID_SDK_ROOT/build-tools -name zipalign | sort -r | head -n 1)
+          echo "Found zipalign: $ZIPALIGN"
+          echo "PATH=$(dirname $ZIPALIGN):$PATH" >> $GITHUB_ENV
+
       - name: Install NPM Modules
         run: npm install
 
-      - name: Build Tauri App
-        run: npm run build-apk
+      - name: Setup Android Icons
+        run: |
+          mkdir -p src-tauri/android/res/mipmap-mdpi
+          cp src-tauri/icons/app192.png src-tauri/android/res/mipmap-mdpi/ic_launcher.png
+          mkdir -p src-tauri/android/res/mipmap-xxhdpi
+          cp src-tauri/icons/app512.png src-tauri/android/res/mipmap-xxhdpi/ic_launcher.png
+
+      - name: Init Tauri
+        if: steps.cache-tauri.outputs.cache-hit != 'true'
+        run: npm run build-apk:init
+
+      - name: Build Tauri
+        run: npm run build-apk:build
 
       - name: Move Application
         run: |
-          mv src-tauri/gen/android/app/build/outputs/apk/universal/release/*.apk ShogiCross.apk
+          shopt -s globstar
+          mv src-tauri/gen/android/**/*.apk unsigned.apk
+
+      - name: Decode and Save Keystore
+        run: echo "${{secrets.TAURI_KEY_JKS_BASE64}}" | base64 -d > shogicross.jks
+
+      - name: Sign APK
+        env:
+          STORE_PASSWORD: ${{secrets.TAURI_KEY_PASSWORD}}
+          KEY_ALIAS: ${{secrets.TAURI_KEY_ALIAS}}
+          KEY_PASSWORD: ${{secrets.TAURI_KEY_ALIAS_PASSWORD}}
+        run: |
+          jarsigner -verbose \
+            -sigalg SHA256withRSA \
+            -digestalg SHA-256 \
+            -keystore ./shogicross.jks \
+            -storepass "${STORE_PASSWORD}" \
+            -keypass "${KEY_PASSWORD}" \
+            "unsigned.apk" \
+            "${KEY_ALIAS}"
+
+      - name: Align APK
+        run: |
+          # zipalign is available in the PATH via android-actions/setup-android
+          zipalign -v 4 "unsigned.apk" "ShogiCross.apk"
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: ShogiCross-android
+          name: app-android
           path: |
             app/ShogiCross.apk
             app/OFL.txt
 
   ReleaseApp:
-    needs: [CheckVersion, BuildAppWindows, BuildAppLinux, BuildAppAndroid]
+    needs: [CheckVersion, BuildAppWindows, BuildAppLinux]
     if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     permissions:
@@ -678,29 +722,29 @@ jobs:
       - name: Download App Windows Artifact
         uses: actions/download-artifact@v4
         with:
-          name: ShogiCross-win64
-          path: ShogiCross-win64
+          name: app-windows-x64
+          path: app-windows-x64
 
       - name: Pack App Windows Artifact
-        run: zip -r ShogiCross-win64.zip ShogiCross-win64
+        run: zip -r ShogiCross-win64.zip app-windows-x64
 
       - name: Download App Linux Artifact
         uses: actions/download-artifact@v4
         with:
-          name: ShogiCross-linux64
-          path: ShogiCross-linux64
+          name: app-linux-x64
+          path: app-linux-x64
 
       - name: Pack App Linux Artifact
-        run: zip -r ShogiCross-linux64.zip ShogiCross-linux64
+        run: zip -r ShogiCross-linux64.zip app-linux-x64
 
-      - name: Download App Android Artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: ShogiCross-android
-          path: ShogiCross-android
+      # - name: Download App Android Artifact
+      #   uses: actions/download-artifact@v4
+      #   with:
+      #     name: app-android
+      #     path: app-android
 
-      - name: Pack App Android Artifact
-        run: zip -r ShogiCross-android.zip ShogiCross-android
+      # - name: Pack App Android Artifact
+      #   run: zip -r ShogiCross-android.zip app-android
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
@@ -715,6 +759,6 @@ jobs:
           files: |
             ShogiCross-win64.zip
             ShogiCross-linux64.zip
-            ShogiCross-android.zip
+          #   ShogiCross-android.zip
         env:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
