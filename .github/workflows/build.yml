@@ -651,8 +651,19 @@ jobs:
           echo "NDK_HOME=$ANDROID_NDK_ROOT" >> $GITHUB_ENV
           echo "PATH=$PATH:$ANDROID_SDK_ROOT/platform-tools" >> $GITHUB_ENV
 
+          ZIPALIGN=$(find $ANDROID_SDK_ROOT/build-tools -name zipalign | sort -r | head -n 1)
+          echo "Found zipalign: $ZIPALIGN"
+          echo "PATH=$(dirname $ZIPALIGN):$PATH" >> $GITHUB_ENV
+
       - name: Install NPM Modules
         run: npm install
+
+      - name: Setup Android Icons
+        run: |
+          mkdir -p src-tauri/android/res/mipmap-mdpi
+          cp icons/app192.png src-tauri/android/res/mipmap-mdpi/ic_launcher.png
+          mkdir -p src-tauri/android/res/mipmap-xxhdpi
+          cp icons/app512.png src-tauri/android/res/mipmap-xxhdpi/ic_launcher.png
 
       - name: Init Tauri
         if: steps.cache-tauri.outputs.cache-hit != 'true'
