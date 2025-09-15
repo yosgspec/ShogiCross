@@ -509,7 +509,7 @@ jobs:
         shell: bash
         run: |
           shopt -s globstar
-          mv src-tauri/target/**/*.exe ShogiCross.exe
+          mv src-tauri/target/release/*.exe ShogiCross.exe
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
@@ -577,7 +577,7 @@ jobs:
       - name: Move Application
         run: |
           shopt -s globstar
-          mv src-tauri/target/**/*.AppImage ShogiCross.AppImage
+          mv src-tauri/target/release/**/*.AppImage ShogiCross.AppImage
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
@@ -592,7 +592,7 @@ jobs:
     if: >
       github.ref == 'refs/heads/main'
       && needs.CheckVersion.outputs.IS_NEW_VERSION == 'true'
-      || github.ref == 'refs/heads/act'
+    #  || github.ref == 'refs/heads/act'
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -658,10 +658,36 @@ jobs:
       - name: Build Tauri App
         env:
           TAURI_KEY_PATH: ./shogicross.jks
-          TAURI_KEY_PASSWORD: ${{secrets.TAURI_KEY_PASSWORD}}
-          TAURI_KEY_ALIAS: ${{secrets.TAURI_KEY_ALIAS}}
-          TAURI_KEY_ALIAS_PASSWORD: ${{secrets.TAURI_KEY_ALIAS_PASSWORD}}
-        run: npm run build-apk
+          TAURI_KEY_PASSWORD: ${{ secrets.TAURI_KEY_PASSWORD }}
+          TAURI_KEY_ALIAS: ${{ secrets.TAURI_KEY_ALIAS }}
+          TAURI_KEY_ALIAS_PASSWORD: ${{ secrets.TAURI_KEY_ALIAS_PASSWORD }}
+        run: |
+          echo "--- Debugging Signing Setup ---"
+          echo "Checking for keystore file at ${{ env.TAURI_KEY_PATH }}..."
+          if [ -f "${{ env.TAURI_KEY_PATH }}" ]; then
+            echo "Keystore file found."
+          else
+            echo "!!! Keystore file NOT found. Check the 'Decode and Save Keystore' step. !!!"
+          fi
+          
+          echo "Checking if TAURI_KEY_PASSWORD is set..."
+          if [ -n "${{ env.TAURI_KEY_PASSWORD }}" ]; then
+            echo "TAURI_KEY_PASSWORD is set (length not shown for security)."
+          else
+            echo "!!! TAURI_KEY_PASSWORD is NOT set. Check your GitHub secret. !!!"
+          fi
+
+          echo "TAURI_KEY_ALIAS is: ${{ env.TAURI_KEY_ALIAS }}"
+          
+          echo "Checking if TAURI_KEY_ALIAS_PASSWORD is set..."
+          if [ -n "${{ env.TAURI_KEY_ALIAS_PASSWORD }}" ]; then
+            echo "TAURI_KEY_ALIAS_PASSWORD is set (length not shown for security)."
+          else
+            echo "!!! TAURI_KEY_ALIAS_PASSWORD is NOT set. Check your GitHub secret. !!!"
+          fi
+          echo "--- End of Debugging ---"
+
+          npm run build-apk
 
       - name: Move Application
         run: |
