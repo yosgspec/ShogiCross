@@ -458,6 +458,7 @@ jobs:
     if: >
       github.ref == 'refs/heads/main'
       && needs.CheckVersion.outputs.IS_NEW_VERSION == 'true'
+      || github.ref == 'refs/heads/act'
     runs-on: windows-latest
     defaults:
       run:
@@ -512,7 +513,7 @@ jobs:
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: app-windows-x64
+          name: ShogiCross-win64
           path: |
             app/ShogiCross.exe
             app/OFL.txt
@@ -522,7 +523,8 @@ jobs:
     if: >
       github.ref == 'refs/heads/main'
       && needs.CheckVersion.outputs.IS_NEW_VERSION == 'true'
-    runs-on: ubuntu-latest
+      || github.ref == 'refs/heads/act'
+    runs-on: ubuntu-22.04
     defaults:
       run:
         working-directory: app
@@ -578,7 +580,7 @@ jobs:
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: app-linux-x64
+          name: ShogiCross-linux64
           path: |
             app/ShogiCross.AppImage
             app/OFL.txt
@@ -588,7 +590,8 @@ jobs:
     if: >
       github.ref == 'refs/heads/main'
       && needs.CheckVersion.outputs.IS_NEW_VERSION == 'true'
-    runs-on: ubuntu-latest
+      || github.ref == 'refs/heads/act'
+    runs-on: ubuntu-22.04
     defaults:
       run:
         working-directory: app
@@ -657,13 +660,14 @@ jobs:
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: app-android
+          name: ShogiCross-android
           path: |
             app/ShogiCross.apk
             app/OFL.txt
 
   ReleaseApp:
     needs: [CheckVersion, BuildAppWindows, BuildAppLinux, BuildAppAndroid]
+    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -674,29 +678,29 @@ jobs:
       - name: Download App Windows Artifact
         uses: actions/download-artifact@v4
         with:
-          name: app-windows-x64
-          path: app-windows-x64
+          name: ShogiCross-win64
+          path: ShogiCross-win64
 
       - name: Pack App Windows Artifact
-        run: zip -r ShogiCross-win64.zip app-windows-x64
+        run: zip -r ShogiCross-win64.zip ShogiCross-win64
 
       - name: Download App Linux Artifact
         uses: actions/download-artifact@v4
         with:
-          name: app-linux-x64
-          path: app-linux-x64
+          name: ShogiCross-linux64
+          path: ShogiCross-linux64
 
       - name: Pack App Linux Artifact
-        run: zip -r ShogiCross-linux64.zip app-linux-x64
+        run: zip -r ShogiCross-linux64.zip ShogiCross-linux64
 
       - name: Download App Android Artifact
         uses: actions/download-artifact@v4
         with:
-          name: app-android
-          path: app-android
+          name: ShogiCross-android
+          path: ShogiCross-android
 
       - name: Pack App Android Artifact
-        run: zip -r ShogiCross-android.zip app-android
+        run: zip -r ShogiCross-android.zip ShogiCross-android
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
