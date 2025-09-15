@@ -458,6 +458,7 @@ jobs:
     if: >
       github.ref == 'refs/heads/main'
       && needs.CheckVersion.outputs.IS_NEW_VERSION == 'true'
+      || github.ref == 'refs/heads/act'
     runs-on: windows-latest
     defaults:
       run:
@@ -522,6 +523,7 @@ jobs:
     if: >
       github.ref == 'refs/heads/main'
       && needs.CheckVersion.outputs.IS_NEW_VERSION == 'true'
+      || github.ref == 'refs/heads/act'
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -588,6 +590,7 @@ jobs:
     if: >
       github.ref == 'refs/heads/main'
       && needs.CheckVersion.outputs.IS_NEW_VERSION == 'true'
+      || github.ref == 'refs/heads/act'
     runs-on: ubuntu-latest
     defaults:
       run:
