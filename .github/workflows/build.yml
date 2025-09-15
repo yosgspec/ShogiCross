@@ -509,7 +509,7 @@ jobs:
         shell: bash
         run: |
           shopt -s globstar
-          mv src-tauri/target/**.exe ShogiCross.exe
+          mv src-tauri/target/**/*.exe ShogiCross.exe
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
@@ -577,7 +577,7 @@ jobs:
       - name: Move Application
         run: |
           shopt -s globstar
-          mv src-tauri/target/**.AppImage ShogiCross.AppImage
+          mv src-tauri/target/**/*.AppImage ShogiCross.AppImage
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
@@ -666,7 +666,7 @@ jobs:
       - name: Move Application
         run: |
           shopt -s globstar
-          mv src-tauri/gen/android/**.apk ShogiCross.apk
+          mv src-tauri/gen/android/**/*.apk ShogiCross.apk
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
