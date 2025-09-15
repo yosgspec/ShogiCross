@@ -22,7 +22,7 @@ export class Player{
 	constructor(board, id, cpuEngine, cpuDelay){
 		this.id = id;
 		this.deg = board.degNormal(id);
-		this.degchar = Piece.degChars[this.deg];
+		this.degChar = Piece.degChars[this.deg];
 		this.alive = true;
 		this.cpuEngine = cpuEngine;
 		// CPUエンジンの初期化
