@@ -29,7 +29,7 @@
       "icons/app192.png"
     ],
     "android": {
-      "minSdkVersion": 23
+      "minSdkVersion": 24
     }
   }
 }
