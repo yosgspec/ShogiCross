@@ -524,7 +524,7 @@ jobs:
       github.ref == 'refs/heads/main'
       && needs.CheckVersion.outputs.IS_NEW_VERSION == 'true'
       || github.ref == 'refs/heads/act'
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     defaults:
       run:
         working-directory: app
@@ -667,6 +667,7 @@ jobs:
 
   ReleaseApp:
     needs: [CheckVersion, BuildAppWindows, BuildAppLinux, BuildAppAndroid]
+    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     permissions:
       contents: write
