@@ -661,9 +661,9 @@ jobs:
       - name: Setup Android Icons
         run: |
           mkdir -p src-tauri/android/res/mipmap-mdpi
-          cp icons/app192.png src-tauri/android/res/mipmap-mdpi/ic_launcher.png
+          cp src-tauri/icons/app192.png src-tauri/android/res/mipmap-mdpi/ic_launcher.png
           mkdir -p src-tauri/android/res/mipmap-xxhdpi
-          cp icons/app512.png src-tauri/android/res/mipmap-xxhdpi/ic_launcher.png
+          cp src-tauri/icons/app512.png src-tauri/android/res/mipmap-xxhdpi/ic_launcher.png
 
       - name: Init Tauri
         if: steps.cache-tauri.outputs.cache-hit != 'true'
