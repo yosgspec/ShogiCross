@@ -524,7 +524,7 @@ jobs:
     if: >
       github.ref == 'refs/heads/main'
       && needs.CheckVersion.outputs.IS_NEW_VERSION == 'true'
-      || github.ref == 'refs/heads/act'
+    #  || github.ref == 'refs/heads/act'
     runs-on: ubuntu-22.04
     defaults:
       run:
@@ -592,7 +592,7 @@ jobs:
     if: >
       github.ref == 'refs/heads/main'
       && needs.CheckVersion.outputs.IS_NEW_VERSION == 'true'
-    #  || github.ref == 'refs/heads/act'
+      || github.ref == 'refs/heads/act'
     runs-on: ubuntu-latest
     defaults:
       run:
