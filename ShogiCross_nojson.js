@@ -5288,7 +5288,7 @@ class xe {
       fieldText: t.getTextPieces("compact", !0),
       fieldPieceIds: t.field.map(
         (l) => l.map(
-          ({ piece: d }) => d?.id
+          ({ piece: d }) => d?.id ?? -1
         )
       ),
       fieldMoved: t.field.map(
@@ -5768,7 +5768,7 @@ class Oe {
    * @param {string} cpuDelay - CPU保証待機時間
    */
   constructor(e, t, s, i) {
-    this.id = t, this.deg = e.degNormal(t), this.degchar = y.degChars[this.deg], this.alive = !0, this.cpuEngine = s, this.cpu = new Ne(e, this), this.cpuDelay = i ?? 500;
+    this.id = t, this.deg = e.degNormal(t), this.degChar = y.degChars[this.deg], this.alive = !0, this.cpuEngine = s, this.cpu = new Ne(e, this), this.cpuDelay = i ?? 500;
   }
 }
 const Xe = Object.keys(y.degChars), ie = () => ({ pX: null, pY: null, pieceId: null });
@@ -6618,7 +6618,9 @@ class Q extends Z {
       onTurnEnd: u = (m, g) => {
       },
       onGameOver: B = (m, g) => alert(`プレイヤー${g + 1}の敗北です。`),
-      onGameEnd: A = (m, g) => m.record.add({ end: `対戦終了 勝者${[...m.players.values()][g].degChar}` })
+      onGameEnd: A = (m, g) => {
+        m.record.add({ end: `対戦終了 勝者${[...m.players.values()][g].degChar}` });
+      }
     } = t;
     let h = null, f = null;
     if (!r) {
@@ -6673,7 +6675,7 @@ class Q extends Z {
       ) || (t.alive = !1, this.onGameOver?.(this, t.id)));
     });
     const e = [...this.players.values()].filter((t) => t.alive);
-    e.length <= 1 && (this.onGameEnd?.(this, e[0].id), this.isGameEnd = !0);
+    e.length === 1 && (console.log(e[0]), this.onGameEnd?.(this, e[0].id), this.isGameEnd = !0);
   }
   /** プロモーション選択
    * @param {Piece} piece - 駒
