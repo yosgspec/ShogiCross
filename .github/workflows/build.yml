@@ -650,7 +650,15 @@ jobs:
       - name: Install NPM Modules
         run: npm install
 
+      - name: Decode and Save Keystore
+        run: echo "${{ secrets.TAURI_KEY_JKS_BASE64 }}" | base64 -d > shogicross.jks
+
       - name: Build Tauri App
+        env:
+          TAURI_KEY_PATH: ./shogicross.jks
+          TAURI_KEY_PASSWORD: ${{ secrets.TAURI_KEY_PASSWORD }}
+          TAURI_KEY_ALIAS: ${{ secrets.TAURI_KEY_ALIAS }}
+          TAURI_KEY_ALIAS_PASSWORD: ${{ secrets.TAURI_KEY_ALIAS_PASSWORD }}
         run: npm run build-apk
 
       - name: Move Application
