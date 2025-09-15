@@ -11,7 +11,7 @@
     "build": "npm run tauri build --release",
     "build-apk": "run-s build-apk:*",
     "build-apk:init": "npx tauri android init",
-    "build-apk:build": "npx tauri android build --apk"
+    "build-apk:build": "npx tauri android build --apk --debug"
   },
   "devDependencies": {
     "@tauri-apps/cli": "^2"
