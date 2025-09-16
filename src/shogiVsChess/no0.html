@@ -1,13 +1,13 @@
 <main><div>
 	<canvas id="shogiCross"></canvas>
-	<textarea id="piecesText" style="width:15rem; height:15rem; color:#000033; background-color:#EEFFFF"></textarea>
+	<textarea id="textPieces" style="width:15rem; height:15rem; color:#000033; background-color:#EEFFFF"></textarea>
 	<input id="jsonRecord">
 </div></main>
 
 <script type="module">
 	import {Board, panels} from "https://cdn.jsdelivr.net/gh/yosgspec/ShogiCross@0.7/src/dist/ShogiCross.min.js";
 	const canvas = document.getElementById("shogiCross");
-	const piecesText = document.getElementById("piecesText");
+	const textPieces = document.getElementById("textPieces");
 	const jsonRecord = document.getElementById("jsonRecord");
 	const board = Board.run(canvas, {
 		name: "将棋とチェスが同じ盤で戦うスレ",
@@ -19,7 +19,7 @@
 			{gameName: "チェス"}
 		],
 		onDrawed(e){
-			piecesText.value = e.getPiecesText("bod");
+			textPieces.value = e.getTextPieces("bod");
 			jsonRecord.value = e.getJsonRecord();
 		}
 	});

@@ -46,8 +46,8 @@ export default `
 <h3>駒の操作</h3>
 <div><a href="#doc/board/putNewPiece">駒を任意のマスに配置する</a></div>
 <div><a href="#doc/board/putStartPieces">駒の初期配置(メソッド)</a></div>
-<div><a href="#doc/board/setPiecesText">駒をテキスト形式で配置する</a></div>
-<div><a href="#doc/board/getPiecesText">駒の配置をテキスト形式で取得</a></div>
+<div><a href="#doc/board/setTextPieces">駒をテキスト形式で配置する</a></div>
+<div><a href="#doc/board/getTextPieces">駒の配置をテキスト形式で取得</a></div>
 <div><a href="#doc/record/getText">局面の記録を文字列に変換</a></div>
 
 <h3>棋譜の操作</h3>

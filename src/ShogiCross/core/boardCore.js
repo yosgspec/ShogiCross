@@ -32,8 +32,6 @@ export const PROTECTED = Symbol("Board");
  * @prop {string} backgroundColor - 背景色(デフォルト無色)
  * @prop {boolean} isHeadless - ヘッドレスモード（Canvas非描画・自動操作用）
  * @prop {"normal"|"vs"|"free"|"viewOnly"} moveMode - 移動モード
- * @prop {string} piecesText - 駒の初期配置を行う
- * @prop {string} recordJson - JSON形式の棋譜データ
  */
 
 export class BoardCore{
@@ -66,8 +64,6 @@ export class BoardCore{
 			backgroundColor="#00000000",
 			isHeadless=false,
 			moveMode="normal",
-			piecesText,
-			record,
 		} = option;
 
 		this.option = option;
@@ -139,7 +135,6 @@ export class BoardCore{
 		this.moveMode = moveMode;
 		this.record = new Record(this);
 		this.enPassant = new EnPassant();
-		this.initPiecesText(piecesText);
 	}
 
 	/** ゲームを実行する
@@ -147,9 +142,7 @@ export class BoardCore{
 	 * @param {BoardInitOption} option - ボードの初期化オプション
 	 * @returns {this}
 	 */
-	static run(canvas, option){
-		return new BoardCore(canvas, option);
-	}
+	static run(canvas, option){}
 
 	/** ボードを閉じる */
 	close(){}
@@ -160,6 +153,7 @@ export class BoardCore{
 	getActivePlayer(){
 		return [...this.players.values()][this.record.turn%this.playerLen];
 	}
+
 
 	/** 角度を正規化
 	 * @param {number} playeaIdOrDeg - プレイヤー番号または角度
@@ -262,23 +256,23 @@ export class BoardCore{
 		if(this.autoDrawing) this.draw();
 	}
 
-	/** 駒の初期配置を行う
+	/** ボードの初期配置を行う
 	 * {string} text - 駒配置を表す文字列
 	 */
-	initPiecesText(text){
-		this.setPiecesText(text);
+	initTextPieces(text){
+		this.setTextPieces(text);
 		this.record.last.fieldText = text;
 	}
 
 	/** 文字列から駒を配置
 	 * {string} text - 駒配置を表す文字列
 	 */
-	setPiecesText(text){
+	setTextPieces(text){
 		const {field, pieces, xLen, yLen} = this;
 
 		const standTitle = "持駒：";
 		// BOD形式
-		if(0<text.indexOf(standTitle)) text = Bod.convPiecesText(text);
+		if(0<text.indexOf(standTitle)) text = Bod.convTextPieces(text);
 
 		// 排除する記号
 		const noises = "┏━┯┓┗┷┛┃│┠─┼┨―";
@@ -526,9 +520,9 @@ export class BoardCore{
 	 * @param {boolean} isAlias - エイリアス表示
 	 * @returns {string}
 	 */
-	getPiecesText(mode="default", isAlias=false){
+	getTextPieces(mode="default", isAlias=false){
 		return mode === "bod"?
-			Bod.getPiecesText(this):
+			Bod.getTextPieces(this):
 			this.toString(mode === "compact", isAlias);
 	}
 
