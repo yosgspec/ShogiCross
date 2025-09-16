@@ -1,5 +1,19 @@
 // クライアントサイド(通常の<script>タグ)で実行された場合
 if("serviceWorker" in navigator){
+	// PWAでの起動判定
+	if(window.matchMedia("(display-mode: standalone)").matches
+		|| window.navigator.standalone === true || true
+	){
+		// 擬似的に履歴を積んで戻れなくする
+		history.pushState(null, "", location.href);
+		window.addEventListener("popstate", async e=>{
+			// 本当に終了(履歴を戻す)
+			if(confirm("アプリを終了しますか?")) return history.back();
+			// 終了しない⇒履歴を戻さないように再度積む
+			history.pushState(null, "", location.href);
+		});
+	}
+
 	// --- インストールボタンの動的生成 ---
 	let deferredPrompt;
 	const installButton = document.createElement("button");

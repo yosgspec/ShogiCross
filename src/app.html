@@ -10,7 +10,7 @@
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 		<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@900&family=Kosugi:wght@400&family=Noto+Color+Emoji&display=swap" rel="stylesheet">
 		<link rel="manifest" href="manifest.json" />
-		<script defer src="./sw.js"></script>
+		<script defer src="./game/pwa.js"></script>
 	</head>
 	<body>
 		<div class="flex-col">
@@ -94,20 +94,23 @@
 		const recordJsonCopy = document.getElementById("recordJsonCopy");
 		const recordJsonInput = document.getElementById("recordJsonInput");
 		const recordJsonOutput = document.getElementById("recordJsonOutput");
-		const selectBoardText = document.getElementsByName("selectBoardText")
+		const selectBoardText = document.getElementsByName("selectBoardText");
 		const txt = document.getElementById("shogiCrossText");
 
+		/** @type {Board} 実行中のゲーム */
+		let board = null;
+
 		/** 描写イベント
-		 * @param {Board} e
+		 * @param {Board} board
 		 */
-		function onDrawed(e){
-			recordText.value = e.record.getTextAll();
+		function onDrawed(board){
+			recordText.value = board.record.getTextAll();
 			recordText.scrollTop = recordText.scrollHeight;
 
 			for(const {checked, value:mode} of selectBoardText){
 				if(!checked) continue;
 
-				txt.value = e.getTextPieces(mode);
+				txt.value = board.getTextPieces(mode);
 				const txtSplit = txt.value.split(/\n/);
 				const fontSize = parseFloat(window.getComputedStyle(txt, null).getPropertyValue('font-size'));
 				txt.style.height = `${0|fontSize*txtSplit.length*1.1}px`;
@@ -126,25 +129,15 @@
 		/** テキスト更新イベント
 		 * @param {HTMLElement} target
 		 */
-		 function txtOnChange({target}){
-			playingGame.setTextPieces(target.value);
+		function txtOnChange({target}){
+			board.setTextPieces(target.value);
 		};
-
-		/** 画像を保存ボタン */
-		 function downloadImageClick(){
-			playingGame.downloadImage(SelectControl.gameName);
-		}
-
-		/** 実行中のゲーム
-		 * @type {Board}
-		 */
-		let playingGame;
 
 		/** ゲームを実行 */
 		async function playGame(){
-			playingGame?.close();
-			playingGame = PlayGames[SelectControl.gameName].run(canvas, {onDrawed, ...SelectControl.option});
-			selectVariant.after(playingGame.makeUIControl([
+			board?.close();
+			board = PlayGames[SelectControl.gameName].run(canvas, {onDrawed, ...SelectControl.option});
+			selectVariant.after(board.makeUIControl([
 				"undo",
 				"redo",
 				"rotateLeft",
@@ -154,16 +147,19 @@
 				"downloadRecord",
 			]).component);
 			txt.onchange = txtOnChange;
-			recordJsonCopy.onclick = ()=>navigator.clipboard.writeText(recordJson.value).then(()=>recordJson.select());
-			recordJsonInput.onclick = ()=>playingGame.record.setJson(recordJson.value);
-			recordJsonOutput.onclick = ()=>recordJson.value = playingGame.record.getJson();
+			recordJsonCopy.onclick = ()=>
+				navigator.clipboard.writeText(recordJson.value).then(()=>recordJson.select());
+			recordJsonInput.onclick = ()=>
+				board.record.setJson(recordJson.value);
+			recordJsonOutput.onclick = ()=>
+				recordJson.value = board.record.getJson();
 		};
 
 		(function(){
 			playGame();
 			SelectControl.onchange = playGame;
 			[...selectBoardText].forEach(
-				e=>e.onchange=()=>onDrawed(playingGame))
+				e=>e.onchange=()=>onDrawed(board));
 		})();
 		</script>
 	</body>
