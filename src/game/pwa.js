@@ -5,10 +5,12 @@ if("serviceWorker" in navigator){
 		|| window.navigator.standalone === true || true
 	){
 		// 擬似的に履歴を積んで戻れなくする
-		history.pushState(null, "", location.href);
+		for(let i=0;i<10;i++)
+			history.pushState(null, "", location.href);
 		window.addEventListener("popstate", async e=>{
 			// 本当に終了(履歴を戻す)
-			if(confirm("アプリを終了しますか?")) return history.back();
+			if(confirm("アプリを終了しますか?"))
+				return history.go(-history.length + 2);
 			// 終了しない⇒履歴を戻さないように再度積む
 			history.pushState(null, "", location.href);
 		});
