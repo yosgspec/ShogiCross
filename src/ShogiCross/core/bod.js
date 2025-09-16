@@ -129,7 +129,7 @@ export class Bod{
 	 * @param {string} text - BOD形式のテキスト
 	 * @returns {string}
 	 */
-	static convTextPieces(text){
+	static convPiecesText(text){
 		const boardLines = [];
 		const standLines = [];
 		text.split(/\r|\n|\r\n/).forEach(line=>{
@@ -166,7 +166,7 @@ export class Bod{
 	 * @param {Board} board
 	 * @returns {string}
 	 */
-	static getTextPieces(board){
+	static getPiecesText(board){
 		const {field, xLen, playerLen, stand} = board;
 
 		let header =
