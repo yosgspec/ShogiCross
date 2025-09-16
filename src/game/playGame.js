@@ -9,7 +9,7 @@ const PlayGamesTop = {
 		useStand: true,
 		run(canvas, {onDrawed}){
 			const {playBoard, useStand} = this;
-			const pieceMap = [
+			const piecesText = [
 				"▽ネ▽い▽ね▽ラ▽き▽ぞ▽ひ▽豪▽舶▽往▽巨▽戰▽橡▽杵",
 				"▽豕▽舟▽柱▽主▽臣▽戦▽像▽午▽央▽貴▽君▽種▽船▽根",
 				"▽瑪▽貝▽漢▽楚▽士▽車▽象▽馭▽包▽卆▽率▽將▽帥▽仕",
@@ -30,9 +30,9 @@ const PlayGamesTop = {
 				playBoard,
 				useStand,
 				...boardTemplate(14),
+				piecesText,
+				onDrawed,
 			});
-			board.initPiecesText(pieceMap);
-			board.onDrawed = onDrawed;
 			return board;
 		},
 	},

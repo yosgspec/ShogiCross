@@ -11,9 +11,9 @@
     const canvas = document.getElementById("shogiCross");
     const board = Board.run(canvas, {
         playBoard: "マークルック",
-        useUIControl: false
+        useUIControl: false,
+        recordJson: getRecordJson(),
     });
-    board.record.setJson(jsonRecord());
 
     /** 記録の手を戻す */
     // Board.record.undo(): void

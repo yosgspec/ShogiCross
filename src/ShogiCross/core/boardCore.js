@@ -32,7 +32,7 @@ export const PROTECTED = Symbol("Board");
  * @prop {string} backgroundColor - 背景色(デフォルト無色)
  * @prop {boolean} isHeadless - ヘッドレスモード（Canvas非描画・自動操作用）
  * @prop {"normal"|"vs"|"free"|"viewOnly"} moveMode - 移動モード
- * @prop {string} piecesText - 駒の初期配置を行う
+ * @prop {string} piecesText - テキスト形式の駒初期配置データ
  * @prop {string} recordJson - JSON形式の棋譜データ
  */
 
@@ -67,7 +67,7 @@ export class BoardCore{
 			isHeadless=false,
 			moveMode="normal",
 			piecesText,
-			record,
+			recordJson,
 		} = option;
 
 		this.option = option;
@@ -139,7 +139,8 @@ export class BoardCore{
 		this.moveMode = moveMode;
 		this.record = new Record(this);
 		this.enPassant = new EnPassant();
-		this.initPiecesText(piecesText);
+		if(piecesText) this.initPiecesText(piecesText);
+		if(recordJson) this.record.setJson(recordJson);
 	}
 
 	/** ゲームを実行する
