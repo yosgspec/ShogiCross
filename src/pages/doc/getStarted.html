@@ -9,9 +9,9 @@
 <h3>CDNから使用する</h3>
 <h4>iife版</h4>
 html中にscriptタグを埋め込んで使用する場合、
-<pre style="background-color:#EEFFFF;"><code>&lt;script src="https://cdn.jsdelivr.net/gh/yosgspec/ShogiCross@0.15/src/dist/ShogiCross.iife.js">&lt;/script>
+<pre style="background-color:#EEFFFF;"><code>&lt;script src="https://cdn.jsdelivr.net/gh/yosgspec/ShogiCross@0.16/src/dist/ShogiCross.iife.js">&lt;/script>
 または
-&lt;script src="https://cdn.jsdelivr.net/gh/yosgspec/ShogiCross@0.15/src/dist/ShogiCross.iife.min.js">&lt;/script>
+&lt;script src="https://cdn.jsdelivr.net/gh/yosgspec/ShogiCross@0.16/src/dist/ShogiCross.iife.min.js">&lt;/script>
 &lt;script>
     const {Board, gameSoft} = ShogiCross;
     const board = Board.run(canvas, gameSoft.shogi);
@@ -20,9 +20,9 @@ html中にscriptタグを埋め込んで使用する場合、
 <h4>ES Module版</h4>
 ES Moduleでimportして使用する場合、
 <pre style="background-color:#EEFFFF;"><code>&lt;script type="module">
-    import {Board, gameSoft} from "https://cdn.jsdelivr.net/gh/yosgspec/ShogiCross@0.15/ShogiCross.js";
+    import {Board, gameSoft} from "https://cdn.jsdelivr.net/gh/yosgspec/ShogiCross@0.16/ShogiCross.js";
     または
-    import {Board, gameSoft} from "https://cdn.jsdelivr.net/gh/yosgspec/ShogiCross@0.15/ShogiCross.min.js";
+    import {Board, gameSoft} from "https://cdn.jsdelivr.net/gh/yosgspec/ShogiCross@0.16/ShogiCross.min.js";
 
     const board = Board.run(canvas, gameSoft.shogi);
 &lt;/script>
@@ -31,12 +31,12 @@ ES Moduleでimportして使用する場合、
 ゲームデータ拡張(外部ファイル読込み)が不要な場合に使用しても良い。<br>
 余計な通信が発生しないので開発者コンソールが汚れないし、ちょっとだけ読み込みが早くなる…かも。
 <pre style="background-color:#EEFFFF;"><code>&lt;!--iife版-->
-&lt;script src="https://cdn.jsdelivr.net/gh/yosgspec/ShogiCross@0.15/src/dist/ShogiCross_nojson.iife.js">&lt;/script>
-&lt;script src="https://cdn.jsdelivr.net/gh/yosgspec/ShogiCross@0.15/src/dist/ShogiCross_nojson.iife.min.js">&lt;/script>
+&lt;script src="https://cdn.jsdelivr.net/gh/yosgspec/ShogiCross@0.16/src/dist/ShogiCross_nojson.iife.js">&lt;/script>
+&lt;script src="https://cdn.jsdelivr.net/gh/yosgspec/ShogiCross@0.16/src/dist/ShogiCross_nojson.iife.min.js">&lt;/script>
 </code></pre>
 <pre style="background-color:#EEFFFF;"><code>/* ES Module版 */
-import {Board, gameSoft} from "https://cdn.jsdelivr.net/gh/yosgspec/ShogiCross@0.15/src/dist/ShogiCross_nojson.js";
-import {Board, gameSoft} from "https://cdn.jsdelivr.net/gh/yosgspec/ShogiCross@0.15/src/dist/ShogiCross_nojson.min.js";
+import {Board, gameSoft} from "https://cdn.jsdelivr.net/gh/yosgspec/ShogiCross@0.16/src/dist/ShogiCross_nojson.js";
+import {Board, gameSoft} from "https://cdn.jsdelivr.net/gh/yosgspec/ShogiCross@0.16/src/dist/ShogiCross_nojson.min.js";
 </code></pre>
 
 <h2>ゲームデータ拡張</h2>
