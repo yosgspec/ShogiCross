@@ -1,4 +1,4 @@
-declare class Q extends Z {
+declare class Q extends D {
     dialog: Me;
     overlay: je;
     isGameEnd: boolean;
@@ -36,11 +36,15 @@ declare class Q extends Z {
 declare class Se extends Q {
     onReadyOnline: any;
     onCancelOnline: any;
+    onDisconnectOnline: any;
+    onCloseOnline: any;
     isOnline: boolean;
     isReadyOnline: boolean;
     gameKey: any;
     roomId: any;
     ws: WebSocket;
+    /** ゲームを切断する */
+    disconnect(): void;
     /**
      * リモートからの移動を盤面に適用する
      * @param {Object} message
@@ -83,12 +87,12 @@ declare class Se extends Q {
         standIndex: number;
     }): Promise<void>;
 }
-declare class Ne extends G {
+declare class Oe extends H {
     /** @typedef {Object} CpuEngineBase */
     /** @type {CpuEngineBase} */
     engine: any;
 }
-declare class G {
+declare class H {
     /**
      * @param {Board} board - 対象の盤面
      * @param {Player} player - プレイヤー情報
@@ -113,12 +117,12 @@ declare class G {
      */
     evaluate(e?: any): number;
 }
-declare namespace H {
+declare namespace U {
     export { random };
     export { greedy };
     export { minimax };
 }
-declare class y {
+declare class W {
     /** @typedef {import("./piece.js").Piece} Piece */
     /** 描写サイズ
      * @type {number}
@@ -291,7 +295,7 @@ declare class y {
      */
     toString(e?: boolean): string;
 }
-declare const K: {
+declare const q: {
     将棋: {
         backgroundColor: string;
         borderColor: string;
@@ -488,7 +492,7 @@ declare const K: {
         field: string[];
     };
 };
-declare namespace v {
+declare namespace O {
     let fonts: (string | number)[][];
 }
 declare namespace F {
@@ -1659,7 +1663,7 @@ declare namespace T {
         export { position_6 as position };
     }
 }
-declare const D: {
+declare const I: {
     S: {
         name: string;
         text: string;
@@ -1804,7 +1808,7 @@ declare const D: {
         attr: string[];
     };
 };
-declare namespace q {
+declare namespace V {
     let 女: number;
     let 獅: number;
     let 后: number;
@@ -2079,7 +2083,7 @@ declare namespace ne {
     let 呈_1: string[];
     export { 呈_1 as 呈 };
 }
-declare namespace I {
+declare namespace Y {
     export namespace 歩_2 {
         let name_46: string;
         export { name_46 as name };
@@ -5624,7 +5628,7 @@ declare namespace I {
         export { range_205 as range };
     }
 }
-declare class Z {
+declare class D {
     /** ゲームを実行する
      * @param {HTMLCanvasElement} canvas - Canvas要素
      * @param {BoardInitOption} option - ボードの初期化オプション
@@ -5665,10 +5669,10 @@ declare class Z {
     height: number;
     right: any;
     bottom: any;
-    stand: Y;
+    stand: G;
     moveMode: any;
     record: xe;
-    enPassant: V;
+    enPassant: Z;
     /** ボードを閉じる */
     close(): void;
     /** 現在の手番のプレイヤー情報を取得
@@ -5700,14 +5704,14 @@ declare class Z {
      * @param {boolean} option.isMoved - 初回移動済みか否か
      */
     putNewPiece(e: any, t: any, s: any, i: any, a?: {}): void;
-    /** ボードの初期配置を行う
+    /** 駒の初期配置を行う
      * {string} text - 駒配置を表す文字列
      */
-    initTextPieces(e: any): void;
+    initPiecesText(e: any): void;
     /** 文字列から駒を配置
      * {string} text - 駒配置を表す文字列
      */
-    setTextPieces(e: any): void;
+    setPiecesText(e: any): void;
     /** 角度基準のマス目の行を取得する
      * @param {number} pX - マス目の列
      * @param {number} pY - マス目の行
@@ -5783,7 +5787,7 @@ declare class Z {
      * @param {boolean} isAlias - エイリアス表示
      * @returns {string}
      */
-    getTextPieces(e?: string, t?: boolean): string;
+    getPiecesText(e?: string, t?: boolean): string;
     /** 駒配置をテキストで取得
      * @param {boolean} isCompact - コンパクト表示
      * @param {boolean} isAlias - エイリアス表示
@@ -5838,13 +5842,13 @@ declare class je {
     updatePosition(): void;
     #private;
 }
-declare class random extends G {
+declare class random extends H {
     constructor(e: any, t: any);
 }
-declare class greedy extends G {
+declare class greedy extends H {
     constructor(e: any, t: any);
 }
-declare class minimax extends G {
+declare class minimax extends H {
     constructor(e: any, t: any);
     searchDepth: number;
     /**
@@ -5858,7 +5862,7 @@ declare class minimax extends G {
      */
     minimax(e: any, t: any, s: any, i: any, a: any): Promise<number>;
 }
-declare class Y {
+declare class G {
     /** 駒台への角度ごとの表示順
      * @type {number[]}
      */
@@ -5977,7 +5981,7 @@ declare class xe {
     download(e?: boolean): void;
     #private;
 }
-declare class V {
+declare class Z {
     degs: {};
     /** アンパッサン情報をクリア
      * @param {number} deg - アンパッサンされうる陣営の角度
@@ -6005,4 +6009,4 @@ declare class V {
     clone(): any;
 }
 declare const j: unique symbol;
-export { Q as Board, Se as BoardOnline, Ne as CpuEngine, G as CpuEngineBase, H as CpuEngines, y as Piece, K as boards, v as canvasFont, F as canvasImage, fe as extendData, he as gameSoft, T as games, D as panels, q as pieceCost, ne as pieceRange, I as pieces };
+export { Q as Board, Se as BoardOnline, Oe as CpuEngine, H as CpuEngineBase, U as CpuEngines, W as Piece, q as boards, O as canvasFont, F as canvasImage, fe as extendData, he as gameSoft, T as games, I as panels, V as pieceCost, ne as pieceRange, Y as pieces };
