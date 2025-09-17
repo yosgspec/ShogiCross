@@ -19,7 +19,9 @@ export class BoardOnline extends Board{
 	 * @typedef {Object} BoardOnlineInitOption - ボードの初期化オプション
 	 * @extends BoardInitOption
 	 * @prop {(e:string, board:BoardOnline)=>void} onReadyOnline - 接続完了イベント
-	 * @prop {(board:BoardOnline)=>void} onCancelOnline - 接続キャンセルイベント
+	 * @prop {(message: Object, board:BoardOnline)=>void} onCancelOnline - 接続キャンセルイベント
+	 * @prop {(message: Object, board:BoardOnline)=>void} onDisconnectOnline - 切断イベント
+	 * @prop {(board:BoardOnline)=>void} onCloseOnline - 接続終了イベント
 	 * @prop {string} serverURL - 接続するサーバーURL(http(s)://～)
 	 * @prop {string} gameKey - オンライン用ゲーム接続キー
 	 */
@@ -40,12 +42,16 @@ export class BoardOnline extends Board{
 		const {
 			onReadyOnline = null,
 			onCancelOnline = null,
+			onDisconnectOnline = ()=>this.dialog?.show("接続エラー", "サーバーから切断されました。"),
+			onCloseOnline = null,
 			serverURL = "http://localhost:8080",
 			gameKey = encodeURI(JSON.stringify(option)),
 		} = option;
 		const {playerLen} = this;
 		this.onReadyOnline = onReadyOnline;
 		this.onCancelOnline = onCancelOnline;
+		this.onDisconnectOnline = onDisconnectOnline;
+		this.onCloseOnline = onCloseOnline;
 		this.isOnline = true;
 		this.isReadyOnline = false;
 		this.gameKey = gameKey;
@@ -71,6 +77,7 @@ export class BoardOnline extends Board{
 				this.ws.send(JSON.stringify({type: "cancelJoin"}));
 				this.overlay.stop();
 				this.onCancelOnline?.(this);
+				this.close();
 			};
 		};
 
@@ -110,7 +117,8 @@ export class BoardOnline extends Board{
 
 					// 対戦相手の接続が切れた場合
 					case "disconnect":
-						this.dialog?.show("接続エラー", "対戦相手が切断しました。");
+						this.onDisconnectOnline?.(message, this);
+						this.close();
 						return;
 				}
 			}
@@ -119,16 +127,18 @@ export class BoardOnline extends Board{
 			}
 		};
 
+		// 接続終了イベント
 		this.ws.onclose = ()=>{
 			console.log("WebSocket connection closed.");
-			// 接続が切れたことをユーザーに通知
-			this.dialog?.show("接続エラー", "サーバーとの接続が切れました。");
+			this.onCloseOnline?.(this);
+			super.close();
 		};
 
+		// WebSocketエラーイベント
 		this.ws.onerror = ex=>{
 			console.error("WebSocket error:", ex);
-			// WebSocketエラーをユーザーに通知
-			this.dialog?.show("接続エラー", "サーバーとの接続でエラーが発生しました。");
+			this.onDisconnectOnline?.(null, this);
+			this.close();
 		};
 
 		// オンライン用駒台クラス
@@ -172,6 +182,19 @@ export class BoardOnline extends Board{
 			}
 		}
 		this.stand = new StandOnline(this);
+	}
+
+	/** ゲームを切断する */
+	close(){
+		if(this.ws && this.ws.readyState<2) this.ws.close();
+		super.close();
+	}
+
+	/** ゲームを切断する */
+	disconnect(){
+		this.ws.send(JSON.stringify({type: "disconnect"}));
+		this.dialog?.show("", "サーバー接続を終了しました。");
+		this.close();
 	}
 
 	/**

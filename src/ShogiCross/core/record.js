@@ -68,7 +68,7 @@ export class Record {
 			pieceChar: piece.char,
 			pieceId: piece.id,
 			end,
-			fieldText: board.getTextPieces("compact", true),
+			fieldText: board.getPiecesText("compact", true),
 			fieldPieceIds: board.field.map(row=>
 				row.map(({piece})=>
 					piece?.id
@@ -132,7 +132,7 @@ export class Record {
 		const {board, records, turn} = this;
 		const {fieldText, fieldPieceIds, fieldMoved} = records[turn];
 
-		board.setTextPieces(fieldText);
+		board.setPiecesText(fieldText);
 		if(!fieldPieceIds) return;
 		board.field.forEach((row, pY)=>
 			row.forEach(({piece}, pX)=>{

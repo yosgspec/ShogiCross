@@ -1,75 +1,29 @@
-import {Board, BoardOnline, boards, gameSoft} from "../ShogiCross/lib.js";
-import {boardTemplate} from "./boardTemplate.js";
+import {Board, BoardOnline} from "../ShogiCross/lib.js";
+import {toggleOnline} from "./selectControl.js";
 const onlineMsg = document.getElementById("onlineMsg");
 
-const PlayGamesTop = {
-	default: {
-		name: "--ゲームを選択--",
-		playBoard: "クロス14x14",
-		useStand: true,
-		run(canvas, {onDrawed}){
-			const {playBoard, useStand} = this;
-			const pieceMap = [
-				"▽ネ▽い▽ね▽ラ▽き▽ぞ▽ひ▽豪▽舶▽往▽巨▽戰▽橡▽杵",
-				"▽豕▽舟▽柱▽主▽臣▽戦▽像▽午▽央▽貴▽君▽種▽船▽根",
-				"▽瑪▽貝▽漢▽楚▽士▽車▽象▽馭▽包▽卆▽率▽將▽帥▽仕",
-				"▽俥▽炮▽相▽馮▽卒▽童▽妾▽砦▽賢▽佯▽使▽射▽鋲▽鵺",
-				"▽塞▽齶▽麋▽遲▽篩▽鴻▽鰐▽師▽犀▽麟▽梹▽駈▽駁▽駆",
-				"▽駮▽城▽僧▽騏▽妃▽帝▽王▽后▽塔▽聖▽騎▽兵▲歩▲香",
-				"▲桂▲銀▲金▲角▲飛▲玉▲皇▲と▲杏▲圭▲全▲馬▲龍▲京",
-				"▲銅▲山▲翅▲斗▲跳▲女▲幾▲う▲さ▲含▲余▲仲▲反▲横",
-				"▲竪▲艮▲釡▲猛▲馨▲虎▲碼▲竜▲醉▲麒▲鳳▲奔▲獅▲酔",
-				"▲鯨▲猪▲牛▲黄▲堅▲升▲桷▲駒▲鹿▲鷂▲鷲▲太▲鰤▲卉",
-				"▲石▲鉄▲猫▲瀧▲嗔▲丑▲狼▲鉐▲鋼▲錨▲錆▲鎭▲鈕▲狂",
-				"▲燕▲雉▲鶴▲鶉▲享▲鷹▲鵬▲鴈▲左▲右▲雕▲雀▲烏▲鴟",
-				"▲鶏▲犬▲麁▲鷙▲犇▲風▲羽▲兎▲猿▲鳫▲狽▲狐▲雲▲霍",
-				"▲錐▲鳶▲曇▲延▲狛▲豬▲鷄▲前▲騰▲行▲瓜▲麈▲羽▲熊",
-			].join("\n");
+export function boardRun(canvas, option){
+	if(!toggleOnline.checked){
+		onlineMsg.style.display = "none";
+		return Board.run(canvas, option);
+	}
 
-			const board = Board.run(canvas, {
-				playBoard,
-				useStand,
-				...boardTemplate(14),
-			});
-			board.initTextPieces(pieceMap);
-			board.onDrawed = onDrawed;
-			return board;
+	if(option.playerOptions)
+		for(const opt of option.playerOptions)
+			delete opt.cpuEngine;
+
+	return BoardOnline.run(canvas, {
+		...option,
+		// 接続完了
+		onReadyOnline(event, board){
+			onlineMsg.style.width = `${board.width}px`;
+			onlineMsg.style.display = "";
+			onlineMsg.value = `対戦開始！ あなたはプレイヤー${event.playerId+1}です。`;
 		},
-	},
-	cross: {
-		name: "*クロスゲーム*",
-		run(canvas, option){
-			if(option.moveMode === "online"){
-				delete option.moveMode;
-				if(option.playerOptions)
-					for(const opt of option.playerOptions)
-						delete opt.cpuEngine;
-				return BoardOnline.run(canvas, {
-					...option,
-					onReadyOnline(event, board){
-						console.log(board.width);
-						onlineMsg.style.width = `${board.width}px`;
-						onlineMsg.style.display = "";
-						onlineMsg.value = `対戦開始！ あなたはプレイヤー${event.playerId + 1}です。`;
-					},
-				});
-			}
-			onlineMsg.style.display = "none";
-			return Board.run(canvas, option);
+		// 切断
+		onCloseOnline(){
+			toggleOnline.onClick(false);
+			canvas.dispatchEvent(new CustomEvent("shogicross:reload", {bubbles: true}));
 		},
-	},
-};
-const PlayGamesBottom = {};
-
-Object.keys(gameSoft).forEach(key=>{
-	gameSoft[key].run = function(canvas, option){
-		const xLen = boards[this.playBoard].field[0].length;
-		return Board.run(canvas, {...option, ...this, ...boardTemplate(xLen)});
-	};
-});
-
-export const PlayGames = {
-	...PlayGamesTop,
-	...gameSoft,
-	...PlayGamesBottom,
-};
+	});
+}

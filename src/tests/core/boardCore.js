@@ -265,12 +265,12 @@ export class BoardCore{
 	/** 文字列から駒を配置
 	 * {string} text - 駒配置を表す文字列
 	 */
-	setTextPieces(text){
+	setPiecesText(text){
 		const {field, pieces, xLen, yLen} = this;
 
 		const standTitle = "持駒：";
 		// BOD形式
-		if(0<text.indexOf(standTitle)) text = Bod.convTextPieces(text);
+		if(0<text.indexOf(standTitle)) text = Bod.convPiecesText(text);
 
 		// 排除する記号
 		const noises = "┏━┯┓┗┷┛┃│┠─┼┨―";
@@ -515,9 +515,9 @@ export class BoardCore{
 	 * @param {boolean} isAlias - エイリアス表示
 	 * @returns {string}
 	 */
-	getTextPieces(mode="default", isAlias=false){
+	getPiecesText(mode="default", isAlias=false){
 		return mode === "bod"?
-			Bod.getTextPieces(this):
+			Bod.getPiecesText(this):
 			this.toString(mode === "compact", isAlias);
 	}
 

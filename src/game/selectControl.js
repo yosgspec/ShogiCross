@@ -1,7 +1,20 @@
 import {boards, games, CpuEngines} from "../ShogiCross/lib.js";
-import {PlayGames} from "./playGame.js";
+import {boardOptions} from "./boardOptions.js";
 
-const crossSelects = document.getElementById("crossSelects");
+// オンラインボタン
+export const toggleOnline = {
+	ele: document.getElementById("toggleOnline"),
+	checked: false,
+	values: ["オンライン対戦", "オンライン切断"],
+	onClick(value){
+		this.checked = value ?? !this.checked;
+		this.ele.innerText = this.values[0|this.checked];
+	},
+};
+toggleOnline.ele.innerText = toggleOnline.values[0];
+toggleOnline.ele.addEventListener("click", ()=>toggleOnline.onClick());
+
+// セレクト要素
 const select = {
 	game: document.getElementById("selectGame"),
 	variant: document.getElementById("selectVariant"),
@@ -13,20 +26,22 @@ const select = {
 	cpuEngine: document.querySelectorAll(".selectCpuEngine"),
 };
 
-// ゲームセレクトを初期化
-Object.entries(PlayGames).forEach(([key, {name, variant}])=>{
-	if(name === variant || variant == null){
-		const opt = document.createElement("option");
-		opt.value = key;
-		opt.textContent = name;
-		select.game.appendChild(opt);
+/** ゲームセレクトを初期化 */
+function initSelectGame(){
+	for(const [key, {name, variant}] of boardOptions.entries()){
+		if(name === variant || variant == null){
+			const opt = document.createElement("option");
+			opt.value = key;
+			opt.textContent = name;
+			select.game.appendChild(opt);
+		}
 	}
-});
+}
 
-// バリエーションセレクトを初期化
+/** バリアントセレクト初期化 */
 function updateSelectVariant(){
 	select.variant.innerHTML = "";
-	Object.entries(PlayGames).forEach(([key, {name, variant}])=>{
+	for(const [key, {name, variant}] of boardOptions.entries()){
 		const selectedName = select.game[select.game.selectedIndex].textContent;
 		if(selectedName === variant || variant == null && selectedName === name){
 			const opt = document.createElement("option");
@@ -40,19 +55,12 @@ function updateSelectVariant(){
 			}
 			select.variant.appendChild(opt);
 		}
-	});
-}
-updateSelectVariant();
-
-/** クロスゲーム選択メニュー表示 */
-function openCrossGame(){
-	if(select.game.value !== "cross"){
-		crossSelects.style.display = "none";
-		return;
 	}
+}
+
+/** ゲーム選択メニュー初期化 */
+function initCrossGame(){
 	// ボード一覧を初期化
-	crossSelects.style.display = "";
-	select.board.innerHTML = "";
 	Object.keys(boards).forEach(boardName=>{
 		const opt = document.createElement("option");
 		select.board.appendChild(opt);
@@ -85,7 +93,7 @@ function openCrossGame(){
 	});
 }
 
-/** クロスゲーム配置パターン初期化 */
+/** ゲーム配置パターン初期化 */
 function updateCrossPiece(i){
 	const pieceGame = select.pieceGame[i];
 	const pieceSet = select.pieceSet[i];
@@ -103,6 +111,23 @@ function updateCrossPiece(i){
 	};
 }
 
+/** テンプレートのオプションをUIに反映 */
+function setCrossGameOption(){
+	const option = boardOptions.get(select.variant.value);
+	if(!option) return;
+	select.board.value = option.playBoard;
+	select.stand.value = option.useStand;
+	if(option.moveMode) select.moveMode.value = option.moveMode;
+	if(option.playerOptions){
+		option.playerOptions.forEach((playerOption, i)=>{
+			select.pieceGame[i].value = playerOption.gameName;
+			updateCrossPiece(i)();
+			select.pieceSet[i].value = playerOption.pieceSet;
+			select.cpuEngine[i].value = playerOption.cpuEngine;
+		});
+	}
+}
+
 export class SelectControl{
 	static get gameName(){
 		return select.variant.value;
@@ -110,6 +135,7 @@ export class SelectControl{
 
 	static get option(){
 		return {
+			...boardOptions.get(this.gameName),
 			playBoard: select.board.value,
 			useStand: JSON.parse(select.stand.value),
 			moveMode: select.moveMode.value,
@@ -118,13 +144,15 @@ export class SelectControl{
 				pieceSet: select.pieceSet[i].value,
 				cpuEngine: select.cpuEngine[i].value || null,
 			})),
-			useUIControl: false,
 		};
 	}
-	static set onchange(value){
-		select.game.addEventListener("change", updateSelectVariant);
-		select.game.addEventListener("change", openCrossGame);
+	static set onChange(value){
+		select.game.addEventListener("change", ()=>{
+			updateSelectVariant();
+			setCrossGameOption();
+		});
 		select.game.addEventListener("change", value);
+		select.variant.addEventListener("change", setCrossGameOption);
 		select.variant.addEventListener("change", value);
 		select.board.addEventListener("change", value);
 		select.stand.addEventListener("change", value);
@@ -136,5 +164,11 @@ export class SelectControl{
 			select.pieceSet[i].addEventListener("change", value);
 			select.cpuEngine[i].addEventListener("change", value);
 		});
+		toggleOnline.ele.addEventListener("click", value);
 	}
 }
+
+initSelectGame();
+updateSelectVariant();
+initCrossGame();
+setCrossGameOption();
