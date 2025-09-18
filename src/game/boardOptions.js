@@ -1,6 +1,7 @@
 import {boards, gameSoft} from "../ShogiCross/lib.js";
 
 const template = {
+	serverURL: "https://shogicross-server-828297429002.asia-northeast1.run.app/",
 	// backgroundColor: "#DDEEFF",
 };
 const getPanelWidth = col=>({

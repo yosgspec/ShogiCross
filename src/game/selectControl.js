@@ -116,14 +116,28 @@ function setCrossGameOption(){
 	const option = boardOptions.get(select.variant.value);
 	if(!option) return;
 	select.board.value = option.playBoard;
+	if(select.board.selectedIndex === -1)
+		select.board.selectedIndex = 0;
 	select.stand.value = option.useStand;
-	if(option.moveMode) select.moveMode.value = option.moveMode;
+	if(select.stand.selectedIndex === -1)
+		select.stand.selectedIndex = 0;
+	if(option.moveMode){
+		select.moveMode.value = option.moveMode;
+		if(select.moveMode.selectedIndex === -1)
+			select.moveMode.selectedIndex = 0;
+	}
 	if(option.playerOptions){
 		option.playerOptions.forEach((playerOption, i)=>{
 			select.pieceGame[i].value = playerOption.gameName;
+			if(select.pieceGame[i].selectedIndex === -1)
+				select.pieceGame[i].selectedIndex = 0;
 			updateCrossPiece(i)();
 			select.pieceSet[i].value = playerOption.pieceSet;
+			if(select.pieceSet[i].selectedIndex === -1)
+				select.pieceSet[i].selectedIndex = 0;
 			select.cpuEngine[i].value = playerOption.cpuEngine;
+			if(select.cpuEngine[i].selectedIndex === -1)
+				select.cpuEngine[i].selectedIndex = 0;
 		});
 	}
 }
