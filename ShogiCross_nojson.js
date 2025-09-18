@@ -5250,7 +5250,7 @@ function Ce(p, e = "text", t = "txt", s = "base64") {
   s === "blob" ? n = URL.createObjectURL(new Blob([p], { type: i })) : n = `data:${i};charset=utf-8,${encodeURIComponent(p)}`, a.href = n, a.download = `${e}.${t}`, a.click(), s === "blob" && URL.revokeObjectURL(a.href);
 }
 class xe {
-  #e = 0;
+  #e = null;
   /**
    * @param {Board} board
    */
@@ -5557,13 +5557,13 @@ class H {
    * @returns {Promise<()=>Promise<void>>}
    */
   delayStart() {
-    return this.board.overlay.start(), new Promise((e) => setTimeout(e, 50)).then(() => () => new Promise((e) => setTimeout(e, this.player.cpuDelay)));
+    return this.board.overlay?.start(), new Promise((e) => setTimeout(e, 50)).then(() => () => new Promise((e) => setTimeout(e, this.player.cpuDelay)));
   }
   /** CPU操作の待機終了
    * @param {Promise<void>} timer
    */
   async delayEnd(e) {
-    await e, this.board.overlay.stop();
+    await e, this.board.overlay?.stop();
   }
   /**
    * 盤面を評価します。
@@ -5997,7 +5997,7 @@ class D {
       piecesText: x,
       recordJson: v
     } = t;
-    if (this.option = t, this.isHeadless = A, this.name = s, this.variant = i, this.url = a, this.desc = n, this.displayDeg = 0, this.ctx = null, this.canvas = null, this.pieces = W.getPieces(null, {
+    if (this.option = t, this.isHeadless = A, this.name = s, this.variant = i, this.url = a, this.desc = n, this.displayDeg = 0, this.isGameEnd = !1, this.ctx = null, this.canvas = null, this.pieces = W.getPieces(null, {
       size: f,
       useRankSize: y,
       isDrawShadow: h
@@ -6030,6 +6030,7 @@ class D {
   }
   /** ボードを閉じる */
   close() {
+    this.isGameEnd = !0;
   }
   /** 現在の手番のプレイヤー情報を取得
    * @returns {import("./player.js").Player} - 現在のプレイヤー情報
@@ -6627,16 +6628,18 @@ class Q extends D {
     } = t;
     let h = null, B = null;
     if (!r) {
-      h = O.importAsync(), B = F.importAsync(), this.canvas = e, this.ctx = e.getContext("2d"), this.ctx.clearRect(0, 0, e.width, e.height), this.overlay = new je(this.canvas, l), this.dialog = new Me();
+      h = O.importAsync(), B = F.importAsync(), this.canvas = e, this.ctx = e.getContext("2d"), this.ctx.clearRect(0, 0, e.width, e.height), this.overlay = l || this.players.values().some(({ cpuEngine: g }) => g == null) ? new je(this.canvas, l) : null, this.dialog = new Me();
       for (const g of Object.values(this.pieces))
         g.ctx = this.ctx;
       for (const g of this.field.flat())
         g.ctx = this.ctx, g.piece && (g.piece.ctx = this.ctx);
+      for (const g of [...this.stand.stocks.values()].flat())
+        g.ctx = this.ctx;
       e.width = i ?? (s ? this.stand.right : this.right) + 5, e.height = a ?? this.bottom + 5;
       const { style: m } = e;
       n === "overflow" ? (m.maxWidth === "" && (m.maxWidth = "97vw"), m.maxHeight === "" && (m.maxHeight = "92vh")) : n === "horizontal" ? m.width === "" && (m.width = "97vw") : n === "vertical" ? m.height === "" && (m.height = "92vh") : n === "parentOverflow" ? (m.maxWidth === "" && (m.maxWidth = "100%"), m.maxHeight === "" && (m.maxHeight = "100%")) : n === "parentHorizontal" ? m.width === "" && (m.width = "100%") : n === "parentVertical" && m.height === "" && (m.height = "100%");
     }
-    this.isGameEnd = !1, this.onDrawed = S, this.onTurnEnd = u, this.onGameOver = f, this.onGameEnd = y, r || (this.#e = Le(this)), d && (this.makeUIControl(d, c), this.#t.add()), this.autoDrawing = o, o && (h.then(async () => {
+    this.onDrawed = S, this.onTurnEnd = u, this.onGameOver = f, this.onGameEnd = y, r || (this.#e = Le(this)), d && (this.makeUIControl(d, c), this.#t.add()), this.autoDrawing = o, o && (h.then(async () => {
       this.draw(), this.dialog.setFont(O.names), this.#t.setRecordFont(O.names);
       const m = ["Noto Color Emoji", "Noto Serif"];
       this.#t.setButtonFont(
@@ -6662,7 +6665,7 @@ class Q extends D {
   }
   /** ボードを閉じる */
   close() {
-    this.#e?.removeEvent(), this.#t?.remove();
+    this.#e?.removeEvent(), this.#t?.remove(), super.close();
   }
   /** 盤面を回転
    * @param {boolean} isRight - 回転方向
@@ -6912,7 +6915,7 @@ class Se extends Q {
     this.onReadyOnline = s, this.onCancelOnline = i, this.onDisconnectOnline = a, this.onCloseOnline = n, this.isOnline = !0, this.isReadyOnline = !1, this.gameKey = o, this.roomId = null, this.players.forEach((c) => {
       c.isLocal = !1, c.cpuEngine = null, c.cpu = null;
     }), this.ws = new WebSocket(r.replace(/^http/, "ws")), this.ws.onopen = async () => {
-      console.log("WebSocket connection established."), this.ws.send(JSON.stringify({ type: "join", gameKey: o, playerLen: l })), this.overlay.start(), await this.dialog.show("", "マッチング待機中...", [{ label: "キャンセル", value: !0 }]) && (this.ws.send(JSON.stringify({ type: "cancelJoin" })), this.overlay.stop(), this.onCancelOnline?.(this), this.close());
+      console.log("WebSocket connection established."), this.ws.send(JSON.stringify({ type: "join", gameKey: o, playerLen: l })), this.overlay?.start(), await this.dialog.show("", "マッチング待機中...", [{ label: "キャンセル", value: !0 }]) && (this.ws.send(JSON.stringify({ type: "cancelJoin" })), this.overlay?.stop(), this.onCancelOnline?.(this), this.close());
     }, this.ws.onmessage = (c) => {
       console.log("Received message from server:", c.data);
       try {
@@ -6922,7 +6925,7 @@ class Se extends Q {
           case "readyOnline":
             this.isReadyOnline = !0, this.roomId = S.roomId;
             const u = [...this.players.values()].find((f) => f.id === S.playerId);
-            u && (u.isLocal = !0, this[j].rotateField(u.deg), this.stand.rotate(u.deg), this.displayDeg = u.deg, this.autoDrawing && this.draw()), this.overlay.stop(), this.dialog.close(), this.onReadyOnline?.(S, this);
+            u && (u.isLocal = !0, this[j].rotateField(u.deg), this.stand.rotate(u.deg), this.displayDeg = u.deg, this.autoDrawing && this.draw()), this.overlay?.stop(), this.dialog.close(), this.onReadyOnline?.(S, this);
             return;
           // 駒が動いた場合
           case "move":

@@ -1,7 +1,6 @@
 declare class _ extends I {
     dialog: je;
     overlay: Te;
-    isGameEnd: boolean;
     onDrawed: any;
     onTurnEnd: any;
     onGameOver: any;
@@ -5647,6 +5646,7 @@ declare class I {
     url: any;
     desc: any;
     displayDeg: number;
+    isGameEnd: boolean;
     ctx: any;
     canvas: any;
     pieces: {
