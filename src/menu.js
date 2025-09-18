@@ -52,8 +52,9 @@ export default `
 
 <h3>棋譜の操作</h3>
 <div><a href="#doc/record/getTextAll">棋譜の取得</a></div>
-<div><a href="#doc/record/getJson">棋譜データを取得</a></div>
+<div><a href="#doc/boardOption/recordJson">棋譜データを反映(初期設定)</a></div>
 <div><a href="#doc/record/setJson">棋譜データを反映</a></div>
+<div><a href="#doc/record/getJson">棋譜データを取得</a></div>
 <div><a href="#doc/record/switch">手を進める・戻す</a></div>
 <div><a href="#doc/record/jump">手数を移動する</a></div>
 

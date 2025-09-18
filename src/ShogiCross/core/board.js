@@ -98,7 +98,9 @@ export class Board extends BoardCore{
 			this.canvas = canvas;
 			this.ctx = canvas.getContext("2d");
 			this.ctx.clearRect(0, 0, canvas.width, canvas.height);
-			this.overlay = new Overlay(this.canvas, overlayOptions);
+			this.overlay = overlayOptions || this.players.values().some(({cpuEngine})=>cpuEngine == null)?
+				new Overlay(this.canvas, overlayOptions):
+				null;
 			this.dialog = new Dialog();
 
 			// 描写コンテキストを適用
@@ -108,6 +110,8 @@ export class Board extends BoardCore{
 				panel.ctx = this.ctx;
 				if(panel.piece) panel.piece.ctx = this.ctx;
 			}
+			for(const piece of [...this.stand.stocks.values()].flat())
+				piece.ctx = this.ctx;
 
 			canvas.width = canvasWidth ?? (useStand? this.stand.right: this.right)+5;
 			canvas.height = canvasHeight ?? this.bottom+5;
@@ -136,7 +140,6 @@ export class Board extends BoardCore{
 			}
 		}
 
-		this.isGameEnd = false;
 		this.onDrawed = onDrawed;
 		this.onTurnEnd = onTurnEnd;
 		this.onGameOver = onGameOver;
@@ -192,6 +195,7 @@ export class Board extends BoardCore{
 	close(){
 		this.#mouseControl?.removeEvent();
 		this.#uiControl?.remove();
+		super.close();
 	}
 
 	/** 盤面を回転

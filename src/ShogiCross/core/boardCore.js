@@ -76,7 +76,8 @@ export class BoardCore{
 		this.variant = variant;
 		this.url = url;
 		this.desc = desc;
-		this.displayDeg = 0;;
+		this.displayDeg = 0;
+		this.isGameEnd = false;
 
 		// 初期化
 		this.ctx = null;
@@ -153,7 +154,9 @@ export class BoardCore{
 	}
 
 	/** ボードを閉じる */
-	close(){}
+	close(){
+		this.isGameEnd = true;
+	}
 
 	/** 現在の手番のプレイヤー情報を取得
 	 * @returns {import("./player.js").Player} - 現在のプレイヤー情報

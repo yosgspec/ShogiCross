@@ -20,7 +20,7 @@ import {downloadText} from "./download.js";
 
 /** 棋譜クラス */
 export class Record {
-	#beforeTurn = 0;
+	#beforeTurn = null;
 
 	/**
 	 * @param {Board} board

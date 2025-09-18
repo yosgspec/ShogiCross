@@ -22,7 +22,7 @@ export class CpuEngineBase{
 	 */
 	delayStart(){
 		// 思考中であることを示すため、画面を暗転
-		this.board.overlay.start();
+		this.board.overlay?.start();
 		// オーバーレイの描写を待機
 		return new Promise(res=>setTimeout(res, 50)).
 			then(()=>()=>new Promise(res=>setTimeout(res, this.player.cpuDelay)));
@@ -34,7 +34,7 @@ export class CpuEngineBase{
 	async delayEnd(timer){
 		await timer;
 		// 画面の暗転を終了
-		this.board.overlay.stop();
+		this.board.overlay?.stop();
 	}
 
 	/**

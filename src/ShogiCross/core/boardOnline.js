@@ -72,10 +72,10 @@ export class BoardOnline extends Board{
 			console.log("WebSocket connection established.");
 			// サーバーにゲーム参加メッセージを送信
 			this.ws.send(JSON.stringify({type: "join", gameKey, playerLen}));
-			this.overlay.start();
+			this.overlay?.start();
 			if(await this.dialog.show("", "マッチング待機中...", [{label: "キャンセル", value: true}])){
 				this.ws.send(JSON.stringify({type: "cancelJoin"}));
-				this.overlay.stop();
+				this.overlay?.stop();
 				this.onCancelOnline?.(this);
 				this.close();
 			};
@@ -100,7 +100,7 @@ export class BoardOnline extends Board{
 							this.displayDeg = myPlayer.deg; // 視点角度を更新
 							if(this.autoDrawing) this.draw();
 						}
-						this.overlay.stop();
+						this.overlay?.stop();
 						this.dialog.close();
 						this.onReadyOnline?.(message, this);
 						return;
