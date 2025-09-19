@@ -260,8 +260,8 @@ export class Board extends BoardCore{
 	 * @param {boolean} isCpuMove - CPUによる移動か
 	 * @returns {Promise<boolean>}
 	 */
-	async movePiece(fromPanel, toPanel, isCpuMove=false){
-		if(!await super.movePiece(fromPanel, toPanel, isCpuMove)) return false;
+	async movePiece(fromPanel, toPanel, isCpuMove=false, promoChar=null){
+		if(!await super.movePiece(fromPanel, toPanel, isCpuMove, promoChar)) return false;
 
 		// プロモーション処理
 		this.#mouseControl?.resetSelect();

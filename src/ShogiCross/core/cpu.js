@@ -65,6 +65,46 @@ export class CpuEngineBase{
 
 		return my_score;
 	}
+
+	/**
+	 * 現在のプレイヤーが可能なすべての合法手を生成します。
+	 * @param {number} playerDeg - 手を生成するプレイヤーの角度
+	 * @returns {{from: Panel, to: Panel, promotion: string|null}[]} 合法手の配列
+	 */
+	_generateAllPossibleMoves(playerDeg) {
+		const { board } = this;
+		const allPossibleMoves = [];
+
+		// 盤上の駒の移動
+		board.field.flat().forEach(fromPanel => {
+			if (!fromPanel.piece || fromPanel.piece.deg !== playerDeg) return;
+
+			const toPanels = checkTarget(board, fromPanel.piece, fromPanel.pX, fromPanel.pY);
+			toPanels.forEach(toPanel => {
+				const { piece } = fromPanel;
+				const { canPromo, forcePromo } = board.checkCanPromo(piece, toPanel);
+
+				// プロモーション可能な場合
+				if (piece.promo && !piece.hasAttr("promoted") && (canPromo || forcePromo)) {
+					if (!forcePromo) {
+						// 成らない手
+						allPossibleMoves.push({ from: fromPanel, to: toPanel, promotion: null });
+					}
+					// 成る手
+					for (const promoChar of Object.keys(piece.promo)) {
+						allPossibleMoves.push({ from: fromPanel, to: toPanel, promotion: promoChar });
+					}
+				} else {
+					// プロモーションできない、または関係ない手
+					allPossibleMoves.push({ from: fromPanel, to: toPanel, promotion: null });
+				}
+			});
+		});
+
+		// TODO: 持ち駒を打つ手の生成
+
+		return allPossibleMoves;
+	}
 }
 
 /** CPUエンジン */
@@ -80,32 +120,13 @@ CpuEngines.random = class Random extends CpuEngineBase{
 		const {board, player} = this;
 		const timer = (await this.delayStart())();
 
-		// 1. 現在のプレイヤーが動かせる駒をすべて取得
-		const movablePieces = [];
-		board.field.flat().forEach(panel=>{
-			if(panel.piece && panel.piece.deg === player.deg){
-				const fromPanel = panel;
-				const toPanels = checkTarget(board, fromPanel.piece, fromPanel.pX, fromPanel.pY);
-				if(toPanels.length > 0){
-					movablePieces.push({from: fromPanel, tos: toPanels});
-				}
-			}
-		});
-
-
-		// 2. すべての可能な手のリストを作成
-		const allPossibleMoves = [];
-		movablePieces.forEach(({from, tos})=>{
-			tos.forEach(to=>{
-				allPossibleMoves.push({from, to});
-			});
-		});
+		const allPossibleMoves = this._generateAllPossibleMoves(player.deg);
 
 		// 3. 指し手が存在する場合、ランダムに1つ選んで指す
 		if(allPossibleMoves.length > 0){
 			const randomMove = allPossibleMoves[Math.floor(Math.random() * allPossibleMoves.length)];
 			await this.delayEnd(timer);
-			await board.movePiece(randomMove.from, randomMove.to, true);
+			await board.movePiece(randomMove.from, randomMove.to, true, randomMove.promotion);
 			console.log(`CPU(Random): (${randomMove.from.pX}, ${randomMove.from.pY}) から (${randomMove.to.pX}, ${randomMove.to.pY}) へ移動`);
 		}
 		else{
@@ -127,23 +148,8 @@ CpuEngines.greedy = class Greedy extends CpuEngineBase{
 	async playTurn(){
 		const {board, player} = this;
 		const timer = (await this.delayStart())();
-		const movablePieces = [];
-		board.field.flat().forEach(panel=>{
-			if(panel.piece && panel.piece.deg === player.deg){
-				const fromPanel = panel;
-				const toPanels = checkTarget(board, fromPanel.piece, fromPanel.pX, fromPanel.pY);
-				if(toPanels.length > 0){
-					movablePieces.push({from: fromPanel, tos: toPanels});
-				}
-			}
-		});
-
-		const allPossibleMoves = [];
-		movablePieces.forEach(({from, tos})=>{
-			tos.forEach(to=>{
-				allPossibleMoves.push({from, to});
-			});
-		});
+		
+		const allPossibleMoves = this._generateAllPossibleMoves(player.deg);
 
 		if(allPossibleMoves.length === 0){
 			console.log("CPU(Greedy): 指し手がありません。");
@@ -154,12 +160,11 @@ CpuEngines.greedy = class Greedy extends CpuEngineBase{
 		let bestScore = -Infinity;
 
 		for(const move of allPossibleMoves){
-			const boardClone = board.cloneCore();
-			// クローン盤上のパネルを取得
-			const fromPanelClone = boardClone.field[move.from.pY][move.from.pX];
-			const toPanelClone = boardClone.field[move.to.pY][move.to.pX];
-			await boardClone.movePiece(fromPanelClone, toPanelClone);
-			const score = this.evaluate(boardClone);
+			const { from, to, promotion } = move;
+			const moveState = board._applyMove(from, to, promotion);
+			const score = this.evaluate(board);
+			board._unapplyMove(moveState);
+
 			if(score > bestScore){
 				bestScore = score;
 				bestMove = move;
@@ -168,7 +173,7 @@ CpuEngines.greedy = class Greedy extends CpuEngineBase{
 
 		if(bestMove){
 			await this.delayEnd(timer);
-			await board.movePiece(bestMove.from, bestMove.to,true);
+			await board.movePiece(bestMove.from, bestMove.to, true, bestMove.promotion);
 			console.log(`CPU(Greedy): (${bestMove.from.pX}, ${bestMove.from.pY}) から (${bestMove.to.pX}, ${bestMove.to.pY}) へ移動 (評価値: ${bestScore})`);
 		}
 		else{
@@ -182,19 +187,19 @@ CpuEngines.greedy = class Greedy extends CpuEngineBase{
 CpuEngines.minimax = class Minimax extends CpuEngineBase{
 	constructor(board, player){
 		super(board, player);
-		this.searchDepth = 3; // 探索の深さ
+		this.searchDepth = 2; // 探索の深さ
 	}
 
 	/**
 	 * ミニマックス法（アルファベータ枝刈り付き）を実行します。
-	 * @param {Board} board - 現在の盤面
 	 * @param {number} depth - 残りの探索深さ
 	 * @param {number} alpha - アルファ値
 	 * @param {number} beta - ベータ値
 	 * @param {boolean} isMaximizingPlayer - 現在のプレイヤーが最大化プレイヤーかどうか
-	 * @returns {Promise<number>} 評価値
+	 * @returns {number} 評価値
 	 */
-	async minimax(board, depth, alpha, beta, isMaximizingPlayer){
+	minimax(depth, alpha, beta, isMaximizingPlayer){
+		const { board } = this;
 		const activePlayer = board.getActivePlayer();
 
 		// 探索の終了条件
@@ -206,36 +211,16 @@ CpuEngines.minimax = class Minimax extends CpuEngineBase{
 		if(!hasLegalMoves(board, activePlayer.deg))
 			return 0; // ステールメイト（合法手がないが王手ではない）
 
-		// 合法手の生成
-		const movablePieces = [];
-		board.field.flat().forEach(panel=>{
-			if(panel.piece && panel.piece.deg === activePlayer.deg){
-				const fromPanel = panel;
-				const toPanels = checkTarget(board, fromPanel.piece, fromPanel.pX, fromPanel.pY);
-				if(toPanels.length > 0){
-					movablePieces.push({from: fromPanel, tos: toPanels});
-				}
-			}
-		});
-
-		const allPossibleMoves = [];
-		movablePieces.forEach(({from, tos})=>{
-			tos.forEach(to=>{
-				allPossibleMoves.push({from, to});
-			});
-		});
+		const allPossibleMoves = this._generateAllPossibleMoves(activePlayer.deg);
 
 		if(isMaximizingPlayer){
 			let maxEval = -Infinity;
 			for(const move of allPossibleMoves){
-				const boardClone = board.cloneCore();
-				const fromPanelClone = boardClone.field[move.from.pY][move.from.pX];
-				const toPanelClone = boardClone.field[move.to.pY][move.to.pX];
-				await boardClone.movePiece(fromPanelClone, toPanelClone, true);
-
-				const minimaxEval = await this.minimax(boardClone, depth - 1, alpha, beta, !isMaximizingPlayer);
-				maxEval = Math.max(maxEval, minimaxEval);
-				alpha = Math.max(alpha, minimaxEval);
+				const moveState = board._applyMove(move.from, move.to, move.promotion);
+				const evalScore = this.minimax(depth - 1, alpha, beta, false);
+				board._unapplyMove(moveState);
+				maxEval = Math.max(maxEval, evalScore);
+				alpha = Math.max(alpha, evalScore);
 				if(beta <= alpha) break; // アルファベータ枝刈り
 			}
 			return maxEval;
@@ -243,14 +228,11 @@ CpuEngines.minimax = class Minimax extends CpuEngineBase{
 		else{ // 最小化プレイヤー
 			let minEval = Infinity;
 			for(const move of allPossibleMoves){
-				const boardClone = board.cloneCore();
-				const fromPanelClone = boardClone.field[move.from.pY][move.from.pX];
-				const toPanelClone = boardClone.field[move.to.pY][move.to.pX];
-				await boardClone.movePiece(fromPanelClone, toPanelClone, true);
-
-				const minimaxEval = await this.minimax(boardClone, depth - 1, alpha, beta, !isMaximizingPlayer);
-				minEval = Math.min(minEval, minimaxEval);
-				beta = Math.min(beta, minimaxEval);
+				const moveState = board._applyMove(move.from, move.to, move.promotion);
+				const evalScore = this.minimax(depth - 1, alpha, beta, true);
+				board._unapplyMove(moveState);
+				minEval = Math.min(minEval, evalScore);
+				beta = Math.min(beta, evalScore);
 				if(beta <= alpha) break; // アルファベータ枝刈り
 			}
 			return minEval;
@@ -266,24 +248,7 @@ CpuEngines.minimax = class Minimax extends CpuEngineBase{
 		let bestMove = null;
 		let bestScore = -Infinity;
 
-		// 合法手の生成
-		const movablePieces = [];
-		board.field.flat().forEach(panel=>{
-			if(panel.piece && panel.piece.deg === player.deg){
-				const fromPanel = panel;
-				const toPanels = checkTarget(board, fromPanel.piece, fromPanel.pX, fromPanel.pY);
-				if(toPanels.length > 0){
-					movablePieces.push({from: fromPanel, tos: toPanels});
-				}
-			}
-		});
-
-		const allPossibleMoves = [];
-		movablePieces.forEach(({from, tos})=>{
-			tos.forEach(to=>{
-				allPossibleMoves.push({from, to});
-			});
-		});
+		const allPossibleMoves = this._generateAllPossibleMoves(player.deg);
 
 		if(allPossibleMoves.length === 0){
 			console.log("CPU(Minimax): 指し手がありません。");
@@ -292,13 +257,10 @@ CpuEngines.minimax = class Minimax extends CpuEngineBase{
 
 		// 各合法手を評価
 		for(const move of allPossibleMoves){
-			const boardClone = board.cloneCore();
-			const fromPanelClone = boardClone.field[move.from.pY][move.from.pX];
-			const toPanelClone = boardClone.field[move.to.pY][move.to.pX];
-			await boardClone.movePiece(fromPanelClone, toPanelClone, true);
-
+			const moveState = board._applyMove(move.from, move.to, move.promotion);
 			// ミニマックス探索を開始 (相手の番なのでisMaximizingPlayerはfalse)
-			const score = await this.minimax(boardClone, this.searchDepth - 1, -Infinity, Infinity, false);
+			const score = this.minimax(this.searchDepth - 1, -Infinity, Infinity, false);
+			board._unapplyMove(moveState);
 
 			if(score > bestScore){
 				bestScore = score;
@@ -313,7 +275,7 @@ CpuEngines.minimax = class Minimax extends CpuEngineBase{
 
 		if(bestMove){
 			await this.delayEnd(timer);
-			await board.movePiece(bestMove.from, bestMove.to, true);
+			await board.movePiece(bestMove.from, bestMove.to, true, bestMove.promotion);
 			console.log(`CPU(Minimax): (${bestMove.from.pX}, ${bestMove.from.pY}) から (${bestMove.to.pX}, ${bestMove.to.pY}) へ移動 (評価値: ${bestScore})`);
 		}
 		else{

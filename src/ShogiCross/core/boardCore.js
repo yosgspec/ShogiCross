@@ -423,15 +423,17 @@ export class BoardCore{
 	}
 
 	/** プロモーションエリア内であるか判別
+	 * @param {Piece} piece - 駒
 	 * @param {Panel} panel - マス目
 	 * @returns {{
 	 * 		canPromo: boolean,
 	 * 		forcePromo: boolean
 	 * }}
 	 */
-	checkCanPromo(panel){
+	checkCanPromo(piece, panel){
+		if (!piece) return { canPromo: false, forcePromo: false };
 		const {yLen} = this;
-		const {piece, pX, pY} = panel;
+		const {pX, pY} = panel;
 		const {deg} = piece;
 
 		const [promoLine, forcePromoLine] = [
@@ -475,9 +477,10 @@ export class BoardCore{
 	 * @param {Panel} fromPanel - 移動元のマス目
 	 * @param {Panel} toPanel - 選択中のマス目
 	 * @param {boolean} isCpuMove - CPUによる移動か
+	 * @param {string|null} promoChar - 成り先の駒名(成らない場合null)
 	 * @returns boolean
 	 */
-	async movePiece(fromPanel, toPanel, isCpuMove=false){
+	async movePiece(fromPanel, toPanel, isCpuMove=false, promoChar=null){
 		const {stand, moveMode, enPassant, displayDeg} = this;
 		const activePlayer = this.getActivePlayer()
 		if(!fromPanel
@@ -492,7 +495,7 @@ export class BoardCore{
 			)
 		) return false;
 
-		let {canPromo, forcePromo} = this.checkCanPromo(fromPanel);
+		let {canPromo, forcePromo} = this.checkCanPromo(fromPanel.piece, fromPanel);
 
 		stand.capturePiece(
 			fromPanel.piece,
@@ -503,14 +506,14 @@ export class BoardCore{
 
 		this.simpleMovePiece(fromPanel, toPanel);
 
-		const afterPromo = this.checkCanPromo(toPanel);
+		const afterPromo = this.checkCanPromo(toPanel.piece, toPanel);
 		canPromo ||= afterPromo.canPromo;
 		forcePromo ||= afterPromo.forcePromo;
 
 		// アンパッサン
 		enPassant.setMoved(toPanel);
 		// プロモーション処理
-		await this.promoPiece(fromPanel, toPanel, canPromo, forcePromo, isCpuMove);
+		await this.promoPiece(fromPanel, toPanel, canPromo, forcePromo, isCpuMove, promoChar);
 		return true;
 	}
 
@@ -613,5 +616,88 @@ export class BoardCore{
 		newBoard.enPassant = this.enPassant.clone();
 
 		return newBoard;
+	}
+
+	/**
+	 * シミュレーション用の軽量な駒移動を適用する
+	 * @private
+	 */
+	_applyMove(fromPanel, toPanel, promotionChar = null) {
+		const move = {
+			from: { pX: fromPanel.pX, pY: fromPanel.pY },
+			to: { pX: toPanel.pX, pY: toPanel.pY },
+			movedPiece: fromPanel.piece,
+			wasMoved: fromPanel.piece.isMoved,
+			capturedPiece: null, // store state instead of clone
+			promoted: false,
+			enPassantState: this.enPassant.clone(),
+		};
+
+		// 駒の取得
+		if (toPanel.piece) {
+			move.capturedPiece = {
+				id: toPanel.piece.id,
+				deg: toPanel.piece.deg,
+				isMoved: toPanel.piece.isMoved,
+				char: toPanel.piece.char,
+			};
+			this.stand.capturePiece(fromPanel.piece, toPanel.piece);
+		}
+
+		// 駒の移動
+		this.simpleMovePiece(fromPanel, toPanel);
+
+		// アンパッサン
+		this.enPassant.setMoved(toPanel);
+
+		// プロモーション
+		if (promotionChar) {
+			toPanel.piece.promotion(promotionChar);
+			move.promoted = true;
+		}
+
+		this.record.turn++;
+
+		return move;
+	}
+
+	/**
+	 * _applyMove での変更を元に戻す
+	 * @private
+	 */
+	_unapplyMove(move) {
+		const fromPanel = this.field[move.from.pY][move.from.pX];
+		const toPanel = this.field[move.to.pY][move.to.pX];
+
+		this.record.turn--;
+		this.enPassant = move.enPassantState;
+
+		// プロモーションを戻す
+		if (move.promoted) {
+			move.movedPiece.turnFront();
+		}
+
+		// 駒を元の位置に戻す
+		fromPanel.piece = move.movedPiece;
+		fromPanel.piece.isMoved = move.wasMoved;
+
+		// 取られた駒を盤面に戻し、駒台から削除する
+		if (move.capturedPiece) {
+			const stock = this.stand.stocks.get(fromPanel.piece.deg);
+			const index = stock.findIndex(p => p.id === move.capturedPiece.id);
+			if (index > -1) {
+				const pieceToRestore = stock.splice(index, 1)[0];
+				// 状態を復元
+				// stand.addでturnFrontされているので、必要なら成り状態に戻す
+				if (pieceToRestore.char !== move.capturedPiece.char && pieceToRestore.promo && pieceToRestore.promo[move.capturedPiece.char]) {
+					pieceToRestore.promotion(move.capturedPiece.char);
+				}
+				pieceToRestore.deg = move.capturedPiece.deg;
+				pieceToRestore.isMoved = move.capturedPiece.isMoved;
+				toPanel.piece = pieceToRestore;
+			}
+		} else {
+			toPanel.piece = null;
+		}
 	}
 }

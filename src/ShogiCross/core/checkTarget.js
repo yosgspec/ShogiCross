@@ -384,14 +384,14 @@ export function hasLegalMoves(board, playerDeg){
 		if(!fromPanel.piece || fromPanel.piece.deg !== playerDeg) continue;
 		const canMovePanels = checkTarget(board, fromPanel.piece, fromPanel.pX, fromPanel.pY);
 		for(const toPanel of canMovePanels){
-			const boardClone = board.cloneCore();
 			// 駒を移動
-			boardClone.simpleMovePiece(
-				boardClone.field[fromPanel.pY][fromPanel.pX],
-				boardClone.field[toPanel.pY][toPanel.pX]
-			);
+			const move = board._applyMove(fromPanel, toPanel);
 			// 移動後に王が王手されていないか確認
-			if(!isKingInCheck(boardClone, playerDeg)) return true;
+			const isCheck = isKingInCheck(board, playerDeg);
+			// 盤面を元に戻す
+			board._unapplyMove(move);
+
+			if(!isCheck) return true;
 		}
 	}
 	return false; // 合法手が見つからなかった
