@@ -1,0 +1,17 @@
+{
+  "name": "shogicross-tests",
+  "version": "1.0.0",
+  "description": "Tests for ShogiCross",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "vitest"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "jsdom": "^27.0.0",
+    "vitest": "^3.2.4"
+  }
+}

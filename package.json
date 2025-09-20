@@ -44,6 +44,7 @@
     "build-main": "run-p build-main:*",
     "build-main:module": "run-s setup compile stage minify",
     "build-main:font": "npm run build --workspace font",
+    "test": "npm test --workspace test",
     "setup": "run-p setup:*",
     "setup:crean": "npx shx rm -rf ./src/dist",
     "setup:zip-paper": "node run/zip.js ./paper ./src/paper.zip",
@@ -71,7 +72,8 @@
   "workspaces": [
     "server",
     "font",
-    "app"
+    "app",
+    "test"
   ],
   "devDependencies": {
     "adm-zip": "^0.5.12",
