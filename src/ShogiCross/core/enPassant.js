@@ -38,6 +38,7 @@ export class EnPassant{
 	 */
 	setMoved(toPanel){
 		const {piece, pX, pY} = toPanel;
+		if (!piece) return;
 		const ep = this.degs[piece.deg];
 		if(piece && pX === ep.pX && pY === ep.pY) ep.pieceId = piece.id;
 		else this.clear(piece.deg);

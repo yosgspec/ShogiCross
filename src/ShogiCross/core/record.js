@@ -45,7 +45,7 @@ export class Record {
 	 * @param {string} option.end - オプション=成|不成|打
 	 * @param {number} option.inc - 手数の増分
 	 */
-	add(option={}){
+	add(option={}, moveState = null){
 		const {board, records} = this;
 		const {fromPanel={}, toPanel={}, end="", inc=1} = option;
 		const {piece={}} = toPanel;
@@ -79,6 +79,7 @@ export class Record {
 					piece?.isMoved? 1: 0
 				)
 			),
+			moveState,
 		};
 		if(0 < inc) records.splice(this.turn+1);
 		// ターンが変わった
@@ -103,10 +104,42 @@ export class Record {
 	 * @param {number} inc - 切り替えたい手数の差分
 	 */
 	#shift(inc){
-		const {records} = this;
-		if(!records[this.turn+inc]) return;
-		this.turn += inc;
-		this.restoreField();
+		const {board, records} = this;
+		const nextTurn = this.turn + inc;
+		if(!records[nextTurn]) return;
+
+		if (inc === -1) { // undo
+			const { moveState } = records[this.turn];
+			if (moveState) {
+				board.undoSimMovePiece(moveState);
+				this.turn--;
+			} else {
+				this.turn--;
+				this.restoreField();
+			}
+		} else if (inc === 1) { // redo
+			const { moveState } = records[nextTurn];
+			if (moveState) {
+				const fromPanel = board.field[moveState.from.pY][moveState.from.pX];
+				const toPanel = board.field[moveState.to.pY][moveState.to.pX];
+				board.simMovePiece(fromPanel, toPanel, moveState.promotionChar);
+				this.turn++;
+			} else {
+				this.turn++;
+				this.restoreField();
+			}
+		} else { // jump (inc === 0)
+			this.restoreField();
+			return;
+		}
+
+		if(board.autoDrawing) board.draw();
+		// ターンが変わった
+		if(this.#beforeTurn !== this.turn){
+			this.#beforeTurn = this.turn;
+			// ターンエンドイベント
+			board.onTurnEnd?.(board, this.turn);
+		}
 	}
 
 	/** 記録の手を戻す */

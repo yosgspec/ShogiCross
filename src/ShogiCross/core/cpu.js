@@ -161,9 +161,11 @@ CpuEngines.greedy = class Greedy extends CpuEngineBase{
 
 		for(const move of allPossibleMoves){
 			const { from, to, promotion } = move;
-			const moveState = board._applyMove(from, to, promotion);
+			const moveState = board.simMovePiece(from, to, promotion);
+			board.record.turn++;
 			const score = this.evaluate(board);
-			board._unapplyMove(moveState);
+			board.record.turn--;
+			board.undoSimMovePiece(moveState);
 
 			if(score > bestScore){
 				bestScore = score;
@@ -216,9 +218,11 @@ CpuEngines.minimax = class Minimax extends CpuEngineBase{
 		if(isMaximizingPlayer){
 			let maxEval = -Infinity;
 			for(const move of allPossibleMoves){
-				const moveState = board._applyMove(move.from, move.to, move.promotion);
+				const moveState = board.simMovePiece(move.from, move.to, move.promotion);
+				board.record.turn++;
 				const evalScore = this.minimax(depth - 1, alpha, beta, false);
-				board._unapplyMove(moveState);
+				board.record.turn--;
+				board.undoSimMovePiece(moveState);
 				maxEval = Math.max(maxEval, evalScore);
 				alpha = Math.max(alpha, evalScore);
 				if(beta <= alpha) break; // アルファベータ枝刈り
@@ -228,9 +232,11 @@ CpuEngines.minimax = class Minimax extends CpuEngineBase{
 		else{ // 最小化プレイヤー
 			let minEval = Infinity;
 			for(const move of allPossibleMoves){
-				const moveState = board._applyMove(move.from, move.to, move.promotion);
+				const moveState = board.simMovePiece(move.from, move.to, move.promotion);
+				board.record.turn++;
 				const evalScore = this.minimax(depth - 1, alpha, beta, true);
-				board._unapplyMove(moveState);
+				board.record.turn--;
+				board.undoSimMovePiece(moveState);
 				minEval = Math.min(minEval, evalScore);
 				beta = Math.min(beta, evalScore);
 				if(beta <= alpha) break; // アルファベータ枝刈り
@@ -257,10 +263,12 @@ CpuEngines.minimax = class Minimax extends CpuEngineBase{
 
 		// 各合法手を評価
 		for(const move of allPossibleMoves){
-			const moveState = board._applyMove(move.from, move.to, move.promotion);
+			const moveState = board.simMovePiece(move.from, move.to, move.promotion);
+			board.record.turn++;
 			// ミニマックス探索を開始 (相手の番なのでisMaximizingPlayerはfalse)
 			const score = this.minimax(this.searchDepth - 1, -Infinity, Infinity, false);
-			board._unapplyMove(moveState);
+			board.record.turn--;
+			board.undoSimMovePiece(moveState);
 
 			if(score > bestScore){
 				bestScore = score;

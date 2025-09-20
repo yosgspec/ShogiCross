@@ -408,17 +408,16 @@ export class BoardCore{
 
 		// プロモーション判定
 		if(!piece.promo || piece.hasAttr("promoted") || piece.hasAttr("cantPromotion") || !canPromo){
-			this.record.add({fromPanel, toPanel});
-			return;
+			return { promoChar: null, end: "" };
 		}
 
 		const selectPromoChar = await this.onSelectPromo(piece, canPromo, forcePromo, isCpuMove, promoChar);
 		if(selectPromoChar){
 			piece.promotion(selectPromoChar);
-			this.record.add({fromPanel, toPanel, end:"成"});
+			return { promoChar: selectPromoChar, end: "成" };
 		}
 		else{
-			this.record.add({fromPanel, toPanel, end:"不成"});
+			return { promoChar: null, end: "不成" };
 		}
 	}
 
@@ -469,7 +468,7 @@ export class BoardCore{
 	simpleMovePiece(fromPanel, toPanel){
 		if(!(fromPanel instanceof Panel) || !(toPanel instanceof Panel)) return;
 		toPanel.piece = fromPanel.piece;
-		toPanel.piece.isMoved = true;
+		if(toPanel.piece) toPanel.piece.isMoved = true;
 		fromPanel.piece = null;
 	}
 
@@ -495,8 +494,26 @@ export class BoardCore{
 			)
 		) return false;
 
-		let {canPromo, forcePromo} = this.checkCanPromo(fromPanel.piece, fromPanel);
+		// 棋譜記録用の差分オブジェクトを作成
+		const move = {
+			from: { pX: fromPanel.pX, pY: fromPanel.pY },
+			to: { pX: toPanel.pX, pY: toPanel.pY },
+			movedPiece: fromPanel.piece,
+			wasMoved: fromPanel.piece.isMoved,
+			capturedPiece: null,
+			promoted: false,
+			enPassantState: this.enPassant.clone(),
+		};
 
+		// 駒の取得
+		if (toPanel.piece) {
+			move.capturedPiece = {
+				id: toPanel.piece.id,
+				deg: toPanel.piece.deg,
+				isMoved: toPanel.piece.isMoved,
+				char: toPanel.piece.char,
+			};
+		}
 		stand.capturePiece(
 			fromPanel.piece,
 			toPanel.piece,
@@ -507,13 +524,22 @@ export class BoardCore{
 		this.simpleMovePiece(fromPanel, toPanel);
 
 		const afterPromo = this.checkCanPromo(toPanel.piece, toPanel);
+		let {canPromo, forcePromo} = this.checkCanPromo(fromPanel.piece, fromPanel);
 		canPromo ||= afterPromo.canPromo;
 		forcePromo ||= afterPromo.forcePromo;
 
 		// アンパッサン
 		enPassant.setMoved(toPanel);
 		// プロモーション処理
-		await this.promoPiece(fromPanel, toPanel, canPromo, forcePromo, isCpuMove, promoChar);
+		const promoResult = await this.promoPiece(fromPanel, toPanel, canPromo, forcePromo, isCpuMove, promoChar);
+		if (promoResult.promoChar) {
+			move.promoted = true;
+			move.promotionChar = promoResult.promoChar;
+		}
+
+		// 棋譜に記録
+		this.record.add({ fromPanel, toPanel, end: promoResult.end }, move);
+
 		return true;
 	}
 
@@ -622,12 +648,13 @@ export class BoardCore{
 	 * シミュレーション用の軽量な駒移動を適用する
 	 * @private
 	 */
-	_applyMove(fromPanel, toPanel, promotionChar = null) {
+	simMovePiece(fromPanel, toPanel, promotionChar = null) {
+		if (!fromPanel.piece) return null;
 		const move = {
 			from: { pX: fromPanel.pX, pY: fromPanel.pY },
 			to: { pX: toPanel.pX, pY: toPanel.pY },
 			movedPiece: fromPanel.piece,
-			wasMoved: fromPanel.piece.isMoved,
+			wasMoved: fromPanel.piece ? fromPanel.piece.isMoved : false,
 			capturedPiece: null, // store state instead of clone
 			promoted: false,
 			enPassantState: this.enPassant.clone(),
@@ -651,13 +678,12 @@ export class BoardCore{
 		this.enPassant.setMoved(toPanel);
 
 		// プロモーション
-		if (promotionChar) {
-			toPanel.piece.promotion(promotionChar);
-			move.promoted = true;
+		if(promotionChar){
+			if(toPanel.piece){
+				toPanel.piece.promotion(promotionChar);
+				move.promoted = true;
+			}
 		}
-
-		this.record.turn++;
-
 		return move;
 	}
 
@@ -665,11 +691,10 @@ export class BoardCore{
 	 * _applyMove での変更を元に戻す
 	 * @private
 	 */
-	_unapplyMove(move) {
+	undoSimMovePiece(move) {
 		const fromPanel = this.field[move.from.pY][move.from.pX];
 		const toPanel = this.field[move.to.pY][move.to.pX];
 
-		this.record.turn--;
 		this.enPassant = move.enPassantState;
 
 		// プロモーションを戻す

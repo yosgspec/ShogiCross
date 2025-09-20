@@ -385,11 +385,11 @@ export function hasLegalMoves(board, playerDeg){
 		const canMovePanels = checkTarget(board, fromPanel.piece, fromPanel.pX, fromPanel.pY);
 		for(const toPanel of canMovePanels){
 			// 駒を移動
-			const move = board._applyMove(fromPanel, toPanel);
+			const move = board.simMovePiece(fromPanel, toPanel);
 			// 移動後に王が王手されていないか確認
 			const isCheck = isKingInCheck(board, playerDeg);
 			// 盤面を元に戻す
-			board._unapplyMove(move);
+			board.undoSimMovePiece(move);
 
 			if(!isCheck) return true;
 		}
