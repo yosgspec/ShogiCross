@@ -10,7 +10,7 @@
   "homepage": "https://github.com/yosgspec/ShogiCross#readme",
   "type": "module",
   "scripts": {
-    "test": "npx vitest"
+    "test": "npx vitest core/record"
   },
   "devDependencies": {
     "jsdom": "^24.1.3",

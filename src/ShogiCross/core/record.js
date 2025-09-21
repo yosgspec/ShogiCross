@@ -207,7 +207,7 @@ export class Record {
 	 * @returns {string}
 	 */
 	getComment(shiftTurn=0){
-		return this.records[this.turn+shiftTurn] ?? "";
+		return this.records[this.turn+shiftTurn]?.comment ?? "";
 	}
 
 	/** 棋譜をダウンロード
