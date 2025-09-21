@@ -1,0 +1,44 @@
+const getMimeImg = (ext)=>
+	"image/"+ext.replace("jpg", "jpeg");
+
+/** キャンバスの画像をダウンロードする
+ * @param {HTMLCanvasElement} canvas - Canvas要素
+ * @param {string} fileName - 取得するファイル名(拡張子を除く)
+ * @param {string} ext - 拡張子
+ * @param {"base64"|"blob"} urlType - 生成URLタイプ
+ * @returns {Promise<void>}
+ */
+export async function downloadImage(canvas, fileName="image", ext="png", urlType="base64"){
+	const mime = getMimeImg(ext);
+	const a = document.createElement("a");
+	let url;
+	if(urlType === "blob")
+		url = URL.createObjectURL(
+			await new Promise(res=>canvas.toBlob(res), mime));
+	else
+		url = canvas.toDataURL(mime);
+	a.href = url;
+	a.download = `${fileName}.${ext}`;
+	a.click();
+	if(urlType === "blob") URL.revokeObjectURL(a.href);
+}
+
+/** テキストファイルをダウンロードする
+ * @param {string} text - ダウンロードするテキスト
+ * @param {string} fileName - 取得するファイル名(拡張子を除く)
+ * @param {string} ext - 拡張子
+ * @param {"base64"|"blob"} urlType - 生成URLタイプ
+ */
+export function downloadText(text, fileName="text", ext="txt", urlType="base64"){
+	const mime = "text/plain";
+	const a = document.createElement("a");
+	let url;
+	if(urlType === "blob")
+		url = URL.createObjectURL(new Blob([text], {type: mime}));
+	else
+		url = `data:${mime};charset=utf-8,${encodeURIComponent(text)}`;
+	a.href = url;
+	a.download = `${fileName}.${ext}`;
+	a.click();
+	if(urlType === "blob") URL.revokeObjectURL(a.href);
+}

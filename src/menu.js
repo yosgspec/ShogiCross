@@ -9,6 +9,7 @@ export default `
 <div><a href="#shogiVsChess">将棋対チェススレ 棋譜再生</a></div>
 <div><a href="#test/cpu">CPU実装テスト</a><a href="#test/cpu4">(4人用)</a></div>
 <div><a href="#test/online">オンラインテスト</a><a href="#test/online4">(4人用)</a></div>
+<div><a href="#alpha">CPU高速化超安定版</a>
 
 <h3>DownloadApp</h3>
 <div><a href="https://github.com/yosgspec/ShogiCross/releases?q=Download">アプリダウンロード</a></div>
