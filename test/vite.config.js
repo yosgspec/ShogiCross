@@ -15,5 +15,6 @@ export default defineConfig({
 		transformMode: {
 			web: [/\.js$/],
 		},
+		include: ["core/**/*.test.js", "data/**/*.test.js"]
 	},
 });
