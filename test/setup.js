@@ -6,21 +6,39 @@ vi.mock("../src/ShogiCross/core/json/xhr.js", ()=>({
   hasCSP: ()=>false, // hasCSP関数もモックして常にfalseを返す
 }));
 
-// Piece クラスの degChars をモック
-vi.mock("@/core/piece.js", async importOriginal=>{
-  const actual = await importOriginal(); // 元のモジュールをインポート
+vi.mock("../src/ShogiCross/core/data.js", ()=>{
   return {
-    ...actual,
-    Piece: {
-      ...actual.Piece, // 元のPieceクラスをすべて展開
-      get degChars(){ // degChars を getter で定義
-        return {
-          0: "▲",
-          90: "≫",
-          180: "▽",
-          270: "＜",
-        };
-      },
+    canvasFont: {
+      fonts: [[ "testFont", 400 ]],
+      names: "testFont",
+    },
+    canvasImage: {
+      imported: true,
+      images: {},
+    },
+    games: {
+      "将棋": {
+        fontColor: "#000000",
+        backgroundColor: "#FFFFFF",
+        borderColor: "#777777",
+      }
+    },
+    pieces: {},
+    pieceRange: {
+      "歩": [["", "f", ""]],
+      "と": [["", "f", ""]],
+      "金": [["", "f", ""]],
+      "銀": [["", "f", ""]],
+      "角": [["", "f", ""]],
+      "王": [["", "f", ""]],
+    },
+    pieceCost: {
+      "歩": 1,
+      "と": 5,
+      "金": 5,
+      "銀": 10,
+      "角": 20,
+      "王": 0,
     },
   };
 });
