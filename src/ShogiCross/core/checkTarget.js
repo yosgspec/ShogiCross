@@ -1,4 +1,4 @@
-import {Board} from "./board.js";
+/** @typedef {import("./board.js").Board} Board */
 import {Panel} from "./panel.js";
 import {Piece} from "./piece.js";
 

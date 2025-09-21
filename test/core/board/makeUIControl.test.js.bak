@@ -1,0 +1,21 @@
+import { Board } from "@/core/board.js";
+import { UIControl } from "@/core/uiControl.js";
+import { describe, test, expect, vi } from "vitest";
+
+vi.mock("@/core/boardCore.js", () => ({
+    BoardCore: vi.fn(),
+    PROTECTED: Symbol("PROTECTED"),
+}));
+vi.mock("@/core/uiControl.js");
+
+describe("Board.makeUIControl", () => {
+    test("should create a new UIControl instance", () => {
+        // const canvas = document.createElement("canvas");
+        // const options = { game: "shogi", players: [{}, {}], isHeadless: true };
+        // const board = new Board(canvas, options);
+        // const controls = ["undo", "redo"];
+        // const recordOption = { lines: 5 };
+        // board.makeUIControl(controls, recordOption);
+        // expect(UIControl).toHaveBeenCalledWith(board, controls, recordOption);
+    });
+});

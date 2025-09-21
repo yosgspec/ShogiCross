@@ -1,4 +1,4 @@
-import {Board} from "./board.js";
+/** @typedef {import("./board.js").Board} Board */
 import {canvasFont} from "./canvasFontLoader.js";
 
 /** 操作パネル */
