@@ -5368,7 +5368,7 @@ class Ee {
     if (i[0].to.pX == null) return `${e}: ${r}`;
     const o = ({ pX: c }) => (s.xLen - c).toString(t ? 10 : 36), l = ({ pY: c }) => (c + 1).toString(t ? 10 : 36), d = t ? "," : "";
     return `${e}: ${W.degChars[a]}${i.map(
-      ({ from: c, to: S }) => `${o(S)}${d}${l(S)}${n}${r}${c.pX === void 0 ? "" : ` (${o(c)}${d}${l(c)})`}`
+      ({ from: c, to: S }) => `${o(S)}${d}${l(S)}${n}${r}${c.pX === void 0 ? "" : `(${o(c)}${d}${l(c)})`}`
     ).join("")}`;
   }
   /** 表示用の棋譜を取得
@@ -5794,11 +5794,11 @@ class Me {
     this.id = t, this.deg = e.degNormal(t), this.degChar = W.degChars[this.deg], this.alive = !0, this.cpuEngine = s, this.cpu = new Pe(e, this), this.cpuDelay = i ?? 500;
   }
 }
-const Le = Object.keys(W.degChars), ne = () => ({ pX: null, pY: null, pieceId: null });
+const Le = () => Object.keys(W.degChars), ne = () => ({ pX: null, pY: null, pieceId: null });
 class Q {
   /** @typedef {import("./enPassant.js")} EnPassant */
   constructor() {
-    this.degs = {}, Le.forEach((e) => this.degs[e] = ne());
+    this.degs = {}, Le().forEach((e) => this.degs[e] = ne());
   }
   /** アンパッサン情報をクリア
    * @param {number} deg - アンパッサンされうる陣営の角度
@@ -6241,7 +6241,7 @@ class I {
    * @returns {{
    * 		canPromo: boolean,
    * 		forcePromo: boolean
-   * }}
+   *}}
    */
   checkCanPromo(e) {
     const { yLen: t } = this, { piece: s, pX: i, pY: a } = e, { deg: n } = s, [r, o] = [
@@ -6488,8 +6488,8 @@ function $e(p) {
 const ce = document.createElement("style");
 ce.textContent = `
 	@keyframes spin {
-		0% { transform: rotate(0deg); }
-		100% { transform: rotate(360deg); }
+		0% {transform: rotate(0deg);}
+		100% {transform: rotate(360deg);}
 	}
 `;
 document.head.appendChild(ce);

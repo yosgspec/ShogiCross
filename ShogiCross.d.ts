@@ -5757,7 +5757,7 @@ declare class I {
      * @returns {{
      * 		canPromo: boolean,
      * 		forcePromo: boolean
-     * }}
+     *}}
      */
     checkCanPromo(e: any): {
         canPromo: boolean;
