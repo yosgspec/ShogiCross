@@ -1,7 +1,7 @@
 const base = "./json/ShogiCross/";
 /** @typedef {import("../data.js").ShogiCrossData} ShogiCrossData */
 
-function hasCSP() {
+function hasCSP(){
 	const meta = document.querySelector('meta[http-equiv="Content-Security-Policy"]');
 	return meta && meta.content.length > 0;
 }

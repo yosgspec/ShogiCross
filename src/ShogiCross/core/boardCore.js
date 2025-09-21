@@ -427,7 +427,7 @@ export class BoardCore{
 	 * @returns {{
 	 * 		canPromo: boolean,
 	 * 		forcePromo: boolean
-	 * }}
+	 *}}
 	 */
 	checkCanPromo(panel){
 		const {yLen} = this;

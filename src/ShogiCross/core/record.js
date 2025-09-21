@@ -166,7 +166,7 @@ export class Record {
 				getPY(to)}${
 				pieceChar}${
 				end}${
-				from.pX === undefined? "": ` (${
+				from.pX === undefined? "": `(${
 					getPX(from)}${
 					numSep}${
 					getPY(from)

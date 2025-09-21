@@ -1,6 +1,6 @@
 {
   "name": "shogicross",
-  "version": "0.16.1",
+  "version": "0.16.2",
   "description": "様々な将棋類の駒を並べるだけの将棋盤のようなツール",
   "main": "./src/dist/ShogiCross.js",
   "bin": {
@@ -37,6 +37,7 @@
     "dev": "run-p dev:*",
     "dev:vite": "npx vite",
     "dev:server": "npm run dev --workspace server",
+    "test": "npm test --workspace test",
     "start": "npm run start --workspace server",
     "sharp-all": "npx sharp -i ./**/*.png -f png -o {dir} ",
     "publish": "node run/npmPublish.js",
@@ -71,7 +72,8 @@
   "workspaces": [
     "server",
     "font",
-    "app"
+    "app",
+    "test"
   ],
   "devDependencies": {
     "adm-zip": "^0.5.12",

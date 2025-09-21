@@ -1,7 +1,7 @@
 /** @typedef {import("./panel.js").Panel} Panel */
 import {Piece} from "./piece.js";
 
-const degs = Object.keys(Piece.degChars);
+const getDegs = ()=>Object.keys(Piece.degChars);
 const getInit = ()=>({pX: null, pY: null, pieceId: null});
 
 /** アンパッサン情報の管理 */
@@ -11,7 +11,7 @@ export class EnPassant{
 	constructor(){
 		/** @type {Object<string, {pX: number, pY: number, pieceId: number}>} */
 		this.degs = {};
-		degs.forEach(deg=>this.degs[deg] = getInit());
+		getDegs().forEach(deg=>this.degs[deg] = getInit());
 	}
 
 	/** アンパッサン情報をクリア
@@ -58,7 +58,7 @@ export class EnPassant{
 	 * アンパッサンの状態をクローンします。
 	 * @returns {EnPassant}
 	 */
-	clone() {
+	clone(){
 		const newEnPassant = new EnPassant();
 		newEnPassant.degs = JSON.parse(JSON.stringify(this.degs));
 		return newEnPassant;

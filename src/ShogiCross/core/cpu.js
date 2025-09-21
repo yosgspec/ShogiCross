@@ -303,7 +303,8 @@ CpuEngines.minimax = class Minimax extends CpuEngineBase{
 			if(score > bestScore){
 				bestScore = score;
 				bestMove = move;
-			} else if(score === bestScore){
+			}
+			else if(score === bestScore){
 				// 評価値が同じ場合、ランダムに選択して繰り返しを避ける
 				if(Math.random() < 0.5){ // 50%の確率で新しい手を選ぶ
 					bestMove = move;
