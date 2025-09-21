@@ -12,10 +12,6 @@ vi.mock("../src/ShogiCross/core/data.js", ()=>{
       fonts: [[ "testFont", 400 ]],
       names: "testFont",
     },
-    canvasImage: {
-      imported: true,
-      images: {},
-    },
     games: {
       "将棋": {
         fontColor: "#000000",
@@ -39,6 +35,33 @@ vi.mock("../src/ShogiCross/core/data.js", ()=>{
       "銀": 10,
       "角": 20,
       "王": 0,
+    },
+    panels: {
+      "マス": {
+        name: "マス",
+        text: "マス目",
+        backgroundColor: "#FFFFFF",
+        borderColor: "#000000",
+        selectColor: "#FF000066",
+        targetColor: "#00FF0066",
+        displayText: "",
+        textRotate: 0,
+        borderSlashLeft: false,
+        borderSlashRight: false,
+        intersect: false,
+        attr: [],
+      },
+    },
+  };
+});
+
+vi.mock("../src/ShogiCross/core/canvasImageLoader.js", ()=>{
+  return {
+    canvasImage: {
+      imported: true,
+      images: {
+        "test.png": { width: 10, height: 10 }, // ダミーの画像オブジェクト
+      },
     },
   };
 });
