@@ -11,6 +11,15 @@
 		<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@900&family=Kosugi:wght@400&family=Noto+Color+Emoji&display=swap" rel="stylesheet">
 		<link rel="manifest" href="manifest.json" />
 		<script defer src="./game/pwa.js"></script>
+		<style>
+		#crossSelects {
+			display: grid;
+			grid-template-columns: auto auto auto;
+		}
+		#crossSelects > .flex-row-fit {
+			display: contents;
+		}
+		</style>
 	</head>
 	<body>
 		<div class="flex-col">
@@ -25,39 +34,42 @@
 			</div>
 			<details>
 				<summary>オプション</summary>
-				<div id="crossSelects" class="flex-row">
-					<div class="flex-col-fit">
-						<select id="selectBoard"></select>
-						<select id="selectStand">
+				<div id="crossSelects" class="flex-col">
+					<div class="flex-row-fit">
+						<select id="selectBoard">
+						</select><select id="selectStand">
 							<option value="true">駒台あり</option>
 							<option value="false">駒台なし</option>
-						</select>
-						<select id="selectMoveMode">
-							<option value="free">自由移動モード</option>
+						</select><select id="selectMoveMode">
 							<option value="normal">範囲移動モード</option>
+							<option value="free">自由移動モード</option>
 							<option value="vs">手番限定モード</option>
 							<option value="viewOnly">棋譜再生モード</option>
 						</select>
 					</div>
-					<div class="flex-col-fit">
-						<select class="selectPieceGame"></select>
-						<select class="selectPieceSet"></select>
-						<select class="selectCpuEngine"></select>
+					<div class="flex-row-fit">
+						<select class="selectPieceGame">
+						</select><select class="selectPieceSet">
+						</select><select class="selectCpuEngine">
+						</select>
 					</div>
-					<div class="flex-col-fit">
-						<select class="selectPieceGame"></select>
-						<select class="selectPieceSet"></select>
-						<select class="selectCpuEngine"></select>
+					<div class="flex-row-fit">
+						<select class="selectPieceGame">
+						</select><select class="selectPieceSet">
+						</select><select class="selectCpuEngine">
+						</select>
 					</div>
-					<div class="flex-col-fit">
-						<select class="selectPieceGame"></select>
-						<select class="selectPieceSet"></select>
-						<select class="selectCpuEngine"></select>
+					<div class="flex-row-fit">
+						<select class="selectPieceGame">
+						</select><select class="selectPieceSet">
+						</select><select class="selectCpuEngine">
+						</select>
 					</div>
-					<div class="flex-col-fit">
-						<select class="selectPieceGame"></select>
-						<select class="selectPieceSet"></select>
-						<select class="selectCpuEngine"></select>
+					<div class="flex-row-fit">
+						<select class="selectPieceGame">
+						</select><select class="selectPieceSet">
+						</select><select class="selectCpuEngine">
+						</select>
 					</div>
 				</div>
 			</details>
