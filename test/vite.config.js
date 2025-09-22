@@ -12,7 +12,7 @@ export default defineConfig({
 		},
 		globals: true, // ← ここを追加
 		setupFiles: [fileURLToPath(new URL("./setup.js", import.meta.url))],
-		environment: "jsdom",
+		environment: "happy-dom",
 		include: ["core/**/*.test.js", "data/**/*.test.js"]
 	},
 });

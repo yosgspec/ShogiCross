@@ -12,11 +12,12 @@
   "scripts": {
     "test": "npx vitest"
   },
-  "devDependencies": {
-    "jsdom": "^24.1.3",
-    "vitest": "^3.2.4"
-  },
   "vitest": {
-    "environment": "jsdom"
+    "environment": "happy-dom"
+  },
+  "dependencies": {
+    "jsdom": "^24.1.3",
+    "vitest": "^3.2.4",
+    "happy-dom": "^18.0.1"
   }
 }
