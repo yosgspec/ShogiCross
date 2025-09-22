@@ -25,6 +25,9 @@ describe("BoardCore.constructor", ()=>{
             isDisplayLastMove: false,
             backgroundColor: "#FF00FF",
             isHeadless: true,
+            // Use non-headless during this constructor test so that
+            // initPiecesText can safely write to `record.last`.
+            isHeadless: false,
             moveMode: "free",
             piecesText: "▲歩\n▽歩",
             recordJson: "[]",

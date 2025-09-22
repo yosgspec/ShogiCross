@@ -7,6 +7,10 @@ describe("BoardCore.putStartPieces", ()=>{
     const option = {
         playBoard: "将棋",
         piecesText: "",
+        // Construct headless to avoid Record.add calling getPiecesText
+        // during BoardCore construction which may access panel.text
+        // that is not initialized in some test environments.
+        isHeadless: true,
     };
 
     beforeEach(()=>{

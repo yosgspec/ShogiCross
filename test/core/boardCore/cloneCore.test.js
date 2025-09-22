@@ -4,15 +4,21 @@ import {Piece} from "@/core/piece.js";
 describe("BoardCore.cloneCore", ()=>{
     let board;
     let canvas;
+    const piecesText = "▲歩\n▽歩";
     const option = {
         playBoard: "クロス14x14",
-        piecesText: "▲歩\n▽歩",
-        isHeadless: true,
+        // Keep board non-headless so Record initialization runs and
+        // initPiecesText can safely write to `record.last`.
+        isHeadless: false,
     };
 
     beforeEach(()=>{
         canvas = document.createElement("canvas");
         board = new BoardCore(canvas, option);
+        // Populate pieces after construction to avoid cloneOption inheriting
+        // piecesText and causing the cloned board constructor to call
+        // initPiecesText while in headless mode.
+        board.setPiecesText(piecesText);
     });
 
     test("should clone the board core", ()=>{

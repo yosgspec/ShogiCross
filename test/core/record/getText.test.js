@@ -73,9 +73,11 @@ describe("Record.getText", ()=>{
 
     test("should return only turn and end text if to.pX is null", ()=>{
         // to.pX が null のレコードを追加 (例: 開始局面)
-        const initialRecord = record.records[0];
-        initialRecord.end = "開始局面";
-        initialRecord.moves[0].to.pX = null; // to.pX を null に設定
+    const initialRecord = record.records[0];
+    initialRecord.end = "開始局面";
+    // Ensure moves structure exists before mutating
+    initialRecord.moves ||= [{from:{}, to:{pX:0, pY:0}}];
+    initialRecord.moves[0].to.pX = null; // to.pX を null に設定
 
         const text = record.getText(0);
         expect(text).toBe("0: 開始局面");

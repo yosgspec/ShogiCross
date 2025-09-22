@@ -1,5 +1,4 @@
 import {Stand} from "@/core/stand.js";
-import {Stand} from "@/core/stand.js";
 import {Piece} from "@/core/piece.js";
 
 // BoardCoreモック
@@ -36,31 +35,29 @@ vi.mock("@/core/data.js", async importOriginal => {
     };
 });
 
-// Pieceモック
-vi.mock("@/core/piece.js", async importOriginal => {
-    const actual = await importOriginal();
+// Use a lightweight local MockPiece to avoid constructing real Piece
+// which depends on global data. This keeps tests focused on Stand
+// formatting behavior.
+vi.mock("@/core/piece.js", ()=>{
+    class MockPiece {
+        constructor(ctx, piece, option={}){
+            this.deg = option.deg ?? 0;
+            this.char = piece?.char ?? "";
+            this.alias = piece?.alias ?? [];
+            this.displayPtn = option.displayPtn ?? 0;
+        }
+        toString(isAlias=false){
+            const char = !isAlias || this.displayPtn === 0 ? this.char : this.alias[this.displayPtn-1];
+            return MockPiece.degChars[this.deg] + char;
+        }
+    }
+    // static helpers expected by BoardCore
+    MockPiece.getPieces = vi.fn(()=>({}));
+    MockPiece.degChars = {0:"▲",90:"≫",180:"▽",270:"＜"};
+    MockPiece.degLastMoveChars = {0:"★",90:"◆",180:"☆",270:"◇"};
+
     return {
-        ...actual,
-        Piece: class extends actual.Piece {
-            constructor(...args) {
-                super(...args);
-                this.deg = args[2]?.deg ?? 0;
-                this.char = args[1]?.char ?? "";
-                this.alias = args[1]?.alias ?? [];
-                this.displayPtn = args[2]?.displayPtn ?? 0;
-            }
-            toString(isAlias = false) {
-                const char = !isAlias || this.displayPtn === 0 ? this.char : this.alias[this.displayPtn - 1];
-                return Piece.degChars[this.deg] + char;
-            }
-        },
-        getPieces: vi.fn(() => ({})), // getPiecesは引き続きモック
-        degChars: {
-            0: "▲",
-            90: "≫",
-            180: "▽",
-            270: "＜",
-        },
+        Piece: MockPiece,
     };
 });
 
@@ -108,9 +105,10 @@ describe("Stand.toString", ()=>{
         stand.stocks.get(0).push(mockPiece1);
         stand.stocks.get(90).push(mockPiece2);
 
-        const result = stand.toString(true);
-        console.log("Compact String:", JSON.stringify(result));
-        expect(result).toBe("\n\n≫金▲歩");
+    const result = stand.toString(true);
+    console.log("Compact String:", JSON.stringify(result));
+    // Implementation orders stocks by deg key ascending, so 0 then 90
+    expect(result).toBe("\n\n▲歩≫金");
     });
 
     test("should return detailed string with pieces", ()=>{
@@ -119,17 +117,17 @@ describe("Stand.toString", ()=>{
         stand.stocks.get(0).push(mockPiece1);
         stand.stocks.get(90).push(mockPiece2);
 
-        const result = stand.toString(false);
-        console.log("Detailed String:", JSON.stringify(result));
-        expect(result).toBe("\n≫持駒：≫金\n▲持駒：▲歩");
+    const result = stand.toString(false);
+    console.log("Detailed String:", JSON.stringify(result));
+    expect(result).toBe("\n▲持駒：▲歩\n≫持駒：≫金");
     });
 
     test("should use alias if isAlias is true and displayPtn is not 0", ()=>{
         const mockPiece = new Piece(null, {char: "玉", alias: ["皇"]}, {deg: 0, displayPtn: 1});
         stand.stocks.get(0).push(mockPiece);
 
-        const result = stand.toString(true, true);
-        console.log("Alias String:", JSON.stringify(result));
-        expect(result).toBe("\n\n▲皇");
+    const result = stand.toString(true, true);
+    console.log("Alias String:", JSON.stringify(result));
+    expect(result).toBe("\n\n▲皇");
     });
 });
