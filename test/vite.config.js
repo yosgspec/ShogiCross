@@ -10,8 +10,8 @@ export default defineConfig({
 		alias: {
 			"@": path.resolve(__dirname, "../src/ShogiCross/"),
 		},
-		globals: true, // ← ここを追加
-		setupFiles: [fileURLToPath(new URL("./setup.js", import.meta.url))],
+		globals: true,
+		setupFiles: ["./setup.js"],
 		environment: "happy-dom",
 		include: ["core/**/*.test.js", "data/**/*.test.js"]
 	},
