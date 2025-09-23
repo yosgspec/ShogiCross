@@ -1,7 +1,8 @@
-import {Piece} from "@/core/piece.js";
+import { describe, test, expect, vi } from "vitest";
 
 describe("Piece.stringToPiece", ()=>{
-    test("should convert string to piece", ()=>{
-        // テストコードをここに記述
-   });
+    test("should import piece module", async ()=>{
+        const mod = await vi.importActual("../../../src/ShogiCross/core/piece.js");
+        expect(mod).toBeTruthy();
+    });
 });

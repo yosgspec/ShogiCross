@@ -17,4 +17,12 @@ describe("CpuEngine.constructor", ()=>{
         expect(cpu.engine).not.toBeNull();
         expect(typeof cpu.engine.playTurn).toBe("function");
     });
+    
+    test("playTurn should do nothing when engine is null", async ()=>{
+        const board = {isGameEnd: false};
+        const player = {cpuEngine: null, alive: true};
+        const cpu = new CpuEngine(board, player);
+        // should not throw
+        await expect(cpu.playTurn()).resolves.not.toThrow();
+    });
 });

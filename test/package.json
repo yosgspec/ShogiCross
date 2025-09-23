@@ -10,7 +10,8 @@
   "homepage": "https://github.com/yosgspec/ShogiCross#readme",
   "type": "module",
   "scripts": {
-    "test": "npx vitest"
+    "test": "npx vitest --invoke",
+    "watch": "npx vitest"
   },
   "vitest": {
     "environment": "happy-dom"

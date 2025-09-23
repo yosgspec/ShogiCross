@@ -1,3 +1,11 @@
+import {isKingInCheck} from "@/core/checkTarget.js";
+
+describe("checkTarget.isKingInCheck basic", ()=>{
+    test("returns false on empty board or missing king", ()=>{
+        const board = {field: [[{pX:0,pY:0,piece:null}]]};
+        expect(isKingInCheck(board, 0)).toBe(false);
+    });
+});
 import { vi } from "vitest";
 import * as checkTargetModule from "@/core/checkTarget.js";
 

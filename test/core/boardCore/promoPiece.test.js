@@ -23,7 +23,10 @@ describe("BoardCore.promoPiece", ()=>{
     test("should promote piece if canPromo is true and promoChar is selected", async ()=>{
         const fromPanel = new Panel(null, "", 0, 0, 0, 0, 0, 0, 0);
         const toPanel = new Panel(null, "", 0, 0, 0, 0, 1, 1, 0);
-    const piece = new Piece(null, {char: "歩", promo: {"と": {}}}, {});
+            // Provide a minimal base so Piece constructor can compute cost safely
+            const piece = new Piece(null, {char: "歩", base: {char: "歩"}, promo: {"と": {}}}, {});
+        // Ensure attr exists on piece to avoid undefined access
+        if(!Array.isArray(piece.attr)) piece.attr = [];
         toPanel.piece = piece;
 
     board.onSelectPromo.mockResolvedValue("と"); // プロモーション先が選択された
@@ -38,7 +41,8 @@ describe("BoardCore.promoPiece", ()=>{
     test("should not promote piece if canPromo is false", async ()=>{
         const fromPanel = new Panel(null, "", 0, 0, 0, 0, 0, 0, 0);
         const toPanel = new Panel(null, "", 0, 0, 0, 0, 1, 1, 0);
-        const piece = new Piece(null, {char: "歩", promo: {"と": {}}}, {});
+            const piece = new Piece(null, {char: "歩", base: {char: "歩"}, promo: {"と": {}}}, {});
+        if(!Array.isArray(piece.attr)) piece.attr = [];
         toPanel.piece = piece;
 
         board.onSelectPromo.mockResolvedValue(null); // プロモーション先が選択されない
@@ -52,7 +56,8 @@ describe("BoardCore.promoPiece", ()=>{
     test("should not promote piece if already promoted", async ()=>{
         const fromPanel = new Panel(null, "", 0, 0, 0, 0, 0, 0, 0);
         const toPanel = new Panel(null, "", 0, 0, 0, 0, 1, 1, 0);
-        const piece = new Piece(null, {char: "と", promo: {"と": {}}}, {});
+            const piece = new Piece(null, {char: "と", base: {char: "と"}, promo: {"と": {}}}, {});
+        if(!Array.isArray(piece.attr)) piece.attr = [];
         piece.attr.push("promoted"); // 既に成っている
         toPanel.piece = piece;
 
@@ -65,7 +70,7 @@ describe("BoardCore.promoPiece", ()=>{
     test("should not promote piece if cantPromotion attribute is present", async ()=>{
         const fromPanel = new Panel(null, "", 0, 0, 0, 0, 0, 0, 0);
         const toPanel = new Panel(null, "", 0, 0, 0, 0, 1, 1, 0);
-        const piece = new Piece(null, {char: "歩", promo: {"と": {}}}, {});
+            const piece = new Piece(null, {char: "歩", base: {char: "歩"}, promo: {"と": {}}}, {});
         piece.attr.push("cantPromotion"); // 成れない属性
         toPanel.piece = piece;
 
@@ -78,7 +83,8 @@ describe("BoardCore.promoPiece", ()=>{
     test("should record '不成' if promotion is not selected", async ()=>{
         const fromPanel = new Panel(null, "", 0, 0, 0, 0, 0, 0, 0);
         const toPanel = new Panel(null, "", 0, 0, 0, 0, 1, 1, 0);
-        const piece = new Piece(null, {char: "歩", promo: {"と": {}}}, {});
+            const piece = new Piece(null, {char: "歩", base: {char: "歩"}, promo: {"と": {}}}, {});
+        if(!Array.isArray(piece.attr)) piece.attr = [];
         toPanel.piece = piece;
 
         board.onSelectPromo.mockResolvedValue(null); // プロモーションしない

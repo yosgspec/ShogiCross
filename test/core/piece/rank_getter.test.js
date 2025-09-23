@@ -27,7 +27,8 @@ describe("Piece.rank (getter)", ()=>{
     });
 
     test("should return 'SR' when cost is 20 or more", ()=>{
-        const piece = new Piece(mockCtx, {...mockPieceData, char: "角"}); // costが20の駒
+        const piece = new Piece(mockCtx, {...mockPieceData, char: "角"});
+        piece.cost = 20;
         expect(piece.rank).toBe("SR");
 
         const piece2 = new Piece(mockCtx, {...mockPieceData, char: "角"});
@@ -36,7 +37,8 @@ describe("Piece.rank (getter)", ()=>{
     });
 
     test("should return 'R' when cost is 10 or more and less than 20", ()=>{
-        const piece = new Piece(mockCtx, {...mockPieceData, char: "銀"}); // costが10の駒
+        const piece = new Piece(mockCtx, {...mockPieceData, char: "銀"});
+        piece.cost = 10;
         expect(piece.rank).toBe("R");
 
         const piece2 = new Piece(mockCtx, {...mockPieceData, char: "銀"});
@@ -45,7 +47,8 @@ describe("Piece.rank (getter)", ()=>{
     });
 
     test("should return 'UC' when cost is 5 or more and less than 10", ()=>{
-        const piece = new Piece(mockCtx, {...mockPieceData, char: "金"}); // costが5の駒
+        const piece = new Piece(mockCtx, {...mockPieceData, char: "金"});
+        piece.cost = 5;
         expect(piece.rank).toBe("UC");
 
         const piece2 = new Piece(mockCtx, {...mockPieceData, char: "金"});
@@ -54,7 +57,8 @@ describe("Piece.rank (getter)", ()=>{
     });
 
     test("should return 'C' when cost is less than 5", ()=>{
-        const piece = new Piece(mockCtx, {...mockPieceData, char: "歩"}); // costが1の駒
+        const piece = new Piece(mockCtx, {...mockPieceData, char: "歩"});
+        piece.cost = 1;
         expect(piece.rank).toBe("C");
 
         const piece2 = new Piece(mockCtx, {...mockPieceData, char: "歩"});

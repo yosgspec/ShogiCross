@@ -37,6 +37,7 @@
     "dev": "run-p dev:*",
     "dev:vite": "npx vite",
     "dev:server": "npm run dev --workspace server",
+    "test:watch": "npm run watch --workspace test -- --silent",
     "test": "npm test --workspace test",
     "start": "npm run start --workspace server",
     "sharp-all": "npx sharp -i ./**/*.png -f png -o {dir} ",

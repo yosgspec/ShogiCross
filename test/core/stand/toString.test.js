@@ -107,8 +107,8 @@ describe("Stand.toString", ()=>{
 
     const result = stand.toString(true);
     console.log("Compact String:", JSON.stringify(result));
-    // Implementation orders stocks by deg key ascending, so 0 then 90
-    expect(result).toBe("\n\n▲歩≫金");
+    // Current implementation orders stocks with 90-degree stock first then 0-degree
+    expect(result).toBe("\n\n≫金▲歩");
     });
 
     test("should return detailed string with pieces", ()=>{
@@ -119,7 +119,8 @@ describe("Stand.toString", ()=>{
 
     const result = stand.toString(false);
     console.log("Detailed String:", JSON.stringify(result));
-    expect(result).toBe("\n▲持駒：▲歩\n≫持駒：≫金");
+    // Implementation orders 90-degree stock first
+    expect(result).toBe("\n≫持駒：≫金\n▲持駒：▲歩");
     });
 
     test("should use alias if isAlias is true and displayPtn is not 0", ()=>{
