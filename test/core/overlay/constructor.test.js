@@ -8,6 +8,12 @@ if(typeof document === "undefined"){
     };
 }
 
+function bodyChildrenArray(){
+    if(Array.isArray(document.body._children)) return document.body._children;
+    if(document.body && document.body.children && typeof document.body.children.length === "number") return Array.from(document.body.children);
+    return [];
+}
+
 let Overlay;
 beforeAll(async ()=>{
     const mod = await import("../../../src/ShogiCross/core/overlay.js");
@@ -16,21 +22,21 @@ beforeAll(async ()=>{
 
 afterEach(()=>{
     // cleanup any appended children in tests
-    if(document.body._children){ document.body._children.length = 0; }
-    else{ while(document.body.children.length) document.body.removeChild(document.body.lastChild); }
+    const arr = bodyChildrenArray();
+    if(arr && arr.length) arr.length = 0;
 });
 
 describe("Overlay.constructor", ()=>{
     test("should construct an Overlay object and create elements", ()=>{
         const canvas = document.createElement("canvas");
         canvas.getBoundingClientRect = ()=>({ top: 0, left: 0, width: 10, height: 10 });
-        const before = document.body.children.length || (document.body._children? document.body._children.length: 0);
+        const before = bodyChildrenArray().length;
         const ov = new Overlay(canvas, { useDimOverlay: true, showSpinner: true });
         expect(ov).toBeTruthy();
         expect(typeof ov.start).toBe("function");
         expect(typeof ov.stop).toBe("function");
         expect(typeof ov.updatePosition).toBe("function");
-        const after = document.body.children.length || (document.body._children? document.body._children.length: 0);
+        const after = bodyChildrenArray().length;
         expect(after).toBeGreaterThanOrEqual(before + 1);
     });
 });

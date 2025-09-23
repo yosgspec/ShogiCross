@@ -8,6 +8,12 @@ if(typeof document === "undefined"){
     };
 }
 
+function bodyChildrenArray(){
+    if(Array.isArray(document.body._children)) return document.body._children;
+    if(document.body && document.body.children && typeof document.body.children.length === "number") return Array.from(document.body.children);
+    return [];
+}
+
 let Overlay;
 beforeAll(async ()=>{
     const mod = await import("../../../src/ShogiCross/core/overlay.js");
@@ -21,8 +27,9 @@ describe("Overlay.start", ()=>{
         const canvas = document.createElement("canvas");
         canvas.getBoundingClientRect = ()=>({ top: 0, left: 0, width: 20, height: 20 });
         const ov = new Overlay(canvas, { useDimOverlay: true, showSpinner: true });
-        const spinner = document.body._children[document.body._children.length-2];
-        const dim = document.body._children[document.body._children.length-1];
+    const children = bodyChildrenArray();
+    const spinner = children[children.length-2];
+    const dim = children[children.length-1];
         expect(spinner.style.display).toBe("none");
         expect(dim.style.display).toBe("none");
         await ov.start();
