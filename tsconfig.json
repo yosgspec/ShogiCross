@@ -1,9 +1,12 @@
 {
 	"include": ["./src/dist/"],
 	"compilerOptions": {
-		"target": "esnext",
+		"target": "ESNext",
 		"allowJs": true,
 		"declaration": true,
-		"emitDeclarationOnly": true
+		"emitDeclarationOnly": true,
+		"module": "NodeNext",
+		"moduleResolution": "NodeNext",
+		"types": ["node"]
 	}
 }

@@ -10,6 +10,7 @@ const TEMP_DIR = "./temp";
 const OFL_NAME = "OFL.txt"
 
 async function downloadTtf(){
+	await fs.rm(TEMP_DIR, {recursive: true, force: true}).catch(()=>{});
 	await fs.rm(TTF_DIR, {recursive: true, force: true}).catch(()=>{});
 	await fs.mkdir(TTF_DIR, {recursive: true});
 	await fs.mkdir(FONT_DIR, {recursive: true});
