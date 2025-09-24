@@ -1,6 +1,10 @@
 import { vi } from "vitest";
 
 vi.doMock("@/core/data.js", () => ({
+    canvasFont: {
+        // minimal shape used by canvasFontLoader and other modules
+        fonts: [["TestFont", 400]],
+    },
     boards: {
         "将棋": {
             "players": 2,
