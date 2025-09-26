@@ -1,6 +1,6 @@
 declare class _ extends I {
-    dialog: je;
-    overlay: Te;
+    dialog: Ie;
+    overlay: He;
     onDrawed: any;
     onTurnEnd: any;
     onGameOver: any;
@@ -32,7 +32,7 @@ declare class _ extends I {
     downloadImage(e: any, t: any, s: any): Promise<void>;
     #private;
 }
-declare class me extends _ {
+declare class ue extends _ {
     onReadyOnline: any;
     onCancelOnline: any;
     onDisconnectOnline: any;
@@ -86,7 +86,7 @@ declare class me extends _ {
         standIndex: number;
     }): Promise<void>;
 }
-declare class Pe extends U {
+declare class $e extends U {
     /** @typedef {Object} CpuEngineBase */
     /** @type {CpuEngineBase} */
     engine: any;
@@ -493,6 +493,7 @@ declare const V: {
 };
 declare namespace O {
     let fonts: (string | number)[][];
+    let buttonFonts: (string | number)[][];
 }
 declare namespace j {
     let imported: boolean;
@@ -504,8 +505,8 @@ declare namespace j {
      */
     function importAsync(): Promise<void>;
 }
-declare function We(p: any): void;
-declare namespace ge {
+declare function Ae(p: any): void;
+declare namespace fe {
     namespace shogi {
         let name: string;
         let variant: string;
@@ -1940,7 +1941,7 @@ declare namespace Z {
     let 楚: number;
     let 帥: number;
 }
-declare namespace re {
+declare namespace oe {
     export let 〇: string[];
     let 歩_1: string[];
     export { 歩_1 as 歩 };
@@ -5671,7 +5672,7 @@ declare class I {
     bottom: any;
     stand: H;
     moveMode: any;
-    record: Ee;
+    record: Pe;
     enPassant: Q;
     /** ボードを閉じる */
     close(): void;
@@ -5802,7 +5803,7 @@ declare class I {
     };
     #private;
 }
-declare class je {
+declare class Ie {
     constructor(e?: {});
     dialog: HTMLDialogElement;
     isModal: boolean;
@@ -5821,7 +5822,7 @@ declare class je {
     setFont(e: any): void;
     #private;
 }
-declare class Te {
+declare class He {
     /**
      * @param {HTMLCanvasElement} canvas - Canvas要素
      * @param {OverlayOptions} options - スピナーのオプション
@@ -5866,7 +5867,7 @@ declare class H {
     /** 駒台への角度ごとの表示順
      * @type {number[]}
      */
-    static "__#11@#e": number[];
+    static "__#12@#e": number[];
     /**
      * @param {Board} board - 盤面
      */
@@ -5916,7 +5917,7 @@ declare class H {
      */
     toString(e?: boolean, t?: boolean): string;
 }
-declare class Ee {
+declare class Pe {
     /**
      * @param {Board} board
      */
@@ -6009,4 +6010,4 @@ declare class Q {
     clone(): any;
 }
 declare const $: unique symbol;
-export { _ as Board, me as BoardOnline, Pe as CpuEngine, U as CpuEngineBase, J as CpuEngines, W as Piece, V as boards, O as canvasFont, j as canvasImage, We as extendData, ge as gameSoft, D as games, Y as panels, Z as pieceCost, re as pieceRange, G as pieces };
+export { _ as Board, ue as BoardOnline, $e as CpuEngine, U as CpuEngineBase, J as CpuEngines, W as Piece, V as boards, O as canvasFont, j as canvasImage, Ae as extendData, fe as gameSoft, D as games, Y as panels, Z as pieceCost, oe as pieceRange, G as pieces };

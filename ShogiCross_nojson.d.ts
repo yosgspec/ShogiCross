@@ -1,6 +1,6 @@
 declare class Q extends D {
-    dialog: Me;
-    overlay: je;
+    dialog: Re;
+    overlay: Ie;
     onDrawed: any;
     onTurnEnd: any;
     onGameOver: any;
@@ -86,7 +86,7 @@ declare class Se extends Q {
         standIndex: number;
     }): Promise<void>;
 }
-declare class Oe extends H {
+declare class Le extends H {
     /** @typedef {Object} CpuEngineBase */
     /** @type {CpuEngineBase} */
     engine: any;
@@ -493,6 +493,7 @@ declare const q: {
 };
 declare namespace O {
     let fonts: (string | number)[][];
+    let buttonFonts: (string | number)[][];
 }
 declare namespace F {
     let imported: boolean;
@@ -504,8 +505,8 @@ declare namespace F {
      */
     function importAsync(): Promise<void>;
 }
-declare function fe(p: any): void;
-declare namespace he {
+declare function Be(p: any): void;
+declare namespace ge {
     namespace shogi {
         let name: string;
         let variant: string;
@@ -1940,7 +1941,7 @@ declare namespace V {
     let 楚: number;
     let 帥: number;
 }
-declare namespace ne {
+declare namespace re {
     export let 〇: string[];
     let 歩_1: string[];
     export { 歩_1 as 歩 };
@@ -5671,7 +5672,7 @@ declare class D {
     bottom: any;
     stand: G;
     moveMode: any;
-    record: xe;
+    record: Oe;
     enPassant: Z;
     /** ボードを閉じる */
     close(): void;
@@ -5802,7 +5803,7 @@ declare class D {
     };
     #private;
 }
-declare class Me {
+declare class Re {
     constructor(e?: {});
     dialog: HTMLDialogElement;
     isModal: boolean;
@@ -5821,7 +5822,7 @@ declare class Me {
     setFont(e: any): void;
     #private;
 }
-declare class je {
+declare class Ie {
     /**
      * @param {HTMLCanvasElement} canvas - Canvas要素
      * @param {OverlayOptions} options - スピナーのオプション
@@ -5866,7 +5867,7 @@ declare class G {
     /** 駒台への角度ごとの表示順
      * @type {number[]}
      */
-    static "__#29@#e": number[];
+    static "__#30@#e": number[];
     /**
      * @param {Board} board - 盤面
      */
@@ -5916,7 +5917,7 @@ declare class G {
      */
     toString(e?: boolean, t?: boolean): string;
 }
-declare class xe {
+declare class Oe {
     /**
      * @param {Board} board
      */
@@ -6009,4 +6010,4 @@ declare class Z {
     clone(): any;
 }
 declare const j: unique symbol;
-export { Q as Board, Se as BoardOnline, Oe as CpuEngine, H as CpuEngineBase, U as CpuEngines, W as Piece, q as boards, O as canvasFont, F as canvasImage, fe as extendData, he as gameSoft, T as games, I as panels, V as pieceCost, ne as pieceRange, Y as pieces };
+export { Q as Board, Se as BoardOnline, Le as CpuEngine, H as CpuEngineBase, U as CpuEngines, W as Piece, q as boards, O as canvasFont, F as canvasImage, Be as extendData, ge as gameSoft, T as games, I as panels, V as pieceCost, re as pieceRange, Y as pieces };
