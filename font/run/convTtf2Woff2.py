@@ -39,8 +39,9 @@ if __name__ == "__main__":
 	makedirs(FONT_DIR, exist_ok=True)
 	with open("../src/ShogiCross/data/canvasFont.js", encoding="utf-8") as f:
 		text = f.read()
-		fonts = json.loads(text[text.find("{"):])["fonts"]
-		print(fonts)
+		canvasFont = json.loads(text[text.find("{"):])
+		fontsAll = list(set(map(tuple, canvasFont["fonts"]+canvasFont["buttonFonts"])))
+		print(fontsAll)
 
-	with ProcessPoolExecutor(max_workers=len(fonts)) as exec:
-		exec.map(genFont, fonts)
+	with ProcessPoolExecutor(max_workers=len(fontsAll)) as exec:
+		exec.map(genFont, fontsAll)

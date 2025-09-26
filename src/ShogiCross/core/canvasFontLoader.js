@@ -5,6 +5,14 @@ export {canvasFont};
 const GOOGLE_FONT_URL = "https://fonts.googleapis.com/css2?family=";
 const FONT_DIR = "./fonts";
 
+/** @type {[string, number][]} 全てのフォント一覧 */
+const fontsAll = [
+	...new Set([
+		...canvasFont.fonts,
+		...canvasFont.buttonFonts,
+	].map(JSON.stringify))
+].map(JSON.parse);
+
 /** オンライン状態か確認する
  * @returns {Promice<bool>}
  */
@@ -41,6 +49,11 @@ Object.assign(canvasFont, {
 	 */
 	names: "serif",
 
+	/** 読み込むUI用フォントの一覧(","区切り)
+	 * @type {string}
+	 */
+	namesForBtn: "serif",
+
 	/** 識別値
 	 * @type {string}
 	 */
@@ -63,7 +76,7 @@ Object.assign(canvasFont, {
 	async loadLocalFont(){
 		this.unique = "";
 		await Promise.all(
-			canvasFont.fonts.map(async ([fontName, fontWeight])=>{
+			fontsAll.map(async ([fontName, fontWeight])=>{
 				const url = `url("./fonts/${fontName.replace(/ /g, "")}.woff2")`;
 				return this.loadFontFace(fontName, fontWeight, url);
 			})
@@ -79,7 +92,7 @@ Object.assign(canvasFont, {
 		if(this.imported) return;
 		const fontText = isFull? "": `&text=${getChars()}`;
 		await Promise.all(
-			canvasFont.fonts.map(async ([fontName, fontWeight])=>{
+			fontsAll.map(async ([fontName, fontWeight])=>{
 				const fontNamePlus = fontName.replace(/ /g, "+");
 				const fontUrl = `${GOOGLE_FONT_URL}${fontNamePlus}:wght@${fontWeight}${fontText}`;
 				const res = await fetch(fontUrl);
@@ -104,7 +117,8 @@ Object.assign(canvasFont, {
 			await this.loadLocalFont();
 		else if(await isOnlune())
 			await this.loadCdnFont();
-		this.names = canvasFont.fonts.map(o=>`"${o[0]}${this.unique}"`).join(",")+",serif";
+		this.names = [...canvasFont.fonts.map(o=>`"${o[0]}${this.unique}"`), this.names].join(",");
+		this.namesForBtn = [...canvasFont.buttonFonts.map(o=>`"${o[0]}${this.unique}"`), this.names].join(",");
 		this.imported = true;
 	},
 });

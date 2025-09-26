@@ -5,7 +5,10 @@ export default {
 		["Noto Sans Symbols 2", 400],
 		["Noto Sans Symbols", 400],
 		["Noto Serif", 900],
-		["Noto Serif TC", 900],
-		["Noto Color Emoji", 400]
+		["Noto Serif TC", 900]
+	],
+	"buttonFonts": [
+		["Noto Color Emoji", 400],
+		["Noto Serif", 900]
 	]
 }

@@ -158,12 +158,7 @@ export class Board extends BoardCore{
 				this.draw();
 				this.dialog.setFont(canvasFont.names);
 				this.#uiControl.setRecordFont(canvasFont.names);
-				const btnFont = ["Noto Color Emoji", "Noto Serif"];
-				this.#uiControl.setButtonFont(btnFont
-					.map(f=>`"${f}${canvasFont.unique}"`)
-					.concat(["serif"])
-					.join(",")
-				);
+				this.#uiControl.setButtonFont(canvasFont.namesForBtn);
 				for(let i=0;i<10;i++){
 					await new Promise(res=>setTimeout(res, 100));
 					this.draw();

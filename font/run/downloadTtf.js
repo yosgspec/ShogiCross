@@ -2,6 +2,12 @@ import fs from "fs/promises";
 import path from "path";
 import simpleGit from "simple-git";
 import canvasFont from "../../src/ShogiCross/data/canvasFont.js";
+const fontsAll = [
+	...new Set([
+		...canvasFont.fonts,
+		...canvasFont.buttonFonts,
+	].map(JSON.stringify))
+].map(JSON.parse);
 
 const GIT_URL = "https://github.com/google/fonts.git";
 const TTF_DIR = "./ttf";
@@ -20,7 +26,7 @@ async function downloadTtf(){
 
 	const tempRepo = simpleGit(TEMP_DIR);
 
-	for(const [fontName] of canvasFont.fonts) {
+	for(const [fontName] of fontsAll){
 		const gitPath = path.posix.join(
 			"ofl",
 			fontName.replace(/\s/g, "").toLowerCase()
