@@ -5,7 +5,7 @@ import {boardOptions} from "./boardOptions.js";
 export const toggleOnline = {
 	ele: document.getElementById("toggleOnline"),
 	checked: false,
-	values: ["オンライン対戦", "オンライン切断"],
+	values: ["オンライン対局", "オンライン切断"],
 	onClick(value){
 		this.checked = value ?? !this.checked;
 		this.ele.innerText = this.values[0|this.checked];

@@ -18,7 +18,7 @@ export function boardRun(canvas, option){
 		onReadyOnline(event, board){
 			onlineMsg.style.width = `${board.width}px`;
 			onlineMsg.style.display = "";
-			onlineMsg.value = `対戦開始！ あなたはプレイヤー${event.playerId+1}です。`;
+			onlineMsg.value = `対局開始！ あなたはプレイヤー${event.playerId+1}です。`;
 		},
 		// 切断
 		onCloseOnline(){

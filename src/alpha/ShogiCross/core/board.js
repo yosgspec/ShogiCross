@@ -85,7 +85,7 @@ export class Board extends BoardCore{
 			onTurnEnd=(e,turn)=>{},
 			onGameOver=(e,i)=>alert(`プレイヤー${i+1}の敗北です。`),
 			onGameEnd=(e,i)=>{
-				e.record.add({end: `対戦終了 勝者${[...e.players.values()][i].degChar}`})
+				e.record.add({end: `対局終了 勝者${[...e.players.values()][i].degChar}`})
 			},
 		} = option;
 
@@ -220,7 +220,7 @@ export class Board extends BoardCore{
 			this.onGameOver?.(this, player.id);
 		});
 
-		// 生存プレイヤーが1人になったら対戦終了
+		// 生存プレイヤーが1人になったら対局終了
 		const alivePlayers = [...this.players.values()].filter(p =>p.alive);
 		if(alivePlayers.length === 1){
 			console.log(alivePlayers[0])

@@ -3,13 +3,13 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width" />
-	<title>オンライン対戦テスト(チェス) - ShogiCross</title>
+	<title>オンライン対局テスト(チェス) - ShogiCross</title>
 	<link rel=icon href="sample/img/favicon.min.svg">
 	<link href="../shogicross.css" rel="stylesheet">
 </head>
 <body>
-	<h1>ShogiCross オンライン対戦</h1>
-	<button id="online-btn" style="margin: 20px; padding: 10px 20px; cursor: pointer; font-size: 1.2em;">オンライン対戦を始める</button>
+	<h1>ShogiCross オンライン対局</h1>
+	<button id="online-btn" style="margin: 20px; padding: 10px 20px; cursor: pointer; font-size: 1.2em;">オンライン対局</button>
 	<div id="status"></div>
 	<canvas id="online-canvas"></canvas>
 	<a href="./" target="_parent">RETURN</a>
@@ -37,7 +37,7 @@
 			],
 			//serverURL: "https://shogicross-server-828297429002.asia-northeast1.run.app/",
 			onReadyOnline(event, board){
-				statusDiv.textContent = `対戦開始！ あなたはプレイヤー${event.playerId + 1}です。`;
+				statusDiv.textContent = `対局開始！ あなたはプレイヤー${event.playerId + 1}です。`;
 			}
 		};
 	const board = new BoardOnline(canvas, onlineGameOptions);

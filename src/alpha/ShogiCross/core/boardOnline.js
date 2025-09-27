@@ -115,7 +115,7 @@ export class BoardOnline extends Board{
 						this.dropRivalPiece(message);
 						return;
 
-					// 対戦相手の接続が切れた場合
+					// 対局相手の接続が切れた場合
 					case "disconnect":
 						this.onDisconnectOnline?.(message, this);
 						this.close();

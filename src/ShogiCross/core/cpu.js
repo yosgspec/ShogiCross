@@ -342,7 +342,7 @@ export class CpuEngine extends CpuEngineBase {
 	}
 	/** 手番操作 */
 	async playTurn(){
-		// 対戦終了
+		// 対局終了
 		if(this.board.isGameEnd) return;
 		// プレイヤーが敗北していたらパス扱い
 		if(!this.player.alive){
