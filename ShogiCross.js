@@ -6800,7 +6800,7 @@ class _ extends I {
       },
       onGameOver: f = (S, g) => alert(`プレイヤー${g + 1}の敗北です。`),
       onGameEnd: y = (S, g) => {
-        S.record.add({ end: `対戦終了 勝者${[...S.players.values()][g].degChar}` });
+        S.record.add({ end: `対局終了 勝者${[...S.players.values()][g].degChar}` });
       }
     } = t;
     let h = null, B = null;
@@ -6966,7 +6966,7 @@ class ue extends _ {
           case "drop":
             this.dropRivalPiece(m);
             return;
-          // 対戦相手の接続が切れた場合
+          // 対局相手の接続が切れた場合
           case "disconnect":
             this.onDisconnectOnline?.(m, this), this.close();
             return;
