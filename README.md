@@ -90,13 +90,15 @@
 * [将棋駒の寸法をしっかり計算したお - 生き抜くぜ21世紀](https://rskmoi.hatenablog.com/entry/2018/01/21/104029)
 * [駒のサイズ](http://kijishi.html.xdomain.jp/komanosize.htm)
 
-## 使用ライブラリ
+## 使用ライブラリ&ツール
 Webアプリの本体についてはVanilla.jsで実装。
 
 ビルドツールとして下記を採用。いずれも最適化のためのもので使わなくても動く。
 
 |ライブラリ|用途
 |:---------|:----
+|[Node.js/npm](https://nodejs.org/ja)|プロジェクト管理及び統合ビルド環境
+|[GitHub Actions](https://docs.github.com/ja/actions)|GitHub上の自動統合ビルド&デプロイ環境
 |[npm-run-all](https://github.com/mysticatea/npm-run-all)|npmビルド処理直列化
 |[shx](https://github.com/shelljs/shx)|bashコマンド実行(Windows)
 |[Vite](https://ja.vitejs.dev)|コード1ファイル化
@@ -108,8 +110,15 @@ Webアプリの本体についてはVanilla.jsで実装。
 |[ADM-ZIP](https://github.com/cthackers/adm-zip/wiki/ADM-ZIP)|ZIPファイル生成
 |[sharp-cli](https://github.com/vseventer/sharp-cli)|画像ファイル最適化
 |[icon-gen](https://github.com/akabekobeko/npm-icon-gen)|アプリアイコン生成
+|[simple-git](https://github.com/steveukx/git-js)|フォントファイル(TTF)ダウンロード
+|[iconv-lite](https://github.com/pillarjs/iconv-lite)|フォント用使用文字抽出
+|[Python](https://www.python.org)|フォント変換ツール導入
+|[fonttools](https://github.com/fonttools/fonttools)|フォント変換(サブセット化&TTF⇒WOFF2)
+|[Brotli](https://github.com/google/brotli)|フォントWOFF2圧縮
+|[Zopfli](https://github.com/google/zopfli)|フォントWOFF2圧縮
 |[ws](https://github.com/websockets/ws)|オンライン通信(WebSocket)
 |[tauri](https://v2.tauri.app/ja/)|スタンドアロンアプリビルド
+|[Vitest](https://vitest.dev)|テストツール
 
 ## [ライセンス](LICENSE)
 CC0-1.0。コードの引用再利用ご自由に。
